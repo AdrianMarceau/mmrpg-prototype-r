@@ -1,0 +1,260 @@
+{
+  "status": "success",
+  "updated": 1715440560,
+  "data": {
+    "players": {
+      "dr-light": {
+        "token": "dr-light",
+        "number": 1,
+        "name": "Dr. Light",
+        "name_full": "Dr. Thomas X. Light",
+        "game": "MM1",
+        "class": "player",
+        "gender": "male",
+        "image": "dr-light",
+        "image_size": 40,
+        "image_editor": 10,
+        "image_editor2": 0,
+        "image_editor3": 0,
+        "image_alts": [
+          {
+            "token": "alt",
+            "name": "Dr. Light (Santa Alt)",
+            "summons": 100,
+            "colour": "flame"
+          },
+          {
+            "token": "alt2",
+            "name": "Dr. Light (Martial Artist Alt)",
+            "summons": 200,
+            "colour": "cutter"
+          }
+        ],
+        "type": "defense",
+        "type2": "",
+        "description": "",
+        "description2": "Rightfully known as the father of modern robotics, Dr. Thomas Light is renowned the world over not only for his work in revolutionizing independent robotic thought, but also for creating everyone’s favorite blue hero, Mega Man! Starting from humble beginnings, Thomas Light attended the Robot Institute of Technology, where he advocated giving machines a sense of self-judgement and decision-making, to give them a “soul”... a belief he was ridiculed by most for, save for his colleague, Albert Wily. However, both of them being promising inventors, this naturally led to competition… And competition eventually led to envy and contempt, causing the two to split ways. Light went on to earn his doctorate to massive acclaim, and after a failed military prototype, went on to succeed in his lifelong dream by creating his two cherished children, Rock and Roll. He then constructed his series of industrial-use ‘Robot Masters’, but disaster promptly struck; Dr. Wily had commandeered his Robot Masters, and promised before the whole world that he’d be the one to make his mark in history. Dr. Light had given up all hope, when to his surprise and anguish, Rock had asked to be weaponized to fight off Dr. Wily’s conquest, a war he continually fights to this day. In terms of his character, Dr. Light may be one of the kindest souls out there, seeking out the good in every individual, living or otherwise. However, if there is a regret that throbs at him terribly, it’s that he never rightfully made amends to his once-esteemed friend, Albert… But one cannot dwell in the past, lest they lose sight of the future. In that regard, Dr. Light is always looking onward to further shorten the gap between humans and robots; for his next development, he’s planning on making the next big step with his cognitive robot database, the Prototype.",
+        "energy": 0,
+        "weapons": 0,
+        "attack": 0,
+        "defense": 25,
+        "speed": 0,
+        "robot_hero": "mega-man",
+        "robot_support": "roll",
+        "field_intro": "gentle-countryside",
+        "field_home": "light-laboratory",
+        "quotes_custom": [],
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "MMRPG",
+        "order": 0,
+        "rewards": {
+          "robots": [
+            {
+              "points": 0,
+              "token": "mega-man",
+              "level": 1
+            }
+          ],
+          "abilities": [
+            {
+              "points": 0,
+              "token": "buster-shot"
+            }
+          ]
+        },
+        "abilities": [],
+        "robots_unlockable": [
+          "mega-man",
+          "roll",
+          "cut-man",
+          "guts-man",
+          "ice-man",
+          "bomb-man",
+          "fire-man",
+          "elec-man",
+          "time-man",
+          "oil-man"
+        ],
+        "quotes": {
+          "battle_start": "I stand with you, my robots! Together we cannot lose!",
+          "battle_taunt": "Please surrender before anyone else gets hurt!",
+          "battle_victory": "Ho ho ho! I couldn't have won without my wonderful robots!",
+          "battle_defeat": "I'm so sorry everyone... I have failed you."
+        },
+        "key": 1
+      },
+      "dr-wily": {
+        "token": "dr-wily",
+        "number": 2,
+        "name": "Dr. Wily",
+        "name_full": "Dr. Albert W. Wily",
+        "game": "MM1",
+        "class": "player",
+        "gender": "male",
+        "image": "dr-wily",
+        "image_size": 40,
+        "image_editor": 10,
+        "image_editor2": 0,
+        "image_editor3": 0,
+        "image_alts": [
+          {
+            "token": "alt",
+            "name": "Dr. Wily (Holiday Alt)",
+            "summons": 100,
+            "colour": "nature"
+          },
+          {
+            "token": "alt2",
+            "name": "Dr. Wily (Mr. X Alt)",
+            "summons": 200,
+            "colour": "none"
+          }
+        ],
+        "type": "attack",
+        "type2": "",
+        "description": "",
+        "description2": "If Dr. Light gave the world of robotics hope, then Dr. Wily is the one who struck fear into the heart of every man and robot. As a young man, things never came easy for Albert W. Wily, but his due diligence earned him a scholarship at the Robot Institute of Technology. It was there that he met Dr. Light, and as they bonded over their hopes of pushing robotics forward, they became close acquaintances. Albert had always naturally assumed he was the smarter of the two, but as his compatriot Light was constantly met with praise and awards, he only grew more and more embittered each time he ended up being second fiddle. Finally, this came to a breaking point when his ‘Double Gear’ system was publicly humiliated and rejected in favor of Light’s work yet again; Wily had had enough! And so, Dr. Wily bided his time and prepared a mecha army from ill-gotten funds, eventually stealing Light’s Robot Masters to cause havoc and forever stain his nemesis’s name! However, when his victory seemed all but certain, one of the lab assistant robots he deemed worthless foiled his plans and became his eternal foe: Mega Man! Wily struck back, again and again, resorting to crueler and crueler methods like theft, viruses, manipulation, identity theft, frame-ups -- even using exterrestrial life and energy multiple times! And each time has led to failure, thanks to the heroism of Dr. Light’s golden child. But Dr. Wily is nothing if not steadfast and stubborn, and he’s hellbent on proving his superiority to his intellectual rival Dr. Light, no matter the cost. Of course, when the Robot Masters, Bass, his Wily Castles, and his Wily Machines all fail, he’s never hesitant on pulling out the crocodile tears and begging for mercy. Now, no one’s heard from the mad doctor in a while… but it wouldn’t be far-fetched to believe he’s keeping an uneasy eye on Dr. Light’s latest developments.",
+        "energy": 0,
+        "weapons": 0,
+        "attack": 25,
+        "defense": 0,
+        "speed": 0,
+        "robot_hero": "bass",
+        "robot_support": "disco",
+        "field_intro": "maniacal-hideaway",
+        "field_home": "wily-castle",
+        "quotes_custom": [],
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "MMRPG",
+        "order": 1,
+        "rewards": {
+          "robots": [
+            {
+              "points": 0,
+              "token": "bass",
+              "level": 11
+            }
+          ],
+          "abilities": [
+            {
+              "points": 0,
+              "token": "buster-shot"
+            }
+          ]
+        },
+        "abilities": [],
+        "robots_unlockable": [
+          "bass",
+          "disco",
+          "mega-man",
+          "roll",
+          "cut-man",
+          "guts-man",
+          "ice-man",
+          "bomb-man",
+          "fire-man",
+          "elec-man",
+          "time-man",
+          "oil-man"
+        ],
+        "quotes": {
+          "battle_start": "With my robots by my side, I'll take over this world!",
+          "battle_taunt": "Your world is mine! Are you ready to be eliminated?",
+          "battle_victory": "Feeling sorry for yourself? Mwhahaha!",
+          "battle_defeat": "F-Forgive me! I only wanted to test your abilities!"
+        },
+        "key": 2
+      },
+      "dr-cossack": {
+        "token": "dr-cossack",
+        "number": 3,
+        "name": "Dr. Cossack",
+        "name_full": "Dr. Mikhail S. Cossack",
+        "game": "MM4",
+        "class": "player",
+        "gender": "male",
+        "image": "dr-cossack",
+        "image_size": 40,
+        "image_editor": 10,
+        "image_editor2": 0,
+        "image_editor3": 0,
+        "image_alts": [
+          {
+            "token": "alt",
+            "name": "Dr. Cossack (Ded Moroz Alt)",
+            "summons": 100,
+            "colour": "water"
+          },
+          {
+            "token": "alt2",
+            "name": "Dr. Cossack (Crowbar Alt) ",
+            "summons": 200,
+            "colour": "none"
+          }
+        ],
+        "type": "speed",
+        "type2": "",
+        "description": "",
+        "description2": "Many may remember Dr. Mikhail Cossack as a sinister warmonger in the past, but to those who truly know him, he’s an efficient roboticist and a dedicated father. As a young man, he was a student of the Ural Technical University who had traveled to America in order to develop his thesis, which is where he first made the acquaintance of Dr. Light. After attaining his doctorate in robotics, he rapidly garnered a reputation in his homeland and gained funding to create his own personal series of quite practical Robot Masters… he had so much of a reputation, in fact, that he unfortunately caught the eye of the heinous Dr. Wily. See, Wily knew that Dr. Cossack cherished his daughter Kalinka above anything else, so he took the young girl hostage in a vicious gambit to manipulate Dr. Cossack into destroying Mega Man! And while Kalinka was saved and Wily’s plans were once again foiled by Mega Man, much of the goodwill lent to Cossack by the public was absolutely demolished regardless. He attempted to atone by developing Beat as a present to the Light family, as well as eventually returning to his passion by creating new robots like Tundra Man and establishing the Stravinsky Science Academy. And if Wily was right about anything, Cossack cherishes his family more than anything. He spends his days happily with his daughter nowadays, and they continue to pay their debt to the Light family by granting Proto Man a home to stay at whenever he wishes. Of course, Dr. Cossack hasn’t just spent his days lazing about; he’s seeking to restore public faith in him by assisting Dr. Light with the advancement of his latest project…",
+        "energy": 0,
+        "weapons": 0,
+        "attack": 0,
+        "defense": 0,
+        "speed": 25,
+        "robot_hero": "proto-man",
+        "robot_support": "rhythm",
+        "field_intro": "wintry-forefront",
+        "field_home": "cossack-citadel",
+        "quotes_custom": [],
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "MMRPG",
+        "order": 2,
+        "rewards": {
+          "robots": [
+            {
+              "points": 0,
+              "token": "proto-man",
+              "level": 21
+            }
+          ],
+          "abilities": [
+            {
+              "points": 0,
+              "token": "buster-shot"
+            }
+          ]
+        },
+        "abilities": [],
+        "robots_unlockable": [
+          "proto-man",
+          "rhythm",
+          "bright-man",
+          "toad-man",
+          "drill-man",
+          "pharaoh-man",
+          "ring-man",
+          "dust-man",
+          "dive-man",
+          "skull-man"
+        ],
+        "quotes": {
+          "battle_start": "Let's end this quickly - I have many other things to do.",
+          "battle_taunt": "Please do not waste my time - I've important business elsewhere…",
+          "battle_victory": "I had no doubt I would win. It was just a matter of timing.",
+          "battle_defeat": "There must be some mistake… Did I miscalculate?"
+        },
+        "key": 3
+      }
+    },
+    "total": 3
+  }
+}

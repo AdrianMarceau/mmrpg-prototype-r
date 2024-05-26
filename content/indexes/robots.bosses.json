@@ -1,0 +1,2457 @@
+{
+  "status": "success",
+  "updated": 1715440560,
+  "data": {
+    "bosses": {
+      "doc-robot": {
+        "token": "doc-robot",
+        "number": "SWK-176",
+        "name": "Doc Robot",
+        "game": "MM3",
+        "field": "robot-museum",
+        "field2": "",
+        "support": "",
+        "class": "boss",
+        "gender": "male",
+        "image": "doc-robot",
+        "image_size": 80,
+        "image_editor": 3,
+        "image_editor2": 0,
+        "image_editor3": 0,
+        "image_alts": [],
+        "core": "copy",
+        "core2": "",
+        "description": "All-Purpose Battle Robot",
+        "description2": "In the midst of Dr. Wily’s scheme to usurp control of the colossal peace-keeping titan ‘Gamma’, the mad scientist needed extra time to put the finishing touches on his plan while maintaining his guise of being a reformed do-gooder. With his army running low and the stakes running higher, the ace up the madman’s sleeve was the Diverse Operations Circuit Robot - codified as Doc Robot K-176. Doc Robot was developed as an economical alternative to test multiple different Robot Master systems, and like Mega Man, it has the adaptable capability to take on the ability of other robots by switching its program data. With the endless arsenal of the Prototype database then, this killing machine has all that it needs to ensure nothing less than absolute destruction of its target. Don’t be fooled by its demeanor and words, either - it is little more than a beast, pretending at having the conscience of man, utilizing auto-generated artificial intelligence to get what it wants. And what it wants is data; the Doc Robot is highly territorial, ferally fixated on infinitely amassing data and information for its own personal collection. If all it understands is the power of robots Mega Man was able to beat before, however - that means it can be beaten again!",
+        "energy": 125,
+        "weapons": 32,
+        "attack": 155,
+        "defense": 125,
+        "speed": 95,
+        "weaknesses": [],
+        "resistances": [],
+        "affinities": [],
+        "immunities": [],
+        "skill": "weapon-memory",
+        "skill_name": "Diverse Operations Circuit",
+        "skill_description": "",
+        "skill_description2": "",
+        "skill_parameters": [],
+        "quotes_custom": [],
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_unlockable": 0,
+        "flag_fightable": 1,
+        "flag_exclusive": 0,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "Elemental Guardians",
+        "order": 0,
+        "quotes": {
+          "battle_start": ".........",
+          "battle_taunt": "....",
+          "battle_victory": ".......",
+          "battle_defeat": "..........!"
+        },
+        "key": 1,
+        "master_number": "SWK-176",
+        "abilities_rewards": [
+          {
+            "level": 0,
+            "token": "copy-shot"
+          },
+          {
+            "level": 0,
+            "token": "copy-soul"
+          },
+          {
+            "level": 0,
+            "token": "copy-style"
+          }
+        ],
+        "abilities_compatible": [
+          "attack-support",
+          "defense-support",
+          "speed-support",
+          "energy-support",
+          "attack-assault",
+          "defense-assault",
+          "speed-assault",
+          "energy-assault",
+          "attack-shuffle",
+          "defense-shuffle",
+          "speed-shuffle",
+          "energy-shuffle",
+          "repair-mode",
+          "experience-booster",
+          "recovery-booster",
+          "damage-booster",
+          "experience-breaker",
+          "recovery-breaker",
+          "damage-breaker",
+          "copy-shot",
+          "copy-soul"
+        ]
+      },
+      "enker": {
+        "token": "enker",
+        "number": "MKN-001",
+        "name": "Enker",
+        "game": "MMI",
+        "field": "hunter-compound",
+        "field2": "",
+        "support": "beak",
+        "class": "boss",
+        "gender": "male",
+        "image": "enker",
+        "image_size": 80,
+        "image_editor": 6,
+        "image_editor2": 0,
+        "image_editor3": 0,
+        "image_alts": [],
+        "core": "shield",
+        "core2": "",
+        "description": "Prototype Megaman Hunter",
+        "description2": "After a multitude of failures regarding his attempts to take over the world due to his adversary Mega Man, Dr. Wily was in a rut. Suddenly, the idea hit him! He'd focused on robots based on a single gimmick, but what if he were to create a robot whose gimmick was to defeat Mega Man specifically? This led to the conception of Enker, who proved to be the first of a long line of rivals for the Blue Bomber. His main weapon was designed for containing energy and sending it back in an even larger dose, albeit with the compromise of dropping his guard. Against physical foes it'd be horribly useless, but against the Mega Buster it was a slimy yet still crafty tactic to rely on! Since Enker was designed to be nothing more than a soldier, he really doesn't have any proper emotional connections or pastimes. He's a eminently cold individual, and anti-social to match, preferring to stay back and work on his own lonesome accord. Wily saw potential in his design, leading to the creation of further Mega Man Killers in order to try and eventually do in his fated enemy. Regardless of his successors and his lone wolf attitude, Enker's a robot who stands above the average Robot Master, taking in attacks and poetically sealing his opponents' fates with their own attacks.",
+        "energy": 110,
+        "weapons": 20,
+        "attack": 112,
+        "defense": 140,
+        "speed": 138,
+        "weaknesses": [
+          "impact",
+          "explode"
+        ],
+        "resistances": [
+          "shadow"
+        ],
+        "affinities": [],
+        "immunities": [],
+        "skill": "copycat-submodule",
+        "skill_name": "Reflection Matrix",
+        "skill_description": "",
+        "skill_description2": "",
+        "skill_parameters": [],
+        "quotes_custom": [],
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_unlockable": 0,
+        "flag_fightable": 1,
+        "flag_exclusive": 0,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "Mega Man Killers",
+        "order": 0,
+        "quotes": {
+          "battle_start": "I'm ready for you, fool!",
+          "battle_taunt": "Hit me with your best shot, I'll just bounce it right back!",
+          "battle_victory": "Be true to yourself, {target_robot}, and maybe you'll have a chance at beating me!",
+          "battle_defeat": "I was supposed to defeat you... what else am I good for otherwise...?"
+        },
+        "key": 2,
+        "master_number": "MKN-001",
+        "abilities_rewards": [
+          {
+            "level": 0,
+            "token": "mirror-buster"
+          }
+        ],
+        "abilities_compatible": [
+          "mirror-buster"
+        ]
+      },
+      "punk": {
+        "token": "punk",
+        "number": "MKN-002",
+        "name": "Punk",
+        "game": "MMIII",
+        "field": "hunter-compound",
+        "field2": "",
+        "support": "mouslider",
+        "class": "boss",
+        "gender": "male",
+        "image": "punk",
+        "image_size": 80,
+        "image_editor": 8,
+        "image_editor2": 3,
+        "image_editor3": 0,
+        "image_alts": [],
+        "core": "cutter",
+        "core2": "",
+        "description": "Brutal Megaman Hunter",
+        "description2": "Punk's the next of robots in the Mega Man Killers, with his main notable point being his astute sense of pure brutality. Despite a hefty build, he can easily curl up in a spiked sphere, increasing both his defense and agility in order to mash his enemies into itty-bitty tiny pieces. Punk's a rebellious robot, following his own philosophy in life that persists of \"crush everything\" and often refuses to listen to reason, making him a detriment in group settings. He's also somewhat susceptible to misunderstanding people as well, most likely due to keeping up that rebellious streak of his. Dr. Wily often feared having to utilize Punk in any situation, due to his own traits and rough style of battle being a possible thorn to his plans. However, he's not a pain to absolutely everyone; he holds a high regard for Enker, his senior, and treats Ballade just like a brother. It's tough to dispute Punk's an extremely dangerous and self-contained robot, or rather a mere force of mass destruction. Whether he's valuable for his team on the battlefield is one thing, but it's often difficult to consider teamwork when he's having too much fun just crushing everything.",
+        "energy": 110,
+        "weapons": 20,
+        "attack": 141,
+        "defense": 114,
+        "speed": 135,
+        "weaknesses": [
+          "water",
+          "shield"
+        ],
+        "resistances": [
+          "shadow"
+        ],
+        "affinities": [],
+        "immunities": [],
+        "skill": "nightmare-submodule",
+        "skill_name": "Spiked Ruffian",
+        "skill_description": "",
+        "skill_description2": "",
+        "skill_parameters": [],
+        "quotes_custom": [],
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_unlockable": 0,
+        "flag_fightable": 1,
+        "flag_exclusive": 0,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "Mega Man Killers",
+        "order": 1,
+        "quotes": {
+          "battle_start": "Put up your dukes, twerp! This'll be over quick...",
+          "battle_taunt": "You call yourself a robot? More like a tin can!",
+          "battle_victory": "Listen up, pleb! The only rule worth following is 'do whatever the heck you want!'",
+          "battle_defeat": "Next time I see you, you're dead!"
+        },
+        "key": 3,
+        "master_number": "MKN-002",
+        "abilities_rewards": [
+          {
+            "level": 0,
+            "token": "screw-crusher"
+          }
+        ],
+        "abilities_compatible": [
+          "screw-crusher"
+        ]
+      },
+      "ballade": {
+        "token": "ballade",
+        "number": "MKN-003",
+        "name": "Ballade",
+        "game": "MMIV",
+        "field": "hunter-compound",
+        "field2": "",
+        "support": "shield-attacker",
+        "class": "boss",
+        "gender": "male",
+        "image": "ballade",
+        "image_size": 40,
+        "image_editor": 10,
+        "image_editor2": 8,
+        "image_editor3": 0,
+        "image_alts": [
+          {
+            "token": "alt",
+            "name": "Ballade (Second Form)",
+            "summons": 100,
+            "colour": "none"
+          }
+        ],
+        "core": "explode",
+        "core2": "",
+        "description": "Elite Megaman Hunter",
+        "description2": "Ballade is yet another installment for the Mega Man Killers, his conception based off the idea of \"Just overwhelm Mega Man with too, too much force!\" He's equipped with the Ballade Cracker, a very explosive and volatile bomb capable of clearing off crowds of robots. Ballade also has a second form that he only uses in desperate situations, boosting his abilities even more than before! Ballade takes competition to the max, fighting robots simply just to test his limits. He's also extremely cocky, and his mindset for fighting is rather simple. Ballade follows the chain of command much better than his fellow Mega Man Killer, Punk, although he still has a tendency to hurt his own teammates due to his incredibly volatile weaponry. Despite being a Mega Man Killer, Ballade's objective never outweighs his moral code; he'll never attack a defenseless opponent nor will he hold resentment to a stronger opponent. This was proved when Mega Man defeated him, thus Ballade completely sacrificed himself in one last final act of respect to save Mega Man's life and pay his debt. It's nice to imagine that not all of Wily's elite are cruel, heartless robots. Of course, reality isn't imagination, and chances are if he was ever brought back, the first thing Ballade would likely do is continue to fight just about any opponent he can.",
+        "energy": 110,
+        "weapons": 20,
+        "attack": 145,
+        "defense": 103,
+        "speed": 142,
+        "weaknesses": [
+          "earth",
+          "cutter"
+        ],
+        "resistances": [
+          "shadow"
+        ],
+        "affinities": [],
+        "immunities": [],
+        "skill": "persist-submodule",
+        "skill_name": "Persist Protocol",
+        "skill_description": "",
+        "skill_description2": "",
+        "skill_parameters": [],
+        "quotes_custom": [],
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_unlockable": 0,
+        "flag_fightable": 1,
+        "flag_exclusive": 0,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "Mega Man Killers",
+        "order": 2,
+        "quotes": {
+          "battle_start": "I don't fight weaklings! Give me the challenge I crave!",
+          "battle_taunt": "There's potential in you yet... but you're still only second fiddle!",
+          "battle_victory": "I had my hopes... but it was all for nothing! Another disappointing foe!",
+          "battle_defeat": "I fall to a truly worthy adversary... You are number one, {target_robot}!"
+        },
+        "key": 4,
+        "master_number": "MKN-003",
+        "abilities_rewards": [
+          {
+            "level": 0,
+            "token": "ballade-cracker"
+          }
+        ],
+        "abilities_compatible": [
+          "ballade-cracker"
+        ]
+      },
+      "quint": {
+        "token": "quint",
+        "number": "SVN-001",
+        "name": "Quint",
+        "game": "MMII",
+        "field": "",
+        "field2": "",
+        "support": "",
+        "class": "boss",
+        "gender": "male",
+        "image": "quint",
+        "image_size": 80,
+        "image_editor": 10,
+        "image_editor2": 0,
+        "image_editor3": 0,
+        "image_alts": [],
+        "core": "swift",
+        "core2": "",
+        "description": "Future Megaman Hunter",
+        "description2": "Quint was originally Mega Man from the future, reprogrammed and modified to destroy the Mega Man in the present. It's... a confusing story. See, Wily kidnapped the future Mega Man to be able to destroy the Mega Man who was plaguing him in the present, traveling in time with the help of a machine called the Time Skipper. As far as abilities go, Quint can do just about anything Mega Man can, Copy Chip and all, but his signature weapon is Sakugarne, a weapon from the future that can be best described as a cross between a Pogo stick and a jackhammer. As a contrast to the pleasant Rock everyone knows and loves, Quint is known for being sadistic and enjoys torturing any opponent he knows he can defeat. He also entertains himself with fortunetelling, and he hates timezone fatigue, although he never defines what he really means by \"timezone.\" He was made to scrap Mega Man, but if he succeeded, would he still exist? And what would happen to everyone else? Would the future change or would the present timeline branch off? This is a robot whose existence perhaps offers a few too many questions, so just ignore him for now!",
+        "energy": 110,
+        "weapons": 20,
+        "attack": 119,
+        "defense": 139,
+        "speed": 132,
+        "weaknesses": [
+          "impact",
+          "missile"
+        ],
+        "resistances": [
+          "shadow"
+        ],
+        "affinities": [
+          "time"
+        ],
+        "immunities": [],
+        "skill": "weapon-subsaver",
+        "skill_name": "Weapons Expert",
+        "skill_description": "",
+        "skill_description2": "",
+        "skill_parameters": [],
+        "quotes_custom": [],
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_unlockable": 0,
+        "flag_fightable": 1,
+        "flag_exclusive": 0,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "Mega Man Killers",
+        "order": 3,
+        "quotes": {
+          "battle_start": "Destiny has taken us here! Your future ends now, {target_robot}!",
+          "battle_taunt": "Enough talk of timelines and paradoxes! Sakugarne, crush them!",
+          "battle_victory": "Once I believed in a just and kind world... how time changes us all.",
+          "battle_defeat": "I can't let you beat me! I refuse to be your shadow..."
+        },
+        "key": 5,
+        "master_number": "SVN-001",
+        "abilities_rewards": [
+          {
+            "level": 0,
+            "token": "sakugarne-hammer"
+          }
+        ],
+        "abilities_compatible": [
+          "sakugarne-hammer"
+        ]
+      },
+      "king": {
+        "token": "king",
+        "number": "KGN-00X",
+        "name": "King",
+        "game": "RnF",
+        "field": "royal-palace",
+        "field2": "",
+        "support": "",
+        "class": "boss",
+        "gender": "male",
+        "image": "king",
+        "image_size": 80,
+        "image_editor": 20,
+        "image_editor2": 3,
+        "image_editor3": 0,
+        "image_alts": [
+          {
+            "token": "alt",
+            "name": "King (Pawn Alt)",
+            "summons": 100,
+            "colour": "speed"
+          }
+        ],
+        "core": "shield",
+        "core2": "",
+        "description": "Rebel Leader Robot",
+        "description2": "Some time after the events of the Evil Energy disaster, a robot had shown up and claimed that he would now take the helm of the world, attempting to lead an independent robot nation. This robot was known as King, and he employed various Robot Masters of different backgrounds, including Wily's own Tengu Man and Astro Man, for his purpose. While he doesn't have any specific weaponry, he's been known for using an energy-absorbing shield and a lance in battle. His battle prowess is incredible, as he once defeated Proto Man in a single move, and kept Mega Man and Bass on their toes. Contrary to popular belief, King is not a tyrant; he was arguably misguided in his attempts to reform the world. King's efforts to change the world would also happen to be inspiring to a robot dozens of years after. He's a remarkable and passionate speaker, but his background simply rings of suspicion. This was all revealed when Mega Man and Bass, unaware the other was there, found out his true background at his castle, being a creation of Wily all along. After their battle, King sacrificed his life to save the two, an act that even impacted Bass in a way. However, soon afterwards, Mega Man received a letter with King's insignia, meaning King could still be out there. The question is: would he be friend or foe?",
+        "energy": 100,
+        "weapons": 20,
+        "attack": 200,
+        "defense": 200,
+        "speed": 100,
+        "weaknesses": [
+          "electric",
+          "cutter"
+        ],
+        "resistances": [
+          "impact",
+          "explode"
+        ],
+        "affinities": [],
+        "immunities": [],
+        "skill": "bulwark-submodule",
+        "skill_name": "Royal Guard",
+        "skill_description": "",
+        "skill_description2": "",
+        "skill_parameters": [],
+        "quotes_custom": [],
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_unlockable": 0,
+        "flag_fightable": 1,
+        "flag_exclusive": 0,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "King",
+        "order": 0,
+        "quotes": {
+          "battle_start": "{target_robot}, since you're a robot... Why not join with me against the humans?",
+          "battle_taunt": "{target_robot}... Don't you realize you're only a pawn to {target_player}?",
+          "battle_victory": "I had hoped it wouldn't come to this, but alas... That's checkmate.",
+          "battle_defeat": "Stay shackled by your captors, then. I fall here, but the Robot Kingdom lives on!"
+        },
+        "key": 6,
+        "master_number": "KGN-00X",
+        "abilities_rewards": [
+          {
+            "level": 0,
+            "token": "buster-shot"
+          }
+        ],
+        "abilities_compatible": [
+          "repair-mode"
+        ]
+      },
+      "dark-man": {
+        "token": "dark-man",
+        "number": "SWD-001",
+        "name": "Dark Man 1",
+        "game": "MM5",
+        "field": "hunter-compound",
+        "field2": "",
+        "support": "",
+        "class": "boss",
+        "gender": "male",
+        "image": "dark-man",
+        "image_size": 80,
+        "image_editor": 3,
+        "image_editor2": 1,
+        "image_editor3": 0,
+        "image_alts": [],
+        "core": "shadow",
+        "core2": "",
+        "description": "Shapeshifting Imposter Robot",
+        "description2": "After four miserably failed attempts at world domination, Dr. Wily decided he needed to approach his goals at a new angle. Mega Man was completely tricked by Dr. Wily's scheme using Dr. Cossack, but he thought he could possibly improve that facade by disguising the true menace as someone familiar, but still with personal conflicts... like Proto Man! To make a copy of the red bomber that could hold its own in battle, Dr. Wily needed to create a new design of robots, thus creating the Dark Man series! Dark Man 1 is a version of the normal Dark Man schematic, but with a stronger arm cannon and tank treads. This war-like redesign was made so Dark Man 1 could be the first line of defense for \"Proto Man's\" castle. The powered up arm cannon has no new bells, whistles, or gimmicks. Instead, Dark Man 1's uniqueness lies in his mobility. Although leaving him unable to jump, Dark Man 1's tank treads allow him to move faster, at a steadier pace, and more stable than his fellow Dark brethren. He seems to greatly lose control whenever his treads are dampened, however, so this can be a weak spot to exploit.",
+        "energy": 195,
+        "weapons": 16,
+        "attack": 115,
+        "defense": 95,
+        "speed": 95,
+        "weaknesses": [
+          "water",
+          "freeze"
+        ],
+        "resistances": [],
+        "affinities": [],
+        "immunities": [],
+        "skill": "transport-submodule",
+        "skill_name": "Dark Transport",
+        "skill_description": "",
+        "skill_description2": "",
+        "skill_parameters": [],
+        "quotes_custom": [],
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_unlockable": 0,
+        "flag_fightable": 1,
+        "flag_exclusive": 0,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "Dark Men",
+        "order": 0,
+        "quotes": {
+          "battle_start": "...",
+          "battle_taunt": "...",
+          "battle_victory": "...",
+          "battle_defeat": "..."
+        },
+        "key": 7,
+        "master_number": "SWD-001",
+        "abilities_rewards": [
+          {
+            "level": 0,
+            "token": "shadow-blade"
+          }
+        ],
+        "abilities_compatible": [
+          "attack-support",
+          "defense-support",
+          "speed-support",
+          "energy-support",
+          "attack-assault",
+          "defense-assault",
+          "speed-assault",
+          "energy-assault",
+          "attack-shuffle",
+          "defense-shuffle",
+          "speed-shuffle",
+          "energy-shuffle",
+          "experience-booster",
+          "recovery-booster",
+          "damage-booster",
+          "experience-breaker",
+          "recovery-breaker",
+          "damage-breaker",
+          "shadow-blade"
+        ]
+      },
+      "dark-man-2": {
+        "token": "dark-man-2",
+        "number": "SWD-002",
+        "name": "Dark Man 2",
+        "game": "MM5",
+        "field": "hunter-compound",
+        "field2": "",
+        "support": "",
+        "class": "boss",
+        "gender": "male",
+        "image": "dark-man-2",
+        "image_size": 80,
+        "image_editor": 3,
+        "image_editor2": 0,
+        "image_editor3": 0,
+        "image_alts": [],
+        "core": "shadow",
+        "core2": "",
+        "description": "Shapeshifting Imposter Robot",
+        "description2": "During Dr. Wily’s fifth plot for world domination, Wily created a new series of robots known as the Dark Man series. After venturing further inside “Proto Man's\" castle, Mega Man was confronted with one of these robots: Dark Man 2. He is similar in size and stature to his brethren, but is colored in a dark grey and lacks a buster, unlike the other Dark Men. Rather than shooting the opponent down, Dark Man 2 commands two electrical shields to do his bidding. These barriers revolve around Dark Man 2 as he moves, but he only seems to walk back and forth. Perhaps jumping disables the magnetic bond, disabling his only attack. Then again, the shields seem to be lacking in their offensive and defensive capabilities anyways, due to the fact there are two margins during the barrier cycle that you can shoot through his defenses. Maybe Dark Man 2 isn’t exactly the best his series has to offer….",
+        "energy": 195,
+        "weapons": 16,
+        "attack": 95,
+        "defense": 115,
+        "speed": 95,
+        "weaknesses": [
+          "explode",
+          "crystal"
+        ],
+        "resistances": [],
+        "affinities": [],
+        "immunities": [],
+        "skill": "medic-submodule",
+        "skill_name": "Dark Machinist",
+        "skill_description": "",
+        "skill_description2": "",
+        "skill_parameters": [],
+        "quotes_custom": [],
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_unlockable": 0,
+        "flag_fightable": 1,
+        "flag_exclusive": 0,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "Dark Men",
+        "order": 1,
+        "quotes": {
+          "battle_start": "...",
+          "battle_taunt": "...",
+          "battle_victory": "...",
+          "battle_defeat": "..."
+        },
+        "key": 8,
+        "master_number": "SWD-002",
+        "abilities_rewards": [
+          {
+            "level": 0,
+            "token": "shadow-blade"
+          }
+        ],
+        "abilities_compatible": [
+          "attack-support",
+          "defense-support",
+          "speed-support",
+          "energy-support",
+          "attack-assault",
+          "defense-assault",
+          "speed-assault",
+          "energy-assault",
+          "attack-shuffle",
+          "defense-shuffle",
+          "speed-shuffle",
+          "energy-shuffle",
+          "experience-booster",
+          "recovery-booster",
+          "damage-booster",
+          "experience-breaker",
+          "recovery-breaker",
+          "damage-breaker",
+          "shadow-blade"
+        ]
+      },
+      "dark-man-3": {
+        "token": "dark-man-3",
+        "number": "SWD-003",
+        "name": "Dark Man 3",
+        "game": "MM5",
+        "field": "hunter-compound",
+        "field2": "",
+        "support": "",
+        "class": "boss",
+        "gender": "male",
+        "image": "dark-man-3",
+        "image_size": 80,
+        "image_editor": 3,
+        "image_editor2": 0,
+        "image_editor3": 0,
+        "image_alts": [],
+        "core": "shadow",
+        "core2": "",
+        "description": "Shapeshifting Imposter Robot",
+        "description2": "Even further into the reaches of “Proto Man”’s castle, Mega Man came toe to metallic toe with Dark Man 3. This new opponent already provides a higher difficulty compared to his two previous brothers: this one can jump and shoot! Dark Man 3 is colored a deep shade of purple and equipped with a large arm cannon, but he still uses a glass cranium and a visor, like Dark Men 1 and 2. Dark Man 3 leaps high in the air and rains volleys of five shots down on enemies. That bulky buster he holds can also shoot three small projectiles that can disrupt an opponent’s energy, freezing them where they stand, slide, or … jump? However, despite his great jumping height, Dark Man 3 seems to struggle while moving on the ground, jerking a small distance forward and stopping immediately after. A weapon to hit him while he is airborne may also be useful. Either way, try not to get frozen, or Dark Man 3 will get some target practice on you.",
+        "energy": 195,
+        "weapons": 16,
+        "attack": 95,
+        "defense": 95,
+        "speed": 115,
+        "weaknesses": [
+          "wind",
+          "missile"
+        ],
+        "resistances": [],
+        "affinities": [],
+        "immunities": [],
+        "skill": "target-submodule",
+        "skill_name": "Dark Stalker",
+        "skill_description": "",
+        "skill_description2": "",
+        "skill_parameters": [],
+        "quotes_custom": [],
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_unlockable": 0,
+        "flag_fightable": 1,
+        "flag_exclusive": 0,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "Dark Men",
+        "order": 2,
+        "quotes": {
+          "battle_start": "...",
+          "battle_taunt": "...",
+          "battle_victory": "...",
+          "battle_defeat": "..."
+        },
+        "key": 9,
+        "master_number": "SWD-003",
+        "abilities_rewards": [
+          {
+            "level": 0,
+            "token": "shadow-blade"
+          }
+        ],
+        "abilities_compatible": [
+          "attack-support",
+          "defense-support",
+          "speed-support",
+          "energy-support",
+          "attack-assault",
+          "defense-assault",
+          "speed-assault",
+          "energy-assault",
+          "attack-shuffle",
+          "defense-shuffle",
+          "speed-shuffle",
+          "energy-shuffle",
+          "experience-booster",
+          "recovery-booster",
+          "damage-booster",
+          "experience-breaker",
+          "recovery-breaker",
+          "damage-breaker",
+          "shadow-blade"
+        ]
+      },
+      "dark-man-4": {
+        "token": "dark-man-4",
+        "number": "SWD-004",
+        "name": "Dark Man 4",
+        "game": "MM5",
+        "field": "final-destination-2",
+        "field2": "",
+        "support": "",
+        "class": "boss",
+        "gender": "male",
+        "image": "dark-man-4",
+        "image_size": 80,
+        "image_editor": 3,
+        "image_editor2": 9,
+        "image_editor3": 0,
+        "image_alts": [],
+        "core": "shadow",
+        "core2": "",
+        "description": "Shapeshifting Imposter Robot",
+        "description2": "In the inner confines of Proto Man's castle, the now evil \"Proto Man\" confronts Mega Man. With a dull whistle and powerful buster, the oddly conspicuous Proto Man almost had Mega Man beat. However, in a nick of time, the real Proto Man suddenly appeared and revealed his impostor's true form: Dark Man 4. Serving as the leader for the Dark Men series, this iteration is colored red and has pointed feet and shoulder pads. Adapting the weaponry his brethren uses, Dark Man 4 has the buster of Dark Man 1, the electric shields of Dark Man 2, and most impressively, the ability to jump from Dark Man 3! He uses all three of the Dark Men's weapons in conjunction to overwhelm enemies, but arguably not to their fullest potential. Dark Man 4 also lack some defensive prowess, taking serious damage from Dr. Cossack's Beat. However, of all of Dark Man 4's vices, his absolute biggest weakness is his music! It's astonishing anybody felt those haphazardly combined notes resembled Proto Man's whistle!",
+        "energy": 215,
+        "weapons": 18,
+        "attack": 95,
+        "defense": 95,
+        "speed": 95,
+        "weaknesses": [],
+        "resistances": [
+          "earth",
+          "space"
+        ],
+        "affinities": [],
+        "immunities": [],
+        "skill": "nightmare-submodule",
+        "skill_name": "Dark Projection",
+        "skill_description": "",
+        "skill_description2": "",
+        "skill_parameters": [],
+        "quotes_custom": [],
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_unlockable": 0,
+        "flag_fightable": 1,
+        "flag_exclusive": 0,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "Dark Men",
+        "order": 3,
+        "quotes": {
+          "battle_start": "...",
+          "battle_taunt": "...",
+          "battle_victory": "...",
+          "battle_defeat": "..."
+        },
+        "key": 10,
+        "master_number": "SWD-004",
+        "abilities_rewards": [
+          {
+            "level": 0,
+            "token": "shadow-blade"
+          }
+        ],
+        "abilities_compatible": [
+          "attack-support",
+          "defense-support",
+          "speed-support",
+          "energy-support",
+          "attack-assault",
+          "defense-assault",
+          "speed-assault",
+          "energy-assault",
+          "attack-shuffle",
+          "defense-shuffle",
+          "speed-shuffle",
+          "energy-shuffle",
+          "experience-booster",
+          "recovery-booster",
+          "damage-booster",
+          "experience-breaker",
+          "recovery-breaker",
+          "damage-breaker",
+          "shadow-blade"
+        ]
+      },
+      "ra-thor": {
+        "token": "ra-thor",
+        "number": "NWN-001",
+        "name": "Ra Thor",
+        "game": "SuperA",
+        "field": "",
+        "field2": "prototype-subspace",
+        "support": "ring-ring",
+        "class": "boss",
+        "gender": "none",
+        "image": "ra-thor",
+        "image_size": 80,
+        "image_editor": 3,
+        "image_editor2": 10,
+        "image_editor3": "",
+        "image_alts": [
+          {
+            "token": "alt9",
+            "name": "Ra Thor (Darkness Alt)",
+            "summons": 900,
+            "colour": "empty"
+          }
+        ],
+        "core": "space",
+        "core2": "",
+        "description": "Reanimated Lunar Artifact",
+        "description2": "Ra Thor was originally built by Dr. Wily using advanced alien technology he discovered in a place called the Temple of the Moon, however this instance of Ra Thor has a more ambiguous progenitor.  The \"Sigma\" power that has reanimated this robot is curiously non-celestial, but it would still be unwise to discount our antagonists' involvement in Ra Thor's re-genesis. The circumstances of Ra Sigma's birth notwithstanding, it cannot be a coincidence that it bears a striking resemblance to the exhumed robot masters it fights alongside. Cold, uncaring, and unrelenting in its attacks, Ra Sigma is not a force to be underestimated in battle. Despite its empty core, its powers are decidedly elemental in nature. With the ability to manipulate and absorb nearby core shields with ease, Ra Thor in any form is a formidable opponent.",
+        "energy": 160,
+        "weapons": 60,
+        "attack": 170,
+        "defense": 90,
+        "speed": 180,
+        "weaknesses": [
+          "shield"
+        ],
+        "resistances": [],
+        "affinities": [
+          "laser"
+        ],
+        "immunities": [
+          "space"
+        ],
+        "skill": "neutral-subshield",
+        "skill_name": "Neutral Armour",
+        "skill_description": "",
+        "skill_description2": "",
+        "skill_parameters": [],
+        "quotes_custom": [],
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_unlockable": 0,
+        "flag_fightable": 1,
+        "flag_exclusive": 0,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "Ra Moon",
+        "order": 0,
+        "quotes": {
+          "battle_start": "Target acquired. The {target_robot} will be eliminated.",
+          "battle_taunt": "Target noncompliant.  Increasing pressure.",
+          "battle_victory": "Target eliminated.  Mission complete.",
+          "battle_defeat": "Target persists.  As will {this_robot}."
+        },
+        "key": 11,
+        "master_number": "NWN-001",
+        "abilities_rewards": [
+          {
+            "level": 2,
+            "token": "barrier-drive"
+          },
+          {
+            "level": 3,
+            "token": "lunar-memory"
+          },
+          {
+            "level": 4,
+            "token": "shield-eater"
+          }
+        ],
+        "abilities_compatible": []
+      },
+      "buster-rod-g": {
+        "token": "buster-rod-g",
+        "number": "WWN-001",
+        "name": "Buster Rod G",
+        "game": "MMWW",
+        "field": "genesis-tower",
+        "field2": "",
+        "support": "",
+        "class": "boss",
+        "gender": "male",
+        "image": "buster-rod-g",
+        "image_size": 40,
+        "image_editor": 3,
+        "image_editor2": 0,
+        "image_editor3": 0,
+        "image_alts": [],
+        "core": "swift",
+        "core2": "",
+        "description": "Agile Monkey Unit",
+        "description2": "After a few failed attempts at conquering the world, Wily constructed the magnificent Wily Tower, and he put the Genesis Unit as his main line of defense. Buster Rod G was designed to naturally lead the group, being the swiftest and most skilled of the bunch. However, due to his general inexperience as serving as a combat robot, Buster Rod G ended up failing against Mega Man, and the Wily Tower scheme ended just like every other Wily plan. His main weapon is his extendable rod, which can grow to great lengths to attack the opponent. After losing to Mega Man, Buster Rod G's been reported to have survived and traveled on a journey to a foreign land in the west, training for the day that he can face Mega Man in battle yet again. He's a rowdy robot, and argues with Mega Water S constantly. He's a bit of a bubble brain, and can easily be convinced to things if you offer some banana bribery. He also dislikes Rush, Mega Man's trusty helper. While Buster Rod G is one of Mega Man's lesser known rivals, he's as unique as they come, just not nearly as serious or as conventional as the rest of them.",
+        "energy": 115,
+        "weapons": 20,
+        "attack": 155,
+        "defense": 145,
+        "speed": 185,
+        "weaknesses": [
+          "water",
+          "freeze"
+        ],
+        "resistances": [
+          "nature"
+        ],
+        "affinities": [],
+        "immunities": [],
+        "skill": "tenacity-submodule",
+        "skill_name": "Monkey Sutra",
+        "skill_description": "The robot can inflict Swift type damage without resistance",
+        "skill_description2": "The robot use ancient techniques to bypass resistances and negative effects when dealing Swift-type damage.",
+        "skill_parameters": {
+          "type": "swift"
+        },
+        "quotes_custom": [],
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_unlockable": 0,
+        "flag_fightable": 1,
+        "flag_exclusive": 0,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "Genesis Unit",
+        "order": 0,
+        "quotes": {
+          "battle_start": "My blood's pumping... {target_robot}, I can tell this'll be a good fight!",
+          "battle_taunt": "The road to enlightenment requires a strong soul.. and many, many bananas.",
+          "battle_victory": "Hey, let's train together sometime, you and me, take a journey somewhere!",
+          "battle_defeat": "Oo-ahh, {target_robot}! I'm already itchin' to fight again!"
+        },
+        "key": 12,
+        "master_number": "WWN-001",
+        "abilities_rewards": [
+          {
+            "level": 0,
+            "token": "buster-rod"
+          }
+        ],
+        "abilities_compatible": [
+          "buster-rod",
+          "barrier-drive",
+          "shield-eater"
+        ]
+      },
+      "mega-water-s": {
+        "token": "mega-water-s",
+        "number": "WWN-002",
+        "name": "Mega Water S",
+        "game": "MMWW",
+        "field": "genesis-tower",
+        "field2": "",
+        "support": "",
+        "class": "boss",
+        "gender": "male",
+        "image": "mega-water-s",
+        "image_size": 40,
+        "image_editor": 3,
+        "image_editor2": 0,
+        "image_editor3": 0,
+        "image_alts": [],
+        "core": "water",
+        "core2": "",
+        "description": "Wise Kappa Unit",
+        "description2": "After a few failed attempts at conquering the world, Wily constructed the magnificent Wily Tower, and he put the Genesis Unit as the main line of defense. Mega Water S was built with the mythical Kappa in mind, using water abilities to dampen his opponent's spirits. Along with this, he mainly focuses on using harpoon attacks to defeat his opponents, and can even create a water shield to defend himself from powerful attacks. However, his most dangerous weapon is his mind, as he's easily the brains of the Genesis Unit, and has even corrected Dr. Wily a few times over. Unfortunately, he isn't usually good at expressing his ideas out front, causing him to have a low level of confidence, and is known for having a heavy accent. He also has strong contention towards Buster Rod G, as their views often conflict. In fact, Mega Water S believes that Buster Rod G simply isn't fit for being a leader, and that the Genesis Unit would experience more fortune if he was in charge. Despite being a bit of an oddball, he's not an easy opponent to face, as he's proved himself as one of Dr. Wily's smartest bots and a valued member of the Genesis Unit. Of course, he still wishes that he was more than just a member.",
+        "energy": 115,
+        "weapons": 20,
+        "attack": 185,
+        "defense": 155,
+        "speed": 145,
+        "weaknesses": [
+          "wind",
+          "cutter"
+        ],
+        "resistances": [
+          "flame"
+        ],
+        "affinities": [],
+        "immunities": [],
+        "skill": "overkill-submodule",
+        "skill_name": "Cold Blooded",
+        "skill_description": "The robot does extra damage when the target has a weakness",
+        "skill_description2": "The robot relishes in the target's weaknesses by doing even more damage when it knows it has an advantage.",
+        "skill_parameters": [],
+        "quotes_custom": [],
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_unlockable": 0,
+        "flag_fightable": 1,
+        "flag_exclusive": 0,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "Genesis Unit",
+        "order": 1,
+        "quotes": {
+          "battle_start": "E-eh, excuse me, {target_robot}... but I will be killing you now, yes.",
+          "battle_taunt": "You have good reputation, {target_robot}... but all just talk, my friend!",
+          "battle_victory": "You could best Buster Rod G, yes... but against me? It's impossible, yes!",
+          "battle_defeat": "Yes, yes, I see... there is no way I can ever win! Run, run!"
+        },
+        "key": 13,
+        "master_number": "WWN-002",
+        "abilities_rewards": [
+          {
+            "level": 0,
+            "token": "mega-water"
+          }
+        ],
+        "abilities_compatible": [
+          "mega-water",
+          "barrier-drive",
+          "shield-eater"
+        ]
+      },
+      "hyper-storm-h": {
+        "token": "hyper-storm-h",
+        "number": "WWN-003",
+        "name": "Hyper Storm H",
+        "game": "MMWW",
+        "field": "genesis-tower",
+        "field2": "",
+        "support": "",
+        "class": "boss",
+        "gender": "male",
+        "image": "hyper-storm-h",
+        "image_size": 80,
+        "image_editor": 3,
+        "image_editor2": 0,
+        "image_editor3": 0,
+        "image_alts": [],
+        "core": "wind",
+        "core2": "",
+        "description": "Bulky Boar Unit",
+        "description2": "After a few failed attempts at conquering the world, Wily constructed the magnificent Wily Tower, and he put the Genesis Unit as his main line of defense. Hyper Storm H was built to be the most durable of the three, taking powerful attacks like they're absolutely nothing. His external armor is incredibly thick, and he uses his mass as his main weapon, crushing opponents from below. He also has large in-built fans, allowing his body to be propelled as well as blow any nearby opponents away. He's generally a laid-back robot, and stays out of Buster Rod G's and Mega Water S's conflicts. He's also incredibly gullible and will fall for anything you tell him, making him naive as well. He's also one of Dr. Wily's largest robots, and has a large amount of endurance compared to the average robot. Unfortunately, his extra size causes him to overheat easily, leaving him susceptible to extra attacks. As another member to the Genesis Unit, he's proved to be quite the robot, and would be a tough fighter to face in battle. The Genesis Unit is just filled with tough robots!",
+        "energy": 115,
+        "weapons": 20,
+        "attack": 145,
+        "defense": 185,
+        "speed": 155,
+        "weaknesses": [
+          "swift",
+          "explode"
+        ],
+        "resistances": [
+          "impact"
+        ],
+        "affinities": [],
+        "immunities": [],
+        "skill": "bulwark-submodule",
+        "skill_name": "Big Chonker",
+        "skill_description": "The robot uses its enormous body to protect benched allies",
+        "skill_description2": "The robot uses its enormous body to protect benched allies from being targeted by the opponent's abilities.",
+        "skill_parameters": [],
+        "quotes_custom": [],
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_unlockable": 0,
+        "flag_fightable": 1,
+        "flag_exclusive": 0,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "Genesis Unit",
+        "order": 2,
+        "quotes": {
+          "battle_start": "Guess if I gotta pull my weight... I'll start by crushing you, {target_robot}!",
+          "battle_taunt": "Poor {target_robot}, leave the fighting for your friends.. that's what I do!",
+          "battle_victory": "Man, if I had some onigiri right now... donuts... chicken.. or, ooh, bacon!",
+          "battle_defeat": "Huh? You made me look like I'm, like, stupid or somethin'..."
+        },
+        "key": 14,
+        "master_number": "WWN-003",
+        "abilities_rewards": [
+          {
+            "level": 0,
+            "token": "hyper-storm"
+          }
+        ],
+        "abilities_compatible": [
+          "hyper-storm",
+          "barrier-drive",
+          "shield-eater"
+        ]
+      },
+      "mega-man-ds": {
+        "token": "mega-man-ds",
+        "number": "DSN-0L1",
+        "name": "Mega Man DS",
+        "game": "MMRPGP",
+        "field": "final-destination-2",
+        "field2": "",
+        "support": "",
+        "class": "boss",
+        "gender": "male",
+        "image": "mega-man-ds",
+        "image_size": 40,
+        "image_editor": 1,
+        "image_editor2": 10,
+        "image_editor3": 0,
+        "image_alts": [],
+        "core": "shadow",
+        "core2": "",
+        "description": "Dark Soul Robot",
+        "description2": "",
+        "energy": 125,
+        "weapons": 20,
+        "attack": 125,
+        "defense": 125,
+        "speed": 125,
+        "weaknesses": [
+          "laser"
+        ],
+        "resistances": [],
+        "affinities": [
+          "shadow"
+        ],
+        "immunities": [
+          "electric",
+          "wind"
+        ],
+        "skill": "stat-boost-on-robots-nearby",
+        "skill_name": "Imposter Syndrome",
+        "skill_description": "The robot boosts its defense to the max in the presence of its rival",
+        "skill_description2": "The robot boosts its own defense stat to the max when in the presence of its greatest rival.",
+        "skill_parameters": {
+          "robots": "mega-man",
+          "stat": "defense",
+          "amount": 5
+        },
+        "quotes_custom": [],
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_unlockable": 0,
+        "flag_fightable": 1,
+        "flag_exclusive": 0,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "Dark Souls",
+        "order": 0,
+        "quotes": {
+          "battle_start": "This world doesn't need an old, tired Mega Man... Slur's world demands a real hero!",
+          "battle_taunt": "With all the strength and none of the stupid boyish charm, I'm the perfect Mega Man!",
+          "battle_victory": "Forward, for justice and everlasting peace... Not!",
+          "battle_defeat": "I lost only because I copied a weak, naive helper robot!"
+        },
+        "key": 15,
+        "master_number": "DSN-0L1",
+        "abilities_rewards": [
+          {
+            "level": 0,
+            "token": "buster-shot"
+          },
+          {
+            "level": 0,
+            "token": "mega-buster"
+          },
+          {
+            "level": 0,
+            "token": "rolling-cutter"
+          },
+          {
+            "level": 0,
+            "token": "super-throw"
+          },
+          {
+            "level": 0,
+            "token": "ice-breath"
+          },
+          {
+            "level": 0,
+            "token": "hyper-bomb"
+          },
+          {
+            "level": 0,
+            "token": "fire-storm"
+          },
+          {
+            "level": 0,
+            "token": "thunder-strike"
+          },
+          {
+            "level": 0,
+            "token": "time-arrow"
+          },
+          {
+            "level": 0,
+            "token": "oil-shooter"
+          },
+          {
+            "level": 0,
+            "token": "mega-ball"
+          },
+          {
+            "level": 0,
+            "token": "mega-slide"
+          }
+        ],
+        "abilities_compatible": [
+          "attack-support",
+          "defense-support",
+          "speed-support",
+          "energy-support",
+          "attack-assault",
+          "defense-assault",
+          "speed-assault",
+          "energy-assault",
+          "attack-shuffle",
+          "defense-shuffle",
+          "speed-shuffle",
+          "energy-shuffle",
+          "repair-mode",
+          "experience-booster",
+          "recovery-booster",
+          "damage-booster",
+          "experience-breaker",
+          "recovery-breaker",
+          "damage-breaker",
+          "bass-buster",
+          "proto-buster",
+          "roll-buster",
+          "disco-buster",
+          "rhythm-buster",
+          "bass-crush",
+          "bass-baroque",
+          "proto-shield",
+          "proto-strike",
+          "mega-buster",
+          "mega-ball",
+          "mega-slide",
+          "rolling-cutter",
+          "hyper-bomb",
+          "ice-breath",
+          "fire-storm",
+          "oil-shooter",
+          "thunder-strike",
+          "time-arrow",
+          "super-throw"
+        ]
+      },
+      "bass-ds": {
+        "token": "bass-ds",
+        "number": "DSN-0W1",
+        "name": "Bass DS",
+        "game": "MMRPGP",
+        "field": "final-destination-2",
+        "field2": "",
+        "support": "",
+        "class": "boss",
+        "gender": "male",
+        "image": "bass-ds",
+        "image_size": 40,
+        "image_editor": 10,
+        "image_editor2": 22,
+        "image_editor3": "",
+        "image_alts": [],
+        "core": "shadow",
+        "core2": "",
+        "description": "Dark Soul Robot",
+        "description2": "",
+        "energy": 130,
+        "weapons": 20,
+        "attack": 110,
+        "defense": 125,
+        "speed": 135,
+        "weaknesses": [
+          "laser"
+        ],
+        "resistances": [],
+        "affinities": [
+          "shadow"
+        ],
+        "immunities": [
+          "impact",
+          "space"
+        ],
+        "skill": "stat-boost-on-robots-nearby",
+        "skill_name": "Imposter Syndrome",
+        "skill_description": "The robot boosts its attack to the max in the presence of its rival",
+        "skill_description2": "The robot boosts its own attack stat to the max when in the presence of its greatest rival.",
+        "skill_parameters": {
+          "robots": "bass",
+          "stat": "attack",
+          "amount": 5
+        },
+        "quotes_custom": [],
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_unlockable": 0,
+        "flag_fightable": 1,
+        "flag_exclusive": 0,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "Dark Souls",
+        "order": 1,
+        "quotes": {
+          "battle_start": "With the world's strongest robot as my base, I'm unstoppable!",
+          "battle_taunt": "This body is impressively capable, just like the original!",
+          "battle_victory": "Looks like I am the new strongest robot!",
+          "battle_defeat": "This was the strongest robot?!... This idiot's just Mega Man with fins!"
+        },
+        "key": 16,
+        "master_number": "DSN-0W1",
+        "abilities_rewards": [
+          {
+            "level": 0,
+            "token": "buster-shot"
+          },
+          {
+            "level": 0,
+            "token": "metal-blade"
+          },
+          {
+            "level": 0,
+            "token": "air-shooter"
+          },
+          {
+            "level": 0,
+            "token": "bubble-spray"
+          },
+          {
+            "level": 0,
+            "token": "quick-boomerang"
+          },
+          {
+            "level": 0,
+            "token": "crash-bomber"
+          },
+          {
+            "level": 0,
+            "token": "flash-stopper"
+          },
+          {
+            "level": 0,
+            "token": "atomic-fire"
+          },
+          {
+            "level": 0,
+            "token": "leaf-shield"
+          },
+          {
+            "level": 2,
+            "token": "bass-buster"
+          },
+          {
+            "level": 4,
+            "token": "bass-crush"
+          },
+          {
+            "level": 8,
+            "token": "bass-baroque"
+          }
+        ],
+        "abilities_compatible": [
+          "attack-support",
+          "defense-support",
+          "speed-support",
+          "energy-support",
+          "attack-assault",
+          "defense-assault",
+          "speed-assault",
+          "energy-assault",
+          "attack-shuffle",
+          "defense-shuffle",
+          "speed-shuffle",
+          "energy-shuffle",
+          "repair-mode",
+          "experience-booster",
+          "recovery-booster",
+          "damage-booster",
+          "experience-breaker",
+          "recovery-breaker",
+          "damage-breaker",
+          "mega-buster",
+          "proto-buster",
+          "roll-buster",
+          "disco-buster",
+          "rhythm-buster",
+          "mega-ball",
+          "mega-slide",
+          "proto-shield",
+          "proto-strike",
+          "bass-buster",
+          "bass-crush",
+          "bass-baroque",
+          "metal-blade",
+          "bubble-spray",
+          "atomic-fire",
+          "leaf-shield",
+          "air-shooter",
+          "crash-bomber",
+          "flash-stopper",
+          "quick-boomerang"
+        ]
+      },
+      "proto-man-ds": {
+        "token": "proto-man-ds",
+        "number": "DSN-0C1",
+        "name": "Proto Man DS",
+        "game": "MMRPGP",
+        "field": "final-destination-2",
+        "field2": "",
+        "support": "",
+        "class": "boss",
+        "gender": "male",
+        "image": "proto-man-ds",
+        "image_size": 40,
+        "image_editor": 1,
+        "image_editor2": 0,
+        "image_editor3": "",
+        "image_alts": [],
+        "core": "shadow",
+        "core2": "",
+        "description": "Dark Soul Robot",
+        "description2": "",
+        "energy": 120,
+        "weapons": 20,
+        "attack": 145,
+        "defense": 110,
+        "speed": 125,
+        "weaknesses": [
+          "laser"
+        ],
+        "resistances": [],
+        "affinities": [
+          "shadow"
+        ],
+        "immunities": [
+          "explode",
+          "missile"
+        ],
+        "skill": "stat-boost-on-robots-nearby",
+        "skill_name": "Imposter Syndrome",
+        "skill_description": "The robot boosts its speed to the max in the presence of its rival",
+        "skill_description2": "The robot boosts its own speed stat to the max when in the presence of its greatest rival.",
+        "skill_parameters": {
+          "robots": "proto-man",
+          "stat": "speed",
+          "amount": 5
+        },
+        "quotes_custom": [],
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_unlockable": 0,
+        "flag_fightable": 1,
+        "flag_exclusive": 0,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "Dark Souls",
+        "order": 2,
+        "quotes": {
+          "battle_start": "I'm the new and improved version, now with more power!",
+          "battle_taunt": "All the power but none of the glitches, better than the original!",
+          "battle_victory": "My robot selection was right on, this body is fantastic! And the scarf's rad too!",
+          "battle_defeat": "Copying a prototype model may have been a bad idea..."
+        },
+        "key": 17,
+        "master_number": "DSN-0C1",
+        "abilities_rewards": [
+          {
+            "level": 0,
+            "token": "buster-shot"
+          },
+          {
+            "level": 0,
+            "token": "bright-burst"
+          },
+          {
+            "level": 0,
+            "token": "rain-flush"
+          },
+          {
+            "level": 0,
+            "token": "drill-blitz"
+          },
+          {
+            "level": 0,
+            "token": "ring-boomerang"
+          },
+          {
+            "level": 0,
+            "token": "dust-crusher"
+          },
+          {
+            "level": 0,
+            "token": "skull-barrier"
+          },
+          {
+            "level": 2,
+            "token": "proto-buster"
+          },
+          {
+            "level": 4,
+            "token": "proto-shield"
+          },
+          {
+            "level": 8,
+            "token": "proto-strike"
+          }
+        ],
+        "abilities_compatible": [
+          "attack-support",
+          "defense-support",
+          "speed-support",
+          "energy-support",
+          "attack-assault",
+          "defense-assault",
+          "speed-assault",
+          "energy-assault",
+          "attack-shuffle",
+          "defense-shuffle",
+          "speed-shuffle",
+          "energy-shuffle",
+          "repair-mode",
+          "experience-booster",
+          "recovery-booster",
+          "damage-booster",
+          "experience-breaker",
+          "recovery-breaker",
+          "damage-breaker",
+          "mega-buster",
+          "bass-buster",
+          "roll-buster",
+          "disco-buster",
+          "rhythm-buster",
+          "mega-ball",
+          "mega-slide",
+          "bass-crush",
+          "bass-baroque",
+          "proto-buster",
+          "proto-shield",
+          "proto-strike",
+          "drill-blitz",
+          "rain-flush",
+          "bright-burst",
+          "ring-boomerang",
+          "dust-crusher",
+          "skull-barrier"
+        ]
+      },
+      "trill": {
+        "token": "trill",
+        "number": "EXN-00X",
+        "name": "Trill",
+        "game": "MMRPGP",
+        "field": "final-destination-3",
+        "field2": "",
+        "support": "trille-bot",
+        "class": "boss",
+        "gender": "none",
+        "image": "trill",
+        "image_size": 40,
+        "image_editor": 1,
+        "image_editor2": 10,
+        "image_editor3": 0,
+        "image_alts": [
+          {
+            "token": "alt",
+            "name": "Trill (Attack Style)",
+            "summons": 100,
+            "colour": "attack"
+          },
+          {
+            "token": "alt2",
+            "name": "Trill (Defense Style)",
+            "summons": 200,
+            "colour": "defense"
+          },
+          {
+            "token": "alt3",
+            "name": "Trill (Speed Style)",
+            "summons": 300,
+            "colour": "speed"
+          }
+        ],
+        "core": "space",
+        "core2": "",
+        "description": "Galactic Assistant Robot",
+        "description2": "As of now, there is no data recorded on this robot, nor their abilities. If encountered, take extreme caution; It is unknown what is the extent of this robot's power.",
+        "energy": 180,
+        "weapons": 20,
+        "attack": 140,
+        "defense": 140,
+        "speed": 140,
+        "weaknesses": [],
+        "resistances": [
+          "space",
+          "water",
+          "electric"
+        ],
+        "affinities": [
+          "freeze",
+          "flame"
+        ],
+        "immunities": [
+          "copy"
+        ],
+        "skill": "field-boost-at-end-of-turn",
+        "skill_name": "Cosmic Support",
+        "skill_description": "Increases the Space-type field multiplier at the end of each turn when benched",
+        "skill_description2": "The robot offers support when benched by increasing the Space-type field multiplier at the end of each turn.",
+        "skill_parameters": {
+          "type": "space",
+          "amount": 0.1,
+          "condition": "robot-position = bench",
+          "repeat": true
+        },
+        "quotes_custom": [],
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_unlockable": 0,
+        "flag_fightable": 1,
+        "flag_exclusive": 0,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "Star Lords ",
+        "order": 0,
+        "quotes": {
+          "battle_start": "The Master has tasked us with deleting your data.  Do not resist.",
+          "battle_taunt": "Resistance is futile, but we will entertain your struggles just the same.",
+          "battle_victory": "Mission complete.  The Master will be pleased with this victory.",
+          "battle_defeat": "Mission failure.  The Master will not be pleased with this defeat."
+        },
+        "key": 18,
+        "master_number": "EXN-00X",
+        "abilities_rewards": [
+          {
+            "level": 15,
+            "token": "trill-aura"
+          },
+          {
+            "level": 30,
+            "token": "trill-slasher"
+          }
+        ],
+        "abilities_compatible": [
+          "cutter-shot",
+          "impact-shot",
+          "freeze-shot",
+          "explode-shot",
+          "flame-shot",
+          "electric-shot",
+          "time-shot",
+          "earth-shot",
+          "wind-shot",
+          "water-shot",
+          "swift-shot",
+          "nature-shot",
+          "missile-shot",
+          "crystal-shot",
+          "shadow-shot",
+          "space-shot",
+          "shield-shot",
+          "laser-shot"
+        ]
+      },
+      "slur": {
+        "token": "slur",
+        "number": "EXN-00Y",
+        "name": "Slur",
+        "game": "MMRPGP",
+        "field": "final-destination-3",
+        "field2": "",
+        "support": "trille-bot",
+        "class": "boss",
+        "gender": "none",
+        "image": "slur",
+        "image_size": 40,
+        "image_editor": 10,
+        "image_editor2": 25,
+        "image_editor3": 0,
+        "image_alts": [
+          {
+            "token": "alt",
+            "name": "Slur (Emboldened Alt)",
+            "summons": 300,
+            "colour": "wind"
+          },
+          {
+            "token": "alt2",
+            "name": "Slur (Final Weapon Alt)",
+            "summons": 600,
+            "colour": "nature"
+          },
+          {
+            "token": "alt3",
+            "name": "Slur (Crestfallen Alt)",
+            "summons": 900,
+            "colour": "explode"
+          }
+        ],
+        "core": "space",
+        "core2": "",
+        "description": "Galactic Judge Robot",
+        "description2": "Limited data has been recorded about this alien robot. If encountered, take extreme caution; The extent of their powers are not yet known...",
+        "energy": 260,
+        "weapons": 20,
+        "attack": 248,
+        "defense": 254,
+        "speed": 138,
+        "weaknesses": [],
+        "resistances": [
+          "space",
+          "freeze",
+          "flame",
+          "water"
+        ],
+        "affinities": [],
+        "immunities": [
+          "copy"
+        ],
+        "skill": "charge-submodule",
+        "skill_name": "Zealous Edge",
+        "skill_description": "",
+        "skill_description2": "",
+        "skill_parameters": [],
+        "quotes_custom": [],
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_unlockable": 0,
+        "flag_fightable": 1,
+        "flag_exclusive": 0,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "Star Lords ",
+        "order": 1,
+        "quotes": {
+          "battle_start": ".....",
+          "battle_taunt": ".....",
+          "battle_victory": ".....",
+          "battle_defeat": "....."
+        },
+        "key": 19,
+        "master_number": "EXN-00Y",
+        "abilities_rewards": [
+          {
+            "level": 30,
+            "token": "slur-aura"
+          },
+          {
+            "level": 60,
+            "token": "slur-twister"
+          },
+          {
+            "level": 90,
+            "token": "slur-supernova"
+          }
+        ],
+        "abilities_compatible": [
+          "cutter-buster",
+          "impact-buster",
+          "freeze-buster",
+          "explode-buster",
+          "flame-buster",
+          "electric-buster",
+          "time-buster",
+          "earth-buster",
+          "wind-buster",
+          "water-buster",
+          "swift-buster",
+          "nature-buster",
+          "missile-buster",
+          "crystal-buster",
+          "shadow-buster",
+          "space-buster",
+          "shield-buster",
+          "laser-buster"
+        ]
+      },
+      "terra": {
+        "token": "terra",
+        "number": "SRN-001",
+        "name": "Terra",
+        "game": "MMV",
+        "field": "final-destination",
+        "field2": "",
+        "support": "beak",
+        "class": "boss",
+        "gender": "male",
+        "image": "terra",
+        "image_size": 80,
+        "image_editor": 10,
+        "image_editor2": 21,
+        "image_editor3": 0,
+        "image_alts": [],
+        "core": "laser",
+        "core2": "electric",
+        "description": "Homing Lasers Stardroid",
+        "description2": "Terra's creator and their intentions are unknown, but he serves as the Stardroids' second-in-command, under his leader, Sunstar. Despite being number 2, he leads the Stardroids often and has been confused as their leader multiple times. When he's not being a galactic threat, he prefers to look his best with the finest shampoo in the galaxy, and he's been described as a hard-nosed individual. His weapon, the Spark Chaser, fires a single laser that locks onto a single target and flies at them multiple times, striking them over and over. Terra is especially notorious because, of every foe that Mega Man has ever fought, Terra is the only one to have ever defeated him (though Mega Man later claimed victory against him once he had been upgraded with the Mega Arm). Being able to defeat Mega Man is a task that nearly seemed impossible to our heroes, which made Terra one of the most notable threats known, accomplishing a goal even Dr. Wily couldn't do with his large amount of nefarious schemes throughout the years.",
+        "energy": 120,
+        "weapons": 20,
+        "attack": 184,
+        "defense": 208,
+        "speed": 188,
+        "weaknesses": [
+          "impact",
+          "earth"
+        ],
+        "resistances": [
+          "electric"
+        ],
+        "affinities": [],
+        "immunities": [
+          "space"
+        ],
+        "skill": "overkill-submodule",
+        "skill_name": "Astral Assassin",
+        "skill_description": "",
+        "skill_description2": "",
+        "skill_parameters": [],
+        "quotes_custom": [],
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_unlockable": 0,
+        "flag_fightable": 1,
+        "flag_exclusive": 0,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "Stardroids",
+        "order": 0,
+        "quotes": {
+          "battle_start": "I am Terra, and you will soon be my slave!",
+          "battle_taunt": "Earth robots are so droll; put up a good fight before you die!",
+          "battle_victory": "Why despair? We Stardroids will give your pitiful Earth a glorious rebirth!",
+          "battle_defeat": "Fool! How can I face my master now...?"
+        },
+        "key": 20,
+        "master_number": "SRN-001",
+        "abilities_rewards": [
+          {
+            "level": 0,
+            "token": "spark-chaser"
+          }
+        ],
+        "abilities_compatible": [
+          "spark-chaser"
+        ]
+      },
+      "mercury": {
+        "token": "mercury",
+        "number": "SRN-002",
+        "name": "Mercury",
+        "game": "MMV",
+        "field": "",
+        "field2": "",
+        "support": "crystal-joe",
+        "class": "boss",
+        "gender": "male",
+        "image": "mercury",
+        "image_size": 40,
+        "image_editor": 10,
+        "image_editor2": 3,
+        "image_editor3": 0,
+        "image_alts": [],
+        "core": "water",
+        "core2": "crystal",
+        "description": "Melting Slime Stardroid",
+        "description2": "When the Stardroids attacked the Earth, Mercury was one of the four Stardroids leading the conquest. His body is entirely composed out of pure liquid metal, manipulating his body in the same way that a robot of the Devil series would. When his opponent is surprised by his body manipulation, he'll use his signature weapon, Grab Buster, to quickly drain them of their energy. Being the type of droid that he is though, he might even use his Grab Buster on his teammates, draining their energy to benefit his own! He's known throughout the galaxy for his loose tongue, and as a result, he doesn't have too many friends, especially not Pluto. He's also a greedy robot, taking any chance to gain zenny, even if it requires changing sides for a brief moment. As a Stardroid, he's ruthless and unpredictable, and definitely not someone to turn your back on. This guy practically is a devil!",
+        "energy": 120,
+        "weapons": 20,
+        "attack": 179,
+        "defense": 224,
+        "speed": 177,
+        "weaknesses": [
+          "shadow",
+          "time"
+        ],
+        "resistances": [
+          "crystal"
+        ],
+        "affinities": [],
+        "immunities": [
+          "space"
+        ],
+        "skill": "overkill-submodule",
+        "skill_name": "Astral Assassin",
+        "skill_description": "",
+        "skill_description2": "",
+        "skill_parameters": [],
+        "quotes_custom": [],
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_unlockable": 0,
+        "flag_fightable": 1,
+        "flag_exclusive": 0,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "Stardroids",
+        "order": 1,
+        "quotes": {
+          "battle_start": "I'll drain your energy dry! Everything belongs to me!",
+          "battle_taunt": "I'm gettin' paid a lot of cash for you to die!",
+          "battle_victory": "The means of production, resources, this whole rock-- I'll seize it all!",
+          "battle_defeat": "You little slime-ball! You made me lose my reward!"
+        },
+        "key": 21,
+        "master_number": "SRN-002",
+        "abilities_rewards": [
+          {
+            "level": 0,
+            "token": "grab-buster"
+          }
+        ],
+        "abilities_compatible": [
+          "grab-buster"
+        ]
+      },
+      "venus": {
+        "token": "venus",
+        "number": "SRN-003",
+        "name": "Venus",
+        "game": "MMV",
+        "field": "",
+        "field2": "",
+        "support": "snapper",
+        "class": "boss",
+        "gender": "none",
+        "image": "venus",
+        "image_size": 40,
+        "image_editor": 10,
+        "image_editor2": 3,
+        "image_editor3": 0,
+        "image_alts": [],
+        "core": "explode",
+        "core2": "water",
+        "description": "Soapy Crustacean Stardroid",
+        "description2": "When the Stardroids led a conquest on Earth, Venus waited in his lair to face Mega Man in battle. He mainly focused on attacking with the Bubble Bomb, an explosive bomb that was covered in a water bubble, which proved to be a powerful and unexpected weapon and later inspired the creation of Burst Man. Leave it to the Stardroids to set trends with unique and strange weapons! He's also made out of a sturdy material designed to handle explosives, and can take what he can dish out. Much like a crab, Venus can only walk sideways, not forward, which honestly makes him look a bit hilarious when walking. Don't make fun of him for it though, as he's an extremely aggressive robot. This guy would probably kick a puppy if he had the chance! He also loves cleanliness, going so far to wash his head despite having a lack of hair. Despite being an alien robot, Venus is clearly a robot inspired by something crab-like....which could mean Crustaceans exist elsewhere in the universe too? With such a short temper and his plethora of explosives, Venus isn't a guy to tick off!",
+        "energy": 120,
+        "weapons": 20,
+        "attack": 200,
+        "defense": 218,
+        "speed": 162,
+        "weaknesses": [
+          "missile",
+          "explode"
+        ],
+        "resistances": [
+          "water"
+        ],
+        "affinities": [],
+        "immunities": [
+          "space"
+        ],
+        "skill": "overkill-submodule",
+        "skill_name": "Astral Assassin",
+        "skill_description": "",
+        "skill_description2": "",
+        "skill_parameters": [],
+        "quotes_custom": [],
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_unlockable": 0,
+        "flag_fightable": 1,
+        "flag_exclusive": 0,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "Stardroids",
+        "order": 2,
+        "quotes": {
+          "battle_start": "Worthless litter, always picking fights to ruin my mood!",
+          "battle_taunt": "WHY I OUGHTA..!! I'll blow you to shreds to settle my nerves!",
+          "battle_victory": "Your planet's hopeless... Well, maybe your shampoo's not half-bad.",
+          "battle_defeat": "Ugh... A bath would really calm the nerves right now..."
+        },
+        "key": 22,
+        "master_number": "SRN-003",
+        "abilities_rewards": [
+          {
+            "level": 0,
+            "token": "bubble-bomb"
+          }
+        ],
+        "abilities_compatible": [
+          "bubble-bomb"
+        ]
+      },
+      "mars": {
+        "token": "mars",
+        "number": "SRN-004",
+        "name": "Mars",
+        "game": "MMV",
+        "field": "",
+        "field2": "",
+        "support": "manta-missile",
+        "class": "boss",
+        "gender": "male",
+        "image": "mars",
+        "image_size": 80,
+        "image_editor": 10,
+        "image_editor2": 3,
+        "image_editor3": 0,
+        "image_alts": [],
+        "core": "missile",
+        "core2": "explode",
+        "description": "Mobile Armory Stardroid",
+        "description2": "Mars was another robot leading the attack on Earth, tearing the robotic forces apart due to being a walking weapon, much like Napalm Man. He's heavily armored and has explosive weapons to the brim, from landmines to homing missiles. His signature weapon is the Photon Missile, a missile that takes a second to analyze all possible defensive strategies the enemy might take, before using this data to predict and strike its target dead-on. He's not exactly slow either, as the wheels on the bottom of his heels can allow him to reach quick speeds. However, he's easily the heaviest of the Stardroids, and can't exactly.....jump. He proved himself to be a match for Mega Man, but due to his flaws, he ended up losing the fight. He's big-hearted to his fellow Stardroids, always showing them kindness and assisting them when needed. With his foes, however, he prefers to play a survival game with them, seeing how long his target can manage to keep away from him. He also dislikes surrendering, and will promptly eliminate any robot who does so. Mars is quite literally a living weapon, being more decked up than any other robot seen before, so extreme caution must be taken when facing him.",
+        "energy": 120,
+        "weapons": 20,
+        "attack": 227,
+        "defense": 173,
+        "speed": 180,
+        "weaknesses": [
+          "water",
+          "earth"
+        ],
+        "resistances": [
+          "explode"
+        ],
+        "affinities": [],
+        "immunities": [
+          "space"
+        ],
+        "skill": "overkill-submodule",
+        "skill_name": "Astral Assassin",
+        "skill_description": "",
+        "skill_description2": "",
+        "skill_parameters": [],
+        "quotes_custom": [],
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_unlockable": 0,
+        "flag_fightable": 1,
+        "flag_exclusive": 0,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "Stardroids",
+        "order": 3,
+        "quotes": {
+          "battle_start": "Choose your weapon; our survival game begins now!",
+          "battle_taunt": "You call those attacks? I'll show you some REAL firepower!",
+          "battle_victory": "Blown to bits! Your weapons are peashooters compared to ours!",
+          "battle_defeat": "I won't surrender! I'd rather be scrapped!"
+        },
+        "key": 23,
+        "master_number": "SRN-004",
+        "abilities_rewards": [
+          {
+            "level": 0,
+            "token": "photon-missile"
+          }
+        ],
+        "abilities_compatible": [
+          "photon-missile"
+        ]
+      },
+      "jupiter": {
+        "token": "jupiter",
+        "number": "SRN-005",
+        "name": "Jupiter",
+        "game": "MMV",
+        "field": "",
+        "field2": "",
+        "support": "lady-blader",
+        "class": "boss",
+        "gender": "male",
+        "image": "jupiter",
+        "image_size": 40,
+        "image_editor": 10,
+        "image_editor2": 3,
+        "image_editor3": 0,
+        "image_alts": [],
+        "core": "electric",
+        "core2": "wind",
+        "description": "Electro Bombardier Stardroid",
+        "description2": "During the Stardroids's invasion on Earth, Jupiter stood guard at a power plant the Stardroids often used. Jupiter used to be a fighter pilot, where he successfully dropped bombs in several galactic wars. However, the constant raging of war eventually even gets to robots as cruel as the Stardroids, so he opted to generate electricity for his brothers instead. This doesn't mean he's a slouch in combat, however. His Electric Shock is a powerful short range weapon, a strong beam of electricity that can paralyze and damage opponents for several seconds. Jupiter is also an incredibly speedy fighter, so combined with his Electric Shock, he applies a lot of pressure and control over his opponents. In fact, Jupiter has entered several races, beating land racers like Turbo Man and sky racers like Gyro Man. After his inevitable victories, Jupiter often gloats about his alien jet engine. Hitting him with a few bombs might get him to shut up, but good luck actually hitting him with that mobility of his.",
+        "energy": 120,
+        "weapons": 20,
+        "attack": 181,
+        "defense": 176,
+        "speed": 223,
+        "weaknesses": [
+          "explode",
+          "water"
+        ],
+        "resistances": [
+          "wind"
+        ],
+        "affinities": [],
+        "immunities": [
+          "space"
+        ],
+        "skill": "overkill-submodule",
+        "skill_name": "Astral Assassin",
+        "skill_description": "",
+        "skill_description2": "",
+        "skill_parameters": [],
+        "quotes_custom": [],
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_unlockable": 0,
+        "flag_fightable": 1,
+        "flag_exclusive": 0,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "Stardroids",
+        "order": 4,
+        "quotes": {
+          "battle_start": "You may be hot stuff here, but I'm the fastest in the universe!",
+          "battle_taunt": "You earthlings are so rudimentary! Speed it up before I die of boredom!",
+          "battle_victory": "I'm simply the fastest; not even lightning could keep up with me!",
+          "battle_defeat": "These injuries... remind me of the bombs..."
+        },
+        "key": 24,
+        "master_number": "SRN-005",
+        "abilities_rewards": [
+          {
+            "level": 0,
+            "token": "electric-shock"
+          }
+        ],
+        "abilities_compatible": [
+          "electric-shock"
+        ]
+      },
+      "saturn": {
+        "token": "saturn",
+        "number": "SRN-006",
+        "name": "Saturn",
+        "game": "MMV",
+        "field": "",
+        "field2": "",
+        "support": "flutter-fly",
+        "class": "boss",
+        "gender": "male",
+        "image": "saturn",
+        "image_size": 80,
+        "image_editor": 3,
+        "image_editor2": 10,
+        "image_editor3": 0,
+        "image_alts": [],
+        "core": "shadow",
+        "core2": "time",
+        "description": "Void Creation Stardroid",
+        "description2": "When Mega Man had defeated the four Stardroids attacking Earth, he led a sneak attack on the other four, one of them being Saturn. Saturn has the ability to manipulate both time and space with his Black Hole, and getting sucked in won't guarantee that you know where you'd end up. He also has a tame version of most time-stopping moves, which he will use to fire at his opponent. His most notable feature is the ring around him, the weapon that allows him to use Black Hole, and might even use to transport around the battlefield or even get a quick retreat. He's bad at spending money, and will constantly upgrade his ring in terms of aesthetics. He's also the laziest of the Stardroids, and will instead transport to get where he wants to go most of the time. He also heavily dislikes almost every form of game, physical or virtual. Keep your eye on the ring, because you could be fighting him one second, and ending up in an undiscovered world the next.",
+        "energy": 120,
+        "weapons": 20,
+        "attack": 186,
+        "defense": 221,
+        "speed": 173,
+        "weaknesses": [
+          "electric",
+          "wind"
+        ],
+        "resistances": [
+          "impact"
+        ],
+        "affinities": [],
+        "immunities": [
+          "space"
+        ],
+        "skill": "overkill-submodule",
+        "skill_name": "Astral Assassin",
+        "skill_description": "",
+        "skill_description2": "",
+        "skill_parameters": [],
+        "quotes_custom": [],
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_unlockable": 0,
+        "flag_fightable": 1,
+        "flag_exclusive": 0,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "Stardroids",
+        "order": 5,
+        "quotes": {
+          "battle_start": "Ugh, must we fight? Go and jump in a black hole, Earth trash!",
+          "battle_taunt": "Y-You know, I'm actually considered the coolest person in the universe...",
+          "battle_victory": "Hmphaha! You're just as trash as your planet's video games!",
+          "battle_defeat": "You.. broke my ring!! It probably cost more than this stupid, horrid planet!"
+        },
+        "key": 25,
+        "master_number": "SRN-006",
+        "abilities_rewards": [
+          {
+            "level": 0,
+            "token": "black-hole"
+          }
+        ],
+        "abilities_compatible": [
+          "black-hole"
+        ]
+      },
+      "uranus": {
+        "token": "uranus",
+        "number": "SRN-007",
+        "name": "Uranus",
+        "game": "MMV",
+        "field": "",
+        "field2": "",
+        "support": "drill-mole",
+        "class": "boss",
+        "gender": "male",
+        "image": "uranus",
+        "image_size": 80,
+        "image_editor": 10,
+        "image_editor2": 3,
+        "image_editor3": 0,
+        "image_alts": [],
+        "core": "impact",
+        "core2": "earth",
+        "description": "Charging Bull Stardroid",
+        "description2": "When Mega Man had defeated the four Stardroids attacking Earth, he led a sneak attack on the other four, one of them being Uranus. Uranus doesn't have any type of special attacks, he simply uses his amazing brute strength to lift the ground from right under him! As a Stardroid, he has the strongest physical strength, only being outmatched by Mars's heavy arsenal. However, he's a bit of a clumsy fighter due to his size, and he might even accidentally fall in a hole he made himself. He's a bulwark of a robot, being able to take on directly most attacks inflicted upon him. He's confident in his abilities, but he's a bit of a klutz, breaking most things by accident. He can also get a little wild once in a while, making his mood unpredictable. Uranus, like how a Stardroid should be, is leagues above most other robots. Don't get overconfident with this one, or else things could easily go south...",
+        "energy": 120,
+        "weapons": 20,
+        "attack": 203,
+        "defense": 228,
+        "speed": 149,
+        "weaknesses": [
+          "swift",
+          "impact"
+        ],
+        "resistances": [
+          "earth"
+        ],
+        "affinities": [],
+        "immunities": [
+          "space"
+        ],
+        "skill": "overkill-submodule",
+        "skill_name": "Astral Assassin",
+        "skill_description": "",
+        "skill_description2": "",
+        "skill_parameters": [],
+        "quotes_custom": [],
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_unlockable": 0,
+        "flag_fightable": 1,
+        "flag_exclusive": 0,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "Stardroids",
+        "order": 6,
+        "quotes": {
+          "battle_start": "Crush... I'll crush everything! Grraaah!!!",
+          "battle_taunt": "I'm really, REALLY mad... I'll bury you in the ground, loser!!!",
+          "battle_victory": "I'm a Stardroid... They shouldn't make me fight losers!!!",
+          "battle_defeat": "Noooo! Not on this backwater planet... I'm the strongest..."
+        },
+        "key": 26,
+        "master_number": "SRN-007",
+        "abilities_rewards": [
+          {
+            "level": 0,
+            "token": "deep-digger"
+          }
+        ],
+        "abilities_compatible": [
+          "deep-digger"
+        ]
+      },
+      "pluto": {
+        "token": "pluto",
+        "number": "SRN-008",
+        "name": "Pluto",
+        "game": "MMV",
+        "field": "",
+        "field2": "",
+        "support": "flea",
+        "class": "boss",
+        "gender": "male",
+        "image": "pluto",
+        "image_size": 80,
+        "image_editor": 10,
+        "image_editor2": 3,
+        "image_editor3": 0,
+        "image_alts": [],
+        "core": "swift",
+        "core2": "impact",
+        "description": "Pouncing Feline Stardroid",
+        "description2": "When Mega Man had defeated the four Stardroids attacking Earth, he led a sneak attack on the other four, one of them being Pluto, who mined materials from a nearby planetoid for the Stardroids. He has the quickest reflexes of the Stardroids and is extremely agile. His main weapon, Break Dash, allows him to dash at supersonic speeds at a short distance. He can also slash opponents and climb up walls with those claws of his, and these moves inspired Dr. Wily when he was making Slash Man. Despite being covered in all that fur, he's quite weak to the cold, and hates being chilly. The most important thing to him are his claws, and he'll take the best care of them to ensure that they're at their sharpest. However, if he gets his claws broken, he'll get incredibly annoyed and will go on a frenzied rage. He also dislikes the deceitful Mercury, and they'll constantly fight over the smallest of things. Being as mobile as he is, he's the greatest close-combat fighter within the Stardroids, and could likely defeat any other Earth contenders with his claws tied behind his back.",
+        "energy": 120,
+        "weapons": 20,
+        "attack": 183,
+        "defense": 164,
+        "speed": 233,
+        "weaknesses": [
+          "water",
+          "crystal"
+        ],
+        "resistances": [
+          "impact"
+        ],
+        "affinities": [],
+        "immunities": [
+          "space"
+        ],
+        "skill": "overkill-submodule",
+        "skill_name": "Astral Assassin",
+        "skill_description": "",
+        "skill_description2": "",
+        "skill_parameters": [],
+        "quotes_custom": [],
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_unlockable": 0,
+        "flag_fightable": 1,
+        "flag_exclusive": 0,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "Stardroids",
+        "order": 7,
+        "quotes": {
+          "battle_start": "You're gonna be my new scratching post!",
+          "battle_taunt": "So stubborn... You remind me of a real slimeball I know...",
+          "battle_victory": "Meow... time for a cat nap...",
+          "battle_defeat": "*hack* Just wait until I get this *hack* hairball out!"
+        },
+        "key": 27,
+        "master_number": "SRN-008",
+        "abilities_rewards": [
+          {
+            "level": 0,
+            "token": "break-dash"
+          }
+        ],
+        "abilities_compatible": [
+          "break-dash"
+        ]
+      },
+      "neptune": {
+        "token": "neptune",
+        "number": "SRN-009",
+        "name": "Neptune",
+        "game": "MMV",
+        "field": "",
+        "field2": "",
+        "support": "robo-fishtot",
+        "class": "boss",
+        "gender": "male",
+        "image": "neptune",
+        "image_size": 80,
+        "image_editor": 3,
+        "image_editor2": 10,
+        "image_editor3": 0,
+        "image_alts": [],
+        "core": "water",
+        "core2": "earth",
+        "description": "Oceanic Avenger Stardroid",
+        "description2": "During the Stardroids conquest on Earth, Neptune led a large battleship through the Pacific Ocean, cutting off any human intevention to the Stardroid's plan. In combat, Neptune utilizes the Salt Water, but the name of this move is misleading. Rather than launching a puddle of actual water, the Salt Water attack is actually made of several corrosive chemicals which can melt through even the toughest of Earth metals. Neptune also enjoys throwing his weight around. In his battle with Mega Man, he would leap over Mega Man, jump on him, and cause the ceiling of his underwater ship hull to leak, damaging Mega Man. Due to his alien armor, Neptune can swim in both fresh and salt water for extended periods of time without fear of rusting. Neptune has become quite the experienced swimmer, recounting stories at galactic seas as if he was a pirate, discussing his latest voyage. In both combat and his love of oceans, Neptune will swim and fight to the bitter end. If this robot's ship goes down, he's going with it, but not before putting up a last stand.",
+        "energy": 120,
+        "weapons": 20,
+        "attack": 164,
+        "defense": 217,
+        "speed": 199,
+        "weaknesses": [
+          "laser",
+          "electric"
+        ],
+        "resistances": [
+          "earth"
+        ],
+        "affinities": [],
+        "immunities": [
+          "space"
+        ],
+        "skill": "overkill-submodule",
+        "skill_name": "Astral Assassin",
+        "skill_description": "",
+        "skill_description2": "",
+        "skill_parameters": [],
+        "quotes_custom": [],
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_unlockable": 0,
+        "flag_fightable": 1,
+        "flag_exclusive": 0,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "Stardroids",
+        "order": 8,
+        "quotes": {
+          "battle_start": "{target_robot}, sorry to say this, but today's yer rusting day!",
+          "battle_taunt": "I'll throw salt in yer wounds-- and rust you from the inside!",
+          "battle_victory": "Har, you've received a fate worse than scurvy!",
+          "battle_defeat": "Well, fry me up, 'cause nothing's worse than this!"
+        },
+        "key": 28,
+        "master_number": "SRN-009",
+        "abilities_rewards": [
+          {
+            "level": 0,
+            "token": "salt-water"
+          }
+        ],
+        "abilities_compatible": [
+          "salt-water"
+        ]
+      },
+      "sunstar": {
+        "token": "sunstar",
+        "number": "SRN-00X",
+        "name": "Sunstar",
+        "game": "MMV",
+        "field": "",
+        "field2": "",
+        "support": "novamite",
+        "class": "boss",
+        "gender": "male",
+        "image": "sunstar",
+        "image_size": 80,
+        "image_editor": 21,
+        "image_editor2": 9,
+        "image_editor3": 0,
+        "image_alts": [],
+        "core": "flame",
+        "core2": "time",
+        "description": "Ancient Doomsday Weapon",
+        "description2": "Known as the doomsday robot, Sunstar is easily one of the most powerful robots who has come into existence, focusing on attacks that use the burning power of a star itself! In fact, his main weapon, Sunstar Supernova, has the ability to level a planet! Even without those attacks, Sunstar is already educated in many various forms of fighting, and is an extremely quick learner of attacks, from lasers to fiery spheres. Despite not being technically classified as a Stardroid himself, he's still considered their leader, and with them, he fought a war against the entire universe itself! However, one day, he was confronted by a force that rivaled his own, and in the end, he was imprisoned, his only legacy left being the Stardroids. Centuries after, the Stardroids crashed on Earth and blacked out, and would've stayed the way had Dr. Wily not repaired them. The Stardroids ended up being defeated, but Sunstar gained enough energy to break out of his seal, and attacked Dr. Wily's capsule, painting the Doomsday robot as not being the most grateful of robots. Due to being a doomsday bot, Sunstar always has his mind set on destroying, nothing else. However, he isn't resistant to change, as was proven when he saved Mega Man's life in order to continue protecting the Earth. It has been many years since his war on Earth, but one would wonder that if he was brought back, would he take Mega Man's words to heart? Or would he continue his path of destruction?",
+        "energy": 120,
+        "weapons": 20,
+        "attack": 232,
+        "defense": 182,
+        "speed": 166,
+        "weaknesses": [],
+        "resistances": [],
+        "affinities": [
+          "space"
+        ],
+        "immunities": [
+          "flame"
+        ],
+        "skill": "stat-boost-at-end-of-turn",
+        "skill_name": "Chronal Accelerator",
+        "skill_description": "Boosts the robot's stats on Time-type fields",
+        "skill_description2": "The robot's stats are boosted by one stage at the end of each turn when the Time-type field multiplier is high.",
+        "skill_parameters": {
+          "stat": "all",
+          "amount": 1,
+          "condition": "field-multiplier-time > 1"
+        },
+        "quotes_custom": [],
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_unlockable": 0,
+        "flag_fightable": 1,
+        "flag_exclusive": 0,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "Stardroids",
+        "order": 9,
+        "quotes": {
+          "battle_start": "The apocalypse emerges... I am the doomsday robot, Sunstar!",
+          "battle_taunt": "Robots were created to fight... but I was created to destroy!",
+          "battle_victory": "All inferior life forms will be annihilated... You have the honor of being first!",
+          "battle_defeat": "Perhaps I was wrong... but I will never know... Farewell, {target_robot}!"
+        },
+        "key": 29,
+        "master_number": "SRN-00X",
+        "abilities_rewards": [
+          {
+            "level": 0,
+            "token": "sunstar-supernova"
+          }
+        ],
+        "abilities_compatible": [
+          "sunstar-supernova",
+          "spark-chaser",
+          "grab-buster",
+          "bubble-bomb",
+          "photon-missile",
+          "electric-shock",
+          "black-hole",
+          "deep-digger",
+          "salt-water",
+          "break-dash"
+        ]
+      }
+    },
+    "total": 29
+  }
+}

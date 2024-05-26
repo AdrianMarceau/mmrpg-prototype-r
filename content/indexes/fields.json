@@ -1,0 +1,5102 @@
+{
+  "status": "success",
+  "updated": 1715440560,
+  "data": {
+    "fields": {
+      "gentle-countryside": {
+        "token": "gentle-countryside",
+        "name": "Gentle Countryside",
+        "game": "MM2",
+        "class": "event",
+        "master": "",
+        "master2": [],
+        "mechas": [
+          "met"
+        ],
+        "image": "gentle-countryside",
+        "image_editor": 1,
+        "image_editor2": 0,
+        "type": "",
+        "type2": "",
+        "multipliers": {
+          "experience": 2
+        },
+        "description": "Light's Intro Field",
+        "description2": "Filled to the brim with picturesque, luscious scenery, the Gentle Countryside was the first field programmed into the Prototype and is the location in which Dr. Light first regains his consciousness after the inciting incident of our story. Within the distance, protruding mountains suggest the expanse of an ever-broadening horizon. Nothing seems to be negatively affected here, and as such it's the ideal place for a training session. There are no Robot Masters who have made this place their domain, but as a result there's a bit of a rabid Met problem. While houses may fill the landscape, there's not a soul here to be found, suggesting an unnerving silence to a place of such life...",
+        "music": "sega-remix/opening-stage-mm7",
+        "music_name": "",
+        "music_link": [],
+        "background": "gentle-countryside",
+        "background_frame": [],
+        "background_attachments": [],
+        "foreground": "gentle-countryside",
+        "foreground_frame": [],
+        "foreground_attachments": {
+          "object-01": {
+            "class": "object",
+            "size": 80,
+            "offset_x": 12,
+            "offset_y": 121,
+            "object_token": "light-lab",
+            "object_frame": [
+              0
+            ],
+            "object_direction": "right"
+          },
+          "object-02": {
+            "class": "object",
+            "size": 80,
+            "offset_x": 92,
+            "offset_y": 121,
+            "object_token": "light-lab",
+            "object_frame": [
+              1
+            ],
+            "object_direction": "right"
+          },
+          "object-03": {
+            "class": "object",
+            "size": 80,
+            "offset_x": 12,
+            "offset_y": 201,
+            "object_token": "light-lab",
+            "object_frame": [
+              2
+            ],
+            "object_direction": "right"
+          },
+          "object-04": {
+            "class": "object",
+            "size": 80,
+            "offset_x": 92,
+            "offset_y": 201,
+            "object_token": "light-lab",
+            "object_frame": [
+              3
+            ],
+            "object_direction": "right"
+          }
+        },
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "MMRPG/Intro",
+        "order": 0,
+        "key": 1
+      },
+      "maniacal-hideaway": {
+        "token": "maniacal-hideaway",
+        "name": "Maniacal Hideaway",
+        "game": "MM2",
+        "class": "event",
+        "master": "",
+        "master2": [],
+        "mechas": [
+          "met"
+        ],
+        "image": "maniacal-hideaway",
+        "image_editor": 1,
+        "image_editor2": 0,
+        "type": "",
+        "type2": "",
+        "multipliers": {
+          "experience": 2
+        },
+        "description": "Wily's Intro Field",
+        "description2": "Any self-respecting soul would shriek and cower at the mere sight of discovering this heinous hideout, but for Dr. Wily, it’s his beautiful home! Fortunately for him, in fact, as after being suddenly hijacked into the Prototype, it meant a familiar base of operations was just in sight. Unfortunately, however, it means overcoming the plethora of belligerent Mechas and hazardous terrain; Dr. Wily certainly must be cursing why he made his fortresses so difficult to infiltrate! Thankfully, training seems to be ideal here, so using this area may be beneficial to gain one’s bearings. Once Dr. Wily manages to find his way home, he can finally begin on what he does best; scheme!",
+        "music": "sega-remix/wily-fortress-1-mm4",
+        "music_name": "",
+        "music_link": [],
+        "background": "maniacal-hideaway",
+        "background_frame": [],
+        "background_attachments": [],
+        "foreground": "maniacal-hideaway",
+        "foreground_frame": [],
+        "foreground_attachments": [],
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "MMRPG/Intro",
+        "order": 1,
+        "key": 2
+      },
+      "wintry-forefront": {
+        "token": "wintry-forefront",
+        "name": "Wintry Forefront",
+        "game": "MM4",
+        "class": "event",
+        "master": "",
+        "master2": [],
+        "mechas": [
+          "met"
+        ],
+        "image": "wintry-forefront",
+        "image_editor": 1,
+        "image_editor2": 0,
+        "type": "",
+        "type2": "",
+        "multipliers": {
+          "experience": 2
+        },
+        "description": "Cossack's Intro Field",
+        "description2": "Trudging through the snow in below-freezing weather is not a pleasant first step to make after suddenly waking up in a digital world, but as a realist, Dr. Cossack never regrets his stride as he looks to discover what aberration brought him here -- and how to return to his family. His goal is his citadel in the distance, nestled safely within the reassuring mountainscape of his home country. And safety is exactly what he needs at the moment, as besides the obvious nipping frostbite, there’s a sudden infestation of Mets in the area! Once he gains his footing however, the harsh climate and abundance of Mechas may prove bountiful in any efforts to grow stronger. For now though, securing his home is his best shot at making contact with Dr. Light, and hopefully discovering the circumstances that brought them into the Prototype in the first place…",
+        "music": "sega-remix/cossack-fortress-1-mm4",
+        "music_name": "",
+        "music_link": [],
+        "background": "wintry-forefront",
+        "background_frame": [],
+        "background_attachments": [],
+        "foreground": "wintry-forefront",
+        "foreground_frame": [],
+        "foreground_attachments": [],
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "MMRPG/Intro",
+        "order": 2,
+        "key": 3
+      },
+      "light-laboratory": {
+        "token": "light-laboratory",
+        "name": "Light Laboratory",
+        "game": "MM3",
+        "class": "player",
+        "master": "mega-man",
+        "master2": [
+          "roll"
+        ],
+        "mechas": [
+          "sniper-joe",
+          "met"
+        ],
+        "image": "light-laboratory",
+        "image_editor": 1,
+        "image_editor2": 0,
+        "type": "",
+        "type2": "",
+        "multipliers": {
+          "experience": 2,
+          "recovery": 1.5
+        },
+        "description": "Light's Laboratory",
+        "description2": "Most everyone should recognize this locale; it's Light Labs, home of the illustrious Light family! The outside build might make it seem small, but it's actually bigger on the inside; there are sub-basements dedicated to the development of new technology hidden below. Dr. Light's home is fiercely defended by the well-known hero Mega Man and his sister Roll, so the sheer idea of ever getting past such a reputable pair is downright foolhardy. But at heart, it's a home, not a battlefield; the sense of family is so strong that growth and recovery somehow seem to magnify within these walls. Light Laboratory hosts many of Mega Man's greatest friends and family beyond his sister and father, such as helpful companions like Rush, Tango, Eddie, Auto, Beat, and the dozens of Light-built Robot Masters. At the heart of it all though is Mega Man, Roll, and Dr. Light, and with their commitment to each other, it's no wonder how this family's stayed on top for so long.",
+        "music": "sega-remix/special-stage-mm9",
+        "music_name": "",
+        "music_link": [],
+        "background": "light-laboratory",
+        "background_frame": [],
+        "background_attachments": {
+          "mecha-01": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 34,
+            "offset_y": 128,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          },
+          "mecha-02": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 186,
+            "offset_y": 208,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-03": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 220,
+            "offset_y": 128,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          },
+          "mecha-04": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": -33,
+            "offset_y": 128,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          }
+        },
+        "foreground": "light-laboratory",
+        "foreground_frame": [],
+        "foreground_attachments": {
+          "mecha-05": {
+            "class": "robot",
+            "size": 80,
+            "offset_x": -100,
+            "offset_y": 0,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-06": {
+            "class": "robot",
+            "size": 80,
+            "offset_x": -100,
+            "offset_y": 0,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          }
+        },
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "MMRPG/Home",
+        "order": 0,
+        "key": 4
+      },
+      "wily-castle": {
+        "token": "wily-castle",
+        "name": "Wily Castle",
+        "game": "MM1",
+        "class": "player",
+        "master": "bass",
+        "master2": [
+          "disco"
+        ],
+        "mechas": [
+          "skeleton-joe",
+          "met"
+        ],
+        "image": "wily-castle",
+        "image_editor": 1,
+        "image_editor2": 0,
+        "type": "",
+        "type2": "",
+        "multipliers": {
+          "experience": 2,
+          "damage": 1.5
+        },
+        "description": "Wily's Castle",
+        "description2": "With how many times Mega Man's been through so many different variations of this place, he probably couldn't count it all on two hands; the self-proclaimed 'Wily Castle' is the stronghold, laboratory, and home (in that order) of the vile Dr. Wily. Bass is always on the frontline when it comes to action, though this time he's bitterly accompanied by Wily's newest evil creation, Disco. Absolute strength and domination is at the forefront of everyone's thoughts here, so the attacks are fiercer and victors prosper even greater. There's hundreds of malicious Robot Masters and Mechas that have been manufactured in these halls, but the one that seems to stick around the longest is Reggae, whose raison d'etre is to torment Dr. Wily's every waking minute. With an abundance of death traps, evil subservient machines, and Bass, Disco, and Dr. Wily at the center of it all, it's a wonder how Mega Man manages to bring this place to pieces every time.",
+        "music": "sega-remix/wily-fortress-1-mm1",
+        "music_name": "",
+        "music_link": [],
+        "background": "wily-castle",
+        "background_frame": [],
+        "background_attachments": {
+          "mecha-01": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 52,
+            "offset_y": 161,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          },
+          "mecha-02": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 184,
+            "offset_y": 185,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-03": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 242,
+            "offset_y": 169,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          },
+          "mecha-04": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": -33,
+            "offset_y": 137,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          }
+        },
+        "foreground": "wily-castle",
+        "foreground_frame": [],
+        "foreground_attachments": {
+          "mecha-05": {
+            "class": "robot",
+            "size": 80,
+            "offset_x": -100,
+            "offset_y": 0,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-06": {
+            "class": "robot",
+            "size": 80,
+            "offset_x": -100,
+            "offset_y": 0,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          }
+        },
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "MMRPG/Home",
+        "order": 1,
+        "key": 5
+      },
+      "cossack-citadel": {
+        "token": "cossack-citadel",
+        "name": "Cossack Citadel",
+        "game": "MM4",
+        "class": "player",
+        "master": "proto-man",
+        "master2": [
+          "rhythm"
+        ],
+        "mechas": [
+          "crystal-joe",
+          "met"
+        ],
+        "image": "cossack-citadel",
+        "image_editor": 1,
+        "image_editor2": 0,
+        "type": "",
+        "type2": "",
+        "multipliers": {
+          "experience": 2,
+          "recovery": 1.5,
+          "damage": 1.5
+        },
+        "description": "Cossack's Citadel",
+        "description2": "Located in a remote winter wilderness, this grandiose cathedral is the home of Dr. Cossack and his daughter, Kalinka; unfortunately, despite being a family residence, the version emulated in the Prototype is the variant varnished with a Wily-controlled flair. Proto Man may not have any happy feelings of nostalgia towards Cossack's Citadel, but it's his duty to defend the doctor from all threats if they wish to survive, alongside the Prototype's debug tool, Rhythm. Alongside Dr. Cossack and his Robot Masters is his daughter Kalinka, who actively ventured into the Prototype to offer background support and equipment to her father. The Cossacks may not be quite as prevalent in the public conscious like the Light family are, but that doesn't mean they're any less formidable a team.",
+        "music": "sega-remix/cossack-fortress-2-mm4",
+        "music_name": "",
+        "music_link": [],
+        "background": "cossack-citadel",
+        "background_frame": [],
+        "background_attachments": {
+          "mecha-01": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": -12,
+            "offset_y": 206,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          },
+          "mecha-02": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 178,
+            "offset_y": 176,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-03": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 245,
+            "offset_y": 176,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          },
+          "mecha-04": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": -14,
+            "offset_y": 208,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-05": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 306,
+            "offset_y": 206,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          }
+        },
+        "foreground": "cossack-citadel",
+        "foreground_frame": [],
+        "foreground_attachments": {
+          "mecha-06": {
+            "class": "robot",
+            "size": 80,
+            "offset_x": -100,
+            "offset_y": 0,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-07": {
+            "class": "robot",
+            "size": 80,
+            "offset_x": -100,
+            "offset_y": 0,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          }
+        },
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "MMRPG/Home",
+        "order": 2,
+        "key": 6
+      },
+      "prototype-subspace": {
+        "token": "prototype-subspace",
+        "name": "Prototype Subspace",
+        "game": "MMRPG",
+        "class": "event",
+        "master": "",
+        "master2": [],
+        "mechas": [],
+        "image": "prototype-subspace",
+        "image_editor": 1,
+        "image_editor2": 0,
+        "type": "",
+        "type2": "",
+        "multipliers": {
+          "experience": 2
+        },
+        "description": "Prototype Deep Record",
+        "description2": "This critical area of the prototype's memory is normally inaccessible and as such remains largely unexplored.  How our heroes end up here is anyone's guess.  Prototype Subspace is said to contain the deepest records of all robot history in a indecipherably complex large language model responsible for much of the prototype's simulative functionality.  It would be terrible if that power fell into the wrong hands.",
+        "music": "sega-remix/wily-fortress-5-mm10",
+        "music_name": "",
+        "music_link": [],
+        "background": "prototype-subspace",
+        "background_frame": [],
+        "background_attachments": [],
+        "foreground": "prototype-subspace",
+        "foreground_frame": [],
+        "foreground_attachments": [],
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "MMRPG/Subspace",
+        "order": 0,
+        "key": 7
+      },
+      "abandoned-warehouse": {
+        "token": "abandoned-warehouse",
+        "name": "Abandoned Warehouse",
+        "game": "MM1",
+        "class": "master",
+        "master": "cut-man",
+        "master2": [],
+        "mechas": [
+          "flea"
+        ],
+        "image": "abandoned-warehouse",
+        "image_editor": 1,
+        "image_editor2": 0,
+        "type": "cutter",
+        "type2": "",
+        "multipliers": {
+          "cutter": 1.5,
+          "missile": 1.3,
+          "time": 0.8
+        },
+        "description": "Cut Man's Favourite Field",
+        "description2": "Historians may recognize this location as the battlefield where Mega Man and Cut Man's battle took place, a lumberjack warehouse filled with ladders and construction blocks.  Cutter and Missile type abilities appear to do well on this field, but Wind and Swift type are at a great disadvantage.  Beware of the Flea robots, however, as they are very fast and deal long-range Impact type damage to your team. It is said that Metal Man occasionally visits this place to spy on Cut Man, but these reports are unconfirmed and largely speculation. Or at least, according to Metal Man.",
+        "music": "sega-remix/cut-man-mm1",
+        "music_name": "",
+        "music_link": [],
+        "background": "abandoned-warehouse",
+        "background_frame": [],
+        "background_attachments": {
+          "mecha-01": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 146,
+            "offset_y": 204,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-02": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 281,
+            "offset_y": 140,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-03": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 534,
+            "offset_y": 204,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-04": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 777,
+            "offset_y": 157,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          }
+        },
+        "foreground": "abandoned-warehouse",
+        "foreground_frame": [],
+        "foreground_attachments": {
+          "mecha-05": {
+            "class": "robot",
+            "size": 80,
+            "offset_x": -100,
+            "offset_y": 0,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-06": {
+            "class": "robot",
+            "size": 80,
+            "offset_x": -100,
+            "offset_y": 0,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          }
+        },
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "MM01/Master",
+        "order": 0,
+        "key": 8
+      },
+      "mountain-mines": {
+        "token": "mountain-mines",
+        "name": "Mountain Mines",
+        "game": "MM1",
+        "class": "master",
+        "master": "guts-man",
+        "master2": [],
+        "mechas": [
+          "picket-man"
+        ],
+        "image": "mountain-mines",
+        "image_editor": 1,
+        "image_editor2": 0,
+        "type": "impact",
+        "type2": "",
+        "multipliers": {
+          "impact": 1.5,
+          "cutter": 0.6,
+          "explode": 1.1
+        },
+        "description": "Guts Man's Favourite Field",
+        "description2": "The Mountain Mines was Guts Man’s scheduled workplace, but havoc was wrought when Dr. Wily maliciously programmed the robots of the area to allocate all its resources to him.  The mountainous region seems to reinvigorate Impact robots and Explode robots, but on the other end of the spectrum, Cutter robots perform quite poorly. The highly territorial Picket Men work constantly, all day and all night, breaking down minerals and warding off trespassers. Of course, as a place of work, there's always some spare time for play, so one may often see Hard Man and Guts Man at the local Karaoke bar.",
+        "music": "sega-remix/guts-man-mm1",
+        "music_name": "",
+        "music_link": [],
+        "background": "mountain-mines",
+        "background_frame": [],
+        "background_attachments": {
+          "mecha-01": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 70,
+            "offset_y": 197,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-02": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 340,
+            "offset_y": 165,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          },
+          "mecha-03": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 190,
+            "offset_y": 165,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          }
+        },
+        "foreground": "mountain-mines",
+        "foreground_frame": [],
+        "foreground_attachments": {
+          "mecha-03": {
+            "class": "robot",
+            "size": 80,
+            "offset_x": -100,
+            "offset_y": 0,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-04": {
+            "class": "robot",
+            "size": 80,
+            "offset_x": -100,
+            "offset_y": 0,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          }
+        },
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "MM01/Master",
+        "order": 1,
+        "key": 9
+      },
+      "arctic-jungle": {
+        "token": "arctic-jungle",
+        "name": "Arctic Jungle",
+        "game": "MM1",
+        "class": "master",
+        "master": "ice-man",
+        "master2": [],
+        "mechas": [
+          "peng"
+        ],
+        "image": "arctic-jungle",
+        "image_editor": 1,
+        "image_editor2": 0,
+        "type": "freeze",
+        "type2": "",
+        "multipliers": {
+          "freeze": 1.5,
+          "flame": 1.2,
+          "nature": 0.7
+        },
+        "description": "Ice Man's Favourite Field",
+        "description2": "This is no regular tundra; Ice Man had frozen a woodland nine miles south of Mega City to aid Dr. Wily's efforts. Freeze and Flame Robots showcase signs of improved performance, while Nature robots are unable to draw upon their natural abilities quite as well. Peng Mechas reside here, protected from the harsh weather due to their solar reactors and constant movement, making them quite a hindrance when traversing. The hilly landscape combined with the slick frost is actually ideal for skiing, so don't be surprised if Blizzard Man is out honing his abilities.",
+        "music": "sega-remix/ice-man-mm1",
+        "music_name": "",
+        "music_link": [],
+        "background": "arctic-jungle",
+        "background_frame": [],
+        "background_attachments": {
+          "mecha-01": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 325,
+            "offset_y": 167,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-02": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 255,
+            "offset_y": 167,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          }
+        },
+        "foreground": "arctic-jungle",
+        "foreground_frame": [],
+        "foreground_attachments": {
+          "mecha-03": {
+            "class": "robot",
+            "size": 80,
+            "offset_x": -100,
+            "offset_y": 0,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-04": {
+            "class": "robot",
+            "size": 80,
+            "offset_x": -100,
+            "offset_y": 0,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          }
+        },
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "MM01/Master",
+        "order": 2,
+        "key": 10
+      },
+      "orb-city": {
+        "token": "orb-city",
+        "name": "Orb City",
+        "game": "MM1",
+        "class": "master",
+        "master": "bomb-man",
+        "master2": [],
+        "mechas": [
+          "bombomb"
+        ],
+        "image": "orb-city",
+        "image_editor": 1,
+        "image_editor2": 0,
+        "type": "explode",
+        "type2": "",
+        "multipliers": {
+          "explode": 1.5,
+          "freeze": 0.6,
+          "impact": 0.8
+        },
+        "description": "Bomb Man's Favourite Field",
+        "description2": "A holdover from a previous war, Orb City was highly controversial during its construction; somehow combining a metropolis and a fully-functioning munitions supply left a lot of the general public uneasy. An uneasiness that was completely right, of course, when Bomb Man eventually took control under the orders of Dr. Wily. The supplies offer Explode robots many an advantage, but the city's design requires Impact and Freeze robots to hold back lest the whole place falls apart. Active landmines that were never discarded can pop out of pits, dealing severe damage to the unexpected. As a landmark to any explosion enthusiast, Napalm Man tends to visit often on his vacations.",
+        "music": "sega-remix/bomb-man-mm1",
+        "music_name": "",
+        "music_link": [],
+        "background": "orb-city",
+        "background_frame": [],
+        "background_attachments": {
+          "mecha-01": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 116,
+            "offset_y": 186,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-02": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 281,
+            "offset_y": 139,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-03": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 494,
+            "offset_y": 186,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-04": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 740,
+            "offset_y": 154,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          }
+        },
+        "foreground": "orb-city",
+        "foreground_frame": [],
+        "foreground_attachments": {
+          "mecha-05": {
+            "class": "robot",
+            "size": 80,
+            "offset_x": -100,
+            "offset_y": 0,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-06": {
+            "class": "robot",
+            "size": 80,
+            "offset_x": -100,
+            "offset_y": 0,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          }
+        },
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "MM01/Master",
+        "order": 3,
+        "key": 11
+      },
+      "steel-mill": {
+        "token": "steel-mill",
+        "name": "Steel Mill",
+        "game": "MM1",
+        "class": "master",
+        "master": "fire-man",
+        "master2": [],
+        "mechas": [
+          "tackle-fire"
+        ],
+        "image": "steel-mill",
+        "image_editor": 1,
+        "image_editor2": 0,
+        "type": "flame",
+        "type2": "",
+        "multipliers": {
+          "flame": 1.5,
+          "water": 0.7,
+          "nature": 0.5
+        },
+        "description": "Fire Man's Favourite Field",
+        "description2": "This steel mill, known as the Massimo Mill, was a leading producer of steel, and while the heat is downright unbearable to most, this is where you can find Fire Man working. Obviously, the heat is also quite pleasant to any Flame-inclined robots, though don't expect any water or Nature-based attacks to fly well here. The humidity has birthed the Tackle Fires, ferocious little embers that can detrimentally melt the steel products and platforms. Magma Man also works under the Massimo conglomerate, so he'll often attend to any shipments to the steel mill.",
+        "music": "sega-remix/fire-man-mm1",
+        "music_name": "",
+        "music_link": [],
+        "background": "steel-mill",
+        "background_frame": [],
+        "background_attachments": {
+          "mecha-01": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 378,
+            "offset_y": 169,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-02": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 83,
+            "offset_y": 138,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-03": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 54,
+            "offset_y": 222,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          }
+        },
+        "foreground": "steel-mill",
+        "foreground_frame": [],
+        "foreground_attachments": {
+          "mecha-04": {
+            "class": "robot",
+            "size": 80,
+            "offset_x": -100,
+            "offset_y": 0,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-05": {
+            "class": "robot",
+            "size": 80,
+            "offset_x": -100,
+            "offset_y": 0,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          }
+        },
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "MM01/Master",
+        "order": 4,
+        "key": 12
+      },
+      "electrical-tower": {
+        "token": "electrical-tower",
+        "name": "Electrical Tower",
+        "game": "MM1",
+        "class": "master",
+        "master": "elec-man",
+        "master2": [],
+        "mechas": [
+          "spine"
+        ],
+        "image": "electrical-tower",
+        "image_editor": 1,
+        "image_editor2": 0,
+        "type": "electric",
+        "type2": "",
+        "multipliers": {
+          "electric": 1.5,
+          "wind": 0.5,
+          "impact": 1.1
+        },
+        "description": "Elec Man's Favourite Field",
+        "description2": "This electrical tower is one of the tallest man-made structures of the world, used by Mega City to funnel their electricity. Elec Man took over the tower to cut off the denizens of the city cold turkey, but thankfully Mega Man gave it right back. Electricity flows dangerously here, but the tower's aerodynamic design ensures that wind has very little impact. Spines function as cost-effective security measures, and are able to withstand high levels of energy. Spark Man often visits to try and make friends with the warped Elec Man, but he's only ever been met with Thunder Beams. He calls it a nice start.",
+        "music": "sega-remix/elec-man-mm1",
+        "music_name": "",
+        "music_link": [],
+        "background": "electrical-tower",
+        "background_frame": [],
+        "background_attachments": {
+          "mecha-01": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 725,
+            "offset_y": 192,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          },
+          "mecha-02": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 206,
+            "offset_y": 160,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          },
+          "mecha-03": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 1,
+            "offset_y": 170,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          }
+        },
+        "foreground": "electrical-tower",
+        "foreground_frame": [],
+        "foreground_attachments": {
+          "mecha-04": {
+            "class": "robot",
+            "size": 80,
+            "offset_x": -100,
+            "offset_y": 0,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-05": {
+            "class": "robot",
+            "size": 80,
+            "offset_x": -100,
+            "offset_y": 0,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          }
+        },
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "MM01/Master",
+        "order": 5,
+        "key": 13
+      },
+      "clock-citadel": {
+        "token": "clock-citadel",
+        "name": "Clock Citadel",
+        "game": "MM1",
+        "class": "master",
+        "master": "time-man",
+        "master2": [],
+        "mechas": [
+          "flutter-fly"
+        ],
+        "image": "clock-citadel",
+        "image_editor": 1,
+        "image_editor2": 0,
+        "type": "time",
+        "type2": "",
+        "multipliers": {
+          "time": 1.5,
+          "impact": 0.8,
+          "swift": 0.5
+        },
+        "description": "Time Man's Favourite Field",
+        "description2": "This peculiar fortress was suddenly bombarded with a high fluctuation of tachyon energy one day, quickly gathering the intrigue and interest of those in the time examination community, like Time Man and the Chronos Time-Space Institute. Obviously, Time-cored projectiles flow excellently here, even if the same cannot be said for Impact and Swift typed attacks. Flutter Flies feed off the temporal energy, and can emit highly irradiated tachyon blasts from their eyes. Flash Man regularly sneaks in to siphon energy for his own means, likely to gather surplus energy for his own Photon Collider field.",
+        "music": "mmpu-ost/time-man",
+        "music_name": "",
+        "music_link": [],
+        "background": "clock-citadel",
+        "background_frame": [],
+        "background_attachments": {
+          "mecha-01": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 18,
+            "offset_y": 173,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          },
+          "mecha-02": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 248,
+            "offset_y": 227,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-03": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 282,
+            "offset_y": 186,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          },
+          "mecha-04": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": -66,
+            "offset_y": 173,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-05": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 75,
+            "offset_y": 135,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          }
+        },
+        "foreground": "clock-citadel",
+        "foreground_frame": [],
+        "foreground_attachments": {
+          "mecha-06": {
+            "class": "robot",
+            "size": 80,
+            "offset_x": -100,
+            "offset_y": 0,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-07": {
+            "class": "robot",
+            "size": 80,
+            "offset_x": -100,
+            "offset_y": 0,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          }
+        },
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "MM01/Master",
+        "order": 6,
+        "key": 14
+      },
+      "oil-wells": {
+        "token": "oil-wells",
+        "name": "Oil Wells",
+        "game": "MM1",
+        "class": "master",
+        "master": "oil-man",
+        "master2": [],
+        "mechas": [
+          "beetle-borg"
+        ],
+        "image": "oil-wells",
+        "image_editor": 1,
+        "image_editor2": 0,
+        "type": "earth",
+        "type2": "",
+        "multipliers": {
+          "earth": 1.5,
+          "electric": 0.9,
+          "water": 0.6
+        },
+        "description": "Oil Man's Favourite Field",
+        "description2": "Once a beautiful vista, the striking of oil led humanity to quickly file in, setting up oil rigs and drills in a mad dash for profit. The advent of advanced robotics now means Robot Masters like Oil Man can burden the risks that once threatened the lives of human workers, even if oil is ultimately falling out of favor versus the more practical solar energy. The overabundance of pollution strengthens Earth attacks, though this doesn't apply to Electric or Water attacks whatsoever. Take note of the Beetle Borg mechas; they assist in gathering soil samples for surveying, but as a result they're not well-suited for combat. Due to their age, the oil equipment has been known to sporadically break down, so Drill Man's always on speed dial when it comes to circumventing these performance issues.",
+        "music": "mmpu-ost/oil-man",
+        "music_name": "",
+        "music_link": [],
+        "background": "oil-wells",
+        "background_frame": [],
+        "background_attachments": {
+          "mecha-01": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 105,
+            "offset_y": 172,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          },
+          "mecha-02": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 224,
+            "offset_y": 188,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-03": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 225,
+            "offset_y": 172,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          },
+          "mecha-04": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 28,
+            "offset_y": 171,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          }
+        },
+        "foreground": "oil-wells",
+        "foreground_frame": [],
+        "foreground_attachments": {
+          "mecha-05": {
+            "class": "robot",
+            "size": 80,
+            "offset_x": -100,
+            "offset_y": 0,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-06": {
+            "class": "robot",
+            "size": 80,
+            "offset_x": -100,
+            "offset_y": 0,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          }
+        },
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "MM01/Master",
+        "order": 7,
+        "key": 15
+      },
+      "industrial-facility": {
+        "token": "industrial-facility",
+        "name": "Industrial Facility",
+        "game": "MM2",
+        "class": "master",
+        "master": "metal-man",
+        "master2": [],
+        "mechas": [
+          "pierrobot"
+        ],
+        "image": "industrial-facility",
+        "image_editor": 1,
+        "image_editor2": 0,
+        "type": "cutter",
+        "type2": "",
+        "multipliers": {
+          "cutter": 1.5,
+          "electric": 1.2,
+          "missile": 0.7
+        },
+        "description": "Metal Man's Favourite Field",
+        "description2": "The work done at this industrial facility is largely automated by its cogs and conveyor belts, but a lack of human presence meant that it was quite easily taken over by Metal Man and his army of Mechas. All these factors mean that Cutter and Electrical attacks have a much stronger influence here than normal, while missiles tend to falter often. The cold industrialized environment is definitely disheartening to those who spend long hours here, but funnily enough Wily's hostile takeover did have a positive; the lively Pierrobots, dancing on their mobile gears, adds a nice splash of color to the place! Cut Man tries to sneak in often to spy on his old nemesis, Metal Man, but his oversized headgear doesn't really lend itself well to stealth....",
+        "music": "sega-remix/metal-man-mm2",
+        "music_name": "",
+        "music_link": [],
+        "background": "industrial-facility",
+        "background_frame": [],
+        "background_attachments": {
+          "mecha-01": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 268,
+            "offset_y": 145,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-02": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 259,
+            "offset_y": 196,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          },
+          "mecha-03": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": -80,
+            "offset_y": 191,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-04": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 82,
+            "offset_y": 155,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-05": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 724,
+            "offset_y": 171,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          }
+        },
+        "foreground": "industrial-facility",
+        "foreground_frame": [],
+        "foreground_attachments": {
+          "mecha-06": {
+            "class": "robot",
+            "size": 80,
+            "offset_x": -100,
+            "offset_y": 0,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-07": {
+            "class": "robot",
+            "size": 80,
+            "offset_x": -100,
+            "offset_y": 0,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          }
+        },
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "MM02/Master",
+        "order": 0,
+        "key": 16
+      },
+      "sky-ridge": {
+        "token": "sky-ridge",
+        "name": "Sky Ridge",
+        "game": "MM2",
+        "class": "master",
+        "master": "air-man",
+        "master2": [],
+        "mechas": [
+          "fan-fiend"
+        ],
+        "image": "sky-ridge",
+        "image_editor": 1,
+        "image_editor2": 0,
+        "type": "wind",
+        "type2": "",
+        "multipliers": {
+          "wind": 1.5,
+          "time": 0.8,
+          "earth": 0.6
+        },
+        "description": "Air Man's Favourite Field",
+        "description2": "Amid concerns on overpopulation of humans and robots, the Sky Ridge was proposed and funded as an elevated metallic landmass for the affluent to live upon; why it was decorated with Tengu faces, you'd have to ask whoever designed the thing. Unsurprisingly, before the project could ever be put to use, Wily's Air Man took it over as a base of operations to wreak havoc on the poor cities below. The elevated altitudes certainly do well for Wind Robots, with it having the exact opposite effects on Earth and Time robots. The Fan Fiends that take residence on the platforms would be just about harmless anywhere else, but on a platform thousands of feet off the ground, one cannot take any risks on falling off. Tengu Man tends to be a frequent visitor to the Sky Ridge; apparently, he's quite fond of the architecture.",
+        "music": "sega-remix/air-man-mm2",
+        "music_name": "",
+        "music_link": [],
+        "background": "sky-ridge",
+        "background_frame": [],
+        "background_attachments": {
+          "mecha-01": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 84,
+            "offset_y": 162,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-02": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 206,
+            "offset_y": 206,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          },
+          "mecha-03": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 295,
+            "offset_y": 162,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-04": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": -12,
+            "offset_y": 163,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          },
+          "mecha-05": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": -84,
+            "offset_y": 209,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          }
+        },
+        "foreground": "sky-ridge",
+        "foreground_frame": [],
+        "foreground_attachments": {
+          "mecha-06": {
+            "class": "robot",
+            "size": 80,
+            "offset_x": -100,
+            "offset_y": 0,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-07": {
+            "class": "robot",
+            "size": 80,
+            "offset_x": -100,
+            "offset_y": 0,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          }
+        },
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "MM02/Master",
+        "order": 1,
+        "key": 17
+      },
+      "waterfall-institute": {
+        "token": "waterfall-institute",
+        "name": "Waterfall Institute",
+        "game": "MM2",
+        "class": "master",
+        "master": "bubble-man",
+        "master2": [],
+        "mechas": [
+          "snapper"
+        ],
+        "image": "waterfall-institute",
+        "image_editor": 1,
+        "image_editor2": 0,
+        "type": "water",
+        "type2": "",
+        "multipliers": {
+          "water": 1.5,
+          "flame": 0.5,
+          "nature": 1.3
+        },
+        "description": "Bubble Man's Favourite Field",
+        "description2": "This institute was held near the foundations of a raging waterfall, and it specialized in observing and researching Marine Biology. There's no discernible reason why Dr. Wily would choose to attack it of all places, but it was an adept location for a specialist swimmer like Bubble Man. Likewise, it would have the same effect on most Water and Nature robots that choose to fight here. It's imperative one doesn't mistake the Snappers for actual crabs; they're Mechas that'll soak any trespassers who come too close for comfort. Hidden within the waterfall itself, you might actually get a glance of what appears to be Wave Man. As someone looking for solitude, it seems the last place anyone would bother to look would be behind a torrent of water.",
+        "music": "sega-remix/bubble-man-mm2",
+        "music_name": "",
+        "music_link": [],
+        "background": "waterfall-institute",
+        "background_frame": [],
+        "background_attachments": {
+          "mecha-01": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": -6,
+            "offset_y": 171,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-02": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 216,
+            "offset_y": 171,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-03": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 280,
+            "offset_y": 139,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          },
+          "mecha-04": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": -12,
+            "offset_y": 171,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          },
+          "mecha-05": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 73,
+            "offset_y": 139,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-06": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 182,
+            "offset_y": 160,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          }
+        },
+        "foreground": "waterfall-institute",
+        "foreground_frame": [],
+        "foreground_attachments": {
+          "mecha-07": {
+            "class": "robot",
+            "size": 80,
+            "offset_x": -100,
+            "offset_y": 0,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-08": {
+            "class": "robot",
+            "size": 80,
+            "offset_x": -100,
+            "offset_y": 0,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          }
+        },
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "MM02/Master",
+        "order": 2,
+        "key": 18
+      },
+      "underground-laboratory": {
+        "token": "underground-laboratory",
+        "name": "Underground Laboratory",
+        "game": "MM2",
+        "class": "master",
+        "master": "quick-man",
+        "master2": [],
+        "mechas": [
+          "spring-head"
+        ],
+        "image": "underground-laboratory",
+        "image_editor": 1,
+        "image_editor2": 0,
+        "type": "swift",
+        "type2": "",
+        "multipliers": {
+          "swift": 1.5,
+          "laser": 1.2,
+          "crystal": 0.5
+        },
+        "description": "Quick Man's Favourite Field",
+        "description2": "This secret government laboratory worked on highly classified material, the primary focus here being the usage of lasers in militarized combat. This technology proved intriguing to Wily's heinous scheme, so he sent his nimble right-hand man, Quick Man, to personally gift him its ownership. Thus, speed and lasers are of essence in grasping victory when it comes to battle. They're easy to miss, but Spring Heads travel across the ground to deliver surprising spring-powered headbutts. Top Man also occasionally spends time here when he's looking to challenge his dancing abilities by spinning around the deadly lasers. So much for future militarized combat.",
+        "music": "sega-remix/quick-man-mm2",
+        "music_name": "",
+        "music_link": [],
+        "background": "underground-laboratory",
+        "background_frame": [],
+        "background_attachments": {
+          "mecha-01": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 44,
+            "offset_y": 145,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-02": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 353,
+            "offset_y": 145,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-03": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 517,
+            "offset_y": 177,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-04": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 708,
+            "offset_y": 145,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          }
+        },
+        "foreground": "underground-laboratory",
+        "foreground_frame": [],
+        "foreground_attachments": {
+          "mecha-05": {
+            "class": "robot",
+            "size": 80,
+            "offset_x": -100,
+            "offset_y": 0,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-06": {
+            "class": "robot",
+            "size": 80,
+            "offset_x": -100,
+            "offset_y": 0,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          }
+        },
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "MM02/Master",
+        "order": 3,
+        "key": 19
+      },
+      "pipe-station": {
+        "token": "pipe-station",
+        "name": "Pipe Station",
+        "game": "MM2",
+        "class": "master",
+        "master": "crash-man",
+        "master2": [],
+        "mechas": [
+          "killer-bullet"
+        ],
+        "image": "pipe-station",
+        "image_editor": 1,
+        "image_editor2": 0,
+        "type": "explode",
+        "type2": "",
+        "multipliers": {
+          "explode": 1.5,
+          "missile": 0.7,
+          "flame": 0.6
+        },
+        "description": "Crash Man's Favourite Field",
+        "description2": "Originally, this pipe station was meant to serve as a radio tower scraping the heavens and would offer internet access to the entire planet, but Crash Man's attack rendered it as a battle tower filled to the brim with Killer Bullets. Explosives reign supreme here, and the piping of the tower renders other incendiaries like missiles and flames ineffective. Mention was made earlier to the Killer Bullet mechas, but it must be repeated; they'll cause as much damage to the structure as they do themselves, and a pipe station extending into the stratosphere is uncomfortably unstable as is. Not uncomfortable enough to ward off Bomb Man apparently, as an explosively rigged tower high up in the sky is seemingly his idea of a fun time.",
+        "music": "sega-remix/crash-man-mm2",
+        "music_name": "",
+        "music_link": [],
+        "background": "pipe-station",
+        "background_frame": [],
+        "background_attachments": {
+          "mecha-01": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 76,
+            "offset_y": 139,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-02": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 298,
+            "offset_y": 170,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          },
+          "mecha-03": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 47,
+            "offset_y": 202,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          },
+          "mecha-04": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 166,
+            "offset_y": 188,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          },
+          "mecha-05": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 479,
+            "offset_y": 203,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          }
+        },
+        "foreground": "pipe-station",
+        "foreground_frame": [],
+        "foreground_attachments": {
+          "mecha-06": {
+            "class": "robot",
+            "size": 80,
+            "offset_x": -100,
+            "offset_y": 0,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-07": {
+            "class": "robot",
+            "size": 80,
+            "offset_x": -100,
+            "offset_y": 0,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          }
+        },
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "MM02/Master",
+        "order": 4,
+        "key": 20
+      },
+      "photon-collider": {
+        "token": "photon-collider",
+        "name": "Photon Collider",
+        "game": "MM2",
+        "class": "master",
+        "master": "flash-man",
+        "master2": [],
+        "mechas": [
+          "crazy-cannon"
+        ],
+        "image": "photon-collider",
+        "image_editor": 1,
+        "image_editor2": 0,
+        "type": "time",
+        "type2": "",
+        "multipliers": {
+          "time": 1.5,
+          "swift": 0.5,
+          "laser": 0.8
+        },
+        "description": "Flash Man's Favourite Field",
+        "description2": "While just a crystallized tunnel beforehand, Flash Man's phenomenal time-warping abilities altered it into a funnel of tachyon energy. These abnormalities amplify time energy, but this comes at the cost of abating acceleration and light-based momentum. The Crazy Cannons are Wily's own design, positioned in tight corners where they'll bombard a target with cannon shots. Whenever Time Man notices an irregularity of his own tachyon count at the Clock Citadel, he'll immediately travel to the Photon Collider in an effort to confront Flash Man over his thieving.",
+        "music": "sega-remix/flash-man-mm2",
+        "music_name": "",
+        "music_link": [],
+        "background": "photon-collider",
+        "background_frame": [],
+        "background_attachments": {
+          "mecha-01": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 37,
+            "offset_y": 180,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-02": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 490,
+            "offset_y": 207,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          },
+          "mecha-03": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 526,
+            "offset_y": 180,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-04": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": -54,
+            "offset_y": 132,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          }
+        },
+        "foreground": "photon-collider",
+        "foreground_frame": [],
+        "foreground_attachments": {
+          "mecha-05": {
+            "class": "robot",
+            "size": 80,
+            "offset_x": -100,
+            "offset_y": 0,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-06": {
+            "class": "robot",
+            "size": 80,
+            "offset_x": -100,
+            "offset_y": 0,
+            "robot_token": "met",
+            "robot_frame": [
+              1
+            ],
+            "robot_direction": "left"
+          }
+        },
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "MM02/Master",
+        "order": 5,
+        "key": 21
+      },
+      "atomic-furnace": {
+        "token": "atomic-furnace",
+        "name": "Atomic Furnace",
+        "game": "MM2",
+        "class": "master",
+        "master": "heat-man",
+        "master2": [],
+        "mechas": [
+          "telly"
+        ],
+        "image": "atomic-furnace",
+        "image_editor": 1,
+        "image_editor2": 0,
+        "type": "flame",
+        "type2": "",
+        "multipliers": {
+          "flame": 1.5,
+          "nature": 0.6,
+          "freeze": 0.5
+        },
+        "description": "Heat Man's Favourite Field",
+        "description2": "This hot box's purpose may have been to generate heat, but due to Heat Man's interference, now the place even flows molten lava like an ocean of flames! It's quite beneficial for any fiery attacks, but that's about it; nature and ice suffer the absolute worst of it. Traversal is difficult as most of the original platforms are completely engulfed in magma, and matters are made worse by teleporting platforms and modified Telly units. The heat may be awful to most, but to Solar Man it's ideal; he'll often use it as a place of exercise to work up a sweat.",
+        "music": "sega-remix/heat-man-mm2",
+        "music_name": "",
+        "music_link": [],
+        "background": "atomic-furnace",
+        "background_frame": [],
+        "background_attachments": {
+          "mecha-01": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 109,
+            "offset_y": 179,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-02": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 456,
+            "offset_y": 179,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          },
+          "mecha-03": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 461,
+            "offset_y": 179,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-04": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 89,
+            "offset_y": 141,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          },
+          "mecha-05": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 732,
+            "offset_y": 181,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-06": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": -3,
+            "offset_y": 179,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          }
+        },
+        "foreground": "atomic-furnace",
+        "foreground_frame": [],
+        "foreground_attachments": {
+          "mecha-07": {
+            "class": "robot",
+            "size": 80,
+            "offset_x": -100,
+            "offset_y": 0,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-08": {
+            "class": "robot",
+            "size": 80,
+            "offset_x": -100,
+            "offset_y": 0,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          }
+        },
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "MM02/Master",
+        "order": 6,
+        "key": 22
+      },
+      "preserved-forest": {
+        "token": "preserved-forest",
+        "name": "Preserved Forest",
+        "game": "MM2",
+        "class": "master",
+        "master": "wood-man",
+        "master2": [],
+        "mechas": [
+          "batton"
+        ],
+        "image": "preserved-forest",
+        "image_editor": 1,
+        "image_editor2": 0,
+        "type": "nature",
+        "type2": "",
+        "multipliers": {
+          "nature": 1.5,
+          "wind": 0.7,
+          "shield": 1.2
+        },
+        "description": "Wood Man's Favourite Field",
+        "description2": "This preserved habitat hosts the habitat of the endangered Amenhopper Chameleon, and was closed off to the general public in the hopes of sustaining the small population left of the Amenhopper. Wood Man personally volunteered to take over the forest for Dr. Wily, but his hidden agenda was to ensure that he could rightfully provide for the safety of all the animals who call the Preserved Forest their home. Bolstered by a strong natural environment, nature-based shields perform wonderfully, while any wind projectiles will at best disrupt a leaf here or there. The highly popular Battons only really monitor the plants and animals for the sake of species maintation, and going out of the way to actively destroy the bat-based Mechas isn't really worth the effort. Wood Man's formed an alliance with Snake Man to implant spying devices to elusively watch over the animals, though Snake Man's less interested in animal preservation than he is on wanting to snack on an endangered species...",
+        "music": "sega-remix/wood-man-mm2",
+        "music_name": "",
+        "music_link": [],
+        "background": "preserved-forest",
+        "background_frame": [],
+        "background_attachments": {
+          "mecha-01": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 20,
+            "offset_y": 161,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          },
+          "mecha-02": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 74,
+            "offset_y": 196,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          },
+          "mecha-03": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 205,
+            "offset_y": 162,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          },
+          "mecha-04": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 302,
+            "offset_y": 132,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          },
+          "mecha-05": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": -14,
+            "offset_y": 161,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-06": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 195,
+            "offset_y": 161,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-07": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 336,
+            "offset_y": 177,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          }
+        },
+        "foreground": "preserved-forest",
+        "foreground_frame": [],
+        "foreground_attachments": {
+          "mecha-08": {
+            "class": "robot",
+            "size": 80,
+            "offset_x": -100,
+            "offset_y": 0,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-09": {
+            "class": "robot",
+            "size": 80,
+            "offset_x": -100,
+            "offset_y": 0,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          }
+        },
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "MM02/Master",
+        "order": 7,
+        "key": 23
+      },
+      "construction-site": {
+        "token": "construction-site",
+        "name": "Construction Site",
+        "game": "MM3",
+        "class": "master",
+        "master": "needle-man",
+        "master2": [],
+        "mechas": [
+          "needle-ned"
+        ],
+        "image": "construction-site",
+        "image_editor": 1,
+        "image_editor2": 0,
+        "type": "cutter",
+        "type2": "",
+        "multipliers": {
+          "cutter": 1.5,
+          "earth": 1.3,
+          "time": 0.7
+        },
+        "description": "Needle Man's Favourite Field",
+        "description2": "Needle Man begrudgingly took over this ship-construction site in a ploy to plunder the newly-discovered Energy Elements as a part of one of Wily's many schemes. Cutter and Earth typed attacks perform admirably here, but the same can't be said for any time-manipulation attacks. The hedgehog-like Needle Neds roll around and occasionally fire off piercing conical projectiles, and they look absolutely adorable doing so. The cargo nets have occasionally been known to get caught into tangled knots, so when they just can't be salvaged, Blade Man is usually called upon to simply slice the whole thing off -- he'd like to try to untangle them himself, but he doesn't quite have the hands for it.",
+        "music": "sega-remix/needle-man-mm3",
+        "music_name": "",
+        "music_link": [],
+        "background": "construction-site",
+        "background_frame": [],
+        "background_attachments": {
+          "mecha-01": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 66,
+            "offset_y": 177,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-02": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 127,
+            "offset_y": 225,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-03": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 455,
+            "offset_y": 180,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          },
+          "mecha-04": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 222,
+            "offset_y": 180,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          },
+          "mecha-05": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 0,
+            "offset_y": 180,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          }
+        },
+        "foreground": "construction-site",
+        "foreground_frame": [],
+        "foreground_attachments": {
+          "mecha-06": {
+            "class": "robot",
+            "size": 80,
+            "offset_x": -100,
+            "offset_y": 0,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-07": {
+            "class": "robot",
+            "size": 80,
+            "offset_x": -100,
+            "offset_y": 0,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          }
+        },
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "MM03/Master",
+        "order": 0,
+        "key": 24
+      },
+      "magnetic-generator": {
+        "token": "magnetic-generator",
+        "name": "Magnetic Generator",
+        "game": "MM3",
+        "class": "master",
+        "master": "magnet-man",
+        "master2": [],
+        "mechas": [
+          "mag-fly"
+        ],
+        "image": "magnetic-generator",
+        "image_editor": 1,
+        "image_editor2": 0,
+        "type": "missile",
+        "type2": "",
+        "multipliers": {
+          "missile": 1.5,
+          "electric": 1.4,
+          "explode": 0.6
+        },
+        "description": "Magnet Man's Favourite Field",
+        "description2": "Designed as a regular generator facility early on in its lifetime, Magnet Man rerouted the polarity of the generator, intensifying its magnetic pull tremendously. One will notice the high efficiency of Missile and Electric cores as a result, and this is certainly no coincidence; it gave Magnet Man a home field advantage in his fight against Mega Man. The themed Mag Flies have their own pull as well, a pull that becomes rather dangerous around bottomless pits -- though any experienced tactician would figure out using this to their advantage in traversing the Magnetic Generator. Magnet Man's currently working with Dive Man on designing a torpedo with magnetic attributes in the same vein as the Magnet Missile, but so far all the torpedoes come back to strike them instead...",
+        "music": "sega-remix/magnet-man-mm3",
+        "music_name": "",
+        "music_link": [],
+        "background": "magnetic-generator",
+        "background_frame": [],
+        "background_attachments": {
+          "mecha-01": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": -8,
+            "offset_y": 156,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-02": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 122,
+            "offset_y": 156,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-03": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 315,
+            "offset_y": 156,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-04": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 224,
+            "offset_y": 156,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          },
+          "mecha-05": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 62,
+            "offset_y": 183,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          }
+        },
+        "foreground": "magnetic-generator",
+        "foreground_frame": [],
+        "foreground_attachments": {
+          "mecha-06": {
+            "class": "robot",
+            "size": 80,
+            "offset_x": -100,
+            "offset_y": 0,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-07": {
+            "class": "robot",
+            "size": 80,
+            "offset_x": -100,
+            "offset_y": 0,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          }
+        },
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "MM03/Master",
+        "order": 1,
+        "key": 25
+      },
+      "reflection-chamber": {
+        "token": "reflection-chamber",
+        "name": "Reflection Chamber",
+        "game": "MM3",
+        "class": "master",
+        "master": "gemini-man",
+        "master2": [],
+        "mechas": [
+          "nitron-r",
+          "nitron-b",
+          "nitron-y"
+        ],
+        "image": "reflection-chamber",
+        "image_editor": 1,
+        "image_editor2": 0,
+        "type": "crystal",
+        "type2": "",
+        "multipliers": {
+          "crystal": 1.5,
+          "laser": 1.2,
+          "explode": 0.5
+        },
+        "description": "Gemini Man's Favourite Field",
+        "description2": "At a first glance, the Reflection Chamber would appear to be some sort of out-of-world glacial mining sector, but delving deeper reveals that algae growth experimentation led to a completely new form of crystalline flora engulfing the whole deposit. When the newly-mined Energy Elements were stolen by Light and Wily's line of robots, one of the marauders, Gemini Man, chose to retreat deep within the mine in a move to ambush Mega Man. A cunning move, as the flora strengthened both Crystal and Laser typed attacks. Three different elemental Nitrons survey the area, conducting aerial bombing raids to both destroy enemies and cull the growth of the mutated algae. There's been reports of Crystal Man making desperate attempts to bring some of the Reflection Chamber's flora with him; it's possible he believes that it'll somehow grant him clairvoyant powers?",
+        "music": "sega-remix/gemini-man-mm3",
+        "music_name": "",
+        "music_link": [],
+        "background": "reflection-chamber",
+        "background_frame": [],
+        "background_attachments": {
+          "mecha-01": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 52,
+            "offset_y": 199,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-02": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 180,
+            "offset_y": 196,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-03": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 320,
+            "offset_y": 203,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-04": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 222,
+            "offset_y": 163,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          },
+          "mecha-05": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 88,
+            "offset_y": 196,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          }
+        },
+        "foreground": "reflection-chamber",
+        "foreground_frame": [],
+        "foreground_attachments": {
+          "mecha-06": {
+            "class": "robot",
+            "size": 80,
+            "offset_x": -100,
+            "offset_y": 0,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-07": {
+            "class": "robot",
+            "size": 80,
+            "offset_x": -100,
+            "offset_y": 0,
+            "robot_token": "met",
+            "robot_frame": [
+              1
+            ],
+            "robot_direction": "left"
+          }
+        },
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "MM03/Master",
+        "order": 2,
+        "key": 26
+      },
+      "rocky-plateau": {
+        "token": "rocky-plateau",
+        "name": "Rocky Plateau",
+        "game": "MM3",
+        "class": "master",
+        "master": "hard-man",
+        "master2": [],
+        "mechas": [
+          "monking-r"
+        ],
+        "image": "rocky-plateau",
+        "image_editor": 1,
+        "image_editor2": 0,
+        "type": "impact",
+        "type2": "",
+        "multipliers": {
+          "impact": 1.5,
+          "cutter": 0.8,
+          "shadow": 0.6
+        },
+        "description": "Hard Man's Favourite Field",
+        "description2": "This was a mining plateau located near Mt. Shasta, and it acted as Hard Man's base of operations in his wait to inevitably face the Blue Bomber in battle. The rigidity of the rocks provide plenty of ammunition for Impact-based robots, and as a nice bonus does a decent job from protecting from all Cutter and Shadow typed projectiles too. Hanging off the ceilings of the caves down below are the Monkings, and it's quite easy to find yourself being swarmed by dozens of them at once. Beyond the mechas, Knight Man's been known to hang around the area as well. Since him and Hard Man share a similar code of honor, they've gotten to be close compatriots!",
+        "music": "sega-remix/hard-man-mm3",
+        "music_name": "",
+        "music_link": [],
+        "background": "rocky-plateau",
+        "background_frame": [],
+        "background_attachments": {
+          "mecha-01": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 64,
+            "offset_y": 153,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-02": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 184,
+            "offset_y": 186,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-03": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 352,
+            "offset_y": 154,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-04": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 262,
+            "offset_y": 202,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          },
+          "mecha-05": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 40,
+            "offset_y": 202,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          }
+        },
+        "foreground": "rocky-plateau",
+        "foreground_frame": [],
+        "foreground_attachments": {
+          "mecha-06": {
+            "class": "robot",
+            "size": 80,
+            "offset_x": -100,
+            "offset_y": 0,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-07": {
+            "class": "robot",
+            "size": 80,
+            "offset_x": -100,
+            "offset_y": 0,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          }
+        },
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "MM03/Master",
+        "order": 3,
+        "key": 27
+      },
+      "spinning-greenhouse": {
+        "token": "spinning-greenhouse",
+        "name": "Spinning Greenhouse",
+        "game": "MM3",
+        "class": "master",
+        "master": "top-man",
+        "master2": [],
+        "mechas": [
+          "spin-fiend"
+        ],
+        "image": "spinning-greenhouse",
+        "image_editor": 1,
+        "image_editor2": 0,
+        "type": "swift",
+        "type2": "",
+        "multipliers": {
+          "swift": 1.5,
+          "flame": 1.2,
+          "electric": 0.8
+        },
+        "description": "Top Man's Favourite Field",
+        "description2": "There's a bit of a theory in the scientific gardening community that if you were to theoretically spin plantlife at a constant and consistent axis, the plants' growth would accelerate as a result of catching the rays of sun at any and all angles. This was disproven later down the line, but Top Man still feverishly enjoyed ransacking a place that always spun, even with all of the extra plantlife in the way. The extra spin should be of no problems to Swift typed robots, though it's best not to use any strong flame attacks in such a volatile, plant-friendly place.... Anyway, since they fit Top Man's theme, Dr. Wily also provided some repurposed Spin Fiends to provide Top Man a little extra firepower and labor. Of course, it's not easy to transport such heavy Mechas in such numerous amounts, so Charge Man is usually entrusted with the duty of getting them to and fro.",
+        "music": "sega-remix/top-man-mm3",
+        "music_name": "",
+        "music_link": [],
+        "background": "spinning-greenhouse",
+        "background_frame": [],
+        "background_attachments": {
+          "mecha-01": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 8,
+            "offset_y": 128,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-02": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 234,
+            "offset_y": 157,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-03": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 266,
+            "offset_y": 156,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          },
+          "mecha-04": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 74,
+            "offset_y": 161,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          }
+        },
+        "foreground": "spinning-greenhouse",
+        "foreground_frame": [],
+        "foreground_attachments": {
+          "mecha-05": {
+            "class": "robot",
+            "size": 80,
+            "offset_x": -100,
+            "offset_y": 0,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-06": {
+            "class": "robot",
+            "size": 80,
+            "offset_x": -100,
+            "offset_y": 0,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          }
+        },
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "MM03/Master",
+        "order": 4,
+        "key": 28
+      },
+      "serpent-column": {
+        "token": "serpent-column",
+        "name": "Serpent Column",
+        "game": "MM3",
+        "class": "master",
+        "master": "snake-man",
+        "master2": [],
+        "mechas": [
+          "petit-snakey"
+        ],
+        "image": "serpent-column",
+        "image_editor": 1,
+        "image_editor2": 0,
+        "type": "nature",
+        "type2": "",
+        "multipliers": {
+          "nature": 1.5,
+          "swift": 0.7,
+          "impact": 0.9
+        },
+        "description": "Snake Man's Favourite Field",
+        "description2": "A series of smoke columns were given a serpentine makeover when Snake Man chose to make them his hideaway, complete with coils and a labyrinthine underbelly. The landscape's constantly shifting and there's many tight pathways to crawl through, evoking the spirit of Snake Man's own style of battle. His spirit carries through so much of this place, in fact, that it somehow powers up moves of his type while weakening the moves of his diametric foils, like Hard Man. Take note that the snake heads littered around the course aren't part of the decor: they're called Petit Snakeys, and they love to catch opponents off-guard with their camouflage. Snake Man's found himself at odds with Slash Man, whose ambition is to lay siege to the place and redecorate it in his own image. Naturally, he wants to call it the 'Slashy Columns'.",
+        "music": "sega-remix/snake-man-mm3",
+        "music_name": "",
+        "music_link": [],
+        "background": "serpent-column",
+        "background_frame": [],
+        "background_attachments": {
+          "mecha-01": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 581,
+            "offset_y": 237,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          },
+          "mecha-02": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 290,
+            "offset_y": 174,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-03": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 408,
+            "offset_y": 201,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-04": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 150,
+            "offset_y": 239,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          },
+          "mecha-05": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 66,
+            "offset_y": 166,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          }
+        },
+        "foreground": "serpent-column",
+        "foreground_frame": [],
+        "foreground_attachments": {
+          "mecha-06": {
+            "class": "robot",
+            "size": 80,
+            "offset_x": -100,
+            "offset_y": 0,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-07": {
+            "class": "robot",
+            "size": 80,
+            "offset_x": -100,
+            "offset_y": 0,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          }
+        },
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "MM03/Master",
+        "order": 5,
+        "key": 29
+      },
+      "power-plant": {
+        "token": "power-plant",
+        "name": "Power Plant",
+        "game": "MM3",
+        "class": "master",
+        "master": "spark-man",
+        "master2": [],
+        "mechas": [
+          "elec-n"
+        ],
+        "image": "power-plant",
+        "image_editor": 1,
+        "image_editor2": 0,
+        "type": "electric",
+        "type2": "",
+        "multipliers": {
+          "electric": 1.5,
+          "swift": 1.2,
+          "wind": 0.8
+        },
+        "description": "Spark Man's Favourite Field",
+        "description2": "This massive power plant provides the electricity for more than a million homes, which is why panic quickly spread when Spark Man's actions led to a widespread blackout. The plant itself continued to run -- too well, in fact, as what were conductors, trash disposals, and hydraulic lifts quickly became glorified death traps. This increased static productivity does affect Electric and Swift robots positively, however, and that's not all when it comes to increased performance. The Elec'n, normally mere electrical substations, can plug into the plant's electrical supply to deliver lethal shocks. Maintaining such a large resource has proven difficult for the absent minded Spark Man, so the more attentive Fuse Man has substituted in from time to time.",
+        "music": "sega-remix/spark-man-mm3",
+        "music_name": "",
+        "music_link": [],
+        "background": "power-plant",
+        "background_frame": [],
+        "background_attachments": {
+          "mecha-01": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 44,
+            "offset_y": 156,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-02": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 183,
+            "offset_y": 188,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-03": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 296,
+            "offset_y": 156,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-04": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 198,
+            "offset_y": 187,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          },
+          "mecha-05": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 32,
+            "offset_y": 188,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          }
+        },
+        "foreground": "power-plant",
+        "foreground_frame": [],
+        "foreground_attachments": {
+          "mecha-06": {
+            "class": "robot",
+            "size": 80,
+            "offset_x": -100,
+            "offset_y": 0,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-07": {
+            "class": "robot",
+            "size": 80,
+            "offset_x": -100,
+            "offset_y": 0,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          }
+        },
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "MM03/Master",
+        "order": 6,
+        "key": 30
+      },
+      "septic-system": {
+        "token": "septic-system",
+        "name": "Septic System",
+        "game": "MM3",
+        "class": "master",
+        "master": "shadow-man",
+        "master2": [],
+        "mechas": [
+          "ribbitron"
+        ],
+        "image": "septic-system",
+        "image_editor": 1,
+        "image_editor2": 0,
+        "type": "shadow",
+        "type2": "",
+        "multipliers": {
+          "shadow": 1.5,
+          "nature": 0.8,
+          "flame": 0.6
+        },
+        "description": "Shadow Man's Favourite Field",
+        "description2": "It certainly may not smell pleasant, but this dingy sewer system located beneath Akihara Town provides excellent cover for a ninja warrior like Shadow Man. The opportunity for cover anywhere makes Shadow attacks especially more shifty, and the raw sewage helps reduce the power of Nature and Flame abilities. Lying low amongst the trash are the Ribbitrons, and they delight on hopping out and making the septic system an even less delightful time! The dark, catacombs-esque ambience has also always been a favorite of Skull Man's, but he's always been less enthralled about Shadow Man and the Ribbitron surprising him from dark corners whenever he shows up.",
+        "music": "sega-remix/shadow-man-mm3",
+        "music_name": "",
+        "music_link": [],
+        "background": "septic-system",
+        "background_frame": [],
+        "background_attachments": {
+          "mecha-01": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": -8,
+            "offset_y": 170,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-02": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 160,
+            "offset_y": 167,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-03": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 280,
+            "offset_y": 191,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-04": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 276,
+            "offset_y": 191,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          },
+          "mecha-05": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 146,
+            "offset_y": 171,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          },
+          "mecha-06": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": -10,
+            "offset_y": 159,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          }
+        },
+        "foreground": "septic-system",
+        "foreground_frame": [],
+        "foreground_attachments": {
+          "mecha-07": {
+            "class": "robot",
+            "size": 80,
+            "offset_x": -100,
+            "offset_y": 0,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-08": {
+            "class": "robot",
+            "size": 80,
+            "offset_x": -100,
+            "offset_y": 0,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          }
+        },
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "MM03/Master",
+        "order": 7,
+        "key": 31
+      },
+      "lighting-control": {
+        "token": "lighting-control",
+        "name": "Lighting Control",
+        "game": "MM4",
+        "class": "master",
+        "master": "bright-man",
+        "master2": [],
+        "mechas": [
+          "bulb-blaster"
+        ],
+        "image": "lighting-control",
+        "image_editor": 1,
+        "image_editor2": 0,
+        "type": "electric",
+        "type2": "",
+        "multipliers": {
+          "electric": 1.5,
+          "shadow": 0.5,
+          "cutter": 1.2
+        },
+        "description": "Bright Man's Favourite Field",
+        "description2": "Cossack's Electrical Producer Plant was meant to offer aid to the nearby impoverished areas that had lacked electricity for years, yet this took a tragic turn when it was repurposed into a battleground for Bright Man to use against Mega Man. If being perfectly lit were to be an art, this place would've been a masterpiece; fine-tuned by Bright Man himself, there's not a single place where darkness could hide. But, in the odd situation the lights in a specific room needed repairing, Bulb Blasters were sent in to guarantee the lighting remained in tip-top shape. Cossack also made sure to offer support areas for any suffering civilians lacking a home; for a lonesome wanderer like Dynamo Man, it's given him a place to stay on multiple occasions.",
+        "music": "sega-remix/bright-man-mm4",
+        "music_name": "",
+        "music_link": [],
+        "background": "lighting-control",
+        "background_frame": [],
+        "background_attachments": {
+          "mecha-01": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": -4,
+            "offset_y": 127,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-02": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 147,
+            "offset_y": 191,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-03": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 236,
+            "offset_y": 159,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-04": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 578,
+            "offset_y": 202,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-05": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": -4,
+            "offset_y": 127,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          },
+          "mecha-06": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 191,
+            "offset_y": 159,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          },
+          "mecha-07": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 325,
+            "offset_y": 163,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          }
+        },
+        "foreground": "lighting-control",
+        "foreground_frame": [],
+        "foreground_attachments": {
+          "mecha-08": {
+            "class": "robot",
+            "size": 80,
+            "offset_x": -100,
+            "offset_y": 0,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-09": {
+            "class": "robot",
+            "size": 80,
+            "offset_x": -100,
+            "offset_y": 0,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          }
+        },
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "MM04/Master",
+        "order": 0,
+        "key": 32
+      },
+      "rainy-sewers": {
+        "token": "rainy-sewers",
+        "name": "Rainy Sewers",
+        "game": "MM4",
+        "class": "master",
+        "master": "toad-man",
+        "master2": [],
+        "mechas": [
+          "robo-fishtot"
+        ],
+        "image": "rainy-sewers",
+        "image_editor": 1,
+        "image_editor2": 0,
+        "type": "water",
+        "type2": "",
+        "multipliers": {
+          "water": 1.5,
+          "electric": 1.3,
+          "flame": 0.5
+        },
+        "description": "Toad Man's Favourite Field",
+        "description2": "Hidden below the city of Megalopolis, the rainwater from the streets above seep into the damp sewers and continue their fall further down into the pipes. This rainwater became acidic when Toad Man threw in an acrid compound, cycling back into the city and making the water unsafe. The stormy conditions lend themselves well to electric attacks, while Flame robots can hardly get an ember started with the damp conditions. Robo Fishtots handle the maintenance of the sewage systems by 'chewing' trash and faulty pipes like kibble. The tiny bits they fail to clean, Pump Man works on to completely eradicate all the bacteria. It's not that he was necessarily asked to, but it makes him happy to make everything lemon-scented.",
+        "music": "sega-remix/toad-man-mm4",
+        "music_name": "",
+        "music_link": [],
+        "background": "rainy-sewers",
+        "background_frame": [],
+        "background_attachments": {
+          "mecha-01": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": -38,
+            "offset_y": 175,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-02": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 303,
+            "offset_y": 173,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-03": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 462,
+            "offset_y": 207,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-04": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 72,
+            "offset_y": 175,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          },
+          "mecha-05": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 152,
+            "offset_y": 175,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          },
+          "mecha-06": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 572,
+            "offset_y": 223,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          }
+        },
+        "foreground": "rainy-sewers",
+        "foreground_frame": [],
+        "foreground_attachments": {
+          "mecha-07": {
+            "class": "robot",
+            "size": 80,
+            "offset_x": -100,
+            "offset_y": 0,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-08": {
+            "class": "robot",
+            "size": 80,
+            "offset_x": -100,
+            "offset_y": 0,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          }
+        },
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "MM04/Master",
+        "order": 1,
+        "key": 33
+      },
+      "mineral-quarry": {
+        "token": "mineral-quarry",
+        "name": "Mineral Quarry",
+        "game": "MM4",
+        "class": "master",
+        "master": "drill-man",
+        "master2": [],
+        "mechas": [
+          "drill-mole"
+        ],
+        "image": "mineral-quarry",
+        "image_editor": 1,
+        "image_editor2": 0,
+        "type": "earth",
+        "type2": "",
+        "multipliers": {
+          "earth": 1.5,
+          "explode": 1.2,
+          "electric": 0.5
+        },
+        "description": "Drill Man's Favourite Field",
+        "description2": "This mineral quarry was where Drill Man went to work on excavating precious minerals, not to mention hosting his encounter against Mega Man. Due to the intense tenebrosity, electrical switches were installed to illuminate the dark cave; not much electricity can be allocated elsewhere, however, so the excavation has to be left entirely to drilling robotics and explosives. Luckily, the Drill Moles can tunnel through solid bedrock with a fair amount of independent power. Robot Masters like Drill Man and Ground Man help out tremendously in this regard as well, but as they're not expendable, it's of the utmost importance they remain steadfast in their decision-making.",
+        "music": "sega-remix/drill-man-mm4",
+        "music_name": "",
+        "music_link": [],
+        "background": "mineral-quarry",
+        "background_frame": [],
+        "background_attachments": {
+          "mecha-01": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 70,
+            "offset_y": 160,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-02": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 195,
+            "offset_y": 224,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-03": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 328,
+            "offset_y": 174,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-04": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 146,
+            "offset_y": 128,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          },
+          "mecha-05": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 791,
+            "offset_y": 150,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          }
+        },
+        "foreground": "mineral-quarry",
+        "foreground_frame": [],
+        "foreground_attachments": {
+          "mecha-06": {
+            "class": "robot",
+            "size": 80,
+            "offset_x": -100,
+            "offset_y": 0,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-07": {
+            "class": "robot",
+            "size": 80,
+            "offset_x": -100,
+            "offset_y": 0,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          }
+        },
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "MM04/Master",
+        "order": 2,
+        "key": 34
+      },
+      "egyptian-excavation": {
+        "token": "egyptian-excavation",
+        "name": "Egyptian Excavation",
+        "game": "MM4",
+        "class": "master",
+        "master": "pharaoh-man",
+        "master2": [],
+        "mechas": [
+          "pyre-fly"
+        ],
+        "image": "egyptian-excavation",
+        "image_editor": 1,
+        "image_editor2": 0,
+        "type": "flame",
+        "type2": "",
+        "multipliers": {
+          "flame": 1.5,
+          "shadow": 1.2,
+          "wind": 0.8
+        },
+        "description": "Pharaoh Man's Favourite Field",
+        "description2": "An archaic temple from thousands of year past, it saddened Pharaoh Man tremendously to have to tamper with the ruins to try and destroy Mega Man. Flames from so long ago burn eternal here, yet there's still plenty of dark corners to get lost in; getting buried in sand for so many years doesn't exactly help Wind abilities blow very well, either. The Pyre Flies aid Pharaoh Man by warding off graverobbers, and by providing him with direct-feed recording to spot intruders. With so much ancient history left still undiscovered within its depths, Pharaoh Man's called on the equally-knowledgeable Sword Man to discover and decipher its remaining secrets.",
+        "music": "sega-remix/pharaoh-man-mm4",
+        "music_name": "",
+        "music_link": [],
+        "background": "egyptian-excavation",
+        "background_frame": [],
+        "background_attachments": {
+          "mecha-01": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 50,
+            "offset_y": 192,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-02": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 252,
+            "offset_y": 224,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-03": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 482,
+            "offset_y": 198,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-04": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": -87,
+            "offset_y": 160,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-05": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 165,
+            "offset_y": 159,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          },
+          "mecha-06": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 114,
+            "offset_y": 206,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          },
+          "mecha-07": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": -128,
+            "offset_y": 172,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          }
+        },
+        "foreground": "egyptian-excavation",
+        "foreground_frame": [],
+        "foreground_attachments": {
+          "mecha-08": {
+            "class": "robot",
+            "size": 80,
+            "offset_x": -100,
+            "offset_y": 0,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-09": {
+            "class": "robot",
+            "size": 80,
+            "offset_x": -100,
+            "offset_y": 0,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          }
+        },
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "MM04/Master",
+        "order": 3,
+        "key": 35
+      },
+      "space-simulator": {
+        "token": "space-simulator",
+        "name": "Space Simulator",
+        "game": "MM4",
+        "class": "master",
+        "master": "ring-man",
+        "master2": [],
+        "mechas": [
+          "ring-ring"
+        ],
+        "image": "space-simulator",
+        "image_editor": 1,
+        "image_editor2": 0,
+        "type": "space",
+        "type2": "",
+        "multipliers": {
+          "space": 1.5,
+          "wind": 0.6,
+          "earth": 0.5
+        },
+        "description": "Ring Man's Favourite Field",
+        "description2": "Could it be that somehow, there's some sort of weird pocket dimension on Earth where space is feasibly within walking distance? As with any questions using the word 'somehow', the answer is a resounding no. What's going on here is that space is being artificially recreated in appearance only -- there's plenty of gravity and oxygen to be had here. The atmosphere still powers up Space-cored robots though, with it logically weakening Wind and Earth-core robots as well. When Ring Man had control of the place, he employed the Ring-Rings to further emphasize the illusion. With all of these elements in place, even robots who have been up in space can hardly tell the difference. Star Man, for example, has been routinely visiting and still hasn't figured it out.",
+        "music": "sega-remix/ring-man-mm4",
+        "music_name": "",
+        "music_link": [],
+        "background": "space-simulator",
+        "background_frame": [],
+        "background_attachments": {
+          "mecha-01": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": -50,
+            "offset_y": 162,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-02": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 94,
+            "offset_y": 162,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-03": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 316,
+            "offset_y": 214,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          },
+          "mecha-04": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 135,
+            "offset_y": 226,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          },
+          "mecha-05": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": -124,
+            "offset_y": 212,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          },
+          "mecha-06": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 435,
+            "offset_y": 162,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          }
+        },
+        "foreground": "space-simulator",
+        "foreground_frame": [],
+        "foreground_attachments": {
+          "mecha-07": {
+            "class": "robot",
+            "size": 80,
+            "offset_x": -100,
+            "offset_y": 0,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-08": {
+            "class": "robot",
+            "size": 80,
+            "offset_x": -100,
+            "offset_y": 0,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          }
+        },
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "MM04/Master",
+        "order": 4,
+        "key": 36
+      },
+      "rusty-scrapheap": {
+        "token": "rusty-scrapheap",
+        "name": "Rusty Scrapheap",
+        "game": "MM4",
+        "class": "master",
+        "master": "dust-man",
+        "master2": [],
+        "mechas": [
+          "lady-blader"
+        ],
+        "image": "rusty-scrapheap",
+        "image_editor": 1,
+        "image_editor2": 0,
+        "type": "wind",
+        "type2": "",
+        "multipliers": {
+          "wind": 1.5,
+          "electric": 1.1,
+          "nature": 0.7
+        },
+        "description": "Dust Man's Favourite Field",
+        "description2": "The final resting place for rejected and scrapped parts, this unkempt site is most notable for when Dust Man was programmed to take it over and crush Mega Man at all costs. Since the junk gets compacted into cubes by automated pressers, it gave Dust Man plenty to work with in regards to his Dust Crusher. Hygienics are substantially below-average here however, so likewise Nature abilities end up falling below average as well. The Ladybug series of Bladers, known for their versatile aviation, have been assigned to the scrapheap, and can easily be spotted amongst the garbage by their strong primary color scheme. Due to being able to switch between propeller-based and jet-based flight, the Lady Bladers have become of great interest to Gyro Man.",
+        "music": "sega-remix/dust-man-mm4",
+        "music_name": "",
+        "music_link": [],
+        "background": "rusty-scrapheap",
+        "background_frame": [],
+        "background_attachments": {
+          "mecha-01": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 31,
+            "offset_y": 153,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-02": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 354,
+            "offset_y": 153,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-03": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 456,
+            "offset_y": 177,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-04": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 184,
+            "offset_y": 153,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          },
+          "mecha-05": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 780,
+            "offset_y": 153,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          },
+          "mecha-06": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 65,
+            "offset_y": 163,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          }
+        },
+        "foreground": "rusty-scrapheap",
+        "foreground_frame": [],
+        "foreground_attachments": {
+          "mecha-07": {
+            "class": "robot",
+            "size": 80,
+            "offset_x": -100,
+            "offset_y": 0,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-08": {
+            "class": "robot",
+            "size": 80,
+            "offset_x": -100,
+            "offset_y": 0,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          }
+        },
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "MM04/Master",
+        "order": 5,
+        "key": 37
+      },
+      "submerged-armory": {
+        "token": "submerged-armory",
+        "name": "Submerged Armory",
+        "game": "MM4",
+        "class": "master",
+        "master": "dive-man",
+        "master2": [],
+        "mechas": [
+          "manta-missile"
+        ],
+        "image": "submerged-armory",
+        "image_editor": 1,
+        "image_editor2": 0,
+        "type": "missile",
+        "type2": "",
+        "multipliers": {
+          "missile": 1.5,
+          "earth": 0.7,
+          "water": 1.4
+        },
+        "description": "Dive Man's Favourite Field",
+        "description2": "This armory had originally been buoyant, but damages suffered during one of Wily's attempts at world domination caused the station to be almost entirely submerged. While this meant it was beyond use for humans, submersible robots like Dive Man continued to operate the base for restoration and combat efforts. There's plenty of ammo for Water and Missile-core robots here, but as all the platforms are composed of a metal alloy, Earth-core robots have almost no external power to rely on. Along with an assortment of mines and spikes that spilled out from the initial collapse, Manta Missiles patrol alongside the ship hulls to locate potential fuel leaks. Commando Man's been seen docking government-issue ships in this makeshift harbor as well, though he's very out of his element out in the sea.",
+        "music": "sega-remix/dive-man-mm4",
+        "music_name": "",
+        "music_link": [],
+        "background": "submerged-armory",
+        "background_frame": [],
+        "background_attachments": {
+          "mecha-01": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": -61,
+            "offset_y": 183,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-02": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 54,
+            "offset_y": 205,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-03": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 197,
+            "offset_y": 150,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-04": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 355,
+            "offset_y": 151,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-05": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 172,
+            "offset_y": 181,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          },
+          "mecha-06": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 36,
+            "offset_y": 151,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          }
+        },
+        "foreground": "submerged-armory",
+        "foreground_frame": [],
+        "foreground_attachments": {
+          "mecha-07": {
+            "class": "robot",
+            "size": 80,
+            "offset_x": -100,
+            "offset_y": 0,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-08": {
+            "class": "robot",
+            "size": 80,
+            "offset_x": -100,
+            "offset_y": 0,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          }
+        },
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "MM04/Master",
+        "order": 6,
+        "key": 38
+      },
+      "robosaur-boneyard": {
+        "token": "robosaur-boneyard",
+        "name": "Robosaur Boneyard",
+        "game": "MM4",
+        "class": "master",
+        "master": "skull-man",
+        "master2": [],
+        "mechas": [
+          "skullmet"
+        ],
+        "image": "robosaur-boneyard",
+        "image_editor": 1,
+        "image_editor2": 0,
+        "type": "shadow",
+        "type2": "",
+        "multipliers": {
+          "shadow": 1.5,
+          "impact": 1.3,
+          "swift": 0.6
+        },
+        "description": "Skull Man's Favourite Field",
+        "description2": "You may be deceived into thinking this is a genuine fossil site, but in actuality some idiot simply buried a bunch of artificial dinosaur parts in a 'get rich quick' scheme. Skull Man enjoyed the macabre theme regardless, and felt it fitting to have this be the arena where he and the Blue Bomber could finally meet. Shadow and Explode typed robots showcase strong performances on this field, but the skeleton-based flooring seems to have an adverse effect on attacks relying on speed. The defensive Skullmet mechas tuck themselves away at the end of long corridors, spelling doom for any who find themselves cornered. There's been rumors floating around that Magic Man's been around here often, apparently looking to \"get his dinosaurs back.\"",
+        "music": "sega-remix/skull-man-mm4",
+        "music_name": "",
+        "music_link": [],
+        "background": "robosaur-boneyard",
+        "background_frame": [],
+        "background_attachments": {
+          "mecha-01": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 45,
+            "offset_y": 173,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-02": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 333,
+            "offset_y": 156,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-03": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 446,
+            "offset_y": 197,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-04": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 24,
+            "offset_y": 156,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          },
+          "mecha-05": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 151,
+            "offset_y": 156,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          },
+          "mecha-06": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 471,
+            "offset_y": 204,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          }
+        },
+        "foreground": "robosaur-boneyard",
+        "foreground_frame": [],
+        "foreground_attachments": {
+          "mecha-07": {
+            "class": "robot",
+            "size": 80,
+            "offset_x": -100,
+            "offset_y": 0,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-08": {
+            "class": "robot",
+            "size": 80,
+            "offset_x": -100,
+            "offset_y": 0,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          }
+        },
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "MM04/Master",
+        "order": 7,
+        "key": 39
+      },
+      "crystal-catacombs": {
+        "token": "crystal-catacombs",
+        "name": "Crystal Catacombs",
+        "game": "MM5",
+        "class": "master",
+        "master": "crystal-man",
+        "master2": [],
+        "mechas": [],
+        "image": "field",
+        "image_editor": 1,
+        "image_editor2": 0,
+        "type": "crystal",
+        "type2": "",
+        "multipliers": {
+          "crystal": 1.5,
+          "earth": 1.3,
+          "cutter": 0.8
+        },
+        "description": "Crystal Man's Favourite Field",
+        "description2": "",
+        "music": "sega-remix/crystal-man-mm5",
+        "music_name": "",
+        "music_link": [],
+        "background": "crystal-catacombs",
+        "background_frame": [],
+        "background_attachments": [],
+        "foreground": "crystal-catacombs",
+        "foreground_frame": [],
+        "foreground_attachments": [],
+        "flag_hidden": 0,
+        "flag_complete": 0,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "MM99/Master",
+        "order": 0,
+        "key": 40
+      },
+      "gemstone-cavern": {
+        "token": "gemstone-cavern",
+        "name": "Gemstone Cavern",
+        "game": "MM9",
+        "class": "master",
+        "master": "jewel-man",
+        "master2": [],
+        "mechas": [],
+        "image": "field",
+        "image_editor": 1,
+        "image_editor2": 0,
+        "type": "crystal",
+        "type2": "",
+        "multipliers": {
+          "crystal": 1.5,
+          "electric": 0.8,
+          "freeze": 0.5
+        },
+        "description": "Jewel Man's Favourite Field",
+        "description2": "",
+        "music": "sega-remix/jewel-man-mm9",
+        "music_name": "",
+        "music_link": [],
+        "background": "gemstone-cavern",
+        "background_frame": [],
+        "background_attachments": [],
+        "foreground": "gemstone-cavern",
+        "foreground_frame": [],
+        "foreground_attachments": [],
+        "flag_hidden": 0,
+        "flag_complete": 0,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "MM99/Master",
+        "order": 1,
+        "key": 41
+      },
+      "robot-museum": {
+        "token": "robot-museum",
+        "name": "Robot Museum",
+        "game": "MM7",
+        "class": "event",
+        "master": "doc-robot",
+        "master2": [],
+        "mechas": [
+          "sniper-joe",
+          "skeleton-joe",
+          "crystal-joe"
+        ],
+        "image": "robot-museum",
+        "image_editor": 1,
+        "image_editor2": 0,
+        "type": "",
+        "type2": "",
+        "multipliers": {
+          "experience": 2
+        },
+        "description": "Doc Robot Stage",
+        "description2": "The Robot Museum, a tribute to Dr. Light's ingenious robotic designs, showcases the iconic Robot Masters from Mega Man's past adventures. As a testament to the ever-evolving battle between Dr. Light and Dr. Wily, the museum became the focal point of Wily's mischief when he breached its walls to resurrect the formidable Guts Man. This hallowed hall is not just a place of remembrance, but also a reminder of the unending rivalry and the legacy of Mega Man.  In the world of the Prototype, the Robot Museum has taken on a new guardian in the form of Doc Robot. This multifaceted machine, capable of mimicking the abilities of other Robot Masters, has claimed the museum as his domain. With a deep-seated respect for the legacy of Robot Masters, Doc Robot sees himself as the protector of their memories and the curator of their histories. His presence transforms the museum from a mere showcase to a living testament, where the past meets the present in a dynamic dance of technology and tribute.",
+        "music": "sega-remix/boss-theme-mm3",
+        "music_name": "",
+        "music_link": [],
+        "background": "robot-museum",
+        "background_frame": [],
+        "background_attachments": {
+          "mecha-01": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 180,
+            "offset_y": 14,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-02": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 250,
+            "offset_y": 49,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          },
+          "mecha-03": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 94,
+            "offset_y": 14,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          },
+          "mecha-04": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 115,
+            "offset_y": 146,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-05": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 115,
+            "offset_y": 146,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          }
+        },
+        "foreground": "robot-museum",
+        "foreground_frame": [],
+        "foreground_attachments": [],
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "MMRPG/Events",
+        "order": 0,
+        "key": 42
+      },
+      "hunter-compound": {
+        "token": "hunter-compound",
+        "name": "Hunter Compound",
+        "game": "MM10",
+        "class": "event",
+        "master": "",
+        "master2": [],
+        "mechas": [
+          "mouslider",
+          "picket-man"
+        ],
+        "image": "hunter-compound",
+        "image_editor": 1,
+        "image_editor2": 0,
+        "type": "",
+        "type2": "",
+        "multipliers": {
+          "shield": 1.2,
+          "explode": 1.2,
+          "cutter": 1.2,
+          "experience": 2
+        },
+        "description": "Mega Man Killer Headquarters",
+        "description2": "The Hunter Compound is an amalgamation of Enker, Punk, and Ballade's customized secret fortresses fused into one.  Each of the three hunters, infamously referred to as the \"Mega Man Killers\", keeps watch over the base in shifts to ensure no intruders interfere with their planning.  The terrain represented on this field is diverse, but the strategy is largely similar regardless of where you fight - don't die.",
+        "music": "sega-remix/special-stage-1-mm10",
+        "music_name": "",
+        "music_link": [],
+        "background": "hunter-compound",
+        "background_frame": [],
+        "background_attachments": {
+          "mecha-01": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 119,
+            "offset_y": 207,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-02": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 109,
+            "offset_y": 188,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          },
+          "mecha-03": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 327,
+            "offset_y": 153,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          }
+        },
+        "foreground": "hunter-compound",
+        "foreground_frame": [],
+        "foreground_attachments": [],
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "MMRPG/Events",
+        "order": 1,
+        "key": 43
+      },
+      "royal-palace": {
+        "token": "royal-palace",
+        "name": "Royal Palace",
+        "game": "RnF",
+        "class": "event",
+        "master": "king",
+        "master2": [],
+        "mechas": [
+          "pyre-fly",
+          "flea"
+        ],
+        "image": "royal-palace",
+        "image_editor": 1,
+        "image_editor2": 0,
+        "type": "",
+        "type2": "",
+        "multipliers": {
+          "experience": 3
+        },
+        "description": "King's Home Base",
+        "description2": "Originally built as one of Dr. Wily's Castles, this fortress was liberated by and now belongs to the powerful robot name King.  Despite the long and arduous battle to free King's mind and release him from Dr. Wily's control, it seems that our friend has been compromised once again and now sits upon his throne waiting for a rematch we our heroes.  The Royal Palace (also known as King's Castle) has been fully restored to it's pre-destruction glory here in The Prototype and consists of many floors each more perilous than the last, but the throne room at the very top is the lion's den where our inevitable fight will take place.  Decked-out with silky red curtains and chevrons, s gold-plated throne, a giant overhead computer, and a two pairs of capsules containing robot bodyguards waiting to jump into action at a moment's notice, King is not playing games with his new setup.  The purple brick walls and lavender pillars might confuse one into thinking this place was inviting, but anyone foolish enough to venture here will soon learn their mistake.",
+        "music": "sega-remix/kings-fortress-rnf",
+        "music_name": "",
+        "music_link": [],
+        "background": "royal-palace",
+        "background_frame": [],
+        "background_attachments": {
+          "mecha-01": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 137,
+            "offset_y": 197,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          },
+          "mecha-02": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 137,
+            "offset_y": 197,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-03": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 6,
+            "offset_y": 125,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          },
+          "mecha-04": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 6,
+            "offset_y": 125,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          }
+        },
+        "foreground": "royal-palace",
+        "foreground_frame": [],
+        "foreground_attachments": [],
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "MMRPG/Events",
+        "order": 2,
+        "key": 44
+      },
+      "genesis-tower": {
+        "token": "genesis-tower",
+        "name": "Genesis Tower",
+        "game": "MMWW",
+        "class": "event",
+        "master": "",
+        "master2": [],
+        "mechas": [
+          "beak"
+        ],
+        "image": "genesis-tower",
+        "image_editor": 1,
+        "image_editor2": 0,
+        "type": "",
+        "type2": "",
+        "multipliers": {
+          "experience": 2.5
+        },
+        "description": "Genesis Unit Stage",
+        "description2": "This battle field is a most peculiar sight here, appearing as mere fragment of the original multi-floor Chronos Institute for which it is based on.  Aptly named Genesis Tower, this area is home to all three of the original Genesis Unit - a group of powerful robots created long ago for the purpose of destroying Mega Man.",
+        "music": "sega-remix/mr-x-fortress-mm6",
+        "music_name": "",
+        "music_link": [],
+        "background": "genesis-tower",
+        "background_frame": [],
+        "background_attachments": {
+          "mecha-01": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 89,
+            "offset_y": 173,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-02": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 248,
+            "offset_y": 109,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-03": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 106,
+            "offset_y": 141,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          },
+          "mecha-04": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 269,
+            "offset_y": 173,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          }
+        },
+        "foreground": "genesis-tower",
+        "foreground_frame": [],
+        "foreground_attachments": [],
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "MMRPG/Events",
+        "order": 3,
+        "key": 45
+      },
+      "final-destination": {
+        "token": "final-destination",
+        "name": "Final Destination",
+        "game": "MMRPGP",
+        "class": "event",
+        "master": "",
+        "master2": [],
+        "mechas": [
+          "beak"
+        ],
+        "image": "final-destination",
+        "image_editor": 1,
+        "image_editor2": 0,
+        "type": "",
+        "type2": "",
+        "multipliers": {
+          "experience": 2,
+          "recovery": 2
+        },
+        "description": "",
+        "description2": "This field's entire existence in the Prototype is a mystery, as it has no real-life counterpart nor does it seem like it was ever coded in the first place. Thus, it's a contamination of the entire system, emanating the source of whatever infliction has infiltrated the Prototype. The infamous Mega Man Killers have been resurrected from beyond the grave to defend the first layer, making it nigh-impossible to break through. Luckily, experience and health recovery is significantly multiplied, which when utilized right could hypothetically provide the opportunity for triumph against these bulwarks of strength. Security Beaks are the primary mechas whose purpose is to root out any intruding malware, and as a source field in the Prototype, every single Mecha's data can be loaded and summoned on this field. The land where corruption has taken hold most, this truly is the Final Destination.",
+        "music": "sega-remix/special-stage-mm9",
+        "music_name": "",
+        "music_link": [],
+        "background": "final-destination",
+        "background_frame": [],
+        "background_attachments": {
+          "mecha-01": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": -12,
+            "offset_y": 166,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          },
+          "mecha-02": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 283,
+            "offset_y": 150,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-03": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 200,
+            "offset_y": 166,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          },
+          "mecha-04": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 124,
+            "offset_y": 198,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-05": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": -39,
+            "offset_y": 166,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          }
+        },
+        "foreground": "final-destination",
+        "foreground_frame": [],
+        "foreground_attachments": {
+          "mecha-06": {
+            "class": "robot",
+            "size": 80,
+            "offset_x": -100,
+            "offset_y": 0,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-07": {
+            "class": "robot",
+            "size": 80,
+            "offset_x": -100,
+            "offset_y": 0,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          }
+        },
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "MMRPG/Finale",
+        "order": 0,
+        "key": 46
+      },
+      "final-destination-2": {
+        "token": "final-destination-2",
+        "name": "Final Destination II",
+        "game": "MMRPGP",
+        "class": "event",
+        "master": "",
+        "master2": [],
+        "mechas": [
+          "beak"
+        ],
+        "image": "final-destination-2",
+        "image_editor": 1,
+        "image_editor2": 0,
+        "type": "",
+        "type2": "",
+        "multipliers": {
+          "experience": 2.5,
+          "damage": 2.5
+        },
+        "description": "",
+        "description2": "This field's entire existence in the Prototype is a mystery, as it has no real-life counterpart nor does it seem like it was ever coded in the first place. Thus, it's a contamination of the entire system, emanating the source of whatever infliction has infiltrated the Prototype. Upon succeeding against all odds and at every turn, it was only a matter of time before Mega Man, Bass, and Proto Man were put up against their own corrupted doppelgangers. These strengthened carbon copies are even more fearsome than the real deals, yet with damage multiplied on this field, there's still hope on standing on even ground.  Security Beaks are the primary mechas whose purpose is to root out any intruding malware, and as a source field in the Prototype, every single Mecha's data can be loaded and summoned on this field. The land where corruption has taken hold most, this truly is the Final Destination.",
+        "music": "sega-remix/wily-fortress-1-mm9",
+        "music_name": "",
+        "music_link": [],
+        "background": "final-destination-2",
+        "background_frame": [],
+        "background_attachments": {
+          "mecha-01": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": -56,
+            "offset_y": 210,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          },
+          "mecha-02": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 322,
+            "offset_y": 146,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-03": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 140,
+            "offset_y": 146,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          },
+          "mecha-04": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 124,
+            "offset_y": 178,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-05": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": -116,
+            "offset_y": 146,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          }
+        },
+        "foreground": "final-destination-2",
+        "foreground_frame": [],
+        "foreground_attachments": {
+          "mecha-06": {
+            "class": "robot",
+            "size": 80,
+            "offset_x": -100,
+            "offset_y": 0,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-07": {
+            "class": "robot",
+            "size": 80,
+            "offset_x": -100,
+            "offset_y": 0,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          }
+        },
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "MMRPG/Finale",
+        "order": 1,
+        "key": 47
+      },
+      "final-destination-3": {
+        "token": "final-destination-3",
+        "name": "Final Destination III",
+        "game": "MMRPGP",
+        "class": "event",
+        "master": "",
+        "master2": [],
+        "mechas": [
+          "beak"
+        ],
+        "image": "final-destination-3",
+        "image_editor": 1,
+        "image_editor2": 0,
+        "type": "",
+        "type2": "",
+        "multipliers": {
+          "experience": 3,
+          "recovery": 1.5,
+          "damage": 1.5
+        },
+        "description": "",
+        "description2": "This field's entire existence in the Prototype is a mystery, as it has no real-life counterpart nor does it seem like it was ever coded in the first place. Thus, it's a contamination of the entire system, emanating the source of whatever infliction has infiltrated the Prototype. In a last-ditch effort to defend itself, the mysterious contamination surprisingly replicates the strongest force currently available in the Prototype; the teams of the doctors! These hollow sigma copies have no reservations against using any and every advantage available on hand, so the doctors have to do the same to succeed and escape! Security Beaks are the primary mechas whose purpose is to root out any intruding malware, and as a source field in the Prototype, every single Mecha's data can be loaded and summoned on this field. With the hope of the world on their shoulders, this is the final destination and the final battle. Fight, our heroes, for everlasting peace!",
+        "music": "sega-remix/wily-fortress-2-mm9",
+        "music_name": "",
+        "music_link": [],
+        "background": "final-destination-3",
+        "background_frame": [],
+        "background_attachments": {
+          "mecha-01": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": -53,
+            "offset_y": 180,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          },
+          "mecha-02": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 250,
+            "offset_y": 180,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-03": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 180,
+            "offset_y": 167,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          },
+          "mecha-04": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": 124,
+            "offset_y": 148,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-05": {
+            "class": "robot",
+            "size": 40,
+            "offset_x": -11,
+            "offset_y": 116,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          }
+        },
+        "foreground": "final-destination-3",
+        "foreground_frame": [],
+        "foreground_attachments": {
+          "mecha-06": {
+            "class": "robot",
+            "size": 80,
+            "offset_x": -100,
+            "offset_y": 0,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "right"
+          },
+          "mecha-07": {
+            "class": "robot",
+            "size": 80,
+            "offset_x": -100,
+            "offset_y": 0,
+            "robot_token": "met",
+            "robot_frame": [
+              0
+            ],
+            "robot_direction": "left"
+          }
+        },
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "MMRPG/Finale",
+        "order": 2,
+        "key": 48
+      },
+      "prototype-complete": {
+        "token": "prototype-complete",
+        "name": "Bonus Field",
+        "game": "MMRPGP",
+        "class": "bonus",
+        "master": "",
+        "master2": [],
+        "mechas": [],
+        "image": "prototype-complete",
+        "image_editor": 1,
+        "image_editor2": 0,
+        "type": "",
+        "type2": "",
+        "multipliers": {
+          "experience": 2
+        },
+        "description": "Prototype Bonus Stage",
+        "description2": "Like Final Destination, this field was never programmed into the actual system; unlike Final Destination, however, it's less a source of evil and more of a serendipitous accident? The opponents are completely random, ranging from past enemies to even foes you may not have encountered yet! The multipliers are completely random too, ranging from small boosts to multiplying your attacks by 1000%! It's the perfect battle simulator to iron out some extra training towards the end of your journey, and to test the capabilities of the Prototype! So after a long and hard-fought quest, isn't this the ideal way to wind down and celebrate?",
+        "music": "",
+        "music_name": "",
+        "music_link": [],
+        "background": "prototype-complete",
+        "background_frame": [],
+        "background_attachments": [],
+        "foreground": "prototype-complete",
+        "foreground_frame": [],
+        "foreground_attachments": [],
+        "flag_hidden": 0,
+        "flag_complete": 1,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "MMRPG/Other",
+        "order": 0,
+        "key": 49
+      }
+    },
+    "total": 49
+  }
+}
