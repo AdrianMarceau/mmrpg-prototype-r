@@ -1,0 +1,20 @@
+
+/* Basic Page Setup */
+
+body {
+    margin: 0;
+    padding: 20px;
+    text-align: center;
+}
+h1 {
+    display: block;
+    margin: 0 auto 1em;
+    font-family: 'Open Sans', monospace;
+    font-size: 1em;
+    text-align: center;
+    margin-top: 1em;
+}
+canvas {
+    display: block;
+    margin: 0 auto;
+}
