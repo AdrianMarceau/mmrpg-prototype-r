@@ -1,0 +1,62 @@
+
+/* Open Sans (Regular + Bold + Italic + BoldItalic) */
+
+@font-face {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Open Sans Regular'), local('OpenSans-Regular'),
+        url('OpenSans-Regular.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 700;
+    src: local('Open Sans Bold'), local('OpenSans-Bold'),
+        url('OpenSans-Bold.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'Open Sans';
+    font-style: italic;
+    font-weight: 400;
+    src: local('Open Sans Italic'), local('OpenSans-Italic'),
+        url('OpenSans-Italic.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'Open Sans';
+    font-style: italic;
+    font-weight: 700;
+    src: local('Open Sans Bold Italic'), local('OpenSans-BoldItalic'),
+        url('OpenSans-BoldItalic.ttf') format('truetype');
+}
+
+
+/* Font Loader (for preloading fonts) */
+
+.font-loader {
+    font-family: Arial;
+    position: absolute;
+    left: -1000px;
+    visibility: hidden;
+}
+
+.font-loader .regular {
+    font-weight: normal;
+    font-style: normal;
+}
+.font-loader .bold {
+    font-weight: bold;
+    font-style: normal;
+}
+.font-loader .italic {
+    font-weight: normal;
+    font-style: italic;
+}
+.font-loader .bold-italic {
+    font-weight: bold;
+    font-style: italic;
+}
+
+.font-loader.open-sans {
+    font-family: 'Open Sans';
+}
