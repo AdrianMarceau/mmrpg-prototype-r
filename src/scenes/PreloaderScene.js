@@ -169,7 +169,7 @@ export default class PreloaderScene extends Phaser.Scene
             'battle_composite',
             ];
         mockupImages.forEach((image) => {
-            this.load.image('mockup_' + image, 'assets/mockup_' + image + '.png');
+            this.load.image('mockup_' + image, 'src/assets/mockup_' + image + '.png');
             });
 
         // Set up the loading progress listener
