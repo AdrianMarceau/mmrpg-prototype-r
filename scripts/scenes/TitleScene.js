@@ -6,7 +6,7 @@
 // ------------------------------------------------------------ //
 
 import MMRPG from '../shared/MMRPG.js';
-import ButtonsUtility from '../shared/Utilities.Buttons.js';
+import ButtonsUtility from '../utils/ButtonsUtility.js';
 
 export default class TitleScene extends Phaser.Scene
 {

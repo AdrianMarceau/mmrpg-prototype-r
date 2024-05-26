@@ -4,7 +4,7 @@
 // for displaying various popups and dialogues to the player.
 // ------------------------------------------------------------ //
 
-import MMRPG from './MMRPG.js';
+import MMRPG from '../shared/MMRPG.js';
 
 export default class PopupsUtility {
 

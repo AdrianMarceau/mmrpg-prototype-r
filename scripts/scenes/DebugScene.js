@@ -6,8 +6,8 @@
 // ------------------------------------------------------------ //
 
 import MMRPG from '../shared/MMRPG.js';
-import PopupsUtility from '../shared/Utilities.Popups.js';
-import ButtonsUtility from '../shared/Utilities.Buttons.js';
+import ButtonsUtility from '../utils/ButtonsUtility.js';
+import PopupsUtility from '../utils/PopupsUtility.js';
 
 export default class DebugScene extends Phaser.Scene
 {

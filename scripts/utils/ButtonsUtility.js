@@ -4,7 +4,7 @@
 // creating and managing interactive buttons in the game.
 // ------------------------------------------------------------ //
 
-import MMRPG from './MMRPG.js';
+import MMRPG from '../shared/MMRPG.js';
 
 export default class ButtonsUtility {
 

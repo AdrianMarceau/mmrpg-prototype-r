@@ -6,8 +6,8 @@
 
 import MMRPG from './shared/MMRPG.js';
 
-import ButtonsUtility from './shared/Utilities.Buttons.js';
-import PopupsUtility from './shared/Utilities.Popups.js';
+import ButtonsUtility from './utils/ButtonsUtility.js';
+import PopupsUtility from './utils/PopupsUtility.js';
 
 import BootScene from './scenes/BootScene.js';
 import PreloaderScene from './scenes/PreloaderScene.js';
@@ -28,7 +28,13 @@ var config = {
             gravity: { y: 200 }
         }
     },
-    scene: [ BootScene, PreloaderScene, TitleScene, MainScene, DebugScene ]
+    scene: [
+        BootScene,
+        PreloaderScene,
+        TitleScene,
+        MainScene,
+        DebugScene
+        ]
     };
 
 let game = new Phaser.Game(config);
