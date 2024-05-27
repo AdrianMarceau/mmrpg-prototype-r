@@ -67,6 +67,7 @@ export default class PreloaderScene extends Phaser.Scene
             let kind = kinds[i];
             let xkind = xkinds[i];
             if (!this.preloadSprites[xkind]){ continue; }
+            SPRITES.loadSprite(this, kind, kind, 'base');
             let tokens = this.preloadSprites[xkind];
             let numTokens = tokens.length;
             for (let i = 0; i < numTokens; i++){
@@ -80,16 +81,6 @@ export default class PreloaderScene extends Phaser.Scene
         this.idleSpriteTokens = ['dr-light', 'dr-wily', 'dr-cossack'];
         this.currentIdleSprite = this.idleSpriteTokens[0];
         this.currentIdleDelay = 0;
-        this.load.spritesheet('players/player', 'content/players/.player/sprites/sprite_right_40x40.png', { frameWidth: 40, frameHeight: 40 });
-        for (let i = 0; i < this.idleSpriteTokens.length; i++){
-            let spritesheet = 'players/' + this.idleSpriteTokens[i];
-            this.load.spritesheet(spritesheet, 'content/' + spritesheet + '/sprites/sprite_right_40x40.png', { frameWidth: 40, frameHeight: 40 });
-            }
-
-        console.log('SPRITES.sizes = ', SPRITES.sizes);
-        console.log('SPRITES.paths = ', SPRITES.paths);
-        console.log('SPRITES.sheets = ', SPRITES.sheets);
-        console.log('SPRITES.anims = ', SPRITES.anims);
 
         // Trigger post-preload methods for utility classes
         SPRITES.afterPreload(this);
@@ -121,7 +112,6 @@ export default class PreloaderScene extends Phaser.Scene
         // Generate some idle sprites to keep the user entertained
         var x = -40, y = MMRPG.canvas.centerY + 125;
         for (let i = 0; i < this.idleSpriteTokens.length; i++){
-
             let spriteToken = this.idleSpriteTokens[i];
             let spriteAlt = 'base';
             let spriteDir = 'right';
@@ -131,7 +121,6 @@ export default class PreloaderScene extends Phaser.Scene
             //console.log('spriteSheet = ', spriteSheet);
             //console.log('spriteRunAnim = ', spriteRunAnim);
             let $idleSprite = this.add.sprite(x, y, spriteSheet);
-
             this.add.tween({
                 targets: $idleSprite,
                 y: '-=2',
@@ -140,14 +129,9 @@ export default class PreloaderScene extends Phaser.Scene
                 repeat: -1,
                 yoyo: true
                 });
-
             $idleSprite.play(spriteRunAnim);
-
             this.idleSprites[spriteToken] = $idleSprite;
-
             }
-
-        //console.log('this.anims = ', this.anims);
 
         // Start the preload queue for the main assets
         let ctx = this;
