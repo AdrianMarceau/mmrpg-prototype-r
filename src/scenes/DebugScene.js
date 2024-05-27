@@ -6,8 +6,13 @@
 // ------------------------------------------------------------ //
 
 import MMRPG from '../shared/MMRPG.js';
+
+import SpritesUtility from '../utils/SpritesUtility.js';
 import ButtonsUtility from '../utils/ButtonsUtility.js';
 import PopupsUtility from '../utils/PopupsUtility.js';
+
+import Banner from '../components/Banner/Banner.js';
+import MainBanner from '../components/Banner/MainBanner.js';
 
 export default class DebugScene extends Phaser.Scene
 {
@@ -18,11 +23,13 @@ export default class DebugScene extends Phaser.Scene
         super('Debug');
 
         // Initialize MMRPG utility class objects
+        let SPRITES = new SpritesUtility(this);
         let POPUPS = new PopupsUtility(this);
         let BUTTONS = new ButtonsUtility(this);
 
         // Ensure MMRPG and utility objects are available to the entire class
         this.MMRPG = MMRPG;
+        this.SPRITES = SPRITES;
         this.POPUPS = POPUPS;
         this.BUTTONS = BUTTONS;
 
@@ -47,17 +54,33 @@ export default class DebugScene extends Phaser.Scene
 
         // Pull in required object references
         let MMRPG = this.MMRPG;
+        let SPRITES = this.SPRITES;
         let BUTTONS = this.BUTTONS;
         let POPUPS = this.POPUPS;
-        BUTTONS.setScene(this);
-        POPUPS.setScene(this);
+        SPRITES.preload(this);
+        BUTTONS.preload(this);
+        POPUPS.preload(this);
 
         // Define some idle sprite variables first and preload so we can use them later
         this.idleSprite = false;
         this.idleSpriteTokens = ['dr-light', 'dr-wily', 'dr-cossack'];
         this.idleSpriteDelta = 0;
+        for (let i = 0; i < this.idleSpriteTokens.length; i++){
+            let spriteToken = this.idleSpriteTokens[i];
+            let spriteAlt = 'base';
+            // if the sprite token ends with an "*_{alt}", make sure we split and pull
+            if (spriteToken.indexOf('_') !== -1){
+                let tokenParts = spriteToken.split('_');
+                spriteToken = tokenParts[0];
+                spriteAlt = tokenParts[1];
+                }
+            SPRITES.loadSprite(this, 'players', spriteToken, spriteAlt);
+            }
 
-        /* ... */
+        // Trigger post-preload methods for utility classes
+        SPRITES.afterPreload(this);
+        BUTTONS.afterPreload(this);
+        POPUPS.afterPreload(this);
 
     }
 
@@ -66,7 +89,14 @@ export default class DebugScene extends Phaser.Scene
         console.log('DebugScene.create() called');
 
         // Pull in required object references
+        let ctx = this;
         let MMRPG = this.MMRPG;
+        let SPRITES = this.SPRITES;
+        let BUTTONS = this.BUTTONS;
+        let POPUPS = this.POPUPS;
+        SPRITES.create(this);
+        BUTTONS.create(this);
+        POPUPS.create(this);
 
         // Create the base canvas for which the rest of the game will be drawn
         var canvas = this.add.image(0, 0, 'canvas');
@@ -122,11 +152,30 @@ export default class DebugScene extends Phaser.Scene
             wordWrap: { width: textWidth, useAdvancedWrap: true }
             });
 
+        // Draw the main banner and collect a reference to it
+        var x = 15, y = 15;
+        this.mainBannerSmall = new MainBanner(this, x, y, {
+            fullsize: false,
+            fillStyle: { color: 0xff0000 },
+            });
 
-        // Let's add some interactive buttons n' popups
-        let ctx = this;
-        let BUTTONS = this.BUTTONS;
-        let POPUPS = this.POPUPS;
+        // Draw the main banner and collect a reference to it
+        var x = 15, y = this.mainBannerSmall.getBounds().y2 + 5;
+        this.mainBannerFull = new MainBanner(this, x, y, {
+            fullsize: true,
+            fillStyle: { color: 0x0000ff },
+            });
+
+        // Draw a test banner and collect a reference to it
+        var width = 400, height = 120;
+        var x = MMRPG.canvas.width - width - 20;
+        var y = MMRPG.canvas.height - height - 20;
+        this.testBanner = new Banner(this, x, y, {
+            width: width,
+            height: height,
+            fillStyle: { color: 0x95c418 },
+            borderRadius: { tl: 20, tr: 0, br: 60, bl: 0 }
+            });
 
         // Create a back button so we can return to the title
         BUTTONS.makeSimpleButton('< Back to Title', {
@@ -169,6 +218,11 @@ export default class DebugScene extends Phaser.Scene
         // ---------------->
         // DEBUG DEBUG DEBUG
 
+        // Trigger post-create methods for utility classes
+        SPRITES.afterCreate(this);
+        BUTTONS.afterCreate(this);
+        POPUPS.afterCreate(this);
+
     }
 
     showTalesFromTheVoid ()
@@ -207,6 +261,7 @@ export default class DebugScene extends Phaser.Scene
 
         // Pull in required object references
         let MMRPG = this.MMRPG;
+        let SPRITES = this.SPRITES;
 
         // Destroy the previous idle sprite if it exists
         //if (this.idleSprite){ this.idleSprite.destroy(); }
@@ -214,21 +269,30 @@ export default class DebugScene extends Phaser.Scene
         // Generate a sprite w/ running animation in progress
         let randKey = Math.floor(Math.random() * this.idleSpriteTokens.length);
         let spriteToken = this.idleSpriteTokens[randKey];
-        let spriteSheet = 'players/' + spriteToken;
+        let spriteAlt = 'base';
+        // if the sprite token ends with an "*_{alt}", make sure we split and pull
+        if (spriteToken.indexOf('_') !== -1){
+            let tokenParts = spriteToken.split('_');
+            spriteToken = tokenParts[0];
+            spriteAlt = tokenParts[1];
+            }
+        let spriteDir = 'right';
+        let spriteSheet = SPRITES.index.sheets.players[spriteToken][spriteAlt][spriteDir];
+        let spriteRunAnim = SPRITES.index.anims.players[spriteToken][spriteAlt][spriteDir].run;
         let spriteX = - 40;
         let spriteY = MMRPG.canvas.centerY - 20;
         let $idleSprite = this.add.sprite(spriteX, spriteY, spriteSheet);
-        $idleSprite.setDepth(9200);
-        $idleSprite.play(spriteToken + '_run');
         this.add.tween({
             targets: $idleSprite,
-            y: { getStart: () => spriteY, getEnd: () => spriteY - 2 },
+            y: '-=2',
             ease: 'Sine.easeInOut',
             duration: 200,
             repeat: -1,
             yoyo: true
             });
         //this.idleSprite = $idleSprite;
+        $idleSprite.play(spriteRunAnim);
+        $idleSprite.setDepth(9200);
 
         // Animate that sprite running across the screen then remove when done
         let spriteDestX = MMRPG.canvas.width + 40;
