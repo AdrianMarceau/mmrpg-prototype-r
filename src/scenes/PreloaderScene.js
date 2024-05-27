@@ -61,8 +61,8 @@ export default class PreloaderScene extends Phaser.Scene
 
 
         // Loop through each sprite type and preload the necessary assets
-        let kinds = SPRITES.kinds;
-        let xkinds = SPRITES.xkinds;
+        let kinds = SPRITES.index.kinds;
+        let xkinds = SPRITES.index.xkinds;
         for (let i = 0; i < kinds.length; i++){
             let kind = kinds[i];
             let xkind = xkinds[i];
@@ -115,8 +115,8 @@ export default class PreloaderScene extends Phaser.Scene
             let spriteToken = this.idleSpriteTokens[i];
             let spriteAlt = 'base';
             let spriteDir = 'right';
-            let spriteSheet = SPRITES.sheets.players[spriteToken][spriteAlt][spriteDir];
-            let spriteRunAnim = SPRITES.anims.players[spriteToken][spriteAlt][spriteDir].run;
+            let spriteSheet = SPRITES.index.sheets.players[spriteToken][spriteAlt][spriteDir];
+            let spriteRunAnim = SPRITES.index.anims.players[spriteToken][spriteAlt][spriteDir].run;
             let spriteY = y + 100 + (i * 25);
             //console.log('spriteSheet = ', spriteSheet);
             //console.log('spriteRunAnim = ', spriteRunAnim);
