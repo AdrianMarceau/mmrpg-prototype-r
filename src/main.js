@@ -6,6 +6,7 @@
 
 import MMRPG from './shared/MMRPG.js';
 
+import SpritesUtility from './utils/SpritesUtility.js';
 import ButtonsUtility from './utils/ButtonsUtility.js';
 import PopupsUtility from './utils/PopupsUtility.js';
 
