@@ -188,7 +188,7 @@ export default class SpritesUtility {
         let pendingAnims = this.pendingAnims;
         while (pendingAnims.length){
             let anim = pendingAnims.shift();
-            if (scene.anims.get(anim)){ continue; }
+            if (scene.anims.get(anim.key)){ continue; }
             console.log('SpritesUtility.createPending() creating anim:', anim);
             scene.anims.create(Object.assign({}, anim, {
                 key: anim.key,
