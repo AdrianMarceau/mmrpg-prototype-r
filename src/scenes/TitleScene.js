@@ -6,6 +6,8 @@
 // ------------------------------------------------------------ //
 
 import MMRPG from '../shared/MMRPG.js';
+
+import SpritesUtility from '../utils/SpritesUtility.js';
 import ButtonsUtility from '../utils/ButtonsUtility.js';
 
 export default class TitleScene extends Phaser.Scene
@@ -17,10 +19,12 @@ export default class TitleScene extends Phaser.Scene
         super('Title');
 
         // Initialize MMRPG utility class objects
+        let SPRITES = new SpritesUtility(this);
         let BUTTONS = new ButtonsUtility(this);
 
         // Ensure MMRPG and utility objects are available to the entire class
         this.MMRPG = MMRPG;
+        this.SPRITES = SPRITES;
         this.BUTTONS = BUTTONS;
 
         // Initialize this scene with a first-load callback function
@@ -38,8 +42,10 @@ export default class TitleScene extends Phaser.Scene
 
         // Pull in required object references
         let MMRPG = this.MMRPG;
+        let SPRITES = this.SPRITES;
         let BUTTONS = this.BUTTONS;
-        BUTTONS.setScene(this);
+        SPRITES.preload(this);
+        BUTTONS.preload(this);
 
         // Define some idle sprite variables first and preload so we can use them later
         this.idleSprites = {};
@@ -47,15 +53,24 @@ export default class TitleScene extends Phaser.Scene
         this.currentIdleSprite = this.idleSpriteTokens[0];
         this.currentIdleDelay = 0;
 
+        // Trigger post-preload methods for utility classes
+        SPRITES.afterPreload(this);
+        BUTTONS.afterPreload(this);
+
     }
 
     create ()
     {
-        //console.log('TitleScene.create() called');
+        console.log('TitleScene.create() called');
 
         // Pull in required object references
         let MMRPG = this.MMRPG;
+        let SPRITES = this.SPRITES;
         let BUTTONS = this.BUTTONS;
+        SPRITES.create(this);
+        BUTTONS.create(this);
+
+        console.log('SPRITES = ', SPRITES);
 
         // Create the base canvas for which the rest of the game will be drawn
         this.canvasImage = this.add.image(0, 0, 'canvas');
@@ -68,23 +83,24 @@ export default class TitleScene extends Phaser.Scene
         // Generate some idle sprites to keep the user entertained
         var x = -40, y = MMRPG.canvas.centerY + 125;
         for (let i = 0; i < this.idleSpriteTokens.length; i++){
-
             let spriteToken = this.idleSpriteTokens[i];
-            let spriteSheet = 'players/' + spriteToken;
-            let spriteY = y + (i * 25);
-
+            let spriteAlt = 'base';
+            let spriteDir = 'right';
+            let spriteSheet = SPRITES.index.sheets.players[spriteToken][spriteAlt][spriteDir];
+            let spriteRunAnim = SPRITES.index.anims.players[spriteToken][spriteAlt][spriteDir].run;
+            let spriteY = y + 100 + (i * 25);
+            //console.log('spriteSheet = ', spriteSheet);
+            //console.log('spriteRunAnim = ', spriteRunAnim);
             let $idleSprite = this.add.sprite(x, y, spriteSheet);
             this.add.tween({
                 targets: $idleSprite,
-                y: { getStart: () => spriteY, getEnd: () => spriteY - 2 },
+                y: '-=2',
                 ease: 'Sine.easeInOut',
                 duration: 200,
                 repeat: -1,
                 yoyo: true
                 });
-
-            $idleSprite.play(spriteToken + '_run');
-
+            $idleSprite.play(spriteRunAnim);
             this.idleSprites[spriteToken] = $idleSprite;
             }
 
@@ -93,6 +109,10 @@ export default class TitleScene extends Phaser.Scene
 
         // We can also show the debug button now too
         this.debugButton = BUTTONS.addDebugButton(this);
+
+        // Trigger post-create methods for utility classes
+        SPRITES.afterCreate(this);
+        BUTTONS.afterCreate(this);
 
     }
 
