@@ -176,7 +176,7 @@ export default class SpritesUtility {
         while (pendingSheets.length){
             let sheet = pendingSheets.shift();
             if (scene.textures.exists(sheet)){ continue; }
-            console.log('SpritesUtility.preloadPending() loading sheet:', sheet);
+            //console.log('SpritesUtility.preloadPending() loading sheet:', sheet);
             scene.load.spritesheet(sheet.key, sheet.path, { frameWidth: sheet.size, frameHeight: sheet.size });
             }
     }
@@ -189,7 +189,7 @@ export default class SpritesUtility {
         while (pendingAnims.length){
             let anim = pendingAnims.shift();
             if (scene.anims.get(anim.key)){ continue; }
-            console.log('SpritesUtility.createPending() creating anim:', anim);
+            //console.log('SpritesUtility.createPending() creating anim:', anim);
             scene.anims.create(Object.assign({}, anim, {
                 key: anim.key,
                 frames: scene.anims.generateFrameNumbers(anim.sheet, { frames: anim.frames }),
