@@ -89,7 +89,8 @@ export default class SpritesUtility {
             }
 
         // Predefine some base paths and keys
-        let basePath = 'content/'+xkind+'/'+token+'/sprites/';
+        let pathToken = token === kind ? ('.' + kind) : token;
+        let basePath = 'content/'+ xkind + '/' + pathToken + '/sprites' + (alt !== 'base' ? '_'+alt : '') + '/';
         let baseKey = 'sprites.' + xkind + '.' + token + '.' + alt;
         let spriteSize = 40;
         let spriteSizeX = spriteSize+'x'+spriteSize;
