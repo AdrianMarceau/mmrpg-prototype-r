@@ -17,27 +17,37 @@ export default class SpritesUtility {
         this.MMRPG = MMRPG;
         this.scene = scene;
 
-        // Predefine the different kinds of sprites we'll be working with
-        let kinds = ['player', 'robot', 'ability', 'item', 'skill', 'field', 'type'];
-        let xkinds = ['players', 'robots', 'abilities', 'items', 'skills', 'fields', 'types'];
-        this.kinds = kinds;
-        this.xkinds = xkinds;
+        // Collect or define the sprites index from the global MMRPG object
+        if (typeof MMRPG.Indexes.SPRITES === 'undefined'){ MMRPG.Indexes.SPRITES = {}; }
+        this.index = MMRPG.Indexes.SPRITES;
+        let index = this.index;
 
-        // Make sure we create required internal indexes for later population
-        let sizes = {};
-        let paths = {};
-        let sheets = {};
-        let anims = {};
-        for (let i = 0; i < kinds.length; i++){
-            sizes[xkinds[i]] = {};
-            paths[xkinds[i]] = {};
-            anims[xkinds[i]] = {};
-            sheets[xkinds[i]] = {};
+        // Predefine the different kinds of sprites we'll be working with
+        if (typeof index.kinds === 'undefined'
+            || typeof index.xkinds === 'undefined'){
+            let kinds = ['player', 'robot', 'ability', 'item', 'skill', 'field', 'type'];
+            let xkinds = ['players', 'robots', 'abilities', 'items', 'skills', 'fields', 'types'];
+            index.kinds = kinds;
+            index.xkinds = xkinds;
             }
-        this.sizes = sizes;
-        this.paths = paths;
-        this.sheets = sheets;
-        this.anims = anims;
+        let kinds = index.kinds;
+        let xkinds = index.xkinds;
+
+        // Predefine the different sub-indexes for paths, sheets, animations, etc.
+        if (typeof index.sizes === 'undefined'){ index.sizes = {}; }
+        if (typeof index.paths === 'undefined'){ index.paths = {}; }
+        if (typeof index.sheets === 'undefined'){ index.sheets = {}; }
+        if (typeof index.anims === 'undefined'){ index.anims = {}; }
+        if (typeof index.tweens === 'undefined'){ index.tweens = {}; }
+        for (let i = 0; i < kinds.length; i++){
+            let kind = kinds[i];
+            let xkind = xkinds[i];
+            if (typeof index.sizes[xkind]){ index.sizes[xkind] = {}; }
+            if (typeof index.paths[xkind]){ index.paths[xkind] = {}; }
+            if (typeof index.sheets[xkind]){ index.sheets[xkind] = {}; }
+            if (typeof index.anims[xkind]){ index.anims[xkind] = {}; }
+            if (typeof index.tweens[xkind]){ index.tweens[xkind] = {}; }
+            }
 
         // Create a buffer for pending sheets, animations, etc.
         this.pendingSheets = [];
@@ -77,13 +87,18 @@ export default class SpritesUtility {
     {
         //console.log('SpritesUtility.loadSprite() called w/ \n kind: '+kind+', token: '+token+', alt: '+alt);
 
+        // Pull in index references
+        let index = this.index;
+        let kinds = index.kinds;
+        let xkinds = index.xkinds;
+
         // Normalize the kind token to ensure they it's valid
         let xkind = '';
-        if (this.kinds.includes(kind)){
-            xkind = this.xkinds[this.kinds.indexOf(kind)];
-            } else if (this.xkind.includes(kind)){
+        if (kinds.includes(kind)){
+            xkind = xkinds[kinds.indexOf(kind)];
+            } else if (xkinds.includes(kind)){
             xkind = kind;
-            kind = this.kinds[this.xkind.indexOf(xkind)];
+            kind = kinds[xkinds.indexOf(xkind)];
             } else {
             return false;
             }
@@ -95,8 +110,8 @@ export default class SpritesUtility {
         let spriteSize = 40;
         let spriteSizeX = spriteSize+'x'+spriteSize;
         let spriteDirections = ['left', 'right'];
-        if (typeof this.sizes[kind] === 'undefined'){ this.sizes[kind] = {}; }
-        this.sizes[kind][token] = spriteSize;
+        if (typeof index.sizes[kind] === 'undefined'){ index.sizes[kind] = {}; }
+        index.sizes[kind][token] = spriteSize;
 
         // Loop through each direction and load the sprite sheet, making note of the sheet created
         for (let i = 0; i < spriteDirections.length; i++){
@@ -104,18 +119,18 @@ export default class SpritesUtility {
             // Define and register the key for this sprite sheet using direction, image, key, and path
             let direction = spriteDirections[i];
             let sheetKey = baseKey+'.'+direction;
-            if (typeof this.sheets[xkind] === 'undefined'){ this.sheets[xkind] = {}; }
-            if (typeof this.sheets[xkind][token] === 'undefined'){ this.sheets[xkind][token] = {}; }
-            if (typeof this.sheets[xkind][token][alt] === 'undefined'){ this.sheets[xkind][token][alt] = {}; }
-            this.sheets[xkind][token][alt][direction] = sheetKey;
+            if (typeof index.sheets[xkind] === 'undefined'){ index.sheets[xkind] = {}; }
+            if (typeof index.sheets[xkind][token] === 'undefined'){ index.sheets[xkind][token] = {}; }
+            if (typeof index.sheets[xkind][token][alt] === 'undefined'){ index.sheets[xkind][token][alt] = {}; }
+            index.sheets[xkind][token][alt][direction] = sheetKey;
 
             // Define the relative image path for this sprite sheet
             let image = 'sprite_'+direction+'_'+spriteSizeX+'.png';
             let imagePath = basePath+image;
-            if (typeof this.paths[xkind] === 'undefined'){ this.paths[xkind] = {}; }
-            if (typeof this.paths[xkind][token] === 'undefined'){ this.paths[xkind][token] = {}; }
-            if (typeof this.paths[xkind][token][alt] === 'undefined'){ this.paths[xkind][token][alt] = {}; }
-            this.paths[xkind][token][alt][direction] = imagePath;
+            if (typeof index.paths[xkind] === 'undefined'){ index.paths[xkind] = {}; }
+            if (typeof index.paths[xkind][token] === 'undefined'){ index.paths[xkind][token] = {}; }
+            if (typeof index.paths[xkind][token][alt] === 'undefined'){ index.paths[xkind][token][alt] = {}; }
+            index.paths[xkind][token][alt][direction] = imagePath;
 
             // Immediately load the sprite sheet into the game
             //ctx.load.spritesheet(sheetKey, imagePath, { frameWidth: spriteSize, frameHeight: spriteSize });
@@ -130,11 +145,11 @@ export default class SpritesUtility {
 
                 // Generate the running animation string for re-use later
                 let runAnimKey = sheetKey + '.run';
-                if (typeof this.anims[xkind] === 'undefined'){ this.anims[xkind] = {}; }
-                if (typeof this.anims[xkind][token] === 'undefined'){ this.anims[xkind][token] = {}; }
-                if (typeof this.anims[xkind][token][alt] === 'undefined'){ this.anims[xkind][token][alt] = {}; }
-                if (typeof this.anims[xkind][token][alt][direction] === 'undefined'){ this.anims[xkind][token][alt][direction] = {}; }
-                this.anims[xkind][token][alt][direction]['run'] = runAnimKey;
+                if (typeof index.anims[xkind] === 'undefined'){ index.anims[xkind] = {}; }
+                if (typeof index.anims[xkind][token] === 'undefined'){ index.anims[xkind][token] = {}; }
+                if (typeof index.anims[xkind][token][alt] === 'undefined'){ index.anims[xkind][token][alt] = {}; }
+                if (typeof index.anims[xkind][token][alt][direction] === 'undefined'){ index.anims[xkind][token][alt][direction] = {}; }
+                index.anims[xkind][token][alt][direction]['run'] = runAnimKey;
 
                 // Immediately create the running animation for this sprite
                 /* ctx.anims.create({ key: runAnimKey, frames: ctx.anims.generateFrameNumbers(sheetKey, { frames: [ 7, 8, 9 ] }), frameRate: 6, repeat: -1 }); */
