@@ -15,7 +15,7 @@ export default class ButtonsUtility {
 
         // Ensure passed context is available to the entire class
         this.MMRPG = MMRPG;
-        this.setScene(scene);
+        this.scene = scene;
 
         // Initialize this scene with a first-load callback function
         MMRPG.init('ButtonsUtility', 'Buttons', function(){
@@ -25,9 +25,23 @@ export default class ButtonsUtility {
             });
 
     }
-    setScene (scene)
+
+    preload (scene)
     {
         this.scene = scene;
+    }
+    afterPreload (scene)
+    {
+        /* ... */
+    }
+
+    create (scene)
+    {
+        this.scene = scene;
+    }
+    afterCreate (scene)
+    {
+        /* ... */
     }
 
     makeSimpleButton (text, config, callback){
