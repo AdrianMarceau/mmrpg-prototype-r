@@ -7,6 +7,8 @@
 
 import MMRPG from '../shared/MMRPG.js';
 
+import SpritesUtility from '../utils/SpritesUtility.js';
+
 export default class PreloaderScene extends Phaser.Scene
 {
 
@@ -15,8 +17,12 @@ export default class PreloaderScene extends Phaser.Scene
         console.log('PreloaderScene.constructor() called');
         super('Preloader');
 
+        // Initialize MMRPG utility class objects
+        let SPRITES = new SpritesUtility(this);
+
         // Ensure MMRPG and utility objects are available to the entire class
         this.MMRPG = MMRPG;
+        this.SPRITES = SPRITES;
 
         // Initialize this scene with a first-load callback function
         MMRPG.init('PreloaderScene', 'Preloader', function(){
@@ -33,16 +39,60 @@ export default class PreloaderScene extends Phaser.Scene
 
         // Pull in required object references
         let MMRPG = this.MMRPG;
+        let SPRITES = this.SPRITES;
+        SPRITES.preload(this);
+
+        // Define which players, robots, items, etc. to preload before starting
+        this.preloadSprites = {
+            players: [
+                'dr-light', 'dr-wily', 'dr-cossack'
+                ],
+            robots: [
+                'mega-man', 'proto-man', 'bass',
+                'roll', 'disco', 'rhythm',
+                'trill', 'slur',
+                'met'
+                ],
+            abilities: [
+                'buster-shot',
+                'mega-buster'
+                ],
+            };
+
+
+        // Loop through each sprite type and preload the necessary assets
+        let kinds = SPRITES.kinds;
+        let xkinds = SPRITES.xkinds;
+        for (let i = 0; i < kinds.length; i++){
+            let kind = kinds[i];
+            let xkind = xkinds[i];
+            if (!this.preloadSprites[xkind]){ continue; }
+            let tokens = this.preloadSprites[xkind];
+            let numTokens = tokens.length;
+            for (let i = 0; i < numTokens; i++){
+                let token = tokens[i];
+                SPRITES.loadSprite(this, kind, token, 'base');
+                }
+            }
 
         // Define some idle sprite variables first and preload so we can use them later
         this.idleSprites = {};
         this.idleSpriteTokens = ['dr-light', 'dr-wily', 'dr-cossack'];
         this.currentIdleSprite = this.idleSpriteTokens[0];
         this.currentIdleDelay = 0;
+        this.load.spritesheet('players/player', 'content/players/.player/sprites/sprite_right_40x40.png', { frameWidth: 40, frameHeight: 40 });
         for (let i = 0; i < this.idleSpriteTokens.length; i++){
             let spritesheet = 'players/' + this.idleSpriteTokens[i];
             this.load.spritesheet(spritesheet, 'content/' + spritesheet + '/sprites/sprite_right_40x40.png', { frameWidth: 40, frameHeight: 40 });
             }
+
+        console.log('SPRITES.sizes = ', SPRITES.sizes);
+        console.log('SPRITES.paths = ', SPRITES.paths);
+        console.log('SPRITES.sheets = ', SPRITES.sheets);
+        console.log('SPRITES.anims = ', SPRITES.anims);
+
+        // Trigger post-preload methods for utility classes
+        SPRITES.afterPreload(this);
 
     }
 
@@ -52,6 +102,8 @@ export default class PreloaderScene extends Phaser.Scene
 
         // Pull in required object references
         let MMRPG = this.MMRPG;
+        let SPRITES = this.SPRITES;
+        SPRITES.create(this);
 
         // Create the base canvas for which the rest of the game will be drawn
         this.canvasImage = this.add.image(0, 0, 'canvas');
@@ -71,29 +123,31 @@ export default class PreloaderScene extends Phaser.Scene
         for (let i = 0; i < this.idleSpriteTokens.length; i++){
 
             let spriteToken = this.idleSpriteTokens[i];
-            let spriteSheet = 'players/' + spriteToken;
-            let spriteY = y + (i * 25);
-
+            let spriteAlt = 'base';
+            let spriteDir = 'right';
+            let spriteSheet = SPRITES.sheets.players[spriteToken][spriteAlt][spriteDir];
+            let spriteRunAnim = SPRITES.anims.players[spriteToken][spriteAlt][spriteDir].run;
+            let spriteY = y + 100 + (i * 25);
+            //console.log('spriteSheet = ', spriteSheet);
+            //console.log('spriteRunAnim = ', spriteRunAnim);
             let $idleSprite = this.add.sprite(x, y, spriteSheet);
+
             this.add.tween({
                 targets: $idleSprite,
-                y: { getStart: () => spriteY, getEnd: () => spriteY - 2 },
+                y: '-=2',
                 ease: 'Sine.easeInOut',
                 duration: 200,
                 repeat: -1,
                 yoyo: true
                 });
 
-            this.anims.create({
-                key: spriteToken + '_run',
-                frames: this.anims.generateFrameNumbers(spriteSheet, { frames: [ 7, 8, 9 ] }),
-                frameRate: 6,
-                repeat: -1
-                });
-            $idleSprite.play(spriteToken + '_run');
+            $idleSprite.play(spriteRunAnim);
 
             this.idleSprites[spriteToken] = $idleSprite;
+
             }
+
+        //console.log('this.anims = ', this.anims);
 
         // Start the preload queue for the main assets
         let ctx = this;
@@ -101,6 +155,9 @@ export default class PreloaderScene extends Phaser.Scene
             console.log('All preloader assets loaded!!!');
             ctx.scene.start('Title');
             });
+
+        // Trigger post-create methods for utility classes
+        SPRITES.afterCreate(this);
 
     }
 
