@@ -70,8 +70,6 @@ export default class TitleScene extends Phaser.Scene
         SPRITES.create(this);
         BUTTONS.create(this);
 
-        console.log('SPRITES = ', SPRITES);
-
         // Create the base canvas for which the rest of the game will be drawn
         this.canvasImage = this.add.image(0, 0, 'canvas');
         this.canvasImage.setOrigin(0, 0);
