@@ -1,6 +1,6 @@
 {
   "status": "success",
-  "updated": 1715440560,
+  "updated": 1702968060,
   "data": {
     "players": {
       "dr-light": {
@@ -253,8 +253,313 @@
           "battle_defeat": "There must be some mistake… Did I miscalculate?"
         },
         "key": 3
+      },
+      "proxy": {
+        "token": "proxy",
+        "number": 4,
+        "name": "Proxy",
+        "name_full": "Proxy",
+        "game": "MMRPG",
+        "class": "player",
+        "gender": "none",
+        "image": "proxy",
+        "image_size": 40,
+        "image_editor": 3,
+        "image_editor2": 1,
+        "image_editor3": "",
+        "image_alts": [
+          {
+            "token": "alt",
+            "name": "Proxy (Unmasked)",
+            "summons": 100,
+            "colour": "experience"
+          },
+          {
+            "token": "alt2",
+            "name": "Proxy (Holo Proxy // Slur)",
+            "summons": 200,
+            "colour": "energy"
+          },
+          {
+            "token": "alt3",
+            "name": "Proxy (Holo Proxy // Dr. Light)",
+            "summons": 300,
+            "colour": "defense"
+          },
+          {
+            "token": "alt4",
+            "name": "Proxy (Holo Proxy // Dr. Wily)",
+            "summons": 400,
+            "colour": "attack"
+          },
+          {
+            "token": "alt5",
+            "name": "Proxy (Holo Proxy // Dr. Cossack)",
+            "summons": 500,
+            "colour": "speed"
+          },
+          {
+            "token": "alt6",
+            "name": "Proxy (Network Phantom // Tamako Shiraizumi)",
+            "summons": 600,
+            "colour": "cutter"
+          },
+          {
+            "token": "alt7",
+            "name": "Proxy (Network Phantom // Dex Oyama)",
+            "summons": 700,
+            "colour": "impact"
+          },
+          {
+            "token": "alt8",
+            "name": "Proxy (Network Phantom // Mr. Famous)",
+            "summons": 800,
+            "colour": "time"
+          },
+          {
+            "token": "alt9",
+            "name": "Proxy (Network Phantom // Mayl Sakurai)",
+            "summons": 900,
+            "colour": "laser"
+          },
+          {
+            "token": "alt10",
+            "name": "Proxy (Network Phantom // Dr. Regal)",
+            "summons": 1000,
+            "colour": "space"
+          },
+          {
+            "token": "alt11",
+            "name": "Proxy (Network Phantom // Count Zap) ",
+            "summons": 1100,
+            "colour": "electric"
+          },
+          {
+            "token": "alt12",
+            "name": "Proxy (Network Phantom // Captain Blackbeard)",
+            "summons": 1200,
+            "colour": "missile"
+          },
+          {
+            "token": "alt13",
+            "name": "Proxy (Network Phantom // Ribbita Midorikawa)",
+            "summons": 1300,
+            "colour": "water"
+          },
+          {
+            "token": "alt14",
+            "name": "Proxy (Network Phantom // Dusk Miyabi) ",
+            "summons": 1400,
+            "colour": "shadow"
+          },
+          {
+            "token": "alt15",
+            "name": "Proxy (Network Phantom // Sal Saroma)",
+            "summons": 1500,
+            "colour": "nature"
+          },
+          {
+            "token": "alt16",
+            "name": "Proxy (Network Phantom // Speedy Dave)",
+            "summons": 1600,
+            "colour": "swift"
+          },
+          {
+            "token": "alt17",
+            "name": "Proxy (Network Phantom // Arashi Kazefuki)",
+            "summons": 1700,
+            "colour": "wind"
+          },
+          {
+            "token": "alt18",
+            "name": "Proxy (Network Phantom // Noboru Sunayama)",
+            "summons": 1800,
+            "colour": "earth"
+          },
+          {
+            "token": "alt19",
+            "name": "Proxy (Network Phantom // Rei Saiko)",
+            "summons": 1900,
+            "colour": "time"
+          },
+          {
+            "token": "alt20",
+            "name": "Proxy (Network Phantom // Mr. Match)",
+            "summons": 2000,
+            "colour": "flame"
+          },
+          {
+            "token": "alt21",
+            "name": "Proxy (Network Phantom // Ms. Madd)",
+            "summons": 2100,
+            "colour": "explode"
+          },
+          {
+            "token": "alt22",
+            "name": "Proxy (Divergent Echo // Newscaster)",
+            "summons": 2200,
+            "colour": "water"
+          },
+          {
+            "token": "alt23",
+            "name": "Proxy (Divergent Echo // Pedro Astil)",
+            "summons": 2300,
+            "colour": "electric"
+          },
+          {
+            "token": "alt24",
+            "name": "Proxy (Divergent Echo // Gilbert D. Stern)",
+            "summons": 2400,
+            "colour": "nature"
+          },
+          {
+            "token": "alt25",
+            "name": "Proxy (Divergent Echo // Roslyn Krantz)",
+            "summons": 2500,
+            "colour": "laser"
+          },
+          {
+            "token": "alt26",
+            "name": "Proxy (Divergent Echo // Princesa)",
+            "summons": 2600,
+            "colour": "crystal"
+          },
+          {
+            "token": "alt27",
+            "name": "Proxy (Divergent Echo // Lawyer)",
+            "summons": 2700,
+            "colour": "water"
+          },
+          {
+            "token": "alt28",
+            "name": "Proxy (Divergent Echo // Madame Y)",
+            "summons": 2800,
+            "colour": "laser"
+          },
+          {
+            "token": "alt29",
+            "name": "Proxy (Divergent Echo // Leonard Dorado)",
+            "summons": 2900,
+            "colour": "electric"
+          },
+          {
+            "token": "alt30",
+            "name": "Proxy (Network Phantom // Ivan Chillski)",
+            "summons": 3000,
+            "colour": "none"
+          }
+        ],
+        "type": "energy",
+        "type2": "",
+        "description": "",
+        "description2": "",
+        "energy": 25,
+        "weapons": 0,
+        "attack": 0,
+        "defense": 0,
+        "speed": 0,
+        "robot_hero": "rock",
+        "robot_support": "rock",
+        "field_intro": "prototype-complete",
+        "field_home": "prototype-complete",
+        "quotes_custom": [],
+        "flag_hidden": 1,
+        "flag_complete": 1,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "MMRPG/Hidden",
+        "order": 0,
+        "rewards": {
+          "robots": [
+            {
+              "points": 0,
+              "token": "rock",
+              "level": 31
+            }
+          ],
+          "abilities": [
+            {
+              "points": 0,
+              "token": "buster-shot"
+            }
+          ]
+        },
+        "abilities": [],
+        "robots_unlockable": [
+          "rock",
+          "rock"
+        ],
+        "quotes": {
+          "battle_start": "",
+          "battle_taunt": "",
+          "battle_victory": "",
+          "battle_defeat": ""
+        },
+        "key": 4
+      },
+      "kalinka": {
+        "token": "kalinka",
+        "number": 5,
+        "name": "Kalinka",
+        "name_full": "Kalinka Cossack",
+        "game": "MMRPG",
+        "class": "player",
+        "gender": "female",
+        "image": "kalinka",
+        "image_size": 40,
+        "image_editor": 10,
+        "image_editor2": 3,
+        "image_editor3": "",
+        "image_alts": [],
+        "type": "weapons",
+        "type2": "",
+        "description": "",
+        "description2": "",
+        "energy": 0,
+        "weapons": 25,
+        "attack": 0,
+        "defense": 0,
+        "speed": 0,
+        "robot_hero": "rock",
+        "robot_support": "rock",
+        "field_intro": "prototype-complete",
+        "field_home": "prototype-complete",
+        "quotes_custom": [],
+        "flag_hidden": 1,
+        "flag_complete": 1,
+        "flag_published": 1,
+        "flag_protected": 1,
+        "group": "MMRPG/Pseudo",
+        "order": 0,
+        "rewards": {
+          "robots": [
+            {
+              "points": 0,
+              "token": "rock",
+              "level": 41
+            }
+          ],
+          "abilities": [
+            {
+              "points": 0,
+              "token": "buster-shot"
+            }
+          ]
+        },
+        "abilities": [],
+        "robots_unlockable": [
+          "rock",
+          "rock"
+        ],
+        "quotes": {
+          "battle_start": "",
+          "battle_taunt": "",
+          "battle_victory": "",
+          "battle_defeat": ""
+        },
+        "key": 5
       }
     },
-    "total": 3
+    "total": 5
   }
 }
