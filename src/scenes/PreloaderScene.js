@@ -136,7 +136,7 @@ export default class PreloaderScene extends Phaser.Scene
         // Start the preload queue for the main assets
         let ctx = this;
         this.preloadMainAssets(function(){
-            console.log('All preloader assets loaded!!!');
+            //console.log('All preloader assets loaded!!!');
             ctx.scene.start('Title');
             });
 
