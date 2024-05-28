@@ -7,12 +7,15 @@
 
 import MMRPG from '../shared/MMRPG.js';
 
+import { GraphicsUtility as Graphics } from '../utils/GraphicsUtility.js';
+
 import SpritesUtility from '../utils/SpritesUtility.js';
 import ButtonsUtility from '../utils/ButtonsUtility.js';
 import PopupsUtility from '../utils/PopupsUtility.js';
 
 import Banner from '../components/Banner/Banner.js';
 import MainBanner from '../components/Banner/MainBanner.js';
+import BattleBanner from '../components/Banner/BattleBanner.js';
 
 export default class DebugScene extends Phaser.Scene
 {
@@ -106,17 +109,9 @@ export default class DebugScene extends Phaser.Scene
         // DEBUG DEBUG DEBUG
         // <----------------
 
-        // Draw the main banner and collect a reference to it
-        var x = 15, y = 15;
-        var color = MMRPG.Indexes.types['light'].colour_light;
-        var xcolor = Phaser.Display.Color.GetColor(color[0], color[1], color[2]);
-        this.mainBannerSmall = new MainBanner(this, x, y, {
-            fullsize: false,
-            fillStyle: { color: xcolor },
-            });
 
         // Draw the main banner and collect a reference to it
-        var x = 15, y = this.mainBannerSmall.getBounds().y2 + 5;
+        var x = 15, y = 15;
         var color = MMRPG.Indexes.types['wily'].colour_light;
         var xcolor = Phaser.Display.Color.GetColor(color[0], color[1], color[2]);
         this.mainBannerFull = new MainBanner(this, x, y, {
@@ -124,24 +119,40 @@ export default class DebugScene extends Phaser.Scene
             fillStyle: { color: xcolor },
             });
 
+        /*
+        // Draw the main banner (smaller) and collect a reference to it
+        var ref = this.mainBannerFull.getBounds();
+        var x = ref.x + 15, y = ref.y + 15;
+        var color = MMRPG.Indexes.types['light'].colour_light;
+        var xcolor = Phaser.Display.Color.GetColor(color[0], color[1], color[2]);
+        this.mainBannerSmall = new MainBanner(this, x, y, {
+            fullsize: false,
+            fillStyle: { color: xcolor },
+            });
+        */
+
         // Draw the battle banner and collect a reference to it
-        var x = 15, y = this.mainBannerFull.getBounds().y2 + 5;
+        var ref = this.mainBannerFull.getBounds();
+        var x = ref.x, y = ref.y2 + 5;
         var color = MMRPG.Indexes.types['cossack'].colour_light;
         var xcolor = Phaser.Display.Color.GetColor(color[0], color[1], color[2]);
-        this.battleBanner = new MainBanner(this, x, y, {
+        this.battleBanner = new BattleBanner(this, x, y, {
             fillStyle: { color: xcolor },
             });
 
+
         // Draw a test banner and collect a reference to it
-        var width = 400, height = 120;
+        var width = 350, height = 100;
         var x = MMRPG.canvas.width - width - 20;
         var y = MMRPG.canvas.height - height - 20;
         this.testBanner = new Banner(this, x, y, {
             width: width,
             height: height,
             fillStyle: { color: 0x95c418 },
-            borderRadius: { tl: 20, tr: 0, br: 60, bl: 0 }
+            borderRadius: { tl: 20, tr: 0, br: 60, bl: 0 },
+            mainText: 'Test Banner',
             });
+
 
         // Create a back button so we can return to the title
         BUTTONS.makeSimpleButton('< Back to Title', {
@@ -200,12 +211,12 @@ export default class DebugScene extends Phaser.Scene
             panelCenterX = panelX - panelWidth / 2,
             panelCenterY = panelY - panelHeight / 2
             ;
-        const panelGraphics = this.add.graphics({ lineStyle: { width: 2, color: 0x0a0a0a }, fillStyle: { color: 0x161616 }});
+        const $panelBack = this.add.graphics({ lineStyle: { width: 2, color: 0x0a0a0a }, fillStyle: { color: 0x161616 }});
         const panelRadius = { tl: 20, tr: 0, br: 20, bl: 0 };
-        //panelGraphics.strokeRect(panelCenterX, panelY, panelWidth, panelHeight);
-        //panelGraphics.fillRect(panelCenterX, panelY, panelWidth, panelHeight);
-        panelGraphics.strokeRoundedRect(panelCenterX, panelY, panelWidth, panelHeight, panelRadius);
-        panelGraphics.fillRoundedRect(panelCenterX, panelY, panelWidth, panelHeight, panelRadius);
+        //$panelBack.strokeRect(panelCenterX, panelY, panelWidth, panelHeight);
+        //$panelBack.fillRect(panelCenterX, panelY, panelWidth, panelHeight);
+        $panelBack.strokeRoundedRect(panelCenterX, panelY, panelWidth, panelHeight, panelRadius);
+        $panelBack.fillRoundedRect(panelCenterX, panelY, panelWidth, panelHeight, panelRadius);
         let typeTokens = Object.keys(MMRPG.Indexes.types);
         let typesText = 'Types:';
         for (let i = 0; i < typeTokens.length; i++)
@@ -244,29 +255,45 @@ export default class DebugScene extends Phaser.Scene
     update (time, delta) {
         //console.log('DebugScene.update() called w/ time =', time, 'delta =', delta);
 
+        let ctx = this;
+
         // Animate the test banner moving across the screen
-        if (!this.testBanner.speed){ this.testBanner.speed = 2; }
-        if (!this.testBanner.direction){ this.testBanner.direction = 'right'; }
-        let x = this.testBanner.x,
-            y = this.testBanner.y,
-            width = this.testBanner.width,
-            height = this.testBanner.height,
-            speed = this.testBanner.speed,
-            direction = this.testBanner.direction
+        let testBanner = this.testBanner;
+        let types = MMRPG.Indexes.types;
+        if (!testBanner.speed){ testBanner.speed = 2; }
+        if (!testBanner.direction){ testBanner.direction = 'right'; }
+        let x = testBanner.x,
+            y = testBanner.y,
+            width = testBanner.width,
+            height = testBanner.height,
+            speed = testBanner.speed,
+            direction = testBanner.direction
             ;
         if (direction === 'right'){
-            if (x <= MMRPG.canvas.width){
-                this.testBanner.setPosition(x + speed, y + speed);
-                this.testBanner.setSize(width - 1, height - 1);
+            if ((x + width) <= MMRPG.canvas.width){
+                testBanner.setPosition(x + speed, y + speed);
+                testBanner.setSize(width - 1, height - 1);
                 } else {
-                this.testBanner.direction = 'left';
+                var type = Object.keys(types)[Math.floor(Math.random() * Object.keys(types).length)]; //'water';
+                console.log('type =', type, types[type]);
+                var color = types[type]['colour_light'];
+                var color2 = types[type]['colour_dark'];
+                testBanner.direction = 'left';
+                testBanner.setColor(color, color2);
+                ctx.showDoctorRunning();
                 }
             } else if (direction === 'left'){
             if (x >= 0){
-                this.testBanner.setPosition(x - speed, y - speed);
-                this.testBanner.setSize(width + 1, height + 1);
+                testBanner.setPosition(x - speed, y - speed);
+                testBanner.setSize(width + 1, height + 1);
                 } else {
-                this.testBanner.direction = 'right';
+                var type = Object.keys(types)[Math.floor(Math.random() * Object.keys(types).length)]; //'nature';
+                console.log('type =', type, types[type]);
+                var color = types[type]['colour_light'];
+                var color2 = types[type]['colour_dark'];
+                testBanner.direction = 'right';
+                testBanner.setColor(color, color2);
+                ctx.showDoctorRunning();
                 }
             }
 
