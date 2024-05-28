@@ -1,5 +1,10 @@
 
-import Banner from './Banner';
+import Banner from './Banner.js';
+
+let baseConfig = {
+    baseWidth: 752,
+    baseHeight: 251
+    };
 
 export default class BattleBanner extends Banner {
 
@@ -7,20 +12,17 @@ export default class BattleBanner extends Banner {
     {
         console.log('BattleBanner.constructor() called');
 
-        let bannerConfig = {
-            baseWidth: 752,
-            baseHeight: 251
-            };
+        options = Object.assign({}, options);
+        config = Object.assign({}, baseConfig, config);
 
-        options.width = typeof options.width === 'number' ? options.width : bannerConfig.baseWidth;
-        options.height = typeof options.height === 'number' ? options.height : bannerConfig.baseHeight;
+        options.mainText = options.mainText || 'Battle Banner';
+        options.mainTextStyle = options.mainTextStyle || { fontSize: '32px', fill: '#fff' };
 
         super(scene, x, y, options);
 
-        this.bannerConfig = bannerConfig;
-        this.bannerBounds = super.getBounds();
-        console.log('this.bannerConfig =', this.bannerConfig);
-        console.log('this.bannerBounds =', this.bannerBounds);
+        this.scene = scene;
+        this.options = super.getOptions()
+        this.config = super.getConfig();
 
         this.addBattleBannerElements();
 
@@ -28,23 +30,51 @@ export default class BattleBanner extends Banner {
 
     update (options)
     {
-        console.log('BattleBanner.update() called');
+        //console.log('BattleBanner.update() called');
         super.update(options);
+
+        // Update the main banner elements
+        let $title = this.title;
+        $title.setText(this.options.mainText);
+
     }
 
     addBattleBannerElements ()
     {
-        console.log('BattleBanner.addBattleBannerElements() called');
+        //console.log('BattleBanner.addBattleBannerElements() called');
 
-        // Add specific elements for the main banner
-        let size = this.bannerSize;
-        let config = this.bannerConfig;
+        // Add some title text to the main banner
+        let options = this.options;
+        let bounds = this.bounds;
+        let $title = this.scene.add.text(bounds.centerX, bounds.centerY, options.mainText, options.mainTextStyle).setOrigin(0.5, 0.5);
+        this.title = $title;
+
+    }
+
+    setSize (width, height)
+    {
+        //console.log('BattleBanner.setSize() called w/ width =', width, 'height =', height);
+        super.setSize(width, height);
         let bounds = this.bannerBounds;
-        var x = bounds.centerX, y = bounds.centerY;
-        var text = 'Battle Banner';
-        var style = { fontSize: '32px', fill: '#fff' };
-        this.title = this.scene.add.text(x, y, text, style).setOrigin(0.5, 0.5);
+        this.title.x = bounds.centerX;
+        this.title.y = bounds.centerY;
+    }
+    setPosition (x, y)
+    {
+        //console.log('BattleBanner.setPosition() called w/ x =', x, 'y =', y);
+        super.setPosition(x, y);
+        let bounds = this.bounds;
+        this.title.x = bounds.centerX;
+        this.title.y = bounds.centerY;
+    }
 
+    setTitleText (text)
+    {
+        //console.log('BattleBanner.setTitleText() called w/ text =', text);
+        let options = this.options;
+        options.mainText = text;
+        this.title.setText(options.mainText);
+        this.update();
     }
 
 }

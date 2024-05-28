@@ -1,38 +1,55 @@
 
 import MMRPG from '../../shared/MMRPG.js';
 
+let baseConfig = {
+    baseX: 15,
+    baseY: 15,
+    baseWidth: 750,
+    baseHeight: 184,
+    baseFillStyle: { color: 0x161616 },
+    baseLineStyle: { width: 2, color: 0x0a0a0a },
+    baseBorderRadius: { tl: 6, tr: 6, br: 6, bl: 6 }
+    };
+
 export default class Banner {
 
-    constructor (scene, x, y, options = {})
+    constructor (scene, x, y, options = {}, config = {})
     {
         console.log('Banner.constructor() called');
 
-        this.scene = scene;
+        options = Object.assign({}, options)
+        config = Object.assign({}, baseConfig, config);
 
         this.x = x;
         this.y = y;
+        this.width = options.width ? options.width : config.baseWidth;
+        this.height = options.height ? options.height : config.baseHeight;
+        this.bounds = this.getBounds();
 
+        options.fillStyle = options.fillStyle ? Object.assign({}, config.baseFillStyle, options.fillStyle) : config.baseFillStyle;
+        options.lineStyle = options.lineStyle ? Object.assign({}, config.baseLineStyle, options.lineStyle) : config.baseLineStyle;
+        options.borderRadius = options.borderRadius ? Object.assign({}, config.baseBorderRadius, options.borderRadius) : config.baseBorderRadius;
+
+        this.scene = scene;
         this.options = options;
-
-        let defaultWidth = 750;
-        let defaultHeight = 184;
-        let defaultFillStyle = { color: 0x161616 };
-        let defaultLineStyle = { width: 2, color: 0x0a0a0a };
-        let defaultBorderRadius = { tl: 6, tr: 6, br: 6, bl: 6 };
-
-        this.width = options.width ? options.width : defaultWidth;
-        this.height = options.height ? options.height : defaultHeight;
-
-        this.options.fillStyle = options.fillStyle ? Object.assign({}, defaultFillStyle, options.fillStyle) : defaultFillStyle;
-        this.options.lineStyle = options.lineStyle ? Object.assign({}, defaultLineStyle, options.lineStyle) : defaultLineStyle;
-        this.options.borderRadius = options.borderRadius ? Object.assign({}, defaultBorderRadius, options.borderRadius) : defaultBorderRadius;
+        this.config = config;
+        console.log('this.options =', this.options);
+        console.log('this.config =', this.config);
 
         this.createBanner();
     }
 
+    create ()
+    {
+        //console.log('Banner.create() called');
+
+        /* ... */
+
+    }
+
     update (options)
     {
-        console.log('Banner.update() called');
+        //console.log('Banner.update() called');
 
         /* ... */
 
@@ -40,21 +57,61 @@ export default class Banner {
 
     createBanner()
     {
-        console.log('Banner.createBanner() called');
+        //console.log('Banner.createBanner() called');
 
         // Display a rectangular dialogue box with all the types listed inside
         let ctx = this.scene;
-        let panelX = this.x, panelY = this.y;
-        let panelWidth = this.width, panelHeight = this.height;
-        const panelGraphics = ctx.add.graphics({ lineStyle: this.options.lineStyle, fillStyle: this.options.fillStyle });
-        panelGraphics.strokeRoundedRect(panelX, panelY, panelWidth, panelHeight, this.options.borderRadius);
-        panelGraphics.fillRoundedRect(panelX, panelY, panelWidth, panelHeight, this.options.borderRadius);
+        let $panel = this.panel || ctx.add.graphics({ lineStyle: this.options.lineStyle, fillStyle: this.options.fillStyle });
+        $panel.strokeRoundedRect(this.x, this.y, this.width, this.height, this.options.borderRadius);
+        $panel.fillRoundedRect(this.x, this.y, this.width, this.height, this.options.borderRadius);
+        this.panel = $panel;
+
+    }
+    refreshBanner ()
+    {
+        //console.log('Banner.refreshBanner() called');
+
+        let options = this.options;
+        let $panel = this.panel;
+        //console.log('options =', options);
+        $panel.clear();
+        $panel.lineStyle(options.lineStyle.width, options.lineStyle.color);
+        $panel.fillStyle(options.fillStyle.color);
+        $panel.strokeRoundedRect(this.x, this.y, this.width, this.height, options.borderRadius);
+        $panel.fillRoundedRect(this.x, this.y, this.width, this.height, options.borderRadius);
 
     }
 
+    setSize (width, height)
+    {
+        //console.log('Banner.setSize() called w/ width =', width, 'height =', height);
+        this.width = width;
+        this.height = height;
+        this.bounds = this.getBounds();
+        this.refreshBanner();
+    }
+    setPosition (x, y)
+    {
+        //console.log('Banner.setPosition() called w/ x =', x, 'y =', y);
+        this.x = x;
+        this.y = y;
+        this.bounds = this.getBounds();
+        this.refreshBanner();
+    }
+
+    getConfig ()
+    {
+        //console.log('Banner.getConfig() called');
+        return this.config;
+    }
+    getOptions ()
+    {
+        //console.log('Banner.getOptions() called');
+        return this.options;
+    }
     getBounds ()
     {
-        console.log('Banner.getBounds() called');
+        //console.log('Banner.getBounds() called');
         return {
             x: this.x,
             y: this.y,
@@ -66,5 +123,6 @@ export default class Banner {
             centerY: this.y + (this.height / 2),
             };
     }
+
 
 }
