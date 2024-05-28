@@ -8,7 +8,7 @@ let baseConfig = {
 
 export default class BattleBanner extends Banner {
 
-    constructor (scene, x, y, options = {})
+    constructor (scene, x, y, options = {}, config = {})
     {
         console.log('BattleBanner.constructor() called');
 

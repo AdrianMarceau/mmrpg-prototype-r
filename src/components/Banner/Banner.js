@@ -1,6 +1,8 @@
 
 import MMRPG from '../../shared/MMRPG.js';
 
+import { GraphicsUtility as Graphics } from '../../utils/GraphicsUtility.js';
+
 let baseConfig = {
     baseX: 15,
     baseY: 15,
@@ -29,6 +31,9 @@ export default class Banner {
         options.fillStyle = options.fillStyle ? Object.assign({}, config.baseFillStyle, options.fillStyle) : config.baseFillStyle;
         options.lineStyle = options.lineStyle ? Object.assign({}, config.baseLineStyle, options.lineStyle) : config.baseLineStyle;
         options.borderRadius = options.borderRadius ? Object.assign({}, config.baseBorderRadius, options.borderRadius) : config.baseBorderRadius;
+
+        options.lineStyle.color = Graphics.returnPhaserColor(options.lineStyle.color);
+        options.fillStyle.color = Graphics.returnPhaserColor(options.fillStyle.color);
 
         this.scene = scene;
         this.options = options;
@@ -59,11 +64,13 @@ export default class Banner {
     {
         //console.log('Banner.createBanner() called');
 
-        // Display a rectangular dialogue box with all the types listed inside
+        // Display a rectangular dialogue box with background and stroke color
         let ctx = this.scene;
-        let $panel = this.panel || ctx.add.graphics({ lineStyle: this.options.lineStyle, fillStyle: this.options.fillStyle });
-        $panel.strokeRoundedRect(this.x, this.y, this.width, this.height, this.options.borderRadius);
-        $panel.fillRoundedRect(this.x, this.y, this.width, this.height, this.options.borderRadius);
+        let options = this.options;
+        let $panel = this.panel || ctx.add.graphics({ lineStyle: options.lineStyle, fillStyle: options.fillStyle });
+        let radius = Graphics.getProportionalRadiusObject(this.width, this.height, options.borderRadius);
+        $panel.strokeRoundedRect(this.x, this.y, this.width, this.height, radius);
+        $panel.fillRoundedRect(this.x, this.y, this.width, this.height, radius);
         this.panel = $panel;
 
     }
@@ -71,14 +78,15 @@ export default class Banner {
     {
         //console.log('Banner.refreshBanner() called');
 
+        // Refresh the rectangular dialogue box with background and stroke color
         let options = this.options;
         let $panel = this.panel;
-        //console.log('options =', options);
+        let radius = Graphics.getProportionalRadiusObject(this.width, this.height, options.borderRadius);
         $panel.clear();
         $panel.lineStyle(options.lineStyle.width, options.lineStyle.color);
         $panel.fillStyle(options.fillStyle.color);
-        $panel.strokeRoundedRect(this.x, this.y, this.width, this.height, options.borderRadius);
-        $panel.fillRoundedRect(this.x, this.y, this.width, this.height, options.borderRadius);
+        $panel.strokeRoundedRect(this.x, this.y, this.width, this.height, radius);
+        $panel.fillRoundedRect(this.x, this.y, this.width, this.height, radius);
 
     }
 
@@ -96,6 +104,17 @@ export default class Banner {
         this.x = x;
         this.y = y;
         this.bounds = this.getBounds();
+        this.refreshBanner();
+    }
+
+    setColor (border, background)
+    {
+        console.log('Banner.setColor() called w/ border =', typeof border, border, 'background =', typeof background, background);
+        border = Graphics.returnPhaserColor(border);
+        background = Graphics.returnPhaserColor(background);
+        console.log('revised border =', typeof border, border, 'background =', typeof background, background);
+        this.options.lineStyle.color = border;
+        this.options.fillStyle.color = background;
         this.refreshBanner();
     }
 
@@ -123,6 +142,5 @@ export default class Banner {
             centerY: this.y + (this.height / 2),
             };
     }
-
 
 }
