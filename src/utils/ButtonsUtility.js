@@ -60,8 +60,8 @@ export default class ButtonsUtility {
         var buttonCallback = callback || function(){};
 
         let $buttonRect = ctx.add.graphics({ lineStyle: { width: 2, color: buttonBorderColor }, fillStyle: { color: buttonBackgroundColor }});
-        $buttonRect.strokeRoundedRect(buttonX, buttonY, buttonWidth, buttonHeight, 10);
-        $buttonRect.fillRoundedRect(buttonX, buttonY, buttonWidth, buttonHeight, 10);
+        $buttonRect.strokeRoundedRect(buttonX, buttonY, buttonWidth, buttonHeight, 5);
+        $buttonRect.fillRoundedRect(buttonX, buttonY, buttonWidth, buttonHeight, 5);
         if (buttonDepth !== 'auto'){ $buttonRect.setDepth(buttonDepth); }
 
         let $buttonText = ctx.add.bitmapText(buttonTextX, buttonTextY, 'megafont-white', buttonText, buttonSize);

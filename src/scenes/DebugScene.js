@@ -106,64 +106,30 @@ export default class DebugScene extends Phaser.Scene
         // DEBUG DEBUG DEBUG
         // <----------------
 
-        var x = this.cameras.main.centerX, y = 40; //this.cameras.main.centerY;
-        var $loadText = this.add.bitmapText(x, y, 'megafont-white', 'Welcome to Debug', 16);
-        $loadText.setOrigin(0.5);
-        $loadText.setLetterSpacing(20);
-
-        this.add.text(190, 136, 'sample text', {
-            fontFamily: 'Open Sans',
-            color: 0xbababa,
-            });
-
-        // Display a rectangular dialogue box with all the types listed inside
-        let panelWidth = MMRPG.canvas.width - 80,
-            panelHeight = 250,
-            panelX = this.cameras.main.centerX,
-            panelY = this.cameras.main.centerY + 30,
-            panelCenterX = panelX - panelWidth / 2,
-            panelCenterY = panelY - panelHeight / 2
-            ;
-        const panelGraphics = this.add.graphics({ lineStyle: { width: 2, color: 0x0a0a0a }, fillStyle: { color: 0x161616 }});
-        const panelRadius = { tl: 20, tr: 0, br: 20, bl: 0 };
-        //panelGraphics.strokeRect(panelCenterX, panelY, panelWidth, panelHeight);
-        //panelGraphics.fillRect(panelCenterX, panelY, panelWidth, panelHeight);
-        panelGraphics.strokeRoundedRect(panelCenterX, panelY, panelWidth, panelHeight, panelRadius);
-        panelGraphics.fillRoundedRect(panelCenterX, panelY, panelWidth, panelHeight, panelRadius);
-        let typeTokens = Object.keys(MMRPG.Indexes.types);
-        let typesText = 'Types:';
-        for (let i = 0; i < typeTokens.length; i++)
-        {
-            let typeToken = typeTokens[i];
-            let typeData = MMRPG.Indexes.types[typeToken];
-            typesText += (i > 0 ? ', ' : ' ') + typeData.name;
-        }
-        let textPadding = 20,
-            textWidth = panelWidth - (textPadding * 2),
-            textPositionX = panelCenterX + textPadding,
-            textPositionY = panelY + textPadding
-            ;
-        //typesText = 'A B C D E F G H I J K L M N O P Q R S T U V W X Y Z A B C D E F G H I J K L M N O P Q R S T U V W X Y Z A B C D E F G H I J K L M N O P Q R S T U V W X Y Z A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ';
-        const $panelText = this.add.text(textPositionX, textPositionY, typesText, {
-            fontSize: 16,
-            fontFamily: 'Open Sans',
-            lineSpacing: 10,
-            align: 'left',
-            wordWrap: { width: textWidth, useAdvancedWrap: true }
-            });
-
         // Draw the main banner and collect a reference to it
         var x = 15, y = 15;
+        var color = MMRPG.Indexes.types['light'].colour_light;
+        var xcolor = Phaser.Display.Color.GetColor(color[0], color[1], color[2]);
         this.mainBannerSmall = new MainBanner(this, x, y, {
             fullsize: false,
-            fillStyle: { color: 0xff0000 },
+            fillStyle: { color: xcolor },
             });
 
         // Draw the main banner and collect a reference to it
         var x = 15, y = this.mainBannerSmall.getBounds().y2 + 5;
+        var color = MMRPG.Indexes.types['wily'].colour_light;
+        var xcolor = Phaser.Display.Color.GetColor(color[0], color[1], color[2]);
         this.mainBannerFull = new MainBanner(this, x, y, {
             fullsize: true,
-            fillStyle: { color: 0x0000ff },
+            fillStyle: { color: xcolor },
+            });
+
+        // Draw the battle banner and collect a reference to it
+        var x = 15, y = this.mainBannerFull.getBounds().y2 + 5;
+        var color = MMRPG.Indexes.types['cossack'].colour_light;
+        var xcolor = Phaser.Display.Color.GetColor(color[0], color[1], color[2]);
+        this.battleBanner = new MainBanner(this, x, y, {
+            fillStyle: { color: xcolor },
             });
 
         // Draw a test banner and collect a reference to it
@@ -214,6 +180,54 @@ export default class DebugScene extends Phaser.Scene
             ctx.showDoctorRunning();
             });
 
+        // -------- //
+
+        var x = this.cameras.main.centerX, y = 40; //this.cameras.main.centerY;
+        var $loadText = this.add.bitmapText(x, y, 'megafont-white', 'Welcome to Debug', 16);
+        $loadText.setOrigin(0.5);
+        $loadText.setLetterSpacing(20);
+
+        this.add.text(190, 136, 'sample text', {
+            fontFamily: 'Open Sans',
+            color: 0xbababa,
+            });
+
+        // Display a rectangular dialogue box with all the types listed inside
+        let panelWidth = MMRPG.canvas.width - 80,
+            panelHeight = 250,
+            panelX = this.cameras.main.centerX,
+            panelY = this.cameras.main.centerY + 30,
+            panelCenterX = panelX - panelWidth / 2,
+            panelCenterY = panelY - panelHeight / 2
+            ;
+        const panelGraphics = this.add.graphics({ lineStyle: { width: 2, color: 0x0a0a0a }, fillStyle: { color: 0x161616 }});
+        const panelRadius = { tl: 20, tr: 0, br: 20, bl: 0 };
+        //panelGraphics.strokeRect(panelCenterX, panelY, panelWidth, panelHeight);
+        //panelGraphics.fillRect(panelCenterX, panelY, panelWidth, panelHeight);
+        panelGraphics.strokeRoundedRect(panelCenterX, panelY, panelWidth, panelHeight, panelRadius);
+        panelGraphics.fillRoundedRect(panelCenterX, panelY, panelWidth, panelHeight, panelRadius);
+        let typeTokens = Object.keys(MMRPG.Indexes.types);
+        let typesText = 'Types:';
+        for (let i = 0; i < typeTokens.length; i++)
+        {
+            let typeToken = typeTokens[i];
+            let typeData = MMRPG.Indexes.types[typeToken];
+            typesText += (i > 0 ? ', ' : ' ') + typeData.name;
+        }
+        let textPadding = 20,
+            textWidth = panelWidth - (textPadding * 2),
+            textPositionX = panelCenterX + textPadding,
+            textPositionY = panelY + textPadding
+            ;
+        //typesText = 'A B C D E F G H I J K L M N O P Q R S T U V W X Y Z A B C D E F G H I J K L M N O P Q R S T U V W X Y Z A B C D E F G H I J K L M N O P Q R S T U V W X Y Z A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ';
+        const $panelText = this.add.text(textPositionX, textPositionY, typesText, {
+            fontSize: 16,
+            fontFamily: 'Open Sans',
+            lineSpacing: 10,
+            align: 'left',
+            wordWrap: { width: textWidth, useAdvancedWrap: true }
+            });
+
 
         // ---------------->
         // DEBUG DEBUG DEBUG
@@ -223,31 +237,34 @@ export default class DebugScene extends Phaser.Scene
         BUTTONS.afterCreate(this);
         POPUPS.afterCreate(this);
 
+        console.log('MMRPG = ', MMRPG);
+
     }
 
-    update(time, delta) {
+    update (time, delta) {
         //console.log('DebugScene.update() called w/ time =', time, 'delta =', delta);
 
         // Animate the test banner moving across the screen
         if (!this.testBanner.speed){ this.testBanner.speed = 2; }
-        let speed = this.testBanner.speed;
         if (!this.testBanner.direction){ this.testBanner.direction = 'right'; }
-        let direction = this.testBanner.direction;
+        let x = this.testBanner.x,
+            y = this.testBanner.y,
+            width = this.testBanner.width,
+            height = this.testBanner.height,
+            speed = this.testBanner.speed,
+            direction = this.testBanner.direction
+            ;
         if (direction === 'right'){
-            if (this.testBanner.x <= MMRPG.canvas.width){
-                this.testBanner.setPosition(
-                    this.testBanner.x + speed,
-                    this.testBanner.y + speed
-                    );
+            if (x <= MMRPG.canvas.width){
+                this.testBanner.setPosition(x + speed, y + speed);
+                this.testBanner.setSize(width - 1, height - 1);
                 } else {
                 this.testBanner.direction = 'left';
                 }
             } else if (direction === 'left'){
-            if (this.testBanner.x >= 0){
-                this.testBanner.setPosition(
-                    this.testBanner.x - speed,
-                    this.testBanner.y - speed
-                    );
+            if (x >= 0){
+                this.testBanner.setPosition(x - speed, y - speed);
+                this.testBanner.setSize(width + 1, height + 1);
                 } else {
                 this.testBanner.direction = 'right';
                 }
