@@ -225,6 +225,36 @@ export default class DebugScene extends Phaser.Scene
 
     }
 
+    update(time, delta) {
+        //console.log('DebugScene.update() called w/ time =', time, 'delta =', delta);
+
+        // Animate the test banner moving across the screen
+        if (!this.testBanner.speed){ this.testBanner.speed = 2; }
+        let speed = this.testBanner.speed;
+        if (!this.testBanner.direction){ this.testBanner.direction = 'right'; }
+        let direction = this.testBanner.direction;
+        if (direction === 'right'){
+            if (this.testBanner.x <= MMRPG.canvas.width){
+                this.testBanner.setPosition(
+                    this.testBanner.x + speed,
+                    this.testBanner.y + speed
+                    );
+                } else {
+                this.testBanner.direction = 'left';
+                }
+            } else if (direction === 'left'){
+            if (this.testBanner.x >= 0){
+                this.testBanner.setPosition(
+                    this.testBanner.x - speed,
+                    this.testBanner.y - speed
+                    );
+                } else {
+                this.testBanner.direction = 'right';
+                }
+            }
+
+    }
+
     showTalesFromTheVoid ()
     {
         console.log('DebugScene.showTalesFromTheVoid() called');
