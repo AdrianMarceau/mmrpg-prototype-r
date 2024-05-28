@@ -109,13 +109,11 @@ export default class MainScene extends Phaser.Scene
 
         // BANNER COMPONENT (Main Banner)
 
-        /*
         // Draw the main banner and collect a reference to it
         var x = 15, y = 15;
         this.mainBanner = new MainBanner(this, x, y, {
             fullsize: true
             });
-        */
 
         // Run any debug code we need to
         this.debug();
@@ -129,9 +127,8 @@ export default class MainScene extends Phaser.Scene
     }
 
     update(time, delta) {
+        //console.log('MainScene.update() called w/ time =', time, 'delta =', delta);
 
-        // Update the banner if needed
-        // this.mainBanner.update({ backgroundColor: 0x654321 });
 
     }
 
