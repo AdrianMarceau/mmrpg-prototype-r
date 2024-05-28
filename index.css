@@ -1,11 +1,15 @@
 
 /* Basic Page Setup */
 
+body, html {
+    color: #ffffff;
+    background-color: #101010;
+}
 body {
     margin: 0;
     padding: 20px;
     text-align: center;
-    background-color: #101010;
+
 }
 h1 {
     display: block;
