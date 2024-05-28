@@ -6,10 +6,6 @@
 
 import MMRPG from './shared/MMRPG.js';
 
-import SpritesUtility from './utils/SpritesUtility.js';
-import ButtonsUtility from './utils/ButtonsUtility.js';
-import PopupsUtility from './utils/PopupsUtility.js';
-
 import BootScene from './scenes/BootScene.js';
 import PreloaderScene from './scenes/PreloaderScene.js';
 import TitleScene from './scenes/TitleScene.js';
