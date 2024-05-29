@@ -11,7 +11,7 @@ import { GraphicsUtility as Graphics } from '../utils/GraphicsUtility.js';
 
 import SpritesUtility from '../utils/SpritesUtility.js';
 import ButtonsUtility from '../utils/ButtonsUtility.js';
-import PopupsUtility from '../utils/PopupsUtility.js';
+import PopupsManager from '../managers/PopupsManager.js';
 
 import Banner from '../components/Banner/Banner.js';
 import MainBanner from '../components/Banner/MainBanner.js';
@@ -27,14 +27,14 @@ export default class DebugScene extends Phaser.Scene
 
         // Initialize MMRPG utility class objects
         let SPRITES = new SpritesUtility(this);
-        let POPUPS = new PopupsUtility(this);
         let BUTTONS = new ButtonsUtility(this);
+        let POPUPS = new PopupsManager(this);
 
         // Ensure MMRPG and utility objects are available to the entire class
         this.MMRPG = MMRPG;
         this.SPRITES = SPRITES;
-        this.POPUPS = POPUPS;
         this.BUTTONS = BUTTONS;
+        this.POPUPS = POPUPS;
 
         // Initialize this scene with a first-load callback function
         MMRPG.init('DebugScene', 'Debug', function(){

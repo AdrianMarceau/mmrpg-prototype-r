@@ -61,7 +61,7 @@ export default class TitleScene extends Phaser.Scene
 
     create ()
     {
-        console.log('TitleScene.create() called');
+        //console.log('TitleScene.create() called');
 
         // Pull in required object references
         let MMRPG = this.MMRPG;
@@ -79,9 +79,14 @@ export default class TitleScene extends Phaser.Scene
         this.splashImage.setOrigin(0, 0);
 
         // Generate some idle sprites to keep the user entertained
+        //console.log('SPRITES.index = ', SPRITES.index);
         var x = -40, y = MMRPG.canvas.centerY + 125;
         for (let i = 0; i < this.idleSpriteTokens.length; i++){
             let spriteToken = this.idleSpriteTokens[i];
+            if (typeof SPRITES.index.sheets.players[spriteToken] === 'undefined'){
+                //console.log('Missing spriteToken "', spriteToken, '" in SPRITES.index.sheets.players');
+                continue;
+                }
             let spriteAlt = 'base';
             let spriteDir = 'right';
             let spriteSheet = SPRITES.index.sheets.players[spriteToken][spriteAlt][spriteDir];

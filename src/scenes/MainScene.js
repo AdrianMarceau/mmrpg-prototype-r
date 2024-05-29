@@ -9,7 +9,8 @@ import MMRPG from '../shared/MMRPG.js';
 
 import SpritesUtility from '../utils/SpritesUtility.js';
 import ButtonsUtility from '../utils/ButtonsUtility.js';
-import PopupsUtility from '../utils/PopupsUtility.js';
+
+import PopupsManager from '../managers/PopupsManager.js';
 
 import MainBanner from '../components/Banner/MainBanner.js';
 
@@ -22,14 +23,14 @@ export default class MainScene extends Phaser.Scene
 
         // Initialize MMRPG utility class objects
         let SPRITES = new SpritesUtility(this);
-        let POPUPS = new PopupsUtility(this);
         let BUTTONS = new ButtonsUtility(this);
+        let POPUPS = new PopupsManager(this);
 
         // Ensure MMRPG and utility objects are available to the entire class
         this.MMRPG = MMRPG;
         this.SPRITES = SPRITES;
-        this.POPUPS = POPUPS;
         this.BUTTONS = BUTTONS;
+        this.POPUPS = POPUPS;
 
         // Initialize this scene with a first-load callback function
         MMRPG.init('MainScene', 'Main', function(){
@@ -68,8 +69,8 @@ export default class MainScene extends Phaser.Scene
         // Pull in required object references
         let MMRPG = this.MMRPG;
         let SPRITES = this.SPRITES;
-        let POPUPS = this.POPUPS;
         let BUTTONS = this.BUTTONS;
+        let POPUPS = this.POPUPS;
         SPRITES.create(this);
         BUTTONS.create(this);
         POPUPS.create(this);
@@ -141,8 +142,8 @@ export default class MainScene extends Phaser.Scene
         // Pull in required object references
         let MMRPG = this.MMRPG;
         let SPRITES = this.SPRITES;
-        let POPUPS = this.POPUPS;
         let BUTTONS = this.BUTTONS;
+        let POPUPS = this.POPUPS;
 
         // We can also show the debug button now too
         this.debugButton = BUTTONS.addDebugButton(this);

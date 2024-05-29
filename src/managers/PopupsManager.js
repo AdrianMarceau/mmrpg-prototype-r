@@ -1,17 +1,17 @@
 // ------------------------------------------------------------- //
-// MMRPG-PROTOTYPE-R: Utilities.Popups.js
+// MMRPG-PROTOTYPE-R: Managers.Popups.js
 // Popup utility class for the game. This class contains methods
 // for displaying various popups and dialogues to the player.
 // ------------------------------------------------------------ //
 
 import MMRPG from '../shared/MMRPG.js';
 
-export default class PopupsUtility {
+export default class PopupsManager {
 
-    // Constructor for the PopupsUtility class
+    // Constructor for the PopupsManager class
     constructor(scene)
     {
-        console.log('PopupsUtility.constructor() called');
+        console.log('PopupsManager.constructor() called');
 
         // Ensure passed context is available to the entire class
         this.MMRPG = MMRPG;
@@ -23,7 +23,7 @@ export default class PopupsUtility {
         this.queuedPopups = [];
 
         // Initialize this scene with a first-load callback function
-        MMRPG.init('PopupsUtility', 'Popups', function(){
+        MMRPG.init('PopupsManager', 'Popups', function(){
 
             /* ... */
 
@@ -52,7 +52,7 @@ export default class PopupsUtility {
 
     // Define functions to creat, show, and destroy the overlay
     createOverlay (){
-        //console.log('PopupsUtility.createOverlay() called');
+        //console.log('PopupsManager.createOverlay() called');
         if (this.popupOverlay){ this.popupOverlay.destroy(); }
         const $blackOverlay = this.scene.add.graphics({ fillStyle: { color: 0x000000 } });
         $blackOverlay.fillRect(0, 0, MMRPG.canvas.width, MMRPG.canvas.height);
@@ -67,12 +67,12 @@ export default class PopupsUtility {
         this.popupOverlay = $blackOverlay;
     }
     showOverlay (){
-        //console.log('PopupsUtility.showOverlay() called', this.popupOverlay);
+        //console.log('PopupsManager.showOverlay() called', this.popupOverlay);
         this.popupOverlay.setVisible(true);
         this.popupVisible = true;
     }
     hideOverlay (){
-        //console.log('PopupsUtility.hideOverlay() called', this.popupOverlay);
+        //console.log('PopupsManager.hideOverlay() called', this.popupOverlay);
         this.popupOverlay.setVisible(false);
         this.popupVisible = false;
     }
@@ -80,7 +80,7 @@ export default class PopupsUtility {
     // Displays a popup on the screen with an arrow to dismiss it w/ a queue for multiple popups
     displayPopup(text, options)
     {
-        //console.log('PopupsUtility.displayPopup() called');
+        //console.log('PopupsManager.displayPopup() called');
 
         // Pull in required object references
         let MMRPG = this.MMRPG;
@@ -113,7 +113,7 @@ export default class PopupsUtility {
     // Display a rectangular dialogue box with a welcome message inside
     displayQueuedPopup()
     {
-        //console.log('PopupsUtility.displayQueuedPopup() called');
+        //console.log('PopupsManager.displayQueuedPopup() called');
 
         // Pull in required object references
         let MMRPG = this.MMRPG;
@@ -293,7 +293,7 @@ export default class PopupsUtility {
     // Display a rectangular dialogue box with a welcome message inside
     debugWelcomePopup()
     {
-        //console.log('PopupsUtility.debugWelcomePopup() called');
+        //console.log('PopupsManager.debugWelcomePopup() called');
 
         let panelText = 'Welcome to Mega Man RPG: Legacy of the Prototype!';
         this.displayPopup(panelText);
@@ -303,7 +303,7 @@ export default class PopupsUtility {
     // Display a rectangular dialogue box with all the types listed inside
     debugTypesPopup()
     {
-        //console.log('PopupsUtility.debugTypesPopup() called');
+        //console.log('PopupsManager.debugTypesPopup() called');
 
         // Pull in required object references
         let MMRPG = this.MMRPG;
