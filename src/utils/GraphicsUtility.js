@@ -30,7 +30,7 @@ export class GraphicsUtility {
 
     static returnPhaserColor (input)
     {
-        console.log('Banner.returnPhaserColor() called w/ input =', input);
+        //console.log('GraphicsUtility.returnPhaserColor() called w/ input =', input);
 
         // Function to check if a value is a valid hex color in Phaser format
         function isPhaserHex(value) {

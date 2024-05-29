@@ -109,10 +109,10 @@ export default class Banner {
 
     setColor (border, background)
     {
-        console.log('Banner.setColor() called w/ border =', typeof border, border, 'background =', typeof background, background);
+        //console.log('Banner.setColor() called w/ border =', typeof border, border, 'background =', typeof background, background);
         border = Graphics.returnPhaserColor(border);
         background = Graphics.returnPhaserColor(background);
-        console.log('revised border =', typeof border, border, 'background =', typeof background, background);
+        //console.log('revised border =', typeof border, border, 'background =', typeof background, background);
         this.options.lineStyle.color = border;
         this.options.fillStyle.color = background;
         this.refreshBanner();

@@ -8,7 +8,7 @@ import MMRPG from '../shared/MMRPG.js';
 
 export default class ButtonsUtility {
 
-    // Constructor for the PopupsUtility class
+    // Constructor for the ButtonsUtility class
     constructor(scene)
     {
         console.log('ButtonsUtility.constructor() called');
