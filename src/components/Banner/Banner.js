@@ -28,9 +28,9 @@ export default class Banner {
         this.height = options.height ? options.height : config.baseHeight;
         this.bounds = this.getBounds();
 
-        options.fillStyle = options.fillStyle ? Object.assign({}, config.baseFillStyle, options.fillStyle) : config.baseFillStyle;
-        options.lineStyle = options.lineStyle ? Object.assign({}, config.baseLineStyle, options.lineStyle) : config.baseLineStyle;
-        options.borderRadius = options.borderRadius ? Object.assign({}, config.baseBorderRadius, options.borderRadius) : config.baseBorderRadius;
+        options.fillStyle = options.fillStyle ? Object.assign({}, config.baseFillStyle, options.fillStyle) : Object.assign({}, config.baseFillStyle);
+        options.lineStyle = options.lineStyle ? Object.assign({}, config.baseLineStyle, options.lineStyle) : Object.assign({}, config.baseLineStyle);
+        options.borderRadius = options.borderRadius ? Object.assign({}, config.baseBorderRadius, options.borderRadius) : Object.assign({}, config.baseBorderRadius);
 
         options.lineStyle.color = Graphics.returnPhaserColor(options.lineStyle.color);
         options.fillStyle.color = Graphics.returnPhaserColor(options.fillStyle.color);
@@ -38,8 +38,8 @@ export default class Banner {
         this.scene = scene;
         this.options = options;
         this.config = config;
-        console.log('this.options =', this.options);
-        console.log('this.config =', this.config);
+        //console.log('this.options =', this.options);
+        //console.log('this.config =', this.config);
 
         this.createBanner();
     }

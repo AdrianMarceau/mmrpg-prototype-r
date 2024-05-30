@@ -5,7 +5,9 @@ let baseConfig = {
     baseWidth: 750,
     baseHeight: 184,
     maxHeight: 184,
-    minHeight: 124
+    minHeight: 124,
+    baseText: 'Main Banner',
+    baseTextStyle: { fontSize: '32px', fill: '#fff' }
     };
 
 export default class MainBanner extends Banner {
@@ -21,14 +23,16 @@ export default class MainBanner extends Banner {
         if (!options.fullsize){ options.height = config.minHeight; }
         else { options.height = config.maxHeight; }
 
-        options.mainText = options.mainText || 'Main Banner';
-        options.mainTextStyle = options.mainTextStyle || { fontSize: '32px', fill: '#fff' };
+        options.mainText = options.mainText ? options.mainText : config.baseText;
+        options.mainTextStyle = options.mainTextStyle ? options.mainTextStyle : Object.assign({}, config.baseTextStyle);
 
         super(scene, x, y, options);
 
         this.scene = scene;
-        this.options = super.getOptions()
-        this.config = super.getConfig();
+        this.options = options;
+        this.config = config;
+        //console.log('this.options =', this.options);
+        //console.log('this.config =', this.config);
 
         this.addMainBannerElements();
 
