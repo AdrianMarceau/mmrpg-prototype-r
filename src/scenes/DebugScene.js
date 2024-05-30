@@ -214,77 +214,47 @@ export default class DebugScene extends Phaser.Scene
             color: 0xbababa,
             });
 
-        /*
-
-        // Display a rectangular dialogue box with all the types listed inside
-        let panelPadding = 20,
-            panelHeight = 240,
-            panelWidth = MMRPG.canvas.width - (panelPadding * 2),
-            panelX = panelPadding,
-            panelY = MMRPG.canvas.height - panelHeight - panelPadding,
-            //panelCenterX = panelX - panelWidth / 2,
-            //panelCenterY = panelY - panelHeight / 2,
-            panelRadius = { tl: 20, tr: 0, br: 20, bl: 0 }
-            ;
-        const $panelBack = this.add.graphics({ lineStyle: { width: 2, color: 0x0a0a0a }, fillStyle: { color: 0x161616 }});
-        //$panelBack.strokeRect(panelCenterX, panelY, panelWidth, panelHeight);
-        //$panelBack.fillRect(panelCenterX, panelY, panelWidth, panelHeight);
-        $panelBack.strokeRoundedRect(panelX, panelY, panelWidth, panelHeight, panelRadius);
-        $panelBack.fillRoundedRect(panelX, panelY, panelWidth, panelHeight, panelRadius);
         let typeTokens = Object.keys(MMRPG.Indexes.types);
-        let typesText = 'Types:';
+        let typesTextPlain = 'Types:';
         for (let i = 0; i < typeTokens.length; i++)
         {
             let typeToken = typeTokens[i];
             let typeData = MMRPG.Indexes.types[typeToken];
-            typesText += (i > 0 ? ', ' : ' ') + typeData.name;
+            typesTextPlain += (i > 0 ? ', ' : ' ') + typeData.name;
         }
 
-        let textPadding = 20,
-            textWidth = panelWidth - (textPadding * 2),
-            textHeight = panelHeight - (textPadding * 2),
-            textPositionX = panelX,
-            textPositionY = panelY
-            ;
-        //typesText = 'A B C D E F G H I J K L M N O P Q R S T U V W X Y Z A B C D E F G H I J K L M N O P Q R S T U V W X Y Z A B C D E F G H I J K L M N O P Q R S T U V W X Y Z A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ';
+        //lettersText = 'A B C D E F G H I J K L M N O P Q R S T U V W X Y Z A B C D E F G H I J K L M N O P Q R S T U V W X Y Z A B C D E F G H I J K L M N O P Q R S T U V W X Y Z A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ';
 
-        console.log('panelWidth = ', panelWidth, 'panelHeight = ', panelHeight, 'panelX = ', panelX, 'panelY = ', panelY);
-        console.log('textWidth = ', textWidth, 'textHeight = ', 'textPadding = ', textPadding, textHeight, 'textPositionX = ', textPositionX, 'textPositionY = ', textPositionY);
+        let panelConfig = {
+            panelPadding: 20,
+            panelHeight: 240,
+            panelWidth: MMRPG.canvas.width - (20 * 2),
+            panelX: 20,
+            panelY: MMRPG.canvas.height - 240 - 20,
+            panelRadius: { tl: 20, tr: 0, br: 20, bl: 0 },
+            panelLineStyle: { width: 2, color: 0x0a0a0a },
+            panelFillStyle: { color: 0x161616 },
+            };
 
-        const $panelText = this.add.text(textPositionX, textPositionY, typesText, {
+        let textConfig = {
+            textPadding: 20,
+            textWidth: panelConfig.panelWidth - (20 * 2),
+            textHeight: panelConfig.panelHeight - (20 * 2),
+            textPositionX: panelConfig.panelX + 20,
+            textPositionY: panelConfig.panelY + 20
+            };
+
+        const $panelBack = this.add.graphics({ lineStyle: panelConfig.panelLineStyle, fillStyle: panelConfig.panelFillStyle });
+        $panelBack.strokeRoundedRect(panelConfig.panelX, panelConfig.panelY, panelConfig.panelWidth, panelConfig.panelHeight, panelConfig.panelRadius);
+        $panelBack.fillRoundedRect(panelConfig.panelX, panelConfig.panelY, panelConfig.panelWidth, panelConfig.panelHeight, panelConfig.panelRadius);
+
+        const $panelText = this.add.text(textConfig.textPositionX, textConfig.textPositionY, typesTextPlain, {
             fontSize: 16,
             fontFamily: 'Open Sans',
             lineSpacing: 10,
             align: 'left',
-            wordWrap: { width: textWidth, useAdvancedWrap: true }
+            wordWrap: { width: textConfig.textWidth, useAdvancedWrap: true }
             });
-        */
-
-        /*
-        // Works
-        this.add.dom(250, 550, 'div', 'background-color: lime; width: 220px; height: 100px; font: 48px Arial', 'Phaser');
-
-        // Works
-        var div = document.createElement('div');
-        div.setAttribute('style', "background-color: magenta; color: blue; font: 48px Arial;");
-        div.className = 'dom-element';
-        div.innerText = "DOM Element";
-        let el = this.add.dom(300, 600, div);
-
-        //$panelBack.visible = false;
-        console.log('textPositionX =', textPositionX, 'textPositionY =', textPositionY);
-        var text = typesText + ' | textPositionX =' + textPositionX + ' | textPositionY =' + textPositionY;
-        text = '<div class="test-text">'+text+'</div>';
-        const $panelText = this.add.dom(textPositionX, textPositionY, 'div', {
-            width: textWidth + 'px',
-            height: textHeight + 'px',
-            }, text);
-        */
-
-        //typesText = 'A B C D E F G H I J K L M N O P Q R S T U V W X Y Z A B C D E F G H I J K L M N O P Q R S T U V W X Y Z A B C D E F G H I J K L M N O P Q R S T U V W X Y Z A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ';
-
-        this.testDomTextStyles(this);
-
 
         // ---------------->
         // DEBUG DEBUG DEBUG
