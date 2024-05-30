@@ -165,6 +165,17 @@ export default class DebugScene extends Phaser.Scene
             ctx.scene.start('Title');
             });
 
+        // Create a next button so we can go to the main scene
+        BUTTONS.makeSimpleButton('Go to Main >', {
+            x: 600, y: 50,
+            width: 150, height: 24,
+            size: 8, color: 0x7d7d7d,
+            depth: 8999
+            }, function(){
+            console.log('Main button clicked');
+            ctx.scene.start('Main');
+            });
+
         // Create some debug buttons to trigger specific functionality for testing
         BUTTONS.makeSimpleButton('Welcome Home', {
             x: 50, y: 100,
