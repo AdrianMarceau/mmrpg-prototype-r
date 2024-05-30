@@ -9,17 +9,26 @@ body {
     margin: 0;
     padding: 20px;
     text-align: center;
-
+    font-family: 'Open Sans', monospace;
+    font-size: 16px;
+    line-height: 1.6;
 }
 h1 {
     display: block;
-    margin: 0 auto 1em;
-    font-family: 'Open Sans', monospace;
-    font-size: 1em;
+    margin: 1em auto;
+    font-size: 100%;
+    line-height: 1;
     text-align: center;
-    margin-top: 1em;
 }
 canvas {
     display: block;
+    margin: 0 auto;
+}
+
+#game-container {
+    display: block;
+    position: relative;
+    width: 780px;
+    height: 634px;
     margin: 0 auto;
 }

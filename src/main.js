@@ -17,7 +17,7 @@ var config = {
     width: MMRPG.canvas.width,
     height: MMRPG.canvas.height,
     pixelArt: true,
-    parent: 'phaser-example',
+    parent: 'game-container',
     physics: {
         default: 'arcade',
         arcade: {
