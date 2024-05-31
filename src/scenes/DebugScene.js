@@ -109,30 +109,17 @@ export default class DebugScene extends Phaser.Scene
         // DEBUG DEBUG DEBUG
         // <----------------
 
-
         // Draw the main banner and collect a reference to it
         var x = 15, y = 15;
         var color = MMRPG.Indexes.types['wily'].colour_light;
         var xcolor = Phaser.Display.Color.GetColor(color[0], color[1], color[2]);
-        this.mainBannerFull = new MainBanner(this, x, y, {
-            fullsize: true,
-            fillStyle: { color: xcolor },
-            });
-
-        /*
-        // Draw the main banner (smaller) and collect a reference to it
-        var ref = this.mainBannerFull.getBounds();
-        var x = ref.x + 15, y = ref.y + 15;
-        var color = MMRPG.Indexes.types['light'].colour_light;
-        var xcolor = Phaser.Display.Color.GetColor(color[0], color[1], color[2]);
-        this.mainBannerSmall = new MainBanner(this, x, y, {
+        this.mainBanner = new MainBanner(this, x, y, {
             fullsize: false,
             fillStyle: { color: xcolor },
             });
-        */
 
         // Draw the battle banner and collect a reference to it
-        var ref = this.mainBannerFull.getBounds();
+        var ref = this.mainBanner.getBounds();
         var x = ref.x, y = ref.y2 + 5;
         var color = MMRPG.Indexes.types['cossack'].colour_light;
         var xcolor = Phaser.Display.Color.GetColor(color[0], color[1], color[2]);
@@ -204,12 +191,14 @@ export default class DebugScene extends Phaser.Scene
 
         // -------- //
 
-        var x = this.cameras.main.centerX, y = 40; //this.cameras.main.centerY;
+        var x = MMRPG.canvas.centerX, y = 40;
         var $loadText = this.add.bitmapText(x, y, 'megafont-white', 'Welcome to Debug', 16);
         $loadText.setOrigin(0.5);
         $loadText.setLetterSpacing(20);
 
-        this.add.text(190, 136, 'sample text', {
+        var x = 20, y = MMRPG.canvas.height - 30;
+        var lorem = 'Let go your earthly tether. Enter the void. Empty and become wind.';
+        this.add.text(x, y, lorem, {
             fontFamily: 'Open Sans',
             color: 0xbababa,
             });
@@ -227,10 +216,10 @@ export default class DebugScene extends Phaser.Scene
 
         let panelConfig = {
             panelPadding: 20,
-            panelHeight: 240,
+            panelHeight: 180,
             panelWidth: MMRPG.canvas.width - (20 * 2),
             panelX: 20,
-            panelY: MMRPG.canvas.height - 240 - 20,
+            panelY: MMRPG.canvas.height - 180 - 20,
             panelRadius: { tl: 20, tr: 0, br: 20, bl: 0 },
             panelLineStyle: { width: 2, color: 0x0a0a0a },
             panelFillStyle: { color: 0x161616 },
@@ -272,26 +261,69 @@ export default class DebugScene extends Phaser.Scene
         //console.log('DebugScene.update() called w/ time =', time, 'delta =', delta);
 
         let ctx = this;
+        let types = MMRPG.Indexes.types;
+
+        // Animate the main banner moving across the screen
+        let mainBanner = this.mainBanner;
+        if (!mainBanner.speed){ mainBanner.speed = 1; }
+        if (!mainBanner.direction){ mainBanner.direction = 'right'; }
+        var x = mainBanner.x,
+            y = mainBanner.y,
+            width = mainBanner.width,
+            height = mainBanner.height,
+            speed = mainBanner.speed,
+            resize = (speed / 2),
+            direction = mainBanner.direction
+            ;
+        if (direction === 'right'){
+            if ((x + width) <= MMRPG.canvas.width){
+                mainBanner.setPosition(x + speed, y + speed);
+                mainBanner.setSize(width - resize, height - resize);
+                } else {
+                var type = Object.keys(types)[Math.floor(Math.random() * Object.keys(types).length)]; //'water';
+                //console.log('type =', type, types[type]);
+                var color = types[type]['colour_light'];
+                var color2 = types[type]['colour_dark'];
+                mainBanner.direction = 'left';
+                mainBanner.setColor(color, color2);
+                mainBanner.setText(mainBanner.title.key, 'Main Banner ' + type.toUpperCase()[0] + type.slice(1));
+                ctx.showDoctorRunning();
+                }
+            } else if (direction === 'left'){
+            if (x >= 0){
+                mainBanner.setPosition(x - speed, y - speed);
+                mainBanner.setSize(width + resize, height + resize);
+                } else {
+                var type = Object.keys(types)[Math.floor(Math.random() * Object.keys(types).length)]; //'nature';
+                //console.log('type =', type, types[type]);
+                var color = types[type]['colour_light'];
+                var color2 = types[type]['colour_dark'];
+                mainBanner.direction = 'right';
+                mainBanner.setColor(color, color2);
+                mainBanner.setText(mainBanner.title.key, 'Main Banner ' + type.toUpperCase()[0] + type.slice(1));
+                ctx.showDoctorRunning();
+                }
+            }
 
         // Animate the test banner moving across the screen
         let testBanner = this.testBanner;
-        let types = MMRPG.Indexes.types;
         if (!testBanner.speed){ testBanner.speed = 2; }
         if (!testBanner.direction){ testBanner.direction = 'right'; }
-        let x = testBanner.x,
+        var x = testBanner.x,
             y = testBanner.y,
             width = testBanner.width,
             height = testBanner.height,
             speed = testBanner.speed,
+            resize = (speed / 2),
             direction = testBanner.direction
             ;
         if (direction === 'right'){
             if ((x + width) <= MMRPG.canvas.width){
                 testBanner.setPosition(x + speed, y + speed);
-                testBanner.setSize(width - 1, height - 1);
+                testBanner.setSize(width - resize, height - resize);
                 } else {
                 var type = Object.keys(types)[Math.floor(Math.random() * Object.keys(types).length)]; //'water';
-                console.log('type =', type, types[type]);
+                //console.log('type =', type, types[type]);
                 var color = types[type]['colour_light'];
                 var color2 = types[type]['colour_dark'];
                 testBanner.direction = 'left';
@@ -301,10 +333,10 @@ export default class DebugScene extends Phaser.Scene
             } else if (direction === 'left'){
             if (x >= 0){
                 testBanner.setPosition(x - speed, y - speed);
-                testBanner.setSize(width + 1, height + 1);
+                testBanner.setSize(width + resize, height + resize);
                 } else {
                 var type = Object.keys(types)[Math.floor(Math.random() * Object.keys(types).length)]; //'nature';
-                console.log('type =', type, types[type]);
+                //console.log('type =', type, types[type]);
                 var color = types[type]['colour_light'];
                 var color2 = types[type]['colour_dark'];
                 testBanner.direction = 'right';
@@ -347,7 +379,7 @@ export default class DebugScene extends Phaser.Scene
 
     showDoctorRunning (){
 
-        console.log('DebugScene.showDoctorRunning() called');
+        //console.log('DebugScene.showDoctorRunning() called');
 
         // Pull in required object references
         let MMRPG = this.MMRPG;
@@ -380,7 +412,6 @@ export default class DebugScene extends Phaser.Scene
             repeat: -1,
             yoyo: true
             });
-        //this.idleSprite = $idleSprite;
         $idleSprite.play(spriteRunAnim);
         $idleSprite.setDepth(9200);
 
@@ -392,9 +423,8 @@ export default class DebugScene extends Phaser.Scene
             ease: 'Linear',
             duration: 4000,
             onComplete: function () {
-                console.log('Movement complete!');
+                //console.log('Movement complete!');
                 $idleSprite.destroy();
-                //this.idleSprite = false;
                 }
             });
 
@@ -464,8 +494,8 @@ export default class DebugScene extends Phaser.Scene
             textPositionX = panelX + textPadding,
             textPositionY = panelY + textPadding
             ;
-        console.log('panelWidth = ', panelWidth, 'panelHeight = ', panelHeight, 'panelX = ', panelX, 'panelY = ', panelY);
-        console.log('textWidth = ', textWidth, 'textHeight = ', 'textPadding = ', textPadding, textHeight, 'textPositionX = ', textPositionX, 'textPositionY = ', textPositionY);
+        //console.log('panelWidth = ', panelWidth, 'panelHeight = ', panelHeight, 'panelX = ', panelX, 'panelY = ', panelY);
+        //console.log('textWidth = ', textWidth, 'textHeight = ', 'textPadding = ', textPadding, textHeight, 'textPositionX = ', textPositionX, 'textPositionY = ', textPositionY);
 
         // Position a rich-text object on top of the panel rectangle
         var textDiv = document.createElement('div');
