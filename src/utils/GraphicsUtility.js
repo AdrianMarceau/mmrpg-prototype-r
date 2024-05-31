@@ -12,6 +12,11 @@ export class GraphicsUtility {
 
     static getProportionalRadiusObject (width, height, baseRadiusObject)
     {
+        if (!baseRadiusObject){ baseRadiusObject = {}; }
+        if (!baseRadiusObject.tl){ baseRadiusObject.tl = 0; }
+        if (!baseRadiusObject.tr){ baseRadiusObject.tr = 0; }
+        if (!baseRadiusObject.br){ baseRadiusObject.br = 0; }
+        if (!baseRadiusObject.bl){ baseRadiusObject.bl = 0; }
         return {
             tl: this.calculateProportionalRadius(width, height, baseRadiusObject.tl),
             tr: this.calculateProportionalRadius(width, height, baseRadiusObject.tr),
