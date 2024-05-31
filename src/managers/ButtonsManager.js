@@ -1,24 +1,24 @@
 // ------------------------------------------------------------- //
-// MMRPG-PROTOTYPE-R: Utilities.Buttons.js
+// MMRPG-PROTOTYPE-R: ButtonsManager.js
 // Button utility class for the MMRPG. This class is responsible for
 // creating and managing interactive buttons in the game.
 // ------------------------------------------------------------ //
 
 import MMRPG from '../shared/MMRPG.js';
 
-export default class ButtonsUtility {
+export default class ButtonsManager {
 
-    // Constructor for the ButtonsUtility class
+    // Constructor for the ButtonsManager class
     constructor(scene)
     {
-        console.log('ButtonsUtility.constructor() called');
+        console.log('ButtonsManager.constructor() called');
 
         // Ensure passed context is available to the entire class
         this.MMRPG = MMRPG;
         this.scene = scene;
 
         // Initialize this scene with a first-load callback function
-        MMRPG.init('ButtonsUtility', 'Buttons', function(){
+        MMRPG.init('ButtonsManager', 'Buttons', function(){
 
             /* ... */
 

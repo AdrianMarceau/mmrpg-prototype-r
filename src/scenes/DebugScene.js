@@ -11,8 +11,7 @@ import { GraphicsUtility as Graphics } from '../utils/GraphicsUtility.js';
 
 import SpritesManager from '../managers/SpritesManager.js';
 import PopupsManager from '../managers/PopupsManager.js';
-
-import ButtonsUtility from '../utils/ButtonsUtility.js';
+import ButtonsManager from '../managers/ButtonsManager.js';
 
 import Banner from '../components/Banner/Banner.js';
 import MainBanner from '../components/Banner/MainBanner.js';
@@ -29,7 +28,7 @@ export default class DebugScene extends Phaser.Scene
         // Initialize MMRPG utility class objects
         let SPRITES = new SpritesManager(this);
         let POPUPS = new PopupsManager(this);
-        let BUTTONS = new ButtonsUtility(this);
+        let BUTTONS = new ButtonsManager(this);
 
         // Ensure MMRPG and utility objects are available to the entire class
         this.MMRPG = MMRPG;
@@ -266,7 +265,7 @@ export default class DebugScene extends Phaser.Scene
 
         // Animate the main banner moving across the screen
         let mainBanner = this.mainBanner;
-        if (!mainBanner.speed){ mainBanner.speed = 1; }
+        if (!mainBanner.speed){ mainBanner.speed = 1/3; }
         if (!mainBanner.direction){ mainBanner.direction = 'right'; }
         var x = mainBanner.x,
             y = mainBanner.y,
@@ -308,7 +307,7 @@ export default class DebugScene extends Phaser.Scene
 
         // Animate the test banner moving across the screen
         let testBanner = this.testBanner;
-        if (!testBanner.speed){ testBanner.speed = 2; }
+        if (!testBanner.speed){ testBanner.speed = 2/5; }
         if (!testBanner.direction){ testBanner.direction = 'right'; }
         var x = testBanner.x,
             y = testBanner.y,
@@ -383,15 +382,16 @@ export default class DebugScene extends Phaser.Scene
         //console.log('DebugScene.showDoctorRunning() called');
 
         // Pull in required object references
+        let ctx = this;
         let MMRPG = this.MMRPG;
         let SPRITES = this.SPRITES;
 
         // Destroy the previous idle sprite if it exists
-        //if (this.idleSprite){ this.idleSprite.destroy(); }
+        //if (ctx.idleSprite){ ctx.idleSprite.destroy(); }
 
         // Generate a sprite w/ running animation in progress
-        let randKey = Math.floor(Math.random() * this.idleSpriteTokens.length);
-        let spriteToken = this.idleSpriteTokens[randKey];
+        let randKey = Math.floor(Math.random() * ctx.idleSpriteTokens.length);
+        let spriteToken = ctx.idleSpriteTokens[randKey];
         let spriteAlt = 'base';
         // if the sprite token ends with an "*_{alt}", make sure we split and pull
         if (spriteToken.indexOf('_') !== -1){
@@ -404,8 +404,8 @@ export default class DebugScene extends Phaser.Scene
         let spriteRunAnim = SPRITES.index.anims.players[spriteToken][spriteAlt][spriteDir].run;
         let spriteX = - 40;
         let spriteY = MMRPG.canvas.centerY - 20;
-        let $idleSprite = this.add.sprite(spriteX, spriteY, spriteSheet);
-        this.add.tween({
+        let $idleSprite = ctx.add.sprite(spriteX, spriteY, spriteSheet);
+        ctx.add.tween({
             targets: $idleSprite,
             y: '-=2',
             ease: 'Sine.easeInOut',
@@ -414,18 +414,25 @@ export default class DebugScene extends Phaser.Scene
             yoyo: true
             });
         $idleSprite.play(spriteRunAnim);
-        $idleSprite.setDepth(9200);
+        $idleSprite.setDepth((ctx.battleBanner.depth || 1000) + 1);
+        if (typeof ctx.idleSpritesRunning === 'undefined'){ ctx.idleSpritesRunning = []; }
+        ctx.idleSpritesRunning.push($idleSprite);
+        let idleSpriteKey = ctx.idleSpritesRunning.length - 1;
 
         // Animate that sprite running across the screen then remove when done
         let spriteDestX = MMRPG.canvas.width + 40;
-        this.add.tween({
+        let numSprites = ctx.idleSpritesRunning.length;
+        let runDuration = 4000 + (numSprites * 200);
+        if (numSprites >= 10){ runDuration /= 2; }
+        ctx.add.tween({
             targets: $idleSprite,
             x: spriteDestX,
             ease: 'Linear',
-            duration: 4000,
+            duration: runDuration,
             onComplete: function () {
                 //console.log('Movement complete!');
                 $idleSprite.destroy();
+                ctx.idleSpritesRunning.splice(idleSpriteKey, 1);
                 }
             });
 
