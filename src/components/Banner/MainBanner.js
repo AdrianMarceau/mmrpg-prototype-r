@@ -1,38 +1,40 @@
 
 import Banner from './Banner.js';
 
-let baseConfig = {
-    baseWidth: 750,
-    baseHeight: 184,
-    maxHeight: 184,
-    minHeight: 124,
-    baseText: 'Main Banner',
-    baseTextStyle: { fontSize: '32px', fill: '#fff' }
-    };
-
 export default class MainBanner extends Banner {
 
-    constructor (scene, x, y, options = {}, config = {})
+    constructor (scene, x, y, options = {})
     {
         console.log('MainBanner.constructor() called');
 
-        options = Object.assign({}, options);
-        config = Object.assign({}, baseConfig, config);
+        let defaults = {
+            width: 750,
+            height: 184,
+            maxHeight: 184,
+            minHeight: 124,
+            fullsize: false,
+            mainText: 'Main Banner',
+            mainTextStyle: { fontSize: '32px', fill: '#fff' }
+            };
 
-        options.fullsize = typeof options.fullsize === 'boolean' ? options.fullsize : true;
-        if (!options.fullsize){ options.height = config.minHeight; }
-        else { options.height = config.maxHeight; }
+        if (typeof options !== 'object'){ options = {}; }
 
-        options.mainText = options.mainText ? options.mainText : config.baseText;
-        options.mainTextStyle = options.mainTextStyle ? options.mainTextStyle : Object.assign({}, config.baseTextStyle);
+        options.width = typeof options.width === 'number' ? options.width : defaults.width;
+        options.height = typeof options.height === 'number' ? options.height : (options.fullsize ? defaults.maxHeight : defaults.minHeight);
+
+        options.fullsize = typeof options.fullsize === 'boolean' ? options.fullsize : defaults.fullsize;
+
+        options.mainText = options.mainText ? options.mainText : defaults.mainText;
+
+        options.mainTextStyle = typeof options.mainTextStyle === 'object' ? options.mainTextStyle : {};
+        options.mainTextStyle.fontSize = options.mainTextStyle.fontSize || defaults.mainTextStyle.fontSize;
+        options.mainTextStyle.fill = options.mainTextStyle.fill || defaults.mainTextStyle.fill;
 
         super(scene, x, y, options);
 
-        this.scene = scene;
-        this.options = options;
-        this.config = config;
-        //console.log('this.options =', this.options);
-        //console.log('this.config =', this.config);
+        console.log('MainBanner options =', options);
+        //console.log('MainBanner this.options =', this.options);
+        //console.log('MainBanner this.options == options:', this.options == options);
 
         this.addMainBannerElements();
 
@@ -43,48 +45,23 @@ export default class MainBanner extends Banner {
         //console.log('MainBanner.update() called');
         super.update(options);
 
-        // Update the main banner elements
-        let $title = this.title;
-        $title.setText(this.options.mainText);
-
     }
 
     addMainBannerElements ()
     {
         //console.log('MainBanner.addMainBannerElements() called');
 
-        // Add some title text to the main banner
-        let options = this.options;
+        // Add some title text to the banner
         let bounds = this.bounds;
-        let $title = this.scene.add.text(bounds.centerX, bounds.centerY, options.mainText, options.mainTextStyle).setOrigin(0.5, 0.5);
-        this.title = $title;
-
-    }
-
-    setSize (width, height)
-    {
-        //console.log('MainBanner.setSize() called w/ width =', width, 'height =', height);
-        super.setSize(width, height);
-        let bounds = this.bannerBounds;
-        this.title.x = bounds.centerX;
-        this.title.y = bounds.centerY;
-    }
-    setPosition (x, y)
-    {
-        //console.log('MainBanner.setPosition() called w/ x =', x, 'y =', y);
-        super.setPosition(x, y);
-        let bounds = this.bounds;
-        this.title.x = bounds.centerX;
-        this.title.y = bounds.centerY;
-    }
-
-    setTitleText (text)
-    {
-        //console.log('MainBanner.setTitleText() called w/ text =', text);
         let options = this.options;
-        options.mainText = text;
-        this.title.setText(options.mainText);
-        this.update();
+        let align = 'center',
+            x = bounds.centerX,
+            y = bounds.centerY,
+            text = options.mainText,
+            styles = options.mainTextStyle
+            ;
+        this.title = this.addBannerText(x, y, text, align, styles);
+
     }
 
 }
