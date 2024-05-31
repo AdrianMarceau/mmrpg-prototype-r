@@ -7,7 +7,7 @@
 
 import MMRPG from '../shared/MMRPG.js';
 
-import SpritesUtility from '../utils/SpritesUtility.js';
+import SpritesManager from '../managers/SpritesManager.js';
 
 export default class PreloaderScene extends Phaser.Scene
 {
@@ -18,7 +18,7 @@ export default class PreloaderScene extends Phaser.Scene
         super('Preloader');
 
         // Initialize MMRPG utility class objects
-        let SPRITES = new SpritesUtility(this);
+        let SPRITES = new SpritesManager(this);
 
         // Ensure MMRPG and utility objects are available to the entire class
         this.MMRPG = MMRPG;

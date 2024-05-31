@@ -1,24 +1,24 @@
 // ------------------------------------------------------------- //
-// MMRPG-PROTOTYPE-R: Utilities.Sprites.js
+// MMRPG-PROTOTYPE-R: SpritesManager.js
 // Sprite utility class for the MMRPG. This class is responsible for
 // creating and managing interactive buttons in the game.
 // ------------------------------------------------------------ //
 
 import MMRPG from '../shared/MMRPG.js';
 
-export default class SpritesUtility {
+export default class SpritesManager {
 
-    // Constructor for the SpritesUtility class
+    // Constructor for the SpritesManager class
     constructor(scene)
     {
-        console.log('SpritesUtility.constructor() called');
+        console.log('SpritesManager.constructor() called');
 
         // Ensure passed context is available to the entire class
         this.MMRPG = MMRPG;
         this.scene = scene;
 
         // Initialize this scene with a first-load callback function
-        MMRPG.init('SpritesUtility', 'Sprites', function(){
+        MMRPG.init('SpritesManager', 'Sprites', function(){
 
             // Collect the sprites index from the global MMRPG object
             let index = MMRPG.Indexes.Sprites;
@@ -84,7 +84,7 @@ export default class SpritesUtility {
     // Load a sprite sheet for a specific kind of object into the game
     loadSprite (ctx, kind, token, alt = 'base')
     {
-        //console.log('SpritesUtility.loadSprite() called w/ \n kind: '+kind+', token: '+token+', alt: '+alt);
+        //console.log('SpritesManager.loadSprite() called w/ \n kind: '+kind+', token: '+token+', alt: '+alt);
 
         // Pull in index references
         let index = this.index;
@@ -183,7 +183,7 @@ export default class SpritesUtility {
         while (pendingSheets.length){
             let sheet = pendingSheets.shift();
             if (scene.textures.exists(sheet)){ continue; }
-            //console.log('SpritesUtility.preloadPending() loading sheet:', sheet);
+            //console.log('SpritesManager.preloadPending() loading sheet:', sheet);
             scene.load.spritesheet(sheet.key, sheet.path, { frameWidth: sheet.size, frameHeight: sheet.size });
             }
     }
@@ -196,7 +196,7 @@ export default class SpritesUtility {
         while (pendingAnims.length){
             let anim = pendingAnims.shift();
             if (scene.anims.get(anim.key)){ continue; }
-            //console.log('SpritesUtility.createPending() creating anim:', anim);
+            //console.log('SpritesManager.createPending() creating anim:', anim);
             scene.anims.create(Object.assign({}, anim, {
                 key: anim.key,
                 frames: scene.anims.generateFrameNumbers(anim.sheet, { frames: anim.frames }),

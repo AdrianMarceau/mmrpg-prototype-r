@@ -9,9 +9,10 @@ import MMRPG from '../shared/MMRPG.js';
 
 import { GraphicsUtility as Graphics } from '../utils/GraphicsUtility.js';
 
-import SpritesUtility from '../utils/SpritesUtility.js';
-import ButtonsUtility from '../utils/ButtonsUtility.js';
+import SpritesManager from '../managers/SpritesManager.js';
 import PopupsManager from '../managers/PopupsManager.js';
+
+import ButtonsUtility from '../utils/ButtonsUtility.js';
 
 import Banner from '../components/Banner/Banner.js';
 import MainBanner from '../components/Banner/MainBanner.js';
@@ -26,15 +27,15 @@ export default class DebugScene extends Phaser.Scene
         super('Debug');
 
         // Initialize MMRPG utility class objects
-        let SPRITES = new SpritesUtility(this);
-        let BUTTONS = new ButtonsUtility(this);
+        let SPRITES = new SpritesManager(this);
         let POPUPS = new PopupsManager(this);
+        let BUTTONS = new ButtonsUtility(this);
 
         // Ensure MMRPG and utility objects are available to the entire class
         this.MMRPG = MMRPG;
         this.SPRITES = SPRITES;
-        this.BUTTONS = BUTTONS;
         this.POPUPS = POPUPS;
+        this.BUTTONS = BUTTONS;
 
         // Initialize this scene with a first-load callback function
         MMRPG.init('DebugScene', 'Debug', function(){
@@ -58,11 +59,11 @@ export default class DebugScene extends Phaser.Scene
         // Pull in required object references
         let MMRPG = this.MMRPG;
         let SPRITES = this.SPRITES;
-        let BUTTONS = this.BUTTONS;
         let POPUPS = this.POPUPS;
+        let BUTTONS = this.BUTTONS;
         SPRITES.preload(this);
-        BUTTONS.preload(this);
         POPUPS.preload(this);
+        BUTTONS.preload(this);
 
         // Define some idle sprite variables first and preload so we can use them later
         this.idleSprite = false;
@@ -82,8 +83,8 @@ export default class DebugScene extends Phaser.Scene
 
         // Trigger post-preload methods for utility classes
         SPRITES.afterPreload(this);
-        BUTTONS.afterPreload(this);
         POPUPS.afterPreload(this);
+        BUTTONS.afterPreload(this);
 
     }
 
@@ -95,11 +96,11 @@ export default class DebugScene extends Phaser.Scene
         let ctx = this;
         let MMRPG = this.MMRPG;
         let SPRITES = this.SPRITES;
-        let BUTTONS = this.BUTTONS;
         let POPUPS = this.POPUPS;
+        let BUTTONS = this.BUTTONS;
         SPRITES.create(this);
-        BUTTONS.create(this);
         POPUPS.create(this);
+        BUTTONS.create(this);
 
         // Create the base canvas for which the rest of the game will be drawn
         var canvas = this.add.image(0, 0, 'canvas');
@@ -250,8 +251,8 @@ export default class DebugScene extends Phaser.Scene
 
         // Trigger post-create methods for utility classes
         SPRITES.afterCreate(this);
-        BUTTONS.afterCreate(this);
         POPUPS.afterCreate(this);
+        BUTTONS.afterCreate(this);
 
         console.log('MMRPG = ', MMRPG);
 

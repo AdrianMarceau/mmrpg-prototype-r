@@ -1,5 +1,5 @@
 // ------------------------------------------------------------- //
-// MMRPG-PROTOTYPE-R: Managers.Popups.js
+// MMRPG-PROTOTYPE-R: PopupsManager.js
 // Popup utility class for the game. This class contains methods
 // for displaying various popups and dialogues to the player.
 // ------------------------------------------------------------ //

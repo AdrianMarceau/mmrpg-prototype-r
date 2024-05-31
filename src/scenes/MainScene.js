@@ -7,10 +7,10 @@
 
 import MMRPG from '../shared/MMRPG.js';
 
-import SpritesUtility from '../utils/SpritesUtility.js';
-import ButtonsUtility from '../utils/ButtonsUtility.js';
-
+import SpritesManager from '../managers/SpritesManager.js';
 import PopupsManager from '../managers/PopupsManager.js';
+
+import ButtonsUtility from '../utils/ButtonsUtility.js';
 
 import MainBanner from '../components/Banner/MainBanner.js';
 
@@ -22,9 +22,9 @@ export default class MainScene extends Phaser.Scene
         super('Main');
 
         // Initialize MMRPG utility class objects
-        let SPRITES = new SpritesUtility(this);
-        let BUTTONS = new ButtonsUtility(this);
+        let SPRITES = new SpritesManager(this);
         let POPUPS = new PopupsManager(this);
+        let BUTTONS = new ButtonsUtility(this);
 
         // Ensure MMRPG and utility objects are available to the entire class
         this.MMRPG = MMRPG;

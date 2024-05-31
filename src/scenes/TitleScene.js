@@ -7,7 +7,8 @@
 
 import MMRPG from '../shared/MMRPG.js';
 
-import SpritesUtility from '../utils/SpritesUtility.js';
+import SpritesManager from '../managers/SpritesManager.js';
+
 import ButtonsUtility from '../utils/ButtonsUtility.js';
 
 export default class TitleScene extends Phaser.Scene
@@ -19,7 +20,7 @@ export default class TitleScene extends Phaser.Scene
         super('Title');
 
         // Initialize MMRPG utility class objects
-        let SPRITES = new SpritesUtility(this);
+        let SPRITES = new SpritesManager(this);
         let BUTTONS = new ButtonsUtility(this);
 
         // Ensure MMRPG and utility objects are available to the entire class
