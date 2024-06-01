@@ -233,7 +233,7 @@ export default class PreloaderScene extends Phaser.Scene
         this.preloadQueue.push({ index: index, name: name });
         this.preloadsQueued++;
 
-        let basePath = 'content/indexes/';
+        let basePath = 'src/indexes/';
         let indexKey = 'indexes.' + name.replace('.json', '');
         let indexPath = basePath + name;
         this.load.json(indexKey, indexPath);
