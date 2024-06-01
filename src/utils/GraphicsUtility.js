@@ -1,5 +1,5 @@
 // ------------------------------------------------------------- //
-// MMRPG-PROTOTYPE-R: Utilities.Graphics.js
+// MMRPG-PROTOTYPE-R: GraphicsUtility.js
 // Graphic utility class for the MMRPG. This is a singleton class
 // with miscellaneous graphic-related methods for the game.
 // ------------------------------------------------------------ //
