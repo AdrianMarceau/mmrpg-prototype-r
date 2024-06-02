@@ -34,11 +34,11 @@ export default class BootScene extends Phaser.Scene
         let MMRPG = this.MMRPG;
 
         // Load global game assets
-        this.load.image('canvas', 'src/assets/MMRPG-canvas_fullsize.png');
+        this.load.image('canvas', 'src/assets/mmrpg-canvas_fullsize.png');
 
         // Load the splash screen game assets
-        this.load.image('splash', 'src/assets/MMRPG-splash_static-fullsize.png');
-        this.load.image('start', 'src/assets/MMRPG-splash_start-text.png');
+        this.load.image('splash', 'src/assets/mmrpg-splash_static-fullsize.png');
+        this.load.image('start', 'src/assets/mmrpg-splash_start-text.png');
 
         // Load the bitmap font we'll be using
         // Charset:  _.,!?:;@`'"#$%&()[]{}*+-~\|/<=>0123456789^ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz
