@@ -63,6 +63,7 @@ export default class ButtonsManager {
         $buttonRect.strokeRoundedRect(buttonX, buttonY, buttonWidth, buttonHeight, 5);
         $buttonRect.fillRoundedRect(buttonX, buttonY, buttonWidth, buttonHeight, 5);
         if (buttonDepth !== 'auto'){ $buttonRect.setDepth(buttonDepth); }
+        buttonDepth = $buttonRect.depth;
 
         let $buttonText = ctx.add.bitmapText(buttonTextX, buttonTextY, 'megafont-white', buttonText, buttonSize);
         $buttonText.setOrigin(0.5);
@@ -70,7 +71,7 @@ export default class ButtonsManager {
         $buttonText.setTint(buttonTextColor);
         $buttonText.setAlpha(0.8);
         $buttonText.x -= (buttonWidth - $buttonText.width) / 4;
-        if (buttonDepth !== 'auto'){ $buttonText.setDepth(buttonDepth + 1); }
+        $buttonText.setDepth(buttonDepth + 1);
 
         $buttonRect.setInteractive({
             hitArea: new Phaser.Geom.Rectangle(buttonX, buttonY, buttonWidth, buttonHeight),
@@ -100,7 +101,11 @@ export default class ButtonsManager {
         let $buttonGroup = ctx.add.group();
         $buttonGroup.add($buttonRect);
         $buttonGroup.add($buttonText);
-        return $buttonGroup;
+        return {
+            group: $buttonGroup,
+            span: $buttonRect,
+            text: $buttonText
+            };
 
     }
 
