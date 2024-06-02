@@ -50,6 +50,19 @@ export default class SpritesManager {
                 if (typeof index.tweens[xkind]){ index.tweens[xkind] = {}; }
                 }
 
+            // Predefine the function for prepping an path for a given index key
+            if (typeof index.prepForKey === 'undefined'){
+                index.prepForKeys = function(obj, ...keys) {
+                    let current = obj;
+                    keys.forEach(key => {
+                        if (typeof current[key] === 'undefined') {
+                            current[key] = {};
+                            }
+                        current = current[key];
+                        });
+                    };
+                }
+
             });
 
         // Collect or define the sprites index from the global MMRPG object
@@ -102,18 +115,24 @@ export default class SpritesManager {
             } else {
             return false;
             }
-        //console.log('kind:', kind, 'xkind:', xkind);
+        //console.log('token:', token, 'kind:', kind, 'xkind:', xkind);
+
+        // Collect info for the sprite given the kind it is
+        //console.log('MMRPG.Indexes:', MMRPG.Indexes);
+        //console.log('MMRPG.Indexes['+xkind+']:', MMRPG.Indexes[xkind]);
+        let spriteInfo = MMRPG.Indexes[xkind][token] || {};
+        //console.log('spriteInfo for xkind:', xkind, 'token:', token, ' =', spriteInfo);
 
         // Predefine some base paths and keys
         let pathToken = token === kind ? ('.' + kind) : token;
         let basePath = 'content/'+ xkind + '/' + pathToken + '/sprites' + (alt !== 'base' ? '_'+alt : '') + '/';
         let baseKey = 'sprites.' + xkind + '.' + token + '.' + alt;
-        let spriteSize = 40;
+        let spriteSize = spriteInfo.image_size || 40;
         let spriteSizeX = spriteSize+'x'+spriteSize;
         let spriteDirections = ['left', 'right'];
-        if (typeof index.sizes[kind] === 'undefined'){ index.sizes[kind] = {}; }
+        index.prepForKeys(index.sizes, kind);
         index.sizes[kind][token] = spriteSize;
-        //console.log('added [ '+spriteSize+' ] to index.sizes['+kind+']['+token+']')
+        //console.log('queued [ '+spriteSize+' ] to index.sizes['+kind+']['+token+']')
 
         // Loop through each direction and load the sprite sheet, making note of the sheet created
         for (let i = 0; i < spriteDirections.length; i++){
@@ -121,20 +140,16 @@ export default class SpritesManager {
             // Define and register the key for this sprite sheet using direction, image, key, and path
             let direction = spriteDirections[i];
             let sheetKey = baseKey+'.'+direction;
-            if (typeof index.sheets[xkind] === 'undefined'){ index.sheets[xkind] = {}; }
-            if (typeof index.sheets[xkind][token] === 'undefined'){ index.sheets[xkind][token] = {}; }
-            if (typeof index.sheets[xkind][token][alt] === 'undefined'){ index.sheets[xkind][token][alt] = {}; }
+            index.prepForKeys(index.sheets, xkind, token, alt);
             index.sheets[xkind][token][alt][direction] = sheetKey;
-            //console.log('added [ '+sheetKey+' ] to index.sheets['+xkind+']['+token+']['+alt+']['+direction+']');
+            //console.log('queued [ '+sheetKey+' ] to index.sheets['+xkind+']['+token+']['+alt+']['+direction+']');
 
             // Define the relative image path for this sprite sheet
             let image = 'sprite_'+direction+'_'+spriteSizeX+'.png';
             let imagePath = basePath+image;
-            if (typeof index.paths[xkind] === 'undefined'){ index.paths[xkind] = {}; }
-            if (typeof index.paths[xkind][token] === 'undefined'){ index.paths[xkind][token] = {}; }
-            if (typeof index.paths[xkind][token][alt] === 'undefined'){ index.paths[xkind][token][alt] = {}; }
+            index.prepForKeys(index.paths, xkind, token, alt);
             index.paths[xkind][token][alt][direction] = imagePath;
-            //console.log('added [ '+imagePath+' ] to index.paths['+xkind+']['+token+']['+alt+']['+direction+']');
+            //console.log('queued [ '+imagePath+' ] to index.paths['+xkind+']['+token+']['+alt+']['+direction+']');
 
             // Immediately load the sprite sheet into the game
             //ctx.load.spritesheet(sheetKey, imagePath, { frameWidth: spriteSize, frameHeight: spriteSize });
@@ -148,23 +163,43 @@ export default class SpritesManager {
             if (kind === 'player'){
 
                 // Generate the running animation string for re-use later
-                let runAnimKey = sheetKey + '.run';
-                if (typeof index.anims[xkind] === 'undefined'){ index.anims[xkind] = {}; }
-                if (typeof index.anims[xkind][token] === 'undefined'){ index.anims[xkind][token] = {}; }
-                if (typeof index.anims[xkind][token][alt] === 'undefined'){ index.anims[xkind][token][alt] = {}; }
-                if (typeof index.anims[xkind][token][alt][direction] === 'undefined'){ index.anims[xkind][token][alt][direction] = {}; }
-                index.anims[xkind][token][alt][direction]['run'] = runAnimKey;
-                //console.log('added [ '+runAnimKey+' ] to index.anims['+xkind+']['+token+']['+alt+']['+direction+']');
+                let anim = 'run';
+                let runAnimKey = sheetKey + '.' + anim;
+                index.prepForKeys(index.anims, xkind, token, alt, direction);
+                index.anims[xkind][token][alt][direction][anim] = runAnimKey;
+                //console.log('queued [ '+runAnimKey+' ] to index.anims['+xkind+']['+token+']['+alt+']['+direction+']['+anim+']');
 
                 // Immediately create the running animation for this sprite
                 /* ctx.anims.create({ key: runAnimKey, frames: ctx.anims.generateFrameNumbers(sheetKey, { frames: [ 7, 8, 9 ] }), frameRate: 6, repeat: -1 }); */
+
+                // Queue the creation of a running animation for this sprite
                 this.pendingAnims.push({
                     key: runAnimKey,
                     sheet: sheetKey,
-                    //frames: ctx.anims.generateFrameNumbers(sheetKey, { frames: [ 7, 8, 9 ] }),
                     frames: [ 7, 8, 9 ],
                     frameRate: 6,
                     repeat: -1
+                    });
+
+                }
+            else if (kind === 'robot'){
+
+                // Generate the sliding animation string for re-use later
+                let slideAnimKey = sheetKey + '.slide';
+                index.prepForKeys(index.anims, xkind, token, alt, direction);
+                index.anims[xkind][token][alt][direction]['slide'] = slideAnimKey;
+                //console.log('queued [ '+slideAnimKey+' ] to index.anims['+xkind+']['+token+']['+alt+']['+direction+']');
+
+                // Immediately create the slidening animation for this sprite
+                /* ctx.anims.create({ key: slideAnimKey, frames: ctx.anims.generateFrameNumbers(sheetKey, { frames: [ 7, 8, 9 ] }), frameRate: 6, repeat: -1 }); */
+
+                // Queue the creation of a sliding animation for this sprite
+                this.pendingAnims.push({
+                    key: slideAnimKey,
+                    sheet: sheetKey,
+                    frames: [ 8, 7 ],
+                    frameRate: 6,
+                    repeat: 0
                     });
 
                 }
