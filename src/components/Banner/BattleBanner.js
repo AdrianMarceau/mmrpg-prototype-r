@@ -27,7 +27,7 @@ export default class BattleBanner extends Banner {
 
         super(scene, x, y, options);
 
-        console.log('BattleBanner options =', options);
+        //console.log('BattleBanner options =', options);
         //console.log('BattleBanner this.options =', this.options);
         //console.log('BattleBanner this.options == options:', this.options == options);
 

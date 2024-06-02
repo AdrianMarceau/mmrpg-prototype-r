@@ -32,7 +32,7 @@ export default class MainBanner extends Banner {
 
         super(scene, x, y, options);
 
-        console.log('MainBanner options =', options);
+        //console.log('MainBanner options =', options);
         //console.log('MainBanner this.options =', this.options);
         //console.log('MainBanner this.options == options:', this.options == options);
 
