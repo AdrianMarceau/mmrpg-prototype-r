@@ -19,7 +19,7 @@ export default class BattleBanner extends Banner {
         options.width = typeof options.width === 'number' ? options.width : defaults.width;
         options.height = typeof options.height === 'number' ? options.height : defaults.height;
 
-        options.mainText = options.mainText ? options.mainText : defaults.mainText;
+        options.mainText = typeof options.mainText !== 'undefined' ? options.mainText : defaults.mainText;
 
         options.mainTextStyle = typeof options.mainTextStyle === 'object' ? options.mainTextStyle : {};
         options.mainTextStyle.fontSize = options.mainTextStyle.fontSize || defaults.mainTextStyle.fontSize;

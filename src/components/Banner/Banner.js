@@ -14,7 +14,8 @@ export default class Banner {
             height: 184,
             fillStyle: { color: 0x161616 },
             lineStyle: { width: 2, color: 0x0a0a0a },
-            borderRadius: { tl: 6, tr: 6, br: 6, bl: 6 }
+            borderRadius: { tl: 6, tr: 6, br: 6, bl: 6 },
+            depth: 'auto'
             };
 
         if (typeof options !== 'object'){ options = {}; }
@@ -24,6 +25,8 @@ export default class Banner {
 
         this.width = options.width ? options.width : defaults.width;
         this.height = options.height ? options.height : defaults.height;
+
+        this.depth = options.depth ? options.depth : defaults.depth;
 
         options.fillStyle = typeof options.fillStyle === 'object' ? options.fillStyle : {};
         options.fillStyle.color = options.fillStyle.color || defaults.fillStyle.color;
@@ -94,6 +97,8 @@ export default class Banner {
         let radius = Graphics.getProportionalRadiusObject(this.width, this.height, options.borderRadius);
         $panel.strokeRoundedRect(this.x, this.y, this.width, this.height, radius);
         $panel.fillRoundedRect(this.x, this.y, this.width, this.height, radius);
+        if (this.depth !== 'auto'){ $panel.setDepth(this.depth); }
+        this.depth = $panel.depth;
         this.panel = $panel;
 
     }
@@ -110,6 +115,7 @@ export default class Banner {
         $panel.fillStyle(options.fillStyle.color);
         $panel.strokeRoundedRect(this.x, this.y, this.width, this.height, radius);
         $panel.fillRoundedRect(this.x, this.y, this.width, this.height, radius);
+        $panel.setDepth(this.depth);
 
         // Refresh any text elements
         this.refreshBannerTexts();
@@ -123,11 +129,12 @@ export default class Banner {
         // Collect a reference to the scene and bounds
         let ctx = this.scene;
         let bounds = this.bounds;
+        let options = this.options;
 
         // Set default values for text, alignment, and styles
         x = x || bounds.centerX;
         y = y || bounds.centerY;
-        text = text || 'Banner Text';
+        text = text || '';
         align = align || 'center';
         styles = styles || {};
 
@@ -141,6 +148,7 @@ export default class Banner {
         let texts = this.elements.texts;
         let $text = ctx.add.text(x, y, text, styles);
         $text.setOrigin(origin[0], origin[1]);
+        $text.setDepth(this.depth + texts.length + 1);
         texts.push($text);
         return {
             key: texts.length - 1,
@@ -156,10 +164,12 @@ export default class Banner {
         let $text;
         let texts = this.elements.texts;
         let bounds = this.bounds;
+        let options = this.options;
         for (let i = 0; i < texts.length; i++){
             $text = texts[i];
             $text.x = bounds.centerX;
             $text.y = bounds.centerY;
+            $text.setDepth(options.depth + i + 1);
             }
 
     }
@@ -200,6 +210,13 @@ export default class Banner {
             this.refreshBanner();
             }
 
+    }
+    setDepth (depth)
+    {
+        //console.log('Banner.setDepth() called w/ depth =', depth);
+        if (typeof depth !== 'number'){ return; }
+        this.depth = depth;
+        this.refreshBanner();
     }
 
 }

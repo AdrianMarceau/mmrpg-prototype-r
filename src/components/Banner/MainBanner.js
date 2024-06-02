@@ -24,7 +24,7 @@ export default class MainBanner extends Banner {
 
         options.fullsize = typeof options.fullsize === 'boolean' ? options.fullsize : defaults.fullsize;
 
-        options.mainText = options.mainText ? options.mainText : defaults.mainText;
+        options.mainText = typeof options.mainText !== 'undefined' ? options.mainText : defaults.mainText;
 
         options.mainTextStyle = typeof options.mainTextStyle === 'object' ? options.mainTextStyle : {};
         options.mainTextStyle.fontSize = options.mainTextStyle.fontSize || defaults.mainTextStyle.fontSize;
