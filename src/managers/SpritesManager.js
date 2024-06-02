@@ -197,7 +197,7 @@ export default class SpritesManager {
                 this.pendingAnims.push({
                     key: slideAnimKey,
                     sheet: sheetKey,
-                    frames: [ 8, 7 ],
+                    frames: [ 8, 7, 7, 7, 7, 7, 7, 8 ],
                     frameRate: 6,
                     repeat: 0
                     });
