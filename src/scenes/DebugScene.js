@@ -34,8 +34,8 @@ export default class DebugScene extends Phaser.Scene
         // Ensure MMRPG and utility objects are available to the entire class
         this.MMRPG = MMRPG;
         this.SPRITES = SPRITES;
-        this.POPUPS = POPUPS;
         this.BUTTONS = BUTTONS;
+        this.POPUPS = POPUPS;
 
         // Initialize this scene with a first-load callback function
         MMRPG.init('DebugScene', 'Debug', function(){
@@ -52,6 +52,17 @@ export default class DebugScene extends Phaser.Scene
 
     }
 
+    init ()
+    {
+        //console.log('MainScene.init() called');
+
+        // Initialize any objects that need it
+        this.SPRITES.init(this);
+        this.BUTTONS.init(this);
+        this.POPUPS.init(this);
+
+    }
+
     preload ()
     {
         console.log('DebugScene.preload() called');
@@ -61,9 +72,6 @@ export default class DebugScene extends Phaser.Scene
         let SPRITES = this.SPRITES;
         let POPUPS = this.POPUPS;
         let BUTTONS = this.BUTTONS;
-        SPRITES.preload(this);
-        POPUPS.preload(this);
-        BUTTONS.preload(this);
 
         // Pull in some indexes for later use
         let typesIndex = MMRPG.Indexes.types;
@@ -143,11 +151,6 @@ export default class DebugScene extends Phaser.Scene
         //console.log('this.runningDoctors =', this.runningDoctors);
         //console.log('this.slidingMasters =', this.slidingMasters);
 
-        // Trigger post-preload methods for utility classes
-        SPRITES.afterPreload(this);
-        POPUPS.afterPreload(this);
-        BUTTONS.afterPreload(this);
-
     }
 
     create ()
@@ -160,9 +163,6 @@ export default class DebugScene extends Phaser.Scene
         let SPRITES = this.SPRITES;
         let POPUPS = this.POPUPS;
         let BUTTONS = this.BUTTONS;
-        SPRITES.create(this);
-        POPUPS.create(this);
-        BUTTONS.create(this);
 
         // Create the base canvas for which the rest of the game will be drawn
         var canvas = this.add.image(0, 0, 'canvas');
@@ -350,11 +350,6 @@ export default class DebugScene extends Phaser.Scene
 
         // ---------------->
         // DEBUG DEBUG DEBUG
-
-        // Trigger post-create methods for utility classes
-        SPRITES.afterCreate(this);
-        POPUPS.afterCreate(this);
-        BUTTONS.afterCreate(this);
 
         console.log('MMRPG = ', MMRPG);
         console.log('SPRITES =', SPRITES);
