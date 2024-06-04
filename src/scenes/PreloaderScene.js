@@ -25,9 +25,33 @@ export default class PreloaderScene extends Phaser.Scene
         this.SPRITES = SPRITES;
 
         // Define the preload steps if they haven't been
-        this.preloadComplete = this.preloadComplete || [];
-        this.preloadSteps = this.preloadSteps || ['indexes', 'sprites', 'other'];
-        this.preloadStep = this.preloadStep || this.preloadSteps[0];
+        this.preloadComplete = [];
+        this.preloadSteps = ['indexes', 'sprites', 'players', 'robots', 'abilities', 'items', 'fields', 'other', 'start'];
+        this.preloadStep = this.preloadSteps[0];
+
+        // Set up the preload queue variables
+        this.preloadQueue = [];
+        this.preloadsQueued = 0;
+        this.preloadsCompleted = 0;
+
+        // Define which players, robots, items, etc. to preload before starting
+        this.preloadSprites = {
+            players: [
+                //'dr-light', 'dr-wily', 'dr-cossack'
+                ],
+            robots: [
+                //'mega-man', 'proto-man', 'bass',
+                //'roll', 'disco', 'rhythm',
+                //'trill', 'slur',
+                //'met'
+                ],
+            abilities: [
+                //'buster-shot', 'mega-buster'
+                ],
+            items: [
+                //'small-screw', 'large-screw'
+                ],
+            };
 
         // Initialize this scene with a first-load callback function
         MMRPG.init('PreloaderScene', 'Preloader', function(){
@@ -38,177 +62,35 @@ export default class PreloaderScene extends Phaser.Scene
 
     }
 
+    init ()
+    {
+        //console.log('PreloaderScene.init() called');
+
+        // Initialize any objects that need it
+        this.SPRITES.init(this);
+
+    }
+
     preload ()
     {
-        console.log('PreloaderScene.preload() called');
+        console.log('PreloaderScene.preload() called @ ', this.preloadStep);
         //console.log('WE ARE IN ', this.preloadStep.toUpperCase(), ' PRELOAD STEP');
 
         // Pull in required object references
         let MMRPG = this.MMRPG;
         let SPRITES = this.SPRITES;
-        SPRITES.preload(this);
 
-        // Define some idle sprite variables first and preload so we can use them later
-        this.idleSprites = {};
-        this.idleSpriteTokens = ['dr-light', 'dr-wily', 'dr-cossack'];
-        this.currentIdleSprite = this.idleSpriteTokens[0];
-        this.currentIdleDelay = 0;
+        // Pull in some indexes for later use
+        let typesIndex = MMRPG.Indexes.types;
+        //console.log('typesIndex =', typesIndex);
 
-        // Define which players, robots, items, etc. to preload before starting
-        this.preloadSprites = {
-            players: [
-                'dr-light', 'dr-wily', 'dr-cossack'
-                ],
-            robots: [
-                'mega-man', 'proto-man', 'bass',
-                'roll', 'disco', 'rhythm',
-                'trill', 'slur',
-                'met'
-                ],
-            abilities: [
-                'buster-shot',
-                'mega-buster'
-                ],
-            };
-
-        // Make sure we preload sprites on the appropriate step
-        if (this.preloadStep === 'sprites'){
-
-            // Loop through each sprite type and preload the necessary assets
-            let kinds = SPRITES.index.kinds;
-            let xkinds = SPRITES.index.xkinds;
-            for (let i = 0; i < kinds.length; i++){
-                let kind = kinds[i];
-                let xkind = xkinds[i];
-                if (!this.preloadSprites[xkind]){ continue; }
-                SPRITES.loadSprite(this, kind, kind, 'base');
-                let tokens = this.preloadSprites[xkind];
-                let numTokens = tokens.length;
-                for (let i = 0; i < numTokens; i++){
-                    let token = tokens[i];
-                    SPRITES.loadSprite(this, kind, token, 'base');
-                    }
-                }
-
-            }
-
-        // Trigger post-preload methods for utility classes
-        SPRITES.afterPreload(this);
-
-    }
-
-    create ()
-    {
-        //console.log('PreloaderScene.create() called');
-
-        // Pull in required object references
-        let MMRPG = this.MMRPG;
-        let SPRITES = this.SPRITES;
-        SPRITES.preload(this);
-
-        // Create the base canvas for which the rest of the game will be drawn
-        this.canvasImage = this.add.image(0, 0, 'canvas');
-        this.canvasImage.setOrigin(0, 0);
-
-        // Add a splash screen with the logo and the game's title
-        this.splashImage = this.add.image(0, 0, 'splash');
-        this.splashImage.setOrigin(0, 0);
-
-        var x = MMRPG.canvas.centerX, y = MMRPG.canvas.centerY + 30;
-        this.loadText = this.add.bitmapText(x, y, 'megafont-white', 'Loading '+this.preloadStep+'...', 16);
-        this.loadText.setOrigin(0.5);
-        this.loadText.setLetterSpacing(20);
-
-        // Only work with sprites if we've finished preloading them
-        if (this.preloadComplete.indexOf('sprites') !== -1){
-
-            // Generate some idle sprites to keep the user entertained
-            var x = -40, y = MMRPG.canvas.centerY + 125;
-            for (let i = 0; i < this.idleSpriteTokens.length; i++){
-                let spriteToken = this.idleSpriteTokens[i];
-                let spriteAlt = 'base';
-                let spriteDir = 'right';
-                let spriteSheet = SPRITES.index.sheets.players[spriteToken][spriteAlt][spriteDir];
-                let spriteRunAnim = SPRITES.index.anims.players[spriteToken][spriteAlt][spriteDir].run;
-                let spriteY = y + 100 + (i * 25);
-                //console.log('spriteSheet = ', spriteSheet);
-                //console.log('spriteRunAnim = ', spriteRunAnim);
-                let $idleSprite = this.add.sprite(x, y, spriteSheet);
-                this.add.tween({
-                    targets: $idleSprite,
-                    y: '-=2',
-                    ease: 'Sine.easeInOut',
-                    duration: 200,
-                    repeat: -1,
-                    yoyo: true
-                    });
-                $idleSprite.play(spriteRunAnim);
-                this.idleSprites[spriteToken] = $idleSprite;
-                }
-
-            }
-
-        // Start the preload queue for the main assets
-        let ctx = this;
-        this.preloadMainAssets(function(){
-            //console.log('All preloader '+ctx.preloadStep+' have been loaded!!!');
-            ctx.preloadComplete.push(ctx.preloadStep);
-            if (ctx.preloadComplete.length >= ctx.preloadSteps.length){
-                ctx.scene.start('Title');
-                } else {
-                let nextStep = ctx.preloadSteps[ctx.preloadSteps.indexOf(ctx.preloadStep) + 1];
-                ctx.preloadStep = nextStep;
-                ctx.scene.start('Preloader');
-                }
-            });
-
-        // Trigger post-create methods for utility classes
-        SPRITES.afterCreate(this);
-
-    }
-
-    update ()
-    {
-
-        //console.log('PreloaderScene.update() called');
-
-        // Only work with sprites if we've finished preloading them
-        if (this.preloadComplete.indexOf('sprites') !== -1){
-
-            // Pull in required object references
-            let SPRITES = this.SPRITES;
-            SPRITES.preload(this);
-
-            // Animate the idle sprites to give the user something to look at
-            //console.log('this.currentIdleSprite = ', this.currentIdleSprite);
-            //console.log('this.idleSprites = ', this.idleSprites);
-            if (this.currentIdleDelay > 0){
-                this.currentIdleDelay--;
-                } else {
-                let idleSprite = this.currentIdleSprite;
-                let $idleSprite = this.idleSprites[idleSprite];
-                let spriteSpeed = this.idleSpriteTokens.indexOf(idleSprite) + 1;
-                $idleSprite.x += spriteSpeed;
-                if ($idleSprite.x > MMRPG.canvas.width){
-                    $idleSprite.x = -80;
-                    this.currentIdleDelay += 80;
-                    let options = this.idleSpriteTokens;
-                    let nextIdleSprite = options[(options.indexOf(this.currentIdleSprite) + 1) % options.length];
-                    this.currentIdleSprite = nextIdleSprite;
-                    }
-                }
-
-            }
-
-    }
-
-    preloadMainAssets (onComplete)
-    {
-
-        // Set up the preload queue variables
-        this.preloadQueue = [];
-        this.preloadsQueued = 0;
-        this.preloadsCompleted = 0;
+        // Define a list of types safe for randomizing with
+        let copySafeTypeTokens = [];
+        for (let typeToken in typesIndex){
+            let typeData = typesIndex[typeToken];
+            if (typeData.class !== 'normal'){ continue; }
+            copySafeTypeTokens.push(typeToken);
+        }
 
         // Preload indexes if we're on the indexes step
         if (this.preloadStep === 'indexes'){
@@ -225,14 +107,119 @@ export default class PreloaderScene extends Phaser.Scene
             this.queueIndex('fields', 'fields.json');
 
             }
-        // Preload sprites if we're on the sprites step
+        // Preload all the default sprites if explicitly requested
         else if (this.preloadStep === 'sprites'){
-
-            // ... load more sprites for later probably ... //
-
+            let kinds = SPRITES.index.kinds;
+            let xkinds = SPRITES.index.xkinds;
+            for (let i = 0; i < kinds.length; i++){
+                let kind = kinds[i];
+                let xkind = xkinds[i];
+                if (!this.preloadSprites[xkind]){ continue; }
+                SPRITES.loadSprite(this, kind, kind, 'base');
+                let tokens = this.preloadSprites[xkind];
+                let numTokens = tokens.length;
+                for (let i = 0; i < numTokens; i++){
+                    let token = tokens[i];
+                    SPRITES.loadSprite(this, kind, token, 'base');
+                    }
+                }
             }
-        // Preload other if we're on the final step
-        else {
+        // Else make we sure load all PLAYERS if it's their turn
+        else if (this.preloadStep === 'players'){
+            //console.log('Time to preload player sprites...');
+            let playersIndex = MMRPG.Indexes.players;
+            let playerTokens = Object.keys(playersIndex);
+            playerTokens.forEach((token) => {
+                var info = playersIndex[token];
+                //console.log('token = ', token, 'info = ', info);
+                if (!info.flag_complete){ return; }
+                //console.log('Preload player ', token);
+                SPRITES.loadSprite(this, 'players', token, 'base');
+                let alts = [];
+                if (info.image_alts){ alts = alts.concat(info.image_alts); }
+                if (alts.length){
+                    let altKeys = Object.keys(alts);
+                    altKeys.forEach((key) => {
+                        let alt = alts[key];
+                        //console.log('Preload player ', token, ' w/ ', alt.token);
+                        SPRITES.loadSprite(this, 'players', token, alt.token);
+                        });
+                    }
+                });
+            }
+        // Else make sure we load all ROBOTS if it's their turn
+        else if (this.preloadStep === 'robots'){
+            //console.log('Time to preload robot sprites...');
+            let robotsIndex = MMRPG.Indexes.robots;
+            let robotTokens = Object.keys(robotsIndex);
+            robotTokens.forEach((token) => {
+                var info = robotsIndex[token];
+                //console.log('token = ', token, 'info = ', info);
+                if (info.class !== 'master'){ return; }
+                if (!info.flag_complete){ return; }
+                //console.log('Preload robot ', token);
+                SPRITES.loadSprite(this, 'robots', token, 'base');
+                let alts = [];
+                if (info.image_alts){ alts = alts.concat(info.image_alts); }
+                if (info.core === 'copy'){
+                    copySafeTypeTokens.forEach((typeToken) => {
+                        let typeInfo = MMRPG.Indexes.types[typeToken];
+                        alts.push({token: typeInfo.token, name: typeInfo.name + ' Core', colour: typeToken, summons: 0});
+                        });
+                    }
+                if (alts.length){
+                    //console.log('Preload alts ', alts);
+                    let altKeys = Object.keys(alts);
+                    altKeys.forEach((key) => {
+                        let alt = alts[key];
+                        //console.log('Preload robot ', token, ' w/ ', alt.token);
+                        SPRITES.loadSprite(this, 'robots', token, alt.token);
+                        });
+                    }
+                });
+            }
+        // Else make sure we load all ABILITIES if it's their turn
+        else if (this.preloadStep === 'abilities'){
+            //console.log('Time to preload ability sprites...');
+            let abilitiesIndex = MMRPG.Indexes.abilities;
+            let abilityTokens = Object.keys(abilitiesIndex);
+            abilityTokens.forEach((token) => {
+                var info = abilitiesIndex[token];
+                //console.log('token = ', token, 'info = ', info);
+                if (!info.flag_complete){ return; }
+                //console.log('Preload ability ', token);
+                SPRITES.loadSprite(this, 'abilities', token, 'base');
+                if (info.image_sheets > 1){
+                    for (let sheet = 1; sheet <= info.image_sheets; sheet++){
+                        if (sheet === 1){ continue; }
+                        //console.log('Preload ability ', token, ' s/ ', sheet);
+                        SPRITES.loadSprite(this, 'abilities', token, sheet);
+                        }
+                    }
+                });
+            }
+        // Else make sure we load all ITEMS if it's their turn
+        else if (this.preloadStep === 'items'){
+            //console.log('Time to preload item sprites...');
+            let itemsIndex = MMRPG.Indexes.items;
+            let itemTokens = Object.keys(itemsIndex);
+            itemTokens.forEach((token) => {
+                var info = itemsIndex[token];
+                //console.log('token = ', token, 'info = ', info);
+                if (!info.flag_complete){ return; }
+                //console.log('Preload item ', token);
+                SPRITES.loadSprite(this, 'items', token, 'base');
+                if (info.image_sheets > 1){
+                    for (let sheet = 1; sheet <= info.image_sheets; sheet++){
+                        if (sheet === 1){ continue; }
+                        //console.log('Preload item ', token, ' s/ ', sheet);
+                        SPRITES.loadSprite(this, 'items', token, sheet);
+                        }
+                    }
+                });
+            }
+        // Make sure we preload others on the final step
+        else if (this.preloadStep === 'other'){
 
             // Queue the mockup images for building the main menu later
             let mockupImages = [
@@ -253,48 +240,98 @@ export default class PreloaderScene extends Phaser.Scene
                 'battle_composite',
                 ];
             mockupImages.forEach((image) => {
-                this.load.image('mockup_' + image, 'src/assets/mockup_' + image + '.png');
+                //this.load.image('mockup_' + image, 'src/assets/mockup_' + image + '.png');
+                this.queueMockup(image, 'mockup_' + image + '.png');
                 });
 
             }
 
-        // Set up the loading progress listener
-        this.load.on('progress', (value) => {
-            this.loadText.setText(`Loading... ${Math.round(value * 100)}%`);
-            });
+    }
 
+    create ()
+    {
+        console.log('PreloaderScene.create() called @ ', this.preloadStep);
+
+        // Pull in required object references
+        let ctx = this;
+        let MMRPG = this.MMRPG;
+        let SPRITES = this.SPRITES;
+
+        // Create the base canvas for which the rest of the game will be drawn
+        this.canvasImage = this.add.image(0, 0, 'canvas');
+        this.canvasImage.setOrigin(0, 0);
+
+        // Add a splash screen with the logo and the game's title
+        this.splashImage = this.add.image(0, 0, 'splash');
+        this.splashImage.setOrigin(0, 0);
+
+        var x = MMRPG.canvas.centerX, y = MMRPG.canvas.centerY + 30;
+        this.loadText = this.add.bitmapText(x, y, 'megafont-white', 'Loading '+this.preloadStep+'...', 16);
+        this.loadText.setOrigin(0.5);
+        this.loadText.setLetterSpacing(20);
+
+        // Predefine the onComplete event for when all assets are loaded
+        let onComplete = function(){
+            //console.log('All preloader '+ctx.preloadStep+' have been loaded!!!');
+            ctx.preloadComplete.push(ctx.preloadStep);
+            if (ctx.preloadComplete.length >= ctx.preloadSteps.length){
+                //console.log('!!!!!!! START TITLE SCENE !!!!!');
+                ctx.scene.start('Title');
+                } else {
+                let nextStep = ctx.preloadSteps[ctx.preloadSteps.indexOf(ctx.preloadStep) + 1];
+                //console.log('>>> NEXT STEP = ', nextStep, ' <<<');
+                ctx.preloadStep = nextStep;
+                ctx.scene.start('Preloader');
+                }
+            };
+
+        // Set up the loading progress listener then start loading assets
+        this.load.on('progress', (value) => {
+            //console.log('PreloaderScene.load.on(progress) event called!!! w/ value = ', value);
+            ctx.loadText.setText(`Loading ${ctx.preloadStep}... ${Math.round(value * 100)}%`);
+            });
         this.load.on('complete', () => {
+            //console.log('PreloaderScene.load.on(complete) event called!!!');
             if (typeof onComplete === 'function'){ onComplete(); }
             });
 
-        // Start loading the assets
+        // Star loading whatever queued assets we're supposed to be loading
+        this.loadQueuedIndexes();
+        this.loadQueuedSprites();
+        this.loadQueuedMockups();
+
+        // Start loading and pending assets now that we're setup
         this.load.start();
 
     }
 
-    queueIndex (index, name, alias = null)
+    update ()
     {
-        //console.log('PreloaderScene.queueIndex() called w/ index = ' + index + ', name = ' + name);
-        this.preloadQueue.push({ index: index, name: name });
-        this.preloadsQueued++;
 
+        //console.log('PreloaderScene.update() called');
+
+        /* ... */
+
+    }
+
+    queueIndex (index, file, alias = null)
+    {
+        //console.log('PreloaderScene.queueIndex() called w/ index = ' + index + ', file = ' + file);
+        let ctx = this;
         let basePath = 'src/indexes/';
-        let indexKey = 'indexes.' + name.replace('.json', '');
-        let indexPath = basePath + name;
-        this.load.json(indexKey, indexPath);
-        //console.log('this.load.json(indexKey: '+indexKey+', indexPath: '+indexPath+');');
-
+        let indexName = file.replace('.json', '');
+        let indexKey = 'indexes.' + indexName;
+        let indexPath = basePath + file;
         if (typeof MMRPG.Indexes[index] === 'undefined'){ MMRPG.Indexes[index] = {}; }
+        ctx.load.on('filecomplete', (file) => {
+            //console.log(indexKey+' filecomplete event called!!!\n file =', file, '\n indexKey =', indexKey);
+            if (file !== indexKey){ return; }
+            ctx.preloadsCompleted++;
+            ctx.preloadQueue = ctx.preloadQueue.filter((item) => item.name !== indexName);
 
-        this.load.on('filecomplete', (file) => {
-
-            //console.log(indexKey+' filecomplete event called!!!');
-            this.preloadsCompleted++;
-
-            let rawData = this.cache.json.get(indexKey);
+            let rawData = ctx.cache.json.get(indexKey);
             if (!rawData){ return; }
             //console.log('rawData = ', rawData);
-
             let indexData = {};
             let indexDataAlias = alias ? alias : index;
             if (typeof rawData.status !== 'undefined'
@@ -310,7 +347,57 @@ export default class PreloaderScene extends Phaser.Scene
             //console.log('MMRPG.Indexes['+index+'] = ', MMRPG.Indexes[index]);
 
             });
+        //ctx.load.json(indexKey, indexPath);
+        //console.log('ctx.load.json(indexKey: '+indexKey+', indexPath: '+indexPath+');');
+        ctx.preloadQueue.push({ kind: 'index', index: index, key: indexKey, path: indexPath });
+        ctx.preloadsQueued++;
+    }
+    queueMockup (name, file)
+    {
+        let ctx = this;
+        let basePath = 'src/assets/';
+        let mockupKey = 'mockups.' + name;
+        let mockupPath = basePath + file;
+        ctx.load.on('filecomplete', (file) => {
+            if (file !== mockupKey){ return; }
+            ctx.preloadsCompleted++;
+            ctx.preloadQueue = ctx.preloadQueue.filter((item) => item.name !== name);
+            });
+        //ctx.load.image(mockupKey, mockupPath);
+        ctx.preloadQueue.push({ kind: 'mockup', name: name, key: mockupKey, path: mockupPath });
+        ctx.preloadsQueued++;
+    }
 
+    loadQueuedIndexes ()
+    {
+        let ctx = this;
+        let queue = this.preloadQueue.filter((item) => item.kind === 'index');
+        queue.forEach((item) => {
+            let indexKey = item.key;
+            let indexPath = item.path;
+            ctx.load.json(indexKey, indexPath);
+            });
+    }
+    loadQueuedSprites ()
+    {
+        let ctx = this;
+        let SPRITES = this.SPRITES;
+        ctx.preloadQueue.push({ kind: 'sprites', name: 'sprites.' + ctx.preloadStep });
+        ctx.preloadsQueued++;
+        SPRITES.preloadPending(this, function(){
+            ctx.preloadsCompleted++;
+            ctx.preloadQueue = ctx.preloadQueue.filter((item) => item.name !== name);
+            });
+    }
+    loadQueuedMockups ()
+    {
+        let ctx = this;
+        let queue = this.preloadQueue.filter((item) => item.kind === 'mockup');
+        queue.forEach((item) => {
+            let key = item.key;
+            let path = item.path;
+            ctx.load.image(key, path);
+            });
     }
 
 }
