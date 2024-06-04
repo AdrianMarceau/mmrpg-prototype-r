@@ -9,8 +9,9 @@
 const MMRPG = {
     name: 'mmrpg-prototype-r',
     title: 'Mega Man RPG: Prototype (Remake)',
-    build: '2024-05-20',
-    version: '4.0.32'
+    created: '2024-05-20',
+    modified: '2024-06-04',
+    version: '4.0.38'
     };
 
 // Define the absolute base width and height for the game canvas
