@@ -11,7 +11,7 @@ export default class SpritesManager {
     // Constructor for the SpritesManager class
     constructor(scene)
     {
-        console.log('SpritesManager.constructor() called w/ scene:');
+        console.log('SpritesManager.constructor() called');
 
         // Ensure passed context is available to the entire class
         this.MMRPG = MMRPG;

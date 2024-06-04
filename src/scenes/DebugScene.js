@@ -40,13 +40,13 @@ export default class DebugScene extends Phaser.Scene
         // Initialize this scene with a first-load callback function
         MMRPG.init('DebugScene', 'Debug', function(){
 
-            console.log('DebugScene.init() called for the first time');
+            //console.log('DebugScene.init() called for the first time');
             MMRPG.Cache.Debug.foo = 'bar';
 
             }, function(){
 
-            console.log('DebugScene.init() called every other time');
-            console.log('MMRPG.Cache.Debug = ', MMRPG.Cache.Debug);
+            //console.log('DebugScene.init() called every other time');
+            //console.log('MMRPG.Cache.Debug = ', MMRPG.Cache.Debug);
 
             });
 
@@ -65,7 +65,7 @@ export default class DebugScene extends Phaser.Scene
 
     preload ()
     {
-        console.log('DebugScene.preload() called');
+        //console.log('DebugScene.preload() called');
 
         // Pull in required object references
         let MMRPG = this.MMRPG;
@@ -155,7 +155,7 @@ export default class DebugScene extends Phaser.Scene
 
     create ()
     {
-        console.log('DebugScene.create() called');
+        //console.log('DebugScene.create() called');
 
         // Pull in required object references
         let ctx = this;
@@ -600,17 +600,42 @@ export default class DebugScene extends Phaser.Scene
             spriteAlt = 'base';
             }
 
-        let spriteDir = 'right';
-        let spriteKey = 'sprite-'+spriteDir;
-        let spriteSheet = SPRITES.index.sheets.robots[spriteToken][spriteAlt][spriteKey];
-        let spriteSlideAnim = SPRITES.index.anims.robots[spriteToken][spriteAlt][spriteKey]['slide'];
+        //let spriteDir = 'right';
+        //let spriteKey = 'sprite-'+spriteDir;
+        //let spriteSheet = SPRITES.index.sheets.robots[spriteToken][spriteAlt][spriteKey];
+        //let spriteSlideAnim = SPRITES.index.anims.robots[spriteToken][spriteAlt][spriteKey]['slide'];
+
+        let spriteInfo = {
+            'sprite': {
+                'left': {
+                    'sheet': SPRITES.index.sheets.robots[spriteToken][spriteAlt]['sprite-left'],
+                    'anim': {
+                        'slide': SPRITES.index.anims.robots[spriteToken][spriteAlt]['sprite-left']['slide'],
+                        },
+                    },
+                'right': {
+                    'sheet': SPRITES.index.sheets.robots[spriteToken][spriteAlt]['sprite-right'],
+                    'anim': {
+                        'slide': SPRITES.index.anims.robots[spriteToken][spriteAlt]['sprite-right']['slide'],
+                        },
+                    },
+                },
+            'mug': {
+                'left': {
+                    'sheet': SPRITES.index.sheets.robots[spriteToken][spriteAlt]['mug-left'],
+                    },
+                'right': {
+                    'sheet': SPRITES.index.sheets.robots[spriteToken][spriteAlt]['mug-right'],
+                    },
+                },
+            };
+
         let spriteX = - 40 - (numSprites * 5);
         let spriteY = MMRPG.canvas.centerY + 30 + ((numSprites % 10) * 10);
-        let $slidingSprite = ctx.add.sprite(spriteX, spriteY, spriteSheet);
+        let $slidingSprite = ctx.add.sprite(spriteX, spriteY, spriteInfo['sprite']['right']['sheet']);
         $slidingSprite.setOrigin(0.5, 1);
         $slidingSprite.setDepth(ctx.battleBanner.depth + spriteY);
         $slidingSprite.setScale(2.0);
-        $slidingSprite.play(spriteSlideAnim);
         ctx.slidingSprites.push($slidingSprite);
         let slidingSpriteKey = ctx.slidingSprites.length - 1;
         ctx.battleBannerContainer.add($slidingSprite);
@@ -619,13 +644,13 @@ export default class DebugScene extends Phaser.Scene
         // Animate that sprite sliding across the screen then remove when done
         let slideDistance = (MMRPG.canvas.width / 3) * (robotInfo.speed / 100);
         let slideDestination = MMRPG.canvas.width + 40;
-        let slideDuration = 2000 * (robotInfo.speed / 100);
+        let slideDuration = 2000 - (500 * (robotInfo.speed / 100));
         //if (numSprites >= 10){ slideDuration /= 2; }
         //console.log('numSprites = ', numSprites);
         //console.log('slideDuration = ', slideDuration);
 
         const slideSpriteForward = function($sprite, distance, destination, duration, onComplete){
-            //console.log('Starting slide movement for sprite!');
+            //console.log('Starting forward slide movement for sprite!', spriteToken);
             if ($sprite.tween){ $sprite.tween.stop().destroy(); }
             let others = Object.keys(ctx.slidingSprites).length;
             let newX = $sprite.x + distance;
@@ -634,13 +659,14 @@ export default class DebugScene extends Phaser.Scene
             if (others >= 10){
                 overflow = others - 10;
                 delay -= overflow * 100;
-                duration -= overflow * (slideDuration / 100);
+                //duration -= overflow * (slideDuration / 100);
                 if (delay < 0){ delay = 0; }
-                if (duration < 500){ duration = 500; }
+                //if (duration < 500){ duration = 500; }
                 }
             $sprite.setFrame(0);
+            $sprite.setTexture(spriteInfo['sprite']['right']['sheet']);
             ctx.time.delayedCall(delay, function(){
-                $sprite.play(spriteSlideAnim);
+                $sprite.play(spriteInfo['sprite']['right']['anim']['slide']);
                 $sprite.tween = ctx.add.tween({
                     targets: $sprite,
                     x: newX,
@@ -648,15 +674,58 @@ export default class DebugScene extends Phaser.Scene
                     duration: duration,
                     onComplete: function () {
                         //console.log('Partial slide movement complete!');
-                        if ($sprite.x < destination){
-                            slideSpriteForward($sprite, distance, destination, duration, onComplete);
-                            } else {
-                            onComplete($sprite);
-                            }
+                        slideSpriteSomewhere($sprite, distance, destination, duration, onComplete);
                         }
                     });
                 }, [], ctx);
             };
+        const slideSpriteBackward = function($sprite, distance, destination, duration, onComplete){
+            //console.log('Starting backward slide movement for sprite!', spriteToken);
+            if ($sprite.tween){ $sprite.tween.stop().destroy(); }
+            let others = Object.keys(ctx.slidingSprites).length;
+            let newX = $sprite.x - distance;
+            let overflow = 0;
+            let delay = 1000;
+            if (others >= 10){
+                overflow = others - 10;
+                delay -= overflow * 100;
+                //duration -= overflow * (slideDuration / 100);
+                if (delay < 0){ delay = 0; }
+                //if (duration < 500){ duration = 500; }
+                }
+            $sprite.setFrame(0);
+            $sprite.setTexture(spriteInfo['sprite']['left']['sheet']);
+            ctx.time.delayedCall(delay, function(){
+                $sprite.play(spriteInfo['sprite']['left']['anim']['slide']);
+                $sprite.tween = ctx.add.tween({
+                    targets: $sprite,
+                    x: newX,
+                    ease: 'Sine.easeOut',
+                    duration: duration,
+                    onComplete: function () {
+                        //console.log('Partial slide movement complete!');
+                        slideSpriteSomewhere($sprite, distance, destination, duration, onComplete);
+                        }
+                    });
+                }, [], ctx);
+            };
+        const slideSpriteSomewhere = function($sprite, distance, destination, duration, onComplete){
+            //console.log('Starting random slide movement for sprite!', spriteToken);
+            let safeZone = 40;
+            let backChance = Math.random() * 100 < 25;
+            if ($sprite.x > (MMRPG.canvas.width + safeZone)
+                || $sprite.x < (MMRPG.canvas.x - safeZone)){
+                return onComplete($sprite);
+                } else {
+                if (backChance){
+                    return slideSpriteBackward($sprite, distance, destination, duration, onComplete);
+                    } else {
+                    return slideSpriteForward($sprite, distance, destination, duration, onComplete);
+                    }
+                }
+            };
+
+        $slidingSprite.play(spriteInfo['sprite']['right']['anim']['slide']);
         slideSpriteForward($slidingSprite, slideDistance, slideDestination, slideDuration, function($slidingSprite){
             //console.log('Full sliding movement complete!');
             $slidingSprite.destroy();

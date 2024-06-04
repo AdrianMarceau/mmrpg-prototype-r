@@ -73,7 +73,7 @@ export default class PreloaderScene extends Phaser.Scene
 
     preload ()
     {
-        console.log('PreloaderScene.preload() called @ ', this.preloadStep);
+        //console.log('PreloaderScene.preload() called @ ', this.preloadStep);
         //console.log('WE ARE IN ', this.preloadStep.toUpperCase(), ' PRELOAD STEP');
 
         // Pull in required object references
@@ -251,7 +251,7 @@ export default class PreloaderScene extends Phaser.Scene
 
     create ()
     {
-        console.log('PreloaderScene.create() called @ ', this.preloadStep);
+        //console.log('PreloaderScene.create() called @ ', this.preloadStep);
 
         // Pull in required object references
         let ctx = this;
@@ -276,9 +276,9 @@ export default class PreloaderScene extends Phaser.Scene
             //console.log('All preloader '+ctx.preloadStep+' have been loaded!!!');
             ctx.preloadComplete.push(ctx.preloadStep);
             if (ctx.preloadComplete.length >= ctx.preloadSteps.length){
-                console.log('MMRPG = ', MMRPG);
-                console.log('SPRITES = ', SPRITES);
-                console.log('!!!!!!! START TITLE SCENE !!!!!');
+                //console.log('MMRPG = ', MMRPG);
+                //console.log('SPRITES = ', SPRITES);
+                //console.log('!!!!!!! START TITLE SCENE !!!!!');
                 ctx.scene.start('Title');
                 } else {
                 let nextStep = ctx.preloadSteps[ctx.preloadSteps.indexOf(ctx.preloadStep) + 1];
