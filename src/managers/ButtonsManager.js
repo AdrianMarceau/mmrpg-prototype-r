@@ -25,22 +25,27 @@ export default class ButtonsManager {
             });
 
     }
-
-    preload (scene)
+    init (scene)
     {
         this.scene = scene;
+        scene.events.on('preload', this.preload, this);
+        scene.events.on('create', this.create, this);
+        scene.events.on('update', this.update, this);
     }
-    afterPreload (scene)
+
+    preload ()
     {
+        //console.log('ButtonsManager.preload() called');
         /* ... */
     }
-
-    create (scene)
+    create ()
     {
-        this.scene = scene;
+        //console.log('ButtonsManager.create() called');
+        /* ... */
     }
-    afterCreate (scene)
+    update ()
     {
+        //console.log('ButtonsManager.update() called');
         /* ... */
     }
 

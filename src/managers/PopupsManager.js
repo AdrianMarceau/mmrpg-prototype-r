@@ -30,23 +30,27 @@ export default class PopupsManager {
             });
 
     }
-
-    preload (scene)
+    init (scene)
     {
         this.scene = scene;
+        scene.events.on('preload', this.preload, this);
+        scene.events.on('create', this.create, this);
+        scene.events.on('update', this.update, this);
     }
-    afterPreload (scene)
+
+    preload ()
     {
+        //console.log('PopupsManager.preload() called');
         /* ... */
     }
-
-    create (scene)
+    create ()
     {
-        this.scene = scene;
+        //console.log('PopupsManager.create() called');
         this.createOverlay();
     }
-    afterCreate (scene)
+    update ()
     {
+        //console.log('PopupsManager.update() called');
         /* ... */
     }
 
