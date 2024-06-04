@@ -91,8 +91,9 @@ export default class TitleScene extends Phaser.Scene
                 }
             let spriteAlt = 'base';
             let spriteDir = 'right';
-            let spriteSheet = SPRITES.index.sheets.players[spriteToken][spriteAlt][spriteDir];
-            let spriteRunAnim = SPRITES.index.anims.players[spriteToken][spriteAlt][spriteDir].run;
+            let spriteKey = 'sprite-'+spriteDir;
+            let spriteSheet = SPRITES.index.sheets.players[spriteToken][spriteAlt][spriteKey];
+            let spriteRunAnim = SPRITES.index.anims.players[spriteToken][spriteAlt][spriteKey].run;
             let spriteY = y + 100 + (i * 25);
             //console.log('spriteSheet = ', spriteSheet);
             //console.log('spriteRunAnim = ', spriteRunAnim);

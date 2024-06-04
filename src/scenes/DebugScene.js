@@ -514,8 +514,9 @@ export default class DebugScene extends Phaser.Scene
             spriteAlt = tokenParts[1];
             }
         let spriteDir = 'right';
-        let spriteSheet = SPRITES.index.sheets.players[spriteToken][spriteAlt][spriteDir];
-        let spriteRunAnim = SPRITES.index.anims.players[spriteToken][spriteAlt][spriteDir]['run'];
+        let spriteKey = 'sprite-'+spriteDir;
+        let spriteSheet = SPRITES.index.sheets.players[spriteToken][spriteAlt][spriteKey];
+        let spriteRunAnim = SPRITES.index.anims.players[spriteToken][spriteAlt][spriteKey]['run'];
         let spriteX = - 40;
         let spriteY = MMRPG.canvas.centerY - 15;
         let $runningSprite = ctx.add.sprite(spriteX, spriteY, spriteSheet);
@@ -600,8 +601,9 @@ export default class DebugScene extends Phaser.Scene
             }
 
         let spriteDir = 'right';
-        let spriteSheet = SPRITES.index.sheets.robots[spriteToken][spriteAlt][spriteDir];
-        let spriteSlideAnim = SPRITES.index.anims.robots[spriteToken][spriteAlt][spriteDir]['slide'];
+        let spriteKey = 'sprite-'+spriteDir;
+        let spriteSheet = SPRITES.index.sheets.robots[spriteToken][spriteAlt][spriteKey];
+        let spriteSlideAnim = SPRITES.index.anims.robots[spriteToken][spriteAlt][spriteKey]['slide'];
         let spriteX = - 40 - (numSprites * 5);
         let spriteY = MMRPG.canvas.centerY + 30 + ((numSprites % 10) * 10);
         let $slidingSprite = ctx.add.sprite(spriteX, spriteY, spriteSheet);

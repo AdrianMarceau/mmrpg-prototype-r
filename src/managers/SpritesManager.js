@@ -140,28 +140,53 @@ export default class SpritesManager {
 
         // Loop through each direction and load the sprite sheet, making note of the sheet created
         for (let i = 0; i < spriteDirections.length; i++){
+            let direction = spriteDirections[i];
+
+            // -- LOAD MAIN SPRITE SHEETS -- //
 
             // Define and register the key for this sprite sheet using direction, image, key, and path
-            let direction = spriteDirections[i];
-            let sheetKey = baseKey+'.'+direction;
+            let sheetKey = baseKey+'.sprite-'+direction;
+            let sheetToken = 'sprite-' + direction;
             index.prepForKeys(index.sheets, xkind, token, alt);
-            index.sheets[xkind][token][alt][direction] = sheetKey;
-            //console.log('queued [ '+sheetKey+' ] to index.sheets['+xkind+']['+token+']['+alt+']['+direction+']');
+            index.sheets[xkind][token][alt][sheetToken] = sheetKey;
+            //console.log('queued [ '+sheetKey+' ] to index.sheets['+xkind+']['+token+']['+alt+']['+sheetToken+']');
 
             // Define the relative image path for this sprite sheet
             let image = 'sprite_'+direction+'_'+spriteSizeX+'.png';
             let imagePath = basePath+image;
             index.prepForKeys(index.paths, xkind, token, alt);
-            index.paths[xkind][token][alt][direction] = imagePath;
-            //console.log('queued [ '+imagePath+' ] to index.paths['+xkind+']['+token+']['+alt+']['+direction+']');
+            index.paths[xkind][token][alt][sheetToken] = imagePath;
+            //console.log('queued [ '+imagePath+' ] to index.paths['+xkind+']['+token+']['+alt+']['+sheetToken+']');
 
-            // Immediately load the sprite sheet into the game
-            //ctx.load.spritesheet(sheetKey, imagePath, { frameWidth: spriteSize, frameHeight: spriteSize });
+            // Queue loading the sprite sheet into the game
             SPRITES.pendingSheets.push({
                 key: sheetKey,
                 path: imagePath,
                 size: spriteSize,
                 });
+
+            // -- LOAD ICON SPRITE SHEETS -- //
+
+            // Define and register the key for this icon sheet using direction, image, key, and path
+            let iconPrefix = kind === 'player' || kind === 'robot' ? 'mug' : 'icon';
+            let iconSheetKey = sheetKey.replace('sprites.', iconPrefix+'s.');
+            let iconSheetToken = sheetToken.replace('sprite-', iconPrefix+'-');
+            index.sheets[xkind][token][alt][iconSheetToken] = iconSheetKey;
+
+            // Queue loading the icon sheet into the game
+            let iconImage = iconPrefix+'_'+direction+'_'+spriteSizeX+'.png';
+            let iconImagePath = basePath+iconImage;
+            index.paths[xkind][token][alt][iconSheetToken] = iconImagePath;
+            //console.log('queued [ '+iconImagePath+' ] to index.paths['+xkind+']['+token+']['+alt+']['+iconSheetToken+']');
+
+            // Queue loading the icon sheet into the game
+            SPRITES.pendingSheets.push({
+                key: iconSheetKey,
+                path: iconImagePath,
+                size: spriteSize,
+                });
+
+            // -- DEFINE SPRITE ANIMATIONS -- //
 
             // Also create animations for this sprite depending on kind
             if (kind === 'player'){
@@ -169,9 +194,9 @@ export default class SpritesManager {
                 // Generate the running animation string for re-use later
                 let anim = 'run';
                 let runAnimKey = sheetKey + '.' + anim;
-                index.prepForKeys(index.anims, xkind, token, alt, direction);
-                index.anims[xkind][token][alt][direction][anim] = runAnimKey;
-                //console.log('queued [ '+runAnimKey+' ] to index.anims['+xkind+']['+token+']['+alt+']['+direction+']['+anim+']');
+                index.prepForKeys(index.anims, xkind, token, alt, sheetToken);
+                index.anims[xkind][token][alt][sheetToken][anim] = runAnimKey;
+                //console.log('queued [ '+runAnimKey+' ] to index.anims['+xkind+']['+token+']['+alt+']['+sheetToken+']['+anim+']');
 
                 // Immediately create the running animation for this sprite
                 /* ctx.anims.create({ key: runAnimKey, frames: ctx.anims.generateFrameNumbers(sheetKey, { frames: [ 7, 8, 9 ] }), frameRate: 6, repeat: -1 }); */
@@ -190,9 +215,9 @@ export default class SpritesManager {
 
                 // Generate the sliding animation string for re-use later
                 let slideAnimKey = sheetKey + '.slide';
-                index.prepForKeys(index.anims, xkind, token, alt, direction);
-                index.anims[xkind][token][alt][direction]['slide'] = slideAnimKey;
-                //console.log('queued [ '+slideAnimKey+' ] to index.anims['+xkind+']['+token+']['+alt+']['+direction+']');
+                index.prepForKeys(index.anims, xkind, token, alt, sheetToken);
+                index.anims[xkind][token][alt][sheetToken]['slide'] = slideAnimKey;
+                //console.log('queued [ '+slideAnimKey+' ] to index.anims['+xkind+']['+token+']['+alt+']['+sheetToken+']');
 
                 // Immediately create the slidening animation for this sprite
                 /* ctx.anims.create({ key: slideAnimKey, frames: ctx.anims.generateFrameNumbers(sheetKey, { frames: [ 7, 8, 9 ] }), frameRate: 6, repeat: -1 }); */

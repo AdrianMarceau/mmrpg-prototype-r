@@ -166,6 +166,7 @@ export default class PreloaderScene extends Phaser.Scene
                         let typeInfo = MMRPG.Indexes.types[typeToken];
                         alts.push({token: typeInfo.token, name: typeInfo.name + ' Core', colour: typeToken, summons: 0});
                         });
+                    //console.log('Preload w/ copy alts ', alts);
                     }
                 if (alts.length){
                     //console.log('Preload alts ', alts);
@@ -275,7 +276,9 @@ export default class PreloaderScene extends Phaser.Scene
             //console.log('All preloader '+ctx.preloadStep+' have been loaded!!!');
             ctx.preloadComplete.push(ctx.preloadStep);
             if (ctx.preloadComplete.length >= ctx.preloadSteps.length){
-                //console.log('!!!!!!! START TITLE SCENE !!!!!');
+                console.log('MMRPG = ', MMRPG);
+                console.log('SPRITES = ', SPRITES);
+                console.log('!!!!!!! START TITLE SCENE !!!!!');
                 ctx.scene.start('Title');
                 } else {
                 let nextStep = ctx.preloadSteps[ctx.preloadSteps.indexOf(ctx.preloadStep) + 1];
