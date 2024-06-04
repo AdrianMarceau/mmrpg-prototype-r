@@ -11,7 +11,7 @@ export default class SpritesManager {
     // Constructor for the SpritesManager class
     constructor(scene)
     {
-        console.log('SpritesManager.constructor() called');
+        console.log('SpritesManager.constructor() called w/ scene:');
 
         // Ensure passed context is available to the entire class
         this.MMRPG = MMRPG;
@@ -73,25 +73,28 @@ export default class SpritesManager {
         this.pendingAnims = [];
 
     }
-
-    preload (scene)
+    init (scene)
     {
         this.scene = scene;
-        this.preloadPending(scene);
-    }
-    afterPreload (scene)
-    {
-        this.preloadPending(scene);
+        scene.events.on('preload', this.preload, this);
+        scene.events.on('create', this.create, this);
+        scene.events.on('update', this.update, this);
     }
 
-    create (scene)
+    preload ()
     {
-        this.scene = scene;
-        this.createPending(scene);
+        //console.log('SpritesManager.preload() called');
+        /* ... */
     }
-    afterCreate (scene)
+    create ()
     {
-        this.createPending(scene);
+        //console.log('SpritesManager.create() called');
+        /* ... */
+    }
+    update ()
+    {
+        //console.log('SpritesManager.update() called');
+        /* ... */
     }
 
     // Load a sprite sheet for a specific kind of object into the game
@@ -100,7 +103,8 @@ export default class SpritesManager {
         //console.log('SpritesManager.loadSprite() called w/ \n kind: '+kind+', token: '+token+', alt: '+alt);
 
         // Pull in index references
-        let index = this.index;
+        let SPRITES = this;
+        let index = SPRITES.index;
         let kinds = index.kinds;
         let xkinds = index.xkinds;
         //console.log('(start) index:', index);
@@ -153,7 +157,7 @@ export default class SpritesManager {
 
             // Immediately load the sprite sheet into the game
             //ctx.load.spritesheet(sheetKey, imagePath, { frameWidth: spriteSize, frameHeight: spriteSize });
-            this.pendingSheets.push({
+            SPRITES.pendingSheets.push({
                 key: sheetKey,
                 path: imagePath,
                 size: spriteSize,
@@ -173,7 +177,7 @@ export default class SpritesManager {
                 /* ctx.anims.create({ key: runAnimKey, frames: ctx.anims.generateFrameNumbers(sheetKey, { frames: [ 7, 8, 9 ] }), frameRate: 6, repeat: -1 }); */
 
                 // Queue the creation of a running animation for this sprite
-                this.pendingAnims.push({
+                SPRITES.pendingAnims.push({
                     key: runAnimKey,
                     sheet: sheetKey,
                     frames: [ 7, 8, 9 ],
@@ -194,7 +198,7 @@ export default class SpritesManager {
                 /* ctx.anims.create({ key: slideAnimKey, frames: ctx.anims.generateFrameNumbers(sheetKey, { frames: [ 7, 8, 9 ] }), frameRate: 6, repeat: -1 }); */
 
                 // Queue the creation of a sliding animation for this sprite
-                this.pendingAnims.push({
+                SPRITES.pendingAnims.push({
                     key: slideAnimKey,
                     sheet: sheetKey,
                     frames: [ 8, 7, 7, 7, 7, 7, 7, 8 ],
@@ -210,25 +214,46 @@ export default class SpritesManager {
 
     }
 
-    preloadPending (scene)
+    preloadPending (scene, callback)
     {
         // Loop through any pending spritesheets to load and do it now
-        if (!this.pendingSheets.length){ return; }
-        let pendingSheets = this.pendingSheets;
+        let SPRITES = this;
+        if (!SPRITES.pendingSheets.length){ return; }
+        let pendingSheets = SPRITES.pendingSheets;
+        let queuedSheets = [];
+        // Define the file complete event to track when all sheets are loaded
+        scene.load.on('filecomplete', (file) => {
+            //console.log('SpritesManager.preloadPending().filecomplete\n file:', file, '\n queuedSheets:', queuedSheets);
+            //console.log('SpritesManager.preloadPending().filecomplete\n file:', file, '\n queuedSheets:', queuedSheets.length);
+            var index = queuedSheets.indexOf(file);
+            if (index == -1){ return; }
+            queuedSheets.splice(index, 1);
+            if (!queuedSheets.length){
+                if (SPRITES.pendingAnims.length){ SPRITES.createPending(scene, callback, file); }
+                else if (typeof callback === 'function'){ callback(scene); }
+                }
+            });
+        // Now that setup is done, loop through the pending sheets and load them
         while (pendingSheets.length){
             let sheet = pendingSheets.shift();
             if (scene.textures.exists(sheet)){ continue; }
             //console.log('SpritesManager.preloadPending() loading sheet:', sheet);
             scene.load.spritesheet(sheet.key, sheet.path, { frameWidth: sheet.size, frameHeight: sheet.size });
+            queuedSheets.push(sheet.key);
             }
+        //console.log('SpritesManager.preloadPending() queuedSheets:', queuedSheets);
     }
 
-    createPending (scene)
+    createPending (scene, callback, sheet)
     {
         // Loop through any pending animations to create and do it now
-        if (!this.pendingAnims.length){ return; }
-        let pendingAnims = this.pendingAnims;
+        let SPRITES = this;
+        if (!SPRITES.pendingAnims.length){ return; }
+        let pendingAnims = SPRITES.pendingAnims;
         while (pendingAnims.length){
+            // if the sheet was provided, skip if this one doesn't match
+            //if (sheet && sheet.key !== pendingAnims[0].sheet){ continue; }
+            // Collect the next animation to create
             let anim = pendingAnims.shift();
             if (scene.anims.get(anim.key)){ continue; }
             //console.log('SpritesManager.createPending() creating anim:', anim);
@@ -236,6 +261,7 @@ export default class SpritesManager {
                 key: anim.key,
                 frames: scene.anims.generateFrameNumbers(anim.sheet, { frames: anim.frames }),
                 }));
+            if (typeof callback === 'function'){ callback(scene); }
             }
     }
 
