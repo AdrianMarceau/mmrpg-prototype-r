@@ -39,6 +39,17 @@ export default class MainScene extends Phaser.Scene
             });
     }
 
+    init ()
+    {
+        //console.log('MainScene.init() called');
+
+        // Initialize any objects that need it
+        this.SPRITES.init(this);
+        this.BUTTONS.init(this);
+        this.POPUPS.init(this);
+
+    }
+
     preload ()
     {
         console.log('MainScene.preload() called');
@@ -48,16 +59,8 @@ export default class MainScene extends Phaser.Scene
         let SPRITES = this.SPRITES;
         let BUTTONS = this.BUTTONS;
         let POPUPS = this.POPUPS;
-        SPRITES.preload(this);
-        BUTTONS.preload(this);
-        POPUPS.preload(this);
 
         /* ... */
-
-        // Trigger post-preload methods for utility classes
-        SPRITES.afterPreload(this);
-        BUTTONS.afterPreload(this);
-        POPUPS.afterPreload(this);
 
     }
 
@@ -70,9 +73,6 @@ export default class MainScene extends Phaser.Scene
         let SPRITES = this.SPRITES;
         let BUTTONS = this.BUTTONS;
         let POPUPS = this.POPUPS;
-        SPRITES.create(this);
-        BUTTONS.create(this);
-        POPUPS.create(this);
 
         // Create the base canvas for which the rest of the game will be drawn
         var $canvas = this.add.image(0, 0, 'canvas');
@@ -92,19 +92,19 @@ export default class MainScene extends Phaser.Scene
         // READY ROOM MOCKUP (Banner Area)
 
         var x = MMRPG.canvas.centerX, y = 15;
-        var $readyRoom = this.add.image(x, y, 'mockup_main_banner_ready-room_' + bannerSize);
+        var $readyRoom = this.add.image(x, y, 'mockups.main_banner_ready-room_' + bannerSize);
         $readyRoom.setOrigin(0.5, 0);
 
         // SUB MENU MOCKUP (Menu Area)
 
         var x = MMRPG.canvas.centerX, y = y + readyRoomHeight;
-        var $subMenu = this.add.image(x, y, 'mockup_main_banner_sub-menu');
+        var $subMenu = this.add.image(x, y, 'mockups.main_banner_sub-menu');
         $subMenu.setOrigin(0.5, 0);
 
         // HOME CONTENT MOCKUP (Content Area)
 
         var x = MMRPG.canvas.centerX, y = y + subMenuHeight + 10;
-        var $contentHome = this.add.image(x, y, 'mockup_main_content_home');
+        var $contentHome = this.add.image(x, y, 'mockups.main_content_home');
         $contentHome.setOrigin(0.5, 0);
 
         // BANNER COMPONENT (Main Banner)
@@ -117,12 +117,6 @@ export default class MainScene extends Phaser.Scene
 
         // Run any debug code we need to
         this.debug();
-
-
-        // Trigger post-create methods for utility classes
-        SPRITES.afterCreate(this);
-        BUTTONS.afterCreate(this);
-        POPUPS.afterCreate(this);
 
     }
 
