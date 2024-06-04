@@ -36,6 +36,16 @@ export default class TitleScene extends Phaser.Scene
 
     }
 
+    init ()
+    {
+        //console.log('TitleScene.init() called');
+
+        // Initialize any objects that need it
+        this.SPRITES.init(this);
+        this.BUTTONS.init(this);
+
+    }
+
     preload ()
     {
         //console.log('TitleScene.preload() called');
@@ -44,18 +54,12 @@ export default class TitleScene extends Phaser.Scene
         let MMRPG = this.MMRPG;
         let SPRITES = this.SPRITES;
         let BUTTONS = this.BUTTONS;
-        SPRITES.preload(this);
-        BUTTONS.preload(this);
 
         // Define some idle sprite variables first and preload so we can use them later
         this.idleSprites = {};
         this.idleSpriteTokens = ['dr-light', 'dr-wily', 'dr-cossack'];
         this.currentIdleSprite = this.idleSpriteTokens[0];
         this.currentIdleDelay = 0;
-
-        // Trigger post-preload methods for utility classes
-        SPRITES.afterPreload(this);
-        BUTTONS.afterPreload(this);
 
     }
 
@@ -67,8 +71,6 @@ export default class TitleScene extends Phaser.Scene
         let MMRPG = this.MMRPG;
         let SPRITES = this.SPRITES;
         let BUTTONS = this.BUTTONS;
-        SPRITES.create(this);
-        BUTTONS.create(this);
 
         // Create the base canvas for which the rest of the game will be drawn
         this.canvasImage = this.add.image(0, 0, 'canvas');
@@ -112,10 +114,6 @@ export default class TitleScene extends Phaser.Scene
 
         // We can also show the debug button now too
         this.debugButton = BUTTONS.addDebugButton(this);
-
-        // Trigger post-create methods for utility classes
-        SPRITES.afterCreate(this);
-        BUTTONS.afterCreate(this);
 
     }
 
