@@ -128,8 +128,9 @@ export default class SpritesManager {
         //console.log('spriteInfo for xkind:', xkind, 'token:', token, ' =', spriteInfo);
 
         // Predefine some base paths and keys
+        let altIsBase = alt === 'base' || alt === '1' || alt === 1 ? true : false;
         let pathToken = token === kind ? ('.' + kind) : token;
-        let basePath = 'content/'+ xkind + '/' + pathToken + '/sprites' + (alt !== 'base' ? '_'+alt : '') + '/';
+        let basePath = 'content/'+ xkind + '/' + pathToken + '/sprites' + (!altIsBase ? '_'+alt : '') + '/';
         let baseKey = 'sprites.' + xkind + '.' + token + '.' + alt;
         let spriteSize = spriteInfo.image_size || 40;
         let spriteSizeX = spriteSize+'x'+spriteSize;
@@ -192,18 +193,15 @@ export default class SpritesManager {
             if (kind === 'player'){
 
                 // Generate the running animation string for re-use later
-                let anim = 'run';
-                let runAnimKey = sheetKey + '.' + anim;
+                var anim = 'run';
+                var animKey = sheetKey + '.' + anim;
                 index.prepForKeys(index.anims, xkind, token, alt, sheetToken);
-                index.anims[xkind][token][alt][sheetToken][anim] = runAnimKey;
-                //console.log('queued [ '+runAnimKey+' ] to index.anims['+xkind+']['+token+']['+alt+']['+sheetToken+']['+anim+']');
-
-                // Immediately create the running animation for this sprite
-                /* ctx.anims.create({ key: runAnimKey, frames: ctx.anims.generateFrameNumbers(sheetKey, { frames: [ 7, 8, 9 ] }), frameRate: 6, repeat: -1 }); */
+                index.anims[xkind][token][alt][sheetToken][anim] = animKey;
+                //console.log('queued [ '+animKey+' ] to index.anims['+xkind+']['+token+']['+alt+']['+sheetToken+']['+anim+']');
 
                 // Queue the creation of a running animation for this sprite
                 SPRITES.pendingAnims.push({
-                    key: runAnimKey,
+                    key: animKey,
                     sheet: sheetKey,
                     frames: [ 7, 8, 9 ],
                     frameRate: 6,
@@ -214,19 +212,33 @@ export default class SpritesManager {
             else if (kind === 'robot'){
 
                 // Generate the sliding animation string for re-use later
-                let slideAnimKey = sheetKey + '.slide';
+                var anim = 'slide';
+                var animKey = sheetKey + '.' + anim;
                 index.prepForKeys(index.anims, xkind, token, alt, sheetToken);
-                index.anims[xkind][token][alt][sheetToken]['slide'] = slideAnimKey;
-                //console.log('queued [ '+slideAnimKey+' ] to index.anims['+xkind+']['+token+']['+alt+']['+sheetToken+']');
-
-                // Immediately create the slidening animation for this sprite
-                /* ctx.anims.create({ key: slideAnimKey, frames: ctx.anims.generateFrameNumbers(sheetKey, { frames: [ 7, 8, 9 ] }), frameRate: 6, repeat: -1 }); */
+                index.anims[xkind][token][alt][sheetToken][anim] = animKey;
+                //console.log('queued [ '+animKey+' ] to index.anims['+xkind+']['+token+']['+alt+']['+sheetToken+']['+anim+']');
 
                 // Queue the creation of a sliding animation for this sprite
                 SPRITES.pendingAnims.push({
-                    key: slideAnimKey,
+                    key: animKey,
                     sheet: sheetKey,
                     frames: [ 8, 7, 7, 7, 7, 7, 7, 8 ],
+                    frameRate: 6,
+                    repeat: 0
+                    });
+
+                // Generate the shooting animation string for re-use later
+                var anim = 'shoot';
+                var animKey = sheetKey + '.' + anim;
+                index.prepForKeys(index.anims, xkind, token, alt, sheetToken);
+                index.anims[xkind][token][alt][sheetToken][anim] = animKey;
+                //console.log('queued [ '+animKey+' ] to index.anims['+xkind+']['+token+']['+alt+']['+sheetToken+']['+anim+']');
+
+                // Queue the creation of a sliding animation for this sprite
+                SPRITES.pendingAnims.push({
+                    key: animKey,
+                    sheet: sheetKey,
+                    frames: [ 8, 4, 4, 4, 4, 4, 4, 4 ],
                     frameRate: 6,
                     repeat: 0
                     });
