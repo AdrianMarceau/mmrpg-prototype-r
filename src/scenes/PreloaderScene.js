@@ -189,10 +189,8 @@ export default class PreloaderScene extends Phaser.Scene
                 //console.log('token = ', token, 'info = ', info);
                 if (!info.flag_complete){ return; }
                 //console.log('Preload ability ', token);
-                SPRITES.loadSprite(this, 'abilities', token, 'base');
-                if (info.image_sheets > 1){
+                if (info.image_sheets > 0){
                     for (let sheet = 1; sheet <= info.image_sheets; sheet++){
-                        if (sheet === 1){ continue; }
                         //console.log('Preload ability ', token, ' s/ ', sheet);
                         SPRITES.loadSprite(this, 'abilities', token, sheet);
                         }
@@ -209,10 +207,8 @@ export default class PreloaderScene extends Phaser.Scene
                 //console.log('token = ', token, 'info = ', info);
                 if (!info.flag_complete){ return; }
                 //console.log('Preload item ', token);
-                SPRITES.loadSprite(this, 'items', token, 'base');
-                if (info.image_sheets > 1){
+                if (info.image_sheets > 0){
                     for (let sheet = 1; sheet <= info.image_sheets; sheet++){
-                        if (sheet === 1){ continue; }
                         //console.log('Preload item ', token, ' s/ ', sheet);
                         SPRITES.loadSprite(this, 'items', token, sheet);
                         }
