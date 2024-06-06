@@ -21,7 +21,11 @@ MMRPG.canvas = {
     width: baseWidth,
     height: baseHeight,
     centerX: baseWidth / 2,
-    centerY: baseHeight / 2
+    centerY: baseHeight / 2,
+    xMin: 0,
+    yMin: 0,
+    xMax: baseWidth,
+    yMax: baseHeight
     };
 
 
