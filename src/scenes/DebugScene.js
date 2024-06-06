@@ -345,7 +345,7 @@ export default class DebugScene extends Phaser.Scene
 
         var x = 20, y = MMRPG.canvas.height - 30;
         var lorem = 'Let go your earthly tether. Enter the void. Empty and become wind.';
-        Strings.addPlainText(this, x, y, lorem);
+        Strings.addPlainText(this, x, y, lorem, {color: '#000000'});
 
         let typesTextPlain = 'Types:';
         for (let i = 0; i < typesIndexTokens.length; i++)

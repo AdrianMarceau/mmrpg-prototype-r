@@ -7,6 +7,9 @@
 
 import MMRPG from '../shared/MMRPG.js';
 
+import { GraphicsUtility as Graphics } from '../utils/GraphicsUtility.js';
+import { StringsUtility as Strings } from '../utils/StringsUtility.js';
+
 import SpritesManager from '../managers/SpritesManager.js';
 import ButtonsManager from '../managers/ButtonsManager.js';
 
@@ -79,6 +82,13 @@ export default class TitleScene extends Phaser.Scene
         // Add a splash screen with the logo and the game's title
         this.splashImage = this.add.image(0, 0, 'splash');
         this.splashImage.setOrigin(0, 0);
+
+        // We should also show the current version just to be safe
+        var x = MMRPG.canvas.centerX - 50, y = MMRPG.canvas.height - 30;
+        var version = 'v ' + MMRPG.version;
+        let $version = Strings.addPlainText(this, x, y, version, {color: '#696969', fontSize: '12px'});
+        $version.x = MMRPG.canvas.centerX - ($version.width / 2);
+        $version.setDepth(9999);
 
         // Generate some idle sprites to keep the user entertained
         //console.log('SPRITES.index = ', SPRITES.index);

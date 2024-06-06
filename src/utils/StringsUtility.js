@@ -48,7 +48,8 @@ export class StringsUtility {
         styles = styles || {};
         styles.fontFamily = styles.fontFamily || defaults.font;
         styles.fontSize = styles.fontSize || defaults.size + 'px';
-        styles.color = Graphics.returnPhaserColor(styles.color || defaults.color);
+        styles.color = styles.color || defaults.color;
+        //styles.color = Graphics.returnPhaserColor(styles.color || defaults.color);
         let $text = ctx.add.text(x, y, text, styles);
         return $text;
 
