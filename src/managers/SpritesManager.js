@@ -204,7 +204,7 @@ export default class SpritesManager {
                     key: animKey,
                     sheet: sheetKey,
                     frames: [ 7, 8, 9 ],
-                    frameRate: 6,
+                    frameRate: 5,
                     repeat: -1
                     });
 

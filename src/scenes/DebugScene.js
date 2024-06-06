@@ -432,44 +432,48 @@ export default class DebugScene extends Phaser.Scene
                 mainBanner.setPosition(x + speed, y + speed);
                 mainBanner.setSize(width - resize, height - resize);
                 } else {
-                var type = 'copy'; //safeTypes[Math.floor(Math.random() * safeTypes.length)]; //'water';
+                if (ctx.allowRunningDoctors){ ctx.showDoctorRunning(); }
+                if (ctx.allowSlidingMasters){
+                    var doctor = ctx.lastRunningDoctor;
+                    var master = 'robot';
+                    if (doctor === 'dr-light'){ master = mainBanner.type === 'copy' ? 'mega-man' : 'roll'; }
+                    else if (doctor === 'dr-wily'){ master = mainBanner.type === 'copy' ? 'bass' : 'disco'; }
+                    else if (doctor === 'dr-cossack'){ master = mainBanner.type === 'copy' ? 'proto-man' : 'rhythm'; }
+                    this.showMasterSliding(master);
+                    }
+                var type = 'copy';
                 var typeInfo = types[type];
                 //console.log('type =', type, types[type]);
                 var color = types[type]['colour_light'];
                 var color2 = types[type]['colour_dark'];
                 mainBanner.direction = 'left';
+                mainBanner.type = type;
                 mainBanner.setColor(color, color2);
                 mainBanner.setText(mainBanner.title.key, 'Main Banner ' + typeInfo.name);
-                if (ctx.allowRunningDoctors){
-                    ctx.showDoctorRunning();
-                    }
-                if (ctx.allowSlidingMasters){
-                    if (ctx.lastRunningDoctor === 'dr-light'){ this.showMasterSliding('mega-man'); }
-                    else if (ctx.lastRunningDoctor === 'dr-wily'){ this.showMasterSliding('bass'); }
-                    else if (ctx.lastRunningDoctor === 'dr-cossack'){ this.showMasterSliding('proto-man'); }
-                    }
                 }
             } else if (direction === 'left'){
             if (x >= 0){
                 mainBanner.setPosition(x - speed, y - speed);
                 mainBanner.setSize(width + resize, height + resize);
                 } else {
-                var type = 'none'; //safeTypes[Math.floor(Math.random() * safeTypes.length)]; //'nature';
+                if (ctx.allowRunningDoctors){ ctx.showDoctorRunning(); }
+                if (ctx.allowSlidingMasters){
+                    var doctor = ctx.lastRunningDoctor;
+                    var master = 'robot';
+                    if (doctor === 'dr-light'){ master = mainBanner.type === 'copy' ? 'mega-man' : 'roll'; }
+                    else if (doctor === 'dr-wily'){ master = mainBanner.type === 'copy' ? 'bass' : 'disco'; }
+                    else if (doctor === 'dr-cossack'){ master = mainBanner.type === 'copy' ? 'proto-man' : 'rhythm'; }
+                    this.showMasterSliding(master);
+                    }
+                var type = 'none';
                 var typeInfo = types[type];
                 //console.log('type =', type, types[type]);
                 var color = types[type]['colour_light'];
                 var color2 = types[type]['colour_dark'];
                 mainBanner.direction = 'right';
+                mainBanner.type = type;
                 mainBanner.setColor(color, color2);
                 mainBanner.setText(mainBanner.title.key, 'Main Banner ' + typeInfo.name);
-                if (ctx.allowRunningDoctors){
-                    ctx.showDoctorRunning();
-                    }
-                if (ctx.allowSlidingMasters){
-                    if (ctx.lastRunningDoctor === 'dr-light'){ this.showMasterSliding('roll'); }
-                    else if (ctx.lastRunningDoctor === 'dr-wily'){ this.showMasterSliding('disco'); }
-                    else if (ctx.lastRunningDoctor === 'dr-cossack'){ this.showMasterSliding('rhythm'); }
-                    }
                 }
             }
 
@@ -559,21 +563,36 @@ export default class DebugScene extends Phaser.Scene
         let ctx = this;
         let MMRPG = this.MMRPG;
         let SPRITES = this.SPRITES;
+        let playerSheets = SPRITES.index.sheets.players;
+        let playerAnims = SPRITES.index.anims.players;
+        let playersIndex = MMRPG.Indexes.players;
 
         // Generate a sprite w/ running animation in progress
         let randKey = Math.floor(Math.random() * ctx.runningDoctors.length);
         let spriteToken = token || ctx.runningDoctors[randKey];
         let spriteAlt = 'base';
-        // if the sprite token ends with an "*_{alt}", make sure we split and pull
+        let playerInfo = playersIndex[spriteToken];
+        //console.log('playerInfo for ', spriteToken, '=', playerInfo);
+
+        // If the sprite token ends with an "*_{alt}", make sure we split and pull
         if (spriteToken.indexOf('_') !== -1){
             let tokenParts = spriteToken.split('_');
             spriteToken = tokenParts[0];
             spriteAlt = tokenParts[1];
             }
+
+        // Ensure this alt actually exists on the player in question
+        //console.log('pending spriteToken =', spriteToken, 'pending spriteAlt =', spriteAlt);
+        if (!playerSheets[spriteToken][spriteAlt]){
+            //console.log('Sprite alt not found, defaulting to base');
+            spriteAlt = 'base';
+            }
+
         let spriteDir = 'right';
         let spriteKey = 'sprite-'+spriteDir;
-        let spriteSheet = SPRITES.index.sheets.players[spriteToken][spriteAlt][spriteKey];
-        let spriteRunAnim = SPRITES.index.anims.players[spriteToken][spriteAlt][spriteKey]['run'];
+        let spriteSheet = playerSheets[spriteToken][spriteAlt][spriteKey];
+        let spriteRunAnim = playerAnims[spriteToken][spriteAlt][spriteKey]['run'];
+
         let spriteX = - 40;
         let spriteY = MMRPG.canvas.centerY - 15;
         let $runningSprite = ctx.add.sprite(spriteX, spriteY, spriteSheet);
@@ -582,13 +601,17 @@ export default class DebugScene extends Phaser.Scene
         $runningSprite.setDepth(ctx.battleBanner.depth + spriteY);
         //console.log(spriteToken, 'spriteY =', spriteY, 'depth =', $runningSprite.depth);
         $runningSprite.setScale(2.0);
-        ctx.add.tween({
+        $runningSprite.preFX.addShadow();
+        $runningSprite.bounceTween = ctx.add.tween({
             targets: $runningSprite,
-            y: '-=2',
-            ease: 'Sine.easeInOut',
+            y: {from: spriteY, to: spriteY - 2},
+            ease: 'Stepped',
+            delay: 300,
+            repeatDelay: 200,
             duration: 200,
             repeat: -1,
-            yoyo: true
+            yoyo: true,
+            //step: 1 // This will force the tween to use only the start and end values
             });
         $runningSprite.play(spriteRunAnim);
         if (typeof ctx.debugSprites === 'undefined'){ ctx.debugSprites = []; }
@@ -597,16 +620,19 @@ export default class DebugScene extends Phaser.Scene
         ctx.battleBannerContainer.add($runningSprite);
         ctx.battleBannerContainer.sort('depth');
 
-        // Animate that sprite running across the screen then remove when done
-        let spriteDestX = MMRPG.canvas.width + 40;
-        let numSprites = Object.keys(ctx.debugSprites).length;
-        let runDuration = 4000 + (numSprites * 200);
-        if (numSprites >= 20){ runDuration /= 2; }
-        //console.log('numSprites = ', numSprites);
-        //console.log('runDuration = ', runDuration);
+        // Animate that sprite sliding across the screen then remove when done
+        //let numSprites = Object.keys(ctx.debugSprites).length;
+        let runSpeed = (((100) + playerInfo.speed) - playerInfo.defense);
+        let runSpeedMultiplier = (runSpeed / 100);
+        let runDistance = (MMRPG.canvas.width / 4) * runSpeedMultiplier;
+        let runDestination = MMRPG.canvas.width + 40;
+        let runDuration = (runDestination / runDistance) * 1000; //5000 - (500 * runSpeedMultiplier);
+        //console.log(playerInfo.token, 'runSpeed:', runSpeed, 'runSpeedMultiplier:', runSpeedMultiplier, 'runDistance:', runDistance, 'runDuration:', runDuration);
+
+        // Animate that sprite using the previously defined variables
         ctx.add.tween({
             targets: $runningSprite,
-            x: spriteDestX,
+            x: runDestination,
             ease: 'Linear',
             duration: runDuration,
             onComplete: function () {
@@ -631,6 +657,8 @@ export default class DebugScene extends Phaser.Scene
         let ctx = this;
         let MMRPG = this.MMRPG;
         let SPRITES = this.SPRITES;
+        let robotSheets = SPRITES.index.sheets.robots;
+        let robotAnims = SPRITES.index.anims.robots;
         let robotsIndex = MMRPG.Indexes.robots;
 
         // Count the number of sliding sprites currently on the screen
@@ -645,24 +673,24 @@ export default class DebugScene extends Phaser.Scene
         let robotInfo = robotsIndex[spriteToken];
         //console.log('robotInfo for ', spriteToken, '=', robotInfo);
 
-        // if the sprite token ends with an "*_{alt}", make sure we split and pull
+        // If the sprite token ends with an "*_{alt}", make sure we split and pull
         if (spriteToken.indexOf('_') !== -1){
             let tokenParts = spriteToken.split('_');
             spriteToken = tokenParts[0];
             spriteAlt = tokenParts[1];
             }
 
-        // ensure this alt actually exists on the robot in question
+        // Ensure this alt actually exists on the robot in question
         //console.log('pending spriteToken =', spriteToken, 'pending spriteAlt =', spriteAlt);
-        if (!SPRITES.index.sheets.robots[spriteToken][spriteAlt]){
+        if (!robotSheets[spriteToken][spriteAlt]){
             //console.log('Sprite alt not found, defaulting to base');
             spriteAlt = 'base';
             }
 
         //let spriteDir = 'right';
         //let spriteKey = 'sprite-'+spriteDir;
-        //let spriteSheet = SPRITES.index.sheets.robots[spriteToken][spriteAlt][spriteKey];
-        //let spriteSlideAnim = SPRITES.index.anims.robots[spriteToken][spriteAlt][spriteKey]['slide'];
+        //let spriteSheet = robotSheets[spriteToken][spriteAlt][spriteKey];
+        //let spriteSlideAnim = robotAnims[spriteToken][spriteAlt][spriteKey]['slide'];
 
         let robotSpriteToken = spriteToken;
         let robotSpriteAlt = spriteAlt;
@@ -728,15 +756,18 @@ export default class DebugScene extends Phaser.Scene
         $slidingSprite.setOrigin(0.5, 1);
         $slidingSprite.setDepth(ctx.battleBanner.depth + spriteY);
         $slidingSprite.setScale(2.0);
+        $slidingSprite.preFX.addShadow();
         ctx.debugSprites.push($slidingSprite);
         let slidingSpriteKey = ctx.debugSprites.length - 1;
         ctx.battleBannerContainer.add($slidingSprite);
         ctx.battleBannerContainer.sort('depth');
 
         // Animate that sprite sliding across the screen then remove when done
-        let slideDistance = (MMRPG.canvas.width / 3) * (robotInfo.speed / 100);
+        let slideSpeed = robotInfo.speed;
+        let slideSpeedMultiplier = (slideSpeed / 100);
+        let slideDistance = (MMRPG.canvas.width / 3) * slideSpeedMultiplier;
         let slideDestination = MMRPG.canvas.width + 40;
-        let slideDuration = 2000 - (500 * (robotInfo.speed / 100));
+        let slideDuration = 2000 - (500 * slideSpeedMultiplier);
         //if (numSprites >= 10){ slideDuration /= 2; }
         //console.log('numSprites = ', numSprites);
         //console.log('slideDuration = ', slideDuration);
@@ -840,6 +871,7 @@ export default class DebugScene extends Phaser.Scene
             $shotSprite.setDepth($sprite.depth + 1);
             $shotSprite.setScale(2.0);
             $shotSprite.setFrame(abilityShotFrame);
+            $shotSprite.preFX.addShadow();
             ctx.debugSprites.push($shotSprite);
             let shotSpriteKey = ctx.debugSprites.length - 1;
             ctx.battleBannerContainer.add($shotSprite);
@@ -858,7 +890,7 @@ export default class DebugScene extends Phaser.Scene
                 duration: 400,
                 delay: 200,
                 loop: -1,
-                yoYo: true,
+                yoyo: true,
                 onUpdate: () => {
                     $sprite.fx.brightness($sprite.tween2.getValue());
                     }
