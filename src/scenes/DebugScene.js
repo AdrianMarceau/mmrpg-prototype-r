@@ -88,8 +88,11 @@ export default class DebugScene extends Phaser.Scene
         }
 
         // Define a list of players and robots we should preload
+        this.allowRunningDoctors = true;
+        this.allowSlidingMasters = true;
         this.runningDoctors = ['dr-light', 'dr-wily', 'dr-cossack'];
         this.slidingMasters = ['mega-man', 'bass', 'proto-man', 'roll', 'disco', 'rhythm'];
+        this.debugSprites = [];
 
         // Predefine a list of robot master tokens sorted into core type(s)
         this.masterTokensByCoreType = {};
@@ -164,6 +167,10 @@ export default class DebugScene extends Phaser.Scene
         let POPUPS = this.POPUPS;
         let BUTTONS = this.BUTTONS;
 
+        // Pull in refs to specific indexes
+        let typesIndex = MMRPG.Indexes.types;
+        let typesIndexTokens = Object.keys(typesIndex);
+
         // Create the base canvas for which the rest of the game will be drawn
         var canvas = this.add.image(0, 0, 'canvas');
         canvas.setOrigin(0, 0);
@@ -175,7 +182,7 @@ export default class DebugScene extends Phaser.Scene
         // Draw the main banner and collect a reference to it
         var type = 'wily';
         var x = 15, y = 15;
-        var color = MMRPG.Indexes.types[type].colour_light;
+        var color = typesIndex[type].colour_light;
         var xcolor = Phaser.Display.Color.GetColor(color[0], color[1], color[2]);
         let mainBanner = new MainBanner(this, x, y, {
             fullsize: false,
@@ -203,7 +210,7 @@ export default class DebugScene extends Phaser.Scene
         var type = 'empty';
         var ref = this.mainBanner.getBounds();
         var x = ref.x, y = MMRPG.canvas.centerY - 90;
-        var color = MMRPG.Indexes.types[type].colour_light;
+        var color = typesIndex[type].colour_light;
         var xcolor = Phaser.Display.Color.GetColor(color[0], color[1], color[2]);
         let battleBanner = new BattleBanner(this, x, y, {
             height: 200,
@@ -265,8 +272,25 @@ export default class DebugScene extends Phaser.Scene
             console.log('Show Tales from the Void button clicked');
             ctx.showTalesFromTheVoid();
             });
-        BUTTONS.makeSimpleButton('Running Doctor', {
+
+
+        BUTTONS.makeSimpleButton('Toggle Doctors Running', {
             x: 50, y: 150,
+            width: 300, height: 24,
+            size: 10, color: 0x00ff00,
+            depth: 8000
+            }, function(button){
+            console.log('Toggle Doctors Running button clicked');
+            if (ctx.allowRunningDoctors){
+                button.text.setTint(0xff0000);
+                ctx.allowRunningDoctors = false;
+                } else {
+                button.text.setTint(0x00ff00);
+                ctx.allowRunningDoctors = true;
+                }
+            });
+        BUTTONS.makeSimpleButton('Running Doctor', {
+            x: 50, y: 180,
             width: 300, height: 24,
             size: 10, color: 0x0562bc,
             depth: 8000
@@ -274,8 +298,24 @@ export default class DebugScene extends Phaser.Scene
             console.log('Show Doctor Running button clicked');
             ctx.showDoctorRunning();
             });
-        BUTTONS.makeSimpleButton('Sliding Master', {
+
+        BUTTONS.makeSimpleButton('Toggle Masters Sliding', {
             x: 450, y: 150,
+            width: 300, height: 24,
+            size: 10, color: 0x00ff00,
+            depth: 8000
+            }, function(button){
+            console.log('Toggle Masters Sliding button clicked');
+            if (ctx.allowSlidingMasters){
+                button.text.setTint(0xff0000);
+                ctx.allowSlidingMasters = false;
+                } else {
+                button.text.setTint(0x00ff00);
+                ctx.allowSlidingMasters = true;
+                }
+            });
+        BUTTONS.makeSimpleButton('Sliding Master', {
+            x: 450, y: 180,
             width: 300, height: 24,
             size: 10, color: 0x0562bc,
             depth: 8000
@@ -283,6 +323,7 @@ export default class DebugScene extends Phaser.Scene
             console.log('Show Master Sliding button clicked');
             ctx.showMasterSliding();
             });
+
 
         let $pauseButton = BUTTONS.makeSimpleButton('Pause', {
             x: MMRPG.canvas.centerX - 30, y: 70,
@@ -306,12 +347,11 @@ export default class DebugScene extends Phaser.Scene
         var lorem = 'Let go your earthly tether. Enter the void. Empty and become wind.';
         Strings.addPlainText(this, x, y, lorem);
 
-        let typeTokens = Object.keys(MMRPG.Indexes.types);
         let typesTextPlain = 'Types:';
-        for (let i = 0; i < typeTokens.length; i++)
+        for (let i = 0; i < typesIndexTokens.length; i++)
         {
-            let typeToken = typeTokens[i];
-            let typeData = MMRPG.Indexes.types[typeToken];
+            let typeToken = typesIndexTokens[i];
+            let typeData = typesIndex[typeToken];
             typesTextPlain += (i > 0 ? ', ' : ' ') + typeData.name;
         }
 
@@ -359,6 +399,14 @@ export default class DebugScene extends Phaser.Scene
     update (time, delta) {
         //console.log('DebugScene.update() called w/ time =', time, 'delta =', delta);
 
+        if (typeof this.debugAddedSprites === 'undefined'){ this.debugAddedSprites = 0; }
+        if (typeof this.debugRemovedSprites === 'undefined'){ this.debugRemovedSprites = 0; }
+
+        //const activeSprites = this.battleBannerContainer.getAll().length;
+        //console.log('activeSprites =', activeSprites);
+        //console.log('this.debugAddedSprites =', this.debugAddedSprites);
+        //console.log('this.debugRemovedSprites =', this.debugRemovedSprites);
+
         let ctx = this;
         let types = MMRPG.Indexes.types;
         let safeTypes = ctx.safeTypeTokens;
@@ -392,10 +440,14 @@ export default class DebugScene extends Phaser.Scene
                 mainBanner.direction = 'left';
                 mainBanner.setColor(color, color2);
                 mainBanner.setText(mainBanner.title.key, 'Main Banner ' + typeInfo.name);
-                ctx.showDoctorRunning();
-                if (ctx.lastRunningDoctor === 'dr-light'){ this.showMasterSliding('mega-man'); }
-                else if (ctx.lastRunningDoctor === 'dr-wily'){ this.showMasterSliding('bass'); }
-                else if (ctx.lastRunningDoctor === 'dr-cossack'){ this.showMasterSliding('proto-man'); }
+                if (ctx.allowRunningDoctors){
+                    ctx.showDoctorRunning();
+                    }
+                if (ctx.allowSlidingMasters){
+                    if (ctx.lastRunningDoctor === 'dr-light'){ this.showMasterSliding('mega-man'); }
+                    else if (ctx.lastRunningDoctor === 'dr-wily'){ this.showMasterSliding('bass'); }
+                    else if (ctx.lastRunningDoctor === 'dr-cossack'){ this.showMasterSliding('proto-man'); }
+                    }
                 }
             } else if (direction === 'left'){
             if (x >= 0){
@@ -410,10 +462,14 @@ export default class DebugScene extends Phaser.Scene
                 mainBanner.direction = 'right';
                 mainBanner.setColor(color, color2);
                 mainBanner.setText(mainBanner.title.key, 'Main Banner ' + typeInfo.name);
-                ctx.showDoctorRunning();
-                if (ctx.lastRunningDoctor === 'dr-light'){ this.showMasterSliding('roll'); }
-                else if (ctx.lastRunningDoctor === 'dr-wily'){ this.showMasterSliding('disco'); }
-                else if (ctx.lastRunningDoctor === 'dr-cossack'){ this.showMasterSliding('rhythm'); }
+                if (ctx.allowRunningDoctors){
+                    ctx.showDoctorRunning();
+                    }
+                if (ctx.allowSlidingMasters){
+                    if (ctx.lastRunningDoctor === 'dr-light'){ this.showMasterSliding('roll'); }
+                    else if (ctx.lastRunningDoctor === 'dr-wily'){ this.showMasterSliding('disco'); }
+                    else if (ctx.lastRunningDoctor === 'dr-cossack'){ this.showMasterSliding('rhythm'); }
+                    }
                 }
             }
 
@@ -426,11 +482,13 @@ export default class DebugScene extends Phaser.Scene
         var x = testBanner.x, y = testBanner.y;
         var xDir = testBanner.directionX, yDir = testBanner.directionY;
         var width = testBanner.width, height = testBanner.height;
-        var speed = 2, resize = 1;
-        if (xDir === 'right'){ x += speed; }
-        if (xDir === 'left'){ x -= speed; }
-        if (yDir === 'down'){ y += speed; }
-        if (yDir === 'up'){ y -= speed; }
+        var speed = 50; // pixels per second
+        var resize = 1;
+        var movement = speed * (delta / 1000);
+        if (xDir === 'right') { x += movement; }
+        if (xDir === 'left') { x -= movement; }
+        if (yDir === 'down') { y += movement; }
+        if (yDir === 'up') { y -= movement; }
         testBanner.setPosition(x, y);
         var newDir = false;
         if (x >= (MMRPG.canvas.width - width)){ testBanner.directionX = 'left'; newDir = true; }
@@ -444,12 +502,11 @@ export default class DebugScene extends Phaser.Scene
             var color = types[type]['colour_light'];
             var color2 = types[type]['colour_dark'];
             testBanner.setColor(color, color2);
-            //ctx.showDoctorRunning();
-            this.showMasterSliding(null, type);
-            //if (ctx.lastRunningDoctor === 'dr-light'){ this.showMasterSliding('mega-man', type); }
-            //else if (ctx.lastRunningDoctor === 'dr-wily'){ this.showMasterSliding('bass', type); }
-            //else if (ctx.lastRunningDoctor === 'dr-cossack'){ this.showMasterSliding('proto-man', type); }
+            if (ctx.allowSlidingMasters){
+                this.showMasterSliding(null, type);
+                }
             }
+        /*
         if (!testBanner.growth){ testBanner.growth = 1; }
         if (testBanner.growth > 0){
             testBanner.growth++;
@@ -460,7 +517,7 @@ export default class DebugScene extends Phaser.Scene
             testBanner.setSize(width - resize, height - resize);
             if (testBanner.growth < -100){ testBanner.growth = 1; }
             }
-
+        */
 
     }
 
@@ -471,8 +528,6 @@ export default class DebugScene extends Phaser.Scene
         // Pull in required object references
         let MMRPG = this.MMRPG;
         let POPUPS = this.POPUPS;
-
-        //this.showDoctorRunning();
 
         // Display a series of popups to tell the story of the dark void and the alien entity
         let ctx = this;
@@ -488,7 +543,9 @@ export default class DebugScene extends Phaser.Scene
             showPages: true,
             onComplete: function() {
                 console.log('Tales from the Void completed');
-                ctx.showDoctorRunning();
+                if (ctx.allowRunningDoctors){
+                    ctx.showDoctorRunning();
+                    }
                 }
             });
 
@@ -520,6 +577,7 @@ export default class DebugScene extends Phaser.Scene
         let spriteX = - 40;
         let spriteY = MMRPG.canvas.centerY - 15;
         let $runningSprite = ctx.add.sprite(spriteX, spriteY, spriteSheet);
+        ctx.debugAddedSprites++;
         $runningSprite.setOrigin(0.5, 1);
         $runningSprite.setDepth(ctx.battleBanner.depth + spriteY);
         //console.log(spriteToken, 'spriteY =', spriteY, 'depth =', $runningSprite.depth);
@@ -533,17 +591,17 @@ export default class DebugScene extends Phaser.Scene
             yoyo: true
             });
         $runningSprite.play(spriteRunAnim);
-        if (typeof ctx.runningSprites === 'undefined'){ ctx.runningSprites = []; }
-        ctx.runningSprites.push($runningSprite);
-        let runningSpriteKey = ctx.runningSprites.length - 1;
+        if (typeof ctx.debugSprites === 'undefined'){ ctx.debugSprites = []; }
+        ctx.debugSprites.push($runningSprite);
+        let runningSpriteKey = ctx.debugSprites.length - 1;
         ctx.battleBannerContainer.add($runningSprite);
         ctx.battleBannerContainer.sort('depth');
 
         // Animate that sprite running across the screen then remove when done
         let spriteDestX = MMRPG.canvas.width + 40;
-        let numSprites = Object.keys(ctx.runningSprites).length;
+        let numSprites = Object.keys(ctx.debugSprites).length;
         let runDuration = 4000 + (numSprites * 200);
-        if (numSprites >= 10){ runDuration /= 2; }
+        if (numSprites >= 20){ runDuration /= 2; }
         //console.log('numSprites = ', numSprites);
         //console.log('runDuration = ', runDuration);
         ctx.add.tween({
@@ -554,7 +612,8 @@ export default class DebugScene extends Phaser.Scene
             onComplete: function () {
                 //console.log('Movement complete!');
                 $runningSprite.destroy();
-                delete ctx.runningSprites[runningSpriteKey];
+                ctx.debugRemovedSprites++;
+                delete ctx.debugSprites[runningSpriteKey];
                 }
             });
 
@@ -575,8 +634,8 @@ export default class DebugScene extends Phaser.Scene
         let robotsIndex = MMRPG.Indexes.robots;
 
         // Count the number of sliding sprites currently on the screen
-        if (typeof ctx.slidingSprites === 'undefined'){ ctx.slidingSprites = []; }
-        let numSprites = Object.keys(ctx.slidingSprites).length;
+        if (typeof ctx.debugSprites === 'undefined'){ ctx.debugSprites = []; }
+        let numSprites = Object.keys(ctx.debugSprites).length;
 
         // Generate a sprite w/ sliding animation in progress
         let randTokens = typeof ctx.masterTokensByCoreType[alt] !== 'undefined' ? ctx.masterTokensByCoreType[alt] : ctx.slidingMasters;
@@ -605,39 +664,72 @@ export default class DebugScene extends Phaser.Scene
         //let spriteSheet = SPRITES.index.sheets.robots[spriteToken][spriteAlt][spriteKey];
         //let spriteSlideAnim = SPRITES.index.anims.robots[spriteToken][spriteAlt][spriteKey]['slide'];
 
-        let spriteInfo = {
+        let robotSpriteToken = spriteToken;
+        let robotSpriteAlt = spriteAlt;
+        let robotSpriteInfo = {
             'sprite': {
                 'left': {
-                    'sheet': SPRITES.index.sheets.robots[spriteToken][spriteAlt]['sprite-left'],
+                    'sheet': SPRITES.index.sheets.robots[robotSpriteToken][robotSpriteAlt]['sprite-left'],
                     'anim': {
-                        'slide': SPRITES.index.anims.robots[spriteToken][spriteAlt]['sprite-left']['slide'],
+                        'slide': SPRITES.index.anims.robots[robotSpriteToken][robotSpriteAlt]['sprite-left']['slide'],
+                        'shoot': SPRITES.index.anims.robots[robotSpriteToken][robotSpriteAlt]['sprite-left']['shoot'],
                         },
                     },
                 'right': {
-                    'sheet': SPRITES.index.sheets.robots[spriteToken][spriteAlt]['sprite-right'],
+                    'sheet': SPRITES.index.sheets.robots[robotSpriteToken][robotSpriteAlt]['sprite-right'],
                     'anim': {
-                        'slide': SPRITES.index.anims.robots[spriteToken][spriteAlt]['sprite-right']['slide'],
+                        'slide': SPRITES.index.anims.robots[robotSpriteToken][robotSpriteAlt]['sprite-right']['slide'],
+                        'shoot': SPRITES.index.anims.robots[robotSpriteToken][robotSpriteAlt]['sprite-right']['shoot'],
                         },
                     },
                 },
             'mug': {
                 'left': {
-                    'sheet': SPRITES.index.sheets.robots[spriteToken][spriteAlt]['mug-left'],
+                    'sheet': SPRITES.index.sheets.robots[robotSpriteToken][robotSpriteAlt]['mug-left'],
                     },
                 'right': {
-                    'sheet': SPRITES.index.sheets.robots[spriteToken][spriteAlt]['mug-right'],
+                    'sheet': SPRITES.index.sheets.robots[robotSpriteToken][robotSpriteAlt]['mug-right'],
                     },
                 },
             };
 
+        let abilityRand = Math.floor(Math.random() * 100);
+        let abilitySuffix = abilityRand % 3 === 0 ? 'buster' : 'shot';
+        let abilityElement = robotInfo.core !== '' && robotInfo.core !== 'copy' ? robotInfo.core : '';
+        let abilitySpriteToken = abilityElement ? (abilityElement + '-' + abilitySuffix) : ('buster-shot');
+        let abilityShotFrame = abilitySuffix === 'buster' ? 3 : 0;
+        let abilityShotOffset = abilitySuffix === 'buster' ? 10 : 0;
+        let abilitySpriteSheet = 1;
+        //console.log(abilitySpriteToken, 'abilityRand:', abilityRand, 'abilitySuffix:', abilitySuffix, 'abilityElement:', abilityElement, 'abilityShotFrame:', abilityShotFrame);
+        let abilitySpriteInfo = {
+            'sprite': {
+                'left': {
+                    'sheet': SPRITES.index.sheets.abilities[abilitySpriteToken][abilitySpriteSheet]['sprite-left'],
+                    },
+                'right': {
+                    'sheet': SPRITES.index.sheets.abilities[abilitySpriteToken][abilitySpriteSheet]['sprite-right'],
+                    },
+                },
+            'icon': {
+                'left': {
+                    'sheet': SPRITES.index.sheets.abilities[abilitySpriteToken][abilitySpriteSheet]['icon-left'],
+                    },
+                'right': {
+                    'sheet': SPRITES.index.sheets.abilities[abilitySpriteToken][abilitySpriteSheet]['icon-right'],
+                    },
+                },
+            };
+        //console.log('abilitySpriteToken =', abilitySpriteToken, 'abilitySpriteInfo =', abilitySpriteInfo);
+
         let spriteX = - 40 - (numSprites * 5);
         let spriteY = MMRPG.canvas.centerY + 30 + ((numSprites % 10) * 10);
-        let $slidingSprite = ctx.add.sprite(spriteX, spriteY, spriteInfo['sprite']['right']['sheet']);
+        let $slidingSprite = ctx.add.sprite(spriteX, spriteY, robotSpriteInfo['sprite']['right']['sheet']);
+        ctx.debugAddedSprites++;
         $slidingSprite.setOrigin(0.5, 1);
         $slidingSprite.setDepth(ctx.battleBanner.depth + spriteY);
         $slidingSprite.setScale(2.0);
-        ctx.slidingSprites.push($slidingSprite);
-        let slidingSpriteKey = ctx.slidingSprites.length - 1;
+        ctx.debugSprites.push($slidingSprite);
+        let slidingSpriteKey = ctx.debugSprites.length - 1;
         ctx.battleBannerContainer.add($slidingSprite);
         ctx.battleBannerContainer.sort('depth');
 
@@ -651,8 +743,9 @@ export default class DebugScene extends Phaser.Scene
 
         const slideSpriteForward = function($sprite, distance, destination, duration, onComplete){
             //console.log('Starting forward slide movement for sprite!', spriteToken);
+            $sprite.direction = 'right';
             if ($sprite.tween){ $sprite.tween.stop().destroy(); }
-            let others = Object.keys(ctx.slidingSprites).length;
+            let others = Object.keys(ctx.debugSprites).length;
             let newX = $sprite.x + distance;
             let overflow = 0;
             let delay = 1000;
@@ -664,13 +757,14 @@ export default class DebugScene extends Phaser.Scene
                 //if (duration < 500){ duration = 500; }
                 }
             $sprite.setFrame(0);
-            $sprite.setTexture(spriteInfo['sprite']['right']['sheet']);
+            $sprite.setTexture(robotSpriteInfo['sprite'][$sprite.direction]['sheet']);
             ctx.time.delayedCall(delay, function(){
-                $sprite.play(spriteInfo['sprite']['right']['anim']['slide']);
+                $sprite.play(robotSpriteInfo['sprite'][$sprite.direction]['anim']['slide']);
                 $sprite.tween = ctx.add.tween({
                     targets: $sprite,
                     x: newX,
                     ease: 'Sine.easeOut',
+                    delay: 300,
                     duration: duration,
                     onComplete: function () {
                         //console.log('Partial slide movement complete!');
@@ -681,8 +775,9 @@ export default class DebugScene extends Phaser.Scene
             };
         const slideSpriteBackward = function($sprite, distance, destination, duration, onComplete){
             //console.log('Starting backward slide movement for sprite!', spriteToken);
+            $sprite.direction = 'left';
             if ($sprite.tween){ $sprite.tween.stop().destroy(); }
-            let others = Object.keys(ctx.slidingSprites).length;
+            let others = Object.keys(ctx.debugSprites).length;
             let newX = $sprite.x - distance;
             let overflow = 0;
             let delay = 1000;
@@ -694,13 +789,14 @@ export default class DebugScene extends Phaser.Scene
                 //if (duration < 500){ duration = 500; }
                 }
             $sprite.setFrame(0);
-            $sprite.setTexture(spriteInfo['sprite']['left']['sheet']);
+            $sprite.setTexture(robotSpriteInfo['sprite'][$sprite.direction]['sheet']);
             ctx.time.delayedCall(delay, function(){
-                $sprite.play(spriteInfo['sprite']['left']['anim']['slide']);
+                $sprite.play(robotSpriteInfo['sprite'][$sprite.direction]['anim']['slide']);
                 $sprite.tween = ctx.add.tween({
                     targets: $sprite,
                     x: newX,
                     ease: 'Sine.easeOut',
+                    delay: 300,
                     duration: duration,
                     onComplete: function () {
                         //console.log('Partial slide movement complete!');
@@ -709,15 +805,101 @@ export default class DebugScene extends Phaser.Scene
                     });
                 }, [], ctx);
             };
+        const makeSpriteShoot = function($sprite, distance, destination, duration, onComplete){
+            //console.log('Starting shooting movement for sprite!', spriteToken);
+
+            // First we animate the robot doing a shoot animation w/ intentional pause after
+            if ($sprite.tween){ $sprite.tween.stop().destroy(); }
+            let newX = $sprite.x + ($sprite.direction === 'left' ? 4 : -4); //kickback
+            $sprite.setFrame(0);
+            $sprite.play(robotSpriteInfo['sprite'][$sprite.direction]['anim']['shoot']);
+            $sprite.tween = ctx.add.tween({
+                targets: $sprite,
+                x: newX,
+                ease: 'Linear',
+                delay: 300,
+                duration: 100,
+                yoyo: true,
+                onComplete: function () {
+                    //console.log('Partial shooting movement complete!');
+                    ctx.time.delayedCall(1000, function(){
+                        //console.log('Partial shooting movement complete!');
+                        slideSpriteSomewhere($sprite, distance, destination, duration, onComplete);
+                        });
+                    }
+                });
+
+            // Then we prepare the shot sprite itself in the correct location and settings
+            let shotX = $sprite.x + ($sprite.direction === 'left' ? -60 : 60);
+            let shotY = $sprite.y + abilityShotOffset;
+            let $shotSprite = ctx.add.sprite(shotX, shotY, abilitySpriteInfo['sprite'][$sprite.direction]['sheet']);
+            ctx.debugAddedSprites++;
+            //console.log('Shot sprite created at ', shotX, shotY, ' w/ ', abilitySpriteInfo);
+            $shotSprite.setAlpha(0);
+            $shotSprite.setOrigin(0.5, 1);
+            $shotSprite.setDepth($sprite.depth + 1);
+            $shotSprite.setScale(2.0);
+            $shotSprite.setFrame(abilityShotFrame);
+            ctx.debugSprites.push($shotSprite);
+            let shotSpriteKey = ctx.debugSprites.length - 1;
+            ctx.battleBannerContainer.add($shotSprite);
+            ctx.battleBannerContainer.sort('depth');
+
+            // Wait a moment for the robot to move into frame, then animate the shot going offscreen at predetermined speed
+            let leftBounds = -40, rightBounds = MMRPG.canvas.width + 40;
+            let distFromEdge = $sprite.direction === 'left' ? $sprite.x - leftBounds : rightBounds - $sprite.x;
+            let shotDestX = $sprite.direction === 'left' ? leftBounds : rightBounds;
+            let shotDuration = (distFromEdge * 1.5);
+            $sprite.fx = $sprite.preFX.addColorMatrix();
+            $sprite.fx.brightness(3.0);
+            $sprite.tween2 = ctx.tweens.addCounter({
+                from: 0,
+                to: 3,
+                duration: 400,
+                delay: 200,
+                loop: -1,
+                yoYo: true,
+                onUpdate: () => {
+                    $sprite.fx.brightness($sprite.tween2.getValue());
+                    }
+                });
+            ctx.time.delayedCall(400, function(){
+                $sprite.fx.reset();
+                $sprite.tween2.remove();
+                $shotSprite.setAlpha(0.3);
+                $shotSprite.setFrame(abilityShotFrame);
+                //console.log(robotSpriteToken, 'fired off a', abilitySpriteToken);
+                $shotSprite.tween = ctx.add.tween({
+                    targets: $shotSprite,
+                    x: shotDestX,
+                    alpha: 1.0,
+                    ease: 'Sine.easeOut',
+                    duration: shotDuration,
+                    onComplete: function () {
+                        //console.log('Shot movement complete!');
+                        $shotSprite.destroy();
+                        ctx.debugRemovedSprites++;
+                        delete ctx.debugSprites[shotSpriteKey];
+                        }
+                    });
+                });
+
+            };
         const slideSpriteSomewhere = function($sprite, distance, destination, duration, onComplete){
-            //console.log('Starting random slide movement for sprite!', spriteToken);
+            //console.log('Starting random slide movement for sprite!', spriteToken, 'x:', $sprite.x);
             let safeZone = 40;
-            let backChance = Math.random() * 100 < 25;
-            if ($sprite.x > (MMRPG.canvas.width + safeZone)
-                || $sprite.x < (MMRPG.canvas.x - safeZone)){
+            if ($sprite.x >= (MMRPG.canvas.xMax + safeZone)
+                || $sprite.x <= (MMRPG.canvas.xMin - safeZone)){
                 return onComplete($sprite);
+                } else if ($sprite.x > MMRPG.canvas.xMax){
+                return slideSpriteForward($sprite, distance, destination, duration, onComplete);
+                } else if ($sprite.x < MMRPG.canvas.xMin){
+                return slideSpriteBackward($sprite, distance, destination, duration, onComplete);
                 } else {
-                if (backChance){
+                let backChance = Math.random() * 100;
+                if (backChance < 33){
+                    return makeSpriteShoot($sprite, distance, destination, duration, onComplete);
+                    } else if (backChance < 66){
                     return slideSpriteBackward($sprite, distance, destination, duration, onComplete);
                     } else {
                     return slideSpriteForward($sprite, distance, destination, duration, onComplete);
@@ -725,11 +907,13 @@ export default class DebugScene extends Phaser.Scene
                 }
             };
 
-        $slidingSprite.play(spriteInfo['sprite']['right']['anim']['slide']);
+        $slidingSprite.direction = 'right';
+        $slidingSprite.play(robotSpriteInfo['sprite'][$slidingSprite.direction]['anim']['slide']);
         slideSpriteForward($slidingSprite, slideDistance, slideDestination, slideDuration, function($slidingSprite){
             //console.log('Full sliding movement complete!');
             $slidingSprite.destroy();
-            delete ctx.slidingSprites[slidingSpriteKey];
+            ctx.debugRemovedSprites++;
+            delete ctx.debugSprites[slidingSpriteKey];
             });
 
         /*
