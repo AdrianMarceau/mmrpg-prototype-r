@@ -83,11 +83,21 @@ export default class ButtonsManager {
             hitAreaCallback: Phaser.Geom.Rectangle.Contains,
             useHandCursor: true
             });
+
+        let $buttonGroup = ctx.add.group();
+        $buttonGroup.add($buttonRect);
+        $buttonGroup.add($buttonText);
+        let buttonObject = {
+            group: $buttonGroup,
+            span: $buttonRect,
+            text: $buttonText
+            };
+
         let buttonClickTween = null;
         $buttonRect.on('pointerover', function () { $buttonText.setAlpha(1.0); });
         $buttonRect.on('pointerout', function () { $buttonText.setAlpha(0.8); });
         $buttonRect.on('pointerdown', function () {
-            buttonCallback();
+            buttonCallback(buttonObject);
             // add a tween where the text grows briefly then shrinks back
             if (buttonClickTween){ buttonClickTween.stop(); }
             $buttonText.scaleX = 1.2;
@@ -103,14 +113,7 @@ export default class ButtonsManager {
             });
 
         // Create a group with the above two elements and return it
-        let $buttonGroup = ctx.add.group();
-        $buttonGroup.add($buttonRect);
-        $buttonGroup.add($buttonText);
-        return {
-            group: $buttonGroup,
-            span: $buttonRect,
-            text: $buttonText
-            };
+        return buttonObject;
 
     }
 
