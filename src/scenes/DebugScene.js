@@ -81,11 +81,13 @@ export default class DebugScene extends Phaser.Scene
 
         // Define a list of types safe for randomizing with
         this.safeTypeTokens = [];
+        this.copySafeTypeTokens = [];
         for (let typeToken in typesIndex){
             let typeData = typesIndex[typeToken];
             if (typeData.class !== 'normal'){ continue; }
             this.safeTypeTokens.push(typeToken);
         }
+        this.safeTypeTokens.push('none');
 
         // Define a list of players and robots we should preload
         this.allowRunningDoctors = true;
@@ -98,13 +100,14 @@ export default class DebugScene extends Phaser.Scene
         this.masterTokensByCoreType = {};
         for (let robotToken in robotsIndex){
             let robotData = robotsIndex[robotToken];
+            let robotCore = robotData.core || 'none';
             if (robotData.class === 'system'){ continue; }
             if (robotData.class !== 'master'){ continue; }
             if (!robotData.flag_complete){ continue; }
-            if (!this.masterTokensByCoreType[robotData.core]){ this.masterTokensByCoreType[robotData.core] = []; }
-            this.masterTokensByCoreType[robotData.core].push(robotToken);
+            if (!this.masterTokensByCoreType[robotCore]){ this.masterTokensByCoreType[robotCore] = []; }
+            this.masterTokensByCoreType[robotCore].push(robotToken);
             }
-        //console.log('this.masterTokensByCoreType =', this.masterTokensByCoreType);
+        console.log('this.masterTokensByCoreType =', this.masterTokensByCoreType);
 
         // Preload all the necessary sprites for the scene
         let preloadSprites = {};
@@ -127,7 +130,7 @@ export default class DebugScene extends Phaser.Scene
             //console.log('robotToken =', robotToken, 'robotData =', robotData);
             if (robotData.core !== 'copy'){ continue; }
             for (let typeToken in typesIndex){
-                if (this.safeTypeTokens.indexOf(typeToken) < 0){ continue; }
+                if (this.copySafeTypeTokens.indexOf(typeToken) < 0){ continue; }
                 var altToken = robotToken + '_' + typeToken;
                 preloadSprites.robots.push(altToken);
                 }
@@ -178,6 +181,133 @@ export default class DebugScene extends Phaser.Scene
 
         // DEBUG DEBUG DEBUG
         // <----------------
+
+        // -- TITLE -- //
+
+        var x = MMRPG.canvas.centerX, y = 40;
+        var $loadText = this.add.bitmapText(x, y, 'megafont-white', 'Welcome to Debug', 16);
+        $loadText.setOrigin(0.5);
+        $loadText.setLetterSpacing(20);
+        $loadText.setDepth(8200);
+
+        // -- BUTTONS -- //
+
+        window.setCurrentGameScene(ctx);
+        let pauseTimeout = null;
+        let $pauseButton = BUTTONS.makeSimpleButton('PAUSE', {
+            x: MMRPG.canvas.centerX - 50, y: 70,
+            width: 120, height: 24,
+            size: 10, color: '#cacaca',
+            depth: 8100
+            }, function(){
+            console.log('Pause button clicked');
+            window.toggleGameIsClickable(false);
+            window.toggleGameIsRunning(false);
+            ctx.scene.pause();
+            if (pauseTimeout){ clearTimeout(pauseTimeout); }
+            pauseTimeout = setTimeout(function(){
+                window.toggleGameIsClickable(true);
+                }, 1000);
+            });
+
+        // Create a back button so we can return to the title
+        BUTTONS.makeSimpleButton('< Back to Title', {
+            x: 50, y: 50,
+            width: 150, height: 24,
+            size: 8, color: '#7d7d7d',
+            depth: 8000
+            }, function(){
+            console.log('Back button clicked');
+            ctx.scene.start('Title');
+            });
+
+        // Create a next button so we can go to the main scene
+        BUTTONS.makeSimpleButton('Go to Main >', {
+            x: 600, y: 50,
+            width: 150, height: 24,
+            size: 8, color: '#7d7d7d',
+            depth: 8000
+            }, function(){
+            console.log('Main button clicked');
+            ctx.scene.start('Main');
+            });
+
+        // Create some debug buttons to trigger specific functionality for testing
+        BUTTONS.makeSimpleButton('Welcome Home', {
+            x: 50, y: 100,
+            width: 300, height: 24,
+            size: 13, color: '#7d7d7d',
+            depth: 8000
+            }, function(){
+            console.log('Show Welcome Home button clicked');
+            POPUPS.debugWelcomePopup();
+            });
+        BUTTONS.makeSimpleButton('Tales from the Void', {
+            x: 450, y: 100,
+            width: 300, height: 24,
+            size: 13, color: '#95c418',
+            depth: 8000
+            }, function(){
+            console.log('Show Tales from the Void button clicked');
+            ctx.showTalesFromTheVoid();
+            });
+
+        BUTTONS.makeSimpleButton('Toggle Doctor Stream', {
+            x: 50, y: 150,
+            width: 300, height: 24,
+            size: 11, color: '#00ff00',
+            depth: 8000
+            }, function(button){
+            console.log('Toggle Doctors Running button clicked');
+            if (ctx.allowRunningDoctors){
+                button.text.setTint(0xff0000);
+                //button.text.setColor('#ff0000');
+                ctx.allowRunningDoctors = false;
+                } else {
+                button.text.setTint(0x00ff00);
+                //button.text.setColor('#00ff00');
+                ctx.allowRunningDoctors = true;
+                }
+            });
+        BUTTONS.makeSimpleButton('Running Doctor', {
+            x: 50, y: 180,
+            width: 300, height: 24,
+            size: 13, color: '#6592ff',
+            depth: 8000
+            }, function(){
+            console.log('Show Doctor Running button clicked');
+            ctx.showDoctorRunning();
+            });
+
+        BUTTONS.makeSimpleButton('Toggle Master Stream', {
+            x: 450, y: 150,
+            width: 300, height: 24,
+            size: 11, color: '#00ff00',
+            depth: 8000
+            }, function(button){
+            console.log('Toggle Masters Sliding button clicked');
+            if (ctx.allowSlidingMasters){
+                button.text.setTint(0xff0000);
+                //button.text.setColor('#ff0000');
+                ctx.allowSlidingMasters = false;
+                } else {
+                button.text.setTint(0x00ff00);
+                //button.text.setColor('#00ff00');
+                ctx.allowSlidingMasters = true;
+                }
+            });
+        BUTTONS.makeSimpleButton('Sliding Master', {
+            x: 450, y: 180,
+            width: 300, height: 24,
+            size: 13, color: '#6592ff',
+            depth: 8000
+            }, function(){
+            console.log('Show Master Sliding button clicked');
+            ctx.showMasterSliding();
+            });
+
+
+        // -- BANNERS -- //
 
         // Draw the main banner and collect a reference to it
         var type = 'wily';
@@ -231,168 +361,41 @@ export default class DebugScene extends Phaser.Scene
         this.battleBannerMask = bannerMask;
         this.battleBannerContainer = spriteContainer;
 
-        // Create a back button so we can return to the title
-        BUTTONS.makeSimpleButton('< Back to Title', {
-            x: 50, y: 50,
-            width: 150, height: 24,
-            size: 8, color: 0x7d7d7d,
-            depth: 8000
-            }, function(){
-            console.log('Back button clicked');
-            ctx.scene.start('Title');
-            });
+        // -- TYPES PANEL -- //
 
-        // Create a next button so we can go to the main scene
-        BUTTONS.makeSimpleButton('Go to Main >', {
-            x: 600, y: 50,
-            width: 150, height: 24,
-            size: 8, color: 0x7d7d7d,
-            depth: 8000
-            }, function(){
-            console.log('Main button clicked');
-            ctx.scene.start('Main');
-            });
+        //this.addTestTypesPanel();
 
-        // Create some debug buttons to trigger specific functionality for testing
-        BUTTONS.makeSimpleButton('Welcome Home', {
-            x: 50, y: 100,
-            width: 300, height: 24,
-            size: 12, color: 0x7d7d7d,
-            depth: 8000
-            }, function(){
-            console.log('Show Welcome Home button clicked');
-            POPUPS.debugWelcomePopup();
-            });
-        BUTTONS.makeSimpleButton('Tales from the Void', {
-            x: 450, y: 100,
-            width: 300, height: 24,
-            size: 12, color: 0x95c418,
-            depth: 8000
-            }, function(){
-            console.log('Show Tales from the Void button clicked');
-            ctx.showTalesFromTheVoid();
-            });
-
-
-        BUTTONS.makeSimpleButton('Toggle Doctors Running', {
-            x: 50, y: 150,
-            width: 300, height: 24,
-            size: 10, color: 0x00ff00,
-            depth: 8000
-            }, function(button){
-            console.log('Toggle Doctors Running button clicked');
-            if (ctx.allowRunningDoctors){
-                button.text.setTint(0xff0000);
-                ctx.allowRunningDoctors = false;
-                } else {
-                button.text.setTint(0x00ff00);
-                ctx.allowRunningDoctors = true;
+        var x = 20, y = MMRPG.canvas.height - 190;
+        var width = MMRPG.canvas.width - 40, height = 150;
+        this.addPanelWithTypeButtons({
+            x: x,
+            y: y,
+            width: width,
+            height: height,
+            types: this.safeTypeTokens,
+            onClick: function(button, type){
+                console.log('Type button clicked!', 'type:', type, 'button:', button);
                 }
             });
-        BUTTONS.makeSimpleButton('Running Doctor', {
-            x: 50, y: 180,
-            width: 300, height: 24,
-            size: 10, color: 0x0562bc,
-            depth: 8000
-            }, function(){
-            console.log('Show Doctor Running button clicked');
-            ctx.showDoctorRunning();
-            });
 
-        BUTTONS.makeSimpleButton('Toggle Masters Sliding', {
-            x: 450, y: 150,
-            width: 300, height: 24,
-            size: 10, color: 0x00ff00,
-            depth: 8000
-            }, function(button){
-            console.log('Toggle Masters Sliding button clicked');
-            if (ctx.allowSlidingMasters){
-                button.text.setTint(0xff0000);
-                ctx.allowSlidingMasters = false;
-                } else {
-                button.text.setTint(0x00ff00);
-                ctx.allowSlidingMasters = true;
-                }
-            });
-        BUTTONS.makeSimpleButton('Sliding Master', {
-            x: 450, y: 180,
-            width: 300, height: 24,
-            size: 10, color: 0x0562bc,
-            depth: 8000
-            }, function(){
-            console.log('Show Master Sliding button clicked');
-            ctx.showMasterSliding();
-            });
-
-
-        let $pauseButton = BUTTONS.makeSimpleButton('Pause', {
-            x: MMRPG.canvas.centerX - 30, y: 70,
-            width: 120, height: 24,
-            size: 10, color: 0xcacaca,
-            depth: 8100
-            }, function(){
-            console.log('Pause button clicked');
-            ctx.scene.pause();
-            });
-
-        // -------- //
-
-        var x = MMRPG.canvas.centerX, y = 40;
-        var $loadText = this.add.bitmapText(x, y, 'megafont-white', 'Welcome to Debug', 16);
-        $loadText.setOrigin(0.5);
-        $loadText.setLetterSpacing(20);
-        $loadText.setDepth(8200);
+        // -- DEBUG TEXT -- //
 
         var x = 20, y = MMRPG.canvas.height - 30;
         var lorem = 'Let go your earthly tether. Enter the void. Empty and become wind.';
         Strings.addPlainText(this, x, y, lorem, {color: '#000000'});
 
-        let typesTextPlain = 'Types:';
-        for (let i = 0; i < typesIndexTokens.length; i++)
-        {
-            let typeToken = typesIndexTokens[i];
-            let typeData = typesIndex[typeToken];
-            typesTextPlain += (i > 0 ? ', ' : ' ') + typeData.name;
-        }
-
-        //lettersText = 'A B C D E F G H I J K L M N O P Q R S T U V W X Y Z A B C D E F G H I J K L M N O P Q R S T U V W X Y Z A B C D E F G H I J K L M N O P Q R S T U V W X Y Z A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ';
-
-        let panelConfig = {
-            panelPadding: 20,
-            panelHeight: 150,
-            panelWidth: MMRPG.canvas.width - (20 * 2),
-            panelX: 20,
-            panelY: MMRPG.canvas.height - 150 - 20,
-            panelRadius: { tl: 20, tr: 0, br: 20, bl: 0 },
-            panelLineStyle: { width: 2, color: 0x0a0a0a },
-            panelFillStyle: { color: 0x161616 },
-            };
-
-        let textConfig = {
-            textPadding: 20,
-            textWidth: panelConfig.panelWidth - (20 * 2),
-            textHeight: panelConfig.panelHeight - (20 * 2),
-            textPositionX: panelConfig.panelX + 20,
-            textPositionY: panelConfig.panelY + 20
-            };
-
-        const $panelBack = this.add.graphics({ lineStyle: panelConfig.panelLineStyle, fillStyle: panelConfig.panelFillStyle });
-        $panelBack.strokeRoundedRect(panelConfig.panelX, panelConfig.panelY, panelConfig.panelWidth, panelConfig.panelHeight, panelConfig.panelRadius);
-        $panelBack.fillRoundedRect(panelConfig.panelX, panelConfig.panelY, panelConfig.panelWidth, panelConfig.panelHeight, panelConfig.panelRadius);
-
-        const $panelText = this.add.text(textConfig.textPositionX, textConfig.textPositionY, typesTextPlain, {
-            fontSize: 16,
-            fontFamily: 'Open Sans',
-            lineSpacing: 10,
-            align: 'left',
-            wordWrap: { width: textConfig.textWidth, useAdvancedWrap: true }
-            });
+        // We should also show the current version just to be safe
+        var x = MMRPG.canvas.width - 100, y = MMRPG.canvas.height - 26;
+        var version = 'v ' + MMRPG.version;
+        let $version = Strings.addPlainText(this, x, y, version, {color: '#000000', fontSize: '12px'});
+        $version.x = MMRPG.canvas.width - $version.width - 20;
 
         // ---------------->
         // DEBUG DEBUG DEBUG
 
         console.log('MMRPG = ', MMRPG);
         console.log('SPRITES =', SPRITES);
+        //Graphics.test();
 
     }
 
@@ -594,7 +597,7 @@ export default class DebugScene extends Phaser.Scene
         let spriteRunAnim = playerAnims[spriteToken][spriteAlt][spriteKey]['run'];
 
         let spriteX = - 40;
-        let spriteY = MMRPG.canvas.centerY - 15;
+        let spriteY = this.battleBanner.y + 70; //MMRPG.canvas.centerY - 15;
         let $runningSprite = ctx.add.sprite(spriteX, spriteY, spriteSheet);
         ctx.debugAddedSprites++;
         $runningSprite.setOrigin(0.5, 1);
@@ -663,10 +666,22 @@ export default class DebugScene extends Phaser.Scene
 
         // Count the number of sliding sprites currently on the screen
         if (typeof ctx.debugSprites === 'undefined'){ ctx.debugSprites = []; }
-        let numSprites = Object.keys(ctx.debugSprites).length;
+        let numSprites = ctx.debugAddedSprites - ctx.debugRemovedSprites; //Object.keys(ctx.debugSprites).length;
 
         // Generate a sprite w/ sliding animation in progress
-        let randTokens = typeof ctx.masterTokensByCoreType[alt] !== 'undefined' ? ctx.masterTokensByCoreType[alt] : ctx.slidingMasters;
+        let randTokens = [];
+        if (this.safeTypeTokens.indexOf(alt) >= 0){
+            if (typeof ctx.masterTokensByCoreType[alt] !== 'undefined'
+                && ctx.masterTokensByCoreType[alt].length > 0){
+                randTokens = randTokens.concat(ctx.masterTokensByCoreType[alt]);
+                alt = '';
+                } else if (typeof ctx.masterTokensByCoreType['copy'] !== 'undefined'
+                && ctx.masterTokensByCoreType['copy'].length > 0){
+                randTokens = randTokens.concat(ctx.masterTokensByCoreType['copy']);
+                }
+            }
+        if (!randTokens.length){ randTokens = randTokens.concat(ctx.slidingMasters); }
+        // = typeof ctx.masterTokensByCoreType[alt] !== 'undefined' ? ctx.masterTokensByCoreType[alt] : ctx.slidingMasters;
         let randKey = Math.floor(Math.random() * randTokens.length);
         let spriteToken = token || randTokens[randKey];
         let spriteAlt = alt || 'base';
@@ -750,7 +765,8 @@ export default class DebugScene extends Phaser.Scene
         //console.log('abilitySpriteToken =', abilitySpriteToken, 'abilitySpriteInfo =', abilitySpriteInfo);
 
         let spriteX = - 40 - (numSprites * 5);
-        let spriteY = MMRPG.canvas.centerY + 30 + ((numSprites % 10) * 10);
+        //let spriteY = MMRPG.canvas.centerY + 30 + ((numSprites % 10) * 10);
+        let spriteY = this.battleBanner.y + 90 + ((numSprites % 10) * 10);
         let $slidingSprite = ctx.add.sprite(spriteX, spriteY, robotSpriteInfo['sprite']['right']['sheet']);
         ctx.debugAddedSprites++;
         $slidingSprite.setOrigin(0.5, 1);
@@ -960,6 +976,185 @@ export default class DebugScene extends Phaser.Scene
 
         // Update the scene with last-used sprite token
         ctx.lastSlidingMaster = spriteToken;
+
+    }
+
+    addPanel (config){
+
+        // Pull in required object references
+        let ctx = this;
+        let MMRPG = this.MMRPG;
+        let SPRITES = this.SPRITES;
+        let POPUPS = this.POPUPS;
+        let BUTTONS = this.BUTTONS;
+
+        // Pull in refs to specific indexes
+        let typesIndex = MMRPG.Indexes.types;
+        let typesIndexTokens = Object.keys(typesIndex);
+
+        // Define the panel configuration using above where possible
+        let panelConfig = {
+            x: config.x || 20,
+            y: config.y || 20,
+            width: config.width || 600,
+            height: config.height || 150,
+            padding: config.padding || 20,
+            radius: config.radius || { tl: 10, tr: 10, br: 10, bl: 10 },
+            lineStyle: config.lineStyle || { width: 2, color: 0x0a0a0a },
+            fillStyle: config.fillStyle || { color: 0x161616 },
+            depth: config.depth || 1000,
+            };
+
+        // Draw the panel with the specified configuration
+        const $panel = this.add.graphics({ lineStyle: panelConfig.lineStyle, fillStyle: panelConfig.fillStyle });
+        $panel.strokeRoundedRect(panelConfig.x, panelConfig.y, panelConfig.width, panelConfig.height, panelConfig.radius);
+        $panel.fillRoundedRect(panelConfig.x, panelConfig.y, panelConfig.width, panelConfig.height, panelConfig.radius);
+        $panel.setDepth(panelConfig.depth);
+        return $panel;
+
+    }
+
+    addPanelWithTypeButtons (config){
+
+        // Pull in required object references
+        let ctx = this;
+        let MMRPG = this.MMRPG;
+        let SPRITES = this.SPRITES;
+        let POPUPS = this.POPUPS;
+        let BUTTONS = this.BUTTONS;
+
+        // Pull in refs to specific indexes
+        let typesIndex = MMRPG.Indexes.types;
+        let typesIndexTokens = Object.keys(typesIndex);
+        let safeTypeTokens = Object.values(this.safeTypeTokens);
+
+        // Define the panel configuration using above where possible
+        let panelConfig = {
+            x: config.x || 20,
+            y: config.y || 20,
+            width: config.width || 600,
+            height: config.height || 150,
+            padding: config.padding || 15,
+            radius: config.radius || { tl: 20, tr: 0, br: 20, bl: 0 },
+            lineStyle: config.lineStyle || { width: 2, color: 0x0a0a0a },
+            fillStyle: config.fillStyle || { color: 0x161616 },
+            depth: config.depth || 1000,
+            };
+
+        // Draw the panel with the specified configuration
+        const $panelBack = this.addPanel(panelConfig);
+        //const $panelBack = this.add.graphics({ lineStyle: panelConfig.panelLineStyle, fillStyle: panelConfig.panelFillStyle });
+        //$panelBack.strokeRoundedRect(panelConfig.panelX, panelConfig.panelY, panelConfig.panelWidth, panelConfig.panelHeight, panelConfig.panelRadius);
+        //$panelBack.fillRoundedRect(panelConfig.panelX, panelConfig.panelY, panelConfig.panelWidth, panelConfig.panelHeight, panelConfig.panelRadius);
+        //$panelBack.setDepth(panelConfig.panelDepth);
+
+        // Draw little buttons on the type panel for each type
+        let typeButtons = [];
+        let typeButtonWidth = 90;
+        let typeButtonHeight = 25;
+        let typeButtonMargin = 10;
+        let typeButtonX = panelConfig.x + panelConfig.padding;
+        let typeButtonY = panelConfig.y + panelConfig.padding;
+        let typeButtonDepth = panelConfig.depth + 1;
+        let widthAvailable = panelConfig.width - (typeButtonMargin * 2);
+        let widthUsed = 0;
+        let goToNextLine = function(){
+            typeButtonX = panelConfig.x + panelConfig.padding;
+            typeButtonY += typeButtonHeight + typeButtonMargin;
+            widthUsed = 0;
+            };
+        for (let i = 0; i < safeTypeTokens.length; i++)
+        {
+            let typeToken = safeTypeTokens[i];
+            let typeData = typesIndex[typeToken];
+            //console.log('Adding type button:', typeToken);
+            //console.log('typeButtonY:', typeButtonY, 'typeButtonX:', typeButtonX);
+            //console.log('width:', typeButtonWidth, 'widthUsed:', widthUsed, 'widthAvailable:', widthAvailable);
+            if ((widthUsed + typeButtonWidth + typeButtonMargin) > widthAvailable){
+                //console.log('> Pre-moving to next row of buttons');
+                goToNextLine();
+                }
+            let $typeButton = BUTTONS.makeSimpleButton(typeData.name, {
+                x: typeButtonX,
+                y: typeButtonY,
+                width: typeButtonWidth,
+                height: typeButtonHeight,
+                size: 8, color: '#ffffff',
+                border: Graphics.returnHexColorString(typeData.colour_dark),
+                background: Graphics.returnHexColorString(typeData.colour_light),
+                depth: typeButtonDepth
+                }, function(){
+                console.log('Type button clicked:', typeToken);
+                ctx.showMasterSliding(null, typeToken);
+                });
+            typeButtons.push($typeButton);
+            widthUsed += typeButtonWidth + typeButtonMargin;
+            if (widthUsed <= widthAvailable){
+                typeButtonX += (typeButtonWidth + typeButtonMargin);
+                } else {
+                //console.log('> Moving to next row of buttons');
+                goToNextLine();
+                }
+            //console.log('typeButtonY:', typeButtonY, 'typeButtonX:', typeButtonX);
+            //console.log('width:', typeButtonWidth, 'widthUsed:', widthUsed, 'widthAvailable:', widthAvailable);
+        }
+
+    }
+
+    addTestTypesPanel (){
+
+        // Pull in required object references
+        let ctx = this;
+        let MMRPG = this.MMRPG;
+        let SPRITES = this.SPRITES;
+        let POPUPS = this.POPUPS;
+        let BUTTONS = this.BUTTONS;
+
+        // Pull in refs to specific indexes
+        let typesIndex = MMRPG.Indexes.types;
+        let typesIndexTokens = Object.keys(typesIndex);
+
+        let typesTextPlain = 'Types:';
+        for (let i = 0; i < typesIndexTokens.length; i++)
+        {
+            let typeToken = typesIndexTokens[i];
+            let typeData = typesIndex[typeToken];
+            typesTextPlain += (i > 0 ? ', ' : ' ') + typeData.name;
+        }
+
+        //lettersText = 'A B C D E F G H I J K L M N O P Q R S T U V W X Y Z A B C D E F G H I J K L M N O P Q R S T U V W X Y Z A B C D E F G H I J K L M N O P Q R S T U V W X Y Z A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ';
+
+        let panelConfig = {
+            panelPadding: 20,
+            panelHeight: 150,
+            panelWidth: MMRPG.canvas.width - (20 * 2),
+            panelX: 20,
+            panelY: MMRPG.canvas.height - 150 - 20,
+            panelRadius: { tl: 20, tr: 0, br: 20, bl: 0 },
+            panelLineStyle: { width: 2, color: 0x0a0a0a },
+            panelFillStyle: { color: 0x161616 },
+            };
+
+        let textConfig = {
+            textPadding: 20,
+            textWidth: panelConfig.panelWidth - (20 * 2),
+            textHeight: panelConfig.panelHeight - (20 * 2),
+            textPositionX: panelConfig.panelX + 20,
+            textPositionY: panelConfig.panelY + 20
+            };
+
+        const $panelBack = this.add.graphics({ lineStyle: panelConfig.panelLineStyle, fillStyle: panelConfig.panelFillStyle });
+        $panelBack.strokeRoundedRect(panelConfig.panelX, panelConfig.panelY, panelConfig.panelWidth, panelConfig.panelHeight, panelConfig.panelRadius);
+        $panelBack.fillRoundedRect(panelConfig.panelX, panelConfig.panelY, panelConfig.panelWidth, panelConfig.panelHeight, panelConfig.panelRadius);
+
+        const $panelText = this.add.text(textConfig.textPositionX, textConfig.textPositionY, typesTextPlain, {
+            color: '#dedede',
+            fontSize: 16,
+            fontFamily: 'Open Sans',
+            lineSpacing: 10,
+            align: 'left',
+            wordWrap: { width: textConfig.textWidth, useAdvancedWrap: true }
+            });
 
     }
 

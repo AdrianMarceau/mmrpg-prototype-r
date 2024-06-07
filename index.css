@@ -36,6 +36,6 @@ canvas {
     transition: opacity 0.5s, filter 0.5s;
 }
 #game-container.paused > canvas {
-    opacity: 0.5;
-    filter: brightness(50%);
+    opacity: 0.75;
+    filter: brightness(75%);
 }
