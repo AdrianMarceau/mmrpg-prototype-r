@@ -979,41 +979,6 @@ export default class DebugScene extends Phaser.Scene
 
     }
 
-    addPanel (config){
-
-        // Pull in required object references
-        let ctx = this;
-        let MMRPG = this.MMRPG;
-        let SPRITES = this.SPRITES;
-        let POPUPS = this.POPUPS;
-        let BUTTONS = this.BUTTONS;
-
-        // Pull in refs to specific indexes
-        let typesIndex = MMRPG.Indexes.types;
-        let typesIndexTokens = Object.keys(typesIndex);
-
-        // Define the panel configuration using above where possible
-        let panelConfig = {
-            x: config.x || 20,
-            y: config.y || 20,
-            width: config.width || 600,
-            height: config.height || 150,
-            padding: config.padding || 20,
-            radius: config.radius || { tl: 10, tr: 10, br: 10, bl: 10 },
-            lineStyle: config.lineStyle || { width: 2, color: 0x0a0a0a },
-            fillStyle: config.fillStyle || { color: 0x161616 },
-            depth: config.depth || 1000,
-            };
-
-        // Draw the panel with the specified configuration
-        const $panel = this.add.graphics({ lineStyle: panelConfig.lineStyle, fillStyle: panelConfig.fillStyle });
-        $panel.strokeRoundedRect(panelConfig.x, panelConfig.y, panelConfig.width, panelConfig.height, panelConfig.radius);
-        $panel.fillRoundedRect(panelConfig.x, panelConfig.y, panelConfig.width, panelConfig.height, panelConfig.radius);
-        $panel.setDepth(panelConfig.depth);
-        return $panel;
-
-    }
-
     addPanelWithTypeButtons (config){
 
         // Pull in required object references
@@ -1042,11 +1007,7 @@ export default class DebugScene extends Phaser.Scene
             };
 
         // Draw the panel with the specified configuration
-        const $panelBack = this.addPanel(panelConfig);
-        //const $panelBack = this.add.graphics({ lineStyle: panelConfig.panelLineStyle, fillStyle: panelConfig.panelFillStyle });
-        //$panelBack.strokeRoundedRect(panelConfig.panelX, panelConfig.panelY, panelConfig.panelWidth, panelConfig.panelHeight, panelConfig.panelRadius);
-        //$panelBack.fillRoundedRect(panelConfig.panelX, panelConfig.panelY, panelConfig.panelWidth, panelConfig.panelHeight, panelConfig.panelRadius);
-        //$panelBack.setDepth(panelConfig.panelDepth);
+        const $panelBack = Graphics.addTypePanel(ctx, panelConfig);
 
         // Draw little buttons on the type panel for each type
         let typeButtons = [];
