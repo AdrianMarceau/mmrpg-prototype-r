@@ -14,6 +14,11 @@ export default class BootScene extends Phaser.Scene
         console.log('BootScene.constructor() called');
         super('Boot');
 
+        // Update the ready and running flags externally
+        if (typeof window.toggleGameIsReady){ window.toggleGameIsReady(true); }
+        if (typeof window.toggleGameIsRunning){ window.toggleGameIsRunning(true); }
+        if (typeof window.toggleGameIsClickable){ window.toggleGameIsClickable(true); }
+
         // Ensure MMRPG and utility objects are available to the entire class
         this.MMRPG = MMRPG;
 

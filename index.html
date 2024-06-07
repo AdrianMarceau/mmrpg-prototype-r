@@ -21,9 +21,46 @@
         <span class="bold-italic">.</span>
     </div>
 
-    <div id="game-container">
+    <div id="game-container" class="paused">
         <script type="module" src="src/main.js"></script>
     </div>
+    <script>
+        // make it so clicking the game container triggers an alert
+        let gameIsReady = false;
+        let gameIsRunning = false;
+        let gameIsClickable = false;
+        let currentGameScene = null;
+        window.toggleGameIsReady = () => { gameIsReady = !gameIsReady; window.refreshGameContainer(); };
+        window.toggleGameIsRunning = () => { gameIsRunning = !gameIsRunning; window.refreshGameContainer();  };
+        window.toggleGameIsClickable = () => { gameIsClickable = !gameIsClickable; };
+        window.setCurrentGameScene = (scene) => { currentGameScene = scene; window.refreshGameContainer(); };
+        window.refreshGameContainer = () => {
+            const gameContainer = document.getElementById('game-container');
+            if (gameIsReady){ gameContainer.classList.add('ready'); }
+            else { gameContainer.classList.remove('ready'); }
+            if (gameIsRunning){ gameContainer.classList.add('running'); gameContainer.classList.remove('paused'); }
+            else { gameContainer.classList.add('paused'); gameContainer.classList.remove('running'); }
+            };
+        window.refreshGameContainer();
+        document.getElementById('game-container').addEventListener('click', () => {
+            if (!gameIsClickable){ return false; }
+            //console.log('The game container was clicked!');
+            if (!gameIsReady){
+                //console.log('The game is not ready yet!');
+                return false;
+                }
+            if (gameIsRunning){
+                //console.log('The game is already running!');
+                return false;
+                }
+            //console.log('The game is paused! (Let\'s resume it!)');
+            if (currentGameScene && currentGameScene.scene){
+                currentGameScene.scene.resume();
+                window.toggleGameIsRunning(true);
+                }
+            return true;
+        });
+    </script>
 
 </body>
 </html>

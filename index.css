@@ -33,4 +33,9 @@ canvas {
     width: 780px;
     height: 634px;
     margin: 0 auto;
+    transition: opacity 0.5s, filter 0.5s;
+}
+#game-container.paused > canvas {
+    opacity: 0.5;
+    filter: brightness(50%);
 }
