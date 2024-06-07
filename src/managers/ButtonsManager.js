@@ -68,13 +68,16 @@ export default class ButtonsManager {
         var buttonDepth = config.depth || 'auto';
         var buttonCallback = callback || function(){};
 
-        let $buttonRect = ctx.add.graphics({
+        let $buttonRect = Graphics.addTypePanel(ctx, {
+            x: buttonX,
+            y: buttonY,
+            width: buttonWidth,
+            height: buttonHeight,
+            radius: 6,
+            depth: buttonDepth,
             lineStyle: { width: 2, color: Graphics.returnHexColorValue(buttonBorderColor) },
-            fillStyle: { color: Graphics.returnHexColorValue(buttonBackgroundColor) }
+            fillStyle: { color: Graphics.returnHexColorValue(buttonBackgroundColor) },
             });
-        $buttonRect.strokeRoundedRect(buttonX, buttonY, buttonWidth, buttonHeight, 5);
-        $buttonRect.fillRoundedRect(buttonX, buttonY, buttonWidth, buttonHeight, 5);
-        if (buttonDepth !== 'auto'){ $buttonRect.setDepth(buttonDepth); }
         buttonDepth = $buttonRect.depth;
 
         // Check if explicitly one of the bitmap fonts, otherwise we have to add it in plain text
