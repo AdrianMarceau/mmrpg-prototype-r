@@ -30,12 +30,12 @@ export default class Banner {
 
         options.fillStyle = typeof options.fillStyle === 'object' ? options.fillStyle : {};
         options.fillStyle.color = options.fillStyle.color || defaults.fillStyle.color;
-        options.fillStyle.color = Graphics.returnPhaserColor(options.fillStyle.color);
+        options.fillStyle.color = Graphics.returnHexColorValue(options.fillStyle.color);
 
         options.lineStyle = typeof options.lineStyle === 'object' ? options.lineStyle : {};
         options.lineStyle.width = options.lineStyle.width || defaults.lineStyle.width;
         options.lineStyle.color = options.lineStyle.color || defaults.lineStyle.color;
-        options.lineStyle.color = Graphics.returnPhaserColor(options.lineStyle.color);
+        options.lineStyle.color = Graphics.returnHexColorValue(options.lineStyle.color);
 
         options.borderRadius = typeof options.borderRadius === 'object' ? options.borderRadius : {};
         options.borderRadius.tl = options.borderRadius.tl || defaults.borderRadius.tl;
@@ -44,6 +44,7 @@ export default class Banner {
         options.borderRadius.bl = options.borderRadius.bl || defaults.borderRadius.bl;
 
         this.bounds = this.getBounds();
+        this.radius = Graphics.getProportionalRadiusObject(this.width, this.height, options.borderRadius);
         this.scene = scene;
         this.options = options;
         //console.log('this.options =', this.options);
@@ -94,7 +95,7 @@ export default class Banner {
         let ctx = this.scene;
         let options = this.options;
         let $panel = this.panel || ctx.add.graphics({ lineStyle: options.lineStyle, fillStyle: options.fillStyle });
-        let radius = Graphics.getProportionalRadiusObject(this.width, this.height, options.borderRadius);
+        let radius = this.radius;
         $panel.strokeRoundedRect(this.x, this.y, this.width, this.height, radius);
         $panel.fillRoundedRect(this.x, this.y, this.width, this.height, radius);
         if (this.depth !== 'auto'){ $panel.setDepth(this.depth); }
@@ -109,7 +110,7 @@ export default class Banner {
         // Refresh the rectangular dialogue box with background and stroke color
         let options = this.options;
         let $panel = this.panel;
-        let radius = Graphics.getProportionalRadiusObject(this.width, this.height, options.borderRadius);
+        let radius = this.radius;
         $panel.clear();
         $panel.lineStyle(options.lineStyle.width, options.lineStyle.color);
         $panel.fillStyle(options.fillStyle.color);
@@ -180,6 +181,7 @@ export default class Banner {
         this.width = width;
         this.height = height;
         this.bounds = this.getBounds();
+        this.radius = Graphics.getProportionalRadiusObject(this.width, this.height, this.options.borderRadius);
         this.refreshBanner();
     }
     setPosition (x, y)
@@ -193,8 +195,8 @@ export default class Banner {
     setColor (border, background)
     {
         //console.log('Banner.setColor() called w/ border =', typeof border, border, 'background =', typeof background, background);
-        border = Graphics.returnPhaserColor(border);
-        background = Graphics.returnPhaserColor(background);
+        border = Graphics.returnHexColorValue(border);
+        background = Graphics.returnHexColorValue(background || border);
         //console.log('revised border =', typeof border, border, 'background =', typeof background, background);
         this.options.lineStyle.color = border;
         this.options.fillStyle.color = background;
