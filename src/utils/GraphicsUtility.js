@@ -12,11 +12,13 @@ export class GraphicsUtility {
 
     static getProportionalRadiusObject (width, height, baseRadiusObject)
     {
-        if (!baseRadiusObject){ baseRadiusObject = {}; }
-        if (!baseRadiusObject.tl){ baseRadiusObject.tl = 0; }
-        if (!baseRadiusObject.tr){ baseRadiusObject.tr = 0; }
-        if (!baseRadiusObject.br){ baseRadiusObject.br = 0; }
-        if (!baseRadiusObject.bl){ baseRadiusObject.bl = 0; }
+        let fallback = 0;
+        if (typeof baseRadiusObject === 'number'){ fallback = baseRadiusObject; }
+        if (!baseRadiusObject || typeof baseRadiusObject !== 'object'){ baseRadiusObject = {}; }
+        if (!baseRadiusObject.tl){ baseRadiusObject.tl = fallback; }
+        if (!baseRadiusObject.tr){ baseRadiusObject.tr = fallback; }
+        if (!baseRadiusObject.br){ baseRadiusObject.br = fallback; }
+        if (!baseRadiusObject.bl){ baseRadiusObject.bl = fallback; }
         return {
             tl: this.calculateProportionalRadius(width, height, baseRadiusObject.tl),
             tr: this.calculateProportionalRadius(width, height, baseRadiusObject.tr),
@@ -30,6 +32,37 @@ export class GraphicsUtility {
         return (smallestSide / 100) * (baseRadius / 5); // Adjust this ratio as needed
     }
 
+
+    // -- COLOR-SPAN and COLOR-PANEL  FUNCTIONS -- //
+
+    static addTypePanel (ctx, config)
+    {
+
+        // Pull in refs to specific indexes
+        let typesIndex = MMRPG.Indexes.types;
+        let typesIndexTokens = Object.keys(typesIndex);
+
+        // Define the panel configuration using above where possible
+        let panelConfig = {
+            x: config.x || 20,
+            y: config.y || 20,
+            width: config.width || 600,
+            height: config.height || 150,
+            radius: config.radius || { tl: 10, tr: 10, br: 10, bl: 10 },
+            lineStyle: config.lineStyle || { width: 2, color: 0x0a0a0a },
+            fillStyle: config.fillStyle || { color: 0x161616 },
+            depth: config.depth || 1000,
+            };
+
+        // Draw the panel with the specified configuration
+        const $panel = ctx.add.graphics({ lineStyle: panelConfig.lineStyle, fillStyle: panelConfig.fillStyle });
+        const radius = this.getProportionalRadiusObject(panelConfig.width, panelConfig.height, panelConfig.radius);
+        $panel.strokeRoundedRect(panelConfig.x, panelConfig.y, panelConfig.width, panelConfig.height, radius);
+        $panel.fillRoundedRect(panelConfig.x, panelConfig.y, panelConfig.width, panelConfig.height, radius);
+        if (typeof panelConfig.depth === 'number'){ $panel.setDepth(panelConfig.depth); }
+        return $panel;
+
+    }
 
     // -- COLOR-RELATED FUNCTIONS -- //
 
