@@ -6,6 +6,9 @@
 
 import MMRPG from '../shared/MMRPG.js';
 
+import { GraphicsUtility as Graphics } from '../utils/GraphicsUtility.js';
+import { StringsUtility as Strings } from '../utils/StringsUtility.js';
+
 export default class ButtonsManager {
 
     // Constructor for the ButtonsManager class
@@ -57,26 +60,58 @@ export default class ButtonsManager {
         var buttonSize = config.size || 12;
         var buttonX = config.x || 0, buttonY = config.y || 0;
         var buttonWidth = config.width || 100, buttonHeight = config.height || 25;
-        var buttonTextX = buttonX + (buttonWidth / 2), buttonTextY = buttonY + (buttonHeight / 2);
-        var buttonTextColor = config.color || 0x95c418;
-        var buttonBorderColor = config.border || 0x0a0a0a;
-        var buttonBackgroundColor = config.background || 0x161616;
+        var buttonTextFont = config.font || 'megafont-white';
+        var buttonTextX = buttonX + 0, buttonTextY = buttonY + 0;
+        var buttonTextColor = config.color || '#95c418';
+        var buttonBorderColor = config.border || '#0a0a0a';
+        var buttonBackgroundColor = config.background || '#161616';
         var buttonDepth = config.depth || 'auto';
         var buttonCallback = callback || function(){};
 
-        let $buttonRect = ctx.add.graphics({ lineStyle: { width: 2, color: buttonBorderColor }, fillStyle: { color: buttonBackgroundColor }});
+        let $buttonRect = ctx.add.graphics({
+            lineStyle: { width: 2, color: Graphics.returnHexColorValue(buttonBorderColor) },
+            fillStyle: { color: Graphics.returnHexColorValue(buttonBackgroundColor) }
+            });
         $buttonRect.strokeRoundedRect(buttonX, buttonY, buttonWidth, buttonHeight, 5);
         $buttonRect.fillRoundedRect(buttonX, buttonY, buttonWidth, buttonHeight, 5);
         if (buttonDepth !== 'auto'){ $buttonRect.setDepth(buttonDepth); }
         buttonDepth = $buttonRect.depth;
 
-        let $buttonText = ctx.add.bitmapText(buttonTextX, buttonTextY, 'megafont-white', buttonText, buttonSize);
-        $buttonText.setOrigin(0.5);
-        $buttonText.setLetterSpacing(20);
-        $buttonText.setTint(buttonTextColor);
-        $buttonText.setAlpha(0.8);
-        $buttonText.x -= (buttonWidth - $buttonText.width) / 4;
-        $buttonText.setDepth(buttonDepth + 1);
+        // Check if explicitly one of the bitmap fonts, otherwise we have to add it in plain text
+        let $buttonText;
+        if (buttonTextFont === 'megafont-white'
+            || buttonTextFont === 'megafont-black'){
+
+            // Add the button text using the selected bitmap font
+            $buttonText = ctx.add.bitmapText(buttonTextX, buttonTextY, buttonTextFont, buttonText, buttonSize);
+            $buttonText.setOrigin(0.5);
+            $buttonText.setLetterSpacing(20);
+            $buttonText.setTint(Graphics.returnHexColorValue(buttonTextColor));
+            $buttonText.setAlpha(0.8);
+            $buttonText.setDepth(buttonDepth + 1);
+            buttonTextX = buttonX + (buttonWidth / 2); //((buttonWidth - $buttonText.width) / 2);
+            buttonTextY = buttonY + (buttonHeight / 2); //((buttonHeight - $buttonText.height) / 2);
+            $buttonText.x = buttonTextX;
+            $buttonText.y = buttonTextY;
+
+            } else {
+
+            // Add the button text using the default font
+            //buttonTextFont === 'default'
+            let fontDefaults = Strings.getDefaults();
+            // convert the hex value buttonTextColor to a string version of itself
+            $buttonText = ctx.add.text(buttonTextX, buttonTextY, buttonText, {
+                fontFamily: fontDefaults.font,
+                fontSize: buttonSize + 'px',
+                color: Graphics.returnHexColorString(buttonTextColor),
+                //fontWeight: 'bold',
+                //letterSpacing: 100,
+                });
+            $buttonText.setOrigin(0.5);
+            $buttonText.setAlpha(0.8);
+            $buttonText.setDepth(buttonDepth + 1);
+
+            }
 
         $buttonRect.setInteractive({
             hitArea: new Phaser.Geom.Rectangle(buttonX, buttonY, buttonWidth, buttonHeight),
@@ -87,10 +122,17 @@ export default class ButtonsManager {
         let $buttonGroup = ctx.add.group();
         $buttonGroup.add($buttonRect);
         $buttonGroup.add($buttonText);
+
         let buttonObject = {
             group: $buttonGroup,
             span: $buttonRect,
-            text: $buttonText
+            text: $buttonText,
+            setPosition: function(x, y){
+                $buttonRect.x = x;
+                $buttonRect.y = y;
+                $buttonText.x = x + (buttonWidth / 2);
+                $buttonText.y = y + (buttonHeight / 2);
+                },
             };
 
         let buttonClickTween = null;
