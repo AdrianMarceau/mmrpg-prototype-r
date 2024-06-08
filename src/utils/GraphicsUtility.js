@@ -66,46 +66,6 @@ export class GraphicsUtility {
 
     // -- COLOR-RELATED FUNCTIONS -- //
 
-    static test(){
-        console.log('GraphicsUtility.test() called');
-        let passed = 0, failed = 0;
-        function check(label, expected, actual){
-            let match = expected === actual;
-            if (match){ passed++; }
-            else { failed++; }
-            console.log('%c' +
-                label + ' expected: ' + expected + ' actual: ' + actual + ' ...match: ' + match,
-                'color: ' + (match ? 'green' : 'red') // print in green if match or red if no match
-                );
-        }
-        function results(){
-            console.log('Results: Passed:', passed, 'Failed:', failed);
-        }
-        let testHexString = '#ff0000', testHexValue = 0xff0000;
-        let testRgbString = 'rgb(255, 0, 0)', testRgbArray = [255, 0, 0];
-        let testHslString = 'hsl(0, 100%, 50%)', testHslArray = [0, 100, 50];
-        check('getColorFormat(testHexString:"' + testHexString + '")', 'hex/string', this.getColorFormat(testHexString));
-        check('getColorFormat(testHexValue:"' + testHexValue + '")', 'hex/number', this.getColorFormat(testHexValue));
-        check('getColorFormat(testRgbString:"' + testRgbString + '")', 'rgb/string', this.getColorFormat(testRgbString));
-        check('getColorFormat(testRgbArray:' + JSON.stringify(testRgbArray) + ')', 'rgb/array', this.getColorFormat(testRgbArray));
-        check('getColorFormat(testHslString:"' + testHslString + '")', 'hsl/string', this.getColorFormat(testHslString));
-        check('getColorFormat(testHslArray:' + JSON.stringify(testHslArray) + ')', 'hsl/array', this.getColorFormat(testHslArray));
-        check('getColorFormat("unknown")', 'unknown', this.getColorFormat('unknown'));
-        check('returnHexColorString(testHexString:"' + testHexString + '")', testHexString, this.returnHexColorString(testHexString));
-        check('returnHexColorString(testHexValue:' + testHexValue + ')', testHexString, this.returnHexColorString(testHexValue));
-        check('returnHexColorString(testRgbString:"' + testRgbString + '")', testHexString, this.returnHexColorString(testRgbString));
-        check('returnHexColorString(testRgbArray:' + JSON.stringify(testRgbArray) + ')', testHexString, this.returnHexColorString(testRgbArray));
-        check('returnHexColorString(testHslString:"' + testHslString + '")', testHexString, this.returnHexColorString(testHslString));
-        check('returnHexColorString(testHslArray:' + JSON.stringify(testHslArray) + ')', testHexString, this.returnHexColorString(testHslArray));
-        check('returnHexColorValue(testHexString:"' + testHexString + '")', testHexValue, this.returnHexColorValue(testHexString));
-        check('returnHexColorValue(testHexValue:' + testHexValue + ')', testHexValue, this.returnHexColorValue(testHexValue));
-        check('returnHexColorValue(testRgbString:"' + testRgbString + '")', testHexValue, this.returnHexColorValue(testRgbString));
-        check('returnHexColorValue(testRgbArray:' + JSON.stringify(testRgbArray) + ')', testHexValue, this.returnHexColorValue(testRgbArray));
-        check('returnHexColorValue(testHslString:"' + testHslString + '")', testHexValue, this.returnHexColorValue(testHslString));
-        check('returnHexColorValue(testHslArray:' + JSON.stringify(testHslArray) + ')', testHexValue, this.returnHexColorValue(testHslArray));
-        results();
-    }
-
     static getColorFormat (input)
     {
         // take in input and check if it's in the following formats
@@ -338,6 +298,57 @@ export class GraphicsUtility {
 
         let [r, g, b] = rgb.map(val => Math.round((val + m) * 255));
         return this.getColorHexFromRgb(r, g, b);
+    }
+
+
+    // -- DEBUG TESTER -- //
+
+    // Define a function to run when you want to test that everything is functional in this class
+    static test(){
+        console.log('GraphicsUtility.test() called');
+
+        // Define basic variables and simple functions for performing the tests
+        let passed = 0, failed = 0;
+        function check(label, expected, actual){
+            let match = expected === actual;
+            if (match){ passed++; }
+            else { failed++; }
+            console.log('%c' +
+                label + ' expected: ' + expected + ' actual: ' + actual + ' ...match: ' + match,
+                'color: ' + (match ? 'green' : 'red') // print in green if match or red if no match
+                );
+        }
+        function results(){
+            console.log('Results: Passed:', passed, 'Failed:', failed);
+        }
+
+        // Test all the colour-related functions in this class
+        let testHexString = '#ff0000', testHexValue = 0xff0000;
+        let testRgbString = 'rgb(255, 0, 0)', testRgbArray = [255, 0, 0];
+        let testHslString = 'hsl(0, 100%, 50%)', testHslArray = [0, 100, 50];
+        check('getColorFormat(testHexString:"' + testHexString + '")', 'hex/string', this.getColorFormat(testHexString));
+        check('getColorFormat(testHexValue:"' + testHexValue + '")', 'hex/number', this.getColorFormat(testHexValue));
+        check('getColorFormat(testRgbString:"' + testRgbString + '")', 'rgb/string', this.getColorFormat(testRgbString));
+        check('getColorFormat(testRgbArray:' + JSON.stringify(testRgbArray) + ')', 'rgb/array', this.getColorFormat(testRgbArray));
+        check('getColorFormat(testHslString:"' + testHslString + '")', 'hsl/string', this.getColorFormat(testHslString));
+        check('getColorFormat(testHslArray:' + JSON.stringify(testHslArray) + ')', 'hsl/array', this.getColorFormat(testHslArray));
+        check('getColorFormat("unknown")', 'unknown', this.getColorFormat('unknown'));
+        check('returnHexColorString(testHexString:"' + testHexString + '")', testHexString, this.returnHexColorString(testHexString));
+        check('returnHexColorString(testHexValue:' + testHexValue + ')', testHexString, this.returnHexColorString(testHexValue));
+        check('returnHexColorString(testRgbString:"' + testRgbString + '")', testHexString, this.returnHexColorString(testRgbString));
+        check('returnHexColorString(testRgbArray:' + JSON.stringify(testRgbArray) + ')', testHexString, this.returnHexColorString(testRgbArray));
+        check('returnHexColorString(testHslString:"' + testHslString + '")', testHexString, this.returnHexColorString(testHslString));
+        check('returnHexColorString(testHslArray:' + JSON.stringify(testHslArray) + ')', testHexString, this.returnHexColorString(testHslArray));
+        check('returnHexColorValue(testHexString:"' + testHexString + '")', testHexValue, this.returnHexColorValue(testHexString));
+        check('returnHexColorValue(testHexValue:' + testHexValue + ')', testHexValue, this.returnHexColorValue(testHexValue));
+        check('returnHexColorValue(testRgbString:"' + testRgbString + '")', testHexValue, this.returnHexColorValue(testRgbString));
+        check('returnHexColorValue(testRgbArray:' + JSON.stringify(testRgbArray) + ')', testHexValue, this.returnHexColorValue(testRgbArray));
+        check('returnHexColorValue(testHslString:"' + testHslString + '")', testHexValue, this.returnHexColorValue(testHslString));
+        check('returnHexColorValue(testHslArray:' + JSON.stringify(testHslArray) + ')', testHexValue, this.returnHexColorValue(testHslArray));
+
+        // Print out the final results for this test
+        results();
+
     }
 
 }
