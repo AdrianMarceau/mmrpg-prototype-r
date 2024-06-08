@@ -302,4 +302,108 @@ export default class SpritesManager {
             }
     }
 
+    // Define a function that takes a given sprite kind, token, and alt and then provides all the sheets and animation data
+    getSpriteInfo (kind, token, alt = 'base')
+    {
+        //console.log('SpritesManager.getSpriteInfo() called w/ \n kind: '+kind+', token: '+token+', alt: '+alt);
+
+        // Pull in index references
+        let SPRITES = this;
+        let spriteIndex = SPRITES.index;
+        let spriteSheets = spriteIndex.sheets;
+        let spriteAnims = spriteIndex.anims;
+        let kinds = spriteIndex.kinds;
+        let xkinds = spriteIndex.xkinds;
+
+        // Normalize the kind token to ensure they it's valid
+        let xkind = '';
+        if (kinds.includes(kind)){
+            xkind = xkinds[kinds.indexOf(kind)];
+            } else if (xkinds.includes(kind)){
+            xkind = kind;
+            kind = kinds[xkinds.indexOf(xkind)];
+            } else {
+            return false;
+            }
+        //console.log('token:', token, 'kind:', kind, 'xkind:', xkind);
+
+        // -- INFO TEMPLATE -- //
+
+        // Put it all together info an object with appropriate references
+        let spriteInfo = {
+            'sprite': {
+                'left': {
+                    'sheet': spriteSheets[xkind][token][alt]['sprite-left'],
+                    'anim': {},
+                    },
+                'right': {
+                    'sheet': spriteSheets[xkind][token][alt]['sprite-right'],
+                    'anim': {},
+                    },
+                },
+            };
+
+        // -- MUG & ICON SPRITES -- //
+
+        // If this is either a player or a robot, we must include mugs
+        if (kind === 'player' || kind === 'robot'){
+
+            // Include the mug sheets for the player or robot
+            spriteInfo.mug = {
+                'left': {
+                    'sheet': spriteSheets[xkind][token][alt]['mug-left'],
+                    'anim': {},
+                    },
+                'right': {
+                    'sheet': spriteSheets[xkind][token][alt]['mug-right'],
+                    'anim': {},
+                    },
+                };
+
+            }
+        // Otherwise if any other type, we should include icons instead
+        else {
+
+            // Include the icon sheets for the ability, item, skill, field, etc.
+            spriteInfo.icon = {
+                'left': {
+                    'sheet': spriteSheets[xkind][token][alt]['icon-left'],
+                    'anim': {},
+                    },
+                'right': {
+                    'sheet': spriteSheets[xkind][token][alt]['icon-right'],
+                    'anim': {},
+                    },
+                };
+
+            }
+
+        // -- CHARACTER & OBJECT SPRITES -- //
+
+        // If this is a player, make sure we include appropriate sheets and animations
+        if (kind === 'player'){
+
+            // Include the running animations for the player
+            spriteInfo.sprite.left.anim.run = spriteAnims[xkind][token][alt]['sprite-left']['run'];
+            spriteInfo.sprite.right.anim.run = spriteAnims[xkind][token][alt]['sprite-right']['run'];
+
+            }
+        // If this is a robot, make sure we include appropriate sheets and animations
+        else if (kind === 'robot'){
+
+            // Include the shooting animations for the robot
+            spriteInfo.sprite.left.anim.shoot = spriteAnims[xkind][token][alt]['sprite-left']['shoot'];
+            spriteInfo.sprite.right.anim.shoot = spriteAnims[xkind][token][alt]['sprite-right']['shoot'];
+
+            // Include the sliding animations for the robot
+            spriteInfo.sprite.left.anim.slide = spriteAnims[xkind][token][alt]['sprite-left']['slide'];
+            spriteInfo.sprite.right.anim.slide = spriteAnims[xkind][token][alt]['sprite-right']['slide'];
+
+            }
+
+        // Return the compiled sprite info
+        return spriteInfo;
+
+    }
+
 }
