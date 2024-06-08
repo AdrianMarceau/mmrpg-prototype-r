@@ -396,6 +396,7 @@ export default class DebugScene extends Phaser.Scene
         console.log('MMRPG = ', MMRPG);
         console.log('SPRITES =', SPRITES);
         //Graphics.test();
+        //Strings.test();
 
     }
 
@@ -709,32 +710,8 @@ export default class DebugScene extends Phaser.Scene
 
         let robotSpriteToken = spriteToken;
         let robotSpriteAlt = spriteAlt;
-        let robotSpriteInfo = {
-            'sprite': {
-                'left': {
-                    'sheet': SPRITES.index.sheets.robots[robotSpriteToken][robotSpriteAlt]['sprite-left'],
-                    'anim': {
-                        'slide': SPRITES.index.anims.robots[robotSpriteToken][robotSpriteAlt]['sprite-left']['slide'],
-                        'shoot': SPRITES.index.anims.robots[robotSpriteToken][robotSpriteAlt]['sprite-left']['shoot'],
-                        },
-                    },
-                'right': {
-                    'sheet': SPRITES.index.sheets.robots[robotSpriteToken][robotSpriteAlt]['sprite-right'],
-                    'anim': {
-                        'slide': SPRITES.index.anims.robots[robotSpriteToken][robotSpriteAlt]['sprite-right']['slide'],
-                        'shoot': SPRITES.index.anims.robots[robotSpriteToken][robotSpriteAlt]['sprite-right']['shoot'],
-                        },
-                    },
-                },
-            'mug': {
-                'left': {
-                    'sheet': SPRITES.index.sheets.robots[robotSpriteToken][robotSpriteAlt]['mug-left'],
-                    },
-                'right': {
-                    'sheet': SPRITES.index.sheets.robots[robotSpriteToken][robotSpriteAlt]['mug-right'],
-                    },
-                },
-            };
+        let robotSpriteInfo = SPRITES.getSpriteInfo('robot', robotSpriteToken, robotSpriteAlt);
+        //console.log('robotSpriteInfo = ', robotSpriteInfo);
 
         let abilityRand = Math.floor(Math.random() * 100);
         let abilitySuffix = abilityRand % 3 === 0 ? 'buster' : 'shot';
@@ -744,24 +721,7 @@ export default class DebugScene extends Phaser.Scene
         let abilityShotOffset = abilitySuffix === 'buster' ? 10 : 0;
         let abilitySpriteSheet = 1;
         //console.log(abilitySpriteToken, 'abilityRand:', abilityRand, 'abilitySuffix:', abilitySuffix, 'abilityElement:', abilityElement, 'abilityShotFrame:', abilityShotFrame);
-        let abilitySpriteInfo = {
-            'sprite': {
-                'left': {
-                    'sheet': SPRITES.index.sheets.abilities[abilitySpriteToken][abilitySpriteSheet]['sprite-left'],
-                    },
-                'right': {
-                    'sheet': SPRITES.index.sheets.abilities[abilitySpriteToken][abilitySpriteSheet]['sprite-right'],
-                    },
-                },
-            'icon': {
-                'left': {
-                    'sheet': SPRITES.index.sheets.abilities[abilitySpriteToken][abilitySpriteSheet]['icon-left'],
-                    },
-                'right': {
-                    'sheet': SPRITES.index.sheets.abilities[abilitySpriteToken][abilitySpriteSheet]['icon-right'],
-                    },
-                },
-            };
+        let abilitySpriteInfo = SPRITES.getSpriteInfo('ability', abilitySpriteToken, abilitySpriteSheet);
         //console.log('abilitySpriteToken =', abilitySpriteToken, 'abilitySpriteInfo =', abilitySpriteInfo);
 
         let spriteX = - 40 - (numSprites * 5);
