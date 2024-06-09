@@ -107,7 +107,7 @@ export default class DebugScene extends Phaser.Scene
             if (!this.masterTokensByCoreType[robotCore]){ this.masterTokensByCoreType[robotCore] = []; }
             this.masterTokensByCoreType[robotCore].push(robotToken);
             }
-        console.log('this.masterTokensByCoreType =', this.masterTokensByCoreType);
+        //console.log('this.masterTokensByCoreType =', this.masterTokensByCoreType);
 
         // Preload all the necessary sprites for the scene
         let preloadSprites = {};
@@ -200,7 +200,7 @@ export default class DebugScene extends Phaser.Scene
             size: 10, color: '#cacaca',
             depth: 8100
             }, function(){
-            console.log('Pause button clicked');
+            //console.log('Pause button clicked');
             window.toggleGameIsClickable(false);
             window.toggleGameIsRunning(false);
             ctx.scene.pause();
@@ -217,7 +217,7 @@ export default class DebugScene extends Phaser.Scene
             size: 8, color: '#7d7d7d',
             depth: 8000
             }, function(){
-            console.log('Back button clicked');
+            //console.log('Back button clicked');
             ctx.scene.start('Title');
             });
 
@@ -228,7 +228,7 @@ export default class DebugScene extends Phaser.Scene
             size: 8, color: '#7d7d7d',
             depth: 8000
             }, function(){
-            console.log('Main button clicked');
+            //console.log('Main button clicked');
             ctx.scene.start('Main');
             });
 
@@ -239,7 +239,7 @@ export default class DebugScene extends Phaser.Scene
             size: 13, color: '#7d7d7d',
             depth: 8000
             }, function(){
-            console.log('Show Welcome Home button clicked');
+            //console.log('Show Welcome Home button clicked');
             POPUPS.debugWelcomePopup();
             });
         BUTTONS.makeSimpleButton('Tales from the Void', {
@@ -248,7 +248,7 @@ export default class DebugScene extends Phaser.Scene
             size: 13, color: '#95c418',
             depth: 8000
             }, function(){
-            console.log('Show Tales from the Void button clicked');
+            //console.log('Show Tales from the Void button clicked');
             ctx.showTalesFromTheVoid();
             });
 
@@ -258,7 +258,7 @@ export default class DebugScene extends Phaser.Scene
             size: 11, color: '#00ff00',
             depth: 8000
             }, function(button){
-            console.log('Toggle Doctors Running button clicked');
+            //console.log('Toggle Doctors Running button clicked');
             if (ctx.allowRunningDoctors){
                 button.text.setTint(0xff0000);
                 //button.text.setColor('#ff0000');
@@ -275,7 +275,7 @@ export default class DebugScene extends Phaser.Scene
             size: 13, color: '#6592ff',
             depth: 8000
             }, function(){
-            console.log('Show Doctor Running button clicked');
+            //console.log('Show Doctor Running button clicked');
             ctx.showDoctorRunning();
             });
 
@@ -285,7 +285,7 @@ export default class DebugScene extends Phaser.Scene
             size: 11, color: '#00ff00',
             depth: 8000
             }, function(button){
-            console.log('Toggle Masters Sliding button clicked');
+            //console.log('Toggle Masters Sliding button clicked');
             if (ctx.allowSlidingMasters){
                 button.text.setTint(0xff0000);
                 //button.text.setColor('#ff0000');
@@ -302,7 +302,7 @@ export default class DebugScene extends Phaser.Scene
             size: 13, color: '#6592ff',
             depth: 8000
             }, function(){
-            console.log('Show Master Sliding button clicked');
+            //console.log('Show Master Sliding button clicked');
             ctx.showMasterSliding();
             });
 
@@ -374,7 +374,7 @@ export default class DebugScene extends Phaser.Scene
             height: height,
             types: this.safeTypeTokens,
             onClick: function(button, type){
-                console.log('Type button clicked!', 'type:', type, 'button:', button);
+                console.log('Wow! Type button clicked!', 'type:', type, 'button:', button);
                 }
             });
 
@@ -406,8 +406,10 @@ export default class DebugScene extends Phaser.Scene
         if (typeof this.debugAddedSprites === 'undefined'){ this.debugAddedSprites = 0; }
         if (typeof this.debugRemovedSprites === 'undefined'){ this.debugRemovedSprites = 0; }
 
-        //const activeSprites = this.battleBannerContainer.getAll().length;
+        const activeSprites = this.battleBannerContainer.getAll();
+        const activeSpritesLength = activeSprites.length;
         //console.log('activeSprites =', activeSprites);
+        //console.log('activeSpritesLength =', activeSpritesLength);
         //console.log('this.debugAddedSprites =', this.debugAddedSprites);
         //console.log('this.debugRemovedSprites =', this.debugRemovedSprites);
 
@@ -531,7 +533,7 @@ export default class DebugScene extends Phaser.Scene
 
     showTalesFromTheVoid ()
     {
-        console.log('DebugScene.showTalesFromTheVoid() called');
+        //console.log('DebugScene.showTalesFromTheVoid() called');
 
         // Pull in required object references
         let MMRPG = this.MMRPG;
@@ -550,7 +552,7 @@ export default class DebugScene extends Phaser.Scene
             showTitle: 'Tales from the Void',
             showPages: true,
             onComplete: function() {
-                console.log('Tales from the Void completed');
+                //console.log('Tales from the Void completed');
                 if (ctx.allowRunningDoctors){
                     ctx.showDoctorRunning();
                     }
@@ -559,8 +561,9 @@ export default class DebugScene extends Phaser.Scene
 
     }
 
-    showDoctorRunning (token){
-
+    // Define a function that generates a sprite of a player and animates it running across the screen
+    showDoctorRunning (token)
+    {
         //console.log('DebugScene.showDoctorRunning() called w/ token =', token);
 
         // Pull in required object references
@@ -592,21 +595,38 @@ export default class DebugScene extends Phaser.Scene
             spriteAlt = 'base';
             }
 
+        // Define the base variables for this player animation sequence
         let spriteDir = 'right';
         let spriteKey = 'sprite-'+spriteDir;
         let spriteSheet = playerSheets[spriteToken][spriteAlt][spriteKey];
         let spriteRunAnim = playerAnims[spriteToken][spriteAlt][spriteKey]['run'];
-
         let spriteX = - 40;
         let spriteY = this.battleBanner.y + 70; //MMRPG.canvas.centerY - 15;
+
+        // Create the sprite and add it to the scene
         let $runningSprite = ctx.add.sprite(spriteX, spriteY, spriteSheet);
+        ctx.debugSprites.push($runningSprite);
+        $runningSprite.debugKey = ctx.debugSprites.length - 1;
         ctx.debugAddedSprites++;
+
+        // Add required sub-objects to the sprite
+        $runningSprite.subTweens = {};
+        $runningSprite.subTimers = {};
+        $runningSprite.subSprites = {};
+
+        // Set the origin, scale, and depth for the sprite then add to parent container
         $runningSprite.setOrigin(0.5, 1);
-        $runningSprite.setDepth(ctx.battleBanner.depth + spriteY);
-        //console.log(spriteToken, 'spriteY =', spriteY, 'depth =', $runningSprite.depth);
         $runningSprite.setScale(2.0);
+        $runningSprite.setDepth(ctx.battleBanner.depth + spriteY);
+        ctx.battleBannerContainer.add($runningSprite);
+        ctx.battleBannerContainer.sort('depth');
+
+        // Apply effects and setup the frame
         $runningSprite.preFX.addShadow();
-        $runningSprite.bounceTween = ctx.add.tween({
+        $runningSprite.play(spriteRunAnim);
+
+        // Animate the doctor bouncing up and down as they walk forward
+        $runningSprite.subTweens.bounceTween = ctx.add.tween({
             targets: $runningSprite,
             y: {from: spriteY, to: spriteY - 2},
             ease: 'Stepped',
@@ -615,17 +635,9 @@ export default class DebugScene extends Phaser.Scene
             duration: 200,
             repeat: -1,
             yoyo: true,
-            //step: 1 // This will force the tween to use only the start and end values
             });
-        $runningSprite.play(spriteRunAnim);
-        if (typeof ctx.debugSprites === 'undefined'){ ctx.debugSprites = []; }
-        ctx.debugSprites.push($runningSprite);
-        let runningSpriteKey = ctx.debugSprites.length - 1;
-        ctx.battleBannerContainer.add($runningSprite);
-        ctx.battleBannerContainer.sort('depth');
 
-        // Animate that sprite sliding across the screen then remove when done
-        //let numSprites = Object.keys(ctx.debugSprites).length;
+        // Animate that sprite running across the screen then remove when done
         let runSpeed = (((100) + playerInfo.speed) - playerInfo.defense);
         let runSpeedMultiplier = (runSpeed / 100);
         let runDistance = (MMRPG.canvas.width / 4) * runSpeedMultiplier;
@@ -634,16 +646,14 @@ export default class DebugScene extends Phaser.Scene
         //console.log(playerInfo.token, 'runSpeed:', runSpeed, 'runSpeedMultiplier:', runSpeedMultiplier, 'runDistance:', runDistance, 'runDuration:', runDuration);
 
         // Animate that sprite using the previously defined variables
-        ctx.add.tween({
+        $runningSprite.subTweens.runTween = ctx.add.tween({
             targets: $runningSprite,
             x: runDestination,
             ease: 'Linear',
             duration: runDuration,
             onComplete: function () {
-                //console.log('Movement complete!');
-                $runningSprite.destroy();
-                ctx.debugRemovedSprites++;
-                delete ctx.debugSprites[runningSpriteKey];
+                //console.log(playerInfo.name + ' running movement complete!');
+                ctx.destroySpriteAndCleanup($runningSprite);
                 }
             });
 
@@ -652,8 +662,9 @@ export default class DebugScene extends Phaser.Scene
 
     }
 
-    showMasterSliding (token, alt){
-
+     // Define a function that generates a sprite of a robot and animates it sliding across the screen
+    showMasterSliding (token, alt)
+    {
         //console.log('DebugScene.showMasterSliding() called w/ token =', token, 'alt =', alt);
         //console.log('ctx.masterTokensByCoreType['+alt+'] =', this.masterTokensByCoreType[alt]);
 
@@ -664,12 +675,12 @@ export default class DebugScene extends Phaser.Scene
         let robotSheets = SPRITES.index.sheets.robots;
         let robotAnims = SPRITES.index.anims.robots;
         let robotsIndex = MMRPG.Indexes.robots;
+        let abilitiesIndex = MMRPG.Indexes.abilities;
 
         // Count the number of sliding sprites currently on the screen
-        if (typeof ctx.debugSprites === 'undefined'){ ctx.debugSprites = []; }
-        let numSprites = ctx.debugAddedSprites - ctx.debugRemovedSprites; //Object.keys(ctx.debugSprites).length;
+        let numSprites = ctx.debugAddedSprites - ctx.debugRemovedSprites;
 
-        // Generate a sprite w/ sliding animation in progress
+        // Generate a list of random tokens to pull from should it be necessary
         let randTokens = [];
         if (this.safeTypeTokens.indexOf(alt) >= 0){
             if (typeof ctx.masterTokensByCoreType[alt] !== 'undefined'
@@ -682,37 +693,37 @@ export default class DebugScene extends Phaser.Scene
                 }
             }
         if (!randTokens.length){ randTokens = randTokens.concat(ctx.slidingMasters); }
-        // = typeof ctx.masterTokensByCoreType[alt] !== 'undefined' ? ctx.masterTokensByCoreType[alt] : ctx.slidingMasters;
         let randKey = Math.floor(Math.random() * randTokens.length);
+
+        // Collect the sprite token and alt if provided, else rely on the random key
         let spriteToken = token || randTokens[randKey];
         let spriteAlt = alt || 'base';
-        let robotInfo = robotsIndex[spriteToken];
-        //console.log('robotInfo for ', spriteToken, '=', robotInfo);
 
-        // If the sprite token ends with an "*_{alt}", make sure we split and pull
+        // If the sprite token ends with an "*_{alt}", make sure we parse it out
         if (spriteToken.indexOf('_') !== -1){
             let tokenParts = spriteToken.split('_');
             spriteToken = tokenParts[0];
             spriteAlt = tokenParts[1];
             }
 
-        // Ensure this alt actually exists on the robot in question
+        // Pull the robot data for the token we're using
+        let robotInfo = robotsIndex[spriteToken];
+        //console.log('robotInfo for ', spriteToken, '=', robotInfo);
+
+        // Ensure the selected alt actually exists on the robot in question, else default to base
         //console.log('pending spriteToken =', spriteToken, 'pending spriteAlt =', spriteAlt);
         if (!robotSheets[spriteToken][spriteAlt]){
             //console.log('Sprite alt not found, defaulting to base');
             spriteAlt = 'base';
             }
 
-        //let spriteDir = 'right';
-        //let spriteKey = 'sprite-'+spriteDir;
-        //let spriteSheet = robotSheets[spriteToken][spriteAlt][spriteKey];
-        //let spriteSlideAnim = robotAnims[spriteToken][spriteAlt][spriteKey]['slide'];
-
+        // Define the robot-specific details for this animation sequence
         let robotSpriteToken = spriteToken;
         let robotSpriteAlt = spriteAlt;
         let robotSpriteInfo = SPRITES.getSpriteInfo('robot', robotSpriteToken, robotSpriteAlt);
         //console.log('robotSpriteInfo = ', robotSpriteInfo);
 
+        // Define the ability-specific details for potential animation sequence
         let abilityRand = Math.floor(Math.random() * 100);
         let abilitySuffix = abilityRand % 3 === 0 ? 'buster' : 'shot';
         let abilityElement = robotInfo.core !== '' && robotInfo.core !== 'copy' ? robotInfo.core : '';
@@ -720,23 +731,39 @@ export default class DebugScene extends Phaser.Scene
         let abilityShotFrame = abilitySuffix === 'buster' ? 3 : 0;
         let abilityShotOffset = abilitySuffix === 'buster' ? 10 : 0;
         let abilitySpriteSheet = 1;
-        //console.log(abilitySpriteToken, 'abilityRand:', abilityRand, 'abilitySuffix:', abilitySuffix, 'abilityElement:', abilityElement, 'abilityShotFrame:', abilityShotFrame);
         let abilitySpriteInfo = SPRITES.getSpriteInfo('ability', abilitySpriteToken, abilitySpriteSheet);
+        //console.log(abilitySpriteToken, 'abilityRand:', abilityRand, 'abilitySuffix:', abilitySuffix, 'abilityElement:', abilityElement, 'abilityShotFrame:', abilityShotFrame);
         //console.log('abilitySpriteToken =', abilitySpriteToken, 'abilitySpriteInfo =', abilitySpriteInfo);
 
-        let spriteX = - 40 - (numSprites * 5);
-        //let spriteY = MMRPG.canvas.centerY + 30 + ((numSprites % 10) * 10);
+        // Pull the ability data for the token we're using
+        let abilityInfo = abilitiesIndex[abilitySpriteToken];
+        //console.log('abilityInfo for ', abilitySpriteToken, '=', abilityInfo);
+
+        // Define the base coordinates for the sprite to be added
+        let spriteX = - 40 - ((numSprites % 10) * 5);
         let spriteY = this.battleBanner.y + 90 + ((numSprites % 10) * 10);
+
+        // Create the new sliding sprite and add it to the scene
         let $slidingSprite = ctx.add.sprite(spriteX, spriteY, robotSpriteInfo['sprite']['right']['sheet']);
-        ctx.debugAddedSprites++;
-        $slidingSprite.setOrigin(0.5, 1);
-        $slidingSprite.setDepth(ctx.battleBanner.depth + spriteY);
-        $slidingSprite.setScale(2.0);
-        $slidingSprite.preFX.addShadow();
         ctx.debugSprites.push($slidingSprite);
-        let slidingSpriteKey = ctx.debugSprites.length - 1;
+        $slidingSprite.debugKey = ctx.debugSprites.length - 1;
+        ctx.debugAddedSprites++;
+
+        // Add required sub-objects to the sprite
+        $slidingSprite.subTweens = {};
+        $slidingSprite.subTimers = {};
+        $slidingSprite.subSprites = {};
+
+        // Set the origin, scale, and depth for the sprite then add to parent container
+        $slidingSprite.setOrigin(0.5, 1);
+        $slidingSprite.setScale(2.0);
+        $slidingSprite.setDepth(ctx.battleBanner.depth + spriteY);
         ctx.battleBannerContainer.add($slidingSprite);
         ctx.battleBannerContainer.sort('depth');
+
+        // Add effects and setup the frame for the sliding sprite
+        $slidingSprite.preFX.addShadow();
+        $slidingSprite.setFrame(0);
 
         // Animate that sprite sliding across the screen then remove when done
         let slideSpeed = robotInfo.speed;
@@ -748,10 +775,12 @@ export default class DebugScene extends Phaser.Scene
         //console.log('numSprites = ', numSprites);
         //console.log('slideDuration = ', slideDuration);
 
+        // Define a function for sliding a given sprite forward, then calling another function to slide it somewhere else
         const slideSpriteForward = function($sprite, distance, destination, duration, onComplete){
-            //console.log('Starting forward slide movement for sprite!', spriteToken);
+            //console.log('Starting forward slide movement for sprite!', spriteToken, 'x:', $sprite.x);
+            if (!$sprite || $sprite.toBeDestroyed){ return; }
+            //console.log('$sprite', typeof $sprite, $sprite, ($sprite ? true : false));
             $sprite.direction = 'right';
-            if ($sprite.tween){ $sprite.tween.stop().destroy(); }
             let others = Object.keys(ctx.debugSprites).length;
             let newX = $sprite.x + distance;
             let overflow = 0;
@@ -765,25 +794,37 @@ export default class DebugScene extends Phaser.Scene
                 }
             $sprite.setFrame(0);
             $sprite.setTexture(robotSpriteInfo['sprite'][$sprite.direction]['sheet']);
-            ctx.time.delayedCall(delay, function(){
+            if ($sprite.subTimers.slideDelay){ $sprite.subTimers.slideDelay.remove(); }
+            $sprite.subTimers.slideDelay = ctx.time.delayedCall(delay, function(){
+                if (!$sprite || $sprite.toBeDestroyed){ return; }
+                //console.log('$sprite:', typeof $sprite, $sprite);
                 $sprite.play(robotSpriteInfo['sprite'][$sprite.direction]['anim']['slide']);
-                $sprite.tween = ctx.add.tween({
+                if ($sprite.slideTween){ $sprite.slideTween.stop().destroy(); }
+                $sprite.slideTween = ctx.add.tween({
                     targets: $sprite,
                     x: newX,
                     ease: 'Sine.easeOut',
                     delay: 300,
                     duration: duration,
                     onComplete: function () {
-                        //console.log('Partial slide movement complete!');
-                        slideSpriteSomewhere($sprite, distance, destination, duration, onComplete);
+                        //console.log('Partial shooting movement complete...');
+                        if ($sprite.subTimers.nextAction){ $sprite.subTimers.nextAction.remove(); }
+                        $sprite.subTimers.nextAction = ctx.time.delayedCall(1000, function(){
+                            //console.log('...let\'s slide somewhere else!');
+                            slideSpriteSomewhere($sprite, distance, destination, duration, onComplete);
+                            delete $sprite.subTimers.nextAction;
+                            });
                         }
                     });
                 }, [], ctx);
             };
+
+        // Define a function for sliding a given sprite backward, then calling another function to slide it somewhere else
         const slideSpriteBackward = function($sprite, distance, destination, duration, onComplete){
-            //console.log('Starting backward slide movement for sprite!', spriteToken);
+            //console.log('Starting backward slide movement for sprite!', spriteToken, 'x:', $sprite.x);
+            if (!$sprite || $sprite.toBeDestroyed){ return; }
+            //console.log('$sprite', typeof $sprite, $sprite, ($sprite ? true : false));
             $sprite.direction = 'left';
-            if ($sprite.tween){ $sprite.tween.stop().destroy(); }
             let others = Object.keys(ctx.debugSprites).length;
             let newX = $sprite.x - distance;
             let overflow = 0;
@@ -797,30 +838,73 @@ export default class DebugScene extends Phaser.Scene
                 }
             $sprite.setFrame(0);
             $sprite.setTexture(robotSpriteInfo['sprite'][$sprite.direction]['sheet']);
-            ctx.time.delayedCall(delay, function(){
+            if ($sprite.subTimers.slideDelay){ $sprite.subTimers.slideDelay.remove(); }
+            $sprite.subTimers.slideDelay = ctx.time.delayedCall(delay, function(){
+                if (!$sprite || $sprite.toBeDestroyed){ return; }
+                //console.log('$sprite:', typeof $sprite, $sprite);
                 $sprite.play(robotSpriteInfo['sprite'][$sprite.direction]['anim']['slide']);
-                $sprite.tween = ctx.add.tween({
+                if ($sprite.slideTween){ $sprite.slideTween.stop().destroy(); }
+                $sprite.slideTween = ctx.add.tween({
                     targets: $sprite,
                     x: newX,
                     ease: 'Sine.easeOut',
                     delay: 300,
                     duration: duration,
                     onComplete: function () {
-                        //console.log('Partial slide movement complete!');
-                        slideSpriteSomewhere($sprite, distance, destination, duration, onComplete);
+                        //console.log('Partial shooting movement complete...');
+                        if ($sprite.subTimers.nextAction){ $sprite.subTimers.nextAction.remove(); }
+                        $sprite.subTimers.nextAction = ctx.time.delayedCall(1000, function(){
+                            //console.log('...let\'s slide somewhere else!');
+                            slideSpriteSomewhere($sprite, distance, destination, duration, onComplete);
+                            delete $sprite.subTimers.nextAction;
+                            });
                         }
                     });
                 }, [], ctx);
             };
-        const makeSpriteShoot = function($sprite, distance, destination, duration, onComplete){
-            //console.log('Starting shooting movement for sprite!', spriteToken);
 
-            // First we animate the robot doing a shoot animation w/ intentional pause after
-            if ($sprite.tween){ $sprite.tween.stop().destroy(); }
+        // Define a function that makes a given sprite perform a shoot animation and then move w/ a slide
+        let abilityShotSprites = [];
+        const makeSpriteShoot = function($sprite, distance, destination, duration, onComplete){
+            //console.log('Starting shooting movement for sprite!', spriteToken, 'x:', $sprite.x);
+            if (!$sprite || $sprite.toBeDestroyed){ return; }
+            //console.log('$sprite', typeof $sprite, $sprite, ($sprite ? true : false));
+
+            // Calculate where we're going to draw the shot sprite itself given context
+            let shotX = $sprite.x + ($sprite.direction === 'left' ? -60 : 60);
+            let shotY = $sprite.y + abilityShotOffset;
+
+            // First create the shot sprite and add it to the scene
+            let $shotSprite = ctx.add.sprite(shotX, shotY, abilitySpriteInfo['sprite'][$sprite.direction]['sheet']);
+            ctx.debugSprites.push($shotSprite);
+            $shotSprite.debugKey = ctx.debugSprites.length - 1;
+            ctx.debugAddedSprites++;
+            $shotSprite.setOrigin(0.5, 1);
+            $shotSprite.setScale(2.0);
+            $shotSprite.setDepth($sprite.depth + 1);
+            ctx.battleBannerContainer.add($shotSprite);
+            ctx.battleBannerContainer.sort('depth');
+
+            // Add required sub-objects to the sprite
+            $shotSprite.subTweens = {};
+            $shotSprite.subTimers = {};
+            $shotSprite.subSprites = {};
+
+            // Apply effects and setup the frame
+            $shotSprite.preFX.addShadow();
+            $shotSprite.setAlpha(0);
+            $shotSprite.setFrame(abilityShotFrame);
+
+            // Add this shot sprite as a child of the parent
+            abilityShotSprites.push($shotSprite);
+            $shotSprite.shotKey = abilityShotSprites.length - 1;
+
+            // Now we animate the kickback of the shoot animation w/ intentional pause after
             let newX = $sprite.x + ($sprite.direction === 'left' ? 4 : -4); //kickback
             $sprite.setFrame(0);
             $sprite.play(robotSpriteInfo['sprite'][$sprite.direction]['anim']['shoot']);
-            $sprite.tween = ctx.add.tween({
+            if ($sprite.subTweens.kickbackTween){ $sprite.subTweens.kickbackTween.stop().destroy(); }
+            $sprite.subTweens.kickbackTween = ctx.add.tween({
                 targets: $sprite,
                 x: newX,
                 ease: 'Linear',
@@ -829,38 +913,23 @@ export default class DebugScene extends Phaser.Scene
                 yoyo: true,
                 onComplete: function () {
                     //console.log('Partial shooting movement complete!');
-                    ctx.time.delayedCall(1000, function(){
+                    if ($sprite.subTimers.nextAction){ $sprite.subTimers.nextAction.remove(); }
+                    $sprite.subTimers.nextAction = ctx.time.delayedCall(1000, function(){
                         //console.log('Partial shooting movement complete!');
                         slideSpriteSomewhere($sprite, distance, destination, duration, onComplete);
+                        delete $sprite.subTimers.nextAction;
                         });
                     }
                 });
 
-            // Then we prepare the shot sprite itself in the correct location and settings
-            let shotX = $sprite.x + ($sprite.direction === 'left' ? -60 : 60);
-            let shotY = $sprite.y + abilityShotOffset;
-            let $shotSprite = ctx.add.sprite(shotX, shotY, abilitySpriteInfo['sprite'][$sprite.direction]['sheet']);
-            ctx.debugAddedSprites++;
-            //console.log('Shot sprite created at ', shotX, shotY, ' w/ ', abilitySpriteInfo);
-            $shotSprite.setAlpha(0);
-            $shotSprite.setOrigin(0.5, 1);
-            $shotSprite.setDepth($sprite.depth + 1);
-            $shotSprite.setScale(2.0);
-            $shotSprite.setFrame(abilityShotFrame);
-            $shotSprite.preFX.addShadow();
-            ctx.debugSprites.push($shotSprite);
-            let shotSpriteKey = ctx.debugSprites.length - 1;
-            ctx.battleBannerContainer.add($shotSprite);
-            ctx.battleBannerContainer.sort('depth');
-
-            // Wait a moment for the robot to move into frame, then animate the shot going offscreen at predetermined speed
+            // Then animate the robot flashing brightly back and forth to simulate charging
             let leftBounds = -40, rightBounds = MMRPG.canvas.width + 40;
             let distFromEdge = $sprite.direction === 'left' ? $sprite.x - leftBounds : rightBounds - $sprite.x;
             let shotDestX = $sprite.direction === 'left' ? leftBounds : rightBounds;
             let shotDuration = (distFromEdge * 1.5);
             $sprite.fx = $sprite.preFX.addColorMatrix();
             $sprite.fx.brightness(3.0);
-            $sprite.tween2 = ctx.tweens.addCounter({
+            $sprite.subTweens.chargeTween = ctx.tweens.addCounter({
                 from: 0,
                 to: 3,
                 duration: 400,
@@ -868,74 +937,273 @@ export default class DebugScene extends Phaser.Scene
                 loop: -1,
                 yoyo: true,
                 onUpdate: () => {
-                    $sprite.fx.brightness($sprite.tween2.getValue());
+                    $sprite.fx.brightness($sprite.subTweens.chargeTween.getValue());
                     }
                 });
-            ctx.time.delayedCall(400, function(){
+            $sprite.subTimers.afterCharge = ctx.time.delayedCall(400, function(){
+                if (!$sprite || $sprite.toBeDestroyed){ return; }
                 $sprite.fx.reset();
-                $sprite.tween2.remove();
+                $sprite.subTweens.chargeTween.remove();
+                });
+
+            // Wait a moment for the robot to finish its kickback, then animate the shot going offscreen at predetermined speed
+            $shotSprite.subTimers.bulletTween = ctx.time.delayedCall(400, function(){
+                if (!$shotSprite){ return; }
                 $shotSprite.setAlpha(0.3);
                 $shotSprite.setFrame(abilityShotFrame);
-                //console.log(robotSpriteToken, 'fired off a', abilitySpriteToken);
-                $shotSprite.tween = ctx.add.tween({
+                $shotSprite.subTweens.bulletTween = ctx.add.tween({
                     targets: $shotSprite,
                     x: shotDestX,
                     alpha: 1.0,
                     ease: 'Sine.easeOut',
                     duration: shotDuration,
                     onComplete: function () {
-                        //console.log('Shot movement complete!');
-                        $shotSprite.destroy();
-                        ctx.debugRemovedSprites++;
-                        delete ctx.debugSprites[shotSpriteKey];
+                        //console.log(robotInfo.name + '\'s ' + abilityInfo.name + ' movement complete!');
+                        ctx.destroySprite($shotSprite);
                         }
                     });
                 });
 
             };
+
+        // Define a function that takes a given sprite and then randomly slides it forward or backward
+        // (other actions may occasionally be taken as well, such as shooting or other animations)
+        let safeZone = 40;
+        let safeZoneMinX = MMRPG.canvas.xMin - safeZone;
+        let safeZoneMaxX = MMRPG.canvas.xMax + safeZone;
         const slideSpriteSomewhere = function($sprite, distance, destination, duration, onComplete){
-            //console.log('Starting random slide movement for sprite!', spriteToken, 'x:', $sprite.x);
-            let safeZone = 40;
-            if ($sprite.x >= (MMRPG.canvas.xMax + safeZone)
-                || $sprite.x <= (MMRPG.canvas.xMin - safeZone)){
+            //console.log('Starting random movement for sprite!', spriteToken, 'x:', $sprite.x, 'xMin:', safeZoneMinX, 'xMax:', safeZoneMaxX);
+            //console.log('$sprite', typeof $sprite, $sprite, ($sprite ? true : false));
+            if (!$sprite
+                || $sprite.toBeDestroyed
+                || $sprite.x >= safeZoneMaxX
+                || $sprite.x <= safeZoneMinX){
                 return onComplete($sprite);
-                } else if ($sprite.x > MMRPG.canvas.xMax){
+                } else if ($sprite.x >= (MMRPG.canvas.xMax - 20)){
                 return slideSpriteForward($sprite, distance, destination, duration, onComplete);
-                } else if ($sprite.x < MMRPG.canvas.xMin){
+                } else if ($sprite.x < (MMRPG.canvas.xMin + 20)){
                 return slideSpriteBackward($sprite, distance, destination, duration, onComplete);
                 } else {
                 let backChance = Math.random() * 100;
-                if (backChance < 33){
-                    return makeSpriteShoot($sprite, distance, destination, duration, onComplete);
-                    } else if (backChance < 66){
-                    return slideSpriteBackward($sprite, distance, destination, duration, onComplete);
-                    } else {
+                if (backChance >= 50){
                     return slideSpriteForward($sprite, distance, destination, duration, onComplete);
+                    } else if (backChance >= 25){
+                    return makeSpriteShoot($sprite, distance, destination, duration, onComplete);
+                    } else {
+                    return slideSpriteBackward($sprite, distance, destination, duration, onComplete);
                     }
                 }
             };
 
+        // Define a function that plays an explode animation and then destroyed the sprite when done
+        let explodeCleanupTimer = null;
+        const explodeSpriteAndDestroy = function($sprite){
+            //console.log('explodeSpriteAndDestroy() w/ $sprite:', $sprite);
+            if (!$sprite || $sprite.toBeDestroyed){ return; }
+
+            // Stop any of this sprite's tweens and timers, then play the explosion animation
+            $sprite.isDisabled = true;
+            $sprite.stop();
+            ctx.stopSpriteTweens($sprite, false);
+            ctx.stopSpriteTimers($sprite, false);
+
+            // Set the frame to disabled and darken the sprite, then play the explosion animation
+            $sprite.setFrame(3);
+            $sprite.fx = $sprite.preFX.addColorMatrix();
+            $sprite.fx.brightness(3.0);
+
+            // Generate the explosion animation tween of flashing, then destroy the sprite when done
+            $sprite.subTweens.flashTween = ctx.tweens.addCounter({
+                from: 0.5,
+                to: 2.0,
+                duration: 20,
+                delay: 100,
+                loop: 3,
+                yoyo: true,
+                onUpdate: () => {
+                    $sprite.fx.brightness($sprite.subTweens.flashTween.getValue());
+                    },
+                onComplete: function (){
+                    //console.log(robotInfo.name + ' explosion complete!');
+                    ctx.destroySprite($sprite);
+                    }
+                });
+
+            };
+
+        // Define a function for queueing cleanup of the sprite after a set amount of time
+        let cleanupTimer = null;
+        let cleanupDelay = 3000;
+        const queueSpriteCleanup = function(){
+            //console.log('queueSpriteCleanup() w/ $sprite:', $sprite, 'duration:', duration);
+            if (cleanupTimer){ cleanupTimer.remove(); }
+            cleanupTimer = ctx.time.delayedCall(cleanupDelay, function(){
+                //console.log('Time to cleanup sprites:', $slidingSprite);
+                ctx.destroySpriteAndCleanup($slidingSprite, true);
+                for (let i = 0; i < abilityShotSprites.length; i++){
+                    let $abilityShotSprite = abilityShotSprites[i];
+                    ctx.destroySpriteAndCleanup($abilityShotSprite, true);
+                    }
+                });
+            };
+
+        // Preset the sprite direction to right, and then start playing the slide animation
         $slidingSprite.direction = 'right';
         $slidingSprite.play(robotSpriteInfo['sprite'][$slidingSprite.direction]['anim']['slide']);
         slideSpriteForward($slidingSprite, slideDistance, slideDestination, slideDuration, function($slidingSprite){
-            //console.log('Full sliding movement complete!');
-            $slidingSprite.destroy();
-            ctx.debugRemovedSprites++;
-            delete ctx.debugSprites[slidingSpriteKey];
+            //console.log('%c' + 'All animations for ' + robotInfo.name + ' complete!', 'color: amber;');
+            queueSpriteCleanup();
             });
 
-        /*
-        // Listen to frame change events
-        $slidingSprite.on('animationupdate', (animation, frame) => {
-            if (frame.index === 0) { $slidingSprite.tween.pause();  }
-            else { $slidingSprite.tween.resume(); }
-            if (frame.index >= 2) {  $slidingSprite.tween.setTimeScale(2);  }
-            else { $slidingSprite.tween.setTimeScale(1);  }
+        // Make it so the sprite is clickable to shows an alert
+        $slidingSprite.setInteractive({ useHandCursor: true });
+        $slidingSprite.on('pointerdown', function(){
+            //console.log('Sliding sprite clicked:', spriteToken);
+            if (!$slidingSprite || $slidingSprite.isDisabled){ return; }
+            explodeSpriteAndDestroy($slidingSprite);
+            queueSpriteCleanup();
             });
-        */
+
+        //abilityShotSprites
 
         // Update the scene with last-used sprite token
         ctx.lastSlidingMaster = spriteToken;
+    }
+
+    // Define a function for stopping any tweens attached to a given sprite
+    stopSpriteTweens ($sprite, recursive = true)
+    {
+        //console.log('stopSpriteTweens() w/ $sprite:', $sprite, 'recursive:', recursive);
+        if (!$sprite){ return; }
+        //console.log('$sprite', typeof $sprite, $sprite, ($sprite ? true : false));
+
+        // Collect a reference to the scene context
+        let ctx = this;
+
+        // Stop any tweens on this sprite itself
+        if (typeof $sprite.stop === 'function'){ $sprite.stop(); }
+
+        // Stop and destroy any tweens attached to this sprite
+        if ($sprite.subTweens){
+            let keys = Object.keys($sprite.subTweens);
+            for (let i = 0; i < keys.length; i++){
+                let $tween = $sprite.subTweens[keys[i]];
+                $tween.stop().destroy();
+                }
+            }
+
+        // Recursively destroy any sub-sprites attached to this one
+        if (recursive && $sprite.subSprites){
+            let keys = Object.keys($sprite.subSprites);
+            for (let i = 0; i < keys.length; i++){
+                let $subSprite = $sprite.subSprites[keys[i]];
+                if (!$subSprite.subSprites){ continue; }
+                ctx.stopSpriteTweens($subSprite);
+                }
+            }
+
+        // Return true on success
+        return true;
+
+    }
+
+    // Define a function for stopping any timers attached to a given sprite
+    stopSpriteTimers ($sprite, recursive = true)
+    {
+        //console.log('stopSpriteTimers() w/ $sprite:', $sprite, 'recursive:', recursive);
+        if (!$sprite){ return; }
+        //console.log('$sprite', typeof $sprite, $sprite, ($sprite ? true : false));
+
+        // Collect a reference to the scene context
+        let ctx = this;
+
+        // Stop and destroy any timers attached to this sprite
+        if ($sprite.subTimers){
+            let keys = Object.keys($sprite.subTimers);
+            for (let i = 0; i < keys.length; i++){
+                let $timer = $sprite.subTimers[keys[i]];
+                $timer.remove();
+                }
+            }
+
+        // Recursively destroy any sub-sprites attached to this one
+        if (recursive && $sprite.subSprites){
+            let keys = Object.keys($sprite.subSprites);
+            for (let i = 0; i < keys.length; i++){
+                let $subSprite = $sprite.subSprites[keys[i]];
+                if (!$subSprite.subSprites){ continue; }
+                ctx.stopSpriteTimers($subSprite);
+                }
+            }
+
+        // Return true on success
+        return true;
+
+    }
+
+    // Define a function for disabling a robot sprite and hiding it from view until destruction
+    destroySprite ($sprite)
+    {
+        //console.log('disableRobotSprite() w/ $sprite:', $sprite);
+        if (!$sprite){ return; }
+
+        // Hide the sprite visually and set it to be destroyed
+        $sprite.x = -9999;
+        $sprite.y = -9999;
+        $sprite.setAlpha(0);
+        $sprite.setActive(false);
+        $sprite.setVisible(false);
+        $sprite.toBeDestroyed = true;
+
+        // Stop and destroy any tweens attached to this sprite
+        this.stopSpriteTweens($sprite, true);
+
+        // Stop and destroy any timers attached to this sprite
+        this.stopSpriteTimers($sprite, true);
+
+        return $sprite;
+    }
+
+    // Define a function for destroying a sprite as well as any children from the scene
+    destroySpriteAndCleanup ($sprite, recursive = true)
+    {
+        //console.log('destroySpriteAndCleanup() w/ $sprite:', $sprite, 'recursive:', recursive);
+        //console.log('$sprite starts as:', typeof $sprite, $sprite, ($sprite ? true : false));
+        if (!$sprite){ return; }
+
+        // Collect a reference to the scene context
+        let ctx = this;
+
+        // Save backup refs for children in case not recusive
+        let $echo = {};
+        $echo.subTweens = $sprite.subTweens || {};
+        $echo.subTimers = $sprite.subTimers || {};
+        $echo.subSprites = $sprite.subSprites || {};
+
+        // First we "destroy" the sprite by fully hiding it
+        ctx.destroySprite($sprite);
+
+        // Recursively destroy any sub-sprites attached to this one
+        if (recursive && $sprite.subSprites){
+            let keys = Object.keys($sprite.subSprites);
+            for (let i = 0; i < keys.length; i++){
+                let $subSprite = $sprite.subSprites[keys[i]];
+                if (!$subSprite.subSprites){ continue; }
+                ctx.destroySpriteAndCleanup($subSprite);
+                }
+            }
+
+        // Now we can destroy this actual sprite
+        $sprite.destroy();
+        this.debugRemovedSprites++;
+        delete this.debugSprites[$sprite.debugKey];
+
+        // Set the sprite equal to null to ensure it's not used again
+        $sprite = null;
+
+        // Return the backup refs for children in case not recusive
+        //console.log('$sprite is now:', typeof $sprite, $sprite, ($sprite ? true : false));
+        return $echo;
 
     }
 
@@ -1005,7 +1273,7 @@ export default class DebugScene extends Phaser.Scene
                 background: Graphics.returnHexColorString(typeData.colour_light),
                 depth: typeButtonDepth
                 }, function(){
-                console.log('Type button clicked:', typeToken);
+                console.log('Huh? Type button clicked:', typeToken);
                 ctx.showMasterSliding(null, typeToken);
                 });
             typeButtons.push($typeButton);
