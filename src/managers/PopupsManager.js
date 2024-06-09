@@ -182,9 +182,13 @@ export default class PopupsManager {
         $panelContainer.add($panelText);
 
         // Create a typed text event to animate the text appearing
+        let typedTextComplete = false;
         let typedTextEvent = this.scene.time.addEvent({
             callback: () => {
                 $panelText.setText(popupText.slice(0, $panelText.text.length + 1));
+                if ($panelText.text.length === popupText.length){
+                    typedTextComplete = true;
+                    }
                 },
             repeat: popupText.length - 1,
             delay: 20
@@ -255,6 +259,14 @@ export default class PopupsManager {
             });
         $panelBackground.on('pointerdown', () => {
             //console.log('Popup panel clicked!');
+
+            // If the text isn't fully typed out yet, then do so now
+            if (!typedTextComplete){
+                $panelText.setText(popupText);
+                typedTextEvent.remove();
+                typedTextComplete = true;
+                return;
+                }
 
             // Define a function to run for destroying this popup
             $panelBackground.setInteractive(false);
