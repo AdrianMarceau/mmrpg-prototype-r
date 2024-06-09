@@ -728,11 +728,8 @@ export default class DebugScene extends Phaser.Scene
         let abilitySuffix = abilityRand % 3 === 0 ? 'buster' : 'shot';
         let abilityElement = robotInfo.core !== '' && robotInfo.core !== 'copy' ? robotInfo.core : '';
         let abilitySpriteToken = abilityElement ? (abilityElement + '-' + abilitySuffix) : ('buster-shot');
-        let abilityShotFrame = abilitySuffix === 'buster' ? 3 : 0;
-        let abilityShotOffset = abilitySuffix === 'buster' ? 10 : 0;
-        let abilitySpriteSheet = 1;
-        let abilitySpriteInfo = SPRITES.getSpriteInfo('ability', abilitySpriteToken, abilitySpriteSheet);
-        //console.log(abilitySpriteToken, 'abilityRand:', abilityRand, 'abilitySuffix:', abilitySuffix, 'abilityElement:', abilityElement, 'abilityShotFrame:', abilityShotFrame);
+        let abilitySpriteInfo = SPRITES.getSpriteInfo('ability', abilitySpriteToken, 1);
+        //console.log(abilitySpriteToken, 'abilityRand:', abilityRand, 'abilitySuffix:', abilitySuffix, 'abilityElement:', abilityElement);
         //console.log('abilitySpriteToken =', abilitySpriteToken, 'abilitySpriteInfo =', abilitySpriteInfo);
 
         // Pull the ability data for the token we're using
@@ -871,8 +868,9 @@ export default class DebugScene extends Phaser.Scene
             //console.log('$sprite', typeof $sprite, $sprite, ($sprite ? true : false));
 
             // Calculate where we're going to draw the shot sprite itself given context
+            let shotOffset = abilitySuffix === 'buster' ? 10 : 0;
             let shotX = $sprite.x + ($sprite.direction === 'left' ? -60 : 60);
-            let shotY = $sprite.y + abilityShotOffset;
+            let shotY = $sprite.y + shotOffset;
 
             // First create the shot sprite and add it to the scene
             let $shotSprite = ctx.add.sprite(shotX, shotY, abilitySpriteInfo['sprite'][$sprite.direction]['sheet']);
@@ -891,9 +889,10 @@ export default class DebugScene extends Phaser.Scene
             $shotSprite.subSprites = {};
 
             // Apply effects and setup the frame
+            let shotFrame = abilitySuffix === 'buster' ? 3 : 0;
             $shotSprite.preFX.addShadow();
             $shotSprite.setAlpha(0);
-            $shotSprite.setFrame(abilityShotFrame);
+            $shotSprite.setFrame(shotFrame);
 
             // Add this shot sprite as a child of the parent
             abilityShotSprites.push($shotSprite);
@@ -950,7 +949,7 @@ export default class DebugScene extends Phaser.Scene
             $shotSprite.subTimers.bulletTween = ctx.time.delayedCall(400, function(){
                 if (!$shotSprite){ return; }
                 $shotSprite.setAlpha(0.3);
-                $shotSprite.setFrame(abilityShotFrame);
+                $shotSprite.setFrame(shotFrame);
                 $shotSprite.subTweens.bulletTween = ctx.add.tween({
                     targets: $shotSprite,
                     x: shotDestX,
@@ -995,11 +994,53 @@ export default class DebugScene extends Phaser.Scene
                 }
             };
 
+        // Collect data for the explosion sprite and the generate the sheets and animation
+        let effectElement = (robotInfo.core !== '' && robotInfo.core !== 'copy' ? robotInfo.core : '');
+        let effectToken = effectElement ? effectElement + '-buster' : 'mega-buster';
+        let explodeSpriteInfo = SPRITES.getSpriteInfo('ability', effectToken, 1);
+        //console.log('%c----------', 'color: orange;');
+        //console.log('explodeSpriteInfo (before) =', explodeSpriteInfo);
+        //console.log('explodeSpriteInfo.sprite (before) =', JSON.stringify(explodeSpriteInfo.sprite));
+        const createExplodeSpriteAnimation = function(robotInfo, spriteInfo, spriteDirection){
+            let xkind = 'abilities';
+            let token = effectToken;
+            let sheet = '1';
+            let anim = 'explode';
+            let baseKey = 'sprites.' + xkind + '.' + token + '.' + sheet;
+            let sheetKey = baseKey+'.sprite-'+spriteDirection;
+            let animKey = baseKey+'.sprite-'+spriteDirection+'.' + anim;
+            let animTemplate = {
+                key: '',
+                sheet: '',
+                frames: [ 0, 1, 2, 0, 2, 1, 0, 1, 0, 0 ],
+                frameRate: 12,
+                repeat: -1
+                };
+            let explodeAnimation = ctx.anims.get(animKey);
+            if (!explodeAnimation){
+                ctx.anims.create(Object.assign({}, animTemplate, {
+                    key: animKey,
+                    sheet: sheetKey,
+                    frames: ctx.anims.generateFrameNumbers(sheetKey, { frames: animTemplate.frames }),
+                    }));
+                explodeAnimation = ctx.anims.get(animKey);
+                //console.log('Created explodeAnimation w/ key:', explodeAnimation.key, 'sheet:', explodeAnimation.sheet);
+                }
+            spriteInfo['sprite'][spriteDirection]['anim']['explode'] = explodeAnimation.key;
+            };
+        createExplodeSpriteAnimation(robotInfo, explodeSpriteInfo, 'left');
+        createExplodeSpriteAnimation(robotInfo, explodeSpriteInfo, 'right');
+        //console.log('explodeSpriteInfo (after) =', explodeSpriteInfo);
+        //console.log('explodeSpriteInfo.sprite (after) =', JSON.stringify(explodeSpriteInfo.sprite));
+
         // Define a function that plays an explode animation and then destroyed the sprite when done
         let explodeCleanupTimer = null;
+        let explodeEffectSprites = [];
         const explodeSpriteAndDestroy = function($sprite){
             //console.log('explodeSpriteAndDestroy() w/ $sprite:', $sprite);
             if (!$sprite || $sprite.toBeDestroyed){ return; }
+
+            // -- First we disable the sprite itself and make sure it gets cleaned up
 
             // Stop any of this sprite's tweens and timers, then play the explosion animation
             $sprite.isDisabled = true;
@@ -1014,9 +1055,9 @@ export default class DebugScene extends Phaser.Scene
 
             // Generate the explosion animation tween of flashing, then destroy the sprite when done
             $sprite.subTweens.flashTween = ctx.tweens.addCounter({
-                from: 0.5,
-                to: 2.0,
-                duration: 20,
+                from: 0.6,
+                to: 1.4,
+                duration: 40,
                 delay: 100,
                 loop: 3,
                 yoyo: true,
@@ -1026,6 +1067,60 @@ export default class DebugScene extends Phaser.Scene
                 onComplete: function (){
                     //console.log(robotInfo.name + ' explosion complete!');
                     ctx.destroySprite($sprite);
+                    }
+                });
+
+            // -- Then we separately generate an explosion effect sprite in the same location
+
+            // Calculate where we're going to draw the explosion sprite itself given context
+            let explodeOffsets = { x: (($sprite.direction === 'left' ? 1 : -1) * 10), y: 15 };
+            let explodeX = $sprite.x + explodeOffsets.x;
+            let explodeY = $sprite.y + explodeOffsets.y;
+
+            // First create the explode sprite and add it to the scene
+            let $explodeSprite = ctx.add.sprite(explodeX, explodeY, explodeSpriteInfo['sprite'][$sprite.direction]['sheet']);
+            ctx.debugSprites.push($explodeSprite);
+            $explodeSprite.debugKey = ctx.debugSprites.length - 1;
+            ctx.debugAddedSprites++;
+            $explodeSprite.setOrigin(0.5, 1);
+            $explodeSprite.setScale(2.0);
+            $explodeSprite.setDepth($sprite.depth - 1);
+            ctx.battleBannerContainer.add($explodeSprite);
+            ctx.battleBannerContainer.sort('depth');
+
+            // Add required sub-objects to the sprite
+            $explodeSprite.subTweens = {};
+            $explodeSprite.subTimers = {};
+            $explodeSprite.subSprites = {};
+
+            // Apply effects and setup the frame
+            let explodeFrame = 0;
+            $explodeSprite.preFX.addShadow();
+            $explodeSprite.setAlpha(0);
+            $explodeSprite.setFrame(explodeFrame);
+
+            // Add this explode sprite as a child of the parent
+            explodeEffectSprites.push($explodeSprite);
+            $explodeSprite.explodeKey = explodeEffectSprites.length - 1;
+
+            // Show the sprite and play its explode animation on loop
+            $explodeSprite.setAlpha(0.8);
+            $explodeSprite.play(explodeSpriteInfo['sprite'][$sprite.direction]['anim']['explode']);
+
+            // Generate a tween for the explode sprite that has it slowly fade away via alpha then remove itself
+            $explodeSprite.subTweens.fadeTween = ctx.add.tween({
+                targets: $explodeSprite,
+                alpha: 0.1,
+                ease: 'Linear',
+                delay: 200,
+                duration: 800,
+                onUpdate: function () {
+                    // also make the explode's x track the source robot's x
+                    $explodeSprite.x = $sprite.x + explodeOffsets.x;
+                    },
+                onComplete: function () {
+                    //console.log(robotInfo.name + '\'s explosion fade complete!');
+                    ctx.destroySprite($explodeSprite);
                     }
                 });
 
@@ -1043,6 +1138,10 @@ export default class DebugScene extends Phaser.Scene
                 for (let i = 0; i < abilityShotSprites.length; i++){
                     let $abilityShotSprite = abilityShotSprites[i];
                     ctx.destroySpriteAndCleanup($abilityShotSprite, true);
+                    }
+                for (let i = 0; i < explodeEffectSprites.length; i++){
+                    let $explodeEffectSprite = explodeEffectSprites[i];
+                    ctx.destroySpriteAndCleanup($explodeEffectSprite, true);
                     }
                 });
             };
