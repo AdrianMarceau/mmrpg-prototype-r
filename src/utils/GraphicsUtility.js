@@ -143,8 +143,12 @@ export class GraphicsUtility {
             $gradient.x = x - 1;
             $gradient.y = y;
             };
+        function destroy (){
+            $group.destroy(true);
+            };
         $typePanel.setDepth = setDepth;
         $typePanel.setPosition = setPosition;
+        $typePanel.destroy = destroy;
 
         // Return the typePanel object
         return $typePanel;

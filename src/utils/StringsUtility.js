@@ -463,6 +463,19 @@ export class StringsUtility {
                 height: $formattedText.height
                 };
             };
+        function destroy(){
+            //console.log('destroy() called');
+            // Destroy the text area container and its mask
+            textAreaContainer.destroy();
+            maskGraphics.destroy();
+            // Destroy each of the elements
+            for (let i = 0; i < textAreaElements.length; i++) {
+                let elemObj = textAreaElements[i];
+                elemObj.elem.destroy();
+                }
+            // Nullify the elements array
+            textAreaElements = [];
+            };
         function intFromString(value, base = 0){
             if (typeof value === 'string' && value.match(/^(\+\=|\-=)/)){
                 let dx = parseInt(value.replace(/^(\+\=|\-=)/, ''));
@@ -474,6 +487,7 @@ export class StringsUtility {
         $formattedText.getPosition = getPosition;
         $formattedText.setPosition = setPosition;
         $formattedText.getSize = getSize;
+        $formattedText.destroy = destroy;
 
         // Return the formatted text with some additional methods for positioning and sizing
         return $formattedText;
