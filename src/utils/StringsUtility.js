@@ -226,6 +226,7 @@ export class StringsUtility {
         options.width = options.width || 0;
         options.height = options.height || 0;
         options.color = options.color || '#ffffff';
+        options.shadow = options.shadow || '#000000';
         options.border = options.border || false;
         options.styles = Object.assign({}, this.getDefaults(), (options.styles || {}));
         options.depth = options.depth || 0;
@@ -282,14 +283,29 @@ export class StringsUtility {
             stringObject.elems = [];
 
             let $text = ctx.add.bitmapText(-9999, -9999, options.font, parsedString.text, options.size);
+            let $textMeta = {kind: 'text', elem: $text};
             $text.setOrigin(0);
-            $text.setDepth(options.depth + 1 + (i * 2));
+            $text.setDepth(options.depth + 1 + (i * 3));
             $text.setLetterSpacing(20);
+            $text.setTint(Graphics.returnHexColorValue(options.color));
             stringObject.size = [Math.ceil($text.width), Math.ceil($text.height)];
-            stringObject.elems.push($text);
+            stringObject.elems.push($textMeta);
+            textAreaElements.push($textMeta);
             textAreaContainer.add($text);
             textAreaContainer.sort('depth');
-            textAreaElements.push({kind: 'text', elem: $text});
+
+            ////////////
+            let $shadow = ctx.add.bitmapText(-9999, -9999, options.font, parsedString.text, options.size);
+            let $shadowMeta = {kind: 'shadow', elem: $shadow, offset: [1, 1]};
+            $shadow.setOrigin(0);
+            $shadow.setDepth($text.depth - 2);
+            $shadow.setLetterSpacing(22);
+            $shadow.setTint(Graphics.returnHexColorValue(options.shadow));
+            stringObject.elems.push($shadowMeta);
+            textAreaElements.push($shadowMeta);
+            textAreaContainer.add($shadow);
+            textAreaContainer.sort('depth');
+            ////////////
 
             // Apply styles to text
             let tagKey = -1, typeKey = -1;
@@ -319,13 +335,14 @@ export class StringsUtility {
 
                 // If there were any types, we should draw a type panel (with two colors if dual-typed)
                 if (panelTypes.length > 0){
+
+                    // Predefine some variables for the panel
                     let padding = 2;
                     let panelOffsetX = -1 * padding;
                     let panelOffsetY = 0;
                     let panelWidth = stringObject.size[0] + (padding * 2);
                     let panelHeight = $text.height;
                     let panelDepth = $text.depth - 1;
-                    let $typePanel;
                     let typePanelConfig = {
                         x: -9999,
                         y: -9999,
@@ -338,6 +355,8 @@ export class StringsUtility {
                         background: null,
                         background2: null
                         };
+
+                    // If there are two types, we need to draw a dual-type panel, otherwise just a single type panel
                     if (panelTypes.length >= 2) {
                         let typeInfo1 = typesIndex[panelTypes[0]];
                         let typeInfo2 = typesIndex[panelTypes[1]];
@@ -350,18 +369,24 @@ export class StringsUtility {
                         typePanelConfig.background = Graphics.returnHexColorString(typeInfo.colour_light);
                         typePanelConfig.background2 = Graphics.returnHexColorString(typeInfo.colour_dark);
                         }
-                    $typePanel = Graphics.addInlineTypePanel(ctx, typePanelConfig);
+
+                    // If this panel was bigger than the text, we need to update the size of the string object
+                    if (panelWidth > stringObject.size[0]){ stringObject.size[0] = panelWidth; }
+                    if (panelHeight > stringObject.size[1]){ stringObject.size[1] = panelHeight; }
+
+                    // Create the type panel and add it to the text area container
+                    let $typePanel = Graphics.addInlineTypePanel(ctx, typePanelConfig);
+                    let $typePanelMeta = {kind: 'panel', elem: $typePanel};
                     if ($typePanel.elems){
                         for (let k = 0; k < $typePanel.elems.length; k++) {
                             let $typePanelElem = $typePanel.elems[k];
                             textAreaContainer.add($typePanelElem);
                             }
                         }
-                    stringObject.elems.push($typePanel);
+                    stringObject.elems.push($typePanelMeta);
+                    textAreaElements.push($typePanelMeta);
                     textAreaContainer.sort('depth');
-                    textAreaElements.push({kind: 'panel', elem: $typePanel});
-                    if (panelWidth > stringObject.size[0]){ stringObject.size[0] = panelWidth; }
-                    if (panelHeight > stringObject.size[1]){ stringObject.size[1] = panelHeight; }
+
                     }
 
             }
@@ -392,8 +417,14 @@ export class StringsUtility {
             let $elems = stringObject.elems;
             for (let j = 0; j < $elems.length; j++) {
                 let $elem = $elems[j];
-                $elem.setPosition(currentX, currentY);
-                //console.log('Setting position of $elem['+j+']:', $elem, 'to', currentX, currentY);
+                let offset = $elem.offset || [0, 0];
+                let newX = currentX + offset[0];
+                let newY = currentY + offset[1];
+                //console.log('Setting position of $elem['+j+']:', $elem.kind, $elem);
+                //console.log('-> currentX:', currentX, 'currentY:', currentY);
+                //console.log('-> offset:', offset);
+                //console.log('-> newX:', newX, 'newY:', newY);
+                $elem.elem.setPosition((newX), (newY));
                 //console.log('$elem['+j+'] position is now at:', $elem.x, $elem.y);
             }
 
@@ -430,6 +461,12 @@ export class StringsUtility {
             };
 
         // Define some functions we can use for this
+        function getSize(){
+            return {
+                width: $formattedText.width,
+                height: $formattedText.height
+                };
+            };
         function getPosition(){
             return {
                 x: $formattedText.x,
@@ -457,11 +494,11 @@ export class StringsUtility {
                 elemObj.elem.setPosition(elemObj.elem.x + xDiff, elemObj.elem.y + yDiff);
                 }
             };
-        function getSize(){
-            return {
-                width: $formattedText.width,
-                height: $formattedText.height
-                };
+        function setAlpha(alpha){
+            for (let i = 0; i < textAreaElements.length; i++) {
+                let elemObj = textAreaElements[i];
+                if (elemObj.elem.setAlpha){ elemObj.elem.setAlpha(alpha); }
+                }
             };
         function destroy(){
             //console.log('destroy() called');
@@ -484,9 +521,10 @@ export class StringsUtility {
                 }
             return value;
             };
-        $formattedText.getPosition = getPosition;
-        $formattedText.setPosition = setPosition;
         $formattedText.getSize = getSize;
+        $formattedText.getPosition = getPosition;
+        $formattedText.setAlpha = setAlpha;
+        $formattedText.setPosition = setPosition;
         $formattedText.destroy = destroy;
 
         // Return the formatted text with some additional methods for positioning and sizing
