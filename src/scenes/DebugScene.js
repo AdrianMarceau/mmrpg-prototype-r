@@ -688,6 +688,7 @@ export default class DebugScene extends Phaser.Scene
         let SPRITES = this.SPRITES;
         let robotSheets = SPRITES.index.sheets.robots;
         let robotAnims = SPRITES.index.anims.robots;
+        let typesIndex = MMRPG.Indexes.types;
         let robotsIndex = MMRPG.Indexes.robots;
         let abilitiesIndex = MMRPG.Indexes.abilities;
 
@@ -1142,7 +1143,7 @@ export default class DebugScene extends Phaser.Scene
 
         // Define a function that shows a robot's defeat quote in the position it was defeated
         let robotQuoteBubbles = [];
-        let robotQuoteTimers = [];
+        let robotQuoteTweens = [];
         const showRobotDefeatQuote = function($sprite){
             // Destroy any existing floating text bubbles
             if (ctx.floatingTextBubble){
@@ -1152,20 +1153,28 @@ export default class DebugScene extends Phaser.Scene
                 }
             // If the robot has quotes to display, let's do so now
             let quoteDisplayed = false;
+            let $floatingTextBubble = null;
             //console.log('robot destroyed:', robotInfo.token, robotInfo.name, robotInfo);
             if (typeof robotInfo.quotes !== 'undefined'){
+                let robotCoreType = robotInfo.core !== '' ? robotInfo.core : '';
+                let robotTypeInfo = typesIndex[robotCoreType || 'none'];
                 let robotQuotes = robotInfo.quotes;
+                //console.log(robotInfo.token, 'robotCoreType:', robotCoreType, 'robotTypeInfo:', robotTypeInfo, 'robotQuotes:', robotQuotes);
                 if (typeof robotQuotes.battle_defeat
                     && robotQuotes.battle_defeat.length){
                     //console.log('robotQuotes.battle_defeat:', robotQuotes.battle_defeat);
-                    var text = robotQuotes.battle_defeat;
-                    var x = $slidingSprite.x, y = $slidingSprite.y;
+                    var text = robotQuotes.battle_defeat.toUpperCase();
+                    var color = '#f0f0f0';
+                    var shadow = '#090909'; //robotCoreType ? Graphics.returnHexColorString(robotTypeInfo.colour_dark) : '#969696';
+                    //console.log('text:', text, 'color:', color);
+                    var x = $slidingSprite.x + 40, y = $slidingSprite.y - 60;
                     var width = Math.ceil(MMRPG.canvas.width / 4), height = 90;
-                    let $floatingTextBubble = Strings.addFormattedText(ctx, x, y, text, {
+                    $floatingTextBubble = Strings.addFormattedText(ctx, x, y, text, {
                         width: width,
                         height: height,
-                        color: '#ffffff',
-                        depth: 2000,
+                        color: color,
+                        shadow: shadow,
+                        depth: $slidingSprite.depth + 1,
                         padding: 10,
                         border: false,
                         });
@@ -1174,14 +1183,25 @@ export default class DebugScene extends Phaser.Scene
                     }
                 }
             // After a set amount of time, automatically destroy the floating text bubble
-            if (quoteDisplayed){
-                let quoteDisplayTimer = ctx.time.delayedCall(1500, function(){
-                    for (let i = 0; i < robotQuoteBubbles.length; i++){
-                        let $bubble = robotQuoteBubbles[i];
-                        $bubble.destroy();
+            if (quoteDisplayed
+                && $floatingTextBubble){
+                let quoteDisplayTween = ctx.tweens.addCounter({
+                    from: 100,
+                    to: 0,
+                    ease: 'Sine.easeOut',
+                    delay: 100,
+                    duration: 1000,
+                    onUpdate: function () {
+                        //console.log('quoteDisplayTween:', quoteDisplayTween.getValue());
+                        $floatingTextBubble.setAlpha(quoteDisplayTween.getValue() / 100);
+                        $floatingTextBubble.setPosition('-=0', '-=2');
+                        },
+                    onComplete: function () {
+                        //console.log('quoteDisplayTween complete!');
+                        $floatingTextBubble.destroy();
                         }
                     });
-                robotQuoteTimers.push(quoteDisplayTimer);
+                robotQuoteTweens.push(quoteDisplayTween);
                 }
             };
 
