@@ -380,15 +380,29 @@ export default class DebugScene extends Phaser.Scene
 
         // -- DEBUG TEXT -- //
 
+        var width = Math.ceil(MMRPG.canvas.width / 3), height = 90;
+        var x = MMRPG.canvas.xMax - width - 20, y = 330;
+        var lorem = "[Hey]{water} there [Bomb Man]{explode}! I know [i]I'm[/i] good, but how are [b]you[/b] today? I hear you got hit by a [Flame Sword]{flame_cutter}! [b][i]Your weakness[/i][/b]!!! [b][Gravity Man]{space_electric}[/b] is the one who told me btw.";
+        let $floatingTextBubble = Strings.addFormattedText(this, x, y, lorem, {
+            width: width,
+            height: height,
+            border: '#ff0000',
+            color: '#ffffff',
+            depth: 2000,
+            padding: 10,
+            });
+        this.floatingTextBubble = $floatingTextBubble;
+
         var x = 20, y = MMRPG.canvas.height - 30;
-        var lorem = 'Let go your earthly tether. Enter the void. Empty and become wind.';
-        Strings.addPlainText(this, x, y, lorem, {color: '#000000'});
+        var ipsum = 'Let go your earthly tether. Enter the void. Empty and become wind.';
+        Strings.addPlainText(this, x, y, ipsum, {color: '#000000'});
 
         // We should also show the current version just to be safe
         var x = MMRPG.canvas.width - 100, y = MMRPG.canvas.height - 26;
         var version = 'v ' + MMRPG.version;
         let $version = Strings.addPlainText(this, x, y, version, {color: '#000000', fontSize: '12px'});
         $version.x = MMRPG.canvas.width - $version.width - 20;
+
 
         // ---------------->
         // DEBUG DEBUG DEBUG
@@ -1126,6 +1140,51 @@ export default class DebugScene extends Phaser.Scene
 
             };
 
+        // Define a function that shows a robot's defeat quote in the position it was defeated
+        let robotQuoteBubbles = [];
+        let robotQuoteTimers = [];
+        const showRobotDefeatQuote = function($sprite){
+            // Destroy any existing floating text bubbles
+            if (ctx.floatingTextBubble){
+                //console.log('Destroying clicked ctx.floatingTextBubble:', ctx.floatingTextBubble);
+                ctx.floatingTextBubble.destroy();
+                ctx.floatingTextBubble = null;
+                }
+            // If the robot has quotes to display, let's do so now
+            let quoteDisplayed = false;
+            //console.log('robot destroyed:', robotInfo.token, robotInfo.name, robotInfo);
+            if (typeof robotInfo.quotes !== 'undefined'){
+                let robotQuotes = robotInfo.quotes;
+                if (typeof robotQuotes.battle_defeat
+                    && robotQuotes.battle_defeat.length){
+                    //console.log('robotQuotes.battle_defeat:', robotQuotes.battle_defeat);
+                    var text = robotQuotes.battle_defeat;
+                    var x = $slidingSprite.x, y = $slidingSprite.y;
+                    var width = Math.ceil(MMRPG.canvas.width / 4), height = 90;
+                    let $floatingTextBubble = Strings.addFormattedText(ctx, x, y, text, {
+                        width: width,
+                        height: height,
+                        color: '#ffffff',
+                        depth: 2000,
+                        padding: 10,
+                        border: false,
+                        });
+                    robotQuoteBubbles.push($floatingTextBubble);
+                    quoteDisplayed = true;
+                    }
+                }
+            // After a set amount of time, automatically destroy the floating text bubble
+            if (quoteDisplayed){
+                let quoteDisplayTimer = ctx.time.delayedCall(1500, function(){
+                    for (let i = 0; i < robotQuoteBubbles.length; i++){
+                        let $bubble = robotQuoteBubbles[i];
+                        $bubble.destroy();
+                        }
+                    });
+                robotQuoteTimers.push(quoteDisplayTimer);
+                }
+            };
+
         // Define a function for queueing cleanup of the sprite after a set amount of time
         let cleanupTimer = null;
         let cleanupDelay = 3000;
@@ -1159,11 +1218,10 @@ export default class DebugScene extends Phaser.Scene
         $slidingSprite.on('pointerdown', function(){
             //console.log('Sliding sprite clicked:', spriteToken);
             if (!$slidingSprite || $slidingSprite.isDisabled){ return; }
+            showRobotDefeatQuote($slidingSprite);
             explodeSpriteAndDestroy($slidingSprite);
             queueSpriteCleanup();
             });
-
-        //abilityShotSprites
 
         // Update the scene with last-used sprite token
         ctx.lastSlidingMaster = spriteToken;
