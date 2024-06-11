@@ -10,20 +10,19 @@ export class GraphicsUtility {
 
     // -- MATH-RELATED FUNCTIONS -- //
 
-    static getProportionalRadiusObject (width, height, baseRadiusObject)
+    static getProportionalRadiusObject (width, height, radius)
     {
-        let fallback = 0;
-        if (typeof baseRadiusObject === 'number'){ fallback = baseRadiusObject; }
-        if (!baseRadiusObject || typeof baseRadiusObject !== 'object'){ baseRadiusObject = {}; }
-        if (!baseRadiusObject.tl){ baseRadiusObject.tl = fallback; }
-        if (!baseRadiusObject.tr){ baseRadiusObject.tr = fallback; }
-        if (!baseRadiusObject.br){ baseRadiusObject.br = fallback; }
-        if (!baseRadiusObject.bl){ baseRadiusObject.bl = fallback; }
+        let fallback = typeof radius === 'number' ? radius : 0;
+        let radii = typeof radius === 'object' ? radius : {};
+        let topLeft = typeof radii.tl !== 'undefined' ? radii.tl : fallback;
+        let topRight = typeof radii.tr !== 'undefined' ? radii.tr : fallback;
+        let bottomRight = typeof radii.br !== 'undefined' ? radii.br : fallback;
+        let bottomLeft = typeof radii.bl !== 'undefined' ? radii.bl : fallback;
         return {
-            tl: this.calculateProportionalRadius(width, height, baseRadiusObject.tl),
-            tr: this.calculateProportionalRadius(width, height, baseRadiusObject.tr),
-            br: this.calculateProportionalRadius(width, height, baseRadiusObject.br),
-            bl: this.calculateProportionalRadius(width, height, baseRadiusObject.bl)
+            tl: this.calculateProportionalRadius(width, height, topLeft),
+            tr: this.calculateProportionalRadius(width, height, topRight),
+            br: this.calculateProportionalRadius(width, height, bottomRight),
+            bl: this.calculateProportionalRadius(width, height, bottomLeft)
             };
     }
     static calculateProportionalRadius (width, height, baseRadius)
@@ -61,6 +60,94 @@ export class GraphicsUtility {
         $panel.fillRoundedRect(panelConfig.x, panelConfig.y, panelConfig.width, panelConfig.height, radius);
         if (typeof panelConfig.depth === 'number'){ $panel.setDepth(panelConfig.depth); }
         return $panel;
+
+    }
+
+    static addInlineTypePanel (ctx, config)
+    {
+
+        // Pull in refs to specific indexes
+        let typesIndex = MMRPG.Indexes.types;
+        let typesIndexTokens = Object.keys(typesIndex);
+
+        // Define the panel configuration using above where possible
+        let panelConfig = {
+            x: typeof config.x === 'number' ? config.x : 20,
+            y: typeof config.y === 'number' ? config.y : 20,
+            width: typeof config.width === 'number' ? config.width : 600,
+            height: typeof config.height === 'number' ? config.height : 150,
+            depth: typeof config.depth === 'number' ? config.depth : 1000,
+            border: typeof config.border === 'string' ? config.border : '#696969',
+            background: typeof config.background === 'string' ? config.background : '#969696',
+            background2: typeof config.background2 === 'string' ? config.background2 : '#969696',
+            offsetX: typeof config.offsetX !== 'undefined' ? config.offsetX : 0,
+            offsetY: typeof config.offsetY !== 'undefined' ? config.offsetY : 0
+            };
+
+        // Let's only work with whole values to make things easier
+        panelConfig.width = Math.ceil(panelConfig.width);
+        panelConfig.height = Math.ceil(panelConfig.height);
+
+        // Create gradient texture
+        const canvasTextureKey = 'gradient_' + panelConfig.width + 'x' + panelConfig.height;
+        if (!ctx.textures.exists(canvasTextureKey)) {
+            const canvas = ctx.textures.createCanvas(canvasTextureKey, panelConfig.width + 1, panelConfig.height);
+            const grd = canvas.context.createLinearGradient(0, 0, panelConfig.width + 1, panelConfig.height);
+            grd.addColorStop(0, panelConfig.background);
+            grd.addColorStop(1, panelConfig.background2);
+            canvas.context.fillStyle = grd;
+            canvas.context.fillRect(0, 0, panelConfig.width, panelConfig.height);
+            canvas.refresh();
+        }
+
+        // Create a sprite with the gradient texture
+        const $gradient = ctx.add.image(panelConfig.x - 1, panelConfig.y, canvasTextureKey);
+        $gradient.setOrigin(0, 0);
+        $gradient.setDepth(panelConfig.depth - 1);
+
+        // Draw the panel with the specified configuration
+        //console.log('drawing a rounded rect at x:', panelConfig.x, 'y:', panelConfig.y, 'width:', panelConfig.width, 'height:', panelConfig.height);
+        let $panel = ctx.add.graphics({ x: panelConfig.x, y: panelConfig.y });
+        $panel.lineStyle(2, this.returnHexColorValue(panelConfig.border), 1);
+        $panel.fillStyle(this.returnHexColorValue(panelConfig.background), 0); // transparent for background
+        $panel.fillRoundedRect(panelConfig.offsetX, panelConfig.offsetY, panelConfig.width, panelConfig.height, 0);
+        $panel.strokeRoundedRect(panelConfig.offsetX, panelConfig.offsetY, panelConfig.width, panelConfig.height, 0);
+
+        if (typeof panelConfig.depth === 'number'){ $panel.setDepth(panelConfig.depth); }
+
+        // Create a group with all the elements
+        const $group = ctx.add.group();
+        $group.add($panel);
+        $group.add($gradient);
+
+        // Create a typePanel object to return and populate with methods
+        const $typePanel = {
+            x: panelConfig.x,
+            y: panelConfig.y,
+            width: panelConfig.width,
+            height: panelConfig.height,
+            depth: panelConfig.depth,
+            group: $group,
+            elems: [$panel, $gradient],
+            };
+        function setDepth (depth){
+            $typePanel.depth = depth;
+            $panel.setDepth(depth);
+            $gradient.setDepth(depth - 1);
+            };
+        function setPosition (x, y){
+            $typePanel.x = x;
+            $typePanel.y = y;
+            $panel.x = x;
+            $panel.y = y;
+            $gradient.x = x - 1;
+            $gradient.y = y;
+            };
+        $typePanel.setDepth = setDepth;
+        $typePanel.setPosition = setPosition;
+
+        // Return the typePanel object
+        return $typePanel;
 
     }
 
