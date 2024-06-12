@@ -77,4 +77,30 @@ MMRPG.init = function(source, namespace, onFirstLoad, onRepeatLoads){
 
     };
 
+// Define a global preload function to run at the start of any MMRPG scene
+MMRPG.preload = function(scene, isPreloadPhase = false){
+
+    // ... //
+
+    };
+
+// Define a global create function to run at the start of any MMRPG scene
+MMRPG.create = function(scene, isPreloadPhase = false){
+
+    // Create the base canvas for which the rest of the game will be drawn
+    var canvas = scene.add.image(0, 0, 'canvas');
+    canvas.setOrigin(0, 0);
+
+    // If we're still in the preload phase, we should return early
+    // before trying to use more complex game objects
+    if (isPreloadPhase){ return; }
+
+    // Create the sound effects object for the scene if not exists
+    if (!scene.SOUNDS){
+        let SOUNDS = scene.sound.addAudioSprite('sounds.effects');
+        scene.SOUNDS = SOUNDS;
+        }
+
+    };
+
 export default MMRPG;
