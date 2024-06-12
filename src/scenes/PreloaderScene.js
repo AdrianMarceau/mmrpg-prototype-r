@@ -79,8 +79,12 @@ export default class PreloaderScene extends Phaser.Scene
         //console.log('PreloaderScene.preload() called @ ', this.preloadStep);
         //console.log('WE ARE IN ', this.preloadStep.toUpperCase(), ' PRELOAD STEP');
 
-        // Pull in required object references
+        // Pull in global MMRPG object and trigger the create function
         let MMRPG = this.MMRPG;
+        MMRPG.preload(this, true);
+
+        // Pull in other required objects and references
+        let ctx = this;
         let SPRITES = this.SPRITES;
 
         // Pull in some indexes for later use
@@ -259,9 +263,12 @@ export default class PreloaderScene extends Phaser.Scene
     {
         //console.log('PreloaderScene.create() called @ ', this.preloadStep);
 
-        // Pull in required object references
-        let ctx = this;
+        // Pull in global MMRPG object and trigger the create function
         let MMRPG = this.MMRPG;
+        MMRPG.create(this, true);
+
+        // Pull in other required objects and references
+        let ctx = this;
         let SPRITES = this.SPRITES;
 
         // Create the base canvas for which the rest of the game will be drawn
