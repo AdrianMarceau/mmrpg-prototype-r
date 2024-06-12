@@ -307,7 +307,7 @@ export default class DebugScene extends Phaser.Scene
             depth: 8000
             }, function(){
             //console.log('Show Master Sliding button clicked');
-            ctx.showMasterSliding();
+            ctx.showMasterSliding(null, null, 'left');
             });
 
 
@@ -565,9 +565,9 @@ export default class DebugScene extends Phaser.Scene
     }
 
      // Define a function that generates a sprite of a robot and animates it sliding across the screen
-    showMasterSliding (token, alt)
+    showMasterSliding (token, alt, side)
     {
-        //console.log('DebugScene.showMasterSliding() called w/ token =', token, 'alt =', alt);
+        //console.log('DebugScene.showMasterSliding() called w/ token =', token, 'alt =', alt, 'side =', side);
         //console.log('ctx.masterTokensByCoreType['+alt+'] =', this.masterTokensByCoreType[alt]);
 
         // Pull in required object references
@@ -600,8 +600,11 @@ export default class DebugScene extends Phaser.Scene
         let randKey = Math.floor(Math.random() * randTokens.length);
 
         // Collect the sprite token and alt if provided, else rely on the random key
+        let spriteSide = side || 'left';
+        let spriteDirection = spriteSide === 'left' ? 'right' : 'left';
         let spriteToken = token || randTokens[randKey];
         let spriteAlt = alt || 'base';
+        //console.log('spriteToken =', spriteToken, 'spriteAlt =', spriteAlt, 'spriteSide =', spriteSide, 'spriteDirection =', spriteDirection);
 
         // If the sprite token ends with an "*_{alt}", make sure we parse it out
         if (spriteToken.indexOf('_') !== -1){
@@ -641,11 +644,12 @@ export default class DebugScene extends Phaser.Scene
         //console.log('abilityInfo for ', abilitySpriteToken, '=', abilityInfo);
 
         // Define the base coordinates for the sprite to be added
-        let spriteX = - 40 - ((numSprites % 10) * 5);
+        var offset = ((numSprites % 10) * 5);
+        let spriteX = spriteSide === 'left' ? (0 - offset - 40) : (MMRPG.canvas.width + offset + 40);
         let spriteY = this.battleBanner.y + 90 + ((numSprites % 10) * 10);
 
         // Create the new sliding sprite and add it to the scene
-        let $slidingSprite = ctx.add.sprite(spriteX, spriteY, robotSpriteInfo['sprite']['right']['sheet']);
+        let $slidingSprite = ctx.add.sprite(spriteX, spriteY, robotSpriteInfo['sprite'][spriteDirection]['sheet']);
         ctx.debugSprites.push($slidingSprite);
         $slidingSprite.debugKey = ctx.debugSprites.length - 1;
         ctx.debugAddedSprites++;
@@ -670,7 +674,7 @@ export default class DebugScene extends Phaser.Scene
         let slideSpeed = robotInfo.speed;
         let slideSpeedMultiplier = (slideSpeed / 100);
         let slideDistance = (MMRPG.canvas.width / 3) * slideSpeedMultiplier;
-        let slideDestination = MMRPG.canvas.width + 40;
+        let slideDestination = spriteSide === 'left' ? (MMRPG.canvas.width + 40) : (0 - 40);
         let slideDuration = 2000 - (500 * slideSpeedMultiplier);
         //if (numSprites >= 10){ slideDuration /= 2; }
         //console.log('numSprites = ', numSprites);
@@ -860,7 +864,7 @@ export default class DebugScene extends Phaser.Scene
             // Wait a moment for the robot to finish its kickback, then animate the shot going offscreen at predetermined speed
             $shotSprite.subTimers.bulletTween = ctx.time.delayedCall(400, function(){
                 if (!$shotSprite){ return; }
-                $shotSprite.setAlpha(0.3);
+                $shotSprite.setAlpha(0.6);
                 $shotSprite.setFrame(shotFrame);
                 $shotSprite.subTweens.bulletTween = ctx.add.tween({
                     targets: $shotSprite,
@@ -895,14 +899,17 @@ export default class DebugScene extends Phaser.Scene
                 } else if ($sprite.x < (MMRPG.canvas.xMin + 20)){
                 return slideSpriteBackward($sprite, distance, destination, duration, onComplete);
                 } else {
-                let backChance = Math.random() * 100;
-                if (backChance >= 50){
-                    return slideSpriteForward($sprite, distance, destination, duration, onComplete);
-                    } else if (backChance >= 25){
-                    return makeSpriteShoot($sprite, distance, destination, duration, onComplete);
-                    } else {
-                    return slideSpriteBackward($sprite, distance, destination, duration, onComplete);
+                let slidePref = destination > MMRPG.canvas.centerX ? 'forward' : 'backward';
+                let randChance = Math.random() * 100;
+                let nextSpriteFunction;
+                if (randChance <= 20) {
+                    nextSpriteFunction = makeSpriteShoot;
+                    } else if (slidePref === 'forward'){
+                    nextSpriteFunction = randChance <= 80 ? slideSpriteForward : slideSpriteBackward;
+                    } else if (slidePref === 'backward'){
+                    nextSpriteFunction = randChance <= 80 ? slideSpriteBackward : slideSpriteForward;
                     }
+                return nextSpriteFunction($sprite, distance, destination, duration, onComplete);
                 }
             };
 
@@ -1154,9 +1161,13 @@ export default class DebugScene extends Phaser.Scene
             };
 
         // Preset the sprite direction to right, and then start playing the slide animation
-        $slidingSprite.direction = 'right';
-        $slidingSprite.play(robotSpriteInfo['sprite'][$slidingSprite.direction]['anim']['slide']);
-        slideSpriteForward($slidingSprite, slideDistance, slideDestination, slideDuration, function($slidingSprite){
+        $slidingSprite.direction = spriteDirection;
+        $slidingSprite.play(robotSpriteInfo['sprite'][spriteDirection]['anim']['slide']);
+        let startFunction;
+        if (spriteDirection === 'right'){ startFunction = slideSpriteForward; }
+        else if (spriteDirection === 'left'){ startFunction = slideSpriteBackward; }
+        //console.log('Starting slide animation for', robotInfo.name, 'w/ token:', spriteToken, 'and alt:', spriteAlt);
+        startFunction($slidingSprite, slideDistance, slideDestination, slideDuration, function($slidingSprite){
             //console.log('%c' + 'All animations for ' + robotInfo.name + ' complete!', 'color: amber;');
             queueSpriteCleanup();
             });
@@ -1203,9 +1214,11 @@ export default class DebugScene extends Phaser.Scene
             ;
         if (direction === 'right'){
             if ((x + width) <= MMRPG.canvas.width){
+                // We are still safe to continue this direction
                 mainBanner.setPosition(x + speed, y + speed);
                 mainBanner.setSize(width - resize, height - resize);
                 } else {
+                // We need to bounce to the other side now
                 if (ctx.allowRunningDoctors){ ctx.showDoctorRunning(); }
                 if (ctx.allowSlidingMasters){
                     var doctor = ctx.lastRunningDoctor;
@@ -1213,7 +1226,7 @@ export default class DebugScene extends Phaser.Scene
                     if (doctor === 'dr-light'){ master = mainBanner.type === 'copy' ? 'mega-man' : 'roll'; }
                     else if (doctor === 'dr-wily'){ master = mainBanner.type === 'copy' ? 'bass' : 'disco'; }
                     else if (doctor === 'dr-cossack'){ master = mainBanner.type === 'copy' ? 'proto-man' : 'rhythm'; }
-                    this.showMasterSliding(master);
+                    this.showMasterSliding(master, null, 'left');
                     }
                 var type = 'copy';
                 var typeInfo = types[type];
@@ -1227,9 +1240,11 @@ export default class DebugScene extends Phaser.Scene
                 }
             } else if (direction === 'left'){
             if (x >= 0){
+                // We are still safe to continue this direction
                 mainBanner.setPosition(x - speed, y - speed);
                 mainBanner.setSize(width + resize, height + resize);
                 } else {
+                // We need to bounce to the other side now
                 if (ctx.allowRunningDoctors){ ctx.showDoctorRunning(); }
                 if (ctx.allowSlidingMasters){
                     var doctor = ctx.lastRunningDoctor;
@@ -1237,7 +1252,7 @@ export default class DebugScene extends Phaser.Scene
                     if (doctor === 'dr-light'){ master = mainBanner.type === 'copy' ? 'mega-man' : 'roll'; }
                     else if (doctor === 'dr-wily'){ master = mainBanner.type === 'copy' ? 'bass' : 'disco'; }
                     else if (doctor === 'dr-cossack'){ master = mainBanner.type === 'copy' ? 'proto-man' : 'rhythm'; }
-                    this.showMasterSliding(master);
+                    this.showMasterSliding(master, null, 'left');
                     }
                 var type = 'none';
                 var typeInfo = types[type];
@@ -1295,7 +1310,7 @@ export default class DebugScene extends Phaser.Scene
             var color2 = types[type]['colour_dark'];
             testBanner.setColor(color, color2);
             if (ctx.allowSlidingMasters){
-                this.showMasterSliding(null, type);
+                this.showMasterSliding(null, type, 'right');
                 }
             }
 
@@ -1369,7 +1384,7 @@ export default class DebugScene extends Phaser.Scene
                 depth: typeButtonDepth
                 }, function(){
                 console.log('Huh? Type button clicked:', typeToken);
-                ctx.showMasterSliding(null, typeToken);
+                ctx.showMasterSliding(null, typeToken, 'right');
                 });
             typeButtons.push($typeButton);
             widthUsed += typeButtonWidth + typeButtonMargin;
