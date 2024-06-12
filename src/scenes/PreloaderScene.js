@@ -244,6 +244,13 @@ export default class PreloaderScene extends Phaser.Scene
                 this.queueMockup(image, 'mockup_' + image + '.png');
                 });
 
+            // Also preload the sound effects for the game here (?)
+            // Load the sound sprite and JSON configuration
+            //let soundsPath = 'content/sounds/misc/sound-effects-curated/';
+            //this.load.audioSprite('sounds', soundsPath+'audio.json', [soundsPath+'audio.mp3', soundsPath+'audio.ogg']);
+            let sfxPath = 'misc/sound-effects-curated/';
+            this.queueAudioSprite('effects', sfxPath+'audio.json', [sfxPath+'audio.mp3', sfxPath+'audio.ogg']);
+
             }
 
     }
@@ -308,6 +315,8 @@ export default class PreloaderScene extends Phaser.Scene
         this.loadQueuedIndexes();
         this.loadQueuedSprites();
         this.loadQueuedMockups();
+        this.loadQueuedAudio();
+        this.loadQueuedAudioSprites();
 
         // Start loading and pending assets now that we're setup
         this.load.start();
@@ -376,6 +385,38 @@ export default class PreloaderScene extends Phaser.Scene
         ctx.preloadQueue.push({ kind: 'mockup', name: name, key: mockupKey, path: mockupPath });
         ctx.preloadsQueued++;
     }
+    queueAudio (name, file)
+    {
+        let ctx = this;
+        let basePath = 'content/sounds/';
+        let audioKey = 'sounds.' + name;
+        let audioPath = basePath + file;
+        ctx.load.on('filecomplete', (file) => {
+            if (file !== audioKey){ return; }
+            ctx.preloadsCompleted++;
+            ctx.preloadQueue = ctx.preloadQueue.filter((item) => item.name !== name);
+            });
+        //ctx.load.audio(audioKey, audioPath);
+        ctx.preloadQueue.push({ kind: 'audio', name: name, key: audioKey, path: audioPath });
+        ctx.preloadsQueued++;
+    }
+    queueAudioSprite (name, jsonFile, audioFiles)
+    {
+        //console.log('PreloaderScene.queueAudioSprite() called w/ name = ' + name + ', jsonFile = ' + jsonFile + ', audioFiles = ', audioFiles);
+        let ctx = this;
+        let basePath = 'content/sounds/';
+        let audioKey = 'sounds.' + name;
+        let jsonPath = basePath + jsonFile;
+        let audioPaths = audioFiles.map((file) => basePath + file);
+        ctx.load.on('filecomplete', (file) => {
+            if (file !== audioKey){ return; }
+            //console.log('Audio sprite filecomplete event called!!!\n file =', file, '\n audioKey =', audioKey);
+            ctx.preloadsCompleted++;
+            ctx.preloadQueue = ctx.preloadQueue.filter((item) => item.name !== name);
+            });
+        ctx.preloadQueue.push({ kind: 'audio-sprite', name: name, key: audioKey, path: jsonPath, sources: audioPaths });
+        ctx.preloadsQueued++;
+    }
 
     loadQueuedIndexes ()
     {
@@ -408,5 +449,27 @@ export default class PreloaderScene extends Phaser.Scene
             ctx.load.image(key, path);
             });
     }
+    loadQueuedAudio ()
+    {
+        let ctx = this;
+        let queue = this.preloadQueue.filter((item) => item.kind === 'audio');
+        queue.forEach((item) => {
+            let key = item.key;
+            let path = item.path;
+            ctx.load.audio(key, path);
+            });
+    }
+    loadQueuedAudioSprites ()
+    {
+        let ctx = this;
+        let queue = this.preloadQueue.filter((item) => item.kind === 'audio-sprite');
+        queue.forEach((item) => {
+            let key = item.key;
+            let path = item.path;
+            let sources = item.sources;
+            ctx.load.audioSprite(key, path, sources);
+            });
+    }
+
 
 }
