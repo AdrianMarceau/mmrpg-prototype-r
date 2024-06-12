@@ -67,11 +67,16 @@ export default class DebugScene extends Phaser.Scene
     {
         //console.log('DebugScene.preload() called');
 
-        // Pull in required object references
+        // Pull in global MMRPG object and trigger the create function
         let MMRPG = this.MMRPG;
+        MMRPG.preload(this);
+
+        // Pull in other required objects and references
+        let ctx = this;
         let SPRITES = this.SPRITES;
         let POPUPS = this.POPUPS;
         let BUTTONS = this.BUTTONS;
+        let SOUNDS = this.SOUNDS;
 
         // Pull in some indexes for later use
         let typesIndex = MMRPG.Indexes.types;
