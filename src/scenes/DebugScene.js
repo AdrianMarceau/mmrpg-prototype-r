@@ -667,7 +667,7 @@ export default class DebugScene extends Phaser.Scene
             duration: runDuration,
             onComplete: function () {
                 //console.log(playerInfo.name + ' running movement complete!');
-                ctx.destroySpriteAndCleanup($runningSprite);
+                SPRITES.destroySpriteAndCleanup(ctx, $runningSprite);
                 }
             });
 
@@ -973,7 +973,7 @@ export default class DebugScene extends Phaser.Scene
                     duration: shotDuration,
                     onComplete: function () {
                         //console.log(robotInfo.name + '\'s ' + abilityInfo.name + ' movement complete!');
-                        ctx.destroySprite($shotSprite);
+                        SPRITES.destroySprite(ctx, $shotSprite);
                         }
                     });
                 });
@@ -1060,8 +1060,8 @@ export default class DebugScene extends Phaser.Scene
             // Stop any of this sprite's tweens and timers, then play the explosion animation
             $sprite.isDisabled = true;
             $sprite.stop();
-            ctx.stopSpriteTweens($sprite, false);
-            ctx.stopSpriteTimers($sprite, false);
+            SPRITES.stopSpriteTweens(ctx, $sprite, false);
+            SPRITES.stopSpriteTimers(ctx, $sprite, false);
 
             // Set the frame to disabled and darken the sprite, then play the explosion animation
             $sprite.setFrame(3);
@@ -1081,7 +1081,7 @@ export default class DebugScene extends Phaser.Scene
                     },
                 onComplete: function (){
                     //console.log(robotInfo.name + ' explosion complete!');
-                    ctx.destroySprite($sprite);
+                    SPRITES.destroySprite(ctx, $sprite);
                     }
                 });
 
@@ -1135,7 +1135,7 @@ export default class DebugScene extends Phaser.Scene
                     },
                 onComplete: function () {
                     //console.log(robotInfo.name + '\'s explosion fade complete!');
-                    ctx.destroySprite($explodeSprite);
+                    SPRITES.destroySprite(ctx, $explodeSprite);
                     }
                 });
 
@@ -1205,22 +1205,52 @@ export default class DebugScene extends Phaser.Scene
                 }
             };
 
+        // Define a function for pulling debug keys from a sprite recursively
+        const getDebugKeys = function($sprite){
+            //console.log('getDebugKeys() w/ $sprite:', $sprite);
+            let debugKeys = [];
+            if (!$sprite){ return debugKeys; }
+            if ($sprite.debugKey){ debugKeys.push($sprite.debugKey); }
+            //console.log('debugKeys:', debugKeys);
+            if (typeof $sprite.subSprites !== 'undefined'
+                && $sprite.subSprites.length){
+                //console.log('Checking subSprites:', $sprite.subSprites);
+                for (let i = 0; i < $sprite.subSprites.length; i++){
+                    let $subSprite = $sprite.subSprites[i];
+                    let subKeys = getDebugKeys($subSprite);
+                    if (subKeys.length){ debugKeys = debugKeys.concat(subKeys); }
+                    }
+                }
+            return debugKeys;
+            };
+
         // Define a function for queueing cleanup of the sprite after a set amount of time
         let cleanupTimer = null;
         let cleanupDelay = 3000;
         const queueSpriteCleanup = function(){
             //console.log('queueSpriteCleanup() w/ $sprite:', $sprite, 'duration:', duration);
             if (cleanupTimer){ cleanupTimer.remove(); }
+            let removeDebugKeys = [];
             cleanupTimer = ctx.time.delayedCall(cleanupDelay, function(){
                 //console.log('Time to cleanup sprites:', $slidingSprite);
-                ctx.destroySpriteAndCleanup($slidingSprite, true);
+                removeDebugKeys = removeDebugKeys.concat(getDebugKeys($slidingSprite));
+                SPRITES.destroySpriteAndCleanup(ctx, $slidingSprite, true);
                 for (let i = 0; i < abilityShotSprites.length; i++){
                     let $abilityShotSprite = abilityShotSprites[i];
-                    ctx.destroySpriteAndCleanup($abilityShotSprite, true);
+                    removeDebugKeys = removeDebugKeys.concat(getDebugKeys($abilityShotSprite));
+                    SPRITES.destroySpriteAndCleanup(ctx, $abilityShotSprite, true);
                     }
                 for (let i = 0; i < explodeEffectSprites.length; i++){
                     let $explodeEffectSprite = explodeEffectSprites[i];
-                    ctx.destroySpriteAndCleanup($explodeEffectSprite, true);
+                    removeDebugKeys = removeDebugKeys.concat(getDebugKeys($explodeEffectSprite));
+                    SPRITES.destroySpriteAndCleanup(ctx, $explodeEffectSprite, true);
+                    }
+                //console.log('removeDebugKeys:', removeDebugKeys);
+                for (let i = 0; i < removeDebugKeys.length; i++){
+                    let debugKey = removeDebugKeys[i];
+                    //console.log('Removing debug key:', debugKey, 'from debugSprites:', ctx.debugSprites);
+                    delete ctx.debugSprites[debugKey];
+                    ctx.debugRemovedSprites++;
                     }
                 });
             };
@@ -1245,143 +1275,6 @@ export default class DebugScene extends Phaser.Scene
 
         // Update the scene with last-used sprite token
         ctx.lastSlidingMaster = spriteToken;
-    }
-
-    // Define a function for stopping any tweens attached to a given sprite
-    stopSpriteTweens ($sprite, recursive = true)
-    {
-        //console.log('stopSpriteTweens() w/ $sprite:', $sprite, 'recursive:', recursive);
-        if (!$sprite){ return; }
-        //console.log('$sprite', typeof $sprite, $sprite, ($sprite ? true : false));
-
-        // Collect a reference to the scene context
-        let ctx = this;
-
-        // Stop any tweens on this sprite itself
-        if (typeof $sprite.stop === 'function'){ $sprite.stop(); }
-
-        // Stop and destroy any tweens attached to this sprite
-        if ($sprite.subTweens){
-            let keys = Object.keys($sprite.subTweens);
-            for (let i = 0; i < keys.length; i++){
-                let $tween = $sprite.subTweens[keys[i]];
-                $tween.stop().destroy();
-                }
-            }
-
-        // Recursively destroy any sub-sprites attached to this one
-        if (recursive && $sprite.subSprites){
-            let keys = Object.keys($sprite.subSprites);
-            for (let i = 0; i < keys.length; i++){
-                let $subSprite = $sprite.subSprites[keys[i]];
-                if (!$subSprite.subSprites){ continue; }
-                ctx.stopSpriteTweens($subSprite);
-                }
-            }
-
-        // Return true on success
-        return true;
-
-    }
-
-    // Define a function for stopping any timers attached to a given sprite
-    stopSpriteTimers ($sprite, recursive = true)
-    {
-        //console.log('stopSpriteTimers() w/ $sprite:', $sprite, 'recursive:', recursive);
-        if (!$sprite){ return; }
-        //console.log('$sprite', typeof $sprite, $sprite, ($sprite ? true : false));
-
-        // Collect a reference to the scene context
-        let ctx = this;
-
-        // Stop and destroy any timers attached to this sprite
-        if ($sprite.subTimers){
-            let keys = Object.keys($sprite.subTimers);
-            for (let i = 0; i < keys.length; i++){
-                let $timer = $sprite.subTimers[keys[i]];
-                $timer.remove();
-                }
-            }
-
-        // Recursively destroy any sub-sprites attached to this one
-        if (recursive && $sprite.subSprites){
-            let keys = Object.keys($sprite.subSprites);
-            for (let i = 0; i < keys.length; i++){
-                let $subSprite = $sprite.subSprites[keys[i]];
-                if (!$subSprite.subSprites){ continue; }
-                ctx.stopSpriteTimers($subSprite);
-                }
-            }
-
-        // Return true on success
-        return true;
-
-    }
-
-    // Define a function for disabling a robot sprite and hiding it from view until destruction
-    destroySprite ($sprite)
-    {
-        //console.log('disableRobotSprite() w/ $sprite:', $sprite);
-        if (!$sprite){ return; }
-
-        // Hide the sprite visually and set it to be destroyed
-        $sprite.x = -9999;
-        $sprite.y = -9999;
-        $sprite.setAlpha(0);
-        $sprite.setActive(false);
-        $sprite.setVisible(false);
-        $sprite.toBeDestroyed = true;
-
-        // Stop and destroy any tweens attached to this sprite
-        this.stopSpriteTweens($sprite, true);
-
-        // Stop and destroy any timers attached to this sprite
-        this.stopSpriteTimers($sprite, true);
-
-        return $sprite;
-    }
-
-    // Define a function for destroying a sprite as well as any children from the scene
-    destroySpriteAndCleanup ($sprite, recursive = true)
-    {
-        //console.log('destroySpriteAndCleanup() w/ $sprite:', $sprite, 'recursive:', recursive);
-        //console.log('$sprite starts as:', typeof $sprite, $sprite, ($sprite ? true : false));
-        if (!$sprite){ return; }
-
-        // Collect a reference to the scene context
-        let ctx = this;
-
-        // Save backup refs for children in case not recusive
-        let $echo = {};
-        $echo.subTweens = $sprite.subTweens || {};
-        $echo.subTimers = $sprite.subTimers || {};
-        $echo.subSprites = $sprite.subSprites || {};
-
-        // First we "destroy" the sprite by fully hiding it
-        ctx.destroySprite($sprite);
-
-        // Recursively destroy any sub-sprites attached to this one
-        if (recursive && $sprite.subSprites){
-            let keys = Object.keys($sprite.subSprites);
-            for (let i = 0; i < keys.length; i++){
-                let $subSprite = $sprite.subSprites[keys[i]];
-                if (!$subSprite.subSprites){ continue; }
-                ctx.destroySpriteAndCleanup($subSprite);
-                }
-            }
-
-        // Now we can destroy this actual sprite
-        $sprite.destroy();
-        this.debugRemovedSprites++;
-        delete this.debugSprites[$sprite.debugKey];
-
-        // Set the sprite equal to null to ensure it's not used again
-        $sprite = null;
-
-        // Return the backup refs for children in case not recusive
-        //console.log('$sprite is now:', typeof $sprite, $sprite, ($sprite ? true : false));
-        return $echo;
-
     }
 
     addPanelWithTypeButtons (config){

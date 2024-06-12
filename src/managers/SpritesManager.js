@@ -406,4 +406,149 @@ export default class SpritesManager {
 
     }
 
+
+    // -- SPRITE DESTRUCTION FUNCTIONS -- //
+
+    // Define a function for stopping any tweens attached to a given sprite
+    stopSpriteTweens (ctx, $sprite, recursive = true)
+    {
+        //console.log('stopSpriteTweens() w/ $sprite:', $sprite, 'recursive:', recursive);
+        if (!$sprite){ return; }
+        //console.log('$sprite', typeof $sprite, $sprite, ($sprite ? true : false));
+
+        // Pull in required references
+        let SPRITES = this;
+
+        // Stop any tweens on this sprite itself
+        if (typeof $sprite.stop === 'function'){ $sprite.stop(); }
+
+        // Stop and destroy any tweens attached to this sprite
+        if ($sprite.subTweens){
+            let keys = Object.keys($sprite.subTweens);
+            for (let i = 0; i < keys.length; i++){
+                let $tween = $sprite.subTweens[keys[i]];
+                $tween.stop().destroy();
+                }
+            }
+
+        // Recursively destroy any sub-sprites attached to this one
+        if (recursive && $sprite.subSprites){
+            let keys = Object.keys($sprite.subSprites);
+            for (let i = 0; i < keys.length; i++){
+                let $subSprite = $sprite.subSprites[keys[i]];
+                if (!$subSprite.subSprites){ continue; }
+                SPRITES.stopSpriteTweens($subSprite);
+                }
+            }
+
+        // Return true on success
+        return true;
+
+    }
+
+    // Define a function for stopping any timers attached to a given sprite
+    stopSpriteTimers (ctx, $sprite, recursive = true)
+    {
+        //console.log('stopSpriteTimers() w/ $sprite:', $sprite, 'recursive:', recursive);
+        if (!$sprite){ return; }
+        //console.log('$sprite', typeof $sprite, $sprite, ($sprite ? true : false));
+
+        // Pull in required references
+        let SPRITES = this;
+
+        // Stop and destroy any timers attached to this sprite
+        if ($sprite.subTimers){
+            let keys = Object.keys($sprite.subTimers);
+            for (let i = 0; i < keys.length; i++){
+                let $timer = $sprite.subTimers[keys[i]];
+                $timer.remove();
+                }
+            }
+
+        // Recursively destroy any sub-sprites attached to this one
+        if (recursive && $sprite.subSprites){
+            let keys = Object.keys($sprite.subSprites);
+            for (let i = 0; i < keys.length; i++){
+                let $subSprite = $sprite.subSprites[keys[i]];
+                if (!$subSprite.subSprites){ continue; }
+                SPRITES.stopSpriteTimers($subSprite);
+                }
+            }
+
+        // Return true on success
+        return true;
+
+    }
+
+    // Define a function for disabling a robot sprite and hiding it from view until destruction
+    destroySprite (ctx, $sprite)
+    {
+        //console.log('disableRobotSprite() w/ $sprite:', $sprite);
+        if (!$sprite){ return; }
+
+        // Pull in required references
+        let SPRITES = this;
+
+        // Hide the sprite visually and set it to be destroyed
+        $sprite.x = -9999;
+        $sprite.y = -9999;
+        $sprite.setAlpha(0);
+        $sprite.setActive(false);
+        $sprite.setVisible(false);
+        $sprite.toBeDestroyed = true;
+
+        // Stop and destroy any tweens attached to this sprite
+        SPRITES.stopSpriteTweens(ctx, $sprite, true);
+
+        // Stop and destroy any timers attached to this sprite
+        SPRITES.stopSpriteTimers(ctx, $sprite, true);
+
+        return $sprite;
+    }
+
+    // Define a function for destroying a sprite as well as any children from the scene
+    destroySpriteAndCleanup (ctx, $sprite, recursive = true)
+    {
+        //console.log('destroySpriteAndCleanup() w/ $sprite:', $sprite, 'recursive:', recursive);
+        //console.log('$sprite starts as:', typeof $sprite, $sprite, ($sprite ? true : false));
+        if (!$sprite){ return; }
+
+        // Pull in required references
+        let SPRITES = this;
+
+        // Save backup refs for children in case not recusive
+        let $echo = {};
+        $echo.subTweens = $sprite.subTweens || {};
+        $echo.subTimers = $sprite.subTimers || {};
+        $echo.subSprites = $sprite.subSprites || {};
+
+        // First we "destroy" the sprite by fully hiding it
+        SPRITES.destroySprite(ctx, $sprite);
+
+        // Recursively destroy any sub-sprites attached to this one
+        if (recursive && $sprite.subSprites){
+            let keys = Object.keys($sprite.subSprites);
+            for (let i = 0; i < keys.length; i++){
+                let $subSprite = $sprite.subSprites[keys[i]];
+                if (!$subSprite.subSprites){ continue; }
+                SPRITES.destroySpriteAndCleanup($subSprite);
+                }
+            }
+
+        // Now we can destroy this actual sprite
+        $sprite.destroy();
+
+        // leftover from DebugScene implementation (might re-use later)
+        //this.debugRemovedSprites++;
+        //delete this.debugSprites[$sprite.debugKey];
+
+        // Set the sprite equal to null to ensure it's not used again
+        $sprite = null;
+
+        // Return the backup refs for children in case not recusive
+        //console.log('$sprite is now:', typeof $sprite, $sprite, ($sprite ? true : false));
+        return $echo;
+
+    }
+
 }
