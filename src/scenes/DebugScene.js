@@ -196,119 +196,7 @@ export default class DebugScene extends Phaser.Scene
 
         // -- BUTTONS -- //
 
-        window.setCurrentGameScene(ctx);
-        let pauseTimeout = null;
-        let $pauseButton = BUTTONS.makeSimpleButton('PAUSE', {
-            x: MMRPG.canvas.centerX - 50, y: 70,
-            width: 120, height: 24,
-            size: 10, color: '#cacaca',
-            depth: 8100
-            }, function(){
-            //console.log('Pause button clicked');
-            window.toggleGameIsClickable(false);
-            window.toggleGameIsRunning(false);
-            ctx.scene.pause();
-            if (pauseTimeout){ clearTimeout(pauseTimeout); }
-            pauseTimeout = setTimeout(function(){
-                window.toggleGameIsClickable(true);
-                }, 1000);
-            });
-
-        // Create a back button so we can return to the title
-        BUTTONS.makeSimpleButton('< Back to Title', {
-            x: 50, y: 50,
-            width: 150, height: 24,
-            size: 8, color: '#7d7d7d',
-            depth: 8000
-            }, function(){
-            //console.log('Back button clicked');
-            ctx.scene.start('Title');
-            });
-
-        // Create a next button so we can go to the main scene
-        BUTTONS.makeSimpleButton('Go to Main >', {
-            x: 600, y: 50,
-            width: 150, height: 24,
-            size: 8, color: '#7d7d7d',
-            depth: 8000
-            }, function(){
-            //console.log('Main button clicked');
-            ctx.scene.start('Main');
-            });
-
-        // Create some debug buttons to trigger specific functionality for testing
-        BUTTONS.makeSimpleButton('Welcome Home', {
-            x: 50, y: 100,
-            width: 300, height: 24,
-            size: 13, color: '#7d7d7d',
-            depth: 8000
-            }, function(){
-            //console.log('Show Welcome Home button clicked');
-            POPUPS.debugWelcomePopup();
-            });
-        BUTTONS.makeSimpleButton('Tales from the Void', {
-            x: 450, y: 100,
-            width: 300, height: 24,
-            size: 13, color: '#95c418',
-            depth: 8000
-            }, function(){
-            //console.log('Show Tales from the Void button clicked');
-            ctx.showTalesFromTheVoid();
-            });
-
-        BUTTONS.makeSimpleButton('Toggle Doctor Stream', {
-            x: 50, y: 150,
-            width: 300, height: 24,
-            size: 11, color: '#00ff00',
-            depth: 8000
-            }, function(button){
-            //console.log('Toggle Doctors Running button clicked');
-            if (ctx.allowRunningDoctors){
-                button.text.setTint(0xff0000);
-                //button.text.setColor('#ff0000');
-                ctx.allowRunningDoctors = false;
-                } else {
-                button.text.setTint(0x00ff00);
-                //button.text.setColor('#00ff00');
-                ctx.allowRunningDoctors = true;
-                }
-            });
-        BUTTONS.makeSimpleButton('Running Doctor', {
-            x: 50, y: 180,
-            width: 300, height: 24,
-            size: 13, color: '#6592ff',
-            depth: 8000
-            }, function(){
-            //console.log('Show Doctor Running button clicked');
-            ctx.showDoctorRunning();
-            });
-
-        BUTTONS.makeSimpleButton('Toggle Master Stream', {
-            x: 450, y: 150,
-            width: 300, height: 24,
-            size: 11, color: '#00ff00',
-            depth: 8000
-            }, function(button){
-            //console.log('Toggle Masters Sliding button clicked');
-            if (ctx.allowSlidingMasters){
-                button.text.setTint(0xff0000);
-                //button.text.setColor('#ff0000');
-                ctx.allowSlidingMasters = false;
-                } else {
-                button.text.setTint(0x00ff00);
-                //button.text.setColor('#00ff00');
-                ctx.allowSlidingMasters = true;
-                }
-            });
-        BUTTONS.makeSimpleButton('Sliding Master', {
-            x: 450, y: 180,
-            width: 300, height: 24,
-            size: 13, color: '#6592ff',
-            depth: 8000
-            }, function(){
-            //console.log('Show Master Sliding button clicked');
-            ctx.showMasterSliding(null, null, 'left');
-            });
+        this.createHeaderButtons();
 
 
         // -- BANNERS -- //
@@ -1184,6 +1072,134 @@ export default class DebugScene extends Phaser.Scene
 
         // Update the scene with last-used sprite token
         ctx.lastSlidingMaster = spriteToken;
+    }
+
+    // Define a function for adding all the header buttons to the scene
+    createHeaderButtons ()
+    {
+        //console.log('DebugScene.createHeaderButtons() called');
+
+        // Pull in required object references
+        let ctx = this;
+        let MMRPG = this.MMRPG;
+        let SPRITES = this.SPRITES;
+        let POPUPS = this.POPUPS;
+        let BUTTONS = this.BUTTONS;
+
+        window.setCurrentGameScene(ctx);
+        let pauseTimeout = null;
+        let $pauseButton = BUTTONS.makeSimpleButton('PAUSE', {
+            x: MMRPG.canvas.centerX - 50, y: 70,
+            width: 120, height: 24,
+            size: 10, color: '#cacaca',
+            depth: 8100
+            }, function(){
+            //console.log('Pause button clicked');
+            window.toggleGameIsClickable(false);
+            window.toggleGameIsRunning(false);
+            ctx.scene.pause();
+            if (pauseTimeout){ clearTimeout(pauseTimeout); }
+            pauseTimeout = setTimeout(function(){
+                window.toggleGameIsClickable(true);
+                }, 1000);
+            });
+
+        // Create a back button so we can return to the title
+        BUTTONS.makeSimpleButton('< Back to Title', {
+            x: 50, y: 50,
+            width: 150, height: 24,
+            size: 8, color: '#7d7d7d',
+            depth: 8000
+            }, function(){
+            //console.log('Back button clicked');
+            ctx.scene.start('Title');
+            });
+
+        // Create a next button so we can go to the main scene
+        BUTTONS.makeSimpleButton('Go to Main >', {
+            x: 600, y: 50,
+            width: 150, height: 24,
+            size: 8, color: '#7d7d7d',
+            depth: 8000
+            }, function(){
+            //console.log('Main button clicked');
+            ctx.scene.start('Main');
+            });
+
+        // Create some debug buttons to trigger specific functionality for testing
+        BUTTONS.makeSimpleButton('Welcome Home', {
+            x: 50, y: 100,
+            width: 300, height: 24,
+            size: 13, color: '#7d7d7d',
+            depth: 8000
+            }, function(){
+            //console.log('Show Welcome Home button clicked');
+            POPUPS.debugWelcomePopup();
+            });
+        BUTTONS.makeSimpleButton('Tales from the Void', {
+            x: 450, y: 100,
+            width: 300, height: 24,
+            size: 13, color: '#95c418',
+            depth: 8000
+            }, function(){
+            //console.log('Show Tales from the Void button clicked');
+            ctx.showTalesFromTheVoid();
+            });
+
+        BUTTONS.makeSimpleButton('Toggle Doctor Stream', {
+            x: 50, y: 150,
+            width: 300, height: 24,
+            size: 11, color: '#00ff00',
+            depth: 8000
+            }, function(button){
+            //console.log('Toggle Doctors Running button clicked');
+            if (ctx.allowRunningDoctors){
+                button.text.setTint(0xff0000);
+                //button.text.setColor('#ff0000');
+                ctx.allowRunningDoctors = false;
+                } else {
+                button.text.setTint(0x00ff00);
+                //button.text.setColor('#00ff00');
+                ctx.allowRunningDoctors = true;
+                }
+            });
+        BUTTONS.makeSimpleButton('Running Doctor', {
+            x: 50, y: 180,
+            width: 300, height: 24,
+            size: 13, color: '#6592ff',
+            depth: 8000
+            }, function(){
+            //console.log('Show Doctor Running button clicked');
+            ctx.showDoctorRunning();
+            });
+
+        BUTTONS.makeSimpleButton('Toggle Master Stream', {
+            x: 450, y: 150,
+            width: 300, height: 24,
+            size: 11, color: '#00ff00',
+            depth: 8000
+            }, function(button){
+            //console.log('Toggle Masters Sliding button clicked');
+            if (ctx.allowSlidingMasters){
+                button.text.setTint(0xff0000);
+                //button.text.setColor('#ff0000');
+                ctx.allowSlidingMasters = false;
+                } else {
+                button.text.setTint(0x00ff00);
+                //button.text.setColor('#00ff00');
+                ctx.allowSlidingMasters = true;
+                }
+            });
+        BUTTONS.makeSimpleButton('Sliding Master', {
+            x: 450, y: 180,
+            width: 300, height: 24,
+            size: 13, color: '#6592ff',
+            depth: 8000
+            }, function(){
+            //console.log('Show Master Sliding button clicked');
+            ctx.showMasterSliding(null, null, 'left');
+            });
+
     }
 
     // Define a function for animating the main banner on each update cycle
