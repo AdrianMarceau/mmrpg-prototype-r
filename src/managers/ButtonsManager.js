@@ -130,6 +130,9 @@ export default class ButtonsManager {
             group: $buttonGroup,
             span: $buttonRect,
             text: $buttonText,
+            setText: function(text){
+                $buttonText.setText(text);
+                },
             setPosition: function(x, y){
                 $buttonRect.x = x;
                 $buttonRect.y = y;
