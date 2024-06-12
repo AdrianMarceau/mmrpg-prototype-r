@@ -168,114 +168,42 @@ export default class DebugScene extends Phaser.Scene
     {
         //console.log('DebugScene.create() called');
 
-        // Pull in required object references
-        let ctx = this;
+        // Pull in global MMRPG object and trigger the create function
         let MMRPG = this.MMRPG;
+        MMRPG.create(this);
+
+        // Pull in other required objects and references
+        let ctx = this;
         let SPRITES = this.SPRITES;
         let POPUPS = this.POPUPS;
         let BUTTONS = this.BUTTONS;
-
-        // Load the sound effects object for the scene
-        let SOUNDS = this.sound.addAudioSprite('sounds.effects');
-        this.SOUNDS = SOUNDS;
-
-        // Pull in refs to specific indexes
-        let typesIndex = MMRPG.Indexes.types;
-        let typesIndexTokens = Object.keys(typesIndex);
-
-        // Create the base canvas for which the rest of the game will be drawn
-        var canvas = this.add.image(0, 0, 'canvas');
-        canvas.setOrigin(0, 0);
-
+        let SOUNDS = this.SOUNDS;
 
         // DEBUG DEBUG DEBUG
         // <----------------
 
-        // -- TITLE -- //
-
+        // Add a title to the scene for the player to see
         var x = MMRPG.canvas.centerX, y = 40;
         var $loadText = this.add.bitmapText(x, y, 'megafont-white', 'Welcome to Debug', 16);
         $loadText.setOrigin(0.5);
         $loadText.setLetterSpacing(20);
         $loadText.setDepth(8200);
 
-        // -- BUTTONS -- //
-
-        this.createHeaderButtons();
-
-
-        // -- BANNERS -- //
-
-        // Draw the main banner and collect a reference to it
-        var type = 'wily';
-        var x = 15, y = 15;
-        var color = typesIndex[type].colour_light;
-        var xcolor = Phaser.Display.Color.GetColor(color[0], color[1], color[2]);
-        let mainBanner = new MainBanner(this, x, y, {
-            fullsize: false,
-            fillStyle: { color: xcolor },
-            mainTextStyle: { fontSize: '16px' },
-            depth: 100
-            });
-        this.mainBanner = mainBanner;
-
-        // Draw a test banner and collect a reference to it
-        var width = 350, height = 100;
-        var x = MMRPG.canvas.width - width - 20;
-        var y = MMRPG.canvas.height - height - 20;
-        let testBanner = new Banner(this, x, y, {
-            width: width,
-            height: height,
-            fillStyle: { color: 0x95c418 },
-            borderRadius: { tl: 20, tr: 0, br: 60, bl: 0 },
-            mainText: 'Test Banner',
-            depth: 50
-            });
-        this.testBanner = testBanner;
-
-        // Draw the battle banner and collect a reference to it
-        var type = 'empty';
-        var ref = this.mainBanner.getBounds();
-        var x = ref.x, y = MMRPG.canvas.centerY - 90;
-        var color = typesIndex[type].colour_light;
-        var xcolor = Phaser.Display.Color.GetColor(color[0], color[1], color[2]);
-        let battleBanner = new BattleBanner(this, x, y, {
-            height: 200,
-            fillStyle: { color: xcolor },
-            mainText: '',
-            depth: 200
-            });
-        // Create a mask for the battle banner area that we can add sprites to
-        const maskGraphics = this.add.graphics();
-        maskGraphics.fillStyle(0x660022);
-        maskGraphics.fillRect(x, y, battleBanner.width, battleBanner.height);
-        maskGraphics.setVisible(false);
-        const bannerMask = maskGraphics.createGeometryMask();
-        const spriteContainer = this.add.container();
-        spriteContainer.setMask(bannerMask);
-        spriteContainer.setDepth(210);
-        this.battleBanner = battleBanner;
-        this.battleBannerMask = bannerMask;
-        this.battleBannerContainer = spriteContainer;
-
-        // -- TYPES PANEL -- //
-
-        //this.addTestTypesPanel();
-
-        var x = 20, y = MMRPG.canvas.height - 190;
-        var width = MMRPG.canvas.width - 40, height = 150;
-        this.addPanelWithTypeButtons({
-            x: x,
-            y: y,
-            width: width,
-            height: height,
-            types: this.safeTypeTokens,
-            onClick: function(button, type){
-                console.log('Wow! Type button clicked!', 'type:', type, 'button:', button);
-                }
-            });
+        // Create all the test buttons and banners for the scene
+        this.createTestButtons();
+        this.createTestBanners();
 
         // -- DEBUG TEXT -- //
+
+        var x = 20, y = MMRPG.canvas.height - 30;
+        var ipsum = 'Let go your earthly tether. Enter the void. Empty and become wind.';
+        Strings.addPlainText(this, x, y, ipsum, {color: '#000000'});
+
+        // We should also show the current version just to be safe
+        var x = MMRPG.canvas.width - 100, y = MMRPG.canvas.height - 26;
+        var version = 'v ' + MMRPG.version;
+        let $version = Strings.addPlainText(this, x, y, version, {color: '#000000', fontSize: '12px'});
+        $version.x = MMRPG.canvas.width - $version.width - 20;
 
         var width = Math.ceil(MMRPG.canvas.width / 3), height = 90;
         var x = MMRPG.canvas.xMax - width - 20, y = 330;
@@ -310,15 +238,21 @@ export default class DebugScene extends Phaser.Scene
                 });
             }, [], this);
 
-        var x = 20, y = MMRPG.canvas.height - 30;
-        var ipsum = 'Let go your earthly tether. Enter the void. Empty and become wind.';
-        Strings.addPlainText(this, x, y, ipsum, {color: '#000000'});
 
-        // We should also show the current version just to be safe
-        var x = MMRPG.canvas.width - 100, y = MMRPG.canvas.height - 26;
-        var version = 'v ' + MMRPG.version;
-        let $version = Strings.addPlainText(this, x, y, version, {color: '#000000', fontSize: '12px'});
-        $version.x = MMRPG.canvas.width - $version.width - 20;
+        // Draw a panel with all of the elemental types as buttons
+        var x = 20, y = MMRPG.canvas.height - 190;
+        var width = MMRPG.canvas.width - 40, height = 150;
+        this.addPanelWithTypeButtons({
+            x: x,
+            y: y,
+            width: width,
+            height: height,
+            types: this.safeTypeTokens,
+            onClick: function($button, type){
+                //console.log('Wow! Type button clicked!', 'type:', type, '$button:', $button);
+                ctx.showMasterSliding(null, type, 'right');
+                }
+            });
 
 
         // -- DEBUG SOUND EFFECTS -- //
@@ -1079,10 +1013,10 @@ export default class DebugScene extends Phaser.Scene
         ctx.lastSlidingMaster = spriteToken;
     }
 
-    // Define a function for adding all the header buttons to the scene
-    createHeaderButtons ()
+    // Define a function for creating and adding all the header buttons to the scene
+    createTestButtons ()
     {
-        //console.log('DebugScene.createHeaderButtons() called');
+        //console.log('DebugScene.createTestButtons() called');
 
         // Pull in required object references
         let ctx = this;
@@ -1204,6 +1138,76 @@ export default class DebugScene extends Phaser.Scene
             //console.log('Show Master Sliding button clicked');
             ctx.showMasterSliding(null, null, 'left');
             });
+
+    }
+
+    // Define a function for creating and adding all the different banners to the scene
+    createTestBanners ()
+    {
+        //console.log('DebugScene.createTestBanners() called');
+
+        // Pull in required object references
+        let ctx = this;
+        let MMRPG = this.MMRPG;
+        let SPRITES = this.SPRITES;
+        let POPUPS = this.POPUPS;
+        let BUTTONS = this.BUTTONS;
+
+        // Pull in refs to specific indexes
+        let typesIndex = MMRPG.Indexes.types;
+        let typesIndexTokens = Object.keys(typesIndex);
+
+        // Draw the main banner and collect a reference to it
+        var type = 'wily';
+        var x = 15, y = 15;
+        var color = typesIndex[type].colour_light;
+        var xcolor = Phaser.Display.Color.GetColor(color[0], color[1], color[2]);
+        let mainBanner = new MainBanner(this, x, y, {
+            fullsize: false,
+            fillStyle: { color: xcolor },
+            mainTextStyle: { fontSize: '16px' },
+            depth: 100
+            });
+        this.mainBanner = mainBanner;
+
+        // Draw a test banner and collect a reference to it
+        var width = 350, height = 100;
+        var x = MMRPG.canvas.width - width - 20;
+        var y = MMRPG.canvas.height - height - 20;
+        let testBanner = new Banner(this, x, y, {
+            width: width,
+            height: height,
+            fillStyle: { color: 0x95c418 },
+            borderRadius: { tl: 20, tr: 0, br: 60, bl: 0 },
+            mainText: 'Test Banner',
+            depth: 50
+            });
+        this.testBanner = testBanner;
+
+        // Draw the battle banner and collect a reference to it
+        var type = 'empty';
+        var ref = this.mainBanner.getBounds();
+        var x = ref.x, y = MMRPG.canvas.centerY - 90;
+        var color = typesIndex[type].colour_light;
+        var xcolor = Phaser.Display.Color.GetColor(color[0], color[1], color[2]);
+        let battleBanner = new BattleBanner(this, x, y, {
+            height: 200,
+            fillStyle: { color: xcolor },
+            mainText: '',
+            depth: 200
+            });
+        // Create a mask for the battle banner area that we can add sprites to
+        const maskGraphics = this.add.graphics();
+        maskGraphics.fillStyle(0x660022);
+        maskGraphics.fillRect(x, y, battleBanner.width, battleBanner.height);
+        maskGraphics.setVisible(false);
+        const bannerMask = maskGraphics.createGeometryMask();
+        const spriteContainer = this.add.container();
+        spriteContainer.setMask(bannerMask);
+        spriteContainer.setDepth(210);
+        this.battleBanner = battleBanner;
+        this.battleBannerMask = bannerMask;
+        this.battleBannerContainer = spriteContainer;
 
     }
 
@@ -1363,6 +1367,7 @@ export default class DebugScene extends Phaser.Scene
             lineStyle: config.lineStyle || { width: 2, color: 0x0a0a0a },
             fillStyle: config.fillStyle || { color: 0x161616 },
             depth: config.depth || 1000,
+            onClick: config.onClick || null
             };
 
         // Draw the panel with the specified configuration
@@ -1404,8 +1409,10 @@ export default class DebugScene extends Phaser.Scene
                 background: Graphics.returnHexColorString(typeData.colour_light),
                 depth: typeButtonDepth
                 }, function(){
-                console.log('Huh? Type button clicked:', typeToken);
-                ctx.showMasterSliding(null, typeToken, 'right');
+                //console.log('Huh? Type button clicked:', typeToken);
+                if (panelConfig.onClick){
+                    panelConfig.onClick($typeButton, typeToken);
+                    }
                 });
             typeButtons.push($typeButton);
             widthUsed += typeButtonWidth + typeButtonMargin;
