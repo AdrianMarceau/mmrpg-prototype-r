@@ -170,6 +170,10 @@ export default class DebugScene extends Phaser.Scene
         let POPUPS = this.POPUPS;
         let BUTTONS = this.BUTTONS;
 
+        // Load the sound effects object for the scene
+        let SOUNDS = this.sound.addAudioSprite('sounds.effects');
+        this.SOUNDS = SOUNDS;
+
         // Pull in refs to specific indexes
         let typesIndex = MMRPG.Indexes.types;
         let typesIndexTokens = Object.keys(typesIndex);
@@ -392,6 +396,26 @@ export default class DebugScene extends Phaser.Scene
             padding: 10,
             });
         this.floatingTextBubble = $floatingTextBubble;
+        // automatically fade out and remove the above after a few seconds
+        let floatingTextBubbleTween;
+        this.time.delayedCall(1234, function(){
+            floatingTextBubbleTween = ctx.tweens.addCounter({
+                from: 100,
+                to: 0,
+                ease: 'Sine.easeOut',
+                delay: 100,
+                duration: 1000,
+                onUpdate: function () {
+                    //console.log('floatingTextBubbleTween:', floatingTextBubbleTween.getValue());
+                    $floatingTextBubble.setAlpha(floatingTextBubbleTween.getValue() / 100);
+                    $floatingTextBubble.setPosition('-=0', '-=2');
+                    },
+                onComplete: function () {
+                    //console.log('floatingTextBubbleTween complete!');
+                    $floatingTextBubble.destroy();
+                    }
+                });
+            }, [], this);
 
         var x = 20, y = MMRPG.canvas.height - 30;
         var ipsum = 'Let go your earthly tether. Enter the void. Empty and become wind.';
@@ -402,6 +426,12 @@ export default class DebugScene extends Phaser.Scene
         var version = 'v ' + MMRPG.version;
         let $version = Strings.addPlainText(this, x, y, version, {color: '#000000', fontSize: '12px'});
         $version.x = MMRPG.canvas.width - $version.width - 20;
+
+
+        // -- DEBUG SOUND EFFECTS -- //
+
+        // Play a sound effect to make sure they're working
+        SOUNDS.play('9-reggae-laughs_rockboard-nes');
 
 
         // ---------------->
@@ -544,6 +574,7 @@ export default class DebugScene extends Phaser.Scene
         let ctx = this;
         let MMRPG = this.MMRPG;
         let SPRITES = this.SPRITES;
+        let SOUNDS = this.SOUNDS;
         let robotSheets = SPRITES.index.sheets.robots;
         let robotAnims = SPRITES.index.anims.robots;
         let typesIndex = MMRPG.Indexes.types;
@@ -669,6 +700,8 @@ export default class DebugScene extends Phaser.Scene
                 if (!$sprite || $sprite.toBeDestroyed){ return; }
                 //console.log('$sprite:', typeof $sprite, $sprite);
                 $sprite.play(robotSpriteInfo['sprite'][$sprite.direction]['anim']['slide']);
+                //SOUNDS.play('beam-in_mmv-gb', {volume: 0.1});
+                //SOUNDS.play('dink_mmii-gb', {volume: 0.1});
                 if ($sprite.slideTween){ $sprite.slideTween.stop().destroy(); }
                 $sprite.slideTween = ctx.add.tween({
                     targets: $sprite,
@@ -677,7 +710,8 @@ export default class DebugScene extends Phaser.Scene
                     delay: 300,
                     duration: duration,
                     onComplete: function () {
-                        //console.log('Partial shooting movement complete...');
+                        //console.log('Partial sliding movement complete...');
+                        //SOUNDS.play('dink_mmii-gb', {volume: 0.1});
                         if ($sprite.subTimers.nextAction){ $sprite.subTimers.nextAction.remove(); }
                         $sprite.subTimers.nextAction = ctx.time.delayedCall(1000, function(){
                             //console.log('...let\'s slide somewhere else!');
@@ -713,6 +747,8 @@ export default class DebugScene extends Phaser.Scene
                 if (!$sprite || $sprite.toBeDestroyed){ return; }
                 //console.log('$sprite:', typeof $sprite, $sprite);
                 $sprite.play(robotSpriteInfo['sprite'][$sprite.direction]['anim']['slide']);
+                //SOUNDS.play('beam-in_mmv-gb', {volume: 0.1});
+                //SOUNDS.play('dink_mmii-gb', {volume: 0.1});
                 if ($sprite.slideTween){ $sprite.slideTween.stop().destroy(); }
                 $sprite.slideTween = ctx.add.tween({
                     targets: $sprite,
@@ -721,7 +757,8 @@ export default class DebugScene extends Phaser.Scene
                     delay: 300,
                     duration: duration,
                     onComplete: function () {
-                        //console.log('Partial shooting movement complete...');
+                        //console.log('Partial sliding movement complete...');
+                        //SOUNDS.play('dink_mmii-gb', {volume: 0.1});
                         if ($sprite.subTimers.nextAction){ $sprite.subTimers.nextAction.remove(); }
                         $sprite.subTimers.nextAction = ctx.time.delayedCall(1000, function(){
                             //console.log('...let\'s slide somewhere else!');
@@ -776,6 +813,8 @@ export default class DebugScene extends Phaser.Scene
             $sprite.setFrame(0);
             $sprite.play(robotSpriteInfo['sprite'][$sprite.direction]['anim']['shoot']);
             if ($sprite.subTweens.kickbackTween){ $sprite.subTweens.kickbackTween.stop().destroy(); }
+            if (abilitySuffix === 'shot'){ SOUNDS.play('shot-a_mmv-gb', {volume: 0.2}); }
+            else if (abilitySuffix === 'buster'){ SOUNDS.play('mid-scene-mega-shoot_mmv-gb', {volume: 0.3}); }
             $sprite.subTweens.kickbackTween = ctx.add.tween({
                 targets: $sprite,
                 x: newX,
@@ -979,6 +1018,7 @@ export default class DebugScene extends Phaser.Scene
             // Show the sprite and play its explode animation on loop
             $explodeSprite.setAlpha(0.8);
             $explodeSprite.play(explodeSpriteInfo['sprite'][$sprite.direction]['anim']['explode']);
+            SOUNDS.play('big-boom_mmv-gb', {volume: 0.5});
 
             // Generate a tween for the explode sprite that has it slowly fade away via alpha then remove itself
             $explodeSprite.subTweens.fadeTween = ctx.add.tween({
