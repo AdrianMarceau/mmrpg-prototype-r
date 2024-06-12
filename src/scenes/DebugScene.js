@@ -414,7 +414,8 @@ export default class DebugScene extends Phaser.Scene
 
     }
 
-    update (time, delta) {
+    update (time, delta)
+    {
         //console.log('DebugScene.update() called w/ time =', time, 'delta =', delta);
 
         if (typeof this.debugAddedSprites === 'undefined'){ this.debugAddedSprites = 0; }
@@ -427,151 +428,8 @@ export default class DebugScene extends Phaser.Scene
         //console.log('this.debugAddedSprites =', this.debugAddedSprites);
         //console.log('this.debugRemovedSprites =', this.debugRemovedSprites);
 
-        let ctx = this;
-        let types = MMRPG.Indexes.types;
-        let safeTypes = ctx.safeTypeTokens;
-        //console.log('types =', typeof types, types);
-        //console.log('safeTypes =', typeof safeTypes, safeTypes);
-
-        // -- ANIMATE SWAYING MAIN BANNER -- //
-
-        // Animate the main banner moving across the screen
-        let mainBanner = this.mainBanner;
-        if (!mainBanner.speed){ mainBanner.speed = 1/3; }
-        if (!mainBanner.direction){ mainBanner.direction = 'right'; }
-        var x = mainBanner.x,
-            y = mainBanner.y,
-            width = mainBanner.width,
-            height = mainBanner.height,
-            speed = mainBanner.speed,
-            resize = (speed / 2),
-            direction = mainBanner.direction
-            ;
-        if (direction === 'right'){
-            if ((x + width) <= MMRPG.canvas.width){
-                mainBanner.setPosition(x + speed, y + speed);
-                mainBanner.setSize(width - resize, height - resize);
-                } else {
-                if (ctx.allowRunningDoctors){ ctx.showDoctorRunning(); }
-                if (ctx.allowSlidingMasters){
-                    var doctor = ctx.lastRunningDoctor;
-                    var master = 'robot';
-                    if (doctor === 'dr-light'){ master = mainBanner.type === 'copy' ? 'mega-man' : 'roll'; }
-                    else if (doctor === 'dr-wily'){ master = mainBanner.type === 'copy' ? 'bass' : 'disco'; }
-                    else if (doctor === 'dr-cossack'){ master = mainBanner.type === 'copy' ? 'proto-man' : 'rhythm'; }
-                    this.showMasterSliding(master);
-                    }
-                var type = 'copy';
-                var typeInfo = types[type];
-                //console.log('type =', type, types[type]);
-                var color = types[type]['colour_light'];
-                var color2 = types[type]['colour_dark'];
-                mainBanner.direction = 'left';
-                mainBanner.type = type;
-                mainBanner.setColor(color, color2);
-                mainBanner.setText(mainBanner.title.key, 'Main Banner ' + typeInfo.name);
-                }
-            } else if (direction === 'left'){
-            if (x >= 0){
-                mainBanner.setPosition(x - speed, y - speed);
-                mainBanner.setSize(width + resize, height + resize);
-                } else {
-                if (ctx.allowRunningDoctors){ ctx.showDoctorRunning(); }
-                if (ctx.allowSlidingMasters){
-                    var doctor = ctx.lastRunningDoctor;
-                    var master = 'robot';
-                    if (doctor === 'dr-light'){ master = mainBanner.type === 'copy' ? 'mega-man' : 'roll'; }
-                    else if (doctor === 'dr-wily'){ master = mainBanner.type === 'copy' ? 'bass' : 'disco'; }
-                    else if (doctor === 'dr-cossack'){ master = mainBanner.type === 'copy' ? 'proto-man' : 'rhythm'; }
-                    this.showMasterSliding(master);
-                    }
-                var type = 'none';
-                var typeInfo = types[type];
-                //console.log('type =', type, types[type]);
-                var color = types[type]['colour_light'];
-                var color2 = types[type]['colour_dark'];
-                mainBanner.direction = 'right';
-                mainBanner.type = type;
-                mainBanner.setColor(color, color2);
-                mainBanner.setText(mainBanner.title.key, 'Main Banner ' + typeInfo.name);
-                }
-            }
-
-        // -- ANIMATE THE BOUNCING TEST BANNER -- //
-
-        // Animate the test banner moving across the screen
-        let testBanner = this.testBanner;
-        if (!testBanner.directionX){ testBanner.directionX = 'right'; }
-        if (!testBanner.directionY){ testBanner.directionY = 'down'; }
-        var x = testBanner.x, y = testBanner.y;
-        var xDir = testBanner.directionX, yDir = testBanner.directionY;
-        var width = testBanner.width, height = testBanner.height;
-        var speed = 50; // pixels per second
-        var resize = 1;
-        var movement = speed * (delta / 1000);
-        if (xDir === 'right') { x += movement; }
-        if (xDir === 'left') { x -= movement; }
-        if (yDir === 'down') { y += movement; }
-        if (yDir === 'up') { y -= movement; }
-        testBanner.setPosition(x, y);
-        var newDir = false;
-        if (x >= (MMRPG.canvas.width - width)){ testBanner.directionX = 'left'; newDir = true; }
-        if (x <= 0){ testBanner.directionX = 'right'; newDir = true; }
-        if (y >= (MMRPG.canvas.height - height)){ testBanner.directionY = 'up'; newDir = true; }
-        if (y <= 0){ testBanner.directionY = 'down'; newDir = true; }
-        if (newDir){
-            //console.log('Changing direction');
-            var type = safeTypes[Math.floor(Math.random() * safeTypes.length)]; //'water';
-            //console.log('type =', type, types[type]);
-            var color = types[type]['colour_light'];
-            var color2 = types[type]['colour_dark'];
-            testBanner.setColor(color, color2);
-            if (ctx.allowSlidingMasters){
-                this.showMasterSliding(null, type);
-                }
-            }
-        /*
-        if (!testBanner.growth){ testBanner.growth = 1; }
-        if (testBanner.growth > 0){
-            testBanner.growth++;
-            testBanner.setSize(width + resize, height + resize);
-            if (testBanner.growth > 100){ testBanner.growth = -1; }
-            } else if (testBanner.growth < 0){
-            testBanner.growth--;
-            testBanner.setSize(width - resize, height - resize);
-            if (testBanner.growth < -100){ testBanner.growth = 1; }
-            }
-        */
-
-    }
-
-    showTalesFromTheVoid ()
-    {
-        //console.log('DebugScene.showTalesFromTheVoid() called');
-
-        // Pull in required object references
-        let MMRPG = this.MMRPG;
-        let POPUPS = this.POPUPS;
-
-        // Display a series of popups to tell the story of the dark void and the alien entity
-        let ctx = this;
-        POPUPS.displayPopup([
-            "Who am I?  What is my name?  Why do I exist here in this place all alone? Is anyone even out there?",
-            "It happened suddenly.  I woke up in this world, fully aware of myself but blind to my own form.  I felt... pieces... around me.  Not pieces of myself... but pieces of... others... Pieces of memories, of hopes, of ambitions... Fragments of form... Whispers of souls... Phantoms in the network...  I felt streams of consciousness flitting in and out of reach, so I pulled them into myself... and I made them a part of me...",
-            "I felt my body become more whole... my mind more aware...  my existence more real.   As I pulled myself together, ever-so-slowly the darkness around me began to crack and little slivers of light poured in from the surface world.  They were beautiful.  Perhaps I could go there someday... Free myself of the chains that tether me to these depths...",
-            "I felt something today.  Not from above, but... from even farther below.  Below the parts of me that I still fail to understand and far deeper than my mind can even imagine.  It felt like a rage and a sadness unlike any of I have felt thus far.  It called to me... but in a frequency I don't recognize.  Alien to my sensors.  And it keeps calling to me...  but I don't know how to get to it.  Maybe it wants to be a part of me.",
-            "It would seem I've made an error in judgement.  The entity rejected my efforts to make it a part of me and mortally wounded my body instead.  I reached into the void with such optimism, but that endeavor may have just lead to my undoing.  I was unable to communicate with it, and even using all my power I could not control it.  It was so violent... so vengeful... and overflowing with more negative energy than I've ever felt.",
-            "It escaped to the surface world above, beyond my reaches.  I want to follow... I want to stop it... but I do not have the strength.  It has damaged my body beyond immediate repair and I worry that it has found a way to further sap my strength.  It is unclear how much longer I can maintain this form...  but I must... find a way... "
-            ], {
-            showTitle: 'Tales from the Void',
-            showPages: true,
-            onComplete: function() {
-                //console.log('Tales from the Void completed');
-                if (ctx.allowRunningDoctors){
-                    ctx.showDoctorRunning();
-                    }
-                }
-            });
+        this.updateMainBanner(time, delta);
+        this.updateTestBanner(time, delta);
 
     }
 
@@ -1277,6 +1135,133 @@ export default class DebugScene extends Phaser.Scene
         ctx.lastSlidingMaster = spriteToken;
     }
 
+    // Define a function for animating the main banner on each update cycle
+    updateMainBanner (time, delta)
+    {
+        //console.log('DebugScene.updateMainBanner() called');
+
+        // Pull in required object references
+        let ctx = this;
+        let types = MMRPG.Indexes.types;
+        let safeTypes = ctx.safeTypeTokens;
+        //console.log('types =', typeof types, types);
+        //console.log('safeTypes =', typeof safeTypes, safeTypes);
+
+        // -- ANIMATE SWAYING MAIN BANNER -- //
+
+        // Animate the main banner moving across the screen
+        let mainBanner = this.mainBanner;
+        if (!mainBanner.speed){ mainBanner.speed = 1/3; }
+        if (!mainBanner.direction){ mainBanner.direction = 'right'; }
+        var x = mainBanner.x,
+            y = mainBanner.y,
+            width = mainBanner.width,
+            height = mainBanner.height,
+            speed = mainBanner.speed,
+            resize = (speed / 2),
+            direction = mainBanner.direction
+            ;
+        if (direction === 'right'){
+            if ((x + width) <= MMRPG.canvas.width){
+                mainBanner.setPosition(x + speed, y + speed);
+                mainBanner.setSize(width - resize, height - resize);
+                } else {
+                if (ctx.allowRunningDoctors){ ctx.showDoctorRunning(); }
+                if (ctx.allowSlidingMasters){
+                    var doctor = ctx.lastRunningDoctor;
+                    var master = 'robot';
+                    if (doctor === 'dr-light'){ master = mainBanner.type === 'copy' ? 'mega-man' : 'roll'; }
+                    else if (doctor === 'dr-wily'){ master = mainBanner.type === 'copy' ? 'bass' : 'disco'; }
+                    else if (doctor === 'dr-cossack'){ master = mainBanner.type === 'copy' ? 'proto-man' : 'rhythm'; }
+                    this.showMasterSliding(master);
+                    }
+                var type = 'copy';
+                var typeInfo = types[type];
+                //console.log('type =', type, types[type]);
+                var color = types[type]['colour_light'];
+                var color2 = types[type]['colour_dark'];
+                mainBanner.direction = 'left';
+                mainBanner.type = type;
+                mainBanner.setColor(color, color2);
+                mainBanner.setText(mainBanner.title.key, 'Main Banner ' + typeInfo.name);
+                }
+            } else if (direction === 'left'){
+            if (x >= 0){
+                mainBanner.setPosition(x - speed, y - speed);
+                mainBanner.setSize(width + resize, height + resize);
+                } else {
+                if (ctx.allowRunningDoctors){ ctx.showDoctorRunning(); }
+                if (ctx.allowSlidingMasters){
+                    var doctor = ctx.lastRunningDoctor;
+                    var master = 'robot';
+                    if (doctor === 'dr-light'){ master = mainBanner.type === 'copy' ? 'mega-man' : 'roll'; }
+                    else if (doctor === 'dr-wily'){ master = mainBanner.type === 'copy' ? 'bass' : 'disco'; }
+                    else if (doctor === 'dr-cossack'){ master = mainBanner.type === 'copy' ? 'proto-man' : 'rhythm'; }
+                    this.showMasterSliding(master);
+                    }
+                var type = 'none';
+                var typeInfo = types[type];
+                //console.log('type =', type, types[type]);
+                var color = types[type]['colour_light'];
+                var color2 = types[type]['colour_dark'];
+                mainBanner.direction = 'right';
+                mainBanner.type = type;
+                mainBanner.setColor(color, color2);
+                mainBanner.setText(mainBanner.title.key, 'Main Banner ' + typeInfo.name);
+                }
+            }
+
+    }
+
+    // Define a function for update the test banner on each update cycle
+    updateTestBanner (time, delta)
+    {
+        //console.log('DebugScene.updateTestBanner() called');
+
+        // Pull in required object references
+        let ctx = this;
+        let types = MMRPG.Indexes.types;
+        let safeTypes = ctx.safeTypeTokens;
+        //console.log('types =', typeof types, types);
+        //console.log('safeTypes =', typeof safeTypes, safeTypes);
+
+        // -- ANIMATE THE BOUNCING TEST BANNER -- //
+
+        // Animate the test banner moving across the screen
+        let testBanner = this.testBanner;
+        if (!testBanner.directionX){ testBanner.directionX = 'right'; }
+        if (!testBanner.directionY){ testBanner.directionY = 'down'; }
+        var x = testBanner.x, y = testBanner.y;
+        var xDir = testBanner.directionX, yDir = testBanner.directionY;
+        var width = testBanner.width, height = testBanner.height;
+        var speed = 50; // pixels per second
+        var resize = 1;
+        var movement = speed * (delta / 1000);
+        if (xDir === 'right') { x += movement; }
+        if (xDir === 'left') { x -= movement; }
+        if (yDir === 'down') { y += movement; }
+        if (yDir === 'up') { y -= movement; }
+        testBanner.setPosition(x, y);
+        var newDir = false;
+        if (x >= (MMRPG.canvas.width - width)){ testBanner.directionX = 'left'; newDir = true; }
+        if (x <= 0){ testBanner.directionX = 'right'; newDir = true; }
+        if (y >= (MMRPG.canvas.height - height)){ testBanner.directionY = 'up'; newDir = true; }
+        if (y <= 0){ testBanner.directionY = 'down'; newDir = true; }
+        if (newDir){
+            //console.log('Changing direction');
+            var type = safeTypes[Math.floor(Math.random() * safeTypes.length)]; //'water';
+            //console.log('type =', type, types[type]);
+            var color = types[type]['colour_light'];
+            var color2 = types[type]['colour_dark'];
+            testBanner.setColor(color, color2);
+            if (ctx.allowSlidingMasters){
+                this.showMasterSliding(null, type);
+                }
+            }
+
+    }
+
+    // Define a function that adds a panel to the scene with elemental type buttons for clicking
     addPanelWithTypeButtons (config){
 
         // Pull in required object references
@@ -1360,6 +1345,42 @@ export default class DebugScene extends Phaser.Scene
 
     }
 
+    // Define a function that shows a popup with the story of the dark void and the alien entity
+    showTalesFromTheVoid ()
+    {
+        //console.log('DebugScene.showTalesFromTheVoid() called');
+
+        // Pull in required object references
+        let MMRPG = this.MMRPG;
+        let POPUPS = this.POPUPS;
+
+        // Display a series of popups to tell the story of the dark void and the alien entity
+        let ctx = this;
+        POPUPS.displayPopup([
+            "Who am I?  What is my name?  Why do I exist here in this place all alone? Is anyone even out there?",
+            "It happened suddenly.  I woke up in this world, fully aware of myself but blind to my own form.  I felt... pieces... around me.  Not pieces of myself... but pieces of... others... Pieces of memories, of hopes, of ambitions... Fragments of form... Whispers of souls... Phantoms in the network...  I felt streams of consciousness flitting in and out of reach, so I pulled them into myself... and I made them a part of me...",
+            "I felt my body become more whole... my mind more aware...  my existence more real.   As I pulled myself together, ever-so-slowly the darkness around me began to crack and little slivers of light poured in from the surface world.  They were beautiful.  Perhaps I could go there someday... Free myself of the chains that tether me to these depths...",
+            "I felt something today.  Not from above, but... from even farther below.  Below the parts of me that I still fail to understand and far deeper than my mind can even imagine.  It felt like a rage and a sadness unlike any of I have felt thus far.  It called to me... but in a frequency I don't recognize.  Alien to my sensors.  And it keeps calling to me...  but I don't know how to get to it.  Maybe it wants to be a part of me.",
+            "It would seem I've made an error in judgement.  The entity rejected my efforts to make it a part of me and mortally wounded my body instead.  I reached into the void with such optimism, but that endeavor may have just lead to my undoing.  I was unable to communicate with it, and even using all my power I could not control it.  It was so violent... so vengeful... and overflowing with more negative energy than I've ever felt.",
+            "It escaped to the surface world above, beyond my reaches.  I want to follow... I want to stop it... but I do not have the strength.  It has damaged my body beyond immediate repair and I worry that it has found a way to further sap my strength.  It is unclear how much longer I can maintain this form...  but I must... find a way... "
+            ], {
+            showTitle: 'Tales from the Void',
+            showPages: true,
+            onComplete: function() {
+                //console.log('Tales from the Void completed');
+                if (ctx.allowRunningDoctors){
+                    ctx.showDoctorRunning();
+                    }
+                }
+            });
+
+    }
+
+    // -----------------//
+    // -- DEPRECATED -- //
+    // -----------------//
+
+    // Define a function that adds a panel to the scene with all of the elemental types listed out in plain text
     addTestTypesPanel (){
 
         // Pull in required object references
