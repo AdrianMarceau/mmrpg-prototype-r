@@ -57,20 +57,17 @@ export default class BootScene extends Phaser.Scene
 
         //console.log('BootScene.create() called');
 
-        // Create the base canvas for which the rest of the game will be drawn
+        // Manually create the base canvas for which the rest of the game will be drawn (this is automated later)
         var canvas = this.add.image(0, 0, 'canvas');
         canvas.setOrigin(0, 0);
 
-        // Add a splash screen with the logo and the game's title
-        //var splash = this.add.image(0, 0, 'splash');
-        //splash.setOrigin(0, 0);
-
+        // Write out some "boot" text to the screen until we're ready for the next step
         var x = MMRPG.canvas.centerX, y = MMRPG.canvas.centerY;
         var loadText = this.add.bitmapText(x, y, 'megafont-white', 'Booting...', 16);
         loadText.setOrigin(0.5);
         loadText.setLetterSpacing(20);
 
-        // Immediately start the preloader scene
+        // Immediately start the preloader scene now that basics are loaded
         this.scene.start('Preloader');
 
     }
