@@ -31,11 +31,11 @@
         let gameIsReady = false;
         let gameIsRunning = false;
         let gameIsClickable = false;
-        let currentGameScene = null;
+        let gameResumeCallback = null;
         window.toggleGameIsReady = () => { gameIsReady = !gameIsReady; window.refreshGameContainer(); };
         window.toggleGameIsRunning = () => { gameIsRunning = !gameIsRunning; window.refreshGameContainer();  };
         window.toggleGameIsClickable = () => { gameIsClickable = !gameIsClickable; };
-        window.setCurrentGameScene = (scene) => { currentGameScene = scene; window.refreshGameContainer(); };
+        window.setGameResumeCallback = (callback) => { gameResumeCallback = callback; };
         window.refreshGameContainer = () => {
             const gameContainer = document.getElementById('game-container');
             if (gameIsReady){ gameContainer.classList.add('ready'); }
@@ -46,19 +46,13 @@
         window.refreshGameContainer();
         document.getElementById('game-container').addEventListener('click', () => {
             if (!gameIsClickable){ return false; }
-            //console.log('The game container was clicked!');
-            if (!gameIsReady){
-                //console.log('The game is not ready yet!');
-                return false;
-                }
-            if (gameIsRunning){
-                //console.log('The game is already running!');
-                return false;
-                }
-            //console.log('The game is paused! (Let\'s resume it!)');
-            if (currentGameScene && currentGameScene.scene){
-                currentGameScene.scene.resume();
-                window.toggleGameIsRunning(true);
+            //console.log('The game container was clicked! w/ gameIsReady:', gameIsReady, 'gameIsRunning:', gameIsRunning);
+            if (!gameIsReady){ return false; }
+            if (gameIsRunning){ return false; }
+            window.toggleGameIsRunning(true);
+            if (gameResumeCallback
+                && typeof gameResumeCallback === 'function'){
+                gameResumeCallback();
                 }
             return true;
         });
