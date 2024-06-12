@@ -25,9 +25,6 @@ var config = {
             gravity: { y: 200 }
             }
         },
-    dom: {
-        createContainer: true
-        },
     scene: [
         BootScene,
         PreloaderScene,
