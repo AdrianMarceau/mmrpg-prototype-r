@@ -208,8 +208,9 @@ export default class DebugScene extends Phaser.Scene
         let $version = Strings.addPlainText(this, x, y, version, {color: '#000000', fontSize: '12px'});
         $version.x = MMRPG.canvas.width - $version.width - 20;
 
+        // Create a floating text bubble to test the text formatting syntax and display wrapping
         var width = Math.ceil(MMRPG.canvas.width / 3), height = 90;
-        var x = MMRPG.canvas.xMax - width - 20, y = 330;
+        var x = MMRPG.canvas.xMax - width - 20, y = 255;
         var lorem = "[Hey]{water} there [Bomb Man]{explode}! I know [i]I'm[/i] good, but how are [b]you[/b] today? I hear you got hit by a [Flame Sword]{flame_cutter}! [b][i]Your weakness[/i][/b]!!! [b][Gravity Man]{space_electric}[/b] is the one who told me btw.";
         let $floatingTextBubble = Strings.addFormattedText(this, x, y, lorem, {
             width: width,
@@ -1281,7 +1282,7 @@ export default class DebugScene extends Phaser.Scene
 
         // Draw the battle banner and collect a reference to it
         var type = 'empty';
-        var x = 20, y = MMRPG.canvas.centerY - 90;
+        var x = 14, y = 150;
         var color = typesIndex[type].colour_light;
         var xcolor = Phaser.Display.Color.GetColor(color[0], color[1], color[2]);
         let battleBanner = new BattleBanner(this, x, y, {
