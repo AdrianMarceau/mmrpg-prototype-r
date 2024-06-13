@@ -299,7 +299,14 @@ export default class PreloaderScene extends Phaser.Scene
                 //console.log('MMRPG = ', MMRPG);
                 //console.log('SPRITES = ', SPRITES);
                 //console.log('!!!!!!! START TITLE SCENE !!!!!');
-                ctx.scene.start('Title');
+                // If the browser URL has a debug flag, show the debug scene immediately
+                if (window.location.hash.indexOf('debug') > -1){
+                    ctx.scene.start('Debug');
+                    }
+                // Otherwise we can show the title screen now instead
+                else {
+                    ctx.scene.start('Title');
+                    }
                 } else {
                 let nextStep = ctx.preloadSteps[ctx.preloadSteps.indexOf(ctx.preloadStep) + 1];
                 //console.log('>>> NEXT STEP = ', nextStep, ' <<<');
