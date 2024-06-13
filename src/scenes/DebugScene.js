@@ -197,7 +197,7 @@ export default class DebugScene extends Phaser.Scene
 
         // Create all the test buttons and banners for the scene
         //this.createTestButtons();
-        this.createTestBanners();
+        //this.createTestBanners();
 
         // -- DEBUG TEXT -- //
 
@@ -293,14 +293,15 @@ export default class DebugScene extends Phaser.Scene
         //console.log('this.debugAddedSprites =', this.debugAddedSprites);
         //console.log('this.debugRemovedSprites =', this.debugRemovedSprites);
 
-        this.updateMainBanner(time, delta);
-        this.updateTestBanner(time, delta);
+        //this.updateMainBanner(time, delta);
+        //this.updateTestBanner(time, delta);
+
         this.updateBounceBanners(time, delta);
 
     }
 
     // Define a function that generates a sprite of a player and animates it running across the screen
-    showDoctorRunning (token)
+    showDoctorRunning (token, alt)
     {
         //console.log('DebugScene.showDoctorRunning() called w/ token =', token);
 
@@ -315,9 +316,13 @@ export default class DebugScene extends Phaser.Scene
         // Generate a sprite w/ running animation in progress
         let randKey = Math.floor(Math.random() * ctx.runningDoctors.length);
         let spriteToken = token || ctx.runningDoctors[randKey];
-        let spriteAlt = 'base';
         let playerInfo = playersIndex[spriteToken];
+        //let playerAlts = Object.keys(playerInfo.image_alts);
+        // pull all the "token" values from player image alt objects
+        let playerAlts = playerInfo.image_alts ? playerInfo.image_alts.map(item => item.token) : [];
+        let spriteAlt = alt && playerAlts.indexOf(alt) !== -1 ? alt : 'base';
         //console.log('playerInfo for ', spriteToken, '=', playerInfo);
+        //console.log('playerAlts for ', spriteToken, '=', playerAlts);
 
         // If the sprite token ends with an "*_{alt}", make sure we split and pull
         if (spriteToken.indexOf('_') !== -1){
@@ -1343,13 +1348,15 @@ export default class DebugScene extends Phaser.Scene
             radius: { tl: 50, tr: 50, br: 50, bl: 50 },
             depth: depth++
             });
-        this.bouncePanel = $bouncePanel;
         $bouncePanel.setAlpha(1);
+        this.bouncePanel = $bouncePanel;
+        let bouncePanelBounds = $bouncePanel.getBounds();
+        this.bouncePanelBounds = bouncePanelBounds;
 
         // Create a mask for the bounce container so we can add banners to it
         const maskGraphics = this.add.graphics({x: x, y: y});
         maskGraphics.fillStyle(0xff0000, 0);
-        maskGraphics.fillRect(0, 0, width, height);
+        maskGraphics.fillRect(0, 0, bouncePanelBounds.width, bouncePanelBounds.height);
         maskGraphics.setVisible(false);
         const panelMask = maskGraphics.createGeometryMask();
         const bounceContainer = this.add.container();
@@ -1359,10 +1366,10 @@ export default class DebugScene extends Phaser.Scene
         this.bounceBannerContainer = bounceContainer;
 
         // Create the first bounce banner for doctors
-        var width = 120, height = 40;
-        var x = -20;
-        var y = 375;
-        var types = ['energy', 'attack', 'defense', 'speed'];
+        var width = 90, height = 20;
+        var x = bouncePanelBounds.x - 20;
+        var y = bouncePanelBounds.y + 20;
+        var types = ['attack', 'defense', 'speed'];
         var type = types[0];
         var color = typesIndex[type].colour_light;
         var xcolor = Phaser.Display.Color.GetColor(color[0], color[1], color[2]);
@@ -1380,9 +1387,9 @@ export default class DebugScene extends Phaser.Scene
         this.bounceBannerAlpha = $bounceBannerAlpha;
 
         // Create the second bounce banner for robots
-        var width = 120, height = 40;
-        var x = MMRPG.canvas.xMax - width + 20;
-        var y = 375;
+        var width = 120, height = 30;
+        var x = bouncePanelBounds.x2 - width + 20;
+        var y = bouncePanelBounds.y2 - height - 20;
         var types = Object.values(safeTypeTokens);
         var type = types[0];
         var color = typesIndex[type].colour_light;
@@ -1535,6 +1542,135 @@ export default class DebugScene extends Phaser.Scene
 
     }
 
+    // Define a function for updating the bounce banners on each update cycle
+    updateBounceBanners (time, delta)
+    {
+        //console.log('DebugScene.updateBounceBanners() called');
+
+        // Pull in required object references
+        let ctx = this;
+        let MMRPG = this.MMRPG;
+        let SPRITES = this.SPRITES;
+        let POPUPS = this.POPUPS;
+        let BUTTONS = this.BUTTONS;
+        let SOUNDS = this.SOUNDS;
+
+        // Pull in refs to specific indexes
+        let typesIndex = MMRPG.Indexes.types;
+        let typesIndexTokens = Object.keys(typesIndex);
+        let safeTypeTokens = ctx.safeTypeTokens;
+
+        // Pull in the bounce banner panel and bounds for reference
+        let $bouncePanel = this.bouncePanel;
+        let panelBounds = this.bouncePanelBounds;
+
+        // -- ANIMATE BOUNCE BANNER ALPHA (DOCTORS) -- //
+
+        // Animate the alpha bounce banner moving across the screen
+        let $alphaBanner = this.bounceBannerAlpha;
+        if (!$alphaBanner.directionX){ $alphaBanner.directionX = 'right'; }
+        if (!$alphaBanner.directionY){ $alphaBanner.directionY = 'down'; }
+        var bannerBounds = $alphaBanner.getBounds();
+        var width = bannerBounds.width, height = bannerBounds.height;
+        var speed = 50; // pixels per second
+        var movement = speed * (delta / 1000);
+        var newX = bannerBounds.x, newY = bannerBounds.y;
+        var xDir = $alphaBanner.directionX, yDir = $alphaBanner.directionY;
+        if (xDir === 'right') { newX += movement; }
+        if (xDir === 'left') { newX -= movement; }
+        if (yDir === 'down') { newY += movement; }
+        if (yDir === 'up') { newY -= movement; }
+        $alphaBanner.setPosition(newX, newY);
+        var newDir = false;
+        if (bannerBounds.x <= panelBounds.x && $alphaBanner.directionX !== 'right'){ $alphaBanner.directionX = 'right'; newDir = true; }
+        if (bannerBounds.x2 >= panelBounds.x2 && $alphaBanner.directionX !== 'left'){ $alphaBanner.directionX = 'left'; newDir = true; }
+        if (bannerBounds.y <= panelBounds.y && $alphaBanner.directionY !== 'down'){ $alphaBanner.directionY = 'down'; newDir = true; }
+        if (bannerBounds.y2 >= panelBounds.y2 && $alphaBanner.directionY !== 'up'){ $alphaBanner.directionY = 'up'; newDir = true; }
+        if (!$alphaBanner.isReady){
+            if (bannerBounds.x > panelBounds.x
+                && bannerBounds.x2 < panelBounds.x2
+                && bannerBounds.y > panelBounds.y
+                && bannerBounds.y2 < panelBounds.y2){
+                $alphaBanner.isReady = true;
+                } else {
+                $alphaBanner.isReady = false;
+                }
+            }
+        if (newDir && $alphaBanner.isReady){
+            //console.log('Changing alpha banner direction to', $alphaBanner.directionX, $alphaBanner.directionY);
+            SOUNDS.play('dink_mmi-gb', {volume: 0.2});
+            var types = $alphaBanner.types;
+            var type = types[Math.floor(Math.random() * types.length)];
+            //console.log('new type =', type);
+            var color = typesIndex[type]['colour_light'];
+            var color2 = typesIndex[type]['colour_dark'];
+            $alphaBanner.setColor(color, color2);
+            if (ctx.allowRunningDoctors){
+                //console.log('Show a running doctor of stat type:', type);
+                let doctor = '', alt = '';
+                if (type === 'defense'){ doctor = 'dr-light'; }
+                if (type === 'attack'){ doctor = 'dr-wily'; }
+                if (type === 'speed'){ doctor = 'dr-cossack'; }
+                if (type === 'energy'){ doctor = 'proxy'; alt = 'alt2'; }
+                let master = '', support = '';
+                if (doctor === 'dr-light'){ master = 'mega-man'; support = 'roll'; }
+                if (doctor === 'dr-wily'){ master = 'bass'; support = 'disco'; }
+                if (doctor === 'dr-cossack'){ master = 'proto-man'; support = 'rhythm'; }
+                if (doctor){ this.showDoctorRunning(doctor, alt); }
+                if (master){ this.showMasterSliding(master); }
+                if (support){ this.showMasterSliding(support); }
+                }
+            }
+
+        // -- ANIMATE BOUNCE BANNER BETA (MASTERS) -- //
+
+        // Animate the beta bounce banner moving across the screen
+        let $betaBanner = this.bounceBannerBeta;
+        if (!$betaBanner.directionX){ $betaBanner.directionX = 'left'; }
+        if (!$betaBanner.directionY){ $betaBanner.directionY = 'up'; }
+        var bannerBounds = $betaBanner.getBounds();
+        var width = bannerBounds.width, height = bannerBounds.height;
+        var speed = 50; // pixels per second
+        var movement = speed * (delta / 1000);
+        var newX = bannerBounds.x, newY = bannerBounds.y;
+        var xDir = $betaBanner.directionX, yDir = $betaBanner.directionY;
+        if (xDir === 'right') { newX += movement; }
+        if (xDir === 'left') { newX -= movement; }
+        if (yDir === 'down') { newY += movement; }
+        if (yDir === 'up') { newY -= movement; }
+        $betaBanner.setPosition(newX, newY);
+        var newDir = false;
+        if (bannerBounds.x <= panelBounds.x && $betaBanner.directionX !== 'right'){ $betaBanner.directionX = 'right'; newDir = true; }
+        if (bannerBounds.x2 >= panelBounds.x2 && $betaBanner.directionX !== 'left'){ $betaBanner.directionX = 'left'; newDir = true; }
+        if (bannerBounds.y <= panelBounds.y && $betaBanner.directionY !== 'down'){ $betaBanner.directionY = 'down'; newDir = true; }
+        if (bannerBounds.y2 >= panelBounds.y2 && $betaBanner.directionY !== 'up'){ $betaBanner.directionY = 'up'; newDir = true; }
+        if (!$betaBanner.isReady){
+            if (bannerBounds.x > panelBounds.x
+                && bannerBounds.x2 < panelBounds.x2
+                && bannerBounds.y > panelBounds.y
+                && bannerBounds.y2 < panelBounds.y2){
+                $betaBanner.isReady = true;
+                } else {
+                $betaBanner.isReady = false;
+                }
+            }
+        if (newDir && $betaBanner.isReady){
+            //console.log('Changing beta banner direction to', $betaBanner.directionX, $betaBanner.directionY);
+            SOUNDS.play('dink_mmi-gb', {volume: 0.2});
+            var types = $betaBanner.types;
+            var type = types[Math.floor(Math.random() * types.length)];
+            //console.log('new type =', type);
+            var color = typesIndex[type]['colour_light'];
+            var color2 = typesIndex[type]['colour_dark'];
+            $betaBanner.setColor(color, color2);
+            if (ctx.allowSlidingMasters){
+                //console.log('Show a sliding master of type:', type);
+                this.showMasterSliding(null, type, 'right');
+                }
+            }
+
+    }
+
     // Define a function for animating the main banner on each update cycle
     updateMainBanner (time, delta)
     {
@@ -1662,13 +1798,6 @@ export default class DebugScene extends Phaser.Scene
                 this.showMasterSliding(null, type, 'right');
                 }
             }
-
-    }
-
-    // Define a function for updating the bounce banners on each update cycle
-    updateBounceBanners (time, delta)
-    {
-        //console.log('DebugScene.updateBounceBanners() called');
 
     }
 
