@@ -221,4 +221,33 @@ export default class Banner {
         this.refreshBanner();
     }
 
+    // Define a function for adding this banner to a given container, such as a scene or another container
+    addToContainer (container)
+    {
+        //console.log('Banner.addToContainer() called w/ container =', container);
+        if (typeof container === 'object'){
+            if (typeof container.add === 'function'){
+                //console.log('adding panel to container');
+                container.add(this.panel);
+                for (let i = 0; i < this.elements.texts.length; i++){
+                    //console.log('adding text element', i, 'to container');
+                    container.add(this.elements.texts[i]);
+                    }
+                for (let i = 0; i < this.elements.images.length; i++){
+                    //console.log('adding image element', i, 'to container');
+                    container.add(this.elements.images[i]);
+                    }
+                for (let i = 0; i < this.elements.sprites.length; i++){
+                    //console.log('adding sprite element', i, 'to container');
+                    container.add(this.elements.sprites[i]);
+                    }
+                }
+            if (typeof container.sort === 'function'){
+                //console.log('sorting container by depth');
+                container.sort('depth');
+                }
+            }
+        this.refreshBanner();
+    }
+
 }
