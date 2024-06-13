@@ -295,6 +295,7 @@ export default class DebugScene extends Phaser.Scene
 
         this.updateMainBanner(time, delta);
         this.updateTestBanner(time, delta);
+        this.updateBounceBanners(time, delta);
 
     }
 
@@ -1283,6 +1284,7 @@ export default class DebugScene extends Phaser.Scene
         let typesIndexTokens = Object.keys(typesIndex);
 
         // Draw the battle banner and collect a reference to it
+        var depth = 200;
         var type = 'empty';
         var x = 14, y = 150;
         var color = typesIndex[type].colour_light;
@@ -1291,8 +1293,9 @@ export default class DebugScene extends Phaser.Scene
             height: 200,
             fillStyle: { color: xcolor },
             mainText: '',
-            depth: 200
+            depth: depth++
             });
+        this.battleBanner = battleBanner;
 
         // Create a mask for the battle banner area that we can add sprites to
         const maskGraphics = this.add.graphics();
@@ -1302,8 +1305,7 @@ export default class DebugScene extends Phaser.Scene
         const bannerMask = maskGraphics.createGeometryMask();
         const spriteContainer = this.add.container();
         spriteContainer.setMask(bannerMask);
-        spriteContainer.setDepth(210);
-        this.battleBanner = battleBanner;
+        spriteContainer.setDepth(depth++);
         this.battleBannerMask = bannerMask;
         this.battleBannerContainer = spriteContainer;
 
@@ -1333,7 +1335,7 @@ export default class DebugScene extends Phaser.Scene
         var x = ref.x, y = ref.y + ref.height + 5;
         var color = typesIndex['empty'].colour_light;
         var xcolor = Phaser.Display.Color.GetColor(color[0], color[1], color[2]);
-        let $bounceContainer = Graphics.addTypePanel(this, {
+        let $bouncePanel = Graphics.addTypePanel(this, {
             x: x,
             y: y,
             width: width,
@@ -1341,11 +1343,24 @@ export default class DebugScene extends Phaser.Scene
             radius: { tl: 50, tr: 50, br: 50, bl: 50 },
             depth: depth++
             });
-        this.bounceContainer = $bounceContainer;
+        this.bouncePanel = $bouncePanel;
+        $bouncePanel.setAlpha(1);
+
+        // Create a mask for the bounce container so we can add banners to it
+        const maskGraphics = this.add.graphics({x: x, y: y});
+        maskGraphics.fillStyle(0xff0000, 0);
+        maskGraphics.fillRect(0, 0, width, height);
+        maskGraphics.setVisible(false);
+        const panelMask = maskGraphics.createGeometryMask();
+        const bounceContainer = this.add.container();
+        bounceContainer.setMask(panelMask);
+        bounceContainer.setDepth(depth++);
+        this.bouncePanelMask = panelMask;
+        this.bounceBannerContainer = bounceContainer;
 
         // Create the first bounce banner for doctors
         var width = 120, height = 40;
-        var x = 20;
+        var x = -20;
         var y = 375;
         var types = ['energy', 'attack', 'defense', 'speed'];
         var type = types[0];
@@ -1361,11 +1376,12 @@ export default class DebugScene extends Phaser.Scene
             });
         $bounceBannerAlpha.type = type;
         $bounceBannerAlpha.types = types;
+        $bounceBannerAlpha.addToContainer(bounceContainer);
         this.bounceBannerAlpha = $bounceBannerAlpha;
 
         // Create the second bounce banner for robots
         var width = 120, height = 40;
-        var x = MMRPG.canvas.xMax - width - 20;
+        var x = MMRPG.canvas.xMax - width + 20;
         var y = 375;
         var types = Object.values(safeTypeTokens);
         var type = types[0];
@@ -1381,6 +1397,7 @@ export default class DebugScene extends Phaser.Scene
             });
         $bounceBannerBeta.type = type;
         $bounceBannerBeta.types = types;
+        $bounceBannerBeta.addToContainer(bounceContainer);
         this.bounceBannerBeta = $bounceBannerBeta;
 
     }
@@ -1645,6 +1662,13 @@ export default class DebugScene extends Phaser.Scene
                 this.showMasterSliding(null, type, 'right');
                 }
             }
+
+    }
+
+    // Define a function for updating the bounce banners on each update cycle
+    updateBounceBanners (time, delta)
+    {
+        //console.log('DebugScene.updateBounceBanners() called');
 
     }
 
