@@ -102,6 +102,20 @@ export class GraphicsUtility {
         $panel.strokeRoundedRect(panelConfig.x, panelConfig.y, panelConfig.width, panelConfig.height, radius);
         $panel.fillRoundedRect(panelConfig.x, panelConfig.y, panelConfig.width, panelConfig.height, radius);
         if (typeof panelConfig.depth === 'number'){ $panel.setDepth(panelConfig.depth); }
+
+        // Add some functions to the panel object to make it easier to work with
+        $panel.getBounds = function(){
+            return {
+                x: panelConfig.x,
+                y: panelConfig.y,
+                x2: panelConfig.x + panelConfig.width,
+                y2: panelConfig.y + panelConfig.height,
+                width: panelConfig.width,
+                height: panelConfig.height,
+                };
+            };
+
+        // Return the generated panel object for further manipulation
         return $panel;
 
     }
