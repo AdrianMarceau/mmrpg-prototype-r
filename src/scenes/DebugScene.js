@@ -185,6 +185,9 @@ export default class DebugScene extends Phaser.Scene
         // Next we add the buttons banner under the title
         this.createHeaderBanner();
 
+        // Next we add the battle banner to the scene
+        this.createBattleBanner();
+
 
         // DEBUG DEBUG DEBUG
         // <----------------
@@ -1260,6 +1263,48 @@ export default class DebugScene extends Phaser.Scene
 
     }
 
+    // Define a function for create the battle banner and the elements inside it
+    createBattleBanner ()
+    {
+        //console.log('DebugScene.createBattleBanner() called');
+
+        // Pull in required object references
+        let ctx = this;
+        let MMRPG = this.MMRPG;
+        let SPRITES = this.SPRITES;
+        let POPUPS = this.POPUPS;
+        let BUTTONS = this.BUTTONS;
+
+        // Pull in refs to specific indexes
+        let typesIndex = MMRPG.Indexes.types;
+        let typesIndexTokens = Object.keys(typesIndex);
+
+        // Draw the battle banner and collect a reference to it
+        var type = 'empty';
+        var x = 20, y = MMRPG.canvas.centerY - 90;
+        var color = typesIndex[type].colour_light;
+        var xcolor = Phaser.Display.Color.GetColor(color[0], color[1], color[2]);
+        let battleBanner = new BattleBanner(this, x, y, {
+            height: 200,
+            fillStyle: { color: xcolor },
+            mainText: '',
+            depth: 200
+            });
+        // Create a mask for the battle banner area that we can add sprites to
+        const maskGraphics = this.add.graphics();
+        maskGraphics.fillStyle(0x660022);
+        maskGraphics.fillRect(x, y, battleBanner.width, battleBanner.height);
+        maskGraphics.setVisible(false);
+        const bannerMask = maskGraphics.createGeometryMask();
+        const spriteContainer = this.add.container();
+        spriteContainer.setMask(bannerMask);
+        spriteContainer.setDepth(210);
+        this.battleBanner = battleBanner;
+        this.battleBannerMask = bannerMask;
+        this.battleBannerContainer = spriteContainer;
+
+    }
+
     // Define a function for creating and adding all the header buttons to the scene
     createTestButtons ()
     {
@@ -1390,31 +1435,6 @@ export default class DebugScene extends Phaser.Scene
             depth: 50
             });
         this.testBanner = testBanner;
-
-        // Draw the battle banner and collect a reference to it
-        var type = 'empty';
-        var ref = this.mainBanner.getBounds();
-        var x = ref.x, y = MMRPG.canvas.centerY - 90;
-        var color = typesIndex[type].colour_light;
-        var xcolor = Phaser.Display.Color.GetColor(color[0], color[1], color[2]);
-        let battleBanner = new BattleBanner(this, x, y, {
-            height: 200,
-            fillStyle: { color: xcolor },
-            mainText: '',
-            depth: 200
-            });
-        // Create a mask for the battle banner area that we can add sprites to
-        const maskGraphics = this.add.graphics();
-        maskGraphics.fillStyle(0x660022);
-        maskGraphics.fillRect(x, y, battleBanner.width, battleBanner.height);
-        maskGraphics.setVisible(false);
-        const bannerMask = maskGraphics.createGeometryMask();
-        const spriteContainer = this.add.container();
-        spriteContainer.setMask(bannerMask);
-        spriteContainer.setDepth(210);
-        this.battleBanner = battleBanner;
-        this.battleBannerMask = bannerMask;
-        this.battleBannerContainer = spriteContainer;
 
     }
 
