@@ -188,6 +188,9 @@ export default class DebugScene extends Phaser.Scene
         // Next we add the battle banner to the scene
         this.createBattleBanner();
 
+        // Next we add the two bound banners to the scene
+        this.createBounceBanners();
+
 
         // DEBUG DEBUG DEBUG
         // <----------------
@@ -244,13 +247,14 @@ export default class DebugScene extends Phaser.Scene
 
 
         // Draw a panel with all of the elemental types as buttons
-        var x = 20, y = MMRPG.canvas.height - 190;
-        var width = MMRPG.canvas.width - 40, height = 150;
+        var x = 10, y = MMRPG.canvas.height - 194;
+        var width = MMRPG.canvas.width - 20, height = 160;
         this.addPanelWithTypeButtons({
             x: x,
             y: y,
             width: width,
             height: height,
+            radius: {tl: 30, tr: 30, bl: 30, br: 30},
             types: this.safeTypeTokens,
             onClick: function($button, type){
                 //console.log('Wow! Type button clicked!', 'type:', type, '$button:', $button);
@@ -1272,8 +1276,6 @@ export default class DebugScene extends Phaser.Scene
         // Pull in required object references
         let ctx = this;
         let MMRPG = this.MMRPG;
-        let SPRITES = this.SPRITES;
-        let POPUPS = this.POPUPS;
         let BUTTONS = this.BUTTONS;
 
         // Pull in refs to specific indexes
@@ -1291,6 +1293,7 @@ export default class DebugScene extends Phaser.Scene
             mainText: '',
             depth: 200
             });
+
         // Create a mask for the battle banner area that we can add sprites to
         const maskGraphics = this.add.graphics();
         maskGraphics.fillStyle(0x660022);
@@ -1303,6 +1306,82 @@ export default class DebugScene extends Phaser.Scene
         this.battleBanner = battleBanner;
         this.battleBannerMask = bannerMask;
         this.battleBannerContainer = spriteContainer;
+
+    }
+
+    // Define a function for creating the two bounce banners that shift between elements
+    createBounceBanners ()
+    {
+        //console.log('DebugScene.createBounceBanners() called');
+
+        // Pull in required object references
+        let ctx = this;
+        let MMRPG = this.MMRPG;
+        let SPRITES = this.SPRITES;
+        let POPUPS = this.POPUPS;
+        let BUTTONS = this.BUTTONS;
+
+        // Pull in refs to specific indexes
+        let typesIndex = MMRPG.Indexes.types;
+        let typesIndexTokens = Object.keys(typesIndex);
+        let safeTypeTokens = ctx.safeTypeTokens;
+
+        // Create an empty type panel we can use as a boundary
+        var depth = 1000;
+        var ref = this.battleBanner;
+        var width = ref.width, height = 80;
+        var x = ref.x, y = ref.y + ref.height + 5;
+        var color = typesIndex['empty'].colour_light;
+        var xcolor = Phaser.Display.Color.GetColor(color[0], color[1], color[2]);
+        let $bounceContainer = Graphics.addTypePanel(this, {
+            x: x,
+            y: y,
+            width: width,
+            height: height,
+            radius: { tl: 50, tr: 50, br: 50, bl: 50 },
+            depth: depth++
+            });
+        this.bounceContainer = $bounceContainer;
+
+        // Create the first bounce banner for doctors
+        var width = 120, height = 40;
+        var x = 20;
+        var y = 375;
+        var types = ['energy', 'attack', 'defense', 'speed'];
+        var type = types[0];
+        var color = typesIndex[type].colour_light;
+        var xcolor = Phaser.Display.Color.GetColor(color[0], color[1], color[2]);
+        let $bounceBannerAlpha = new Banner(this, x, y, {
+            width: width,
+            height: height,
+            fillStyle: { color: xcolor },
+            borderRadius: { tl: 50, tr: 50, br: 50, bl: 50 },
+            mainText: '',
+            depth: depth++
+            });
+        $bounceBannerAlpha.type = type;
+        $bounceBannerAlpha.types = types;
+        this.bounceBannerAlpha = $bounceBannerAlpha;
+
+        // Create the second bounce banner for robots
+        var width = 120, height = 40;
+        var x = MMRPG.canvas.xMax - width - 20;
+        var y = 375;
+        var types = Object.values(safeTypeTokens);
+        var type = types[0];
+        var color = typesIndex[type].colour_light;
+        var xcolor = Phaser.Display.Color.GetColor(color[0], color[1], color[2]);
+        let $bounceBannerBeta = new Banner(this, x, y, {
+            width: width,
+            height: height,
+            fillStyle: { color: xcolor },
+            borderRadius: { tl: 50, tr: 50, br: 50, bl: 50 },
+            mainText: '',
+            depth: depth++
+            });
+        $bounceBannerBeta.type = type;
+        $bounceBannerBeta.types = types;
+        this.bounceBannerBeta = $bounceBannerBeta;
 
     }
 
