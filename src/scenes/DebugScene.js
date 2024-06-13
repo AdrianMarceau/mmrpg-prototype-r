@@ -179,18 +179,18 @@ export default class DebugScene extends Phaser.Scene
         let BUTTONS = this.BUTTONS;
         let SOUNDS = this.SOUNDS;
 
+        // First we add the title banner up at the top
+        this.createTitleBanner();
+
+        // Next we add the buttons banner under the title
+        this.createHeaderBanner();
+
+
         // DEBUG DEBUG DEBUG
         // <----------------
 
-        // Add a title to the scene for the player to see
-        var x = MMRPG.canvas.centerX, y = 40;
-        var $loadText = this.add.bitmapText(x, y, 'megafont-white', 'Welcome to Debug', 16);
-        $loadText.setOrigin(0.5);
-        $loadText.setLetterSpacing(20);
-        $loadText.setDepth(8200);
-
         // Create all the test buttons and banners for the scene
-        this.createTestButtons();
+        //this.createTestButtons();
         this.createTestBanners();
 
         // -- DEBUG TEXT -- //
@@ -1013,6 +1013,253 @@ export default class DebugScene extends Phaser.Scene
         ctx.lastSlidingMaster = spriteToken;
     }
 
+    // Define a function for creating the title banner and associated elements inside it
+    createTitleBanner ()
+    {
+        //console.log('DebugScene.createTitleBanner() called');
+
+        // Pull in other required objects and references
+        let ctx = this;
+        let BUTTONS = this.BUTTONS;
+        let SOUNDS = this.SOUNDS;
+
+        // TITLE BANNER
+
+        // First we add a simple, empty banner to the header
+        var depth = 1000;
+        var y = 10, x = 10;
+        var width = MMRPG.canvas.width - 20, height = 30;
+        this.titleBanner = new Banner(ctx, x, y, {
+            width: width,
+            height: height,
+            depth: depth++
+            });
+
+        // TITLE TEXT
+
+        // Add a title to the scene for the player to see
+        var y = (this.titleBanner.y + 5), x = MMRPG.canvas.centerX;
+        var $loadText = this.add.bitmapText(x, y, 'megafont-white', 'Welcome to Debug', 16);
+        $loadText.setOrigin(0.5, 0);
+        $loadText.setLetterSpacing(20);
+        $loadText.setDepth(depth++);
+
+        // BACK & NEXT BUTTONS
+
+        // Predefine the config to use for the back and next buttons
+        var buttonConfig = {
+            y: (this.titleBanner.y + 3), x: 0,
+            width: 150,  height: 23, size: 8,
+            color: '#8d8d8d', background: '#262626',
+            depth: 0
+            };
+
+        // Create a back button so we can return to the title
+        buttonConfig.x = 15;
+        buttonConfig.depth = depth++;
+        BUTTONS.makeSimpleButton('< Back to Title', buttonConfig, function(){
+            //console.log('Back button clicked');
+            ctx.scene.start('Title');
+            });
+
+        // Create a next button so we can go to the main scene
+        buttonConfig.x = MMRPG.canvas.width - 165;
+        buttonConfig.depth = depth++;
+        BUTTONS.makeSimpleButton('Go to Main >', buttonConfig, function(){
+            //console.log('Main button clicked');
+            ctx.scene.start('Main');
+            });
+
+    }
+
+    // Define a function for creating the buttons banner and associated elements inside it
+    createHeaderBanner ()
+    {
+        //console.log('DebugScene.createHeaderBanner() called');
+
+        // Pull in other required objects and references
+        let ctx = this;
+        let SPRITES = this.SPRITES;
+        let POPUPS = this.POPUPS;
+        let BUTTONS = this.BUTTONS;
+        let SOUNDS = this.SOUNDS;
+
+        // HEADER BANNER
+
+        // First we add a simple, empty banner to the header
+        var depth = 1000;
+        var y = 45, x = 10;
+        var width = MMRPG.canvas.width - 20, height = 100;
+        this.headerBanner = new Banner(ctx, x, y, {
+            width: width,
+            height: height,
+            depth: depth++
+            });
+
+        // Predefine some position vars to make things easier
+        let bannerWidth = this.headerBanner.width;
+        let bannerHeight = this.headerBanner.height;
+        let bannerMinX = this.headerBanner.x;
+        let bannerMaxX = this.headerBanner.x + bannerWidth;
+        let bannerMinY = this.headerBanner.y;
+        let bannerMaxY = this.headerBanner.y + bannerHeight;
+        let bannerBounds = this.headerBanner.getBounds();
+
+        // PAUSE BUTTON
+
+        // Create the pause button smack-dab in the center for pausing the game
+        var width = 100, height = 23, size = 8;
+        var y = (this.headerBanner.y + 3);
+        var x = (this.headerBanner.x + (bannerWidth / 2) - (width / 2));
+        var color = '#cacaca', background = '#262626';
+        let pauseTimeout = null;
+        let $pauseButton = BUTTONS.makeSimpleButton('PAUSE', {
+            y: y, x: x,
+            width: width, height: height, size: size,
+            color: color, background: background,
+            depth: depth++
+            }, function(){
+            //console.log('Pause button clicked');
+            window.toggleGameIsClickable(false);
+            window.toggleGameIsRunning(false);
+            ctx.scene.pause();
+            $pauseButton.setText('PAUSED');
+            if (pauseTimeout){ clearTimeout(pauseTimeout); }
+            pauseTimeout = setTimeout(function(){
+                window.toggleGameIsClickable(true);
+                }, 500);
+            });
+        window.setGameResumeCallback(function(){
+            $pauseButton.setText('PAUSE');
+            ctx.scene.resume();
+            SOUNDS.play('wily-escape-iii-a_mmv-gb', {volume: 0.2});
+            });
+
+        // Predefine some vars to make things easier
+        var cell = null;
+        var label = 'lorem', size = 8;
+        var color = '#7d7d7d', background = '#262626';
+
+        // Predefine the button grid to make positioning easier
+        var offset = 25;
+        var padding = 5;
+        var numCols = 3;
+        var numRows = 2;
+        var buttonBounds = Graphics.getAdjustedBounds(bannerBounds, [31, padding, padding, padding]);
+        var colWidths = Graphics.calculateColumnWidths(buttonBounds.width, [40, 30, 30]);
+        var rowHeight = 24 + padding;
+        var buttonGrid = BUTTONS.generateButtonGrid(buttonBounds, numCols, numRows, colWidths, rowHeight, padding);
+        //console.log('buttonGrid:', buttonGrid);
+
+        // POPUP BUTTONS
+
+        // Create a trigger button for the "Welcome to the Prototype" popup
+        cell = buttonGrid[0][0];
+        label = 'Read "Welcome to the Prototype"';
+        color = '#b99e3c';
+        BUTTONS.makeSimpleButton(label.toUpperCase(), {
+            y: cell.y, x: cell.x,
+            width: cell.width, height: cell.height,
+            color: color, background: background, size: size,
+            depth: depth++
+            }, function(){
+            //console.log('Show Welcome Home button clicked');
+            POPUPS.debugWelcomePopup();
+            });
+
+        // Create a trigger button for the "Tales from the Void" popup
+        cell = buttonGrid[0][1];
+        label = 'Read "Tales from the Void"';
+        color = '#95c418';
+        BUTTONS.makeSimpleButton(label.toUpperCase(), {
+            y: cell.y, x: cell.x,
+            width: cell.width, height: cell.height,
+            color: color, background: background, size: size,
+            depth: depth++
+            }, function(){
+            //console.log('Show Tales from the Void button clicked');
+            ctx.showTalesFromTheVoid();
+            });
+
+        // DOCTOR/ROBOT TOGGLE BUTTONS
+
+        // Create a button to toggle the doctor stream
+        cell = buttonGrid[1][0];
+        label = 'Toggle Doctor Stream';
+        color = '#00ff00';
+        BUTTONS.makeSimpleButton(label.toUpperCase(), {
+            y: cell.y, x: cell.x,
+            width: cell.width, height: cell.height,
+            color: color, background: background, size: size,
+            depth: depth++
+            }, function(button){
+            //console.log('Toggle Doctors Running button clicked');
+            if (ctx.allowRunningDoctors){
+                button.text.setTint(0xff0000);
+                //button.text.setColor('#ff0000');
+                ctx.allowRunningDoctors = false;
+                } else {
+                button.text.setTint(0x00ff00);
+                //button.text.setColor('#00ff00');
+                ctx.allowRunningDoctors = true;
+                }
+            });
+
+        // Create a button to toggle the master stream
+        cell = buttonGrid[1][1];
+        label = 'Toggle Master Stream';
+        color = '#00ff00';
+        BUTTONS.makeSimpleButton(label.toUpperCase(), {
+            y: cell.y, x: cell.x,
+            width: cell.width, height: cell.height,
+            color: color, background: background, size: size,
+            depth: depth++
+            }, function(button){
+            //console.log('Toggle Masters Sliding button clicked');
+            if (ctx.allowSlidingMasters){
+                button.text.setTint(0xff0000);
+                //button.text.setColor('#ff0000');
+                ctx.allowSlidingMasters = false;
+                } else {
+                button.text.setTint(0x00ff00);
+                //button.text.setColor('#00ff00');
+                ctx.allowSlidingMasters = true;
+                }
+            });
+
+
+        // DOCTOR/ROBOT ADD-TO-SCENE BUTTONS
+
+        // Create a button to add a running doctor to the scene
+        cell = buttonGrid[2][0];
+        label = 'Add Running Doctor';
+        color = '#6592ff';
+        BUTTONS.makeSimpleButton(label.toUpperCase(), {
+            y: cell.y, x: cell.x,
+            width: cell.width, height: cell.height,
+            color: color, background: background, size: size,
+            depth: depth++
+            }, function(){
+            //console.log('Show Doctor Running button clicked');
+            ctx.showDoctorRunning();
+            });
+
+        // Create a button to add a sliding master to the scene
+        cell = buttonGrid[2][1];
+        label = 'Add Sliding Master';
+        color = '#6592ff';
+        BUTTONS.makeSimpleButton(label.toUpperCase(), {
+            y: cell.y, x: cell.x,
+            width: cell.width, height: cell.height,
+            color: color, background: background, size: size,
+            depth: depth++
+            }, function(){
+            //console.log('Show Master Sliding button clicked');
+            ctx.showMasterSliding(null, null, 'left');
+            });
+
+    }
+
     // Define a function for creating and adding all the header buttons to the scene
     createTestButtons ()
     {
@@ -1024,46 +1271,6 @@ export default class DebugScene extends Phaser.Scene
         let SPRITES = this.SPRITES;
         let POPUPS = this.POPUPS;
         let BUTTONS = this.BUTTONS;
-
-        window.setCurrentGameScene(ctx);
-        let pauseTimeout = null;
-        let $pauseButton = BUTTONS.makeSimpleButton('PAUSE', {
-            x: MMRPG.canvas.centerX - 50, y: 70,
-            width: 120, height: 24,
-            size: 10, color: '#cacaca',
-            depth: 8100
-            }, function(){
-            //console.log('Pause button clicked');
-            window.toggleGameIsClickable(false);
-            window.toggleGameIsRunning(false);
-            ctx.scene.pause();
-            if (pauseTimeout){ clearTimeout(pauseTimeout); }
-            pauseTimeout = setTimeout(function(){
-                window.toggleGameIsClickable(true);
-                }, 1000);
-            });
-
-        // Create a back button so we can return to the title
-        BUTTONS.makeSimpleButton('< Back to Title', {
-            x: 50, y: 50,
-            width: 150, height: 24,
-            size: 8, color: '#7d7d7d',
-            depth: 8000
-            }, function(){
-            //console.log('Back button clicked');
-            ctx.scene.start('Title');
-            });
-
-        // Create a next button so we can go to the main scene
-        BUTTONS.makeSimpleButton('Go to Main >', {
-            x: 600, y: 50,
-            width: 150, height: 24,
-            size: 8, color: '#7d7d7d',
-            depth: 8000
-            }, function(){
-            //console.log('Main button clicked');
-            ctx.scene.start('Main');
-            });
 
         // Create some debug buttons to trigger specific functionality for testing
         BUTTONS.makeSimpleButton('Welcome Home', {
@@ -1159,7 +1366,7 @@ export default class DebugScene extends Phaser.Scene
 
         // Draw the main banner and collect a reference to it
         var type = 'wily';
-        var x = 15, y = 15;
+        var x = 15, y = 100;
         var color = typesIndex[type].colour_light;
         var xcolor = Phaser.Display.Color.GetColor(color[0], color[1], color[2]);
         let mainBanner = new MainBanner(this, x, y, {
