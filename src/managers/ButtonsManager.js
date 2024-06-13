@@ -52,7 +52,8 @@ export default class ButtonsManager {
         /* ... */
     }
 
-    makeSimpleButton (text, config, callback){
+    makeSimpleButton (text, config, callback)
+    {
 
         // Create a small text button to trigger displaying tales from the void
         let ctx = this.scene;
@@ -166,7 +167,8 @@ export default class ButtonsManager {
 
     }
 
-    addDebugButton(ctx) {
+    addDebugButton(ctx)
+    {
 
         // Add a small debug button at the bottom we can click
         var x = MMRPG.canvas.width - 60, y = MMRPG.canvas.height - 20;
@@ -188,6 +190,51 @@ export default class ButtonsManager {
         // Return the generated debug button
         return $debugButton;
 
+    }
+
+    // Define a function for generating a grid of buttons based on bounds and parameters
+    generateButtonGrid (gridBounds, numCols, numRows, colWidth, rowHeight, cellPadding = 5)
+    {
+        //console.log('generateButtonGrid() called w/ gridBounds:', typeof gridBounds, gridBounds, 'numCols:', typeof numCols, numCols, 'numRows:', typeof numRows, numRows, 'colWidth:', typeof colWidth, colWidth, 'rowHeight:', typeof rowHeight, rowHeight);
+
+        let grid = {};
+        let colWidths = [];
+        let totalColWidth = gridBounds.xMax - gridBounds.xMin - (cellPadding * (numCols - 1));
+        if (typeof colWidth === 'number'){
+            colWidths = Array(numCols).fill(colWidth);
+        } else if (typeof colWidth === 'object' && colWidth.length === numCols){
+            colWidths = colWidth;
+        } else {
+            colWidths = Array(numCols).fill(totalColWidth / numCols);
+        }
+
+        // Adjust last column width to avoid overflow
+        colWidths[numCols - 1] = totalColWidth - colWidths.slice(0, numCols - 1).reduce((a, b) => a + b, 0);
+
+        let rowHeights = [];
+        let totalRowHeight = gridBounds.yMax - gridBounds.yMin - (cellPadding * (numRows - 1));
+        if (typeof rowHeight === 'number'){
+            rowHeights = Array(numRows).fill(rowHeight);
+        } else if (rowHeight.length === numRows){
+            rowHeights = rowHeight;
+        } else {
+            rowHeights = Array(numRows).fill(totalRowHeight / numRows);
+        }
+
+        //console.log('colWidths:', colWidths, 'rowHeights:', rowHeights);
+
+        for (let col = 0; col < numCols; col++){
+            grid[col] = {};
+            for (let row = 0; row < numRows; row++){
+                grid[col][row] = {
+                    'x': gridBounds.xMin + colWidths.slice(0, col).reduce((a, b) => a + b, 0) + (cellPadding * col),
+                    'y': gridBounds.yMin + rowHeights.slice(0, row).reduce((a, b) => a + b, 0) + (cellPadding * row),
+                    'width': colWidths[col],
+                    'height': rowHeights[row]
+                };
+            }
+        }
+        return grid;
     }
 
 }
