@@ -197,9 +197,14 @@ export default class ButtonsManager {
     {
         //console.log('generateButtonGrid() called w/ gridBounds:', typeof gridBounds, gridBounds, 'numCols:', typeof numCols, numCols, 'numRows:', typeof numRows, numRows, 'colWidth:', typeof colWidth, colWidth, 'rowHeight:', typeof rowHeight, rowHeight);
 
+        let xMin = gridBounds.xMin || gridBounds.x || 0;
+        let xMax = gridBounds.xMax || gridBounds.x2 || 0;
+        let yMin = gridBounds.yMin || gridBounds.y || 0;
+        let yMax = gridBounds.yMax || gridBounds.y2 || 0;
+
         let grid = {};
         let colWidths = [];
-        let totalColWidth = gridBounds.xMax - gridBounds.xMin - (cellPadding * (numCols - 1));
+        let totalColWidth = xMax - xMin - (cellPadding * (numCols - 1));
         if (typeof colWidth === 'number'){
             colWidths = Array(numCols).fill(colWidth);
         } else if (typeof colWidth === 'object' && colWidth.length === numCols){
@@ -212,7 +217,7 @@ export default class ButtonsManager {
         colWidths[numCols - 1] = totalColWidth - colWidths.slice(0, numCols - 1).reduce((a, b) => a + b, 0);
 
         let rowHeights = [];
-        let totalRowHeight = gridBounds.yMax - gridBounds.yMin - (cellPadding * (numRows - 1));
+        let totalRowHeight = yMax - yMin - (cellPadding * (numRows - 1));
         if (typeof rowHeight === 'number'){
             rowHeights = Array(numRows).fill(rowHeight);
         } else if (rowHeight.length === numRows){
@@ -227,8 +232,8 @@ export default class ButtonsManager {
             grid[col] = {};
             for (let row = 0; row < numRows; row++){
                 grid[col][row] = {
-                    'x': gridBounds.xMin + colWidths.slice(0, col).reduce((a, b) => a + b, 0) + (cellPadding * col),
-                    'y': gridBounds.yMin + rowHeights.slice(0, row).reduce((a, b) => a + b, 0) + (cellPadding * row),
+                    'x': xMin + colWidths.slice(0, col).reduce((a, b) => a + b, 0) + (cellPadding * col),
+                    'y': yMin + rowHeights.slice(0, row).reduce((a, b) => a + b, 0) + (cellPadding * row),
                     'width': colWidths[col],
                     'height': rowHeights[row]
                 };
