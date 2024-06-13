@@ -10,6 +10,7 @@ export class GraphicsUtility {
 
     // -- MATH-RELATED FUNCTIONS -- //
 
+    // Define a function for calculating the proportional radius of a rounded rectangle
     static getProportionalRadiusObject (width, height, radius)
     {
         let fallback = typeof radius === 'number' ? radius : 0;
@@ -31,8 +32,50 @@ export class GraphicsUtility {
         return (smallestSide / 100) * (baseRadius / 5); // Adjust this ratio as needed
     }
 
+    // Define a function filling an array with relative values based on a total
+    static fillArrayWithRelativeValues(total, values)
+    {
+        var totalValue = values.reduce(function(a, b){ return a + b; }, 0);
+        return values.map(function(value){ return Math.floor((value / totalValue) * total); });
+    }
 
-    // -- COLOR-SPAN and COLOR-PANEL  FUNCTIONS -- //
+    // Define a function for adjusting a set of bounds by a certain amount to expand or inset and return it
+    static getAdjustedBounds(bounds, amount)
+    {
+        let amounts;
+        if (typeof amount === 'number'){
+            amounts = [amount, amount, amount, amount];
+            } else if (Array.isArray(amount)){
+            if (amount.length === 4){ amounts = amount; }
+            else if (amount.length === 3){ amounts = [amount[0], amount[1], amount[2], amount[1]]; }
+            else if (amount.length === 2){ amounts = [amount[0], amount[1], amount[0], amount[1]]; }
+            else { amounts = [0, 0, 0, 0]; }
+            } else if (typeof amount === 'object'){
+            amounts = [amount.top || 0, amount.right || 0, amount.bottom || 0, amount.left || 0];
+            } else {
+            amounts = [0, 0, 0, 0];
+            }
+        return {
+            x: bounds.x + amounts[3],
+            x2: bounds.x2 - amounts[1],
+            y: bounds.y + amounts[0],
+            y2: bounds.y2 - amounts[2],
+            width: bounds.width - (amounts[1] + amounts[3]),
+            height: bounds.height - (amounts[0] + amounts[2])
+            };
+    }
+
+    // -- GRID and TABLE-RELATED FUNCTIONS -- //
+
+    // Define a function for calculating relative column widths given a total
+    static calculateColumnWidths(available, percents)
+    {
+        let values = percents.map(function(percent){ return Math.floor((percent / 100) * available); });
+        return this.fillArrayWithRelativeValues(available, values);
+    }
+
+
+    // -- COLOR-SPAN and COLOR-PANEL FUNCTIONS -- //
 
     static addTypePanel (ctx, config)
     {
