@@ -1572,7 +1572,7 @@ export default class DebugScene extends Phaser.Scene
         if (!$alphaBanner.directionY){ $alphaBanner.directionY = 'down'; }
         var bannerBounds = $alphaBanner.getBounds();
         var width = bannerBounds.width, height = bannerBounds.height;
-        var speed = 50; // pixels per second
+        var speed = 15; // pixels per second
         var movement = speed * (delta / 1000);
         var newX = bannerBounds.x, newY = bannerBounds.y;
         var xDir = $alphaBanner.directionX, yDir = $alphaBanner.directionY;
@@ -1616,9 +1616,9 @@ export default class DebugScene extends Phaser.Scene
                 if (doctor === 'dr-light'){ master = 'mega-man'; support = 'roll'; }
                 if (doctor === 'dr-wily'){ master = 'bass'; support = 'disco'; }
                 if (doctor === 'dr-cossack'){ master = 'proto-man'; support = 'rhythm'; }
-                if (doctor){ this.showDoctorRunning(doctor, alt); }
-                if (master){ this.showMasterSliding(master); }
-                if (support){ this.showMasterSliding(support); }
+                if (doctor){ this.showDoctorRunning(doctor, alt, 'left'); }
+                if (master && $alphaBanner.directionY === 'up'){ this.showMasterSliding(master, null, 'left'); }
+                if (support && $alphaBanner.directionY === 'down'){ this.showMasterSliding(support, null, 'left'); }
                 }
             }
 
@@ -1630,7 +1630,7 @@ export default class DebugScene extends Phaser.Scene
         if (!$betaBanner.directionY){ $betaBanner.directionY = 'up'; }
         var bannerBounds = $betaBanner.getBounds();
         var width = bannerBounds.width, height = bannerBounds.height;
-        var speed = 50; // pixels per second
+        var speed = 30; // pixels per second
         var movement = speed * (delta / 1000);
         var newX = bannerBounds.x, newY = bannerBounds.y;
         var xDir = $betaBanner.directionX, yDir = $betaBanner.directionY;
