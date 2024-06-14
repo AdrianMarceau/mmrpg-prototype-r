@@ -201,10 +201,6 @@ export default class DebugScene extends Phaser.Scene
         // DEBUG DEBUG DEBUG
         // <----------------
 
-        // Create all the test buttons and banners for the scene
-        //this.createTestButtons();
-        //this.createTestBanners();
-
         // -- DEBUG TEXT -- //
 
         var x = 20, y = MMRPG.canvas.height - 30;
@@ -251,12 +247,10 @@ export default class DebugScene extends Phaser.Scene
                 });
             }, [], this);
 
-
         // -- DEBUG SOUND EFFECTS -- //
 
         // Play a sound effect to make sure they're working
         SOUNDS.play('9-reggae-laughs_rockboard-nes');
-
 
         // ---------------->
         // DEBUG DEBUG DEBUG
@@ -1320,139 +1314,6 @@ export default class DebugScene extends Phaser.Scene
 
     }
 
-    // Define a function for creating and adding all the header buttons to the scene
-    createTestButtons ()
-    {
-        //console.log('DebugScene.createTestButtons() called');
-
-        // Pull in required object references
-        let ctx = this;
-        let MMRPG = this.MMRPG;
-        let SPRITES = this.SPRITES;
-        let POPUPS = this.POPUPS;
-        let BUTTONS = this.BUTTONS;
-
-        // Create some debug buttons to trigger specific functionality for testing
-        BUTTONS.makeSimpleButton('Welcome Home', {
-            x: 50, y: 100,
-            width: 300, height: 24,
-            size: 13, color: '#7d7d7d',
-            depth: 8000
-            }, function(){
-            //console.log('Show Welcome Home button clicked');
-            POPUPS.debugWelcomePopup();
-            });
-        BUTTONS.makeSimpleButton('Tales from the Void', {
-            x: 450, y: 100,
-            width: 300, height: 24,
-            size: 13, color: '#95c418',
-            depth: 8000
-            }, function(){
-            //console.log('Show Tales from the Void button clicked');
-            ctx.showTalesFromTheVoid();
-            });
-
-        BUTTONS.makeSimpleButton('Toggle Doctor Stream', {
-            x: 50, y: 150,
-            width: 300, height: 24,
-            size: 11, color: '#00ff00',
-            depth: 8000
-            }, function(button){
-            //console.log('Toggle Doctors Running button clicked');
-            if (ctx.allowRunningDoctors){
-                button.text.setTint(0xff0000);
-                //button.text.setColor('#ff0000');
-                ctx.allowRunningDoctors = false;
-                } else {
-                button.text.setTint(0x00ff00);
-                //button.text.setColor('#00ff00');
-                ctx.allowRunningDoctors = true;
-                }
-            });
-        BUTTONS.makeSimpleButton('Running Doctor', {
-            x: 50, y: 180,
-            width: 300, height: 24,
-            size: 13, color: '#6592ff',
-            depth: 8000
-            }, function(){
-            //console.log('Show Doctor Running button clicked');
-            ctx.showDoctorRunning();
-            });
-
-        BUTTONS.makeSimpleButton('Toggle Master Stream', {
-            x: 450, y: 150,
-            width: 300, height: 24,
-            size: 11, color: '#00ff00',
-            depth: 8000
-            }, function(button){
-            //console.log('Toggle Masters Sliding button clicked');
-            if (ctx.allowSlidingMasters){
-                button.text.setTint(0xff0000);
-                //button.text.setColor('#ff0000');
-                ctx.allowSlidingMasters = false;
-                } else {
-                button.text.setTint(0x00ff00);
-                //button.text.setColor('#00ff00');
-                ctx.allowSlidingMasters = true;
-                }
-            });
-        BUTTONS.makeSimpleButton('Sliding Master', {
-            x: 450, y: 180,
-            width: 300, height: 24,
-            size: 13, color: '#6592ff',
-            depth: 8000
-            }, function(){
-            //console.log('Show Master Sliding button clicked');
-            ctx.showMasterSliding(null, null, 'left');
-            });
-
-    }
-
-    // Define a function for creating and adding all the different banners to the scene
-    createTestBanners ()
-    {
-        //console.log('DebugScene.createTestBanners() called');
-
-        // Pull in required object references
-        let ctx = this;
-        let MMRPG = this.MMRPG;
-        let SPRITES = this.SPRITES;
-        let POPUPS = this.POPUPS;
-        let BUTTONS = this.BUTTONS;
-
-        // Pull in refs to specific indexes
-        let typesIndex = MMRPG.Indexes.types;
-        let typesIndexTokens = Object.keys(typesIndex);
-
-        // Draw the main banner and collect a reference to it
-        var type = 'wily';
-        var x = 15, y = 100;
-        var color = typesIndex[type].colour_light;
-        var xcolor = Phaser.Display.Color.GetColor(color[0], color[1], color[2]);
-        let mainBanner = new MainBanner(this, x, y, {
-            fullsize: false,
-            fillStyle: { color: xcolor },
-            mainTextStyle: { fontSize: '16px' },
-            depth: 100
-            });
-        this.mainBanner = mainBanner;
-
-        // Draw a test banner and collect a reference to it
-        var width = 350, height = 100;
-        var x = MMRPG.canvas.width - width - 20;
-        var y = MMRPG.canvas.height - height - 20;
-        let testBanner = new Banner(this, x, y, {
-            width: width,
-            height: height,
-            fillStyle: { color: 0x95c418 },
-            borderRadius: { tl: 20, tr: 0, br: 60, bl: 0 },
-            mainText: 'Test Banner',
-            depth: 50
-            });
-        this.testBanner = testBanner;
-
-    }
-
     // Define a function for updating the bounce banners on each update cycle
     updateBounceBanners (time, delta)
     {
@@ -2073,68 +1934,6 @@ export default class DebugScene extends Phaser.Scene
                     ctx.showDoctorRunning();
                     }
                 }
-            });
-
-    }
-
-    // -----------------//
-    // -- DEPRECATED -- //
-    // -----------------//
-
-    // Define a function that adds a panel to the scene with all of the elemental types listed out in plain text
-    addTestTypesPanel (){
-
-        // Pull in required object references
-        let ctx = this;
-        let MMRPG = this.MMRPG;
-        let SPRITES = this.SPRITES;
-        let POPUPS = this.POPUPS;
-        let BUTTONS = this.BUTTONS;
-
-        // Pull in refs to specific indexes
-        let typesIndex = MMRPG.Indexes.types;
-        let typesIndexTokens = Object.keys(typesIndex);
-
-        let typesTextPlain = 'Types:';
-        for (let i = 0; i < typesIndexTokens.length; i++)
-        {
-            let typeToken = typesIndexTokens[i];
-            let typeData = typesIndex[typeToken];
-            typesTextPlain += (i > 0 ? ', ' : ' ') + typeData.name;
-        }
-
-        //lettersText = 'A B C D E F G H I J K L M N O P Q R S T U V W X Y Z A B C D E F G H I J K L M N O P Q R S T U V W X Y Z A B C D E F G H I J K L M N O P Q R S T U V W X Y Z A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ';
-
-        let panelConfig = {
-            panelPadding: 20,
-            panelHeight: 150,
-            panelWidth: MMRPG.canvas.width - (20 * 2),
-            panelX: 20,
-            panelY: MMRPG.canvas.height - 150 - 20,
-            panelRadius: { tl: 20, tr: 0, br: 20, bl: 0 },
-            panelLineStyle: { width: 2, color: 0x0a0a0a },
-            panelFillStyle: { color: 0x161616 },
-            };
-
-        let textConfig = {
-            textPadding: 20,
-            textWidth: panelConfig.panelWidth - (20 * 2),
-            textHeight: panelConfig.panelHeight - (20 * 2),
-            textPositionX: panelConfig.panelX + 20,
-            textPositionY: panelConfig.panelY + 20
-            };
-
-        const $panelBack = this.add.graphics({ lineStyle: panelConfig.panelLineStyle, fillStyle: panelConfig.panelFillStyle });
-        $panelBack.strokeRoundedRect(panelConfig.panelX, panelConfig.panelY, panelConfig.panelWidth, panelConfig.panelHeight, panelConfig.panelRadius);
-        $panelBack.fillRoundedRect(panelConfig.panelX, panelConfig.panelY, panelConfig.panelWidth, panelConfig.panelHeight, panelConfig.panelRadius);
-
-        const $panelText = this.add.text(textConfig.textPositionX, textConfig.textPositionY, typesTextPlain, {
-            color: '#dedede',
-            fontSize: 16,
-            fontFamily: 'Open Sans',
-            lineSpacing: 10,
-            align: 'left',
-            wordWrap: { width: textConfig.textWidth, useAdvancedWrap: true }
             });
 
     }
