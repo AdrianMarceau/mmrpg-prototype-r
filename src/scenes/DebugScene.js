@@ -284,9 +284,9 @@ export default class DebugScene extends Phaser.Scene
     }
 
     // Define a function that generates a sprite of a player and animates it running across the screen
-    showDoctorRunning (token, alt)
+    showDoctorRunning (token, alt, side = 'left')
     {
-        //console.log('DebugScene.showDoctorRunning() called w/ token =', token);
+        //console.log('DebugScene.showDoctorRunning() called w/ token =', token, 'alt =', alt, 'side =', side);
 
         // Pull in required object references
         let ctx = this;
@@ -296,16 +296,20 @@ export default class DebugScene extends Phaser.Scene
         let playerAnims = SPRITES.index.anims.players;
         let playersIndex = MMRPG.Indexes.players;
 
-        // Generate a sprite w/ running animation in progress
-        let randKey = Math.floor(Math.random() * ctx.runningDoctors.length);
-        let spriteToken = token || ctx.runningDoctors[randKey];
-        let playerInfo = playersIndex[spriteToken];
-        //let playerAlts = Object.keys(playerInfo.image_alts);
-        // pull all the "token" values from player image alt objects
-        let playerAlts = playerInfo.image_alts ? playerInfo.image_alts.map(item => item.token) : [];
-        let spriteAlt = alt && playerAlts.indexOf(alt) !== -1 ? alt : 'base';
-        //console.log('playerInfo for ', spriteToken, '=', playerInfo);
-        //console.log('playerAlts for ', spriteToken, '=', playerAlts);
+        // Count the number of sliding sprites currently on the screen
+        let numSprites = ctx.debugAddedSprites - ctx.debugRemovedSprites;
+
+        // Generate a list of random tokens to pull from should it be necessary
+        let randTokens = [];
+        if (!randTokens.length){ randTokens = randTokens.concat(ctx.runningDoctors); }
+        let randKey = Math.floor(Math.random() * randTokens.length);
+
+        // Collect the sprite token and alt if provided, else rely on the random key
+        let spriteSide = side || 'left';
+        let spriteDirection = spriteSide === 'left' ? 'right' : 'left';
+        let spriteToken = token || randTokens[randKey];
+        let spriteAlt = alt || 'base';
+        //console.log('spriteToken =', spriteToken, 'spriteAlt =', spriteAlt, 'spriteSide =', spriteSide, 'spriteDirection =', spriteDirection);
 
         // If the sprite token ends with an "*_{alt}", make sure we split and pull
         if (spriteToken.indexOf('_') !== -1){
@@ -314,20 +318,30 @@ export default class DebugScene extends Phaser.Scene
             spriteAlt = tokenParts[1];
             }
 
+        // Generate a sprite w/ running animation in progress
+        let playerInfo = playersIndex[spriteToken];
+        let playerAlts = playerInfo.image_alts ? playerInfo.image_alts.map(item => item.token) : [];
+        //console.log('playerInfo for ', spriteToken, '=', playerInfo);
+        //console.log('playerAlts for ', spriteToken, '=', playerAlts);
+
         // Ensure this alt actually exists on the player in question
         //console.log('pending spriteToken =', spriteToken, 'pending spriteAlt =', spriteAlt);
+        if (spriteAlt !== 'base' && playerAlts.indexOf(spriteAlt) === -1){ spriteAlt = 'base'; }
         if (!playerSheets[spriteToken][spriteAlt]){
             //console.log('Sprite alt not found, defaulting to base');
             spriteAlt = 'base';
             }
 
+        // Define the base coordinates for the sprite to be added
+        var offset = ((numSprites % 10) * 5);
+        let spriteX = spriteSide === 'left' ? (0 - offset - 40) : (MMRPG.canvas.width + offset + 40);
+        let spriteY = this.battleBanner.y + 80 + ((numSprites % 10) * 10);
+        //console.log('spriteX =', spriteX, 'spriteY =', spriteY);
+
         // Define the base variables for this player animation sequence
-        let spriteDir = 'right';
-        let spriteKey = 'sprite-'+spriteDir;
+        let spriteKey = 'sprite-'+spriteDirection;
         let spriteSheet = playerSheets[spriteToken][spriteAlt][spriteKey];
         let spriteRunAnim = playerAnims[spriteToken][spriteAlt][spriteKey]['run'];
-        let spriteX = - 40;
-        let spriteY = this.battleBanner.y + 70; //MMRPG.canvas.centerY - 15;
 
         // Create the sprite and add it to the scene
         let $runningSprite = ctx.add.sprite(spriteX, spriteY, spriteSheet);
@@ -367,9 +381,9 @@ export default class DebugScene extends Phaser.Scene
         let runSpeed = (((100) + playerInfo.speed) - playerInfo.defense);
         let runSpeedMultiplier = (runSpeed / 100);
         let runDistance = (MMRPG.canvas.width / 4) * runSpeedMultiplier;
-        let runDestination = MMRPG.canvas.width + 40;
-        let runDuration = (runDestination / runDistance) * 1000; //5000 - (500 * runSpeedMultiplier);
-        //console.log(playerInfo.token, 'runSpeed:', runSpeed, 'runSpeedMultiplier:', runSpeedMultiplier, 'runDistance:', runDistance, 'runDuration:', runDuration);
+        let runDestination = spriteDirection === 'right' ? (MMRPG.canvas.width + 40) : (0 - 40);
+        let runDuration = 5000 - (1000 * runSpeedMultiplier);
+        //console.log(playerInfo.token, 'runSpeed:', runSpeed, 'runSpeedMultiplier:', runSpeedMultiplier, 'runDistance:', runDistance, 'runDestination:', runDestination, 'runDuration:', runDuration);
 
         // Animate that sprite using the previously defined variables
         $runningSprite.subTweens.runTween = ctx.add.tween({
@@ -439,10 +453,13 @@ export default class DebugScene extends Phaser.Scene
 
         // Pull the robot data for the token we're using
         let robotInfo = robotsIndex[spriteToken];
+        let robotAlts = robotInfo.image_alts ? robotInfo.image_alts.map(item => item.token) : [];
         //console.log('robotInfo for ', spriteToken, '=', robotInfo);
+        //console.log('robotAlts for ', spriteToken, '=', robotAlts);
 
         // Ensure the selected alt actually exists on the robot in question, else default to base
         //console.log('pending spriteToken =', spriteToken, 'pending spriteAlt =', spriteAlt);
+        if (spriteAlt !== 'base' && robotAlts.indexOf(spriteAlt) === -1){ spriteAlt = 'base'; }
         if (!robotSheets[spriteToken][spriteAlt]){
             //console.log('Sprite alt not found, defaulting to base');
             spriteAlt = 'base';
@@ -1371,12 +1388,8 @@ export default class DebugScene extends Phaser.Scene
         if (newDir && $alphaBanner.isReady){
             //console.log('Changing alpha banner direction to', $alphaBanner.directionX, $alphaBanner.directionY);
             SOUNDS.play('dink_mmi-gb', {volume: 0.2});
-            var types = $alphaBanner.types;
-            var type = types[Math.floor(Math.random() * types.length)];
-            //console.log('new type =', type);
-            var color = typesIndex[type]['colour_light'];
-            var color2 = typesIndex[type]['colour_dark'];
-            $alphaBanner.setColor(color, color2);
+            var type = $alphaBanner.type;
+            //console.log('$alphaBanner type:', type);
             if (ctx.allowRunningDoctors){
                 //console.log('Show a running doctor of stat type:', type);
                 let doctor = '', alt = '';
@@ -1392,6 +1405,13 @@ export default class DebugScene extends Phaser.Scene
                 if (master && $alphaBanner.directionY === 'up'){ this.showMasterSliding(master, null, 'left'); }
                 if (support && $alphaBanner.directionY === 'down'){ this.showMasterSliding(support, null, 'left'); }
                 }
+            // pick a new type for next time
+            type = $alphaBanner.types[Math.floor(Math.random() * $alphaBanner.types.length)];
+            var color = typesIndex[type]['colour_light'];
+            var color2 = typesIndex[type]['colour_dark'];
+            $alphaBanner.setColor(color, color2);
+            $alphaBanner.type = type;
+            //console.log('new $alphaBanner type:', type, 'color:', color, 'color2:', color2);
             }
 
         // -- ANIMATE BOUNCE BANNER BETA (MASTERS) -- //
@@ -1429,16 +1449,19 @@ export default class DebugScene extends Phaser.Scene
         if (newDir && $betaBanner.isReady){
             //console.log('Changing beta banner direction to', $betaBanner.directionX, $betaBanner.directionY);
             SOUNDS.play('dink_mmi-gb', {volume: 0.2});
-            var types = $betaBanner.types;
-            var type = types[Math.floor(Math.random() * types.length)];
-            //console.log('new type =', type);
-            var color = typesIndex[type]['colour_light'];
-            var color2 = typesIndex[type]['colour_dark'];
-            $betaBanner.setColor(color, color2);
+            var type = $betaBanner.type;
+            //console.log('$betaBanner type:', type);
             if (ctx.allowSlidingMasters){
                 //console.log('Show a sliding master of type:', type);
                 this.showMasterSliding(null, type, 'left');
                 }
+            // pick a new type for next time
+            type = $betaBanner.types[Math.floor(Math.random() * $betaBanner.types.length)];
+            var color = typesIndex[type]['colour_light'];
+            var color2 = typesIndex[type]['colour_dark'];
+            $betaBanner.setColor(color, color2);
+            $betaBanner.type = type;
+            //console.log('new $betaBanner type:', type, 'color:', color, 'color2:', color2);
             }
 
     }
@@ -1670,7 +1693,7 @@ export default class DebugScene extends Phaser.Scene
                 color: color, background: background, size: size,
                 depth: depth++
                 }, function(){
-                console.log(label.toUpperCase() + ' button clicked');
+                //console.log(label.toUpperCase() + ' button clicked');
                 ctx.showDoctorRunning(null, null, 'left');
                 });
 
@@ -1684,7 +1707,7 @@ export default class DebugScene extends Phaser.Scene
                 color: color, background: background, size: size,
                 depth: depth++
                 }, function(){
-                console.log(label.toUpperCase() + ' button clicked');
+                //console.log(label.toUpperCase() + ' button clicked');
                 ctx.showMasterSliding(null, null, 'left');
                 });
 
@@ -1713,10 +1736,12 @@ export default class DebugScene extends Phaser.Scene
                     button.text.setTint(0xff0000);
                     //button.text.setColor('#ff0000');
                     ctx.allowRunningDoctors = false;
+                    ctx.bounceBannerAlpha.setAlpha(0.1);
                     } else {
                     button.text.setTint(0x00ff00);
                     //button.text.setColor('#00ff00');
                     ctx.allowRunningDoctors = true;
+                    ctx.bounceBannerAlpha.setAlpha(1);
                     }
                 });
 
@@ -1735,10 +1760,12 @@ export default class DebugScene extends Phaser.Scene
                     button.text.setTint(0xff0000);
                     //button.text.setColor('#ff0000');
                     ctx.allowSlidingMasters = false;
+                    ctx.bounceBannerBeta.setAlpha(0.1);
                     } else {
                     button.text.setTint(0x00ff00);
                     //button.text.setColor('#00ff00');
                     ctx.allowSlidingMasters = true;
+                    ctx.bounceBannerBeta.setAlpha(1);
                     }
                 });
 
@@ -1772,7 +1799,7 @@ export default class DebugScene extends Phaser.Scene
                 color: color, background: background, size: size,
                 depth: depth++
                 }, function(){
-                console.log(label.toUpperCase() + ' (R) button clicked');
+                //console.log(label.toUpperCase() + ' button clicked');
                 ctx.showDoctorRunning(null, null, 'right');
                 });
 
@@ -1786,11 +1813,8 @@ export default class DebugScene extends Phaser.Scene
                 color: color, background: background, size: size,
                 depth: depth++
                 }, function(){
-                console.log(label.toUpperCase() + ' button clicked');
-                let options = ['mega-man/alt9', 'proto-man/alt9', 'bass/alt9', 'roll/alt9', 'disco/alt9', 'rhythm/alt9'];
-                let option = options[Math.floor(Math.random() * options.length)];
-                let [master, alt] = option.split('/');
-                ctx.showMasterSliding(master, alt, 'right');
+                //console.log(label.toUpperCase() + ' button clicked');
+                ctx.showMasterSliding(null, null, 'right');
                 });
 
         /*
