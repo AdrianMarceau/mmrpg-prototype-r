@@ -97,9 +97,19 @@ MMRPG.create = function(scene, isPreloadPhase = false){
 
     // Create the sound effects object for the scene if not exists
     if (!scene.SOUNDS){
-        let SOUNDS = scene.sound.addAudioSprite('sounds.effects');
-        scene.SOUNDS = SOUNDS;
+        let soundSprite = scene.sound.addAudioSprite('sounds.effects');
+        scene.SOUNDS = {
+            sprite: soundSprite,
+            play: function(token, options){
+                if (typeof token !== 'string'){ return; }
+                if (typeof options !== 'object'){ options = {}; }
+                scene.sound.playAudioSprite('sounds.effects', token, options);
+                }
+            };
         }
+
+    // Set the master sound volume to only 50% to start for ears' sake
+    scene.sound.volume = 0.5;
 
     };
 
