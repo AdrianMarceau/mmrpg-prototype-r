@@ -1079,9 +1079,9 @@ export default class DebugScene extends Phaser.Scene
         // Create a next button so we can go to the main scene
         buttonConfig.x = MMRPG.canvas.width - 165;
         buttonConfig.depth = depth++;
-        BUTTONS.makeSimpleButton('Go to Main >', buttonConfig, function(){
-            //console.log('Main button clicked');
-            ctx.scene.start('Main');
+        BUTTONS.makeSimpleButton('Restart Debug', buttonConfig, function(){
+            //console.log('Debug button clicked');
+            ctx.scene.start('Debug');
             });
 
     }
