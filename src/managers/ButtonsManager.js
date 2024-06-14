@@ -167,25 +167,27 @@ export default class ButtonsManager {
 
     }
 
-    addDebugButton(ctx)
+    addDebugButton (ctx)
     {
 
         // Add a small debug button at the bottom we can click
-        var x = MMRPG.canvas.width - 60, y = MMRPG.canvas.height - 20;
-        let $debugButton = ctx.add.bitmapText(x, y, 'megafont-white', 'DEBUG', 9);
+        var x = MMRPG.canvas.width - 90, y = MMRPG.canvas.height - 20;
+        let $debugButton = ctx.add.bitmapText(x, y, 'megafont-white', 'DEBUG', 8);
         $debugButton.setLetterSpacing(20);
         $debugButton.setOrigin(0, 1);
         $debugButton.setDepth(8000);
+        $debugButton.setInteractive({ useHandCursor: true });
+        $debugButton.on('pointerdown', () => { ctx.scene.start('Debug'); });
 
-        // Make sure the debug button is clickable
-        $debugButton.setInteractive({
-            useHandCursor: true
-            });
-
-        $debugButton.on('pointerdown', () => {
-            //console.log('Debug button clicked');
-            ctx.scene.start('Debug');
-            });
+        // Add another small debug button next to the first for the RUNNER mini-game
+        x += 50;
+        let $debugRunnerButton = ctx.add.bitmapText(x, y, 'megafont-white', 'R', 8);
+        $debugRunnerButton.setTint(0x5a7516);
+        $debugRunnerButton.setLetterSpacing(20);
+        $debugRunnerButton.setOrigin(0, 1);
+        $debugRunnerButton.setDepth(8000);
+        $debugRunnerButton.setInteractive({ useHandCursor: true });
+        $debugRunnerButton.on('pointerdown', () => { ctx.scene.start('DebugRunner'); });
 
         // Return the generated debug button
         return $debugButton;
