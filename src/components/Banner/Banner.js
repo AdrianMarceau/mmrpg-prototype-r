@@ -202,6 +202,20 @@ export default class Banner {
         this.options.fillStyle.color = background;
         this.refreshBanner();
     }
+    setBorderColor (border)
+    {
+        //console.log('Banner.setBorderColor() called w/ color =', color);
+        border = Graphics.returnHexColorValue(border);
+        this.options.lineStyle.color = border;
+        this.refreshBanner();
+    }
+    setBackgroundColor (background)
+    {
+        //console.log('Banner.setBackgroundColor() called w/ color =', color);
+        background = Graphics.returnHexColorValue(background);
+        this.options.fillStyle.color = background;
+        this.refreshBanner();
+    }
     setText (key, text)
     {
         //console.log('Banner.setBannerText() called w/ key =', key, 'text =', text);
