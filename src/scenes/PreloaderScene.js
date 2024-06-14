@@ -493,7 +493,7 @@ export default class PreloaderScene extends Phaser.Scene
         queue.forEach((item) => {
             let key = item.key;
             let path = item.path;
-            console.log('Preload misc image ', key, ' from ', path);
+            //console.log('Preload misc image ', key, ' from ', path);
             ctx.load.image(key, path);
             });
     }
