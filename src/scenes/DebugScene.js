@@ -1651,7 +1651,7 @@ export default class DebugScene extends Phaser.Scene
             depth: depth++
             }, function(){
             //console.log('Show Welcome Home button clicked');
-            POPUPS.debugWelcomePopup();
+            ctx.showWelcomeToThePrototype();
             });
 
         // Create a trigger button for the "Tales from the Void" popup
@@ -1907,6 +1907,35 @@ export default class DebugScene extends Phaser.Scene
 
     }
 
+
+
+    // Define a function that shows a popup with a debug welcome message inside
+    showWelcomeToThePrototype ()
+    {
+        //console.log('DebugScene.showWelcomeToThePrototype() called');
+
+        // Pull in required object references
+        let MMRPG = this.MMRPG;
+        let POPUPS = this.POPUPS;
+
+        // Display a popup to welcome the user to the debug room
+        let ctx = this;
+        let panelText = "Welcome to Mega Man RPG: Legacy of the Prototype!";
+        panelText += '\n' + "Looks like you've reached the DEBUG room!";
+        POPUPS.displayPopup(panelText, {
+            onComplete: function() {
+                //console.log('Welcome to the Prototype completed');
+                // ...
+                }
+            });
+
+        // Show a robot master sliding the the background while they're reading
+        if (ctx.allowSlidingMasters){
+            ctx.showMasterSliding('auto', null, 'right');
+            }
+
+    }
+
     // Define a function that shows a popup with the story of the dark void and the alien entity
     showTalesFromTheVoid ()
     {
@@ -1930,11 +1959,14 @@ export default class DebugScene extends Phaser.Scene
             showPages: true,
             onComplete: function() {
                 //console.log('Tales from the Void completed');
-                if (ctx.allowRunningDoctors){
-                    ctx.showDoctorRunning();
-                    }
+                // ...
                 }
             });
+
+        // Show a doctor running the the background while they're reading
+        if (ctx.allowRunningDoctors){
+            ctx.showDoctorRunning('proxy', null, 'right');
+            }
 
     }
 
