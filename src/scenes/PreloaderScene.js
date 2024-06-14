@@ -225,6 +225,14 @@ export default class PreloaderScene extends Phaser.Scene
         // Make sure we preload others on the final step
         else if (this.preloadStep === 'other'){
 
+            // Queue misc image assets for building parts of the game later
+            let miscImages = [
+                'sprite-grid',
+                ];
+            miscImages.forEach((image) => {
+                this.queueMiscImage(image, 'misc_' + image + '.png');
+                });
+
             // Queue the mockup images for building the main menu later
             let mockupImages = [
                 'main_composite',
@@ -244,8 +252,7 @@ export default class PreloaderScene extends Phaser.Scene
                 'battle_composite',
                 ];
             mockupImages.forEach((image) => {
-                //this.load.image('mockup_' + image, 'src/assets/mockup_' + image + '.png');
-                this.queueMockup(image, 'mockup_' + image + '.png');
+                this.queueMockupImage(image, 'mockup_' + image + '.png');
                 });
 
             // Also preload the sound effects for the game here (?)
@@ -328,7 +335,8 @@ export default class PreloaderScene extends Phaser.Scene
         // Star loading whatever queued assets we're supposed to be loading
         this.loadQueuedIndexes();
         this.loadQueuedSprites();
-        this.loadQueuedMockups();
+        this.loadQueuedMockupImages();
+        this.loadQueuedMiscImages();
         this.loadQueuedAudio();
         this.loadQueuedAudioSprites();
 
@@ -384,7 +392,7 @@ export default class PreloaderScene extends Phaser.Scene
         ctx.preloadQueue.push({ kind: 'index', index: index, key: indexKey, path: indexPath });
         ctx.preloadsQueued++;
     }
-    queueMockup (name, file)
+    queueMockupImage (name, file)
     {
         let ctx = this;
         let basePath = 'src/assets/';
@@ -397,6 +405,21 @@ export default class PreloaderScene extends Phaser.Scene
             });
         //ctx.load.image(mockupKey, mockupPath);
         ctx.preloadQueue.push({ kind: 'mockup', name: name, key: mockupKey, path: mockupPath });
+        ctx.preloadsQueued++;
+    }
+    queueMiscImage (name, file)
+    {
+        let ctx = this;
+        let basePath = 'src/assets/';
+        let miscKey = 'misc.' + name;
+        let miscPath = basePath + file;
+        ctx.load.on('filecomplete', (file) => {
+            if (file !== miscKey){ return; }
+            ctx.preloadsCompleted++;
+            ctx.preloadQueue = ctx.preloadQueue.filter((item) => item.name !== name);
+            });
+        //ctx.load.image(miscKey, miscPath);
+        ctx.preloadQueue.push({ kind: 'misc', name: name, key: miscKey, path: miscPath });
         ctx.preloadsQueued++;
     }
     queueAudio (name, file)
@@ -453,13 +476,24 @@ export default class PreloaderScene extends Phaser.Scene
             ctx.preloadQueue = ctx.preloadQueue.filter((item) => item.name !== name);
             });
     }
-    loadQueuedMockups ()
+    loadQueuedMockupImages ()
     {
         let ctx = this;
         let queue = this.preloadQueue.filter((item) => item.kind === 'mockup');
         queue.forEach((item) => {
             let key = item.key;
             let path = item.path;
+            ctx.load.image(key, path);
+            });
+    }
+    loadQueuedMiscImages ()
+    {
+        let ctx = this;
+        let queue = this.preloadQueue.filter((item) => item.kind === 'misc');
+        queue.forEach((item) => {
+            let key = item.key;
+            let path = item.path;
+            console.log('Preload misc image ', key, ' from ', path);
             ctx.load.image(key, path);
             });
     }
