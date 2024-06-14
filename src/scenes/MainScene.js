@@ -116,7 +116,7 @@ export default class MainScene extends Phaser.Scene
             });
 
         // Run any debug code we need to
-        this.debug();
+        //this.debug();
 
     }
 
