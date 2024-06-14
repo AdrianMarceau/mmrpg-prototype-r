@@ -10,6 +10,20 @@ export class GraphicsUtility {
 
     // -- MATH-RELATED FUNCTIONS -- //
 
+    // Define a function for creating a rectangle mask for a given area
+    static makeRectangleMask (ctx, x, y, width, height, radius = 0, visible = false)
+    {
+        let maskGraphics = ctx.add.graphics();
+        maskGraphics.fillStyle(0x660022);
+        if (typeof radius === 'number' && radius > 0){
+            maskGraphics.fillRoundedRect(x, y, width, height, radius);
+            } else {
+            maskGraphics.fillRect(x, y, width, height);
+            }
+        maskGraphics.setVisible(visible);
+        return maskGraphics.createGeometryMask();
+    }
+
     // Define a function for calculating the proportional radius of a rounded rectangle
     static getProportionalRadiusObject (width, height, radius)
     {
