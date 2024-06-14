@@ -143,10 +143,8 @@ export default class MainScene extends Phaser.Scene
             ctx.scene.start('Main');
             });
 
-        // DEBUG STUFF
-
-        // Run any debug code we need to
-        //this.debug();
+        // Run any DEBUG code that we need to
+        this.debug();
 
     }
 
@@ -168,14 +166,7 @@ export default class MainScene extends Phaser.Scene
         let BUTTONS = this.BUTTONS;
         let POPUPS = this.POPUPS;
 
-        // We can also show the debug button now too
-        this.debugButton = BUTTONS.addDebugButton(this);
-
-        //POPUPS.debugWelcomePopup();
-        //POPUPS.displayPopup('Testing 123');
-        //POPUPS.displayPopup('Testing 456');
-        //POPUPS.displayPopup('Testing 789');
-        //POPUPS.displayPopup(['Lorem ipsum', 'Dolar sit amet']);
+        // ...
 
     }
     // ---------------->
