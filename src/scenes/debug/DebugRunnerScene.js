@@ -532,10 +532,13 @@ export default class DebugRunnerScene extends Phaser.Scene
 
         // Pull the robot data for the token we're using
         let robotInfo = robotsIndex[spriteToken];
+        let robotAlts = robotInfo.image_alts ? robotInfo.image_alts.map(item => item.token) : [];
         //console.log('robotInfo for ', spriteToken, '=', robotInfo);
+        //console.log('robotAlts for ', spriteToken, '=', robotAlts);
 
         // Ensure the selected alt actually exists on the robot in question, else default to base
         //console.log('pending spriteToken =', spriteToken, 'pending spriteAlt =', spriteAlt);
+        if (spriteAlt !== 'base' && robotAlts.indexOf(spriteAlt) === -1){ spriteAlt = 'base'; }
         if (!robotSheets[spriteToken][spriteAlt]){
             //console.log('Sprite alt not found, defaulting to base');
             spriteAlt = 'base';
