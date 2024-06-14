@@ -111,6 +111,23 @@ MMRPG.create = function(scene, isPreloadPhase = false){
     // Set the master sound volume to only 50% to start for ears' sake
     scene.sound.volume = 0.5;
 
+    // Toggle sound on and off when the game is hidden or visible
+    scene.sys.game.events.on('hidden', () => {
+        scene.sound.pauseAll();
+        });
+    scene.sys.game.events.on('visible', () => {
+        scene.sound.resumeAll();
+        });
+
+    // Toggle sound on and off when the browser tab is hidden or visible
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+            this.sound.mute = true;
+            } else {
+            this.sound.mute = false;
+            }
+        });
+
     };
 
 export default MMRPG;
