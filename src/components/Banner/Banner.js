@@ -234,6 +234,12 @@ export default class Banner {
         this.depth = depth;
         this.refreshBanner();
     }
+    setAlpha (alpha)
+    {
+        //console.log('Banner.setAlpha() called w/ alpha =', alpha);
+        if (typeof alpha !== 'number'){ return; }
+        this.panel.alpha = alpha;
+    }
 
     // Define a function for adding this banner to a given container, such as a scene or another container
     addToContainer (container)
