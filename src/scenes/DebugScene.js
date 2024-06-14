@@ -191,6 +191,12 @@ export default class DebugScene extends Phaser.Scene
         // Next we add the two bound banners to the scene
         this.createBounceBanners();
 
+        // Draw a panel with all of the debug options as buttons
+        this.addPanelWithDebugButtons();
+
+        // Draw a panel with all of the elemental types as buttons
+        this.addPanelWithTypeButtons();
+
 
         // DEBUG DEBUG DEBUG
         // <----------------
@@ -213,7 +219,7 @@ export default class DebugScene extends Phaser.Scene
 
         // Create a floating text bubble to test the text formatting syntax and display wrapping
         var width = Math.ceil(MMRPG.canvas.width / 3), height = 90;
-        var x = MMRPG.canvas.xMax - width - 20, y = 255;
+        var x = MMRPG.canvas.xMax - width - 20, y = 150;
         var lorem = "[Hey]{water} there [Bomb Man]{explode}! I know [i]I'm[/i] good, but how are [b]you[/b] today? I hear you got hit by a [Flame Sword]{flame_cutter}! [b][i]Your weakness[/i][/b]!!! [b][Gravity Man]{space_electric}[/b] is the one who told me btw.";
         let $floatingTextBubble = Strings.addFormattedText(this, x, y, lorem, {
             width: width,
@@ -244,23 +250,6 @@ export default class DebugScene extends Phaser.Scene
                     }
                 });
             }, [], this);
-
-
-        // Draw a panel with all of the elemental types as buttons
-        var x = 10, y = MMRPG.canvas.height - 194;
-        var width = MMRPG.canvas.width - 20, height = 160;
-        this.addPanelWithTypeButtons({
-            x: x,
-            y: y,
-            width: width,
-            height: height,
-            radius: {tl: 30, tr: 30, bl: 30, br: 30},
-            types: this.safeTypeTokens,
-            onClick: function($button, type){
-                //console.log('Wow! Type button clicked!', 'type:', type, '$button:', $button);
-                ctx.showMasterSliding(null, type, 'right');
-                }
-            });
 
 
         // -- DEBUG SOUND EFFECTS -- //
@@ -1049,14 +1038,47 @@ export default class DebugScene extends Phaser.Scene
             depth: depth++
             });
 
-        // TITLE TEXT
+        // Predefine some position vars to make things easier
+        var ref = this.titleBanner;
+        let bannerWidth = ref.width;
+        let bannerHeight = ref.height;
+        let bannerMinX = ref.x;
+        let bannerMaxX = ref.x + bannerWidth;
+        let bannerMinY = ref.y;
+        let bannerMaxY = ref.y + bannerHeight;
+        let bannerBounds = ref.getBounds();
 
-        // Add a title to the scene for the player to see
-        var y = (this.titleBanner.y + 5), x = MMRPG.canvas.centerX;
-        var $loadText = this.add.bitmapText(x, y, 'megafont-white', 'Welcome to Debug', 16);
-        $loadText.setOrigin(0.5, 0);
-        $loadText.setLetterSpacing(20);
-        $loadText.setDepth(depth++);
+        // PAUSE BUTTON
+
+        // Create the pause button smack-dab in the center for pausing the game
+        var ref = this.titleBanner;
+        var width = 100, height = 23, size = 8;
+        var y = (ref.y + 3);
+        var x = (ref.x + (bannerWidth / 2) - (width / 2));
+        var color = '#cacaca', background = '#262626';
+        let pauseTimeout = null;
+        let $pauseButton = BUTTONS.makeSimpleButton('PAUSE', {
+            y: y, x: x,
+            width: width, height: height, size: size,
+            color: color, background: background,
+            depth: depth++
+            }, function(){
+            //console.log('Pause button clicked');
+            window.toggleGameIsClickable(false);
+            window.toggleGameIsRunning(false);
+            ctx.scene.pause();
+            $pauseButton.setText('PAUSED');
+            if (pauseTimeout){ clearTimeout(pauseTimeout); }
+            pauseTimeout = setTimeout(function(){
+                window.toggleGameIsClickable(true);
+                }, 500);
+            });
+        window.setGameResumeCallback(function(){
+            $pauseButton.setText('PAUSE');
+            ctx.scene.resume();
+            SOUNDS.play('wily-escape-iii-a_mmv-gb', {volume: 0.2});
+            });
+        this.pauseButton = $pauseButton;
 
         // BACK & NEXT BUTTONS
 
@@ -1103,7 +1125,7 @@ export default class DebugScene extends Phaser.Scene
         // First we add a simple, empty banner to the header
         var depth = 1000;
         var y = 45, x = 10;
-        var width = MMRPG.canvas.width - 20, height = 100;
+        var width = MMRPG.canvas.width - 20, height = 28;
         this.headerBanner = new Banner(ctx, x, y, {
             width: width,
             height: height,
@@ -1111,166 +1133,25 @@ export default class DebugScene extends Phaser.Scene
             });
 
         // Predefine some position vars to make things easier
-        let bannerWidth = this.headerBanner.width;
-        let bannerHeight = this.headerBanner.height;
-        let bannerMinX = this.headerBanner.x;
-        let bannerMaxX = this.headerBanner.x + bannerWidth;
-        let bannerMinY = this.headerBanner.y;
-        let bannerMaxY = this.headerBanner.y + bannerHeight;
-        let bannerBounds = this.headerBanner.getBounds();
+        var ref = this.headerBanner;
+        let bannerWidth = ref.width;
+        let bannerHeight = ref.height;
+        let bannerMinX = ref.x;
+        let bannerMaxX = ref.x + bannerWidth;
+        let bannerMinY = ref.y;
+        let bannerMaxY = ref.y + bannerHeight;
+        let bannerBounds = ref.getBounds();
 
-        // PAUSE BUTTON
+        // TITLE TEXT
 
-        // Create the pause button smack-dab in the center for pausing the game
-        var width = 100, height = 23, size = 8;
-        var y = (this.headerBanner.y + 3);
-        var x = (this.headerBanner.x + (bannerWidth / 2) - (width / 2));
-        var color = '#cacaca', background = '#262626';
-        let pauseTimeout = null;
-        let $pauseButton = BUTTONS.makeSimpleButton('PAUSE', {
-            y: y, x: x,
-            width: width, height: height, size: size,
-            color: color, background: background,
-            depth: depth++
-            }, function(){
-            //console.log('Pause button clicked');
-            window.toggleGameIsClickable(false);
-            window.toggleGameIsRunning(false);
-            ctx.scene.pause();
-            $pauseButton.setText('PAUSED');
-            if (pauseTimeout){ clearTimeout(pauseTimeout); }
-            pauseTimeout = setTimeout(function(){
-                window.toggleGameIsClickable(true);
-                }, 500);
-            });
-        window.setGameResumeCallback(function(){
-            $pauseButton.setText('PAUSE');
-            ctx.scene.resume();
-            SOUNDS.play('wily-escape-iii-a_mmv-gb', {volume: 0.2});
-            });
-
-        // Predefine some vars to make things easier
-        var cell = null;
-        var label = 'lorem', size = 8;
-        var color = '#7d7d7d', background = '#262626';
-
-        // Predefine the button grid to make positioning easier
-        var offset = 25;
-        var padding = 5;
-        var numCols = 3;
-        var numRows = 2;
-        var buttonBounds = Graphics.getAdjustedBounds(bannerBounds, [31, padding, padding, padding]);
-        var colWidths = Graphics.calculateColumnWidths(buttonBounds.width, [40, 30, 30]);
-        var rowHeight = 24 + padding;
-        var buttonGrid = BUTTONS.generateButtonGrid(buttonBounds, numCols, numRows, colWidths, rowHeight, padding);
-        //console.log('buttonGrid:', buttonGrid);
-
-        // POPUP BUTTONS
-
-        // Create a trigger button for the "Welcome to the Prototype" popup
-        cell = buttonGrid[0][0];
-        label = 'Read "Welcome to the Prototype"';
-        color = '#b99e3c';
-        BUTTONS.makeSimpleButton(label.toUpperCase(), {
-            y: cell.y, x: cell.x,
-            width: cell.width, height: cell.height,
-            color: color, background: background, size: size,
-            depth: depth++
-            }, function(){
-            //console.log('Show Welcome Home button clicked');
-            POPUPS.debugWelcomePopup();
-            });
-
-        // Create a trigger button for the "Tales from the Void" popup
-        cell = buttonGrid[0][1];
-        label = 'Read "Tales from the Void"';
-        color = '#95c418';
-        BUTTONS.makeSimpleButton(label.toUpperCase(), {
-            y: cell.y, x: cell.x,
-            width: cell.width, height: cell.height,
-            color: color, background: background, size: size,
-            depth: depth++
-            }, function(){
-            //console.log('Show Tales from the Void button clicked');
-            ctx.showTalesFromTheVoid();
-            });
-
-        // DOCTOR/ROBOT TOGGLE BUTTONS
-
-        // Create a button to toggle the doctor stream
-        cell = buttonGrid[1][0];
-        label = 'Toggle Doctor Stream';
-        color = '#00ff00';
-        BUTTONS.makeSimpleButton(label.toUpperCase(), {
-            y: cell.y, x: cell.x,
-            width: cell.width, height: cell.height,
-            color: color, background: background, size: size,
-            depth: depth++
-            }, function(button){
-            //console.log('Toggle Doctors Running button clicked');
-            if (ctx.allowRunningDoctors){
-                button.text.setTint(0xff0000);
-                //button.text.setColor('#ff0000');
-                ctx.allowRunningDoctors = false;
-                } else {
-                button.text.setTint(0x00ff00);
-                //button.text.setColor('#00ff00');
-                ctx.allowRunningDoctors = true;
-                }
-            });
-
-        // Create a button to toggle the master stream
-        cell = buttonGrid[1][1];
-        label = 'Toggle Master Stream';
-        color = '#00ff00';
-        BUTTONS.makeSimpleButton(label.toUpperCase(), {
-            y: cell.y, x: cell.x,
-            width: cell.width, height: cell.height,
-            color: color, background: background, size: size,
-            depth: depth++
-            }, function(button){
-            //console.log('Toggle Masters Sliding button clicked');
-            if (ctx.allowSlidingMasters){
-                button.text.setTint(0xff0000);
-                //button.text.setColor('#ff0000');
-                ctx.allowSlidingMasters = false;
-                } else {
-                button.text.setTint(0x00ff00);
-                //button.text.setColor('#00ff00');
-                ctx.allowSlidingMasters = true;
-                }
-            });
-
-
-        // DOCTOR/ROBOT ADD-TO-SCENE BUTTONS
-
-        // Create a button to add a running doctor to the scene
-        cell = buttonGrid[2][0];
-        label = 'Add Running Doctor';
-        color = '#6592ff';
-        BUTTONS.makeSimpleButton(label.toUpperCase(), {
-            y: cell.y, x: cell.x,
-            width: cell.width, height: cell.height,
-            color: color, background: background, size: size,
-            depth: depth++
-            }, function(){
-            //console.log('Show Doctor Running button clicked');
-            ctx.showDoctorRunning();
-            });
-
-        // Create a button to add a sliding master to the scene
-        cell = buttonGrid[2][1];
-        label = 'Add Sliding Master';
-        color = '#6592ff';
-        BUTTONS.makeSimpleButton(label.toUpperCase(), {
-            y: cell.y, x: cell.x,
-            width: cell.width, height: cell.height,
-            color: color, background: background, size: size,
-            depth: depth++
-            }, function(){
-            //console.log('Show Master Sliding button clicked');
-            ctx.showMasterSliding(null, null, 'left');
-            });
+        // Add a title to the scene for the player to see
+        var ref = this.headerBanner;
+        var y = (ref.y + 5), x = MMRPG.canvas.centerX;
+        var $titleText = this.add.bitmapText(x, y, 'megafont-white', 'Welcome to Debug', 16);
+        $titleText.setOrigin(0.5, 0);
+        $titleText.setLetterSpacing(20);
+        $titleText.setDepth(depth++);
+        this.titleText = $titleText;
 
     }
 
@@ -1289,13 +1170,14 @@ export default class DebugScene extends Phaser.Scene
         let typesIndexTokens = Object.keys(typesIndex);
 
         // Draw the battle banner and collect a reference to it
+        var ref = this.headerBanner;
         var depth = 200;
         var type = 'empty';
-        var x = 14, y = 150;
+        var x = 14, y = ref.y + ref.height + 5
         var color = typesIndex[type].colour_light;
         var xcolor = Phaser.Display.Color.GetColor(color[0], color[1], color[2]);
         let battleBanner = new BattleBanner(this, x, y, {
-            height: 200,
+            height: 213,
             fillStyle: { color: xcolor },
             mainText: '',
             depth: depth++
@@ -1572,7 +1454,7 @@ export default class DebugScene extends Phaser.Scene
         if (!$alphaBanner.directionY){ $alphaBanner.directionY = 'down'; }
         var bannerBounds = $alphaBanner.getBounds();
         var width = bannerBounds.width, height = bannerBounds.height;
-        var speed = 15; // pixels per second
+        var speed = 5; // pixels per second
         var movement = speed * (delta / 1000);
         var newX = bannerBounds.x, newY = bannerBounds.y;
         var xDir = $alphaBanner.directionX, yDir = $alphaBanner.directionY;
@@ -1630,7 +1512,7 @@ export default class DebugScene extends Phaser.Scene
         if (!$betaBanner.directionY){ $betaBanner.directionY = 'up'; }
         var bannerBounds = $betaBanner.getBounds();
         var width = bannerBounds.width, height = bannerBounds.height;
-        var speed = 30; // pixels per second
+        var speed = 10; // pixels per second
         var movement = speed * (delta / 1000);
         var newX = bannerBounds.x, newY = bannerBounds.y;
         var xDir = $betaBanner.directionX, yDir = $betaBanner.directionY;
@@ -1665,7 +1547,7 @@ export default class DebugScene extends Phaser.Scene
             $betaBanner.setColor(color, color2);
             if (ctx.allowSlidingMasters){
                 //console.log('Show a sliding master of type:', type);
-                this.showMasterSliding(null, type, 'right');
+                this.showMasterSliding(null, type, 'left');
                 }
             }
 
@@ -1801,8 +1683,238 @@ export default class DebugScene extends Phaser.Scene
 
     }
 
+    // Define a function for creating the buttons banner and associated elements inside it
+    addPanelWithDebugButtons ()
+    {
+        //console.log('DebugScene.addPanelWithDebugButtons() called');
+
+        // Pull in other required objects and references
+        let ctx = this;
+        let SPRITES = this.SPRITES;
+        let POPUPS = this.POPUPS;
+        let BUTTONS = this.BUTTONS;
+        let SOUNDS = this.SOUNDS;
+
+        // HEADER BANNER
+
+        // First we add a simple, empty banner to the header
+        var depth = 1000;
+        var width = MMRPG.canvas.width - 20, height = 148;
+        var y = MMRPG.canvas.height - height - 32, x = 10;
+        let $debugButtonPanel = new Banner(ctx, x, y, {
+            width: width,
+            height: height,
+            depth: depth++
+            });
+        this.debugButtonPanel = $debugButtonPanel;
+
+        // Predefine some position vars to make things easier
+        var ref = $debugButtonPanel;
+        let bannerWidth = ref.width;
+        let bannerHeight = ref.height;
+        let bannerMinX = ref.x;
+        let bannerMaxX = ref.x + bannerWidth;
+        let bannerMinY = ref.y;
+        let bannerMaxY = ref.y + bannerHeight;
+        let bannerBounds = ref.getBounds();
+
+        // Predefine some vars to make things easier
+        var cell = null;
+        var label = 'lorem', size = 8;
+        var color = '#7d7d7d', background = '#262626';
+
+        // Predefine the button grid to make positioning easier
+        var offset = 25;
+        var padding = 5;
+        var numCols = 3;
+        var numRows = 4;
+        var buttonBounds = Graphics.getAdjustedBounds(bannerBounds, padding);
+        var colWidths = Graphics.calculateColumnWidths(buttonBounds.width, [40, 30, 30]);
+        var rowHeight = 24 + padding;
+        var buttonGrid = BUTTONS.generateButtonGrid(buttonBounds, numCols, numRows, colWidths, rowHeight, padding);
+        //console.log('buttonGrid:', buttonGrid);
+
+        // POPUP BUTTONS
+
+        // Define a quick function for adding placeholder buttons
+        function addPlaceholderButton(cell){
+            BUTTONS.makeSimpleButton('...', {
+                y: cell.y, x: cell.x,
+                width: cell.width, height: cell.height,
+                color: '#696969', background: '#191919', size: 8,
+                depth: depth++,
+                disabled: true
+                }, function(){
+                //console.log('Placeholder button clicked');
+                // ...
+                });
+            }
+
+        // Create a trigger button for the "Welcome to the Prototype" popup
+        cell = buttonGrid[0][0];
+        label = 'Read "Welcome to the Prototype"';
+        color = '#b99e3c';
+        BUTTONS.makeSimpleButton(label.toUpperCase(), {
+            y: cell.y, x: cell.x,
+            width: cell.width, height: cell.height,
+            color: color, background: background, size: size,
+            depth: depth++
+            }, function(){
+            //console.log('Show Welcome Home button clicked');
+            POPUPS.debugWelcomePopup();
+            });
+
+        // Create a trigger button for the "Tales from the Void" popup
+        cell = buttonGrid[0][1];
+        label = 'Read "Tales from the Void"';
+        color = '#95c418';
+        BUTTONS.makeSimpleButton(label.toUpperCase(), {
+            y: cell.y, x: cell.x,
+            width: cell.width, height: cell.height,
+            color: color, background: background, size: size,
+            depth: depth++
+            }, function(){
+            //console.log('Show Tales from the Void button clicked');
+            ctx.showTalesFromTheVoid();
+            });
+
+        // Create a placeholder button
+        cell = buttonGrid[0][2];
+        addPlaceholderButton(cell);
+
+        // Create a placeholder button
+        cell = buttonGrid[0][3];
+        addPlaceholderButton(cell);
+
+        // DOCTOR/ROBOT TOGGLE BUTTONS
+
+        // Create a button to toggle the doctor stream
+        cell = buttonGrid[1][0];
+        label = 'Toggle Doctor Stream';
+        color = '#00ff00';
+        BUTTONS.makeSimpleButton(label.toUpperCase(), {
+            y: cell.y, x: cell.x,
+            width: cell.width, height: cell.height,
+            color: color, background: background, size: size,
+            depth: depth++
+            }, function(button){
+            //console.log('Toggle Doctors Running button clicked');
+            if (ctx.allowRunningDoctors){
+                button.text.setTint(0xff0000);
+                //button.text.setColor('#ff0000');
+                ctx.allowRunningDoctors = false;
+                } else {
+                button.text.setTint(0x00ff00);
+                //button.text.setColor('#00ff00');
+                ctx.allowRunningDoctors = true;
+                }
+            });
+
+        // Create a button to toggle the master stream
+        cell = buttonGrid[1][1];
+        label = 'Toggle Master Stream';
+        color = '#00ff00';
+        BUTTONS.makeSimpleButton(label.toUpperCase(), {
+            y: cell.y, x: cell.x,
+            width: cell.width, height: cell.height,
+            color: color, background: background, size: size,
+            depth: depth++
+            }, function(button){
+            //console.log('Toggle Masters Sliding button clicked');
+            if (ctx.allowSlidingMasters){
+                button.text.setTint(0xff0000);
+                //button.text.setColor('#ff0000');
+                ctx.allowSlidingMasters = false;
+                } else {
+                button.text.setTint(0x00ff00);
+                //button.text.setColor('#00ff00');
+                ctx.allowSlidingMasters = true;
+                }
+            });
+
+        // Create a placeholder button
+        cell = buttonGrid[1][2];
+        addPlaceholderButton(cell);
+
+        // Create a placeholder button
+        cell = buttonGrid[1][3];
+        addPlaceholderButton(cell);
+
+
+        // DOCTOR/ROBOT ADD-TO-SCENE BUTTONS
+
+        // Create a button to add a running doctor to the scene
+        cell = buttonGrid[2][0];
+        label = 'Add Running Doctor';
+        color = '#6592ff';
+        BUTTONS.makeSimpleButton(label.toUpperCase(), {
+            y: cell.y, x: cell.x,
+            width: cell.width, height: cell.height,
+            color: color, background: background, size: size,
+            depth: depth++
+            }, function(){
+            //console.log('Show Doctor Running button clicked');
+            ctx.showDoctorRunning();
+            });
+
+        // Create a button to add a sliding master to the scene
+        cell = buttonGrid[2][1];
+        label = 'Add Sliding Master';
+        color = '#6592ff';
+        BUTTONS.makeSimpleButton(label.toUpperCase(), {
+            y: cell.y, x: cell.x,
+            width: cell.width, height: cell.height,
+            color: color, background: background, size: size,
+            depth: depth++
+            }, function(){
+            //console.log('Show Master Sliding button clicked');
+            ctx.showMasterSliding(null, null, 'left');
+            });
+
+        // Create a placeholder button
+        cell = buttonGrid[2][2];
+        addPlaceholderButton(cell);
+
+        // Create a placeholder button
+        cell = buttonGrid[2][3];
+        addPlaceholderButton(cell);
+
+    }
+
     // Define a function that adds a panel to the scene with elemental type buttons for clicking
-    addPanelWithTypeButtons (config){
+    addPanelWithTypeButtons ()
+    {
+        //console.log('DebugScene.addPanelWithTypeButtons() called');
+
+        // Pull in required object references
+        let ctx = this;
+        let MMRPG = this.MMRPG;
+
+        // Draw a panel with all of the elemental types as buttons
+        var ref = this.debugButtonPanel;
+        var width = MMRPG.canvas.width - 20, height = 68;
+        var x = 10, y = ref.y - height - 5;
+        let $typeButtonPanel = this.createTypeButtonPanel({
+            x: x,
+            y: y,
+            width: width,
+            height: height,
+            padding: 6,
+            margin: 6,
+            types: this.safeTypeTokens,
+            typesPerRow: 10,
+            onClick: function($button, type){
+                //console.log('Wow! Type button clicked!', 'type:', type, '$button:', $button);
+                ctx.showMasterSliding(null, type, 'left');
+                }
+            });
+        this.typeButtonPanel = $typeButtonPanel;
+
+    }
+
+    // Define a function that adds a panel to the scene with elemental type buttons for clicking
+    createTypeButtonPanel (config)
+    {
 
         // Pull in required object references
         let ctx = this;
@@ -1822,11 +1934,14 @@ export default class DebugScene extends Phaser.Scene
             y: config.y || 20,
             width: config.width || 600,
             height: config.height || 150,
-            padding: config.padding || 15,
-            radius: config.radius || { tl: 20, tr: 0, br: 20, bl: 0 },
+            padding: config.padding || 5,
+            margin: config.margin || 5,
+            radius: config.radius || { tl: 0, tr: 0, br: 0, bl: 0 },
             lineStyle: config.lineStyle || { width: 2, color: 0x0a0a0a },
             fillStyle: config.fillStyle || { color: 0x161616 },
             depth: config.depth || 1000,
+            types: config.types || safeTypeTokens,
+            typesPerRow: config.typesPerRow || Math.ceil(safeTypeTokens.length / 2),
             onClick: config.onClick || null
             };
 
@@ -1834,28 +1949,32 @@ export default class DebugScene extends Phaser.Scene
         const $panelBack = Graphics.addTypePanel(ctx, panelConfig);
 
         // Draw little buttons on the type panel for each type
-        let typeButtons = [];
-        let typeButtonWidth = 90;
-        let typeButtonHeight = 25;
-        let typeButtonMargin = 10;
+        let numTypes = panelConfig.types.length;
+        let numTypesPerRow = panelConfig.typesPerRow;
+        let buttonMargin = panelConfig.margin;
+        let $typeButtons = [];
+        let widthUsed = 0;
+        let widthAvailable = panelConfig.width - (panelConfig.padding * 2);
+        let typeButtonWidth = Math.floor(((widthAvailable + buttonMargin) - (buttonMargin * numTypesPerRow)) / numTypesPerRow);
+        let typeButtonHeight = 24;
         let typeButtonX = panelConfig.x + panelConfig.padding;
         let typeButtonY = panelConfig.y + panelConfig.padding;
         let typeButtonDepth = panelConfig.depth + 1;
-        let widthAvailable = panelConfig.width - (typeButtonMargin * 2);
-        let widthUsed = 0;
         let goToNextLine = function(){
             typeButtonX = panelConfig.x + panelConfig.padding;
-            typeButtonY += typeButtonHeight + typeButtonMargin;
+            typeButtonY += typeButtonHeight + buttonMargin;
             widthUsed = 0;
             };
-        for (let i = 0; i < safeTypeTokens.length; i++)
+        //console.log('pre-vals', 'numTypes:', numTypes, 'widthAvailable:', widthAvailable, 'typeButtonWidth:', typeButtonWidth);
+        //console.log('pre-test', '(numTypes * typeButtonWidth) =', (numTypes * typeButtonWidth), '(numTypes * (typeButtonWidth + buttonMargin)) =', (numTypes * (typeButtonWidth + buttonMargin)));
+        for (let i = 0; i < panelConfig.types.length; i++)
         {
-            let typeToken = safeTypeTokens[i];
+            let typeToken = panelConfig.types[i];
             let typeData = typesIndex[typeToken];
             //console.log('Adding type button:', typeToken);
             //console.log('typeButtonY:', typeButtonY, 'typeButtonX:', typeButtonX);
-            //console.log('width:', typeButtonWidth, 'widthUsed:', widthUsed, 'widthAvailable:', widthAvailable);
-            if ((widthUsed + typeButtonWidth + typeButtonMargin) > widthAvailable){
+            //console.log('button:', typeToken, 'width:', typeButtonWidth, 'widthUsed:', widthUsed, 'widthAvailable:', widthAvailable);
+            if ((widthUsed + typeButtonWidth) > widthAvailable){
                 //console.log('> Pre-moving to next row of buttons');
                 goToNextLine();
                 }
@@ -1874,10 +1993,10 @@ export default class DebugScene extends Phaser.Scene
                     panelConfig.onClick($typeButton, typeToken);
                     }
                 });
-            typeButtons.push($typeButton);
-            widthUsed += typeButtonWidth + typeButtonMargin;
+            $typeButtons.push($typeButton);
+            widthUsed += typeButtonWidth + buttonMargin;
             if (widthUsed <= widthAvailable){
-                typeButtonX += (typeButtonWidth + typeButtonMargin);
+                typeButtonX += (typeButtonWidth + buttonMargin);
                 } else {
                 //console.log('> Moving to next row of buttons');
                 goToNextLine();
@@ -1885,6 +2004,16 @@ export default class DebugScene extends Phaser.Scene
             //console.log('typeButtonY:', typeButtonY, 'typeButtonX:', typeButtonX);
             //console.log('width:', typeButtonWidth, 'widthUsed:', widthUsed, 'widthAvailable:', widthAvailable);
         }
+
+        // Return an object with generated elements
+        return {
+            x: panelConfig.x,
+            y: panelConfig.y,
+            width: panelConfig.width,
+            height: panelConfig.height,
+            panel: $panelBack,
+            buttons: $typeButtons
+            };
 
     }
 
