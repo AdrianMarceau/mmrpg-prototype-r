@@ -10,7 +10,9 @@ import BootScene from './scenes/BootScene.js';
 import PreloaderScene from './scenes/PreloaderScene.js';
 import TitleScene from './scenes/TitleScene.js';
 import MainScene from './scenes/MainScene.js';
+
 import DebugScene from './scenes/DebugScene.js';
+import DebugRunnerScene from './scenes/debug/DebugRunnerScene.js';
 
 var config = {
     type: Phaser.AUTO,
@@ -30,8 +32,12 @@ var config = {
         PreloaderScene,
         TitleScene,
         MainScene,
-        DebugScene
-        ]
+        DebugScene,
+        DebugRunnerScene,
+        ],
+    audio: {
+        disableWebAudio: false
+        },
     };
 
 let game = new Phaser.Game(config);
