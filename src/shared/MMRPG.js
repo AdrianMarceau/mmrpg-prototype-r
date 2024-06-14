@@ -122,9 +122,9 @@ MMRPG.create = function(scene, isPreloadPhase = false){
     // Toggle sound on and off when the browser tab is hidden or visible
     document.addEventListener('visibilitychange', () => {
         if (document.hidden) {
-            this.sound.mute = true;
+            scene.sound.mute = true;
             } else {
-            this.sound.mute = false;
+            scene.sound.mute = false;
             }
         });
 
