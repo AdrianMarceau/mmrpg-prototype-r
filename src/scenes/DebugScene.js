@@ -344,30 +344,30 @@ export default class DebugScene extends Phaser.Scene
         let spriteRunAnim = playerAnims[spriteToken][spriteAlt][spriteKey]['run'];
 
         // Create the sprite and add it to the scene
-        let $runningSprite = ctx.add.sprite(spriteX, spriteY, spriteSheet);
-        ctx.debugSprites.push($runningSprite);
-        $runningSprite.debugKey = ctx.debugSprites.length - 1;
+        let $playerSprite = ctx.add.sprite(spriteX, spriteY, spriteSheet);
+        ctx.debugSprites.push($playerSprite);
+        $playerSprite.debugKey = ctx.debugSprites.length - 1;
         ctx.debugAddedSprites++;
 
         // Add required sub-objects to the sprite
-        $runningSprite.subTweens = {};
-        $runningSprite.subTimers = {};
-        $runningSprite.subSprites = {};
+        $playerSprite.subTweens = {};
+        $playerSprite.subTimers = {};
+        $playerSprite.subSprites = {};
 
         // Set the origin, scale, and depth for the sprite then add to parent container
-        $runningSprite.setOrigin(0.5, 1);
-        $runningSprite.setScale(2.0);
-        $runningSprite.setDepth(ctx.battleBanner.depth + spriteY);
-        ctx.battleBannerContainer.add($runningSprite);
+        $playerSprite.setOrigin(0.5, 1);
+        $playerSprite.setScale(2.0);
+        $playerSprite.setDepth(ctx.battleBanner.depth + spriteY);
+        ctx.battleBannerContainer.add($playerSprite);
         ctx.battleBannerContainer.sort('depth');
 
         // Apply effects and setup the frame
-        $runningSprite.preFX.addShadow();
-        $runningSprite.play(spriteRunAnim);
+        $playerSprite.preFX.addShadow();
+        $playerSprite.play(spriteRunAnim);
 
         // Animate the doctor bouncing up and down as they walk forward
-        $runningSprite.subTweens.bounceTween = ctx.add.tween({
-            targets: $runningSprite,
+        $playerSprite.subTweens.bounceTween = ctx.add.tween({
+            targets: $playerSprite,
             y: {from: spriteY, to: spriteY - 2},
             ease: 'Stepped',
             delay: 300,
@@ -386,14 +386,14 @@ export default class DebugScene extends Phaser.Scene
         //console.log(playerInfo.token, 'runSpeed:', runSpeed, 'runSpeedMultiplier:', runSpeedMultiplier, 'runDistance:', runDistance, 'runDestination:', runDestination, 'runDuration:', runDuration);
 
         // Animate that sprite using the previously defined variables
-        $runningSprite.subTweens.runTween = ctx.add.tween({
-            targets: $runningSprite,
+        $playerSprite.subTweens.runTween = ctx.add.tween({
+            targets: $playerSprite,
             x: runDestination,
             ease: 'Linear',
             duration: runDuration,
             onComplete: function () {
                 //console.log(playerInfo.name + ' running movement complete!');
-                SPRITES.destroySpriteAndCleanup(ctx, $runningSprite);
+                SPRITES.destroySpriteAndCleanup(ctx, $playerSprite);
                 }
             });
 
@@ -490,26 +490,26 @@ export default class DebugScene extends Phaser.Scene
         let spriteY = this.battleBanner.y + 90 + ((numSprites % 10) * 10);
 
         // Create the new sliding sprite and add it to the scene
-        let $slidingSprite = ctx.add.sprite(spriteX, spriteY, robotSpriteInfo['sprite'][spriteDirection]['sheet']);
-        ctx.debugSprites.push($slidingSprite);
-        $slidingSprite.debugKey = ctx.debugSprites.length - 1;
+        let $robotSprite = ctx.add.sprite(spriteX, spriteY, robotSpriteInfo['sprite'][spriteDirection]['sheet']);
+        ctx.debugSprites.push($robotSprite);
+        $robotSprite.debugKey = ctx.debugSprites.length - 1;
         ctx.debugAddedSprites++;
 
         // Add required sub-objects to the sprite
-        $slidingSprite.subTweens = {};
-        $slidingSprite.subTimers = {};
-        $slidingSprite.subSprites = {};
+        $robotSprite.subTweens = {};
+        $robotSprite.subTimers = {};
+        $robotSprite.subSprites = {};
 
         // Set the origin, scale, and depth for the sprite then add to parent container
-        $slidingSprite.setOrigin(0.5, 1);
-        $slidingSprite.setScale(2.0);
-        $slidingSprite.setDepth(ctx.battleBanner.depth + spriteY);
-        ctx.battleBannerContainer.add($slidingSprite);
+        $robotSprite.setOrigin(0.5, 1);
+        $robotSprite.setScale(2.0);
+        $robotSprite.setDepth(ctx.battleBanner.depth + spriteY);
+        ctx.battleBannerContainer.add($robotSprite);
         ctx.battleBannerContainer.sort('depth');
 
         // Add effects and setup the frame for the sliding sprite
-        $slidingSprite.preFX.addShadow();
-        $slidingSprite.setFrame(0);
+        $robotSprite.preFX.addShadow();
+        $robotSprite.setFrame(0);
 
         // Animate that sprite sliding across the screen then remove when done
         let slideSpeed = robotInfo.speed;
@@ -913,14 +913,14 @@ export default class DebugScene extends Phaser.Scene
                     var color = '#f0f0f0';
                     var shadow = '#090909'; //robotCoreType ? Graphics.returnHexColorString(robotTypeInfo.colour_dark) : '#969696';
                     //console.log('text:', text, 'color:', color);
-                    var x = $slidingSprite.x + 40, y = $slidingSprite.y - 60;
+                    var x = $robotSprite.x + 40, y = $robotSprite.y - 60;
                     var width = Math.ceil(MMRPG.canvas.width / 4), height = 90;
                     $floatingTextBubble = Strings.addFormattedText(ctx, x, y, text, {
                         width: width,
                         height: height,
                         color: color,
                         shadow: shadow,
-                        depth: $slidingSprite.depth + 1,
+                        depth: $robotSprite.depth + 1,
                         padding: 10,
                         border: false,
                         });
@@ -978,9 +978,9 @@ export default class DebugScene extends Phaser.Scene
             if (cleanupTimer){ cleanupTimer.remove(); }
             let removeDebugKeys = [];
             cleanupTimer = ctx.time.delayedCall(cleanupDelay, function(){
-                //console.log('Time to cleanup sprites:', $slidingSprite);
-                removeDebugKeys = removeDebugKeys.concat(getDebugKeys($slidingSprite));
-                SPRITES.destroySpriteAndCleanup(ctx, $slidingSprite, true);
+                //console.log('Time to cleanup sprites:', $robotSprite);
+                removeDebugKeys = removeDebugKeys.concat(getDebugKeys($robotSprite));
+                SPRITES.destroySpriteAndCleanup(ctx, $robotSprite, true);
                 for (let i = 0; i < abilityShotSprites.length; i++){
                     let $abilityShotSprite = abilityShotSprites[i];
                     removeDebugKeys = removeDebugKeys.concat(getDebugKeys($abilityShotSprite));
@@ -1002,24 +1002,24 @@ export default class DebugScene extends Phaser.Scene
             };
 
         // Preset the sprite direction to right, and then start playing the slide animation
-        $slidingSprite.direction = spriteDirection;
-        $slidingSprite.play(robotSpriteInfo['sprite'][spriteDirection]['anim']['slide']);
+        $robotSprite.direction = spriteDirection;
+        $robotSprite.play(robotSpriteInfo['sprite'][spriteDirection]['anim']['slide']);
         let startFunction;
         if (spriteDirection === 'right'){ startFunction = slideSpriteForward; }
         else if (spriteDirection === 'left'){ startFunction = slideSpriteBackward; }
         //console.log('Starting slide animation for', robotInfo.name, 'w/ token:', spriteToken, 'and alt:', spriteAlt);
-        startFunction($slidingSprite, slideDistance, slideDestination, slideDuration, function($slidingSprite){
+        startFunction($robotSprite, slideDistance, slideDestination, slideDuration, function($robotSprite){
             //console.log('%c' + 'All animations for ' + robotInfo.name + ' complete!', 'color: amber;');
             queueSpriteCleanup();
             });
 
         // Make it so the sprite is clickable to shows an alert
-        $slidingSprite.setInteractive({ useHandCursor: true });
-        $slidingSprite.on('pointerdown', function(){
+        $robotSprite.setInteractive({ useHandCursor: true });
+        $robotSprite.on('pointerdown', function(){
             //console.log('Sliding sprite clicked:', spriteToken);
-            if (!$slidingSprite || $slidingSprite.isDisabled){ return; }
-            showRobotDefeatQuote($slidingSprite);
-            explodeSpriteAndDestroy($slidingSprite);
+            if (!$robotSprite || $robotSprite.isDisabled){ return; }
+            showRobotDefeatQuote($robotSprite);
+            explodeSpriteAndDestroy($robotSprite);
             queueSpriteCleanup();
             });
 
