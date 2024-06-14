@@ -192,7 +192,7 @@ export class StringsUtility {
                     if (simpleTag && nextWord.indexOf('[/'+tagName+']') === 0){ break; } // break if we found the matching tag
                     }
                 // if the finalized word block ends with punctuation for some reason, break off that part and re-add it to the queue
-                if (word.match(/[\.\,\!\?]/)){
+                if (word.match(/[\.\,\!\?]+$/)){
                     let punctuation = word.match(/[\.\,\!\?]+$/)[0];
                     word = word.replace(/[\.\,\!\?]+$/, '');
                     wordQueue.unshift(punctuation);
