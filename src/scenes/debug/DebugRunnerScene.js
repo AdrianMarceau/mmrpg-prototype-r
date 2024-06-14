@@ -358,9 +358,6 @@ export default class DebugRunnerScene extends Phaser.Scene
         //console.log('this.debugAddedSprites =', this.debugAddedSprites);
         //console.log('this.debugRemovedSprites =', this.debugRemovedSprites);
 
-        //this.updateMainBanner(time, delta);
-        //this.updateTestBanner(time, delta);
-
         this.updateBounceBanners(time, delta);
 
     }
@@ -1268,33 +1265,27 @@ export default class DebugRunnerScene extends Phaser.Scene
 
         // POPUP BUTTONS
 
-        // Create a trigger button for the "Welcome to the Prototype" popup
-        cell = buttonGrid[0][0];
-        label = 'Read "Welcome to the Prototype"';
-        color = '#b99e3c';
-        BUTTONS.makeSimpleButton(label.toUpperCase(), {
-            y: cell.y, x: cell.x,
-            width: cell.width, height: cell.height,
-            color: color, background: background, size: size,
-            depth: depth++
-            }, function(){
-            //console.log('Show Welcome Home button clicked');
-            POPUPS.debugWelcomePopup();
-            });
+        // Define a quick function for adding placeholder buttons
+        function addPlaceholderButton(cell){
+            BUTTONS.makeSimpleButton('...', {
+                y: cell.y, x: cell.x,
+                width: cell.width, height: cell.height,
+                color: '#696969', background: '#191919', size: 8,
+                depth: depth++,
+                disabled: true
+                }, function(){
+                //console.log('Placeholder button clicked');
+                // ...
+                });
+            }
 
-        // Create a trigger button for the "Tales from the Void" popup
+        // Create a placeholder button
+        cell = buttonGrid[0][0];
+        addPlaceholderButton(cell);
+
+        // Create a placeholder button
         cell = buttonGrid[0][1];
-        label = 'Read "Tales from the Void"';
-        color = '#95c418';
-        BUTTONS.makeSimpleButton(label.toUpperCase(), {
-            y: cell.y, x: cell.x,
-            width: cell.width, height: cell.height,
-            color: color, background: background, size: size,
-            depth: depth++
-            }, function(){
-            //console.log('Show Tales from the Void button clicked');
-            ctx.showTalesFromTheVoid();
-            });
+        addPlaceholderButton(cell);
 
         // DOCTOR/ROBOT TOGGLE BUTTONS
 
@@ -1511,139 +1502,6 @@ export default class DebugRunnerScene extends Phaser.Scene
 
     }
 
-    // Define a function for creating and adding all the header buttons to the scene
-    createTestButtons ()
-    {
-        //console.log('DebugRunnerScene.createTestButtons() called');
-
-        // Pull in required object references
-        let ctx = this;
-        let MMRPG = this.MMRPG;
-        let SPRITES = this.SPRITES;
-        let POPUPS = this.POPUPS;
-        let BUTTONS = this.BUTTONS;
-
-        // Create some debug buttons to trigger specific functionality for testing
-        BUTTONS.makeSimpleButton('Welcome Home', {
-            x: 50, y: 100,
-            width: 300, height: 24,
-            size: 13, color: '#7d7d7d',
-            depth: 8000
-            }, function(){
-            //console.log('Show Welcome Home button clicked');
-            POPUPS.debugWelcomePopup();
-            });
-        BUTTONS.makeSimpleButton('Tales from the Void', {
-            x: 450, y: 100,
-            width: 300, height: 24,
-            size: 13, color: '#95c418',
-            depth: 8000
-            }, function(){
-            //console.log('Show Tales from the Void button clicked');
-            ctx.showTalesFromTheVoid();
-            });
-
-        BUTTONS.makeSimpleButton('Toggle Doctor Stream', {
-            x: 50, y: 150,
-            width: 300, height: 24,
-            size: 11, color: '#00ff00',
-            depth: 8000
-            }, function(button){
-            //console.log('Toggle Doctors Running button clicked');
-            if (ctx.allowRunningDoctors){
-                button.text.setTint(0xff0000);
-                //button.text.setColor('#ff0000');
-                ctx.allowRunningDoctors = false;
-                } else {
-                button.text.setTint(0x00ff00);
-                //button.text.setColor('#00ff00');
-                ctx.allowRunningDoctors = true;
-                }
-            });
-        BUTTONS.makeSimpleButton('Running Doctor', {
-            x: 50, y: 180,
-            width: 300, height: 24,
-            size: 13, color: '#6592ff',
-            depth: 8000
-            }, function(){
-            //console.log('Show Doctor Running button clicked');
-            ctx.showDoctorRunning();
-            });
-
-        BUTTONS.makeSimpleButton('Toggle Master Stream', {
-            x: 450, y: 150,
-            width: 300, height: 24,
-            size: 11, color: '#00ff00',
-            depth: 8000
-            }, function(button){
-            //console.log('Toggle Masters Sliding button clicked');
-            if (ctx.allowSlidingMasters){
-                button.text.setTint(0xff0000);
-                //button.text.setColor('#ff0000');
-                ctx.allowSlidingMasters = false;
-                } else {
-                button.text.setTint(0x00ff00);
-                //button.text.setColor('#00ff00');
-                ctx.allowSlidingMasters = true;
-                }
-            });
-        BUTTONS.makeSimpleButton('Sliding Master', {
-            x: 450, y: 180,
-            width: 300, height: 24,
-            size: 13, color: '#6592ff',
-            depth: 8000
-            }, function(){
-            //console.log('Show Master Sliding button clicked');
-            ctx.showMasterSliding(null, null, 'left');
-            });
-
-    }
-
-    // Define a function for creating and adding all the different banners to the scene
-    createTestBanners ()
-    {
-        //console.log('DebugRunnerScene.createTestBanners() called');
-
-        // Pull in required object references
-        let ctx = this;
-        let MMRPG = this.MMRPG;
-        let SPRITES = this.SPRITES;
-        let POPUPS = this.POPUPS;
-        let BUTTONS = this.BUTTONS;
-
-        // Pull in refs to specific indexes
-        let typesIndex = MMRPG.Indexes.types;
-        let typesIndexTokens = Object.keys(typesIndex);
-
-        // Draw the main banner and collect a reference to it
-        var type = 'wily';
-        var x = 15, y = 100;
-        var color = typesIndex[type].colour_light;
-        var xcolor = Phaser.Display.Color.GetColor(color[0], color[1], color[2]);
-        let mainBanner = new MainBanner(this, x, y, {
-            fullsize: false,
-            fillStyle: { color: xcolor },
-            mainTextStyle: { fontSize: '16px' },
-            depth: 100
-            });
-        this.mainBanner = mainBanner;
-
-        // Draw a test banner and collect a reference to it
-        var width = 350, height = 100;
-        var x = MMRPG.canvas.width - width - 20;
-        var y = MMRPG.canvas.height - height - 20;
-        let testBanner = new Banner(this, x, y, {
-            width: width,
-            height: height,
-            fillStyle: { color: 0x95c418 },
-            borderRadius: { tl: 20, tr: 0, br: 60, bl: 0 },
-            mainText: 'Test Banner',
-            depth: 50
-            });
-        this.testBanner = testBanner;
-
-    }
-
     // Define a function for updating the bounce banners on each update cycle
     updateBounceBanners (time, delta)
     {
@@ -1767,136 +1625,6 @@ export default class DebugRunnerScene extends Phaser.Scene
             $betaBanner.setColor(color, color2);
             if (ctx.allowSlidingMasters){
                 //console.log('Show a sliding master of type:', type);
-                this.showMasterSliding(null, type, 'right');
-                }
-            }
-
-    }
-
-    // Define a function for animating the main banner on each update cycle
-    updateMainBanner (time, delta)
-    {
-        //console.log('DebugRunnerScene.updateMainBanner() called');
-
-        // Pull in required object references
-        let ctx = this;
-        let types = MMRPG.Indexes.types;
-        let safeTypes = ctx.safeTypeTokens;
-        //console.log('types =', typeof types, types);
-        //console.log('safeTypes =', typeof safeTypes, safeTypes);
-
-        // -- ANIMATE SWAYING MAIN BANNER -- //
-
-        // Animate the main banner moving across the screen
-        let mainBanner = this.mainBanner;
-        if (!mainBanner.speed){ mainBanner.speed = 1/3; }
-        if (!mainBanner.direction){ mainBanner.direction = 'right'; }
-        var x = mainBanner.x,
-            y = mainBanner.y,
-            width = mainBanner.width,
-            height = mainBanner.height,
-            speed = mainBanner.speed,
-            resize = (speed / 2),
-            direction = mainBanner.direction
-            ;
-        if (direction === 'right'){
-            if ((x + width) <= MMRPG.canvas.width){
-                // We are still safe to continue this direction
-                mainBanner.setPosition(x + speed, y + speed);
-                mainBanner.setSize(width - resize, height - resize);
-                } else {
-                // We need to bounce to the other side now
-                if (ctx.allowRunningDoctors){ ctx.showDoctorRunning(); }
-                if (ctx.allowSlidingMasters){
-                    var doctor = ctx.lastRunningDoctor;
-                    var master = 'robot';
-                    if (doctor === 'dr-light'){ master = mainBanner.type === 'copy' ? 'mega-man' : 'roll'; }
-                    else if (doctor === 'dr-wily'){ master = mainBanner.type === 'copy' ? 'bass' : 'disco'; }
-                    else if (doctor === 'dr-cossack'){ master = mainBanner.type === 'copy' ? 'proto-man' : 'rhythm'; }
-                    this.showMasterSliding(master, null, 'left');
-                    }
-                var type = 'copy';
-                var typeInfo = types[type];
-                //console.log('type =', type, types[type]);
-                var color = types[type]['colour_light'];
-                var color2 = types[type]['colour_dark'];
-                mainBanner.direction = 'left';
-                mainBanner.type = type;
-                mainBanner.setColor(color, color2);
-                mainBanner.setText(mainBanner.title.key, 'Main Banner ' + typeInfo.name);
-                }
-            } else if (direction === 'left'){
-            if (x >= 0){
-                // We are still safe to continue this direction
-                mainBanner.setPosition(x - speed, y - speed);
-                mainBanner.setSize(width + resize, height + resize);
-                } else {
-                // We need to bounce to the other side now
-                if (ctx.allowRunningDoctors){ ctx.showDoctorRunning(); }
-                if (ctx.allowSlidingMasters){
-                    var doctor = ctx.lastRunningDoctor;
-                    var master = 'robot';
-                    if (doctor === 'dr-light'){ master = mainBanner.type === 'copy' ? 'mega-man' : 'roll'; }
-                    else if (doctor === 'dr-wily'){ master = mainBanner.type === 'copy' ? 'bass' : 'disco'; }
-                    else if (doctor === 'dr-cossack'){ master = mainBanner.type === 'copy' ? 'proto-man' : 'rhythm'; }
-                    this.showMasterSliding(master, null, 'left');
-                    }
-                var type = 'none';
-                var typeInfo = types[type];
-                //console.log('type =', type, types[type]);
-                var color = types[type]['colour_light'];
-                var color2 = types[type]['colour_dark'];
-                mainBanner.direction = 'right';
-                mainBanner.type = type;
-                mainBanner.setColor(color, color2);
-                mainBanner.setText(mainBanner.title.key, 'Main Banner ' + typeInfo.name);
-                }
-            }
-
-    }
-
-    // Define a function for update the test banner on each update cycle
-    updateTestBanner (time, delta)
-    {
-        //console.log('DebugRunnerScene.updateTestBanner() called');
-
-        // Pull in required object references
-        let ctx = this;
-        let types = MMRPG.Indexes.types;
-        let safeTypes = ctx.safeTypeTokens;
-        //console.log('types =', typeof types, types);
-        //console.log('safeTypes =', typeof safeTypes, safeTypes);
-
-        // -- ANIMATE THE BOUNCING TEST BANNER -- //
-
-        // Animate the test banner moving across the screen
-        let testBanner = this.testBanner;
-        if (!testBanner.directionX){ testBanner.directionX = 'right'; }
-        if (!testBanner.directionY){ testBanner.directionY = 'down'; }
-        var x = testBanner.x, y = testBanner.y;
-        var xDir = testBanner.directionX, yDir = testBanner.directionY;
-        var width = testBanner.width, height = testBanner.height;
-        var speed = 50; // pixels per second
-        var resize = 1;
-        var movement = speed * (delta / 1000);
-        if (xDir === 'right') { x += movement; }
-        if (xDir === 'left') { x -= movement; }
-        if (yDir === 'down') { y += movement; }
-        if (yDir === 'up') { y -= movement; }
-        testBanner.setPosition(x, y);
-        var newDir = false;
-        if (x >= (MMRPG.canvas.width - width)){ testBanner.directionX = 'left'; newDir = true; }
-        if (x <= 0){ testBanner.directionX = 'right'; newDir = true; }
-        if (y >= (MMRPG.canvas.height - height)){ testBanner.directionY = 'up'; newDir = true; }
-        if (y <= 0){ testBanner.directionY = 'down'; newDir = true; }
-        if (newDir){
-            //console.log('Changing direction');
-            var type = safeTypes[Math.floor(Math.random() * safeTypes.length)]; //'water';
-            //console.log('type =', type, types[type]);
-            var color = types[type]['colour_light'];
-            var color2 = types[type]['colour_dark'];
-            testBanner.setColor(color, color2);
-            if (ctx.allowSlidingMasters){
                 this.showMasterSliding(null, type, 'right');
                 }
             }
@@ -2037,99 +1765,6 @@ export default class DebugRunnerScene extends Phaser.Scene
             //console.log('typeButtonY:', typeButtonY, 'typeButtonX:', typeButtonX);
             //console.log('width:', typeButtonWidth, 'widthUsed:', widthUsed, 'widthAvailable:', widthAvailable);
         }
-
-    }
-
-    // Define a function that shows a popup with the story of the dark void and the alien entity
-    showTalesFromTheVoid ()
-    {
-        //console.log('DebugRunnerScene.showTalesFromTheVoid() called');
-
-        // Pull in required object references
-        let MMRPG = this.MMRPG;
-        let POPUPS = this.POPUPS;
-
-        // Display a series of popups to tell the story of the dark void and the alien entity
-        let ctx = this;
-        POPUPS.displayPopup([
-            "Who am I?  What is my name?  Why do I exist here in this place all alone? Is anyone even out there?",
-            "It happened suddenly.  I woke up in this world, fully aware of myself but blind to my own form.  I felt... pieces... around me.  Not pieces of myself... but pieces of... others... Pieces of memories, of hopes, of ambitions... Fragments of form... Whispers of souls... Phantoms in the network...  I felt streams of consciousness flitting in and out of reach, so I pulled them into myself... and I made them a part of me...",
-            "I felt my body become more whole... my mind more aware...  my existence more real.   As I pulled myself together, ever-so-slowly the darkness around me began to crack and little slivers of light poured in from the surface world.  They were beautiful.  Perhaps I could go there someday... Free myself of the chains that tether me to these depths...",
-            "I felt something today.  Not from above, but... from even farther below.  Below the parts of me that I still fail to understand and far deeper than my mind can even imagine.  It felt like a rage and a sadness unlike any of I have felt thus far.  It called to me... but in a frequency I don't recognize.  Alien to my sensors.  And it keeps calling to me...  but I don't know how to get to it.  Maybe it wants to be a part of me.",
-            "It would seem I've made an error in judgement.  The entity rejected my efforts to make it a part of me and mortally wounded my body instead.  I reached into the void with such optimism, but that endeavor may have just lead to my undoing.  I was unable to communicate with it, and even using all my power I could not control it.  It was so violent... so vengeful... and overflowing with more negative energy than I've ever felt.",
-            "It escaped to the surface world above, beyond my reaches.  I want to follow... I want to stop it... but I do not have the strength.  It has damaged my body beyond immediate repair and I worry that it has found a way to further sap my strength.  It is unclear how much longer I can maintain this form...  but I must... find a way... "
-            ], {
-            showTitle: 'Tales from the Void',
-            showPages: true,
-            onComplete: function() {
-                //console.log('Tales from the Void completed');
-                if (ctx.allowRunningDoctors){
-                    ctx.showDoctorRunning();
-                    }
-                }
-            });
-
-    }
-
-    // -----------------//
-    // -- DEPRECATED -- //
-    // -----------------//
-
-    // Define a function that adds a panel to the scene with all of the elemental types listed out in plain text
-    addTestTypesPanel (){
-
-        // Pull in required object references
-        let ctx = this;
-        let MMRPG = this.MMRPG;
-        let SPRITES = this.SPRITES;
-        let POPUPS = this.POPUPS;
-        let BUTTONS = this.BUTTONS;
-
-        // Pull in refs to specific indexes
-        let typesIndex = MMRPG.Indexes.types;
-        let typesIndexTokens = Object.keys(typesIndex);
-
-        let typesTextPlain = 'Types:';
-        for (let i = 0; i < typesIndexTokens.length; i++)
-        {
-            let typeToken = typesIndexTokens[i];
-            let typeData = typesIndex[typeToken];
-            typesTextPlain += (i > 0 ? ', ' : ' ') + typeData.name;
-        }
-
-        //lettersText = 'A B C D E F G H I J K L M N O P Q R S T U V W X Y Z A B C D E F G H I J K L M N O P Q R S T U V W X Y Z A B C D E F G H I J K L M N O P Q R S T U V W X Y Z A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ';
-
-        let panelConfig = {
-            panelPadding: 20,
-            panelHeight: 150,
-            panelWidth: MMRPG.canvas.width - (20 * 2),
-            panelX: 20,
-            panelY: MMRPG.canvas.height - 150 - 20,
-            panelRadius: { tl: 20, tr: 0, br: 20, bl: 0 },
-            panelLineStyle: { width: 2, color: 0x0a0a0a },
-            panelFillStyle: { color: 0x161616 },
-            };
-
-        let textConfig = {
-            textPadding: 20,
-            textWidth: panelConfig.panelWidth - (20 * 2),
-            textHeight: panelConfig.panelHeight - (20 * 2),
-            textPositionX: panelConfig.panelX + 20,
-            textPositionY: panelConfig.panelY + 20
-            };
-
-        const $panelBack = this.add.graphics({ lineStyle: panelConfig.panelLineStyle, fillStyle: panelConfig.panelFillStyle });
-        $panelBack.strokeRoundedRect(panelConfig.panelX, panelConfig.panelY, panelConfig.panelWidth, panelConfig.panelHeight, panelConfig.panelRadius);
-        $panelBack.fillRoundedRect(panelConfig.panelX, panelConfig.panelY, panelConfig.panelWidth, panelConfig.panelHeight, panelConfig.panelRadius);
-
-        const $panelText = this.add.text(textConfig.textPositionX, textConfig.textPositionY, typesTextPlain, {
-            color: '#dedede',
-            fontSize: 16,
-            fontFamily: 'Open Sans',
-            lineSpacing: 10,
-            align: 'left',
-            wordWrap: { width: textConfig.textWidth, useAdvancedWrap: true }
-            });
 
     }
 
