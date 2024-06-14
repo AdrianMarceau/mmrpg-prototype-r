@@ -67,6 +67,7 @@ export default class ButtonsManager {
         var buttonBorderColor = config.border || '#0a0a0a';
         var buttonBackgroundColor = config.background || '#161616';
         var buttonDepth = config.depth || 'auto';
+        var buttonDisabled = config.disabled || false;
         var buttonCallback = callback || function(){};
 
         let $buttonRect = Graphics.addTypePanel(ctx, {
@@ -117,11 +118,13 @@ export default class ButtonsManager {
 
             }
 
-        $buttonRect.setInteractive({
-            hitArea: new Phaser.Geom.Rectangle(buttonX, buttonY, buttonWidth, buttonHeight),
-            hitAreaCallback: Phaser.Geom.Rectangle.Contains,
-            useHandCursor: true
-            });
+        if (!buttonDisabled){
+            $buttonRect.setInteractive({
+                hitArea: new Phaser.Geom.Rectangle(buttonX, buttonY, buttonWidth, buttonHeight),
+                hitAreaCallback: Phaser.Geom.Rectangle.Contains,
+                useHandCursor: true
+                });
+            }
 
         let $buttonGroup = ctx.add.group();
         $buttonGroup.add($buttonRect);
@@ -143,24 +146,26 @@ export default class ButtonsManager {
             };
 
         let buttonClickTween = null;
-        $buttonRect.on('pointerover', function () { $buttonText.setAlpha(1.0); });
-        $buttonRect.on('pointerout', function () { $buttonText.setAlpha(0.8); });
-        $buttonRect.on('pointerdown', function () {
-            buttonCallback(buttonObject);
-            // add a tween where the text grows briefly then shrinks back
-            if (ctx.SOUNDS){ ctx.SOUNDS.play('wily-escape-iii-a_mmv-gb', {volume: 0.2}); }
-            if (buttonClickTween){ buttonClickTween.stop(); }
-            $buttonText.scaleX = 1.2;
-            $buttonText.scaleY = 1.2;
-            buttonClickTween = ctx.add.tween({
-                targets: $buttonText,
-                scaleX: 1.0,
-                scaleY: 1.0,
-                ease: 'Sine.easeInOut',
-                duration: 200,
-                repeat: 0
+        if (!buttonDisabled){
+            $buttonRect.on('pointerover', function () { $buttonText.setAlpha(1.0); });
+            $buttonRect.on('pointerout', function () { $buttonText.setAlpha(0.8); });
+            $buttonRect.on('pointerdown', function () {
+                buttonCallback(buttonObject);
+                // add a tween where the text grows briefly then shrinks back
+                if (ctx.SOUNDS){ ctx.SOUNDS.play('wily-escape-iii-a_mmv-gb', {volume: 0.2}); }
+                if (buttonClickTween){ buttonClickTween.stop(); }
+                $buttonText.scaleX = 1.2;
+                $buttonText.scaleY = 1.2;
+                buttonClickTween = ctx.add.tween({
+                    targets: $buttonText,
+                    scaleX: 1.0,
+                    scaleY: 1.0,
+                    ease: 'Sine.easeInOut',
+                    duration: 200,
+                    repeat: 0
+                    });
                 });
-            });
+            }
 
         // Create a group with the above two elements and return it
         return buttonObject;
