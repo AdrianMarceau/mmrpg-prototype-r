@@ -363,9 +363,9 @@ export default class DebugRunnerScene extends Phaser.Scene
     }
 
     // Define a function that generates a sprite of a player and animates it running across the screen
-    showDoctorRunning (token, alt, side)
+    showDoctorRunning (token, alt, side = 'left')
     {
-        //console.log('DebugRunnerScene.showDoctorRunning() called w/ token =', token);
+        //console.log('DebugScene.showDoctorRunning() called w/ token =', token, 'alt =', alt, 'side =', side);
 
         // Pull in required object references
         let ctx = this;
@@ -375,16 +375,20 @@ export default class DebugRunnerScene extends Phaser.Scene
         let playerAnims = SPRITES.index.anims.players;
         let playersIndex = MMRPG.Indexes.players;
 
-        // Generate a sprite w/ running animation in progress
-        let randKey = Math.floor(Math.random() * ctx.runningDoctors.length);
-        let spriteToken = token || ctx.runningDoctors[randKey];
-        let playerInfo = playersIndex[spriteToken];
-        //let playerAlts = Object.keys(playerInfo.image_alts);
-        // pull all the "token" values from player image alt objects
-        let playerAlts = playerInfo.image_alts ? playerInfo.image_alts.map(item => item.token) : [];
-        let spriteAlt = alt && playerAlts.indexOf(alt) !== -1 ? alt : 'base';
-        //console.log('playerInfo for ', spriteToken, '=', playerInfo);
-        //console.log('playerAlts for ', spriteToken, '=', playerAlts);
+        // Count the number of sliding sprites currently on the screen
+        let numSprites = ctx.debugAddedSprites - ctx.debugRemovedSprites;
+
+        // Generate a list of random tokens to pull from should it be necessary
+        let randTokens = [];
+        if (!randTokens.length){ randTokens = randTokens.concat(ctx.runningDoctors); }
+        let randKey = Math.floor(Math.random() * randTokens.length);
+
+        // Collect the sprite token and alt if provided, else rely on the random key
+        let spriteSide = side || 'left';
+        let spriteDirection = spriteSide === 'left' ? 'right' : 'left';
+        let spriteToken = token || randTokens[randKey];
+        let spriteAlt = alt || 'base';
+        //console.log('spriteToken =', spriteToken, 'spriteAlt =', spriteAlt, 'spriteSide =', spriteSide, 'spriteDirection =', spriteDirection);
 
         // If the sprite token ends with an "*_{alt}", make sure we split and pull
         if (spriteToken.indexOf('_') !== -1){
@@ -393,21 +397,30 @@ export default class DebugRunnerScene extends Phaser.Scene
             spriteAlt = tokenParts[1];
             }
 
+        // Generate a sprite w/ running animation in progress
+        let playerInfo = playersIndex[spriteToken];
+        let playerAlts = playerInfo.image_alts ? playerInfo.image_alts.map(item => item.token) : [];
+        //console.log('playerInfo for ', spriteToken, '=', playerInfo);
+        //console.log('playerAlts for ', spriteToken, '=', playerAlts);
+
         // Ensure this alt actually exists on the player in question
         //console.log('pending spriteToken =', spriteToken, 'pending spriteAlt =', spriteAlt);
+        if (spriteAlt !== 'base' && playerAlts.indexOf(spriteAlt) === -1){ spriteAlt = 'base'; }
         if (!playerSheets[spriteToken][spriteAlt]){
             //console.log('Sprite alt not found, defaulting to base');
             spriteAlt = 'base';
             }
 
+        // Define the base coordinates for the sprite to be added
+        var offset = ((numSprites % 10) * 5);
+        let spriteX = spriteSide === 'left' ? (0 - offset - 40) : (MMRPG.canvas.width + offset + 40);
+        let spriteY = this.battleBanner.y + 80 + ((numSprites % 10) * 10);
+        //console.log('spriteX =', spriteX, 'spriteY =', spriteY);
+
         // Define the base variables for this player animation sequence
-        let spriteSide = 'left';
-        let spriteDir = 'right';
-        let spriteKey = 'sprite-'+spriteDir;
+        let spriteKey = 'sprite-'+spriteDirection;
         let spriteSheet = playerSheets[spriteToken][spriteAlt][spriteKey];
         let spriteRunAnim = playerAnims[spriteToken][spriteAlt][spriteKey]['run'];
-        let spriteX = - 40;
-        let spriteY = this.battleBanner.y + 70; //MMRPG.canvas.centerY - 15;
 
         // Create the sprite and add it to the scene
         let $playerSprite = ctx.add.sprite(spriteX, spriteY, spriteSheet);
@@ -416,9 +429,6 @@ export default class DebugRunnerScene extends Phaser.Scene
         ctx.debugAddedSprites++;
 
         // Add required sub-objects to the sprite
-        $playerSprite.kind = 'player';
-        $playerSprite.token = spriteToken;
-        $playerSprite.team = spriteSide;
         $playerSprite.subTweens = {};
         $playerSprite.subTimers = {};
         $playerSprite.subSprites = {};
@@ -450,9 +460,9 @@ export default class DebugRunnerScene extends Phaser.Scene
         let runSpeed = (((100) + playerInfo.speed) - playerInfo.defense);
         let runSpeedMultiplier = (runSpeed / 100);
         let runDistance = (MMRPG.canvas.width / 4) * runSpeedMultiplier;
-        let runDestination = MMRPG.canvas.width + 40;
-        let runDuration = (runDestination / runDistance) * 1000; //5000 - (500 * runSpeedMultiplier);
-        //console.log(playerInfo.token, 'runSpeed:', runSpeed, 'runSpeedMultiplier:', runSpeedMultiplier, 'runDistance:', runDistance, 'runDuration:', runDuration);
+        let runDestination = spriteDirection === 'right' ? (MMRPG.canvas.width + 40) : (0 - 40);
+        let runDuration = 5000 - (1000 * runSpeedMultiplier);
+        //console.log(playerInfo.token, 'runSpeed:', runSpeed, 'runSpeedMultiplier:', runSpeedMultiplier, 'runDistance:', runDistance, 'runDestination:', runDestination, 'runDuration:', runDuration);
 
         // Animate that sprite using the previously defined variables
         $playerSprite.subTweens.runTween = ctx.add.tween({
@@ -471,7 +481,7 @@ export default class DebugRunnerScene extends Phaser.Scene
 
     }
 
-     // Define a function that generates a sprite of a robot and animates it sliding across the screen
+    // Define a function that generates a sprite of a robot and animates it sliding across the screen
     showMasterSliding (token, alt, side)
     {
         //console.log('DebugRunnerScene.showMasterSliding() called w/ token =', token, 'alt =', alt, 'side =', side);

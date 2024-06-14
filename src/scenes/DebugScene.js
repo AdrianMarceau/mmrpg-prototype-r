@@ -402,7 +402,7 @@ export default class DebugScene extends Phaser.Scene
 
     }
 
-     // Define a function that generates a sprite of a robot and animates it sliding across the screen
+    // Define a function that generates a sprite of a robot and animates it sliding across the screen
     showMasterSliding (token, alt, side)
     {
         //console.log('DebugScene.showMasterSliding() called w/ token =', token, 'alt =', alt, 'side =', side);
