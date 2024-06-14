@@ -1619,12 +1619,12 @@ export default class DebugScene extends Phaser.Scene
         var numCols = 3;
         var numRows = 4;
         var buttonBounds = Graphics.getAdjustedBounds(bannerBounds, padding);
-        var colWidths = Graphics.calculateColumnWidths(buttonBounds.width, [40, 30, 30]);
+        var colWidths = Graphics.calculateColumnWidths(buttonBounds.width, [35, 30, 35]);
         var rowHeight = 24 + padding;
         var buttonGrid = BUTTONS.generateButtonGrid(buttonBounds, numCols, numRows, colWidths, rowHeight, padding);
         //console.log('buttonGrid:', buttonGrid);
 
-        // POPUP BUTTONS
+        // BUTTON GRID
 
         // Define a quick function for adding placeholder buttons
         function addPlaceholderButton(cell){
@@ -1640,134 +1640,163 @@ export default class DebugScene extends Phaser.Scene
                 });
             }
 
-        // Create a trigger button for the "Welcome to the Prototype" popup
+        // COLUMN 1
+
         cell = buttonGrid[0][0];
-        label = 'Read "Welcome to the Prototype"';
-        color = '#b99e3c';
-        BUTTONS.makeSimpleButton(label.toUpperCase(), {
-            y: cell.y, x: cell.x,
-            width: cell.width, height: cell.height,
-            color: color, background: background, size: size,
-            depth: depth++
-            }, function(){
-            //console.log('Show Welcome Home button clicked');
-            ctx.showWelcomeToThePrototype();
-            });
+            // Create a trigger button for the "Welcome to the Prototype" popup
+            label = 'Read "Welcome to the Prototype"';
+            color = '#b99e3c';
+            BUTTONS.makeSimpleButton(label.toUpperCase(), {
+                y: cell.y, x: cell.x,
+                width: cell.width, height: cell.height,
+                color: color, background: background, size: size,
+                depth: depth++
+                }, function(){
+                //console.log('Show Welcome Home button clicked');
+                ctx.showWelcomeToThePrototype();
+                });
 
-        // Create a trigger button for the "Tales from the Void" popup
         cell = buttonGrid[0][1];
-        label = 'Read "Tales from the Void"';
-        color = '#95c418';
-        BUTTONS.makeSimpleButton(label.toUpperCase(), {
-            y: cell.y, x: cell.x,
-            width: cell.width, height: cell.height,
-            color: color, background: background, size: size,
-            depth: depth++
-            }, function(){
-            //console.log('Show Tales from the Void button clicked');
-            ctx.showTalesFromTheVoid();
-            });
+            // Create a placeholder button
+            addPlaceholderButton(cell);
 
-        // Create a placeholder button
         cell = buttonGrid[0][2];
-        addPlaceholderButton(cell);
+            // Create buttons to add a running doctors to the scene
+            label = 'Add Running Doctor (L)';
+            color = '#6592ff';
+            BUTTONS.makeSimpleButton(label.toUpperCase(), {
+                y: cell.y, x: cell.x,
+                width: cell.width, height: cell.height,
+                color: color, background: background, size: size,
+                depth: depth++
+                }, function(){
+                console.log(label.toUpperCase() + ' button clicked');
+                ctx.showDoctorRunning(null, null, 'left');
+                });
 
-        // Create a placeholder button
         cell = buttonGrid[0][3];
-        addPlaceholderButton(cell);
+            // Create a button to add a sliding master to the scene
+            label = 'Add Sliding Master (L)';
+            color = '#6592ff';
+            BUTTONS.makeSimpleButton(label.toUpperCase(), {
+                y: cell.y, x: cell.x,
+                width: cell.width, height: cell.height,
+                color: color, background: background, size: size,
+                depth: depth++
+                }, function(){
+                console.log(label.toUpperCase() + ' button clicked');
+                ctx.showMasterSliding(null, null, 'left');
+                });
 
-        // DOCTOR/ROBOT TOGGLE BUTTONS
+        // COLUMN 2
 
-        // Create a button to toggle the doctor stream
         cell = buttonGrid[1][0];
-        label = 'Toggle Doctor Stream';
-        color = '#00ff00';
-        BUTTONS.makeSimpleButton(label.toUpperCase(), {
-            y: cell.y, x: cell.x,
-            width: cell.width, height: cell.height,
-            color: color, background: background, size: size,
-            depth: depth++
-            }, function(button){
-            //console.log('Toggle Doctors Running button clicked');
-            if (ctx.allowRunningDoctors){
-                button.text.setTint(0xff0000);
-                //button.text.setColor('#ff0000');
-                ctx.allowRunningDoctors = false;
-                } else {
-                button.text.setTint(0x00ff00);
-                //button.text.setColor('#00ff00');
-                ctx.allowRunningDoctors = true;
-                }
-            });
+            // Create a placeholder button
+            addPlaceholderButton(cell);
 
-        // Create a button to toggle the master stream
         cell = buttonGrid[1][1];
-        label = 'Toggle Master Stream';
-        color = '#00ff00';
-        BUTTONS.makeSimpleButton(label.toUpperCase(), {
-            y: cell.y, x: cell.x,
-            width: cell.width, height: cell.height,
-            color: color, background: background, size: size,
-            depth: depth++
-            }, function(button){
-            //console.log('Toggle Masters Sliding button clicked');
-            if (ctx.allowSlidingMasters){
-                button.text.setTint(0xff0000);
-                //button.text.setColor('#ff0000');
-                ctx.allowSlidingMasters = false;
-                } else {
-                button.text.setTint(0x00ff00);
-                //button.text.setColor('#00ff00');
-                ctx.allowSlidingMasters = true;
-                }
-            });
+            // Create a placeholder button
+            addPlaceholderButton(cell);
 
-        // Create a placeholder button
         cell = buttonGrid[1][2];
-        addPlaceholderButton(cell);
+            // Create a button to toggle the doctor stream
+            label = 'Toggle Doctor Stream';
+            color = '#00ff00';
+            BUTTONS.makeSimpleButton(label.toUpperCase(), {
+                y: cell.y, x: cell.x,
+                width: cell.width, height: cell.height,
+                color: color, background: background, size: size,
+                depth: depth++
+                }, function(button){
+                //console.log('Toggle Doctors Running button clicked');
+                if (ctx.allowRunningDoctors){
+                    button.text.setTint(0xff0000);
+                    //button.text.setColor('#ff0000');
+                    ctx.allowRunningDoctors = false;
+                    } else {
+                    button.text.setTint(0x00ff00);
+                    //button.text.setColor('#00ff00');
+                    ctx.allowRunningDoctors = true;
+                    }
+                });
 
-        // Create a placeholder button
         cell = buttonGrid[1][3];
-        addPlaceholderButton(cell);
+            // Create a button to toggle the master stream
+            label = 'Toggle Master Stream';
+            color = '#00ff00';
+            BUTTONS.makeSimpleButton(label.toUpperCase(), {
+                y: cell.y, x: cell.x,
+                width: cell.width, height: cell.height,
+                color: color, background: background, size: size,
+                depth: depth++
+                }, function(button){
+                //console.log('Toggle Masters Sliding button clicked');
+                if (ctx.allowSlidingMasters){
+                    button.text.setTint(0xff0000);
+                    //button.text.setColor('#ff0000');
+                    ctx.allowSlidingMasters = false;
+                    } else {
+                    button.text.setTint(0x00ff00);
+                    //button.text.setColor('#00ff00');
+                    ctx.allowSlidingMasters = true;
+                    }
+                });
 
+        // COLUMN 3
 
-        // DOCTOR/ROBOT ADD-TO-SCENE BUTTONS
-
-        // Create a button to add a running doctor to the scene
         cell = buttonGrid[2][0];
-        label = 'Add Running Doctor';
-        color = '#6592ff';
-        BUTTONS.makeSimpleButton(label.toUpperCase(), {
-            y: cell.y, x: cell.x,
-            width: cell.width, height: cell.height,
-            color: color, background: background, size: size,
-            depth: depth++
-            }, function(){
-            //console.log('Show Doctor Running button clicked');
-            ctx.showDoctorRunning();
-            });
+            // Create a trigger button for the "Tales from the Void" popup
+            label = 'Read "Tales from the Void"';
+            color = '#95c418';
+            BUTTONS.makeSimpleButton(label.toUpperCase(), {
+                y: cell.y, x: cell.x,
+                width: cell.width, height: cell.height,
+                color: color, background: background, size: size,
+                depth: depth++
+                }, function(){
+                //console.log('Show Tales from the Void button clicked');
+                ctx.showTalesFromTheVoid();
+                });
 
-        // Create a button to add a sliding master to the scene
         cell = buttonGrid[2][1];
-        label = 'Add Sliding Master';
-        color = '#6592ff';
-        BUTTONS.makeSimpleButton(label.toUpperCase(), {
-            y: cell.y, x: cell.x,
-            width: cell.width, height: cell.height,
-            color: color, background: background, size: size,
-            depth: depth++
-            }, function(){
-            //console.log('Show Master Sliding button clicked');
-            ctx.showMasterSliding(null, null, 'left');
-            });
+            // Create a placeholder button
+            addPlaceholderButton(cell);
 
-        // Create a placeholder button
         cell = buttonGrid[2][2];
-        addPlaceholderButton(cell);
+            // Create buttons to add a running doctors to the scene
+            label = 'Add Running Doctor (R)';
+            color = '#6592ff';
+            BUTTONS.makeSimpleButton(label.toUpperCase(), {
+                y: cell.y, x: cell.x,
+                width: cell.width, height: cell.height,
+                color: color, background: background, size: size,
+                depth: depth++
+                }, function(){
+                console.log(label.toUpperCase() + ' (R) button clicked');
+                ctx.showDoctorRunning(null, null, 'right');
+                });
 
-        // Create a placeholder button
         cell = buttonGrid[2][3];
+            // Create a button to add a sliding master to the scene
+            label = 'Add Sliding Master (R)';
+            color = '#6592ff';
+            BUTTONS.makeSimpleButton(label.toUpperCase(), {
+                y: cell.y, x: cell.x,
+                width: cell.width, height: cell.height,
+                color: color, background: background, size: size,
+                depth: depth++
+                }, function(){
+                console.log(label.toUpperCase() + ' button clicked');
+                let options = ['mega-man/alt9', 'proto-man/alt9', 'bass/alt9', 'roll/alt9', 'disco/alt9', 'rhythm/alt9'];
+                let option = options[Math.floor(Math.random() * options.length)];
+                let [master, alt] = option.split('/');
+                ctx.showMasterSliding(master, alt, 'right');
+                });
+
+        /*
+        // Create a placeholder button
         addPlaceholderButton(cell);
+        */
 
     }
 
