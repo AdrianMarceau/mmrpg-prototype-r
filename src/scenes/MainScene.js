@@ -68,15 +68,15 @@ export default class MainScene extends Phaser.Scene
     {
         console.log('MainScene.create() called');
 
-        // Pull in required object references
+        // Pull in global MMRPG object and trigger the create function
         let MMRPG = this.MMRPG;
+        MMRPG.create(this);
+
+        // Pull in required object references
+        let ctx = this;
         let SPRITES = this.SPRITES;
         let BUTTONS = this.BUTTONS;
         let POPUPS = this.POPUPS;
-
-        // Create the base canvas for which the rest of the game will be drawn
-        var $canvas = this.add.image(0, 0, 'canvas');
-        $canvas.setOrigin(0, 0);
 
         // Predefine some sizing details about the scene
         var bannerSize = 'full';
@@ -110,10 +110,40 @@ export default class MainScene extends Phaser.Scene
         // BANNER COMPONENT (Main Banner)
 
         // Draw the main banner and collect a reference to it
+        var depth = 1000;
         var x = 15, y = 15;
         this.mainBanner = new MainBanner(this, x, y, {
-            fullsize: true
+            fullsize: true,
+            depth: depth,
             });
+
+        // BACK & NEXT BUTTONS
+
+        // Predefine the config to use for the back and next buttons
+        var buttonConfig = {
+            y: (this.mainBanner.y + 3), x: 0,
+            width: 150,  height: 23, size: 8,
+            color: '#8d8d8d', background: '#262626',
+            depth: 0
+            };
+
+        // Create a back button so we can return to the title
+        buttonConfig.x = 20;
+        buttonConfig.depth = depth++;
+        BUTTONS.makeSimpleButton('< Back to Title', buttonConfig, function(){
+            //console.log('Back button clicked');
+            ctx.scene.start('Title');
+            });
+
+        // Create a next button so we can go to the main scene
+        buttonConfig.x = MMRPG.canvas.width - 170;
+        buttonConfig.depth = depth++;
+        BUTTONS.makeSimpleButton('Restart Main', buttonConfig, function(){
+            //console.log('Main button clicked');
+            ctx.scene.start('Main');
+            });
+
+        // DEBUG STUFF
 
         // Run any debug code we need to
         //this.debug();
