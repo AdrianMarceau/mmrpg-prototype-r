@@ -251,6 +251,7 @@ export default class SpritesManager {
 
     }
 
+    // Define a function for preloading all pending spritesheets and animations
     preloadPending (scene, callback)
     {
         // Loop through any pending spritesheets to load and do it now
@@ -281,6 +282,7 @@ export default class SpritesManager {
         //console.log('SpritesManager.preloadPending() queuedSheets:', queuedSheets);
     }
 
+    // Define a function for actually creating all the pending animations
     createPending (scene, callback, sheet)
     {
         // Loop through any pending animations to create and do it now
