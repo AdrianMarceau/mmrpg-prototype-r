@@ -1176,25 +1176,54 @@ export default class DebugScene extends Phaser.Scene
         var x = 14, y = ref.y + ref.height + 5
         var color = typesIndex[type].colour_light;
         var xcolor = Phaser.Display.Color.GetColor(color[0], color[1], color[2]);
-        let battleBanner = new BattleBanner(this, x, y, {
+        let $battleBanner = new BattleBanner(this, x, y, {
             height: 213,
             fillStyle: { color: xcolor },
             mainText: '',
             depth: depth++
             });
-        this.battleBanner = battleBanner;
+        this.battleBanner = $battleBanner;
 
         // Create a mask for the battle banner area that we can add sprites to
-        const maskGraphics = this.add.graphics();
-        maskGraphics.fillStyle(0x660022);
-        maskGraphics.fillRect(x, y, battleBanner.width, battleBanner.height);
-        maskGraphics.setVisible(false);
-        const bannerMask = maskGraphics.createGeometryMask();
         const spriteContainer = this.add.container();
-        spriteContainer.setMask(bannerMask);
+        const spriteContainerMask = Graphics.makeRectangleMask(ctx, x, y, $battleBanner.width, $battleBanner.height, 5, false);
+        spriteContainer.setMask(spriteContainerMask);
         spriteContainer.setDepth(depth++);
-        this.battleBannerMask = bannerMask;
         this.battleBannerContainer = spriteContainer;
+
+        // Draw the sprite grid as a background texture in front of the battle banner
+        var x = $battleBanner.x, y = $battleBanner.y;
+        var width = $battleBanner.width, height = $battleBanner.height;
+        var $gridBackground = this.add.tileSprite(x, y, width, height, 'misc.sprite-grid');
+        $gridBackground.setOrigin(0, 0);
+        $gridBackground.setDepth(depth++);
+        $gridBackground.setAlpha(0.2);
+        spriteContainer.add($gridBackground);
+        spriteContainer.sort('depth');
+
+        // Draw a second sprite grid slightly shorter to act as a foreground texture for the battle banner
+        y += 60, height -= 60;
+        var $gridForeground = this.add.tileSprite(x, y, width, height, 'misc.sprite-grid');
+        $gridForeground.setOrigin(0, 0);
+        $gridForeground.setDepth(depth++);
+        $gridForeground.setAlpha(0.4);
+        spriteContainer.add($gridForeground);
+        spriteContainer.sort('depth');
+
+        // Draw a vertical black line on top of the foreground to make it look like a horizon
+        var $horizonLine = this.add.graphics();
+        $horizonLine.fillStyle(0x191919);
+        $horizonLine.fillRect(x, y, width, 2);
+        $horizonLine.setDepth(depth++);
+        spriteContainer.add($horizonLine);
+        spriteContainer.sort('depth');
+
+        // Add the parts of the sprite grid object to the global object for easy reference
+        this.spriteGrid = {
+            background: $gridBackground,
+            foreground: $gridForeground,
+            horizontal: $horizonLine
+            };
 
     }
 
