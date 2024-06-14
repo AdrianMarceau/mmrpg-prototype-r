@@ -80,6 +80,9 @@ export class GraphicsUtility {
     static addTypePanel (ctx, config)
     {
 
+        // Create an explicit ref to this class
+        let Graphics = this;
+
         // Pull in refs to specific indexes
         let typesIndex = MMRPG.Indexes.types;
         let typesIndexTokens = Object.keys(typesIndex);
@@ -97,14 +100,17 @@ export class GraphicsUtility {
             };
 
         // Draw the panel with the specified configuration
-        const $panel = ctx.add.graphics({ lineStyle: panelConfig.lineStyle, fillStyle: panelConfig.fillStyle });
-        const radius = this.getProportionalRadiusObject(panelConfig.width, panelConfig.height, panelConfig.radius);
+        const $panel = ctx.add.graphics();
+        $panel.lineStyle(panelConfig.lineStyle.width, panelConfig.lineStyle.color, 1);
+        $panel.fillStyle(panelConfig.fillStyle.color, 1);
+        $panel.setDepth(panelConfig.depth);
+        let radius = Graphics.getProportionalRadiusObject(panelConfig.width, panelConfig.height, panelConfig.radius);
         $panel.strokeRoundedRect(panelConfig.x, panelConfig.y, panelConfig.width, panelConfig.height, radius);
         $panel.fillRoundedRect(panelConfig.x, panelConfig.y, panelConfig.width, panelConfig.height, radius);
-        if (typeof panelConfig.depth === 'number'){ $panel.setDepth(panelConfig.depth); }
 
         // Add some functions to the panel object to make it easier to work with
-        $panel.getBounds = function(){
+        const getBounds = function(){
+            //console.log('addTypePanel()->getBounds() w/ panelConfig:', panelConfig);
             return {
                 x: panelConfig.x,
                 y: panelConfig.y,
@@ -114,6 +120,39 @@ export class GraphicsUtility {
                 height: panelConfig.height,
                 };
             };
+        const setColor = function(border, background){
+            //console.log('addTypePanel()->setColor() w/ border:', border, 'background:', background);
+            border = Graphics.returnHexColorValue(border);
+            background = Graphics.returnHexColorValue(background);
+            panelConfig.lineStyle.color = border;
+            panelConfig.fillStyle.color = background;
+            refreshPanel();
+            };
+        const setBorderColor = function(color){
+            //console.log('addTypePanel()->setBorderColor() w/ color:', color);
+            color = Graphics.returnHexColorValue(color);
+            panelConfig.lineStyle.color = color;
+            refreshPanel();
+            };
+        const setBackgroundColor = function(color){
+            //console.log('addTypePanel()->setBackgroundColor() w/ color:', color);
+            color = Graphics.returnHexColorValue(color);
+            panelConfig.fillStyle.color = color;
+            refreshPanel();
+            };
+        const refreshPanel = function(){
+            //console.log('addTypePanel() // refreshing panel with current configuration');
+            $panel.clear();
+            $panel.lineStyle(panelConfig.lineStyle.width, panelConfig.lineStyle.color, 1);
+            $panel.fillStyle(panelConfig.fillStyle.color, 1);
+            $panel.strokeRoundedRect(panelConfig.x, panelConfig.y, panelConfig.width, panelConfig.height, radius);
+            $panel.fillRoundedRect(panelConfig.x, panelConfig.y, panelConfig.width, panelConfig.height, radius);
+            };
+        $panel.getBounds = getBounds;
+        $panel.setColor = setColor;
+        $panel.setBorderColor = setBorderColor;
+        $panel.setBackgroundColor = setBackgroundColor;
+        $panel.refreshPanel = refreshPanel;
 
         // Return the generated panel object for further manipulation
         return $panel;
