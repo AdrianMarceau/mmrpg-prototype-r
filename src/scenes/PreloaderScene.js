@@ -173,8 +173,10 @@ export default class PreloaderScene extends Phaser.Scene
                         let typeInfo = MMRPG.Indexes.types[typeToken];
                         alts.push({token: typeInfo.token, name: typeInfo.name + ' Core', colour: typeToken, summons: 0});
                         });
+                    alts.push({token: 'alt9', name: 'Empty Core', colour: 'empty', summons: 0});
                     //console.log('Preload w/ copy alts ', alts);
                     }
+                info.image_alts = alts; // MOVE THIS LATER (to the appropriate index loader class maybe?)
                 if (alts.length){
                     //console.log('Preload alts ', alts);
                     let altKeys = Object.keys(alts);
