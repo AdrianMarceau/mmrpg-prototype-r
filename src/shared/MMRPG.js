@@ -28,13 +28,15 @@ MMRPG.canvas = {
     yMax: baseHeight
     };
 
-
 // Pre-define some global MMRPG objects for use in the game
 MMRPG.Init = [];
 MMRPG.Utilities = {};
 MMRPG.Indexes = {};
 MMRPG.Cache = {};
 MMRPG.Data = {};
+
+
+// -- MMRPG INIT & PRELOAD/CREATE/UPDATE METHODS -- //
 
 // Define a global init function for all the MMRPG scenes and utilities
 MMRPG.init = function(source, namespace, onFirstLoad, onRepeatLoads){
@@ -129,5 +131,111 @@ MMRPG.create = function(scene, isPreloadPhase = false){
         });
 
     };
+
+// -- CONTENT INDEX KINDS & METHODS -- //
+
+// Define the different types of content in MMRPG as an object
+// players, robots, abilities, items, fields, skills, types
+let contentKindsIndex = {
+    'players': {
+        'token': 'player',
+        'xtoken': 'players',
+        'name': 'Player',
+        'xname': 'Players',
+        'class': 'MMRPG_Player',
+        },
+    'robots': {
+        'token': 'robot',
+        'xtoken': 'robots',
+        'name': 'Robot',
+        'xname': 'Robots',
+        'class': 'MMRPG_Robot',
+        'subKinds': {
+            'masters': {
+                'token': 'master',
+                'xtoken': 'masters',
+                'name': 'Robot Master',
+                'xname': 'Robot Masters'
+                },
+            'mechas': {
+                'token': 'mecha',
+                'xtoken': 'mechas',
+                'name': 'Support Mecha',
+                'xname': 'Support Mechas'
+                },
+            'bosses': {
+                'token': 'boss',
+                'xtoken': 'bosses',
+                'name': 'Fortress Boss',
+                'xname': 'Fortress Bosses'
+                },
+            }
+        },
+    'abilities': {
+        'token': 'ability',
+        'xtoken': 'abilities',
+        'name': 'Ability',
+        'xname': 'Abilities',
+        },
+    'items': {
+        'token': 'item',
+        'xtoken': 'items',
+        'name': 'Item',
+        'xname': 'Items',
+        },
+    'fields': {
+        'token': 'field',
+        'xtoken': 'fields',
+        'name': 'Field',
+        'xname': 'Fields',
+        },
+    'skills': {
+        'token': 'skill',
+        'xtoken': 'skills',
+        'name': 'Skill',
+        'xname': 'Skills',
+        },
+    'types': {
+        'token': 'type',
+        'xtoken': 'types',
+        'name': 'Type',
+        'xname': 'Types',
+        },
+    };
+MMRPG.Indexes.contentKinds = contentKindsIndex;
+
+// Define a global function for getting the different "kinds" of content in MMRPG
+MMRPG.getContentKinds = function(returnKeysOnly = false){
+
+    // Return the content index or array keys depending on what was requested
+    let contentKindsIndex = MMRPG.Indexes.contentKinds;
+    return (returnKeysOnly) ? Object.keys(contentKindsIndex) : contentKindsIndex;
+
+    };
+
+// Define a global function for parsing a given content type string (either singular or plural)
+// and then returning the corresponding singlular and plural versions of that content type in
+// form of an array with [token, xtoken] (e.g., ['player', 'players'])
+MMRPG.parseKind = function(kind){
+
+    // If the kind is not a string, return an empty array
+    if (typeof kind !== 'string'){ return []; }
+
+    // If the kind is a plural form, return the singular and plural forms
+    let contentKindsIndex = MMRPG.Indexes.contentKinds;
+    let kindInfo = Object.values(contentKindsIndex).find((kindInfo) => {
+        return (kindInfo.xtoken === kind || kindInfo.token === kind);
+        });
+    if (kindInfo){
+        return [kindInfo.token, kindInfo.xtoken];
+        }
+
+    // If the kind is not found, return an empty array
+    return [];
+
+    }
+
+
+// -- EXPORT THE MMRPG OBJECT -- //
 
 export default MMRPG;
