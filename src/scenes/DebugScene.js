@@ -7,6 +7,14 @@
 
 import MMRPG from '../shared/MMRPG.js';
 
+import MMRPG_Player from '../objects/MMRPG_Player.js';
+import MMRPG_Robot from '../objects/MMRPG_Robot.js';
+import MMRPG_Ability from '../objects/MMRPG_Ability.js';
+import MMRPG_Item from '../objects/MMRPG_Item.js';
+import MMRPG_Field from '../objects/MMRPG_Field.js';
+import MMRPG_Skill from '../objects/MMRPG_Skill.js';
+import MMRPG_Type from '../objects/MMRPG_Type.js';
+
 import { GraphicsUtility as Graphics } from '../utils/GraphicsUtility.js';
 import { StringsUtility as Strings } from '../utils/StringsUtility.js';
 
@@ -257,6 +265,26 @@ export default class DebugScene extends Phaser.Scene
 
             // Play a sound effect to make sure they're working
             SOUNDS.play('9-reggae-laughs_rockboard-nes');
+
+
+            // -- DEBUG SPRITE TESTING -- //
+
+            // Create some primitive MMRPG objects for testing purposes
+            let depth = 9000;
+            let $player = new MMRPG_Player(this, 'dr-light', null, { x: 40, y: 40, depth: depth++ });
+            let $robot = new MMRPG_Robot(this, 'mega-man', null, { x: 80, y: 80, depth: depth++ });
+            let $ability = new MMRPG_Ability(this, 'buster-shot', null, { x: 120, y: 120, depth: depth++ });
+            let $item = new MMRPG_Item(this, 'energy-tank', null, { x: 160, y: 160, depth: depth++ });
+            let $field = new MMRPG_Field(this, 'preserved-forest', null, { x: 200, y: 200, depth: depth++ });
+            let $skill = new MMRPG_Skill(this, 'xtreme-submodule', null);
+            let $type = new MMRPG_Type(this, 'water');
+            console.log('$player =', $player);
+            console.log('$robot =', $robot);
+            console.log('$ability =', $ability);
+            console.log('$item =', $item);
+            console.log('$field =', $field);
+            console.log('$skill =', $skill);
+            console.log('$type =', $type);
 
             // -- DEBUG CLASS METHODS -- //
 
