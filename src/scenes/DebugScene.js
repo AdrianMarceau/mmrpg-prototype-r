@@ -179,6 +179,10 @@ export default class DebugScene extends Phaser.Scene
         let BUTTONS = this.BUTTONS;
         let SOUNDS = this.SOUNDS;
 
+        // Always print these when starting the DEBUG scene
+        console.log('MMRPG = ', MMRPG);
+        console.log('SPRITES =', SPRITES);
+
         // First we add the title banner up at the top
         this.createTitleBanner();
 
@@ -201,64 +205,67 @@ export default class DebugScene extends Phaser.Scene
         // DEBUG DEBUG DEBUG
         // <----------------
 
-        // -- DEBUG TEXT -- //
 
-        var x = 20, y = MMRPG.canvas.height - 30;
-        var ipsum = 'Let go your earthly tether. Enter the void. Empty and become wind.';
-        Strings.addPlainText(this, x, y, ipsum, {color: '#000000'});
+            // -- DEBUG TEXT -- //
 
-        // We should also show the current version just to be safe
-        var x = MMRPG.canvas.width - 100, y = MMRPG.canvas.height - 26;
-        var version = 'v ' + MMRPG.version;
-        let $version = Strings.addPlainText(this, x, y, version, {color: '#000000', fontSize: '12px'});
-        $version.x = MMRPG.canvas.width - $version.width - 20;
+            var x = 20, y = MMRPG.canvas.height - 30;
+            var ipsum = 'Let go your earthly tether. Enter the void. Empty and become wind.';
+            Strings.addPlainText(this, x, y, ipsum, {color: '#000000'});
 
-        // Create a floating text bubble to test the text formatting syntax and display wrapping
-        var width = Math.ceil(MMRPG.canvas.width / 3), height = 90;
-        var x = MMRPG.canvas.xMax - width - 20, y = 150;
-        var lorem = "[Hey]{water} there [Bomb Man]{explode}! I know [i]I'm[/i] good, but how are [b]you[/b] today? I hear you got hit by a [Flame Sword]{flame_cutter}! [b][i]Your weakness[/i][/b]!!! [b][Gravity Man]{space_electric}[/b] is the one who told me btw.";
-        let $floatingTextBubble = Strings.addFormattedText(this, x, y, lorem, {
-            width: width,
-            height: height,
-            border: '#ff0000',
-            color: '#ffffff',
-            depth: 2000,
-            padding: 10,
-            });
-        this.floatingTextBubble = $floatingTextBubble;
-        // automatically fade out and remove the above after a few seconds
-        let floatingTextBubbleTween;
-        this.time.delayedCall(1234, function(){
-            floatingTextBubbleTween = ctx.tweens.addCounter({
-                from: 100,
-                to: 0,
-                ease: 'Sine.easeOut',
-                delay: 100,
-                duration: 1000,
-                onUpdate: function () {
-                    //console.log('floatingTextBubbleTween:', floatingTextBubbleTween.getValue());
-                    $floatingTextBubble.setAlpha(floatingTextBubbleTween.getValue() / 100);
-                    $floatingTextBubble.setPosition('-=0', '-=2');
-                    },
-                onComplete: function () {
-                    //console.log('floatingTextBubbleTween complete!');
-                    $floatingTextBubble.destroy();
-                    }
+            // We should also show the current version just to be safe
+            var x = MMRPG.canvas.width - 100, y = MMRPG.canvas.height - 26;
+            var version = 'v ' + MMRPG.version;
+            let $version = Strings.addPlainText(this, x, y, version, {color: '#000000', fontSize: '12px'});
+            $version.x = MMRPG.canvas.width - $version.width - 20;
+
+            // Create a floating text bubble to test the text formatting syntax and display wrapping
+            var width = Math.ceil(MMRPG.canvas.width / 3), height = 90;
+            var x = MMRPG.canvas.xMax - width - 20, y = 150;
+            var lorem = "[Hey]{water} there [Bomb Man]{explode}! I know [i]I'm[/i] good, but how are [b]you[/b] today? I hear you got hit by a [Flame Sword]{flame_cutter}! [b][i]Your weakness[/i][/b]!!! [b][Gravity Man]{space_electric}[/b] is the one who told me btw.";
+            let $floatingTextBubble = Strings.addFormattedText(this, x, y, lorem, {
+                width: width,
+                height: height,
+                border: '#ff0000',
+                color: '#ffffff',
+                depth: 2000,
+                padding: 10,
                 });
-            }, [], this);
+            this.floatingTextBubble = $floatingTextBubble;
+            // automatically fade out and remove the above after a few seconds
+            let floatingTextBubbleTween;
+            this.time.delayedCall(1234, function(){
+                floatingTextBubbleTween = ctx.tweens.addCounter({
+                    from: 100,
+                    to: 0,
+                    ease: 'Sine.easeOut',
+                    delay: 100,
+                    duration: 1000,
+                    onUpdate: function () {
+                        //console.log('floatingTextBubbleTween:', floatingTextBubbleTween.getValue());
+                        $floatingTextBubble.setAlpha(floatingTextBubbleTween.getValue() / 100);
+                        $floatingTextBubble.setPosition('-=0', '-=2');
+                        },
+                    onComplete: function () {
+                        //console.log('floatingTextBubbleTween complete!');
+                        $floatingTextBubble.destroy();
+                        }
+                    });
+                }, [], this);
 
-        // -- DEBUG SOUND EFFECTS -- //
 
-        // Play a sound effect to make sure they're working
-        SOUNDS.play('9-reggae-laughs_rockboard-nes');
+            // -- DEBUG SOUND EFFECTS -- //
+
+            // Play a sound effect to make sure they're working
+            SOUNDS.play('9-reggae-laughs_rockboard-nes');
+
+            // -- DEBUG CLASS METHODS -- //
+
+            //Graphics.test();
+            //Strings.test();
 
         // ---------------->
         // DEBUG DEBUG DEBUG
 
-        console.log('MMRPG = ', MMRPG);
-        console.log('SPRITES =', SPRITES);
-        //Graphics.test();
-        //Strings.test();
 
     }
 
@@ -1792,7 +1799,7 @@ export default class DebugScene extends Phaser.Scene
         cell = buttonGrid[2][2];
             // Create buttons to add a running doctors to the scene
             label = 'Add Running Doctor (R)';
-            color = '#6592ff';
+            color = '#d45858';
             BUTTONS.makeSimpleButton(label.toUpperCase(), {
                 y: cell.y, x: cell.x,
                 width: cell.width, height: cell.height,
@@ -1806,7 +1813,7 @@ export default class DebugScene extends Phaser.Scene
         cell = buttonGrid[2][3];
             // Create a button to add a sliding master to the scene
             label = 'Add Sliding Master (R)';
-            color = '#6592ff';
+            color = '#d45858';
             BUTTONS.makeSimpleButton(label.toUpperCase(), {
                 y: cell.y, x: cell.x,
                 width: cell.width, height: cell.height,
