@@ -17,6 +17,7 @@ class MMRPG_Robot extends MMRPG_Object {
         super(scene, 'robot', token, customInfo, spriteConfig);
 
         // Add robot-specific properties here
+        this.spriteFrameAliases = ['base', 'taunt', 'victory', 'defeat', 'shoot', 'throw', 'summon', 'slide', 'defend', 'damage', 'base2'];
         // ...
 
     }

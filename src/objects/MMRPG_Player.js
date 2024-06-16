@@ -17,6 +17,7 @@ class MMRPG_Player extends MMRPG_Object {
         super(scene, 'player', token, customInfo, spriteConfig);
 
         // Add player-specific properties here
+        this.spriteFrameAliases = ['base', 'taunt', 'victory', 'defeat', 'command', 'damage', 'base2', 'running', 'running2', 'running3'];
         // ...
 
     }

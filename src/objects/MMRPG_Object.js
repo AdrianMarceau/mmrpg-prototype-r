@@ -35,7 +35,6 @@ class MMRPG_Object {
         this.xkind = xkind;
         this.token = token;
         this.data = {};
-        this.sprite = null;
 
         // Pull in required data from the MMRPG data
         let objectIndex = MMRPG.Indexes[xkind] || {};
@@ -46,12 +45,28 @@ class MMRPG_Object {
         this.createData(indexInfo, customInfo);
 
         // If spriteConfig is provided, create a new sprite with it
+        this.sprite = null;
+        this.spriteFrames = ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09'];
+        this.spriteFrameAliases = [];
         if (spriteConfig) {
+
+            // If the sprite config was not an object, just true, make it an object
+            if (typeof spriteConfig !== 'object'){ spriteConfig = {}; }
+
+            // Predefine spriteConfig properties to avoid errors
             spriteConfig.x = spriteConfig.x || 0;
             spriteConfig.y = spriteConfig.y || 0;
             spriteConfig.z = spriteConfig.z || 0;
-            spriteConfig.depth = spriteConfig.depth || 0;
+            spriteConfig.width = spriteConfig.width || this.data.image_width;
+            spriteConfig.height = spriteConfig.height || this.data.image_height;
+            spriteConfig.origin = spriteConfig.origin || [0, 0];
+            spriteConfig.alpha = spriteConfig.alpha || 1;
+            spriteConfig.depth = spriteConfig.depth || 1;
+            spriteConfig.scale = spriteConfig.scale || 1;
+
+            // Automatically create the sprite with the spriteConfig provided
             this.createSprite(spriteConfig);
+
         }
 
     }
@@ -128,13 +143,16 @@ class MMRPG_Object {
     {
         //console.log('MMRPG_Object.createSprite() called w/ kind:', this.kind, 'token:', this.token, 'config:', config);
 
-        // Update this object's x, y, z and depth properties
+        // Update this object's x, y, z and props that may be accessed externally
         this.x = config.x;
         this.y = config.y;
         this.z = config.z;
+        this.width = config.width;
+        this.height = config.height;
+        this.origin = config.origin;
+        this.alpha = config.alpha;
         this.depth = config.depth;
-        this.width = this.data.image_width;
-        this.height = this.data.image_height;
+        this.scale = config.scale;
 
         // Pull in references to required global objects
         let SPRITES = this.SPRITES;
@@ -167,10 +185,22 @@ class MMRPG_Object {
 
             // Create the sprite with the information we've collected
             this.sprite = this.scene.add.sprite(config.x, config.y, spriteSheet);
-            this.sprite.setOrigin(0, 0);
-            this.sprite.setDepth(config.depth);
+            this.sprite.setDepth(config.depth + config.z);
+            this.sprite.setDisplaySize(config.width, config.height);
+            this.sprite.setOrigin(config.origin[0], config.origin[1]);
+            this.sprite.setAlpha(config.alpha);
+            this.sprite.setScale(config.scale);
+            if (config.tint){ this.sprite.setTint(config.tint); }
+
+            // Update the sprite's position and bounds to match the new object
+            this.x = this.sprite.x;
+            this.y = this.sprite.y;
+            this.z = this.sprite.depth;
             this.width = this.sprite.width;
             this.height = this.sprite.height;
+            this.origin = this.sprite.origin;
+            this.alpha = this.sprite.alpha;
+            this.depth = this.sprite.depth;
 
             }
         // Otherwise, if this is field, it's a much much bigger "sprite" without direction
@@ -188,18 +218,93 @@ class MMRPG_Object {
 
     }
 
-    setAlpha(alpha)
+    setAlpha (alpha)
     {
-        if (this.sprite) {
-            this.sprite.setAlpha(alpha);
+        //console.log('MMRPG_Object.setAlpha() called w/ alpha:', alpha);
+        if (!this.sprite) { return; }
+        this.sprite.setAlpha(alpha);
+    }
+
+    setTint (tint)
+    {
+        //console.log('MMRPG_Object.setTint() called w/ tint:', tint);
+        if (!this.sprite) { return; }
+        this.sprite.setTint(tint);
+    }
+
+    setPosition (x, y)
+    {
+        //console.log('MMRPG_Object.setPosition() called w/ x:', x, 'y:', y);
+        if (!this.sprite) { return; }
+        this.sprite.setPosition(x, y);
+    }
+
+    setFrame (frame)
+    {
+        //console.log('MMRPG_Object.setFrame() called w/ frame:', frame);
+        if (!this.sprite) { return; }
+        //console.log('-> this.spriteFrames:', this.spriteFrames);
+        //console.log('-> this.spriteFrameAliases:', this.spriteFrameAliases);
+        if (typeof frame === 'string') {
+            if (this.spriteFrames.indexOf(frame) !== -1){
+                frame = this.spriteFrames.indexOf(frame);
+                } else if (this.spriteFrameAliases.indexOf(frame) !== -1){
+                frame = this.spriteFrameAliases.indexOf(frame);
+                } else {
+                frame = 0;
+                }
+            }
+        this.sprite.setFrame(frame);
+
+    }
+
+    resetFrame()
+    {
+        //console.log('MMRPG_Object.resetFrame() called');
+        if (!this.sprite) { return; }
+        this.sprite.setFrame(0);
+    }
+
+    setOnClick (callback)
+    {
+        //console.log('MMRPG_Object.setOnClick() called w/ callback:', callback);
+        if (!this.sprite) { return; }
+        this.sprite.setInteractive({ useHandCursor: true });
+        this.sprite.on('pointerdown', (pointer) => {
+            callback.call(this, this.sprite, pointer);
+            });
+    }
+
+    setOnHover (callback, callback2 = null)
+    {
+        //console.log('MMRPG_Object.setOnHover() called w/ callback:', callback, 'callback2:', callback2);
+        if (!this.sprite) { return; }
+        this.sprite.setInteractive({ useHandCursor: true });
+        this.sprite.on('pointerover', (pointer) => {
+            callback.call(this, this.sprite, pointer);
+            });
+        if (callback2) {
+            this.sprite.on('pointerout', (pointer) => {
+                callback2.call(this, this.sprite, pointer);
+                });
             }
     }
 
-    setPosition(x, y)
+    moveToPosition (x, y, duration = 1000, callback = null)
     {
-        if (this.sprite) {
-            this.sprite.setPosition(x, y);
-            }
+        //console.log('MMRPG_Object.moveToPosition() called w/ x:', x, 'y:', y, 'duration:', duration, 'callback:', callback);
+        if (!this.sprite) { return; }
+        this.scene.tweens.add({
+            targets: this.sprite,
+            x: x,
+            y: y,
+            duration: duration,
+            ease: 'Linear',
+            onComplete: () => { // Use arrow function to preserve `this`
+                if (!callback) { return; }
+                callback.call(this, this.sprite);
+                }
+            });
     }
 
 }
