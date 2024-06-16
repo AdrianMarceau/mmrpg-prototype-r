@@ -236,6 +236,81 @@ MMRPG.parseKind = function(kind){
     }
 
 
+// -- CONTENT INDEX LOOKUP METHODS -- //
+
+// Define a quick method for looking up a given player's info in the index
+MMRPG.getPlayerInfo = function (token) {
+    let mmrpgIndex = MMRPG.Indexes;
+    let playerIndex = mmrpgIndex.players || null;
+    if (!playerIndex){ return null; }
+    let playerInfo = playerIndex[token] || null;
+    if (!playerInfo){ return null; }
+    return Object.assign({}, playerInfo);
+    };
+
+// Define a quick method for looking up a given robot's info in the index
+MMRPG.getRobotInfo = function (token) {
+    let mmrpgIndex = MMRPG.Indexes;
+    let robotIndex = mmrpgIndex.robots || null;
+    if (!robotIndex){ return null; }
+    let robotInfo = robotIndex[token] || null;
+    if (!robotInfo){ return null; }
+    return Object.assign({}, robotInfo);
+    };
+
+// Define a quick method for looking up a given ability's info in the index
+MMRPG.getAbilityInfo = function (token) {
+    let mmrpgIndex = MMRPG.Indexes;
+    let abilityIndex = mmrpgIndex.abilities || null;
+    if (!abilityIndex){ return null; }
+    let abilityInfo = abilityIndex[token] || null;
+    if (!abilityInfo){ return null; }
+    return Object.assign({}, abilityInfo);
+    };
+
+// Define a quick method for looking up a given item's info in the index
+MMRPG.getItemInfo = function (token) {
+    let mmrpgIndex = MMRPG.Indexes;
+    let itemIndex = mmrpgIndex.items || null;
+    if (!itemIndex){ return null; }
+    let itemInfo = itemIndex[token] || null;
+    if (!itemInfo){ return null; }
+    return Object.assign({}, itemInfo);
+    };
+
+// Define a quick method for looking up a given field's info in the index
+MMRPG.getFieldInfo = function (token) {
+    let mmrpgIndex = MMRPG.Indexes;
+    let fieldIndex = mmrpgIndex.fields || null;
+    if (!fieldIndex){ return null; }
+    let fieldInfo = fieldIndex[token] || null;
+    if (!fieldInfo){ return null; }
+    return Object.assign({}, fieldInfo);
+    };
+
+// Define a quick method for looking up a given skill's info in the index
+MMRPG.getSkillInfo = function (token) {
+    let mmrpgIndex = MMRPG.Indexes;
+    let skillIndex = mmrpgIndex.skills || null;
+    if (!skillIndex){ return null; }
+    let skillInfo = skillIndex[token] || null;
+    if (!skillInfo){ return null; }
+    return Object.assign({}, skillInfo);
+    };
+
+// Define a quick method for looking up a given type's info in the index
+MMRPG.getTypeInfo = function (token) {
+    let mmrpgIndex = MMRPG.Indexes;
+    let typeIndex = mmrpgIndex.types || null;
+    if (!typeIndex){ return null; }
+    let typeInfo = typeIndex[token] || null;
+    if (!typeInfo){ return null; }
+    return Object.assign({}, typeInfo);
+    };
+
+
 // -- EXPORT THE MMRPG OBJECT -- //
+
+if (typeof window.MMRPG === 'undefined'){ window.MMRPG = MMRPG; }
 
 export default MMRPG;
