@@ -271,11 +271,11 @@ export default class DebugScene extends Phaser.Scene
 
             // Create some primitive MMRPG objects for testing purposes
             let depth = 9000;
-            let $player = new MMRPG_Player(this, 'dr-light', null, { x: 40, y: 40, depth: depth++ });
-            let $robot = new MMRPG_Robot(this, 'mega-man', null, { x: 80, y: 80, depth: depth++ });
-            let $ability = new MMRPG_Ability(this, 'buster-shot', null, { x: 120, y: 120, depth: depth++ });
-            let $item = new MMRPG_Item(this, 'energy-tank', null, { x: 160, y: 160, depth: depth++ });
-            let $field = new MMRPG_Field(this, 'preserved-forest', null, { x: 200, y: 200, depth: depth++ });
+            let $player = new MMRPG_Player(this, 'dr-light', null, { x: 40, y: 40, z: depth++ });
+            let $robot = new MMRPG_Robot(this, 'mega-man', null, { x: 80, y: 80, z: depth++ });
+            let $ability = new MMRPG_Ability(this, 'buster-shot', null, { x: 120, y: 120, z: depth++ });
+            let $item = new MMRPG_Item(this, 'energy-tank', null, { x: 160, y: 160, z: depth++ });
+            let $field = new MMRPG_Field(this, 'preserved-forest', null, { x: 200, y: 200, z: depth++ });
             let $skill = new MMRPG_Skill(this, 'xtreme-submodule', null);
             let $type = new MMRPG_Type(this, 'water');
             console.log('$player =', $player);
@@ -285,6 +285,105 @@ export default class DebugScene extends Phaser.Scene
             console.log('$field =', $field);
             console.log('$skill =', $skill);
             console.log('$type =', $type);
+
+            // Create some mods of the above to see what's possible
+            var $ref = this.battleBanner;
+            let $customRobot = new MMRPG_Robot(this, 'proto-man', {
+                image_alt: 'water'
+                }, {
+                x: $ref.x + ($ref.width / 2),
+                y: $ref.y + ($ref.height / 2),
+                z: depth++,
+                scale: 2,
+                origin: [0.5, 1],
+                direction: 'left'
+                });
+            $customRobot.setAlpha(0.5);
+            $customRobot.setOnHover(function(){
+                if (this.isMoving || this.isAnimating){ return; }
+                //console.log('Hovered over $customRobot!');
+                this.setFrame('taunt');
+                }, function(){
+                if (this.isMoving || this.isAnimating){ return; }
+                //console.log('Moved away from $customRobot!');
+                this.resetFrame();
+                });
+            $customRobot.setOnClick(function($sprite){
+                if (this.isMoving || this.isAnimating){ return; }
+                //console.log('%c' + '---------------------', 'color: red;');
+                //console.log('Clicked on $customRobot! w/ this:', this, '$sprite:', $sprite);
+                //console.log('-> this.x = ', this.x, 'this.y =', this.y);
+                //console.log('-> $customRobot.x = ', $customRobot.x, '$customRobot.y =', $customRobot.y);
+                //console.log('-> $sprite.x = ', $sprite.x, '$sprite.y =', $sprite.y);
+                SOUNDS.play('selected_mmv-gb', {volume: 0.3});
+                this.setAlpha(1);
+                this.flipDirection();
+                this.setFrame('slide');
+                var newX = this.direction === 'left' ? $sprite.x - 90 : $sprite.x + 90;
+                var newY = $sprite.y + 30;
+                //console.log('-> $customRobot is moving to newX:', newX, 'newY:', newY);
+                this.isMoving = true;
+                this.moveToPosition(newX, newY, 1000, function(){
+                    //console.log('%c' + '-------------', 'color: pink;');
+                    //console.log('--> Movement complete!');
+                    //console.log('--> this.x = ', this.x, 'this.y =', this.y);
+                    //console.log('--> $customRobot.x = ', $customRobot.x, '$customRobot.y =', $customRobot.y);
+                    //console.log('-> $sprite.x = ', $sprite.x, '$sprite.y =', $sprite.y);
+                    this.setFrame('base');
+                    this.isMoving = false;
+                    });
+                });
+            console.log('$customRobot =', $customRobot);
+            window.$customRobot = $customRobot;
+
+            let $customBoss = new MMRPG_Robot(this, 'slur', {
+                //image_alt: 'alt2'
+                }, {
+                x: $ref.x + ($ref.width / 2) - 60,
+                y: $ref.y + ($ref.height / 2),
+                z: depth++,
+                scale: 2,
+                origin: [0.5, 1],
+                direction: 'right'
+                });
+            $customBoss.setOnHover(function(){
+                if (this.isMoving || this.isAnimating){ return; }
+                //console.log('Hovered over $customBoss!');
+                this.setFrame('taunt');
+                }, function(){
+                if (this.isMoving || this.isAnimating){ return; }
+                //console.log('Moved away from $customBoss!');
+                this.resetFrame();
+                });
+            $customBoss.setOnClick(function($sprite){
+                //console.log('Clicked on $customBoss! w/ $sprite:', $sprite);
+                SOUNDS.play('selected_mmv-gb', {volume: 0.3});
+                this.flipDirection();
+                this.setFrame('slide');
+                var newX = this.direction === 'left' ? $sprite.x - 90 : $sprite.x + 90;
+                var newY = $sprite.y + 30;
+                this.isMoving = true;
+                //console.log('Moving to:', newX, newY);
+                this.moveToPosition(newX, newY, 1000, function(){
+                    //console.log('Movement complete! $sprite.x =', $sprite.x, '$sprite.y =', $sprite.y);
+                    this.setFrame('base');
+                    this.isMoving = false;
+                    });
+                });
+            console.log('$customBoss =', $customBoss);
+
+            let $customMecha = new MMRPG_Robot(this, 'met', {
+                //image_alt: 'alt2'
+                }, {
+                x: $ref.x + ($ref.width / 2) + 60,
+                y: $ref.y + ($ref.height / 2),
+                z: depth++,
+                scale: 2,
+                origin: [0.5, 1],
+                direction: 'left'
+                });
+            console.log('$customMecha =', $customMecha);
+
 
             // -- DEBUG CLASS METHODS -- //
 
