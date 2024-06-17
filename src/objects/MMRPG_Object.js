@@ -433,7 +433,7 @@ class MMRPG_Object {
         // x origin is to the left
         if (origin[0] === 0){ adjustedX -= offsetX; }
         // x orgin is centered
-        else if (origin[0] === 0.5){ adjustedX -= (offsetX / 2); }
+        else if (origin[0] === 0.5){ adjustedX -= 0; }
         // x origin it to the right
         else if (origin[0] === 1){ adjustedX += offsetX; }
 
@@ -442,7 +442,7 @@ class MMRPG_Object {
         // y origin is middle
         else if (origin[1] === 0.5){ adjustedY -= (offsetY / 2); }
         // y origin is at the bottom
-        else if (origin[1] === 1){ adjustedY += offsetY; }
+        else if (origin[1] === 1){ adjustedY -= 0; }
 
         return [adjustedX, adjustedY];
     }
