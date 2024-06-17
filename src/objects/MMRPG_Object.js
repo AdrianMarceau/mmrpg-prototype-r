@@ -76,7 +76,7 @@ class MMRPG_Object {
 
     }
 
-    // Define a function to run at object creation that generates internal data given index info vs custom info
+    // Generate internal data for this object given index info vs custom info provided at construction
     createData ()
     {
         //console.log('MMRPG_Object.createData() called w/ kind:', this.kind, 'token:', this.token, 'customInfo:', this.customInfo);
@@ -142,7 +142,7 @@ class MMRPG_Object {
 
     }
 
-    // Define a function that creates a sprite for the object using known token and config
+    // Creates the main sprite for this object using known token and config values
     createSprite ()
     {
         //console.log('MMRPG_Object.createSprite() called for ', this.kind, this.token, '\nw/ config:', this.spriteConfig);
@@ -221,7 +221,7 @@ class MMRPG_Object {
 
     }
 
-    // Define a function for loading a given sprite texture into memory and calling a callback when done
+    // Load a given sprite texture (sheet) into memory and optionally execute a callback when done
     loadSpriteTexture (token, direction, onLoadCallback)
     {
         //console.log('MMRPG_Object.loadSpriteTexture() called w/ token:', token, 'direction:', direction);
@@ -243,7 +243,7 @@ class MMRPG_Object {
         scene.load.start();
     }
 
-    // Define a function for determining the texture name (sheet) for an object given kind and direction (we already know the rest)
+    // Determining and return the texture name (sheet) for an object given kind and direction (we already know the rest)
     getSpriteSheet (spriteToken, spriteDirection = 'right', spriteKind = 'sprite')
     {
         //console.log('MMRPG_Object.getSpriteSheet() called w/ spriteToken:', spriteToken, 'spriteDirection:', spriteDirection, 'spriteKind:', spriteKind);
@@ -276,7 +276,7 @@ class MMRPG_Object {
 
     }
 
-    // Define a function for determining the texture path (sheet) for an object given kind and direction (we already know the rest)
+    // Determine and return the texture path (sheet) for an object given kind and direction (we already know the rest)
     getSpritePath (spriteToken, spriteDirection = 'right', spriteKind = 'sprite')
     {
         //console.log('MMRPG_Object.getSpritePath() called w/ spriteToken:', spriteToken, 'spriteDirection:', spriteDirection, 'spriteKind:', spriteKind);
@@ -308,7 +308,7 @@ class MMRPG_Object {
 
     }
 
-    // Define a function to be used for preparing a sprite, this is creating if not exists else returning early
+    // Prepare this object's sprite for use, creating it if it doesn't exist yet
     prepareSprite (spriteSheet = null)
     {
         //console.log('MMRPG_Object.prepareSprite() called for ', this.kind, this.token, '\nw/ spriteSheet:', spriteSheet, 'spriteConfig:', this.spriteConfig);
@@ -321,7 +321,7 @@ class MMRPG_Object {
         //console.log('-> created new sprite w/ sheet:', sheet, 'x:', config.x, 'y:', config.y);
     }
 
-    // Define a function that creates the new object sprite with the sprite sheet provided, else default, and config settings
+    // Create the new object sprite with the sprite sheet provided, else default, and config settings
     createObjectSprite (spriteSheet = null)
     {
         //console.log('MMRPG_Object.createObjectSprite() called for ', this.kind, this.token, '\nw/ spriteConfig:', this.spriteConfig, 'spriteSheet:', spriteSheet);
@@ -454,6 +454,7 @@ class MMRPG_Object {
         this.setFrame(0);
     }
 
+    // Set the scale of this object's sprite and update the spriteConfig
     setDirection (direction)
     {
         //console.log('MMRPG_Object.setDirection() called w/ direction:', direction);
@@ -492,6 +493,8 @@ class MMRPG_Object {
             }
 
     }
+
+    // Flip the current direction of the robot sprite and update the spriteConfig
     flipDirection ()
     {
         //console.log('MMRPG_Object.flipDirection() called');
@@ -503,6 +506,7 @@ class MMRPG_Object {
     }
 
 
+    // Set a custom callback function to when when this sprite is clicked
     setOnClick (callback)
     {
         //console.log('MMRPG_Object.setOnClick() called w/ callback:', callback);
@@ -515,6 +519,7 @@ class MMRPG_Object {
             });
     }
 
+    // Set a custom callback function for when this sprite is hovered over and then, optionally, hovered away from
     setOnHover (callback, callback2 = null)
     {
         //console.log('MMRPG_Object.setOnHover() called w/ callback:', callback, 'callback2:', callback2);
@@ -532,6 +537,26 @@ class MMRPG_Object {
             }
     }
 
+    // Remove any click events this sprite may have assigned to it
+    removeOnClicks ()
+    {
+        //console.log('MMRPG_Object.removeOnClick() called');
+        if (!this.sprite) { return; }
+        let $sprite = this.sprite;
+        $sprite.removeAllListeners('pointerdown');
+    }
+
+    // Remove any hover events this sprite may have assigned to it
+    removeOnHovers ()
+    {
+        //console.log('MMRPG_Object.removeOnHover() called');
+        if (!this.sprite) { return; }
+        let $sprite = this.sprite;
+        $sprite.removeAllListeners('pointerover');
+        $sprite.removeAllListeners('pointerout');
+    }
+
+    // Move this sprite to a new position on the canvas and then execute the callback if provided
     moveToPosition (x, y, duration = 1000, callback = null)
     {
         //console.log('MMRPG_Object.moveToPosition() called for ', this.kind, this.token, '\nw/ x:', x, 'y:', y, 'duration:', duration, 'callback:', typeof callback);
