@@ -5,316 +5,259 @@
 // game. This object is the root of the game's global namespace.
 // ------------------------------------------------------------ //
 
-// Define the master MMRPG object for the game
-const MMRPG = {
-    name: 'mmrpg-prototype-r',
-    title: 'Mega Man RPG: Prototype (Remake)',
-    created: '2024-05-20',
-    modified: '2024-06-14',
-    version: '4.0.125'
-    };
+class MMRPG {
 
-// Define the absolute base width and height for the game canvas
-const baseWidth = 780;
-const baseHeight = 634;
-MMRPG.canvas = {
-    width: baseWidth,
-    height: baseHeight,
-    centerX: baseWidth / 2,
-    centerY: baseHeight / 2,
-    xMin: 0,
-    yMin: 0,
-    xMax: baseWidth,
-    yMax: baseHeight
-    };
+    // The constructor for the global MMRPG object
+    constructor() {
 
-// Pre-define some global MMRPG objects for use in the game
-MMRPG.Init = [];
-MMRPG.Utilities = {};
-MMRPG.Indexes = {};
-MMRPG.Cache = {};
-MMRPG.Data = {};
+        // Define the game's core properties
+        this.name = 'mmrpg-prototype-r';
+        this.title = 'Mega Man RPG: Prototype (Remake)';
+        this.created = '2024-05-20';
+        this.modified = '2024-06-14';
+        this.version = '4.0.125';
 
+        // Define the absolute base width and height for the game canvas
+        const baseWidth = 780;
+        const baseHeight = 634;
+        this.canvas = {
+            width: baseWidth,
+            height: baseHeight,
+            centerX: baseWidth / 2,
+            centerY: baseHeight / 2,
+            xMin: 0,
+            yMin: 0,
+            xMax: baseWidth,
+            yMax: baseHeight,
+        };
 
-// -- MMRPG INIT & PRELOAD/CREATE/UPDATE METHODS -- //
+        // Initialize the game's core arrays and objects
+        this.Init = [];
+        this.Utilities = {};
+        this.Indexes = {};
+        this.Cache = {};
+        this.Data = {};
 
-// Define a global init function for all the MMRPG scenes and utilities
-MMRPG.init = function(source, namespace, onFirstLoad, onRepeatLoads){
-
-    // Register this utility with the MMRPG object
-    let firstLoad = false;
-    if (MMRPG.Init.indexOf(source) === -1){
-        MMRPG.Init.push(source);
-        firstLoad = true;
-        }
-
-    // Only run the first-load callback if this is the first time the utility is being initialized
-    if (firstLoad){
-
-        // Increment the MMRPG tick to track object persistence
-        if (typeof MMRPG.tick === 'undefined'){ MMRPG.tick = 0; }
-        MMRPG.tick++;
-        console.log('MMRPG.tick = ', MMRPG.tick, ' (', source, ')');
-        //console.log('MMRPG = ', MMRPG);
-
-        // Reserve persistent storage if a namespace was provided
-        if (typeof namespace === 'string'
-            && namespace.length > 0){
-            MMRPG.Indexes[namespace] = {};
-            MMRPG.Cache[namespace] = {};
-            MMRPG.Data[namespace] = {};
-            }
-
-        // Run the first-load callback function if it exists
-        if (typeof onFirstLoad === 'function'){ onFirstLoad(); }
-
-        }
-    // Otherwise if this utility has already been initialized, run the every-load callback function
-    else {
-
-        // Run the repeat-loads callback function if it exists
-        if (typeof onRepeatLoads === 'function'){ onRepeatLoads(); }
-
-        }
-
-    };
-
-// Define a global preload function to run at the start of any MMRPG scene
-MMRPG.preload = function(scene, isPreloadPhase = false){
-
-    // ... //
-
-    };
-
-// Define a global create function to run at the start of any MMRPG scene
-MMRPG.create = function(scene, isPreloadPhase = false){
-
-    // Create the base canvas for which the rest of the game will be drawn
-    var canvas = scene.add.image(0, 0, 'canvas');
-    canvas.setOrigin(0, 0);
-
-    // If we're still in the preload phase, we should return early
-    // before trying to use more complex game objects
-    if (isPreloadPhase){ return; }
-
-    // Create the sound effects object for the scene if not exists
-    if (!scene.SOUNDS){
-        let soundSprite = scene.sound.addAudioSprite('sounds.effects');
-        scene.SOUNDS = {
-            sprite: soundSprite,
-            play: function(token, options){
-                if (typeof token !== 'string'){ return; }
-                if (typeof options !== 'object'){ options = {}; }
-                let sfxToken = token;
-                let sfxAliasIndex = MMRPG.Indexes.sounds.aliases || {};
-                //console.log('sfxAliasIndex =', sfxAliasIndex);
-                if (sfxAliasIndex[token]){ sfxToken = sfxAliasIndex[token]; }
-                scene.sound.playAudioSprite('sounds.effects', sfxToken, options);
-                }
-            };
-        }
-
-    // Set the master sound volume to only 50% to start for ears' sake
-    scene.sound.volume = 0.5;
-
-    // Toggle sound on and off when the game is hidden or visible
-    scene.sys.game.events.on('hidden', () => {
-        scene.sound.pauseAll();
-        });
-    scene.sys.game.events.on('visible', () => {
-        scene.sound.resumeAll();
-        });
-
-    // Toggle sound on and off when the browser tab is hidden or visible
-    document.addEventListener('visibilitychange', () => {
-        if (document.hidden) {
-            scene.sound.mute = true;
-            } else {
-            scene.sound.mute = false;
-            }
-        });
-
-    };
-
-// -- CONTENT INDEX KINDS & METHODS -- //
-
-// Define the different types of content in MMRPG as an object
-// players, robots, abilities, items, fields, skills, types
-let contentKindsIndex = {
-    'players': {
-        'token': 'player',
-        'xtoken': 'players',
-        'name': 'Player',
-        'xname': 'Players',
-        'class': 'MMRPG_Player',
-        },
-    'robots': {
-        'token': 'robot',
-        'xtoken': 'robots',
-        'name': 'Robot',
-        'xname': 'Robots',
-        'class': 'MMRPG_Robot',
-        'subKinds': {
-            'masters': {
-                'token': 'master',
-                'xtoken': 'masters',
-                'name': 'Robot Master',
-                'xname': 'Robot Masters'
-                },
-            'mechas': {
-                'token': 'mecha',
-                'xtoken': 'mechas',
-                'name': 'Support Mecha',
-                'xname': 'Support Mechas'
-                },
-            'bosses': {
-                'token': 'boss',
-                'xtoken': 'bosses',
-                'name': 'Fortress Boss',
-                'xname': 'Fortress Bosses'
-                },
-            }
-        },
-    'abilities': {
-        'token': 'ability',
-        'xtoken': 'abilities',
-        'name': 'Ability',
-        'xname': 'Abilities',
-        },
-    'items': {
-        'token': 'item',
-        'xtoken': 'items',
-        'name': 'Item',
-        'xname': 'Items',
-        },
-    'fields': {
-        'token': 'field',
-        'xtoken': 'fields',
-        'name': 'Field',
-        'xname': 'Fields',
-        },
-    'skills': {
-        'token': 'skill',
-        'xtoken': 'skills',
-        'name': 'Skill',
-        'xname': 'Skills',
-        },
-    'types': {
-        'token': 'type',
-        'xtoken': 'types',
-        'name': 'Type',
-        'xname': 'Types',
-        },
-    };
-MMRPG.Indexes.contentKinds = contentKindsIndex;
-
-// Define a global function for getting the different "kinds" of content in MMRPG
-MMRPG.getContentKinds = function(returnKeysOnly = false){
-
-    // Return the content index or array keys depending on what was requested
-    let contentKindsIndex = MMRPG.Indexes.contentKinds;
-    return (returnKeysOnly) ? Object.keys(contentKindsIndex) : contentKindsIndex;
-
-    };
-
-// Define a global function for parsing a given content type string (either singular or plural)
-// and then returning the corresponding singlular and plural versions of that content type in
-// form of an array with [token, xtoken] (e.g., ['player', 'players'])
-MMRPG.parseKind = function(kind){
-
-    // If the kind is not a string, return an empty array
-    if (typeof kind !== 'string'){ return []; }
-
-    // If the kind is a plural form, return the singular and plural forms
-    let contentKindsIndex = MMRPG.Indexes.contentKinds;
-    let kindInfo = Object.values(contentKindsIndex).find((kindInfo) => {
-        return (kindInfo.xtoken === kind || kindInfo.token === kind);
-        });
-    if (kindInfo){
-        return [kindInfo.token, kindInfo.xtoken];
-        }
-
-    // If the kind is not found, return an empty array
-    return [];
+        // Initialize any hard-coded indexes that need to be created
+        this.initContentKindsIndex();
 
     }
 
+    // -- MMRPG INIT & PRELOAD/CREATE/UPDATE METHODS -- //
 
-// -- CONTENT INDEX LOOKUP METHODS -- //
+    // Define a global init function for all the MMRPG scenes and utilities
+    init (source, namespace, onFirstLoad, onRepeatLoads)
+    {
+        let firstLoad = false;
+        if (this.Init.indexOf(source) === -1) {
+            this.Init.push(source);
+            firstLoad = true;
+        }
 
-// Define a quick method for looking up a given player's info in the index
-MMRPG.getPlayerInfo = function (token) {
-    let mmrpgIndex = MMRPG.Indexes;
-    let playerIndex = mmrpgIndex.players || null;
-    if (!playerIndex){ return null; }
-    let playerInfo = playerIndex[token] || null;
-    if (!playerInfo){ return null; }
-    return Object.assign({}, playerInfo);
-    };
+        if (firstLoad) {
+            if (typeof this.tick === 'undefined') {
+                this.tick = 0;
+            }
+            this.tick++;
+            console.log('MMRPG.tick = ', this.tick, ' (', source, ')');
 
-// Define a quick method for looking up a given robot's info in the index
-MMRPG.getRobotInfo = function (token) {
-    let mmrpgIndex = MMRPG.Indexes;
-    let robotIndex = mmrpgIndex.robots || null;
-    if (!robotIndex){ return null; }
-    let robotInfo = robotIndex[token] || null;
-    if (!robotInfo){ return null; }
-    return Object.assign({}, robotInfo);
-    };
+            if (typeof namespace === 'string' && namespace.length > 0) {
+                this.Indexes[namespace] = {};
+                this.Cache[namespace] = {};
+                this.Data[namespace] = {};
+            }
 
-// Define a quick method for looking up a given ability's info in the index
-MMRPG.getAbilityInfo = function (token) {
-    let mmrpgIndex = MMRPG.Indexes;
-    let abilityIndex = mmrpgIndex.abilities || null;
-    if (!abilityIndex){ return null; }
-    let abilityInfo = abilityIndex[token] || null;
-    if (!abilityInfo){ return null; }
-    return Object.assign({}, abilityInfo);
-    };
+            if (typeof onFirstLoad === 'function') {
+                onFirstLoad();
+            }
+        } else {
+            if (typeof onRepeatLoads === 'function') {
+                onRepeatLoads();
+            }
+        }
+    }
 
-// Define a quick method for looking up a given item's info in the index
-MMRPG.getItemInfo = function (token) {
-    let mmrpgIndex = MMRPG.Indexes;
-    let itemIndex = mmrpgIndex.items || null;
-    if (!itemIndex){ return null; }
-    let itemInfo = itemIndex[token] || null;
-    if (!itemInfo){ return null; }
-    return Object.assign({}, itemInfo);
-    };
+    // Define a global preload function to run at the start of any MMRPG scene
+    preload (scene, isPreloadPhase = false)
+    {
+        // Preload logic here
+    }
 
-// Define a quick method for looking up a given field's info in the index
-MMRPG.getFieldInfo = function (token) {
-    let mmrpgIndex = MMRPG.Indexes;
-    let fieldIndex = mmrpgIndex.fields || null;
-    if (!fieldIndex){ return null; }
-    let fieldInfo = fieldIndex[token] || null;
-    if (!fieldInfo){ return null; }
-    return Object.assign({}, fieldInfo);
-    };
+    // Define a global create function to run at the start of any MMRPG scene
+    create (scene, isPreloadPhase = false)
+    {
 
-// Define a quick method for looking up a given skill's info in the index
-MMRPG.getSkillInfo = function (token) {
-    let mmrpgIndex = MMRPG.Indexes;
-    let skillIndex = mmrpgIndex.skills || null;
-    if (!skillIndex){ return null; }
-    let skillInfo = skillIndex[token] || null;
-    if (!skillInfo){ return null; }
-    return Object.assign({}, skillInfo);
-    };
+        // Create the canvas for everything else to be drawn upon
+        const canvas = scene.add.image(0, 0, 'canvas');
+        canvas.setOrigin(0, 0);
 
-// Define a quick method for looking up a given type's info in the index
-MMRPG.getTypeInfo = function (token) {
-    let mmrpgIndex = MMRPG.Indexes;
-    let typeIndex = mmrpgIndex.types || null;
-    if (!typeIndex){ return null; }
-    let typeInfo = typeIndex[token] || null;
-    if (!typeInfo){ return null; }
-    return Object.assign({}, typeInfo);
-    };
+    }
+
+    // -- CONTENT INDEX KINDS & METHODS -- //
 
 
-// -- EXPORT THE MMRPG OBJECT -- //
+    // Define and/or return the content kinds index for this game
+    initContentKindsIndex ()
+    {
+        // Define the different types of content in MMRPG as an object
+        // players, robots, abilities, items, fields, skills, types, contentKinds
+        let contentKindsIndex = {
+            'players': {
+                'token': 'player',
+                'xtoken': 'players',
+                'name': 'Player',
+                'xname': 'Players',
+                'class': 'MMRPG_Player',
+                },
+            'robots': {
+                'token': 'robot',
+                'xtoken': 'robots',
+                'name': 'Robot',
+                'xname': 'Robots',
+                'class': 'MMRPG_Robot',
+                'subKinds': {
+                    'masters': {
+                        'token': 'master',
+                        'xtoken': 'masters',
+                        'name': 'Robot Master',
+                        'xname': 'Robot Masters'
+                        },
+                    'mechas': {
+                        'token': 'mecha',
+                        'xtoken': 'mechas',
+                        'name': 'Support Mecha',
+                        'xname': 'Support Mechas'
+                        },
+                    'bosses': {
+                        'token': 'boss',
+                        'xtoken': 'bosses',
+                        'name': 'Fortress Boss',
+                        'xname': 'Fortress Bosses'
+                        },
+                    }
+                },
+            'abilities': {
+                'token': 'ability',
+                'xtoken': 'abilities',
+                'name': 'Ability',
+                'xname': 'Abilities',
+                },
+            'items': {
+                'token': 'item',
+                'xtoken': 'items',
+                'name': 'Item',
+                'xname': 'Items',
+                },
+            'fields': {
+                'token': 'field',
+                'xtoken': 'fields',
+                'name': 'Field',
+                'xname': 'Fields',
+                },
+            'skills': {
+                'token': 'skill',
+                'xtoken': 'skills',
+                'name': 'Skill',
+                'xname': 'Skills',
+                },
+            'types': {
+                'token': 'type',
+                'xtoken': 'types',
+                'name': 'Type',
+                'xname': 'Types',
+                },
+            };
+        this.Indexes.contentKinds = contentKindsIndex;
+        return contentKindsIndex;
 
-if (typeof window.MMRPG === 'undefined'){ window.MMRPG = MMRPG; }
+    }
 
-export default MMRPG;
+    // Get the different content kinds but returned as keys only
+    getContentKinds (returnKeysOnly = false)
+    {
+        const contentKindsIndex = this.Indexes.contentKinds;
+        return returnKeysOnly ? Object.keys(contentKindsIndex) : contentKindsIndex;
+    }
+
+    // Define a global function for parsing a given content type string (either singular or plural)
+    // and then returning the corresponding singlular and plural versions of that content type in
+    // form of an array with [token, xtoken] (e.g., ['player', 'players'])
+    parseKind (kind)
+    {
+        if (typeof kind !== 'string') {
+            return [];
+        }
+
+        const contentKindsIndex = this.Indexes.contentKinds;
+        const kindInfo = Object.values(contentKindsIndex).find(
+            (kindInfo) => kindInfo.xtoken === kind || kindInfo.token === kind
+        );
+        return kindInfo ? [kindInfo.token, kindInfo.xtoken] : [];
+    }
+
+    // -- CONTENT INDEX LOOKUP METHODS -- //
+
+    // Define a quick method for looking up a given player's info in the index
+    getPlayerInfo (token)
+    {
+        const playerIndex = this.Indexes.players || null;
+        const playerInfo = playerIndex ? playerIndex[token] : null;
+        return playerInfo ? Object.assign({}, playerInfo) : null;
+    }
+
+    // Define a quick method for looking up a given robot's info in the index
+    getRobotInfo (token)
+    {
+        const robotIndex = this.Indexes.robots || null;
+        const robotInfo = robotIndex ? robotIndex[token] : null;
+        return robotInfo ? Object.assign({}, robotInfo) : null;
+    }
+
+    // Define a quick method for looking up a given ability's info in the index
+    getAbilityInfo (token)
+    {
+        const abilityIndex = this.Indexes.abilities || null;
+        const abilityInfo = abilityIndex ? abilityIndex[token] : null;
+        return abilityInfo ? Object.assign({}, abilityInfo) : null;
+    }
+
+    // Define a quick method for looking up a given item's info in the index
+    getItemInfo (token)
+    {
+        const itemIndex = this.Indexes.items || null;
+        const itemInfo = itemIndex ? itemIndex[token] : null;
+        return itemInfo ? Object.assign({}, itemInfo) : null;
+    }
+
+    // Define a quick method for looking up a given field's info in the index
+    getFieldInfo (token)
+    {
+        const fieldIndex = this.Indexes.fields || null;
+        const fieldInfo = fieldIndex ? fieldIndex[token] : null;
+        return fieldInfo ? Object.assign({}, fieldInfo) : null;
+    }
+
+    // Define a quick method for looking up a given skill's info in the index
+    getSkillInfo (token)
+    {
+        const skillIndex = this.Indexes.skills || null;
+        const skillInfo = skillIndex ? skillIndex[token] : null;
+        return skillInfo ? Object.assign({}, skillInfo) : null;
+    }
+
+    // Define a quick method for looking up a given type's info in the index
+    getTypeInfo (token) {
+        const typeIndex = this.Indexes.types || null;
+        const typeInfo = typeIndex ? typeIndex[token] : null;
+        return typeInfo ? Object.assign({}, typeInfo) : null;
+    }
+
+}
+
+// Ensure only one instance of MMRPG exists
+const mmrpgInstance = new MMRPG();
+if (typeof window.MMRPG === 'undefined') {
+    window.MMRPG = mmrpgInstance;
+}
+
+export default mmrpgInstance;
