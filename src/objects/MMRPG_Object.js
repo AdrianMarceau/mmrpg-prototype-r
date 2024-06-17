@@ -565,6 +565,20 @@ class MMRPG_Object {
         let scene = this.scene;
         let config = this.spriteConfig;
         let $sprite = this.sprite;
+
+        // If the duration was not set of was zero, move the sprite instantly
+        if (!duration) {
+            config.x = x;
+            config.y = y;
+            _this.x = x;
+            _this.y = y;
+            $sprite.x = x;
+            $sprite.y = y;
+            if (callback) { callback.call(_this, $sprite); }
+            return;
+            }
+
+        // Otherwise we create a tween to move the sprite to the new position
         scene.tweens.add({
             targets: $sprite,
             x: x,
@@ -588,6 +602,7 @@ class MMRPG_Object {
                 callback.call(_this, $sprite);
                 },
             });
+
     }
 
 }
