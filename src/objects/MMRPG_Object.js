@@ -59,8 +59,8 @@ class MMRPG_Object {
             spriteConfig.x = spriteConfig.x || 0;
             spriteConfig.y = spriteConfig.y || 0;
             spriteConfig.z = spriteConfig.z || 0;
-            spriteConfig.width = spriteConfig.width || this.data.image_width;
-            spriteConfig.height = spriteConfig.height || this.data.image_height;
+            spriteConfig.width = spriteConfig.width || this.data.image_width || this.data.image_size;
+            spriteConfig.height = spriteConfig.height || this.data.image_height || this.data.image_size;
             spriteConfig.direction = spriteConfig.direction || 'right';
             spriteConfig.frame = spriteConfig.frame || 0;
             spriteConfig.sheet = spriteConfig.sheet || 'sprites.default';
@@ -68,6 +68,15 @@ class MMRPG_Object {
             spriteConfig.alpha = spriteConfig.alpha || 1;
             spriteConfig.depth = spriteConfig.depth || 1;
             spriteConfig.scale = spriteConfig.scale || 1;
+            spriteConfig.offsetX = spriteConfig.offsetX || 0;
+            spriteConfig.offsetY = spriteConfig.offsetY || 0;
+            if (SPRITES.config.baseSize){
+                let baseSize = SPRITES.config.baseSize;
+                if (spriteConfig.width > baseSize){ spriteConfig.offsetX = (spriteConfig.width - baseSize) / 2; }
+                if (spriteConfig.height > baseSize){ spriteConfig.offsetY = (spriteConfig.height - baseSize); }
+                spriteConfig.offsetX *= spriteConfig.scale;
+                spriteConfig.offsetY *= spriteConfig.scale;
+                }
 
             // Automatically create the sprite with the spriteConfig provided
             this.createSprite();
@@ -80,6 +89,10 @@ class MMRPG_Object {
     createData ()
     {
         //console.log('MMRPG_Object.createData() called w/ kind:', this.kind, 'token:', this.token, 'customInfo:', this.customInfo);
+
+        // Pull in references to required global objects
+        let MMRPG = this.MMRPG;
+        let SPRITES = this.SPRITES;
 
         // Start the data as a clone of the index info
         this.data = Object.assign({}, this.indexInfo);
@@ -197,10 +210,12 @@ class MMRPG_Object {
                 let tempAlt = (this.kind === 'player' || this.kind === 'robot') ? 'base' : 1;
                 let tempKey = 'sprite-' + this.direction;
                 let tempSheet = spriteSheets[this.kind][tempAlt][tempKey];
+                this.spriteIsPlaceholder = true;
                 this.createObjectSprite(tempSheet);
                 this.loadSpriteTexture(spriteToken, spriteDirection, () => {
                     //console.log('%c' + '-> sprite texture '+spriteSheet+' loaded!', 'color: #00FF00');
                     _this.createObjectSprite();
+                    delete _this.spriteIsPlaceholder;
                     });
 
                 }
@@ -316,7 +331,8 @@ class MMRPG_Object {
         let scene = this.scene;
         let config = this.spriteConfig;
         let sheet = spriteSheet || config.sheet;
-        let $sprite = scene.add.sprite(config.x, config.y, sheet);
+        let [ modX, modY ] = this.getOffsetPosition(config.x, config.y);
+        let $sprite = scene.add.sprite(modX, modY, sheet);
         this.sprite = $sprite;
         //console.log('-> created new sprite w/ sheet:', sheet, 'x:', config.x, 'y:', config.y);
     }
@@ -337,14 +353,15 @@ class MMRPG_Object {
         if (!this.sprite) { return; }
         let $sprite = this.sprite;
         let config = this.spriteConfig;
-        $sprite.setTexture(config.sheet);
-        $sprite.setPosition(config.x, config.y);
+        let [ modX, modY ] = this.getOffsetPosition(config.x, config.y);
+        $sprite.setPosition(modX, modY);
         $sprite.setDepth(config.depth + config.z);
         $sprite.setOrigin(config.origin[0], config.origin[1]);
         $sprite.setAlpha(config.alpha);
         $sprite.setScale(config.scale);
         $sprite.setFrame(config.frame);
         if (config.tint) { $sprite.setTint(config.tint); }
+        $sprite.setTexture(config.sheet);
     }
 
     // Update the objects public properties with the current sprite settings for those that might be accessed externally
@@ -399,7 +416,35 @@ class MMRPG_Object {
         config.y = y;
         this.x = x;
         this.y = y;
-        $sprite.setPosition(x, y);
+        let [ modX, modY ] = this.getOffsetPosition(x, y);
+        $sprite.setPosition(modX, modY);
+    }
+
+    // Return a given sprite's adjusted x and y position based on it's origin and offset
+    getOffsetPosition (x, y)
+    {
+        //console.log('MMRPG_Object.getOffsetPosition() called');
+        let config = this.spriteConfig;
+        let origin = config.origin;
+        let offsetX = config.offsetX;
+        let offsetY = config.offsetY;
+        let adjustedX = x, adjustedY = y;
+
+        // x origin is to the left
+        if (origin[0] === 0){ adjustedX -= offsetX; }
+        // x orgin is centered
+        else if (origin[0] === 0.5){ adjustedX -= (offsetX / 2); }
+        // x origin it to the right
+        else if (origin[0] === 1){ adjustedX += offsetX; }
+
+        // y origin is up top
+        if (origin[1] === 0){ adjustedY -= offsetY; }
+        // y origin is middle
+        else if (origin[1] === 0.5){ adjustedY -= (offsetY / 2); }
+        // y origin is at the bottom
+        else if (origin[1] === 1){ adjustedY += offsetY; }
+
+        return [adjustedX, adjustedY];
     }
 
     // Get the current frame of this object's sprite, returned as a string if an alias exists, otherwise as an integer
@@ -578,10 +623,11 @@ class MMRPG_Object {
             }
 
         // Otherwise we create a tween to move the sprite to the new position
+        let [ modX, modY ] = this.getOffsetPosition(x, y);
         scene.tweens.add({
             targets: $sprite,
-            x: x,
-            y: y,
+            x: modX,
+            y: modY,
             duration: duration,
             ease: 'Linear',
             onUpdate: () => {

@@ -26,53 +26,57 @@ export default class SpritesManager {
         this.MMRPG = MMRPG;
         this.scene = scene;
 
-        // Initialize this scene with a first-load callback function
-        MMRPG.init('SpritesManager', 'Sprites', function(){
+        // Initialize this manager via the global MMRPG object
+        MMRPG.init('SpritesManager', 'Sprites');
 
-            // Collect the sprites index from the global MMRPG object
-            let index = MMRPG.Indexes.Sprites;
-            //console.log('index:', index);
+        // Define some base sprite settings for the rest of the game
+        let config = {
+            baseSize: 40,
+            };
+        this.config = config;
 
-            // Predefine the different kinds of sprites we'll be working with
-            if (typeof index.kinds === 'undefined'){
-                index.kinds = ['player', 'robot', 'ability', 'item', 'skill', 'field', 'type'];
-                }
-            if (typeof index.xkinds === 'undefined'){
-                index.xkinds = ['players', 'robots', 'abilities', 'items', 'skills', 'fields', 'types'];
-                }
-            let kinds = index.kinds;
-            let xkinds = index.xkinds;
+        // Collect the sprites index from the global MMRPG object
+        if (!MMRPG.Indexes.Sprites){ MMRPG.Indexes.Sprites = {}; }
+        let index = MMRPG.Indexes.Sprites;
 
-            // Predefine the different sub-indexes for paths, sheets, animations, etc.
-            if (typeof index.sizes === 'undefined'){ index.sizes = {}; }
-            if (typeof index.paths === 'undefined'){ index.paths = {}; }
-            if (typeof index.sheets === 'undefined'){ index.sheets = {}; }
-            if (typeof index.anims === 'undefined'){ index.anims = {}; }
-            if (typeof index.tweens === 'undefined'){ index.tweens = {}; }
-            for (let i = 0; i < kinds.length; i++){
-                let kind = kinds[i];
-                let xkind = xkinds[i];
-                if (typeof index.sizes[xkind]){ index.sizes[xkind] = {}; }
-                if (typeof index.paths[xkind]){ index.paths[xkind] = {}; }
-                if (typeof index.sheets[xkind]){ index.sheets[xkind] = {}; }
-                if (typeof index.anims[xkind]){ index.anims[xkind] = {}; }
-                if (typeof index.tweens[xkind]){ index.tweens[xkind] = {}; }
-                }
+        // Predefine the different kinds of sprites we'll be working with
+        if (typeof index.kinds === 'undefined'){
+            index.kinds = ['player', 'robot', 'ability', 'item', 'skill', 'field', 'type'];
+            }
+        if (typeof index.xkinds === 'undefined'){
+            index.xkinds = ['players', 'robots', 'abilities', 'items', 'skills', 'fields', 'types'];
+            }
+        let kinds = index.kinds;
+        let xkinds = index.xkinds;
 
-            // Predefine the function for prepping an path for a given index key
-            if (typeof index.prepForKey === 'undefined'){
-                index.prepForKeys = function(obj, ...keys) {
-                    let current = obj;
-                    keys.forEach(key => {
-                        if (typeof current[key] === 'undefined') {
-                            current[key] = {};
-                            }
-                        current = current[key];
-                        });
-                    };
-                }
+        // Predefine the different sub-indexes for paths, sheets, animations, etc.
+        if (typeof index.sizes === 'undefined'){ index.sizes = {}; }
+        if (typeof index.paths === 'undefined'){ index.paths = {}; }
+        if (typeof index.sheets === 'undefined'){ index.sheets = {}; }
+        if (typeof index.anims === 'undefined'){ index.anims = {}; }
+        if (typeof index.tweens === 'undefined'){ index.tweens = {}; }
+        for (let i = 0; i < kinds.length; i++){
+            let kind = kinds[i];
+            let xkind = xkinds[i];
+            if (typeof index.sizes[xkind]){ index.sizes[xkind] = {}; }
+            if (typeof index.paths[xkind]){ index.paths[xkind] = {}; }
+            if (typeof index.sheets[xkind]){ index.sheets[xkind] = {}; }
+            if (typeof index.anims[xkind]){ index.anims[xkind] = {}; }
+            if (typeof index.tweens[xkind]){ index.tweens[xkind] = {}; }
+            }
 
-            });
+        // Predefine the function for prepping an path for a given index key
+        if (typeof index.prepForKey === 'undefined'){
+            index.prepForKeys = function(obj, ...keys) {
+                let current = obj;
+                keys.forEach(key => {
+                    if (typeof current[key] === 'undefined') {
+                        current[key] = {};
+                        }
+                    current = current[key];
+                    });
+                };
+            }
 
         // Collect or define the sprites index from the global MMRPG object
         this.index = MMRPG.Indexes.Sprites;
