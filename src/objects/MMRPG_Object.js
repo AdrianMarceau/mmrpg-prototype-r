@@ -8,6 +8,8 @@
 
 import MMRPG from '../shared/MMRPG.js';
 
+import { GraphicsUtility as Graphics } from '../utils/GraphicsUtility.js';
+
 import SpritesManager from '../managers/SpritesManager.js';
 
 class MMRPG_Object {
@@ -412,6 +414,8 @@ class MMRPG_Object {
         if (!this.sprite) { return; }
         let $sprite = this.sprite;
         let config = this.spriteConfig;
+        x = Graphics.parseRelativePosition(x, config.x);
+        y = Graphics.parseRelativePosition(y, config.y);
         config.x = x;
         config.y = y;
         this.x = x;
