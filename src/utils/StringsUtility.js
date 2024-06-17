@@ -38,6 +38,7 @@ export class StringsUtility {
         var $loadText = this.add.bitmapText(x, y, font, text, size);
         $loadText.setLetterSpacing(spacing);
         $loadText.setOrigin(origin);
+        if (options.depth){ $loadText.setDepth(options.depth); }
 
     }
 
@@ -52,6 +53,7 @@ export class StringsUtility {
         styles.lineHeight = styles.lineHeight || defaults.line + 'em';
         styles.color = styles.color || defaults.color;
         let $text = ctx.add.text(x, y, text, styles);
+        if (styles.depth){ $text.setDepth(styles.depth); }
         return $text;
 
     }
