@@ -654,6 +654,20 @@ class MMRPG_Object {
 
     }
 
+    // Destroy this object's children and remove them from the scene and then itself
+    destroy ()
+    {
+        //console.log('MMRPG_Object.destroy() called for ', this.kind, this.token);
+        if (this.sprite) {
+            this.sprite.destroy();
+            delete this.sprite;
+            }
+
+        // Perform any additional cleanup if needed
+        this.scene = null;
+
+    }
+
 }
 
 export default MMRPG_Object;
