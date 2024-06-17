@@ -701,8 +701,7 @@ export default class DebugScene extends Phaser.Scene
                 if (!$sprite || $sprite.toBeDestroyed){ return; }
                 //console.log('$sprite:', typeof $sprite, $sprite);
                 $sprite.play(robotSpriteInfo['sprite'][$sprite.direction]['anim']['slide']);
-                //SOUNDS.play('beam-in_mmv-gb', {volume: 0.1});
-                //SOUNDS.play('dink_mmii-gb', {volume: 0.1});
+                //SOUNDS.play('glass-klink', {volume: 0.1});
                 if ($sprite.slideTween){ $sprite.slideTween.stop().destroy(); }
                 $sprite.slideTween = ctx.add.tween({
                     targets: $sprite,
@@ -712,7 +711,7 @@ export default class DebugScene extends Phaser.Scene
                     duration: duration,
                     onComplete: function () {
                         //console.log('Partial sliding movement complete...');
-                        //SOUNDS.play('dink_mmii-gb', {volume: 0.1});
+                        //SOUNDS.play('glass-klink', {volume: 0.1});
                         if ($sprite.subTimers.nextAction){ $sprite.subTimers.nextAction.remove(); }
                         $sprite.subTimers.nextAction = ctx.time.delayedCall(1000, function(){
                             //console.log('...let\'s slide somewhere else!');
@@ -748,8 +747,7 @@ export default class DebugScene extends Phaser.Scene
                 if (!$sprite || $sprite.toBeDestroyed){ return; }
                 //console.log('$sprite:', typeof $sprite, $sprite);
                 $sprite.play(robotSpriteInfo['sprite'][$sprite.direction]['anim']['slide']);
-                //SOUNDS.play('beam-in_mmv-gb', {volume: 0.1});
-                //SOUNDS.play('dink_mmii-gb', {volume: 0.1});
+                //SOUNDS.play('glass-klink', {volume: 0.1});
                 if ($sprite.slideTween){ $sprite.slideTween.stop().destroy(); }
                 $sprite.slideTween = ctx.add.tween({
                     targets: $sprite,
@@ -759,7 +757,7 @@ export default class DebugScene extends Phaser.Scene
                     duration: duration,
                     onComplete: function () {
                         //console.log('Partial sliding movement complete...');
-                        //SOUNDS.play('dink_mmii-gb', {volume: 0.1});
+                        //SOUNDS.play('glass-klink', {volume: 0.1});
                         if ($sprite.subTimers.nextAction){ $sprite.subTimers.nextAction.remove(); }
                         $sprite.subTimers.nextAction = ctx.time.delayedCall(1000, function(){
                             //console.log('...let\'s slide somewhere else!');
@@ -814,8 +812,8 @@ export default class DebugScene extends Phaser.Scene
             $sprite.setFrame(0);
             $sprite.play(robotSpriteInfo['sprite'][$sprite.direction]['anim']['shoot']);
             if ($sprite.subTweens.kickbackTween){ $sprite.subTweens.kickbackTween.stop().destroy(); }
-            if (abilitySuffix === 'shot'){ SOUNDS.play('shot-a_mmv-gb', {volume: 0.2}); }
-            else if (abilitySuffix === 'buster'){ SOUNDS.play('mid-scene-mega-shoot_mmv-gb', {volume: 0.3}); }
+            if (abilitySuffix === 'shot'){ SOUNDS.play('shot-sound', {volume: 0.2}); }
+            else if (abilitySuffix === 'buster'){ SOUNDS.play('blast-sound', {volume: 0.3}); }
             $sprite.subTweens.kickbackTween = ctx.add.tween({
                 targets: $sprite,
                 x: newX,
@@ -1022,7 +1020,7 @@ export default class DebugScene extends Phaser.Scene
             // Show the sprite and play its explode animation on loop
             $explodeSprite.setAlpha(0.8);
             $explodeSprite.play(explodeSpriteInfo['sprite'][$sprite.direction]['anim']['explode']);
-            SOUNDS.play('big-boom_mmv-gb', {volume: 0.5});
+            SOUNDS.play('explode-sound', {volume: 0.5});
 
             // Generate a tween for the explode sprite that has it slowly fade away via alpha then remove itself
             $explodeSprite.subTweens.fadeTween = ctx.add.tween({
@@ -1243,7 +1241,7 @@ export default class DebugScene extends Phaser.Scene
         window.setGameResumeCallback(function(){
             $pauseButton.setText('PAUSE');
             ctx.scene.resume();
-            SOUNDS.play('wily-escape-iii-a_mmv-gb', {volume: 0.2});
+            SOUNDS.play('icon-click-mini', {volume: 0.2});
             });
         this.pauseButton = $pauseButton;
 
@@ -1543,7 +1541,7 @@ export default class DebugScene extends Phaser.Scene
             }
         if (newDir && $alphaBanner.isReady){
             //console.log('Changing alpha banner direction to', $alphaBanner.directionX, $alphaBanner.directionY);
-            SOUNDS.play('dink_mmi-gb', {volume: 0.2});
+            SOUNDS.play('glass-klink', {volume: 0.2});
             var type = $alphaBanner.type;
             //console.log('$alphaBanner type:', type);
             if (ctx.allowRunningDoctors){
@@ -1604,7 +1602,7 @@ export default class DebugScene extends Phaser.Scene
             }
         if (newDir && $betaBanner.isReady){
             //console.log('Changing beta banner direction to', $betaBanner.directionX, $betaBanner.directionY);
-            SOUNDS.play('dink_mmi-gb', {volume: 0.2});
+            SOUNDS.play('glass-klink', {volume: 0.2});
             var type = $betaBanner.type;
             //console.log('$betaBanner type:', type);
             if (ctx.allowSlidingMasters){

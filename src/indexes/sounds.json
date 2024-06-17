@@ -107,6 +107,7 @@
             "destroyed": {
                 "label": "Destroyed Sound Effects",
                 "index": {
+                    "explode-sound": "big-boom_mmv-gb",
                     "destroyed-sound": "dead_mmi-gb",
                     "master-destroyed-sound": "dead_mmi-gb",
                     "mecha-destroyed-sound": "dead_mmv-gb",
