@@ -8,6 +8,14 @@ import MMRPG from '../shared/MMRPG.js';
 
 export default class SoundsManager {
 
+    // Static method to get the singleton instance of this class
+    static getInstance (scene)
+    {
+        //console.log('SoundsManager.getInstance() called');
+        if (!MMRPG.Managers.SOUNDS){ MMRPG.Managers.SOUNDS = new SoundsManager(scene); }
+        return MMRPG.Managers.SOUNDS;
+    }
+
     // Constructor for the SoundsManager class
     constructor(scene)
     {

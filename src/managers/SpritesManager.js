@@ -8,6 +8,15 @@ import MMRPG from '../shared/MMRPG.js';
 
 export default class SpritesManager {
 
+    // Static method to get the singleton instance of this class
+    static getInstance (scene)
+    {
+        //console.log('SpritesManager.getInstance() called');
+        //console.log('MMRPG.Managers:', MMRPG.Managers);
+        if (!MMRPG.Managers.SPRITES){ MMRPG.Managers.SPRITES = new SpritesManager(scene); }
+        return MMRPG.Managers.SPRITES;
+    }
+
     // Constructor for the SpritesManager class
     constructor(scene)
     {

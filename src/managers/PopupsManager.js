@@ -8,6 +8,14 @@ import MMRPG from '../shared/MMRPG.js';
 
 export default class PopupsManager {
 
+    // Static method to get the singleton instance of this class
+    static getInstance (scene)
+    {
+        //console.log('PopupsManager.getInstance() called');
+        if (!MMRPG.Managers.POPUPS){ MMRPG.Managers.POPUPS = new PopupsManager(scene); }
+        return MMRPG.Managers.POPUPS;
+    }
+
     // Constructor for the PopupsManager class
     constructor(scene)
     {

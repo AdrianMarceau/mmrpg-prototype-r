@@ -11,6 +11,14 @@ import { StringsUtility as Strings } from '../utils/StringsUtility.js';
 
 export default class ButtonsManager {
 
+    // Static method to get the singleton instance of this class
+    static getInstance (scene)
+    {
+        //console.log('ButtonsManager.getInstance() called');
+        if (!MMRPG.Managers.BUTTONS){ MMRPG.Managers.BUTTONS = new ButtonsManager(scene); }
+        return MMRPG.Managers.BUTTONS;
+    }
+
     // Constructor for the ButtonsManager class
     constructor(scene)
     {
