@@ -300,29 +300,28 @@ export default class DebugScene extends Phaser.Scene
                 });
             $customRobot.setAlpha(0.5);
             $customRobot.setOnHover(function(){
-                if (this.isMoving || this.isAnimating){ return; }
+                if (this.isMoving){ return; }
                 //console.log('Hovered over $customRobot!');
                 this.setFrame('taunt');
                 }, function(){
-                if (this.isMoving || this.isAnimating){ return; }
+                if (this.isMoving){ return; }
                 //console.log('Moved away from $customRobot!');
                 this.resetFrame();
                 });
             $customRobot.setOnClick(function($sprite){
-                if (this.isMoving || this.isAnimating){ return; }
+                if (this.isMoving){ return; }
                 //console.log('%c' + '---------------------', 'color: red;');
                 //console.log('Clicked on $customRobot! w/ this:', this, '$sprite:', $sprite);
                 //console.log('-> this.x = ', this.x, 'this.y =', this.y);
                 //console.log('-> $customRobot.x = ', $customRobot.x, '$customRobot.y =', $customRobot.y);
                 //console.log('-> $sprite.x = ', $sprite.x, '$sprite.y =', $sprite.y);
-                SOUNDS.play('selected_mmv-gb', {volume: 0.3});
+                SOUNDS.play('lets-go', {volume: 0.3});
                 this.setAlpha(1);
                 this.flipDirection();
                 this.setFrame('slide');
                 var newX = this.direction === 'left' ? $sprite.x - 90 : $sprite.x + 90;
                 var newY = $sprite.y + 30;
                 //console.log('-> $customRobot is moving to newX:', newX, 'newY:', newY);
-                this.isMoving = true;
                 this.moveToPosition(newX, newY, 1000, function(){
                     //console.log('%c' + '-------------', 'color: pink;');
                     //console.log('--> Movement complete!');
@@ -330,7 +329,6 @@ export default class DebugScene extends Phaser.Scene
                     //console.log('--> $customRobot.x = ', $customRobot.x, '$customRobot.y =', $customRobot.y);
                     //console.log('-> $sprite.x = ', $sprite.x, '$sprite.y =', $sprite.y);
                     this.setFrame('base');
-                    this.isMoving = false;
                     });
                 });
             console.log('$customRobot =', $customRobot);
@@ -347,27 +345,26 @@ export default class DebugScene extends Phaser.Scene
                 direction: 'right'
                 });
             $customBoss.setOnHover(function(){
-                if (this.isMoving || this.isAnimating){ return; }
+                if (this.isMoving){ return; }
                 //console.log('Hovered over $customBoss!');
                 this.setFrame('taunt');
                 }, function(){
-                if (this.isMoving || this.isAnimating){ return; }
+                if (this.isMoving){ return; }
                 //console.log('Moved away from $customBoss!');
                 this.resetFrame();
                 });
             $customBoss.setOnClick(function($sprite){
                 //console.log('Clicked on $customBoss! w/ $sprite:', $sprite);
-                SOUNDS.play('selected_mmv-gb', {volume: 0.3});
+                SOUNDS.play('level-up', {volume: 0.3});
                 this.flipDirection();
                 this.setFrame('slide');
                 var newX = this.direction === 'left' ? $sprite.x - 90 : $sprite.x + 90;
                 var newY = $sprite.y + 30;
-                this.isMoving = true;
                 //console.log('Moving to:', newX, newY);
                 this.moveToPosition(newX, newY, 1000, function(){
                     //console.log('Movement complete! $sprite.x =', $sprite.x, '$sprite.y =', $sprite.y);
+                    if (this.isMoving){ return; }
                     this.setFrame('base');
-                    this.isMoving = false;
                     });
                 });
             console.log('$customBoss =', $customBoss);
@@ -381,6 +378,28 @@ export default class DebugScene extends Phaser.Scene
                 scale: 2,
                 origin: [0.5, 1],
                 direction: 'left'
+                });
+            $customMecha.setOnHover(function(){
+                if (this.isMoving){ return; }
+                //console.log('Hovered over $customMecha!');
+                this.setFrame('base2');
+                }, function(){
+                if (this.isMoving){ return; }
+                //console.log('Moved away from $customMecha!');
+                this.resetFrame();
+                });
+            $customMecha.setOnClick(function($sprite){
+                //console.log('Clicked on $customMecha! w/ $sprite:', $sprite);
+                SOUNDS.play('glass-klink', {volume: 0.3});
+                this.flipDirection();
+                this.setFrame('damage');
+                var newX = this.direction === 'left' ? $sprite.x - 90 : $sprite.x + 90;
+                var newY = $sprite.y + 30;
+                //console.log('Moving to:', newX, newY);
+                this.moveToPosition(newX, newY, 0, function(){
+                    //console.log('Movement complete! $sprite.x =', $sprite.x, '$sprite.y =', $sprite.y);
+                    this.setFrame('base');
+                    });
                 });
             console.log('$customMecha =', $customMecha);
 
