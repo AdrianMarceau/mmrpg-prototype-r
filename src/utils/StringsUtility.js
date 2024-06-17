@@ -477,8 +477,8 @@ export class StringsUtility {
             };
         function setPosition(x, y){
             //console.log('setPosition(', x, y, ')');
-            x = intFromString(x, options.x);
-            y = intFromString(y, options.y);
+            x = Graphics.parseRelativePosition(x, options.x);
+            y = Graphics.parseRelativePosition(y, options.y);
             let xDiff = x - options.x;
             let yDiff = y - options.y;
             //console.log('-> setPosition(', x, y, ') w/ diff:', xDiff, yDiff);
@@ -514,14 +514,6 @@ export class StringsUtility {
                 }
             // Nullify the elements array
             textAreaElements = [];
-            };
-        function intFromString(value, base = 0){
-            if (typeof value === 'string' && value.match(/^(\+\=|\-=)/)){
-                let dx = parseInt(value.replace(/^(\+\=|\-=)/, ''));
-                value = base + (value.match(/^\+=/) ? dx : -dx);
-                //console.log('re-calculated value:', value);
-                }
-            return value;
             };
         $formattedText.getSize = getSize;
         $formattedText.getPosition = getPosition;
