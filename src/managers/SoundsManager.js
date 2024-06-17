@@ -80,7 +80,7 @@ export default class SoundsManager {
     // Play a sound from the sound sprite
     play (token, options = {})
     {
-        console.log('SoundsManager.play() called');
+        //console.log('SoundsManager.play() called');
         if (typeof token !== 'string'){ return; }
         let MMRPG = this.MMRPG;
         let scene = this.scene;

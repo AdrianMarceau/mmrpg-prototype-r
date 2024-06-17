@@ -12,6 +12,7 @@ import { GraphicsUtility as Graphics } from '../../utils/GraphicsUtility.js';
 import { StringsUtility as Strings } from '../../utils/StringsUtility.js';
 
 import SpritesManager from '../../managers/SpritesManager.js';
+import SoundsManager from '../../managers/SoundsManager.js';
 import PopupsManager from '../../managers/PopupsManager.js';
 import ButtonsManager from '../../managers/ButtonsManager.js';
 
@@ -29,12 +30,14 @@ export default class DebugRunnerScene extends Phaser.Scene
 
         // Initialize MMRPG utility class objects
         let SPRITES = new SpritesManager(this);
+        let SOUNDS = new SoundsManager(this);
         let POPUPS = new PopupsManager(this);
         let BUTTONS = new ButtonsManager(this);
 
         // Ensure MMRPG and utility objects are available to the entire class
         this.MMRPG = MMRPG;
         this.SPRITES = SPRITES;
+        this.SOUNDS = SOUNDS;
         this.BUTTONS = BUTTONS;
         this.POPUPS = POPUPS;
 
@@ -75,9 +78,9 @@ export default class DebugRunnerScene extends Phaser.Scene
         // Pull in other required objects and references
         let ctx = this;
         let SPRITES = this.SPRITES;
+        let SOUNDS = this.SOUNDS;
         let POPUPS = this.POPUPS;
         let BUTTONS = this.BUTTONS;
-        let SOUNDS = this.SOUNDS;
 
         // Pull in some indexes for later use
         let typesIndex = MMRPG.Indexes.types;
@@ -181,9 +184,9 @@ export default class DebugRunnerScene extends Phaser.Scene
         // Pull in other required objects and references
         let ctx = this;
         let SPRITES = this.SPRITES;
+        let SOUNDS = this.SOUNDS;
         let POPUPS = this.POPUPS;
         let BUTTONS = this.BUTTONS;
-        let SOUNDS = this.SOUNDS;
 
         // First we add the title banner up at the top
         this.createTitleBanner();
@@ -331,7 +334,7 @@ export default class DebugRunnerScene extends Phaser.Scene
         // -- DEBUG SOUND EFFECTS -- //
 
         // Play a sound effect to make sure they're working
-        SOUNDS.play('megaman_ready_mm8-psx');
+        SOUNDS.play('megaman_ready_mm8-psx', {volume: 0.3});
 
 
         // ---------------->
