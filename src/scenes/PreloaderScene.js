@@ -112,6 +112,7 @@ export default class PreloaderScene extends Phaser.Scene
             this.queueIndex('items', 'items.json');
             this.queueIndex('skills', 'skills.json');
             this.queueIndex('fields', 'fields.json');
+            this.queueIndex('sounds', 'sounds.json');
 
             }
         // Preload all the default sprites if explicitly requested
@@ -263,6 +264,25 @@ export default class PreloaderScene extends Phaser.Scene
             //this.load.audioSprite('sounds', soundsPath+'audio.json', [soundsPath+'audio.mp3', soundsPath+'audio.ogg']);
             let sfxPath = 'misc/sound-effects-curated/';
             this.queueAudioSprite('effects', sfxPath+'audio.json', [sfxPath+'audio.mp3', sfxPath+'audio.ogg']);
+            let sfxAliasIndex = {};
+            if (typeof MMRPG.Indexes.sounds !== 'undefined'){
+                let soundsIndex = MMRPG.Indexes.sounds;
+                let soundCategories = Object.keys(soundsIndex);
+                for (let i = 0; i < soundCategories.length; i++){
+                    let token = soundCategories[i];
+                    let category = soundsIndex[token];
+                    let label = category.label;
+                    let index = category.index;
+                    let aliases = Object.keys(index);
+                    for (let j = 0; j < aliases.length; j++){
+                        let alias = aliases[j];
+                        let sound = index[alias];
+                        sfxAliasIndex[alias] = sound;
+                        }
+                    }
+                }
+            MMRPG.Indexes.sounds.aliases = sfxAliasIndex;
+            //console.log('sfxAliasIndex =', sfxAliasIndex);
 
             }
 

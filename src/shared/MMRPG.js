@@ -105,7 +105,11 @@ MMRPG.create = function(scene, isPreloadPhase = false){
             play: function(token, options){
                 if (typeof token !== 'string'){ return; }
                 if (typeof options !== 'object'){ options = {}; }
-                scene.sound.playAudioSprite('sounds.effects', token, options);
+                let sfxToken = token;
+                let sfxAliasIndex = MMRPG.Indexes.sounds.aliases || {};
+                //console.log('sfxAliasIndex =', sfxAliasIndex);
+                if (sfxAliasIndex[token]){ sfxToken = sfxAliasIndex[token]; }
+                scene.sound.playAudioSprite('sounds.effects', sfxToken, options);
                 }
             };
         }
