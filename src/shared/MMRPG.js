@@ -35,6 +35,7 @@ class MMRPG {
         this.Init = [];
         this.Utilities = {};
         this.Indexes = {};
+        this.Managers = {};
         this.Cache = {};
         this.Data = {};
 
