@@ -11,6 +11,7 @@ import { GraphicsUtility as Graphics } from '../utils/GraphicsUtility.js';
 import { StringsUtility as Strings } from '../utils/StringsUtility.js';
 
 import SpritesManager from '../managers/SpritesManager.js';
+import SoundsManager from '../managers/SoundsManager.js';
 import ButtonsManager from '../managers/ButtonsManager.js';
 
 export default class TitleScene extends Phaser.Scene
@@ -23,11 +24,13 @@ export default class TitleScene extends Phaser.Scene
 
         // Initialize MMRPG utility class objects
         let SPRITES = new SpritesManager(this);
+        let SOUNDS = new SoundsManager(this);
         let BUTTONS = new ButtonsManager(this);
 
         // Ensure MMRPG and utility objects are available to the entire class
         this.MMRPG = MMRPG;
         this.SPRITES = SPRITES;
+        this.SOUNDS = SOUNDS;
         this.BUTTONS = BUTTONS;
 
         // Initialize this scene with a first-load callback function
@@ -157,6 +160,9 @@ export default class TitleScene extends Phaser.Scene
 
     addStartButton(ctx) {
 
+        let MMRPG = this.MMRPG;
+        let SOUNDS = this.SOUNDS;
+
         // Add a start button and get ready to fade in slowly
         var x = MMRPG.canvas.centerX, y = MMRPG.canvas.centerY + 60;
         let $startButton = this.add.image(x, y, 'start');
@@ -190,6 +196,7 @@ export default class TitleScene extends Phaser.Scene
         // Add a click event that triggers a move to the Main scene
         $startButton.on('pointerdown', () => {
             console.log('Start button clicked!');
+            SOUNDS.play('game-start', {volume: 0.5});
             ctx.scene.start('Main');
             });
 
