@@ -23,9 +23,9 @@ export default class TitleScene extends Phaser.Scene
         super('Title');
 
         // Initialize MMRPG utility class objects
-        let SPRITES = new SpritesManager(this);
-        let SOUNDS = new SoundsManager(this);
-        let BUTTONS = new ButtonsManager(this);
+        let SPRITES = SpritesManager.getInstance(this);
+        let SOUNDS = SoundsManager.getInstance(this);
+        let BUTTONS = ButtonsManager.getInstance(this);
 
         // Ensure MMRPG and utility objects are available to the entire class
         this.MMRPG = MMRPG;

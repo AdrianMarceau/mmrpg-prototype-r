@@ -21,7 +21,7 @@ export default class PreloaderScene extends Phaser.Scene
         super('Preloader');
 
         // Initialize MMRPG utility class objects
-        let SPRITES = new SpritesManager(this);
+        let SPRITES = SpritesManager.getInstance(this);
 
         // Ensure MMRPG and utility objects are available to the entire class
         this.MMRPG = MMRPG;

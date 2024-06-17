@@ -29,10 +29,10 @@ export default class DebugRunnerScene extends Phaser.Scene
         super('DebugRunner');
 
         // Initialize MMRPG utility class objects
-        let SPRITES = new SpritesManager(this);
-        let SOUNDS = new SoundsManager(this);
-        let POPUPS = new PopupsManager(this);
-        let BUTTONS = new ButtonsManager(this);
+        let SPRITES = SpritesManager.getInstance(this);
+        let SOUNDS = SoundsManager.getInstance(this);
+        let POPUPS = PopupsManager.getInstance(this);
+        let BUTTONS = ButtonsManager.getInstance(this);
 
         // Ensure MMRPG and utility objects are available to the entire class
         this.MMRPG = MMRPG;

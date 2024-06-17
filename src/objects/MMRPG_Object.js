@@ -18,7 +18,7 @@ class MMRPG_Object {
         //console.log('MMRPG_Object.constructor() called w/ _kind:', _kind, 'token:', token, 'customInfo:', customInfo, 'spriteConfig:', spriteConfig);
 
         // Initialize MMRPG utility class objects
-        let SPRITES = scene.SPRITES || new SpritesManager(scene);
+        let SPRITES = SpritesManager.getInstance(scene);
 
         // Pull in references to required global objects
         this.MMRPG = MMRPG;
@@ -340,7 +340,6 @@ class MMRPG_Object {
         $sprite.setTexture(config.sheet);
         $sprite.setPosition(config.x, config.y);
         $sprite.setDepth(config.depth + config.z);
-        $sprite.setDisplaySize(config.width, config.height);
         $sprite.setOrigin(config.origin[0], config.origin[1]);
         $sprite.setAlpha(config.alpha);
         $sprite.setScale(config.scale);
