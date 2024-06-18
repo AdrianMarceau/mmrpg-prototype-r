@@ -6,6 +6,14 @@
 
 import MMRPG from '../shared/MMRPG.js';
 
+import MMRPG_Player from '../objects/MMRPG_Player.js';
+import MMRPG_Robot from '../objects/MMRPG_Robot.js';
+import MMRPG_Ability from '../objects/MMRPG_Ability.js';
+import MMRPG_Item from '../objects/MMRPG_Item.js';
+import MMRPG_Field from '../objects/MMRPG_Field.js';
+import MMRPG_Skill from '../objects/MMRPG_Skill.js';
+import MMRPG_Type from '../objects/MMRPG_Type.js';
+
 export default class SpritesManager {
 
     // Static method to get the singleton instance of this class
@@ -111,170 +119,40 @@ export default class SpritesManager {
     }
 
     // Load a sprite sheet for a specific kind of object into the game
-    loadSprite (ctx, kind, token, alt = 'base')
+    loadSprite (ctx, _kind, token, alt = 'base')
     {
-        //console.log('SpritesManager.loadSprite() called w/ \n kind: '+kind+', token: '+token+', alt: '+alt);
+        //console.log('SpritesManager.loadSprite() called w/ \n _kind: '+_kind+', token: '+token+', alt: '+alt);
 
         // Pull in index references
         let SPRITES = this;
+        let scene = ctx.scene;
         let index = SPRITES.index;
-        let kinds = index.kinds;
-        let xkinds = index.xkinds;
-        //console.log('(start) index:', index);
 
         // Normalize the kind token to ensure they it's valid
-        let xkind = '';
-        if (kinds.includes(kind)){
-            xkind = xkinds[kinds.indexOf(kind)];
-            } else if (xkinds.includes(kind)){
-            xkind = kind;
-            kind = kinds[xkinds.indexOf(xkind)];
-            } else {
-            return false;
-            }
+        let [ kind, xkind ] = MMRPG.parseKind(_kind);
         //console.log('token:', token, 'kind:', kind, 'xkind:', xkind);
 
-        // Collect info for the sprite given the kind it is
-        //console.log('MMRPG.Indexes:', MMRPG.Indexes);
-        //console.log('MMRPG.Indexes['+xkind+']:', MMRPG.Indexes[xkind]);
-        let spriteInfo = MMRPG.Indexes[xkind][token] || {};
-        //console.log('spriteInfo for xkind:', xkind, 'token:', token, ' =', spriteInfo);
+        // Create a new object to use for loading this sprite's assets and dat
+        let $mmrpgObject;
+        let customInfo = {};
+        customInfo.image_alt = alt;
+        if (kind === 'player'){ $mmrpgObject = new MMRPG_Player(scene, token, customInfo, null); }
+        else if (kind === 'robot'){ $mmrpgObject = new MMRPG_Robot(scene, token, customInfo, null); }
+        else if (kind === 'ability'){ $mmrpgObject = new MMRPG_Ability(scene, token, customInfo, null); }
+        else if (kind === 'item'){ $mmrpgObject = new MMRPG_Item(scene, token, customInfo, null); }
+        else if (kind === 'field'){ $mmrpgObject = new MMRPG_Field(scene, token, customInfo, null); }
+        else if (kind === 'skill'){ $mmrpgObject = new MMRPG_Skill(scene, token, customInfo, null); }
+        else if (kind === 'type'){ $mmrpgObject = new MMRPG_Type(scene, token, customInfo, null); }
+        else { return false; }
+        //console.log('$mmrpgObject = ', $mmrpgObject);
 
-        // Predefine some base paths and keys
-        let altIsBase = alt === 'base' || alt === '1' || alt === 1 ? true : false;
-        let pathToken = token === kind ? ('.' + kind) : token;
-        let basePath = 'content/'+ xkind + '/' + pathToken + '/sprites' + (!altIsBase ? '_'+alt : '') + '/';
-        let baseKey = 'sprites.' + xkind + '.' + token + '.' + alt;
-        let spriteSize = spriteInfo.image_size || 40;
-        let spriteSizeX = spriteSize+'x'+spriteSize;
-        let spriteDirections = ['left', 'right'];
-        index.prepForKeys(index.sizes, kind);
-        index.sizes[kind][token] = spriteSize;
-        //console.log('queued [ '+spriteSize+' ] to index.sizes['+kind+']['+token+']')
+        // Load the sprite sheets for this object
+        $mmrpgObject.loadSpriteSheets(true);
+        $mmrpgObject.loadSpriteAnimations(true);
 
-        // Loop through each direction and load the sprite sheet, making note of the sheet created
-        for (let i = 0; i < spriteDirections.length; i++){
-            let direction = spriteDirections[i];
-
-            // -- LOAD MAIN SPRITE SHEETS -- //
-
-            // Define and register the key for this sprite sheet using direction, image, key, and path
-            let sheetKey = baseKey+'.sprite-'+direction;
-            let sheetToken = 'sprite-' + direction;
-            index.prepForKeys(index.sheets, xkind, token, alt);
-            index.sheets[xkind][token][alt][sheetToken] = sheetKey;
-            //console.log('queued [ '+sheetKey+' ] to index.sheets['+xkind+']['+token+']['+alt+']['+sheetToken+']');
-
-            // Define the relative image path for this sprite sheet
-            let image = 'sprite_'+direction+'_'+spriteSizeX+'.png';
-            let imagePath = basePath+image;
-            index.prepForKeys(index.paths, xkind, token, alt);
-            index.paths[xkind][token][alt][sheetToken] = imagePath;
-            //console.log('queued [ '+imagePath+' ] to index.paths['+xkind+']['+token+']['+alt+']['+sheetToken+']');
-
-            // Queue loading the sprite sheet into the game
-            SPRITES.pendingSheets.push({
-                key: sheetKey,
-                path: imagePath,
-                size: spriteSize,
-                });
-
-            // -- LOAD ICON SPRITE SHEETS -- //
-
-            // Define and register the key for this icon sheet using direction, image, key, and path
-            let iconPrefix = kind === 'player' || kind === 'robot' ? 'mug' : 'icon';
-            let iconSheetKey = sheetKey.replace('sprites.', iconPrefix+'s.');
-            let iconSheetToken = sheetToken.replace('sprite-', iconPrefix+'-');
-            index.sheets[xkind][token][alt][iconSheetToken] = iconSheetKey;
-
-            // Queue loading the icon sheet into the game
-            let iconImage = iconPrefix+'_'+direction+'_'+spriteSizeX+'.png';
-            let iconImagePath = basePath+iconImage;
-            index.paths[xkind][token][alt][iconSheetToken] = iconImagePath;
-            //console.log('queued [ '+iconImagePath+' ] to index.paths['+xkind+']['+token+']['+alt+']['+iconSheetToken+']');
-
-            // Queue loading the icon sheet into the game
-            SPRITES.pendingSheets.push({
-                key: iconSheetKey,
-                path: iconImagePath,
-                size: spriteSize,
-                });
-
-            // -- DEFINE SPRITE ANIMATIONS -- //
-
-            // Also create animations for this sprite depending on kind
-            if (kind === 'player'){
-
-                // Generate the running animation string for re-use later
-                var anim = 'run';
-                var animKey = sheetKey + '.' + anim;
-                index.prepForKeys(index.anims, xkind, token, alt, sheetToken);
-                index.anims[xkind][token][alt][sheetToken][anim] = animKey;
-                //console.log('queued [ '+animKey+' ] to index.anims['+xkind+']['+token+']['+alt+']['+sheetToken+']['+anim+']');
-
-                // Queue the creation of a running animation for this sprite
-                SPRITES.pendingAnims.push({
-                    key: animKey,
-                    sheet: sheetKey,
-                    frames: [ 7, 8, 9 ],
-                    frameRate: 5,
-                    repeat: -1
-                    });
-
-                }
-            else if (kind === 'robot'){
-
-                // Generate the idle animation string for re-use later
-                var anim = 'idle';
-                var animKey = sheetKey + '.' + anim;
-                index.prepForKeys(index.anims, xkind, token, alt, sheetToken);
-                index.anims[xkind][token][alt][sheetToken][anim] = animKey;
-                //console.log('queued [ '+animKey+' ] to index.anims['+xkind+']['+token+']['+alt+']['+sheetToken+']['+anim+']');
-
-                // Queue the creation of a sliding animation for this sprite
-                SPRITES.pendingAnims.push({
-                    key: animKey,
-                    sheet: sheetKey,
-                    frames: [ 0, 1, 0, 8, 0, 1, 0, 10 ],
-                    frameRate: 1,
-                    repeat: -1
-                    });
-
-                // Generate the sliding animation string for re-use later
-                var anim = 'slide';
-                var animKey = sheetKey + '.' + anim;
-                index.prepForKeys(index.anims, xkind, token, alt, sheetToken);
-                index.anims[xkind][token][alt][sheetToken][anim] = animKey;
-                //console.log('queued [ '+animKey+' ] to index.anims['+xkind+']['+token+']['+alt+']['+sheetToken+']['+anim+']');
-
-                // Queue the creation of a sliding animation for this sprite
-                SPRITES.pendingAnims.push({
-                    key: animKey,
-                    sheet: sheetKey,
-                    frames: [ 8, 7, 7, 7, 7, 7, 7, 8 ],
-                    frameRate: 6,
-                    repeat: 0
-                    });
-
-                // Generate the shooting animation string for re-use later
-                var anim = 'shoot';
-                var animKey = sheetKey + '.' + anim;
-                index.prepForKeys(index.anims, xkind, token, alt, sheetToken);
-                index.anims[xkind][token][alt][sheetToken][anim] = animKey;
-                //console.log('queued [ '+animKey+' ] to index.anims['+xkind+']['+token+']['+alt+']['+sheetToken+']['+anim+']');
-
-                // Queue the creation of a sliding animation for this sprite
-                SPRITES.pendingAnims.push({
-                    key: animKey,
-                    sheet: sheetKey,
-                    frames: [ 8, 4, 4, 4, 4, 4, 4, 4 ],
-                    frameRate: 6,
-                    repeat: 0
-                    });
-
-                }
-
-            }
+        // Delete the newly created object so it doesn't waste memory
+        $mmrpgObject.destroy();
+        $mmrpgObject = null;
 
         //console.log('(end) index:', index);
 

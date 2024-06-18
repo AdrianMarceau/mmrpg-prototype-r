@@ -243,6 +243,219 @@ class MMRPG_Object {
 
     }
 
+    // Load all of this sprite's sheets into the memory using the sprite manager utility
+    loadSpriteSheets ()
+    {
+        //console.log('MMRPG_Object.loadSpriteSheets() called for ', this.kind, this.token);
+
+        // Pull in index references
+        let _this = this;
+        let scene = this.scene;
+        let SPRITES = this.SPRITES;
+        let spritesIndex = SPRITES.index;
+
+        // Collect info for the sprite given the kind it is
+        let kind = this.kind;
+        let xkind = this.xkind;
+        let token = this.token;
+        let indexInfo = this.indexInfo;
+        //console.log('indexInfo for ', kind, token, '=', indexInfo);
+
+        // Predefine some base paths and keys
+        let altToken = this.data.image_alt || ((kind === 'player' || kind === 'robot') ? 'base' : 1);
+        let altIsBase = altToken === 'base' || altToken === '1' || altToken === 1 ? true : false;
+        let pathToken = token === kind ? ('.' + kind) : token;
+        let basePath = 'content/'+ xkind + '/' + pathToken + '/sprites' + (!altIsBase ? '_'+altToken : '') + '/';
+        let baseKey = 'sprites.' + xkind + '.' + token + '.' + altToken;
+        let spriteSize = indexInfo.image_size || 40;
+        let spriteSizeX = spriteSize+'x'+spriteSize;
+        let spriteDirections = ['left', 'right'];
+        spritesIndex.prepForKeys(spritesIndex.sizes, kind);
+        spritesIndex.sizes[kind][token] = spriteSize;
+        //console.log('queued [ '+spriteSize+' ] to spritesIndex.sizes['+kind+']['+token+']')
+
+        // Loop through each direction and load the sprite sheet, making note of the sheet created
+        for (let i = 0; i < spriteDirections.length; i++){
+            let direction = spriteDirections[i];
+
+            // -- LOAD MAIN SPRITE SHEETS -- //
+
+            // Define and register the key for this sprite sheet using direction, image, key, and path
+            let sheetKey = baseKey+'.sprite-'+direction;
+            let sheetToken = 'sprite-' + direction;
+            spritesIndex.prepForKeys(spritesIndex.sheets, xkind, token, altToken);
+            spritesIndex.sheets[xkind][token][altToken][sheetToken] = sheetKey;
+            //console.log('queued [ '+sheetKey+' ] to spritesIndex.sheets['+xkind+']['+token+']['+altToken+']['+sheetToken+']');
+
+            // Define the relative image path for this sprite sheet
+            let image = 'sprite_'+direction+'_'+spriteSizeX+'.png';
+            let imagePath = basePath+image;
+            spritesIndex.prepForKeys(spritesIndex.paths, xkind, token, altToken);
+            spritesIndex.paths[xkind][token][altToken][sheetToken] = imagePath;
+            //console.log('queued [ '+imagePath+' ] to spritesIndex.paths['+xkind+']['+token+']['+altToken+']['+sheetToken+']');
+
+            // Queue loading the sprite sheet into the game
+            SPRITES.pendingSheets.push({
+                key: sheetKey,
+                path: imagePath,
+                size: spriteSize,
+                });
+
+            // -- LOAD ICON SPRITE SHEETS -- //
+
+            // Define and register the key for this icon sheet using direction, image, key, and path
+            let iconPrefix = kind === 'player' || kind === 'robot' ? 'mug' : 'icon';
+            let iconSheetKey = sheetKey.replace('sprites.', iconPrefix+'s.');
+            let iconSheetToken = sheetToken.replace('sprite-', iconPrefix+'-');
+            spritesIndex.sheets[xkind][token][altToken][iconSheetToken] = iconSheetKey;
+
+            // Queue loading the icon sheet into the game
+            let iconImage = iconPrefix+'_'+direction+'_'+spriteSizeX+'.png';
+            let iconImagePath = basePath+iconImage;
+            spritesIndex.paths[xkind][token][altToken][iconSheetToken] = iconImagePath;
+            //console.log('queued [ '+iconImagePath+' ] to spritesIndex.paths['+xkind+']['+token+']['+altToken+']['+iconSheetToken+']');
+
+            // Queue loading the icon sheet into the game
+            SPRITES.pendingSheets.push({
+                key: iconSheetKey,
+                path: iconImagePath,
+                size: spriteSize,
+                });
+
+            }
+
+        // Return when done
+        return;
+
+    }
+
+    // Load all of this sprite's animations into memory using the sprite mamager utility
+    loadSpriteAnimations ()
+    {
+        //console.log('MMRPG_Object.loadSpriteAnimations() called for ', this.kind, this.token);
+
+        // Pull in index references
+        let _this = this;
+        let scene = this.scene;
+        let SPRITES = this.SPRITES;
+        let spritesIndex = SPRITES.index;
+
+        // Collect info for the sprite given the kind it is
+        let kind = this.kind;
+        let xkind = this.xkind;
+        let token = this.token;
+        let indexInfo = this.indexInfo;
+        //console.log('indexInfo for ', kind, token, '=', indexInfo);
+
+        // Predefine some base paths and keys
+        let altToken = this.data.image_alt || ((kind === 'player' || kind === 'robot') ? 'base' : 1);
+        let altIsBase = altToken === 'base' || altToken === '1' || altToken === 1 ? true : false;
+        let pathToken = token === kind ? ('.' + kind) : token;
+        let basePath = 'content/'+ xkind + '/' + pathToken + '/sprites' + (!altIsBase ? '_'+altToken : '') + '/';
+        let baseKey = 'sprites.' + xkind + '.' + token + '.' + altToken;
+        let spriteSize = indexInfo.image_size || 40;
+        let spriteSizeX = spriteSize+'x'+spriteSize;
+        let spriteDirections = ['left', 'right'];
+        spritesIndex.prepForKeys(spritesIndex.sizes, kind);
+        spritesIndex.sizes[kind][token] = spriteSize;
+        //console.log('queued [ '+spriteSize+' ] to spritesIndex.sizes['+kind+']['+token+']')
+
+        // Loop through each direction and load the sprite sheet, making note of the sheet created
+        for (let i = 0; i < spriteDirections.length; i++){
+            let direction = spriteDirections[i];
+
+            // -- DEFINE SHEET KEYS & TOKENS -- //
+
+            // Define and register the key for this sprite sheet using direction, image, key, and path
+            let sheetKey = baseKey+'.sprite-'+direction;
+            let sheetToken = 'sprite-' + direction;
+
+            // Define and register the key for this icon sheet using direction, image, key, and path
+            let iconPrefix = kind === 'player' || kind === 'robot' ? 'mug' : 'icon';
+            let iconSheetKey = sheetKey.replace('sprites.', iconPrefix+'s.');
+            let iconSheetToken = sheetToken.replace('sprite-', iconPrefix+'-');
+
+            // -- DEFINE SPRITE ANIMATIONS -- //
+
+            // Also create animations for this sprite depending on kind
+            if (kind === 'player'){
+
+                // Generate the running animation string for re-use later
+                var anim = 'run';
+                var animKey = sheetKey + '.' + anim;
+                spritesIndex.prepForKeys(spritesIndex.anims, xkind, token, altToken, sheetToken);
+                spritesIndex.anims[xkind][token][altToken][sheetToken][anim] = animKey;
+                //console.log('queued [ '+animKey+' ] to spritesIndex.anims['+xkind+']['+token+']['+altToken+']['+sheetToken+']['+anim+']');
+
+                // Queue the creation of a running animation for this sprite
+                SPRITES.pendingAnims.push({
+                    key: animKey,
+                    sheet: sheetKey,
+                    frames: [ 7, 8, 9 ],
+                    frameRate: 5,
+                    repeat: -1
+                    });
+
+                }
+            else if (kind === 'robot'){
+
+                // Generate the idle animation string for re-use later
+                var anim = 'idle';
+                var animKey = sheetKey + '.' + anim;
+                spritesIndex.prepForKeys(spritesIndex.anims, xkind, token, altToken, sheetToken);
+                spritesIndex.anims[xkind][token][altToken][sheetToken][anim] = animKey;
+                //console.log('queued [ '+animKey+' ] to spritesIndex.anims['+xkind+']['+token+']['+altToken+']['+sheetToken+']['+anim+']');
+
+                // Queue the creation of a sliding animation for this sprite
+                SPRITES.pendingAnims.push({
+                    key: animKey,
+                    sheet: sheetKey,
+                    frames: [ 0, 1, 0, 8, 0, 1, 0, 10 ],
+                    frameRate: 1,
+                    repeat: -1
+                    });
+
+                // Generate the sliding animation string for re-use later
+                var anim = 'slide';
+                var animKey = sheetKey + '.' + anim;
+                spritesIndex.prepForKeys(spritesIndex.anims, xkind, token, altToken, sheetToken);
+                spritesIndex.anims[xkind][token][altToken][sheetToken][anim] = animKey;
+                //console.log('queued [ '+animKey+' ] to spritesIndex.anims['+xkind+']['+token+']['+altToken+']['+sheetToken+']['+anim+']');
+
+                // Queue the creation of a sliding animation for this sprite
+                SPRITES.pendingAnims.push({
+                    key: animKey,
+                    sheet: sheetKey,
+                    frames: [ 8, 7, 7, 7, 7, 7, 7, 8 ],
+                    frameRate: 6,
+                    repeat: 0
+                    });
+
+                // Generate the shooting animation string for re-use later
+                var anim = 'shoot';
+                var animKey = sheetKey + '.' + anim;
+                spritesIndex.prepForKeys(spritesIndex.anims, xkind, token, altToken, sheetToken);
+                spritesIndex.anims[xkind][token][altToken][sheetToken][anim] = animKey;
+                //console.log('queued [ '+animKey+' ] to spritesIndex.anims['+xkind+']['+token+']['+altToken+']['+sheetToken+']['+anim+']');
+
+                // Queue the creation of a sliding animation for this sprite
+                SPRITES.pendingAnims.push({
+                    key: animKey,
+                    sheet: sheetKey,
+                    frames: [ 8, 4, 4, 4, 4, 4, 4, 4 ],
+                    frameRate: 6,
+                    repeat: 0
+                    });
+
+                }
+
+            }
+
+        // Return when done
+        return;
+
+    }
+
     // Load a given sprite texture (sheet) into memory and optionally execute a callback when done
     loadSpriteTexture (token, direction, onLoadCallback)
     {
