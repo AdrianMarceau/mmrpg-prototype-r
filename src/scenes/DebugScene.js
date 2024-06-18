@@ -246,11 +246,13 @@ export default class DebugScene extends Phaser.Scene
             // add two robot masters talking to each other for effect
             var origin = [0.5, 1];
             var x = x + (width / 2), y = y + 2;
-            let $bubbleRobot1 = new MMRPG_Robot(this, 'bomb-man', null, { x: x - 40, y: y, z: depth++, direction: 'right', scale: 1, origin: origin });
-            let $bubbleRobot2 = new MMRPG_Robot(this, 'star-man', null, { x: x + 40, y: y, z: depth++, direction: 'left', scale: 1, origin: origin });
+            let $bubbleRobot1 = new MMRPG_Robot(this, 'star-man', null, { x: x - 40, y: y, z: depth++, direction: 'right', scale: 2, origin: origin });
+            let $bubbleRobot2 = new MMRPG_Robot(this, 'bomb-man', null, { x: x + 40, y: y, z: depth++, direction: 'left', scale: 2, origin: origin });
+            $bubbleRobot1.startIdleAnimation();
+            $bubbleRobot2.startIdleAnimation();
             // automatically fade out and remove the above after a few seconds
             let floatingTextBubbleTween;
-            this.time.delayedCall(3000, function(){
+            this.time.delayedCall(4000, function(){
                 floatingTextBubbleTween = ctx.tweens.addCounter({
                     from: 100,
                     to: 0,
@@ -277,7 +279,6 @@ export default class DebugScene extends Phaser.Scene
                         }
                     });
                 }, [], this);
-
 
             // -- DEBUG SOUND EFFECTS -- //
 
@@ -1167,7 +1168,7 @@ export default class DebugScene extends Phaser.Scene
         let cleanupTimer = null;
         let cleanupDelay = 3000;
         const queueSpriteCleanup = function(){
-            //console.log('queueSpriteCleanup() w/ $sprite:', $sprite, 'duration:', duration);
+            //console.log('queueSpriteCleanup()');
             if (cleanupTimer){ cleanupTimer.remove(); }
             let removeDebugKeys = [];
             cleanupTimer = ctx.time.delayedCall(cleanupDelay, function(){
