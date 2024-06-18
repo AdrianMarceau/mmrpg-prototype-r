@@ -224,6 +224,22 @@ export default class SpritesManager {
                 }
             else if (kind === 'robot'){
 
+                // Generate the idle animation string for re-use later
+                var anim = 'idle';
+                var animKey = sheetKey + '.' + anim;
+                index.prepForKeys(index.anims, xkind, token, alt, sheetToken);
+                index.anims[xkind][token][alt][sheetToken][anim] = animKey;
+                //console.log('queued [ '+animKey+' ] to index.anims['+xkind+']['+token+']['+alt+']['+sheetToken+']['+anim+']');
+
+                // Queue the creation of a sliding animation for this sprite
+                SPRITES.pendingAnims.push({
+                    key: animKey,
+                    sheet: sheetKey,
+                    frames: [ 0, 1, 0, 8, 0, 1, 0, 10 ],
+                    frameRate: 1,
+                    repeat: -1
+                    });
+
                 // Generate the sliding animation string for re-use later
                 var anim = 'slide';
                 var animKey = sheetKey + '.' + anim;
