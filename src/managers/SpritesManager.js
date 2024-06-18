@@ -450,9 +450,6 @@ export default class SpritesManager {
         // Pull in required references
         let SPRITES = this;
 
-        // Stop any tweens on this sprite itself
-        if (typeof $sprite.stop === 'function'){ $sprite.stop(); }
-
         // Stop and destroy any tweens attached to this sprite
         if ($sprite.subTweens){
             let keys = Object.keys($sprite.subTweens);
@@ -512,7 +509,7 @@ export default class SpritesManager {
     }
 
     // Define a function for disabling a robot sprite and hiding it from view until destruction
-    destroySprite (ctx, $sprite)
+    destroySprite (ctx, $sprite, actuallyDestroy = true)
     {
         //console.log('disableRobotSprite() w/ $sprite:', $sprite);
         if (!$sprite){ return; }
@@ -528,20 +525,39 @@ export default class SpritesManager {
         $sprite.setVisible(false);
         $sprite.toBeDestroyed = true;
 
+        // Stop any animation playing on this sprite itself
+        if ($sprite.anims && $sprite.anims.stop){
+            $sprite.anims.stop();
+            }
+
         // Stop and destroy any tweens attached to this sprite
         SPRITES.stopSpriteTweens(ctx, $sprite, true);
 
         // Stop and destroy any timers attached to this sprite
         SPRITES.stopSpriteTimers(ctx, $sprite, true);
 
+        // As long as we're allowed, actually destroy this sprite
+        if (actuallyDestroy){
+
+            // Now we can destroy this actual sprite
+            //console.log('$sprite.destroy() from destroySprite()');
+            $sprite.destroy();
+
+            // Set the sprite equal to null to ensure it's not used again
+            $sprite = null;
+
+            }
+
+
+        // If we're not actually destroying the sprite, return it now
         return $sprite;
     }
 
     // Define a function for destroying a sprite as well as any children from the scene
     destroySpriteAndCleanup (ctx, $sprite, recursive = true)
     {
-        //console.log('destroySpriteAndCleanup() w/ $sprite:', $sprite, 'recursive:', recursive);
-        //console.log('$sprite starts as:', typeof $sprite, $sprite, ($sprite ? true : false));
+        //console.log('destroySpriteAndCleanup() w/ $sprite:', typeof $sprite, ', recursive:', recursive);
+        //console.log('$sprite starts as \ntypeof:' + typeof $sprite + ' and sprite:', $sprite, ($sprite ? true : false));
         if (!$sprite){ return; }
 
         // Pull in required references
@@ -554,27 +570,28 @@ export default class SpritesManager {
         $echo.subSprites = $sprite.subSprites || {};
 
         // First we "destroy" the sprite by fully hiding it
-        SPRITES.destroySprite(ctx, $sprite);
+        SPRITES.destroySprite(ctx, $sprite, false);
 
         // Recursively destroy any sub-sprites attached to this one
-        if (recursive && $sprite.subSprites){
-            let keys = Object.keys($sprite.subSprites);
+        if (recursive && $echo.subSprites){
+            let keys = Object.keys($echo.subSprites);
             for (let i = 0; i < keys.length; i++){
-                let $subSprite = $sprite.subSprites[keys[i]];
+                let $subSprite = $echo.subSprites[keys[i]];
                 if (!$subSprite.subSprites){ continue; }
-                SPRITES.destroySpriteAndCleanup($subSprite);
+                SPRITES.destroySpriteAndCleanup(ctx, $subSprite, recursive);
                 }
             }
 
         // Now we can destroy this actual sprite
+        //console.log('$sprite.destroy() from destroySpriteAndCleanup()');
         $sprite.destroy();
+
+        // Set the sprite equal to null to ensure it's not used again
+        $sprite = null;
 
         // leftover from DebugScene implementation (might re-use later)
         //this.debugRemovedSprites++;
         //delete this.debugSprites[$sprite.debugKey];
-
-        // Set the sprite equal to null to ensure it's not used again
-        $sprite = null;
 
         // Return the backup refs for children in case not recusive
         //console.log('$sprite is now:', typeof $sprite, $sprite, ($sprite ? true : false));
