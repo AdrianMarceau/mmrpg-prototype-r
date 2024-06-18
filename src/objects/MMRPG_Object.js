@@ -87,6 +87,8 @@ class MMRPG_Object {
 
     }
 
+    // -- DATA CREATION -- //
+
     // Generate internal data for this object given index info vs custom info provided at construction
     createData ()
     {
@@ -156,6 +158,9 @@ class MMRPG_Object {
         //console.log('-> data:', this.data);
 
     }
+
+
+    // -- SPRITE CREATION -- //
 
     // Creates the main sprite for this object using known token and config values
     createSprite ()
@@ -290,7 +295,6 @@ class MMRPG_Object {
         // Return the sheet token we found
         return spriteSheet;
 
-
     }
 
     // Determine and return the texture path (sheet) for an object given kind and direction (we already know the rest)
@@ -335,6 +339,9 @@ class MMRPG_Object {
         let sheet = spriteSheet || config.sheet;
         let [ modX, modY ] = this.getOffsetPosition(config.x, config.y);
         let $sprite = scene.add.sprite(modX, modY, sheet);
+        $sprite.subTweens = {};
+        $sprite.subTimers = {};
+        $sprite.subSprites = {};
         this.sprite = $sprite;
         //console.log('-> created new sprite w/ sheet:', sheet, 'x:', config.x, 'y:', config.y);
     }
@@ -382,6 +389,8 @@ class MMRPG_Object {
         this.alpha = $sprite.alpha;
         this.depth = $sprite.depth;
     }
+
+    // -- SPRITE MANIPULATION -- //
 
     // Set the alpha property of the object's sprite and update the spriteConfig
     setAlpha (alpha)
@@ -554,54 +563,64 @@ class MMRPG_Object {
     }
 
 
-    // Set a custom callback function to when when this sprite is clicked
-    setOnClick (callback)
-    {
-        //console.log('MMRPG_Object.setOnClick() called w/ callback:', callback);
-        if (!this.sprite) { return; }
-        let _this = this;
-        let $sprite = this.sprite;
-        $sprite.setInteractive({ useHandCursor: true });
-        $sprite.on('pointerdown', (pointer) => {
-            callback.call(this, _this.sprite, pointer);
-            });
-    }
+    // -- SPRITE ANIMATION -- //
 
-    // Set a custom callback function for when this sprite is hovered over and then, optionally, hovered away from
-    setOnHover (callback, callback2 = null)
+    // Start the idle animation for this sprite given all we know about it
+    startIdleAnimation (bounce = true, emote = true)
     {
-        //console.log('MMRPG_Object.setOnHover() called w/ callback:', callback, 'callback2:', callback2);
+        //console.log('MMRPG_Object.startIdleAnimation() called for ', this.kind, this.token);
         if (!this.sprite) { return; }
+        if (this.kind !== 'player' && this.kind !== 'robot'){ return; }
         let _this = this;
+        let scene = this.scene;
         let $sprite = this.sprite;
-        $sprite.setInteractive({ useHandCursor: true });
-        $sprite.on('pointerover', (pointer) => {
-            callback.call(_this, $sprite, pointer);
-            });
-        if (callback2) {
-            $sprite.on('pointerout', (pointer) => {
-                callback2.call(_this, $sprite, pointer);
+        let config = this.spriteConfig;
+        let spritesIndex = this.SPRITES.index;
+        const startBouncing = function(){
+            // Animate the doctor bouncing up and down as they walk forward
+            let speed;
+            let data = this.data;
+            if (_this.kind === 'player'){ speed = (((100) + data.speed) - data.defense); }
+            else { speed = data.speed; }
+            let speedMod = speed / 100;
+            //console.log('-> speed:', speed, 'speedMod:', speedMod);
+            let spriteY = $sprite.y;
+            $sprite.subTweens.idleBounceTween = scene.add.tween({
+                targets: $sprite,
+                y: {from: spriteY, to: spriteY - 2},
+                ease: 'Stepped',
+                delay: Math.ceil(speedMod * 300),
+                repeatDelay: 100 + Math.ceil(speedMod * 200),
+                duration: 100 + Math.ceil(speedMod * 200),
+                repeat: -1,
+                yoyo: true,
                 });
-            }
-    }
-
-    // Remove any click events this sprite may have assigned to it
-    removeOnClicks ()
-    {
-        //console.log('MMRPG_Object.removeOnClick() called');
-        if (!this.sprite) { return; }
-        let $sprite = this.sprite;
-        $sprite.removeAllListeners('pointerdown');
-    }
-
-    // Remove any hover events this sprite may have assigned to it
-    removeOnHovers ()
-    {
-        //console.log('MMRPG_Object.removeOnHover() called');
-        if (!this.sprite) { return; }
-        let $sprite = this.sprite;
-        $sprite.removeAllListeners('pointerover');
-        $sprite.removeAllListeners('pointerout');
+            };
+        const startEmoting = function(){
+            let animationsIndex = spritesIndex.anims;
+            let animationToken = 'idle';
+            let xkind = this.xkind,
+                token = this.data.token,
+                alt = this.data.image_alt,
+                direction = this.direction,
+                key = 'sprite-'+direction;
+                ;
+            //console.log('-> spritesIndex:', spritesIndex);
+            if (typeof animationsIndex[xkind] === 'undefined'){ return; }
+            if (typeof animationsIndex[xkind][token] === 'undefined'){ return; }
+            if (typeof animationsIndex[xkind][token][alt] === 'undefined'){ return; }
+            if (typeof animationsIndex[xkind][token][alt][key] === 'undefined'){ return; }
+            let spriteAnims = animationsIndex[xkind][token][alt][key];
+            //console.log('-> spriteAnims:', spriteAnims);
+            if (!spriteAnims) { return; }
+            let animKey = spriteAnims[animationToken];
+            //console.log('-> animKey for "'+animationToken+'":', animKey);
+            if (!animKey) { return; }
+            $sprite.play(animKey);
+            };
+        if (bounce){ startBouncing.call(_this); }
+        if (emote){ startEmoting.call(_this); }
+        this.isAnimating = true;
     }
 
     // Move this sprite to a new position on the canvas and then execute the callback if provided
@@ -654,12 +673,71 @@ class MMRPG_Object {
 
     }
 
+
+    // -- SPRITE INTERACTIONS -- //
+
+    // Set a custom callback function to when when this sprite is clicked
+    setOnClick (callback)
+    {
+        //console.log('MMRPG_Object.setOnClick() called w/ callback:', callback);
+        if (!this.sprite) { return; }
+        let _this = this;
+        let $sprite = this.sprite;
+        $sprite.setInteractive({ useHandCursor: true });
+        $sprite.on('pointerdown', (pointer) => {
+            callback.call(this, _this.sprite, pointer);
+            });
+    }
+
+    // Set a custom callback function for when this sprite is hovered over and then, optionally, hovered away from
+    setOnHover (callback, callback2 = null)
+    {
+        //console.log('MMRPG_Object.setOnHover() called w/ callback:', callback, 'callback2:', callback2);
+        if (!this.sprite) { return; }
+        let _this = this;
+        let $sprite = this.sprite;
+        $sprite.setInteractive({ useHandCursor: true });
+        $sprite.on('pointerover', (pointer) => {
+            callback.call(_this, $sprite, pointer);
+            });
+        if (callback2) {
+            $sprite.on('pointerout', (pointer) => {
+                callback2.call(_this, $sprite, pointer);
+                });
+            }
+    }
+
+    // Remove any click events this sprite may have assigned to it
+    removeOnClicks ()
+    {
+        //console.log('MMRPG_Object.removeOnClick() called');
+        if (!this.sprite) { return; }
+        let $sprite = this.sprite;
+        $sprite.removeAllListeners('pointerdown');
+    }
+
+    // Remove any hover events this sprite may have assigned to it
+    removeOnHovers ()
+    {
+        //console.log('MMRPG_Object.removeOnHover() called');
+        if (!this.sprite) { return; }
+        let $sprite = this.sprite;
+        $sprite.removeAllListeners('pointerover');
+        $sprite.removeAllListeners('pointerout');
+    }
+
+
+    // -- SPRITE DESTRUCTION -- //
+
     // Destroy this object's children and remove them from the scene and then itself
     destroy ()
     {
         //console.log('MMRPG_Object.destroy() called for ', this.kind, this.token);
-        if (this.sprite) {
-            this.sprite.destroy();
+        let SPRITES = this.SPRITES;
+        let scene = this.scene;
+        let $sprite = this.sprite;
+        if ($sprite) {
+            SPRITES.destroySpriteAndCleanup(scene, $sprite);
             delete this.sprite;
             }
 
