@@ -230,21 +230,27 @@ export default class DebugScene extends Phaser.Scene
             $version.x = MMRPG.canvas.width - $version.width - 20;
 
             // Create a floating text bubble to test the text formatting syntax and display wrapping
+            var depth = 2000;
             var width = Math.ceil(MMRPG.canvas.width / 3), height = 90;
             var x = MMRPG.canvas.xMax - width - 20, y = 150;
             var lorem = "[Hey]{water} there [Bomb Man]{explode}! I know [i]I'm[/i] good, but how are [b]you[/b] today? I hear you got hit by a [Flame Sword]{flame_cutter}! [b][i]Your weakness[/i][/b]!!! [b][Gravity Man]{space_electric}[/b] is the one who told me btw.";
             let $floatingTextBubble = Strings.addFormattedText(this, x, y, lorem, {
                 width: width,
                 height: height,
-                border: '#ff0000',
+                border: true,
                 color: '#ffffff',
-                depth: 2000,
+                depth: depth++,
                 padding: 10,
                 });
             this.floatingTextBubble = $floatingTextBubble;
+            // add two robot masters talking to each other for effect
+            var origin = [0.5, 1];
+            var x = x + (width / 2), y = y + 2;
+            let $bubbleRobot1 = new MMRPG_Robot(this, 'bomb-man', null, { x: x - 40, y: y, z: depth++, direction: 'right', scale: 1, origin: origin });
+            let $bubbleRobot2 = new MMRPG_Robot(this, 'star-man', null, { x: x + 40, y: y, z: depth++, direction: 'left', scale: 1, origin: origin });
             // automatically fade out and remove the above after a few seconds
             let floatingTextBubbleTween;
-            this.time.delayedCall(1234, function(){
+            this.time.delayedCall(3000, function(){
                 floatingTextBubbleTween = ctx.tweens.addCounter({
                     from: 100,
                     to: 0,
@@ -253,12 +259,21 @@ export default class DebugScene extends Phaser.Scene
                     duration: 1000,
                     onUpdate: function () {
                         //console.log('floatingTextBubbleTween:', floatingTextBubbleTween.getValue());
-                        $floatingTextBubble.setAlpha(floatingTextBubbleTween.getValue() / 100);
-                        $floatingTextBubble.setPosition('-=0', '-=2');
+                        let alpha = floatingTextBubbleTween.getValue() / 100;
+                        $floatingTextBubble.setAlpha(alpha);
+                        $bubbleRobot1.setAlpha(alpha);
+                        $bubbleRobot2.setAlpha(alpha);
+                        $floatingTextBubble.setPosition(null, '-=2');
+                        $bubbleRobot1.setPosition(null, '-=1');
+                        $bubbleRobot2.setPosition(null, '-=1');
                         },
                     onComplete: function () {
                         //console.log('floatingTextBubbleTween complete!');
                         $floatingTextBubble.destroy();
+                        $bubbleRobot1.destroy();
+                        $bubbleRobot2.destroy();
+                        $bubbleRobot1 = null;
+                        $bubbleRobot2 = null;
                         }
                     });
                 }, [], this);
@@ -273,7 +288,7 @@ export default class DebugScene extends Phaser.Scene
             // -- DEBUG SPRITE TESTING -- //
 
             // Create some primitive MMRPG objects for testing purposes
-            let depth = 9000;
+            var depth = 9000;
             let $player = new MMRPG_Player(this, 'dr-light', null, { x: 40, y: 40, z: depth++ });
             let $robot = new MMRPG_Robot(this, 'mega-man', null, { x: 80, y: 80, z: depth++ });
             let $ability = new MMRPG_Ability(this, 'buster-shot', null, { x: 120, y: 120, z: depth++ });
@@ -406,6 +421,30 @@ export default class DebugScene extends Phaser.Scene
                 });
             console.log('$customMecha =', $customMecha);
 
+            /*
+            // -- DEBUG SPRITE-ORIGIN TESTING -- //
+
+            // Loop through the different origins with a 40x40 and an 80x80 sprite to make sure alignment works
+            var origin = [0, 0];
+            var baseSize = SPRITES.config.baseSize;
+            var startX = 70 + 4, startY = this.battleBanner.y + 20;
+            var x = startX, y = startY;
+            for (let i = 0; i <= 2; i++){
+                for (let j = 0; j <= 2; j++){
+                    Strings.addPlainText(this, x, y, '[' + origin[0] + ',' + origin[1] + ']', {color: '#ffffff', fontSize: '10px', depth: depth++});
+                    let $testRobot1 = new MMRPG_Robot(this, 'bomb-man', null, { x: x, y: y, z: depth++, direction: 'right', scale: 1, origin: origin });
+                    let $testRobot2 = new MMRPG_Robot(this, 'star-man', null, { x: x, y: y, z: depth++, direction: 'left', scale: 1, origin: origin });
+                    //console.log('$testRobot1[' + origin[0] + ',' + origin[1] + '] =', $testRobot1.spriteConfig);
+                    //console.log('$testRobot2[' + origin[0] + ',' + origin[1] + '] =', $testRobot2.spriteConfig);
+                    x += 100;
+                    origin[0] += 0.5;
+                }
+                x = startX;
+                y += 100;
+                origin[0] = 0;
+                origin[1] += 0.5;
+            }
+            */
 
             // -- DEBUG CLASS METHODS -- //
 

@@ -82,6 +82,7 @@ export class GraphicsUtility {
     // Parse a relative position value from a string given a base in case of increment/decrement syntax
     static parseRelativePosition (value, base = 0)
     {
+        if (value === null || value === undefined){ return base; }
         if (typeof value === 'string' && value.match(/^(\+\=|\-=)/)){
             let dx = parseInt(value.replace(/^(\+\=|\-=)/, ''));
             value = base + (value.match(/^\+=/) ? dx : -dx);
