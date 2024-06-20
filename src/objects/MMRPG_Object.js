@@ -15,14 +15,15 @@ import SpritesManager from '../managers/SpritesManager.js';
 class MMRPG_Object {
 
     // Define the class constructor for the object class
-    constructor (scene, _kind, token, customInfo = {}, spriteConfig = {})
+    constructor (scene, _kind, token, customInfo = {}, spriteConfig = {}, objectConfig = {})
     {
-        //console.log('MMRPG_Object.constructor() called w/ _kind:', _kind, 'token:', token, 'customInfo:', customInfo, 'spriteConfig:', spriteConfig);
+        //console.log('MMRPG_Object.constructor() called w/ _kind:', _kind, 'token:', token, 'customInfo:', customInfo, 'spriteConfig:', spriteConfig, 'objectConfig:', objectConfig);
 
         // Initialize MMRPG utility class objects
         let SPRITES = SpritesManager.getInstance(scene);
 
         // Pull in references to required global objects
+        let _this = this;
         this.MMRPG = MMRPG;
         this.SPRITES = SPRITES;
         //console.log('-> MMRPG:', MMRPG);
@@ -44,7 +45,8 @@ class MMRPG_Object {
         //console.log('-> objectIndex:', objectIndex, 'indexInfo:', indexInfo);
         this.indexInfo = indexInfo || {};
         this.customInfo = customInfo || {};
-        this.createData(indexInfo, customInfo);
+        this.objectConfig = objectConfig || {};
+        this.createData(indexInfo, customInfo, objectConfig);
 
         // If spriteConfig is provided, create a new sprite with it
         this.sprite = null;
@@ -79,13 +81,21 @@ class MMRPG_Object {
                 spriteConfig.offsetX *= spriteConfig.scale;
                 spriteConfig.offsetY *= spriteConfig.scale;
                 }
+            if (spriteConfig.frameAliases){
+                this.spriteFrameAliases = spriteConfig.frameAliases;
+                } else if (objectConfig.frameAliases){
+                this.spriteFrameAliases = objectConfig.frameAliases;
+                }
 
             // Automatically create the sprite with the spriteConfig provided
             this.createSprite();
 
-        }
+            }
+
+        // end of object constructor
 
     }
+
 
     // -- DATA CREATION -- //
 
@@ -97,15 +107,20 @@ class MMRPG_Object {
         // Pull in references to required global objects
         let MMRPG = this.MMRPG;
         let SPRITES = this.SPRITES;
+        let indexInfo = this.indexInfo;
+        let customInfo = this.customInfo;
+        let spriteConfig = this.spriteConfig;
+        let objectConfig = this.objectConfig;
+        //console.log('-> spriteConfig:', spriteConfig, 'objectConfig:', objectConfig);
 
         // Start the data as a clone of the index info
-        this.data = Object.assign({}, this.indexInfo);
+        this.data = Object.assign({}, indexInfo);
 
         // Next, collect custom keys and loop through them, assigning values
-        let customKeys = Object.keys(this.customInfo);
+        let customKeys = Object.keys(customInfo);
         for (let i = 0; i < customKeys.length; i++) {
             let key = customKeys[i];
-            let value = this.customInfo[key];
+            let value = customInfo[key];
             // If the value is a simple scalar, set it directly
             if (typeof value !== 'object') {
                 this.data[key] = value;
@@ -121,6 +136,15 @@ class MMRPG_Object {
         this.data.counters = this.data.counters || {};
         this.data.values = this.data.values || {};
 
+        // Now we can collect or define key objectConfig properties that we need for later
+        let isCharacter = (this.kind === 'player' || this.kind === 'robot');
+        objectConfig.iconPrefix = objectConfig.iconPrefix || 'icon';
+        objectConfig.baseAlt = objectConfig.baseAlt || 'base';
+        objectConfig.baseSheet = objectConfig.baseSheet || 1;
+        objectConfig.baseAltSheet = isCharacter ? objectConfig.baseAlt : objectConfig.baseSheet;
+        objectConfig.currentAltSheet = isCharacter ? this.data.image_alt : this.data.image_sheet;
+        objectConfig.currentAltSheetIsBase = objectConfig.baseAltSheet === 'base' || objectConfig.baseAltSheet === '1' || objectConfig.baseAltSheet === 1;
+
         // Make sure we also create kind-specific data entries as-needed
         let directionalKinds = ['players', 'robots', 'abilities', 'items'];
         if (directionalKinds.indexOf(this.xkind) !== -1){
@@ -132,11 +156,11 @@ class MMRPG_Object {
 
             // If this is a robot or player, add default values for the alt
             if (this.kind === 'robot' || this.kind === 'player') {
-                this.data.image_alt = this.data.image_alt || 'base';
+                this.data.image_alt = this.data.image_alt || objectConfig.baseAlt;
                 }
             // If this is an ability or item, add default values for the sheet instead
             else if (this.kind === 'ability' || this.kind === 'item') {
-                this.data.image_sheet = this.data.image_sheet || 1;
+                this.data.image_sheet = this.data.image_sheet || objectConfig.baseSheet;
                 }
 
             } else if (this.kind === 'field') {
@@ -155,7 +179,7 @@ class MMRPG_Object {
 
             }
 
-        //console.log('-> data:', this.data);
+        //console.log(`-> ${this.token}'s ${objectConfig.currentAltSheet} data:`, this.data);
 
     }
 
@@ -171,6 +195,7 @@ class MMRPG_Object {
         let _this = this;
         let scene = this.scene;
         let config = this.spriteConfig;
+        let objectConfig = this.objectConfig;
         this.x = config.x;
         this.y = config.y;
         this.z = config.z;
@@ -214,7 +239,7 @@ class MMRPG_Object {
                 } else {
 
                 // Texture is not loaded, create placeholder and load texture
-                let tempAlt = (this.kind === 'player' || this.kind === 'robot') ? 'base' : 1;
+                let tempAlt = objectConfig.baseAltSheet;
                 let tempKey = 'sprite-' + this.direction;
                 let tempSheet = spriteSheets[this.kind][tempAlt][tempKey];
                 this.spriteIsPlaceholder = true;
@@ -253,6 +278,7 @@ class MMRPG_Object {
         let scene = this.scene;
         let SPRITES = this.SPRITES;
         let spritesIndex = SPRITES.index;
+        let objectConfig = this.objectConfig;
 
         // Collect info for the sprite given the kind it is
         let kind = this.kind;
@@ -262,11 +288,11 @@ class MMRPG_Object {
         //console.log('indexInfo for ', kind, token, '=', indexInfo);
 
         // Predefine some base paths and keys
-        let altToken = this.data.image_alt || ((kind === 'player' || kind === 'robot') ? 'base' : 1);
-        let altIsBase = altToken === 'base' || altToken === '1' || altToken === 1 ? true : false;
+        let altSheet = objectConfig.currentAltSheet || objectConfig.baseAltSheet;
+        let altIsBase = objectConfig.currentAltSheetIsBase ? true : false;
         let pathToken = token === kind ? ('.' + kind) : token;
-        let basePath = 'content/'+ xkind + '/' + pathToken + '/sprites' + (!altIsBase ? '_'+altToken : '') + '/';
-        let baseKey = 'sprites.' + xkind + '.' + token + '.' + altToken;
+        let basePath = 'content/'+ xkind + '/' + pathToken + '/sprites' + (!altIsBase ? '_'+altSheet : '') + '/';
+        let baseKey = 'sprites.' + xkind + '.' + token + '.' + altSheet;
         let spriteSize = indexInfo.image_size || 40;
         let spriteSizeX = spriteSize+'x'+spriteSize;
         let spriteDirections = ['left', 'right'];
@@ -283,16 +309,16 @@ class MMRPG_Object {
             // Define and register the key for this sprite sheet using direction, image, key, and path
             let sheetKey = baseKey+'.sprite-'+direction;
             let sheetToken = 'sprite-' + direction;
-            spritesIndex.prepForKeys(spritesIndex.sheets, xkind, token, altToken);
-            spritesIndex.sheets[xkind][token][altToken][sheetToken] = sheetKey;
-            //console.log('queued [ '+sheetKey+' ] to spritesIndex.sheets['+xkind+']['+token+']['+altToken+']['+sheetToken+']');
+            spritesIndex.prepForKeys(spritesIndex.sheets, xkind, token, altSheet);
+            spritesIndex.sheets[xkind][token][altSheet][sheetToken] = sheetKey;
+            //console.log('queued [ '+sheetKey+' ] to spritesIndex.sheets['+xkind+']['+token+']['+altSheet+']['+sheetToken+']');
 
             // Define the relative image path for this sprite sheet
             let image = 'sprite_'+direction+'_'+spriteSizeX+'.png';
             let imagePath = basePath+image;
-            spritesIndex.prepForKeys(spritesIndex.paths, xkind, token, altToken);
-            spritesIndex.paths[xkind][token][altToken][sheetToken] = imagePath;
-            //console.log('queued [ '+imagePath+' ] to spritesIndex.paths['+xkind+']['+token+']['+altToken+']['+sheetToken+']');
+            spritesIndex.prepForKeys(spritesIndex.paths, xkind, token, altSheet);
+            spritesIndex.paths[xkind][token][altSheet][sheetToken] = imagePath;
+            //console.log('queued [ '+imagePath+' ] to spritesIndex.paths['+xkind+']['+token+']['+altSheet+']['+sheetToken+']');
 
             // Queue loading the sprite sheet into the game
             SPRITES.pendingSheets.push({
@@ -304,16 +330,16 @@ class MMRPG_Object {
             // -- LOAD ICON SPRITE SHEETS -- //
 
             // Define and register the key for this icon sheet using direction, image, key, and path
-            let iconPrefix = kind === 'player' || kind === 'robot' ? 'mug' : 'icon';
+            let iconPrefix = objectConfig.iconPrefix;
             let iconSheetKey = sheetKey.replace('sprites.', iconPrefix+'s.');
             let iconSheetToken = sheetToken.replace('sprite-', iconPrefix+'-');
-            spritesIndex.sheets[xkind][token][altToken][iconSheetToken] = iconSheetKey;
+            spritesIndex.sheets[xkind][token][altSheet][iconSheetToken] = iconSheetKey;
 
             // Queue loading the icon sheet into the game
             let iconImage = iconPrefix+'_'+direction+'_'+spriteSizeX+'.png';
             let iconImagePath = basePath+iconImage;
-            spritesIndex.paths[xkind][token][altToken][iconSheetToken] = iconImagePath;
-            //console.log('queued [ '+iconImagePath+' ] to spritesIndex.paths['+xkind+']['+token+']['+altToken+']['+iconSheetToken+']');
+            spritesIndex.paths[xkind][token][altSheet][iconSheetToken] = iconImagePath;
+            //console.log('queued [ '+iconImagePath+' ] to spritesIndex.paths['+xkind+']['+token+']['+altSheet+']['+iconSheetToken+']');
 
             // Queue loading the icon sheet into the game
             SPRITES.pendingSheets.push({
@@ -339,6 +365,7 @@ class MMRPG_Object {
         let scene = this.scene;
         let SPRITES = this.SPRITES;
         let spritesIndex = SPRITES.index;
+        let objectConfig = this.objectConfig;
 
         // Collect info for the sprite given the kind it is
         let kind = this.kind;
@@ -348,11 +375,11 @@ class MMRPG_Object {
         //console.log('indexInfo for ', kind, token, '=', indexInfo);
 
         // Predefine some base paths and keys
-        let altToken = this.data.image_alt || ((kind === 'player' || kind === 'robot') ? 'base' : 1);
-        let altIsBase = altToken === 'base' || altToken === '1' || altToken === 1 ? true : false;
+        let altSheet = objectConfig.currentAltSheet || objectConfig.baseAltSheet;
+        let altIsBase = objectConfig.currentAltSheetIsBase ? true : false;
         let pathToken = token === kind ? ('.' + kind) : token;
-        let basePath = 'content/'+ xkind + '/' + pathToken + '/sprites' + (!altIsBase ? '_'+altToken : '') + '/';
-        let baseKey = 'sprites.' + xkind + '.' + token + '.' + altToken;
+        let basePath = 'content/'+ xkind + '/' + pathToken + '/sprites' + (!altIsBase ? '_'+altSheet : '') + '/';
+        let baseKey = 'sprites.' + xkind + '.' + token + '.' + altSheet;
         let spriteSize = indexInfo.image_size || 40;
         let spriteSizeX = spriteSize+'x'+spriteSize;
         let spriteDirections = ['left', 'right'];
@@ -371,7 +398,7 @@ class MMRPG_Object {
             let sheetToken = 'sprite-' + direction;
 
             // Define and register the key for this icon sheet using direction, image, key, and path
-            let iconPrefix = kind === 'player' || kind === 'robot' ? 'mug' : 'icon';
+            let iconPrefix = objectConfig.iconPrefix;
             let iconSheetKey = sheetKey.replace('sprites.', iconPrefix+'s.');
             let iconSheetToken = sheetToken.replace('sprite-', iconPrefix+'-');
 
@@ -383,9 +410,9 @@ class MMRPG_Object {
                 // Generate the running animation string for re-use later
                 var anim = 'run';
                 var animKey = sheetKey + '.' + anim;
-                spritesIndex.prepForKeys(spritesIndex.anims, xkind, token, altToken, sheetToken);
-                spritesIndex.anims[xkind][token][altToken][sheetToken][anim] = animKey;
-                //console.log('queued [ '+animKey+' ] to spritesIndex.anims['+xkind+']['+token+']['+altToken+']['+sheetToken+']['+anim+']');
+                spritesIndex.prepForKeys(spritesIndex.anims, xkind, token, altSheet, sheetToken);
+                spritesIndex.anims[xkind][token][altSheet][sheetToken][anim] = animKey;
+                //console.log('queued [ '+animKey+' ] to spritesIndex.anims['+xkind+']['+token+']['+altSheet+']['+sheetToken+']['+anim+']');
 
                 // Queue the creation of a running animation for this sprite
                 SPRITES.pendingAnims.push({
@@ -402,9 +429,9 @@ class MMRPG_Object {
                 // Generate the idle animation string for re-use later
                 var anim = 'idle';
                 var animKey = sheetKey + '.' + anim;
-                spritesIndex.prepForKeys(spritesIndex.anims, xkind, token, altToken, sheetToken);
-                spritesIndex.anims[xkind][token][altToken][sheetToken][anim] = animKey;
-                //console.log('queued [ '+animKey+' ] to spritesIndex.anims['+xkind+']['+token+']['+altToken+']['+sheetToken+']['+anim+']');
+                spritesIndex.prepForKeys(spritesIndex.anims, xkind, token, altSheet, sheetToken);
+                spritesIndex.anims[xkind][token][altSheet][sheetToken][anim] = animKey;
+                //console.log('queued [ '+animKey+' ] to spritesIndex.anims['+xkind+']['+token+']['+altSheet+']['+sheetToken+']['+anim+']');
 
                 // Queue the creation of a sliding animation for this sprite
                 SPRITES.pendingAnims.push({
@@ -418,9 +445,9 @@ class MMRPG_Object {
                 // Generate the sliding animation string for re-use later
                 var anim = 'slide';
                 var animKey = sheetKey + '.' + anim;
-                spritesIndex.prepForKeys(spritesIndex.anims, xkind, token, altToken, sheetToken);
-                spritesIndex.anims[xkind][token][altToken][sheetToken][anim] = animKey;
-                //console.log('queued [ '+animKey+' ] to spritesIndex.anims['+xkind+']['+token+']['+altToken+']['+sheetToken+']['+anim+']');
+                spritesIndex.prepForKeys(spritesIndex.anims, xkind, token, altSheet, sheetToken);
+                spritesIndex.anims[xkind][token][altSheet][sheetToken][anim] = animKey;
+                //console.log('queued [ '+animKey+' ] to spritesIndex.anims['+xkind+']['+token+']['+altSheet+']['+sheetToken+']['+anim+']');
 
                 // Queue the creation of a sliding animation for this sprite
                 SPRITES.pendingAnims.push({
@@ -434,9 +461,9 @@ class MMRPG_Object {
                 // Generate the shooting animation string for re-use later
                 var anim = 'shoot';
                 var animKey = sheetKey + '.' + anim;
-                spritesIndex.prepForKeys(spritesIndex.anims, xkind, token, altToken, sheetToken);
-                spritesIndex.anims[xkind][token][altToken][sheetToken][anim] = animKey;
-                //console.log('queued [ '+animKey+' ] to spritesIndex.anims['+xkind+']['+token+']['+altToken+']['+sheetToken+']['+anim+']');
+                spritesIndex.prepForKeys(spritesIndex.anims, xkind, token, altSheet, sheetToken);
+                spritesIndex.anims[xkind][token][altSheet][sheetToken][anim] = animKey;
+                //console.log('queued [ '+animKey+' ] to spritesIndex.anims['+xkind+']['+token+']['+altSheet+']['+sheetToken+']['+anim+']');
 
                 // Queue the creation of a sliding animation for this sprite
                 SPRITES.pendingAnims.push({
@@ -486,24 +513,23 @@ class MMRPG_Object {
         // Pull in references to required global objects
         let SPRITES = this.SPRITES;
         let spriteSheets = SPRITES.index.sheets[this.xkind];
-        //console.log('-> SPRITES:', SPRITES, 'spriteSheets:', spriteSheets);
+        let objectConfig = this.objectConfig;
+        //console.log('-> SPRITES:', SPRITES, 'spriteSheets:', spriteSheets, 'objectConfig:', objectConfig);
 
         // Define the sprite key and sheet token given context
         spriteToken = spriteToken || this.data.image;
         //console.log('-> spriteToken:', spriteToken, 'spriteKind:', spriteKind, 'spriteDirection:', spriteDirection);
+        let spriteSheet;
         let spriteKey = spriteKind+'-'+spriteDirection;
-        let spriteSheet, altToken, sheetNum;
-        if (this.kind === 'robot' || this.kind === 'player'){
-            altToken = this.data.image_alt || 'base';
-            spriteSheet = spriteSheets[spriteToken][altToken][spriteKey];
-            //console.log('-> altToken:', altToken, 'spriteSheet:', spriteSheet);
-            } else if (this.kind === 'ability' || this.kind === 'item'){
-            sheetNum = this.data.image_sheet || 1;
-            spriteSheet = spriteSheets[spriteToken][sheetNum][spriteKey];
-            //console.log('-> sheetNum:', sheetNum, 'spriteSheet:', spriteSheet);
+        let spriteAltOrSheet = objectConfig.currentAltSheet || objectConfig.baseAltSheet;
+        if (typeof spriteSheets[spriteToken] !== 'undefined'
+            && typeof spriteSheets[spriteToken][spriteAltOrSheet] !== 'undefined'
+            && typeof spriteSheets[spriteToken][spriteAltOrSheet][spriteKey] !== 'undefined'){
+            spriteSheet = spriteSheets[spriteToken][spriteAltOrSheet][spriteKey];
             } else {
             spriteSheet = 'sprites.default';
             }
+        //console.log('-> spriteAltOrSheet:', spriteAltOrSheet, 'spriteSheet:', spriteSheet);
 
         // Return the sheet token we found
         return spriteSheet;
@@ -518,23 +544,23 @@ class MMRPG_Object {
         // Pull in references to required global objects
         let SPRITES = this.SPRITES;
         let spritePaths = SPRITES.index.paths[this.xkind];
-        //console.log('-> SPRITES:', SPRITES, 'spritePaths:', spritePaths);
+        let objectConfig = this.objectConfig;
+        //console.log('-> SPRITES:', SPRITES, 'spritePaths:', spritePaths, 'objectConfig:', objectConfig);
 
         // Define the sprite key and sheet token given context
         spriteToken = spriteToken || this.data.image;
         //console.log('-> spriteToken:', spriteToken, 'spriteKind:', spriteKind, 'spriteDirection:', spriteDirection);
+        let spritePath;
         let spriteKey = spriteKind+'-'+spriteDirection;
-        let spritePath, altToken, sheetNum;
-        if (this.kind === 'robot' || this.kind === 'player'){
-            altToken = this.data.image_alt || 'base';
-            spritePath = spritePaths[spriteToken][altToken][spriteKey];
-            //console.log('-> altToken:', altToken, 'spritePath:', spritePath);
-            } else if (this.kind === 'ability' || this.kind === 'item'){
-            sheetNum = this.data.image_sheet || 1;
-            spritePath = spritePaths[spriteToken][sheetNum][spriteKey];
-            //console.log('-> sheetNum:', sheetNum, 'spritePath:', spritePath);
+        let spriteAltOrSheet = objectConfig.currentAltSheet || objectConfig.baseAltSheet;
+        if (typeof spritePaths[spriteToken] !== 'undefined'
+            && typeof spritePaths[spriteToken][spriteAltOrSheet] !== 'undefined'
+            && typeof spritePaths[spriteToken][spriteAltOrSheet][spriteKey] !== 'undefined'){
+            spritePath = spritePaths[spriteToken][spriteAltOrSheet][spriteKey];
             } else {
-            spritePath = 'sprites.default';
+            let size = this.data.image_size || 40;
+            let xSize = size+'x'+size;
+            spritePath = 'content/' + this.xkind + '/' + this.kind + '/' + spriteKind + '_' + spriteDirection +  '_' + xSize + '.png';
             }
 
         // Return the sheet token we found
