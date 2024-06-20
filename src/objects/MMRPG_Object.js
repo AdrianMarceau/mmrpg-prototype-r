@@ -48,6 +48,11 @@ class MMRPG_Object {
         this.objectConfig = objectConfig || {};
         this.createData(indexInfo, customInfo, objectConfig);
 
+        // Create some flags and a queue to help with lazy-loading
+        this.spriteIsLoading = true;
+        this.spriteIsPlaceholder = true;
+        this.spriteMethodsQueued = [];
+
         // If spriteConfig is provided, create a new sprite with it
         this.sprite = null;
         this.spriteConfig = {};
@@ -142,8 +147,9 @@ class MMRPG_Object {
         objectConfig.baseAlt = objectConfig.baseAlt || 'base';
         objectConfig.baseSheet = objectConfig.baseSheet || 1;
         objectConfig.baseAltSheet = isCharacter ? objectConfig.baseAlt : objectConfig.baseSheet;
-        objectConfig.currentAltSheet = isCharacter ? this.data.image_alt : this.data.image_sheet;
-        objectConfig.currentAltSheetIsBase = objectConfig.baseAltSheet === 'base' || objectConfig.baseAltSheet === '1' || objectConfig.baseAltSheet === 1;
+        objectConfig.currentAltSheet = (isCharacter ? this.data.image_alt : this.data.image_sheet) || objectConfig.baseAltSheet;
+        objectConfig.currentAltSheetIsBase = objectConfig.currentAltSheet === 'base' || objectConfig.currentAltSheet === '1' || objectConfig.currentAltSheet === 1;
+        //console.log(this.token + ' | -> objectConfig.currentAltSheet:', objectConfig.currentAltSheet, 'objectConfig.currentAltSheetIsBase:', objectConfig.currentAltSheetIsBase);
 
         // Make sure we also create kind-specific data entries as-needed
         let directionalKinds = ['players', 'robots', 'abilities', 'items'];
@@ -222,32 +228,46 @@ class MMRPG_Object {
         if (directionalKinds.indexOf(this.xkind) !== -1){
             //console.log('-> this is a directional kind! xkind:', this.xkind, ' of ['+directionalKinds.join(', ')+']');
 
+            // Preload all the sprite sheets and animations into the queue
+            this.loadSpriteSheets();
+            this.loadSpriteAnimations();
+            //console.log(this.token + ' | this.loadSpriteSheets();');
+            //console.log(this.token + ' | this.loadSpriteAnimations();');
+            //console.log(this.token + ' | SPRITES.pendingSheets.length:', SPRITES.pendingSheets.length);
+            //console.log(this.token + ' | SPRITES.pendingAnims.length:', SPRITES.pendingAnims.length);
+
             // Pull in the sprite token and direction then use it to update the current sheet
             let spriteToken = this.data.token;
             let spriteDirection = this.direction || 'right';
             let spriteSheet = _this.getSpriteSheet(spriteToken, spriteDirection, 'sprite');
-            //console.log('-> spriteToken:', spriteToken, 'spriteDirection:', spriteDirection, 'spriteSheet:', spriteSheet);
+            //console.log(this.token + ' | -> spriteToken:', spriteToken, 'spriteDirection:', spriteDirection, 'spriteSheet:', spriteSheet);
             config.sheet = spriteSheet;
             this.sheet = spriteSheet;
 
             // Create the sprite with the information we've collected when ready
             if (spriteSheet && scene.textures.exists(spriteSheet)) {
+                //console.log('sprite texture for ' + this.token + ' already exists');
 
                 // Texture is loaded, create sprite normally
+                this.spriteIsLoading = false;
+                this.spriteIsPlaceholder = false;
                 this.createObjectSprite();
 
                 } else {
+                //console.log('sprite texture for ' + this.token + ' does not exist');
 
                 // Texture is not loaded, create placeholder and load texture
                 let tempAlt = objectConfig.baseAltSheet;
                 let tempKey = 'sprite-' + this.direction;
                 let tempSheet = spriteSheets[this.kind][tempAlt][tempKey];
+                this.spriteIsLoading = true;
                 this.spriteIsPlaceholder = true;
                 this.createObjectSprite(tempSheet);
                 this.loadSpriteTexture(spriteToken, spriteDirection, () => {
                     //console.log('%c' + '-> sprite texture '+spriteSheet+' loaded!', 'color: #00FF00');
                     _this.createObjectSprite();
-                    delete _this.spriteIsPlaceholder;
+                    _this.spriteIsLoading = false;
+                    _this.spriteIsPlaceholder = false;
                     });
 
                 }
@@ -299,6 +319,7 @@ class MMRPG_Object {
         spritesIndex.prepForKeys(spritesIndex.sizes, kind);
         spritesIndex.sizes[kind][token] = spriteSize;
         //console.log('queued [ '+spriteSize+' ] to spritesIndex.sizes['+kind+']['+token+']')
+        //console.log(this.token + ' | -> altSheet:', altSheet, 'altIsBase:', altIsBase, 'basePath:', basePath);
 
         // Loop through each direction and load the sprite sheet, making note of the sheet created
         for (let i = 0; i < spriteDirections.length; i++){
@@ -321,6 +342,7 @@ class MMRPG_Object {
             //console.log('queued [ '+imagePath+' ] to spritesIndex.paths['+xkind+']['+token+']['+altSheet+']['+sheetToken+']');
 
             // Queue loading the sprite sheet into the game
+            //console.log('SPRITES.pendingSheets.push() w/', {key: sheetKey, path: imagePath, size: spriteSize});
             SPRITES.pendingSheets.push({
                 key: sheetKey,
                 path: imagePath,
@@ -342,6 +364,7 @@ class MMRPG_Object {
             //console.log('queued [ '+iconImagePath+' ] to spritesIndex.paths['+xkind+']['+token+']['+altSheet+']['+iconSheetToken+']');
 
             // Queue loading the icon sheet into the game
+            //console.log('SPRITES.pendingSheets.push() w/', {key: iconSheetKey, path: iconImagePath, size: spriteSize});
             SPRITES.pendingSheets.push({
                 key: iconSheetKey,
                 path: iconImagePath,
@@ -498,9 +521,31 @@ class MMRPG_Object {
         let spriteWidth = this.data.image_width;
         let spriteHeight = this.data.image_height;
         //console.log('-> token:', token, 'direction:', direction, 'spriteSheet:', spriteSheet, 'spritePath:', spritePath, 'spriteWidth:', spriteWidth, 'spriteHeight:', spriteHeight);
+        this.spriteIsLoading = true;
         scene.load.spritesheet(spriteSheet, spritePath, { frameWidth: spriteWidth, frameHeight: spriteHeight });
         scene.load.once('complete', () => {
+            //console.log('-> loadSpriteTexture() complete for token:', token, 'direction:', direction, 'spriteSheet:', spriteSheet, 'spritePath:', spritePath, 'spriteWidth:', spriteWidth, 'spriteHeight:', spriteHeight);
+            // DEBUG check if the texture and animations were loaded
+            //let textureExists = scene.textures.exists(spriteSheet);
+            //let spriteAnims = SPRITES.index.anims[this.xkind];
+            //let spriteAnimsIndex = spriteAnims[this.token] || null;
+            //let animationsExist = spriteAnimsIndex ? true : false;
+            //console.log('-> textureExists:', textureExists);
+            //console.log('-> animationsExist:', animationsExist, spriteAnimsIndex);
+            _this.spriteIsLoading = false;
             if (onLoadCallback){ onLoadCallback.call(_this); }
+            if (_this.spriteMethodsQueued){
+                for (let i = 0; i < _this.spriteMethodsQueued.length; i++){
+                    let method = _this.spriteMethodsQueued[i];
+                    method.call(_this);
+                    }
+                }
+            });
+        SPRITES.preloadPending(scene, function(){
+            //console.log('-> token:', token, ' - SPRITES.preloadPending() complete');
+            SPRITES.createPending(scene, function(){
+                //console.log('-> token:', token, ' - SPRITES.createPending() complete');
+                });
             });
         scene.load.start();
     }
@@ -808,9 +853,10 @@ class MMRPG_Object {
     startIdleAnimation (bounce = true, emote = true)
     {
         //console.log('MMRPG_Object.startIdleAnimation() called for ', this.kind, this.token);
+        let _this = this;
         if (!this.sprite) { return; }
         if (this.kind !== 'player' && this.kind !== 'robot'){ return; }
-        let _this = this;
+        if (this.spriteIsLoading){ return this.spriteMethodsQueued.push(function(){ _this.startIdleAnimation(bounce, emote); }); }
         let scene = this.scene;
         let $sprite = this.sprite;
         let config = this.spriteConfig;
@@ -862,15 +908,39 @@ class MMRPG_Object {
         this.isAnimating = true;
     }
 
+    // Stop the idle animation currently playing on this sprite if one exists
+    stopIdleAnimation ()
+    {
+        //console.log('MMRPG_Object.stopIdleAnimation() called for ', this.kind, this.token);
+        let _this = this;
+        if (!this.sprite) { return; }
+        if (this.spriteIsLoading){ return this.spriteMethodsQueued.push(function(){ _this.stopIdleAnimation(); }); }
+        let $sprite = this.sprite;
+        let config = this.spriteConfig;
+        if ($sprite.subTweens.idleBounceTween){
+            $sprite.subTweens.idleBounceTween.stop();
+            delete $sprite.subTweens.idleBounceTween;
+            }
+        $sprite.stop();
+        this.isAnimating = false;
+    }
+
     // Move this sprite to a new position on the canvas and then execute the callback if provided
     moveToPosition (x, y, duration = 1000, callback = null)
     {
         //console.log('MMRPG_Object.moveToPosition() called for ', this.kind, this.token, '\nw/ x:', x, 'y:', y, 'duration:', duration, 'callback:', typeof callback);
-        if (!this.sprite) { return; }
         let _this = this;
+        if (!this.sprite) { return; }
+        if (this.spriteIsLoading){ return this.spriteMethodsQueued.push(function(){ _this.moveToPosition(x, y, duration, callback); }); }
         let scene = this.scene;
         let config = this.spriteConfig;
         let $sprite = this.sprite;
+
+        // If the sprite is already moving, stop it and move it to the new position instantly
+        if ($sprite.subTweens.moveTween){
+            $sprite.subTweens.moveTween.stop();
+            delete $sprite.subTweens.moveTween;
+            }
 
         // If the duration was not set of was zero, move the sprite instantly
         if (!duration) {
@@ -886,7 +956,7 @@ class MMRPG_Object {
 
         // Otherwise we create a tween to move the sprite to the new position
         let [ modX, modY ] = this.getOffsetPosition(x, y);
-        scene.tweens.add({
+        $sprite.subTweens.moveTween = scene.tweens.add({
             targets: $sprite,
             x: modX,
             y: modY,
