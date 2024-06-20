@@ -82,6 +82,9 @@ export default class DebugScene extends Phaser.Scene
         let MMRPG = this.MMRPG;
         MMRPG.preload(this);
 
+        // Before doing anything else, let's fake some save data
+        this.generateFakeSaveData();
+
         // Pull in other required objects and references
         let ctx = this;
         let SPRITES = this.SPRITES;
@@ -2214,6 +2217,72 @@ export default class DebugScene extends Phaser.Scene
         if (ctx.allowRunningDoctors){
             ctx.showDoctorRunning('proxy', null, 'right');
             }
+
+    }
+
+    // Define a function that generates fake save data that we can test with
+    generateFakeSaveData ()
+    {
+        //consolejson('DebugScene.generateFakeSaveData() called');
+
+        // Pull in required object references
+        let MMRPG = this.MMRPG;
+        let saveData = MMRPG.SaveData;
+
+        // Define some fake data to test with
+
+        saveData.players.addPlayer('dr-light', {
+            level: 1,
+            points: 0,
+            rewards: {
+                abilities: ['buster-shot', 'mega-buster', 'mega-ball', 'mega-slide', 'roll-swing', 'oil-slider', 'energy-boost'],
+                robots: ['mega-man', 'roll', 'oil-man'],
+                },
+            settings: {
+                robots: ['mega-man']
+                }
+            });
+
+        saveData.robots.addRobot('mega-man', {
+            level: 1,
+            experience: 999,
+            rewards: {
+                abilities: ['buster-shot', 'mega-buster', 'mega-ball', 'mega-slide'],
+                },
+            settings: {
+                abilities: ['buster-shot', 'mega-buster', 'mega-slide'],
+                }
+            });
+        saveData.robots.addRobot('roll', {
+            level: 2,
+            experience: 0,
+            rewards: {
+                abilities: ['buster-shot', 'roll-swing', 'energy-boost'],
+                },
+            settings: {
+                abilities: ['roll-swing', 'energy-boost'],
+                image: 'roll_alt2'
+                }
+            });
+        saveData.robots.addRobot('oil-man', {
+            level: 10,
+            experience: 0,
+            rewards: {
+                abilities: ['buster-shot', 'oil-slider'],
+                },
+            settings: {
+                abilities: ['oil-slider'],
+                }
+            });
+
+        saveData.abilities.addAbility('buster-shot');
+        saveData.abilities.addAbility('mega-buster');
+        saveData.abilities.addAbility('roll-swing');
+
+        saveData.items.addItem('energy-tank', 99);
+        saveData.items.addItem('weapons-tank', 99);
+
+        console.log('Fake save data generated:', saveData);
 
     }
 
