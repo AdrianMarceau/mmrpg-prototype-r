@@ -119,7 +119,7 @@ export default class SpritesManager {
     }
 
     // Load a sprite sheet for a specific kind of object into the game
-    loadSprite (ctx, _kind, token, alt = 'base')
+    loadSprite (ctx, _kind, token, altSheet = 'base')
     {
         //console.log('SpritesManager.loadSprite() called w/ \n _kind: '+_kind+', token: '+token+', alt: '+alt);
 
@@ -135,7 +135,8 @@ export default class SpritesManager {
         // Create a new object to use for loading this sprite's assets and dat
         let $mmrpgObject;
         let customInfo = {};
-        customInfo.image_alt = alt;
+        if (typeof altSheet === 'number' && altSheet > 0){ customInfo.image_sheet = altSheet; }
+        else if (typeof altSheet === 'string' && altSheet.length > 0){ customInfo.image_alt = altSheet; }
         if (kind === 'player'){ $mmrpgObject = new MMRPG_Player(scene, token, customInfo, null); }
         else if (kind === 'robot'){ $mmrpgObject = new MMRPG_Robot(scene, token, customInfo, null); }
         else if (kind === 'ability'){ $mmrpgObject = new MMRPG_Ability(scene, token, customInfo, null); }
