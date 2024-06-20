@@ -86,7 +86,7 @@ export default class DebugScene extends Phaser.Scene
         this.generateFakeSaveData();
 
         // Pull in other required objects and references
-        let ctx = this;
+        let _this = this;
         let SPRITES = this.SPRITES;
         let SOUNDS = this.SOUNDS;
         let POPUPS = this.POPUPS;
@@ -173,8 +173,11 @@ export default class DebugScene extends Phaser.Scene
                 }
             }
 
-        //console.log('this.runningDoctors =', this.runningDoctors);
-        //console.log('this.slidingMasters =', this.slidingMasters);
+        // Make sure we actually preload the sprites now
+        SPRITES.preloadPending(this, function(){ SPRITES.createPending(_this); });
+
+        // Start loading and pending assets now that we're setup
+        this.load.start();
 
     }
 
@@ -321,6 +324,7 @@ export default class DebugScene extends Phaser.Scene
                 direction: 'left'
                 });
             $customRobot.setAlpha(0.5);
+            $customRobot.startIdleAnimation();
             $customRobot.setOnHover(function(){
                 if (this.isMoving){ return; }
                 //console.log('Hovered over $customRobot!');
@@ -337,8 +341,9 @@ export default class DebugScene extends Phaser.Scene
                 //console.log('-> this.x = ', this.x, 'this.y =', this.y);
                 //console.log('-> $customRobot.x = ', $customRobot.x, '$customRobot.y =', $customRobot.y);
                 //console.log('-> $sprite.x = ', $sprite.x, '$sprite.y =', $sprite.y);
-                SOUNDS.play('lets-go', {volume: 0.3});
                 this.setAlpha(1);
+                SOUNDS.play('lets-go', {volume: 0.3});
+                this.stopIdleAnimation();
                 this.flipDirection();
                 this.setFrame('slide');
                 var newX = this.direction === 'left' ? $sprite.x - 90 : $sprite.x + 90;
@@ -351,13 +356,13 @@ export default class DebugScene extends Phaser.Scene
                     //console.log('--> $customRobot.x = ', $customRobot.x, '$customRobot.y =', $customRobot.y);
                     //console.log('-> $sprite.x = ', $sprite.x, '$sprite.y =', $sprite.y);
                     this.setFrame('base');
+                    this.startIdleAnimation();
                     });
                 });
             console.log('$customRobot =', $customRobot);
-            window.$customRobot = $customRobot;
 
             let $customBoss = new MMRPG_Robot(this, 'slur', {
-                //image_alt: 'alt2'
+                image_alt: 'alt2'
                 }, {
                 x: $ref.x + ($ref.width / 2) - 60,
                 y: $ref.y + ($ref.height / 2),
@@ -366,6 +371,7 @@ export default class DebugScene extends Phaser.Scene
                 origin: [0.5, 1],
                 direction: 'right'
                 });
+            $customBoss.startIdleAnimation();
             $customBoss.setOnHover(function(){
                 if (this.isMoving){ return; }
                 //console.log('Hovered over $customBoss!');
@@ -378,6 +384,7 @@ export default class DebugScene extends Phaser.Scene
             $customBoss.setOnClick(function($sprite){
                 //console.log('Clicked on $customBoss! w/ $sprite:', $sprite);
                 SOUNDS.play('level-up', {volume: 0.3});
+                this.stopIdleAnimation();
                 this.flipDirection();
                 this.setFrame('slide');
                 var newX = this.direction === 'left' ? $sprite.x - 90 : $sprite.x + 90;
@@ -387,6 +394,7 @@ export default class DebugScene extends Phaser.Scene
                     //console.log('Movement complete! $sprite.x =', $sprite.x, '$sprite.y =', $sprite.y);
                     if (this.isMoving){ return; }
                     this.setFrame('base');
+                    this.startIdleAnimation();
                     });
                 });
             console.log('$customBoss =', $customBoss);
@@ -401,6 +409,7 @@ export default class DebugScene extends Phaser.Scene
                 origin: [0.5, 1],
                 direction: 'left'
                 });
+            $customMecha.startIdleAnimation();
             $customMecha.setOnHover(function(){
                 if (this.isMoving){ return; }
                 //console.log('Hovered over $customMecha!');
@@ -413,6 +422,7 @@ export default class DebugScene extends Phaser.Scene
             $customMecha.setOnClick(function($sprite){
                 //console.log('Clicked on $customMecha! w/ $sprite:', $sprite);
                 SOUNDS.play('glass-klink', {volume: 0.3});
+                this.stopIdleAnimation();
                 this.flipDirection();
                 this.setFrame('damage');
                 var newX = this.direction === 'left' ? $sprite.x - 90 : $sprite.x + 90;
@@ -421,6 +431,7 @@ export default class DebugScene extends Phaser.Scene
                 this.moveToPosition(newX, newY, 0, function(){
                     //console.log('Movement complete! $sprite.x =', $sprite.x, '$sprite.y =', $sprite.y);
                     this.setFrame('base');
+                    this.startIdleAnimation();
                     });
                 });
             console.log('$customMecha =', $customMecha);
