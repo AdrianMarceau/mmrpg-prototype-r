@@ -13,11 +13,16 @@ class MMRPG_Player extends MMRPG_Object {
     {
         //console.log('MMRPG_Player.constructor() called w/ token:', token, 'customInfo:', customInfo, 'spriteConfig:', spriteConfig);
 
+        // Predefine object configurations unique to the player class
+        let objectConfig = {};
+        objectConfig.baseAlt = 'base';
+        objectConfig.iconPrefix = 'mug';
+        objectConfig.frameAliases = ['base', 'taunt', 'victory', 'defeat', 'command', 'damage', 'base2', 'running', 'running2', 'running3'];
+
         // Call the parent constructor
-        super(scene, 'player', token, customInfo, spriteConfig);
+        super(scene, 'player', token, customInfo, spriteConfig, objectConfig);
 
         // Add player-specific properties here
-        this.spriteFrameAliases = ['base', 'taunt', 'victory', 'defeat', 'command', 'damage', 'base2', 'running', 'running2', 'running3'];
         // ...
 
     }

@@ -13,8 +13,13 @@ class MMRPG_Ability extends MMRPG_Object {
     {
         //console.log('MMRPG_Ability.constructor() called w/ token:', token, 'customInfo:', customInfo, 'spriteConfig:', spriteConfig);
 
+        // Predefine object configurations unique to the ability class
+        let objectConfig = {};
+        objectConfig.baseSheet = 1;
+        objectConfig.iconPrefix = 'icon';
+
         // Call the parent constructor
-        super(scene, 'ability', token, customInfo, spriteConfig);
+        super(scene, 'ability', token, customInfo, spriteConfig, objectConfig);
 
         // Add ability-specific properties here
         // ...

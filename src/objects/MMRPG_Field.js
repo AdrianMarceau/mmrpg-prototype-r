@@ -13,8 +13,11 @@ class MMRPG_Field extends MMRPG_Object {
     {
         //console.log('MMRPG_Field.constructor() called w/ token:', token, 'customInfo:', customInfo, 'spriteConfig:', spriteConfig);
 
+        // Predefine object configurations unique to the field class
+        let objectConfig = {};
+
         // Call the parent constructor
-        super(scene, 'field', token, customInfo, spriteConfig);
+        super(scene, 'field', token, customInfo, spriteConfig, objectConfig);
 
         // Add field-specific properties here
         // ...

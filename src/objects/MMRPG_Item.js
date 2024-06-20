@@ -13,8 +13,13 @@ class MMRPG_Item extends MMRPG_Object {
     {
         //comsole.log('MMRPG_Item.constructor() called w/ token:', token, 'customInfo:', customInfo, 'spriteConfig:', spriteConfig);
 
+        // Predefine object configurations unique to the item class
+        let objectConfig = {};
+        objectConfig.baseSheet = 1;
+        objectConfig.iconPrefix = 'icon';
+
         // Call the parent constructor
-        super(scene, 'item', token, customInfo, spriteConfig);
+        super(scene, 'item', token, customInfo, spriteConfig, objectConfig);
 
         // Add item-specific properties here
         // ...

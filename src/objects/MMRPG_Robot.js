@@ -13,11 +13,16 @@ class MMRPG_Robot extends MMRPG_Object {
     {
         //console.log('MMRPG_Robot.constructor() called w/ token:', token, 'customInfo:', customInfo, 'spriteConfig:', spriteConfig);
 
+        // Predefine object configurations unique to the robot class
+        let objectConfig = {};
+        objectConfig.baseAlt = 'base';
+        objectConfig.iconPrefix = 'mug';
+        objectConfig.frameAliases = ['base', 'taunt', 'victory', 'defeat', 'shoot', 'throw', 'summon', 'slide', 'defend', 'damage', 'base2'];
+
         // Call the parent constructor
-        super(scene, 'robot', token, customInfo, spriteConfig);
+        super(scene, 'robot', token, customInfo, spriteConfig, objectConfig);
 
         // Add robot-specific properties here
-        this.spriteFrameAliases = ['base', 'taunt', 'victory', 'defeat', 'shoot', 'throw', 'summon', 'slide', 'defend', 'damage', 'base2'];
         // ...
 
     }
