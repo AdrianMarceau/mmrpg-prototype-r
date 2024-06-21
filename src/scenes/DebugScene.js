@@ -610,7 +610,7 @@ export default class DebugScene extends Phaser.Scene
     }
 
     // Define a function that generates a sprite of a robot and animates it sliding across the screen
-    showMasterSliding (token, alt, side)
+    async showMasterSliding (token, alt, side)
     {
         //console.log('DebugScene.showMasterSliding() called w/ token =', token, 'alt =', alt, 'side =', side);
         //console.log('ctx.masterTokensByCoreType['+alt+'] =', this.masterTokensByCoreType[alt]);
@@ -620,13 +620,17 @@ export default class DebugScene extends Phaser.Scene
         let MMRPG = this.MMRPG;
         let SPRITES = this.SPRITES;
         let SOUNDS = this.SOUNDS;
-        let robotSheets = SPRITES.index.sheets.robots;
-        let robotAnims = SPRITES.index.anims.robots;
+        let robotSheetsIndex = SPRITES.index.sheets.robots;
+        let robotAnimsIndex = SPRITES.index.anims.robots;
         let typesIndex = MMRPG.Indexes.types;
         let robotsIndex = MMRPG.Indexes.robots;
         let abilitiesIndex = MMRPG.Indexes.abilities;
 
-        // Generate a list of random tokens to pull from should it be necessary
+        // Collect the sprite side and direction from the function else define defaults
+        let spriteSide = side || 'left';
+        let spriteDirection = spriteSide === 'left' ? 'right' : 'left';
+
+        // Pull a list of random tokens to pull from should it be necessary
         let randTokens = [];
         if (this.safeTypeTokens.indexOf(alt) >= 0){
             if (typeof ctx.masterTokensByCoreType[alt] !== 'undefined'
@@ -641,47 +645,61 @@ export default class DebugScene extends Phaser.Scene
         if (!randTokens.length){ randTokens = randTokens.concat(ctx.slidingMasters); }
         let randKey = Math.floor(Math.random() * randTokens.length);
 
+        // Prepare the Robot
+
         // Collect the sprite token and alt if provided, else rely on the random key
-        let spriteSide = side || 'left';
-        let spriteDirection = spriteSide === 'left' ? 'right' : 'left';
-        let spriteToken = token || randTokens[randKey];
-        let spriteAlt = alt || 'base';
-        //console.log('spriteToken =', spriteToken, 'spriteAlt =', spriteAlt, 'spriteSide =', spriteSide, 'spriteDirection =', spriteDirection);
+        let robotSpriteToken = token || randTokens[randKey];
+        let robotSpriteAlt = alt || 'base';
+        //console.log('robotSpriteToken =', robotSpriteToken, 'robotSpriteAlt =', robotSpriteAlt, 'spriteSide =', spriteSide, 'spriteDirection =', spriteDirection);
 
         // If the sprite token ends with an "*_{alt}", make sure we parse it out
-        if (spriteToken.indexOf('_') !== -1){
-            let tokenParts = spriteToken.split('_');
-            spriteToken = tokenParts[0];
-            spriteAlt = tokenParts[1];
+        if (robotSpriteToken.indexOf('_') !== -1){
+            let tokenParts = robotSpriteToken.split('_');
+            robotSpriteToken = tokenParts[0];
+            robotSpriteAlt = tokenParts[1];
             }
 
         // Pull the robot data for the token we're using
-        let robotInfo = robotsIndex[spriteToken];
-        let robotAlts = robotInfo.image_alts ? robotInfo.image_alts.map(item => item.token) : [];
-        //console.log('robotInfo for ', spriteToken, '=', robotInfo);
-        //console.log('robotAlts for ', spriteToken, '=', robotAlts);
+        let robotIndexInfo = robotsIndex[robotSpriteToken];
+        let robotAltTokens = robotIndexInfo.image_alts ? robotIndexInfo.image_alts.map(item => item.token) : [];
+        //console.log('robotIndexInfo for ', robotSpriteToken, '=', robotIndexInfo);
+        //console.log('robotAltTokens for ', robotSpriteToken, '=', robotAltTokens);
 
-        // Ensure the selected alt actually exists on the robot in question, else default to base
-        //console.log('pending spriteToken =', spriteToken, 'pending spriteAlt =', spriteAlt);
-        if (spriteAlt !== 'base' && robotAlts.indexOf(spriteAlt) === -1){ spriteAlt = 'base'; }
-        if (!robotSheets[spriteToken][spriteAlt]){
-            //console.log('Sprite alt not found, defaulting to base');
-            spriteAlt = 'base';
-            }
+        // Ensure the selected alt actually exists, else default to base
+        if (robotSpriteAlt !== 'base' && robotAltTokens.indexOf(robotSpriteAlt) === -1){ robotSpriteAlt = 'base'; }
 
-        // Define the robot-specific details for this animation sequence
-        let robotSpriteToken = spriteToken;
-        let robotSpriteAlt = spriteAlt;
-        let robotSpriteInfo = SPRITES.getSpriteInfo('robot', robotSpriteToken, robotSpriteAlt);
-        //console.log('robotSpriteInfo = ', robotSpriteInfo);
+        // Prepare the Ability
 
         // Define the ability-specific details for potential animation sequence
         let abilityRand = Math.floor(Math.random() * 100);
         let abilitySuffix = abilityRand % 3 === 0 ? 'buster' : 'shot';
-        let abilityElement = robotInfo.core !== '' && robotInfo.core !== 'copy' ? robotInfo.core : '';
+        let abilityElement = robotIndexInfo.core !== '' && robotIndexInfo.core !== 'copy' ? robotIndexInfo.core : '';
         let abilitySpriteToken = abilityElement ? (abilityElement + '-' + abilitySuffix) : ('buster-shot');
-        let abilitySpriteInfo = SPRITES.getSpriteInfo('ability', abilitySpriteToken, 1);
         //console.log(abilitySpriteToken, 'abilityRand:', abilityRand, 'abilitySuffix:', abilitySuffix, 'abilityElement:', abilityElement);
+
+        // Preload the Sprites
+
+        // Create a temp robot object to ensure everything gets preloaded
+        //console.log('creating new robot object for ' + robotSpriteToken);
+        let $robot = new MMRPG_Robot(ctx, robotSpriteToken, {image_alt: robotSpriteAlt}, MMRPG.canvas.offscreen);
+        await $robot.isReady();
+        //console.log('Robot ' + $robot.token + ' is ready for action!', $robot);
+        $robot.destroy(); // temporary (will transition to actually using this $robot object later)
+
+        // Create a temp ability object to ensure everything gets preloaded
+        //console.log('creating new ability object for ' + abilitySpriteToken);
+        let $ability = new MMRPG_Ability(ctx, abilitySpriteToken, null, MMRPG.canvas.offscreen);
+        await $ability.isReady();
+        //console.log('Ability ' + $ability.token + ' is ready for action!', $ability);
+        $ability.destroy(); // temporary (will transition to actually using this $ability object later)
+
+        // Fallback for non-existent robot sprite sheets
+        if (!robotSheetsIndex[robotSpriteToken][robotSpriteAlt]){ robotSpriteAlt = 'base'; }
+
+        // Collect the sprite info for the robot and ability now that everything is ready
+        let robotSpriteInfo = SPRITES.getSpriteInfo('robot', robotSpriteToken, robotSpriteAlt);
+        let abilitySpriteInfo = SPRITES.getSpriteInfo('ability', abilitySpriteToken, 1);
+        //console.log('robotSpriteToken =', robotSpriteToken, 'robotSpriteInfo =', robotSpriteInfo);
         //console.log('abilitySpriteToken =', abilitySpriteToken, 'abilitySpriteInfo =', abilitySpriteInfo);
 
         // Pull the ability data for the token we're using
@@ -719,7 +737,7 @@ export default class DebugScene extends Phaser.Scene
         $robotSprite.setFrame(0);
 
         // Animate that sprite sliding across the screen then remove when done
-        let slideSpeed = robotInfo.speed;
+        let slideSpeed = robotIndexInfo.speed;
         let slideSpeedMultiplier = (slideSpeed / 100);
         let slideDistance = (MMRPG.canvas.width / 3) * slideSpeedMultiplier;
         let slideDestination = spriteSide === 'left' ? (MMRPG.canvas.width + 40) : (0 - 40);
@@ -730,7 +748,7 @@ export default class DebugScene extends Phaser.Scene
 
         // Define a function for sliding a given sprite forward, then calling another function to slide it somewhere else
         const slideSpriteForward = function($sprite, distance, destination, duration, onComplete){
-            //console.log('Starting forward slide movement for sprite!', spriteToken, 'x:', $sprite.x);
+            //console.log('Starting forward slide movement for sprite!', robotSpriteToken, 'x:', $sprite.x);
             if (!$sprite || $sprite.toBeDestroyed){ return; }
             //console.log('$sprite', typeof $sprite, $sprite, ($sprite ? true : false));
             $sprite.direction = 'right';
@@ -776,7 +794,7 @@ export default class DebugScene extends Phaser.Scene
 
         // Define a function for sliding a given sprite backward, then calling another function to slide it somewhere else
         const slideSpriteBackward = function($sprite, distance, destination, duration, onComplete){
-            //console.log('Starting backward slide movement for sprite!', spriteToken, 'x:', $sprite.x);
+            //console.log('Starting backward slide movement for sprite!', robotSpriteToken, 'x:', $sprite.x);
             if (!$sprite || $sprite.toBeDestroyed){ return; }
             //console.log('$sprite', typeof $sprite, $sprite, ($sprite ? true : false));
             $sprite.direction = 'left';
@@ -823,7 +841,7 @@ export default class DebugScene extends Phaser.Scene
         // Define a function that makes a given sprite perform a shoot animation and then move w/ a slide
         let abilityShotSprites = [];
         const makeSpriteShoot = function($sprite, distance, destination, duration, onComplete){
-            //console.log('Starting shooting movement for sprite!', spriteToken, 'x:', $sprite.x);
+            //console.log('Starting shooting movement for sprite!', robotSpriteToken, 'x:', $sprite.x);
             if (!$sprite || $sprite.toBeDestroyed){ return; }
             //console.log('$sprite', typeof $sprite, $sprite, ($sprite ? true : false));
 
@@ -919,7 +937,7 @@ export default class DebugScene extends Phaser.Scene
                     ease: 'Sine.easeOut',
                     duration: shotDuration,
                     onComplete: function () {
-                        //console.log(robotInfo.name + '\'s ' + abilityInfo.name + ' movement complete!');
+                        //console.log(robotIndexInfo.name + '\'s ' + abilityInfo.name + ' movement complete!');
                         SPRITES.destroySprite(ctx, $shotSprite);
                         }
                     });
@@ -933,7 +951,7 @@ export default class DebugScene extends Phaser.Scene
         let safeZoneMinX = MMRPG.canvas.xMin - safeZone;
         let safeZoneMaxX = MMRPG.canvas.xMax + safeZone;
         const slideSpriteSomewhere = function($sprite, distance, destination, duration, onComplete){
-            //console.log('Starting random movement for sprite!', spriteToken, 'x:', $sprite.x, 'xMin:', safeZoneMinX, 'xMax:', safeZoneMaxX);
+            //console.log('Starting random movement for sprite!', robotSpriteToken, 'x:', $sprite.x, 'xMin:', safeZoneMinX, 'xMax:', safeZoneMaxX);
             //console.log('$sprite', typeof $sprite, $sprite, ($sprite ? true : false));
             if (!$sprite
                 || $sprite.toBeDestroyed
@@ -960,13 +978,16 @@ export default class DebugScene extends Phaser.Scene
             };
 
         // Collect data for the explosion sprite and the generate the sheets and animation
-        let effectElement = (robotInfo.core !== '' && robotInfo.core !== 'copy' ? robotInfo.core : '');
+        let effectElement = (robotIndexInfo.core !== '' && robotIndexInfo.core !== 'copy' ? robotIndexInfo.core : '');
         let effectToken = effectElement ? effectElement + '-buster' : 'mega-buster';
+        let $tempAbility = new MMRPG_Ability(ctx, effectToken, null, MMRPG.canvas.offscreen);
+        await $tempAbility.isReady();
+        $tempAbility.destroy();
         let explodeSpriteInfo = SPRITES.getSpriteInfo('ability', effectToken, 1);
         //console.log('%c----------', 'color: orange;');
         //console.log('explodeSpriteInfo (before) =', explodeSpriteInfo);
         //console.log('explodeSpriteInfo.sprite (before) =', JSON.stringify(explodeSpriteInfo.sprite));
-        const createExplodeSpriteAnimation = function(robotInfo, spriteInfo, spriteDirection){
+        const createExplodeSpriteAnimation = function(robotIndexInfo, spriteInfo, spriteDirection){
             let xkind = 'abilities';
             let token = effectToken;
             let sheet = '1';
@@ -993,8 +1014,8 @@ export default class DebugScene extends Phaser.Scene
                 }
             spriteInfo['sprite'][spriteDirection]['anim']['explode'] = explodeAnimation.key;
             };
-        createExplodeSpriteAnimation(robotInfo, explodeSpriteInfo, 'left');
-        createExplodeSpriteAnimation(robotInfo, explodeSpriteInfo, 'right');
+        createExplodeSpriteAnimation(robotIndexInfo, explodeSpriteInfo, 'left');
+        createExplodeSpriteAnimation(robotIndexInfo, explodeSpriteInfo, 'right');
         //console.log('explodeSpriteInfo (after) =', explodeSpriteInfo);
         //console.log('explodeSpriteInfo.sprite (after) =', JSON.stringify(explodeSpriteInfo.sprite));
 
@@ -1030,7 +1051,7 @@ export default class DebugScene extends Phaser.Scene
                     $sprite.fx.brightness($sprite.subTweens.flashTween.getValue());
                     },
                 onComplete: function (){
-                    //console.log(robotInfo.name + ' explosion complete!');
+                    //console.log(robotIndexInfo.name + ' explosion complete!');
                     SPRITES.destroySprite(ctx, $sprite);
                     }
                 });
@@ -1085,7 +1106,7 @@ export default class DebugScene extends Phaser.Scene
                     $explodeSprite.x = $sprite.x + explodeOffsets.x;
                     },
                 onComplete: function () {
-                    //console.log(robotInfo.name + '\'s explosion fade complete!');
+                    //console.log(robotIndexInfo.name + '\'s explosion fade complete!');
                     SPRITES.destroySprite(ctx, $explodeSprite);
                     }
                 });
@@ -1105,12 +1126,12 @@ export default class DebugScene extends Phaser.Scene
             // If the robot has quotes to display, let's do so now
             let quoteDisplayed = false;
             let $floatingTextBubble = null;
-            //console.log('robot destroyed:', robotInfo.token, robotInfo.name, robotInfo);
-            if (typeof robotInfo.quotes !== 'undefined'){
-                let robotCoreType = robotInfo.core !== '' ? robotInfo.core : '';
+            //console.log('robot destroyed:', robotIndexInfo.token, robotIndexInfo.name, robotIndexInfo);
+            if (typeof robotIndexInfo.quotes !== 'undefined'){
+                let robotCoreType = robotIndexInfo.core !== '' ? robotIndexInfo.core : '';
                 let robotTypeInfo = typesIndex[robotCoreType || 'none'];
-                let robotQuotes = robotInfo.quotes;
-                //console.log(robotInfo.token, 'robotCoreType:', robotCoreType, 'robotTypeInfo:', robotTypeInfo, 'robotQuotes:', robotQuotes);
+                let robotQuotes = robotIndexInfo.quotes;
+                //console.log(robotIndexInfo.token, 'robotCoreType:', robotCoreType, 'robotTypeInfo:', robotTypeInfo, 'robotQuotes:', robotQuotes);
                 if (typeof robotQuotes.battle_defeat
                     && robotQuotes.battle_defeat.length){
                     //console.log('robotQuotes.battle_defeat:', robotQuotes.battle_defeat);
@@ -1212,16 +1233,16 @@ export default class DebugScene extends Phaser.Scene
         let startFunction;
         if (spriteDirection === 'right'){ startFunction = slideSpriteForward; }
         else if (spriteDirection === 'left'){ startFunction = slideSpriteBackward; }
-        //console.log('Starting slide animation for', robotInfo.name, 'w/ token:', spriteToken, 'and alt:', spriteAlt);
+        //console.log('Starting slide animation for', robotIndexInfo.name, 'w/ token:', robotSpriteToken, 'and alt:', robotSpriteAlt);
         startFunction($robotSprite, slideDistance, slideDestination, slideDuration, function($robotSprite){
-            //console.log('%c' + 'All animations for ' + robotInfo.name + ' complete!', 'color: amber;');
+            //console.log('%c' + 'All animations for ' + robotIndexInfo.name + ' complete!', 'color: amber;');
             queueSpriteCleanup();
             });
 
         // Make it so the sprite is clickable to shows an alert
         $robotSprite.setInteractive({ useHandCursor: true });
         $robotSprite.on('pointerdown', function(){
-            //console.log('Sliding sprite clicked:', spriteToken);
+            //console.log('Sliding sprite clicked:', robotSpriteToken);
             if (!$robotSprite || $robotSprite.isDisabled){ return; }
             showRobotDefeatQuote($robotSprite);
             explodeSpriteAndDestroy($robotSprite);
@@ -1229,7 +1250,7 @@ export default class DebugScene extends Phaser.Scene
             });
 
         // Update the scene with last-used sprite token
-        ctx.lastSlidingMaster = spriteToken;
+        ctx.lastSlidingMaster = robotSpriteToken;
     }
 
     // Define a function for creating the title banner and associated elements inside it
