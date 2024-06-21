@@ -150,8 +150,8 @@ export default class SpritesManager {
         //console.log('$mmrpgObject = ', $mmrpgObject);
 
         // Load the sprite sheets for this object
-        $mmrpgObject.loadSpriteSheets(true);
-        $mmrpgObject.loadSpriteAnimations(true);
+        $mmrpgObject.queueSpriteSheets();
+        $mmrpgObject.queueSpriteAnimations();
 
         // Delete the newly created object so it doesn't waste memory
         $mmrpgObject.destroy();

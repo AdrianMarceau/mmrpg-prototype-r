@@ -229,10 +229,10 @@ class MMRPG_Object {
             //console.log('-> this is a directional kind! xkind:', this.xkind, ' of ['+directionalKinds.join(', ')+']');
 
             // Preload all the sprite sheets and animations into the queue
-            this.loadSpriteSheets();
-            this.loadSpriteAnimations();
-            //console.log(this.token + ' | this.loadSpriteSheets();');
-            //console.log(this.token + ' | this.loadSpriteAnimations();');
+            this.queueSpriteSheets();
+            this.queueSpriteAnimations();
+            //console.log(this.token + ' | this.queueSpriteSheets();');
+            //console.log(this.token + ' | this.queueSpriteAnimations();');
             //console.log(this.token + ' | SPRITES.pendingSheets.length:', SPRITES.pendingSheets.length);
             //console.log(this.token + ' | SPRITES.pendingAnims.length:', SPRITES.pendingAnims.length);
 
@@ -288,10 +288,10 @@ class MMRPG_Object {
 
     }
 
-    // Load all of this sprite's sheets into the memory using the sprite manager utility
-    loadSpriteSheets ()
+    // Queue all of this sprite's sheets into the memory using the sprite manager utility
+    queueSpriteSheets ()
     {
-        //console.log('MMRPG_Object.loadSpriteSheets() called for ', this.kind, this.token);
+        //console.log('MMRPG_Object.queueSpriteSheets() called for ', this.kind, this.token);
 
         // Pull in index references
         let _this = this;
@@ -378,10 +378,10 @@ class MMRPG_Object {
 
     }
 
-    // Load all of this sprite's animations into memory using the sprite mamager utility
-    loadSpriteAnimations ()
+    // Queue all of this sprite's animations into memory using the sprite mamager utility
+    queueSpriteAnimations ()
     {
-        //console.log('MMRPG_Object.loadSpriteAnimations() called for ', this.kind, this.token);
+        //console.log('MMRPG_Object.queueSpriteAnimations() called for ', this.kind, this.token);
 
         // Pull in index references
         let _this = this;
