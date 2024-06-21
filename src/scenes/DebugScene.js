@@ -337,7 +337,7 @@ export default class DebugScene extends Phaser.Scene
             // Define a custom click event for all the custom robot masters/bosses/mechas
             let customClickEvent = function($sprite, pointer, localX, localY){
                 this.incrementCounter('clicks');
-                console.log('clicks =', this.getCounter('clicks'));
+                //console.log('clicks =', this.getCounter('clicks'));
                 SOUNDS.play('lets-go', {volume: 0.3});
                 this.stopIdleAnimation();
                 var runDirX = (localX >= (this.width / 2) ? 'left' : 'right');
@@ -347,7 +347,7 @@ export default class DebugScene extends Phaser.Scene
                 var newY = (runDirY === 'up' ? '-=' : '+=') + 30;
                 let duration = 1000;
                 if (this.getFlag('teleports')){ duration = 0; }
-                else { duration *= (this.data.speed / 100); }
+                else { duration *= this.data.speedMod; }
                 this.setFrame('slide');
                 this.moveToPosition(newX, newY, duration, function(){
                     if (this.x < 0){ return this.moveToPosition('+=100', null, 1000); }
