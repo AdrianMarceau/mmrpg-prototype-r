@@ -172,12 +172,19 @@ export default class SpritesManager {
         let queuedSheets = SPRITES.queuedSheets;
         let loadedSheets = SPRITES.loadedSheets;
         let existingTextures = Object.keys(scene.textures.list);
-        if (!pendingSheets.length){
-            //console.log('SpritesManager.preloadPending() no pending sheets');
+
+        // Define a function to run when we're ready to move on
+        const onComplete = function(){
             pendingSheets = [];
             if (pendingAnims.length){ SPRITES.createPending(scene, callback); }
             else if (typeof callback === 'function'){ callback(scene); }
             else { return; }
+            };
+
+        // We can return early if there are no pending sheets to load
+        if (!pendingSheets.length){
+            //console.log('SpritesManager.preloadPending() no pending sheets');
+            return onComplete();
             } else {
             //console.log('SpritesManager.preloadPending() has', pendingSheets.length, 'pending sheets');
             }
@@ -186,8 +193,7 @@ export default class SpritesManager {
         const checkAllLoaded = function(){
             if (!queuedSheets.length){
                 //console.log('SpritesManager.preloadPending() all sheets loaded');
-                if (pendingAnims.length){ SPRITES.createPending(scene, callback); }
-                else if (typeof callback === 'function'){ callback(scene); }
+                return onComplete();
                 }
             };
 
