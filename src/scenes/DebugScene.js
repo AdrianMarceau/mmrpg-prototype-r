@@ -331,38 +331,27 @@ export default class DebugScene extends Phaser.Scene
                 origin: [0.5, 1],
                 direction: 'left'
                 });
-            $customRobot.setAlpha(0.5);
             $customRobot.startIdleAnimation();
             $customRobot.setOnHover(function(){
                 if (this.isMoving){ return; }
-                //console.log('Hovered over $customRobot!');
                 this.setFrame('taunt');
                 }, function(){
                 if (this.isMoving){ return; }
-                //console.log('Moved away from $customRobot!');
                 this.resetFrame();
                 });
-            $customRobot.setOnClick(function($sprite){
-                if (this.isMoving){ return; }
-                //console.log('%c' + '---------------------', 'color: red;');
-                //console.log('Clicked on $customRobot! w/ this:', this, '$sprite:', $sprite);
-                //console.log('-> this.x = ', this.x, 'this.y =', this.y);
-                //console.log('-> $customRobot.x = ', $customRobot.x, '$customRobot.y =', $customRobot.y);
-                //console.log('-> $sprite.x = ', $sprite.x, '$sprite.y =', $sprite.y);
-                this.setAlpha(1);
+            $customRobot.setOnClick(function($sprite, pointer, localX, localY){
+                if (!this.data.clicks){ this.data.clicks = 0; }
+                this.data.clicks++;
                 SOUNDS.play('lets-go', {volume: 0.3});
                 this.stopIdleAnimation();
-                this.flipDirection();
+                var runDirX = (localX >= (this.width / 2) ? 'left' : 'right');
+                var runDirY = (localY >= (this.height / 2) ? 'up' : 'down');
+                if (runDirX !== this.direction){ this.flipDirection(); }
+                var newX = (runDirX === 'left' ? '-=' : '+=') + 90;
+                var newY = (runDirY === 'up' ? '-=' : '+=') + 30;
                 this.setFrame('slide');
-                var newX = this.direction === 'left' ? $sprite.x - 90 : $sprite.x + 90;
-                var newY = $sprite.y + 30;
-                //console.log('-> $customRobot is moving to newX:', newX, 'newY:', newY);
                 this.moveToPosition(newX, newY, 1000, function(){
-                    //console.log('%c' + '-------------', 'color: pink;');
-                    //console.log('--> Movement complete!');
-                    //console.log('--> this.x = ', this.x, 'this.y =', this.y);
-                    //console.log('--> $customRobot.x = ', $customRobot.x, '$customRobot.y =', $customRobot.y);
-                    //console.log('-> $sprite.x = ', $sprite.x, '$sprite.y =', $sprite.y);
+                    if (this.x < 0){ return this.moveToPosition('+=100', null, 1000); }
                     this.setFrame('base');
                     this.startIdleAnimation();
                     });
