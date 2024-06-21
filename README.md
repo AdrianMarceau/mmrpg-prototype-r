@@ -6,6 +6,8 @@ This is the official repository for the Mega Man RPG Prototype Remake (MMRPG-R).
 
 MMRPG Prototype R is an in-progress remake of the existing [Mega Man RPG Prototype](https://prototype.mmrpg-world.net/) fan-game.  The original MMRPG features characters and locations from across the classic Mega Man series presented to the player as a gauntlet of turn-based battles, offering a quaint nostalgic gaming experience on any browser-equipped device, and this remake aims to build on that by providing a smoother, more professional gameplay experience than the original.  This will ideally make it more suitable for mirroring or otherwise hosting on other platforms like Newgrounds and allowing the game to live-on even after I do not.
 
+![Dr. Cossack & Proto Man vs Skull Man](https://prototype.mmrpg-world.net/images/assets/home-page_game-screen-2k23_dr-cossack.png)
+
 The final title of this game, once all work has been completed, will affectionately be changed to: "Mega Man RPG: Legacy of the Prototype".
 
 ## Features / Goals
