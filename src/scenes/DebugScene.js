@@ -174,10 +174,7 @@ export default class DebugScene extends Phaser.Scene
             }
 
         // Make sure we actually preload the sprites now
-        SPRITES.preloadPending(this, function(){ SPRITES.createPending(_this); });
-
-        // Start loading and pending assets now that we're setup
-        this.load.start();
+        SPRITES.preloadPending(this);
 
     }
 
