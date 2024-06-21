@@ -219,6 +219,67 @@ class MMRPG_Object {
 
     }
 
+    // Set a flag in the data object for this object
+    setFlag (flag, value = true)
+    {
+        //console.log('MMRPG_Object.setFlag() called w/ flag:', flag, 'value:', value);
+        this.data.flags.push(flag);
+        this.data.flags = this.data.flags.filter((v, i, a) => a.indexOf(v) === i);
+    }
+
+    // Get a flag from the data object for this object
+    getFlag (flag)
+    {
+        //console.log('MMRPG_Object.getFlag() called w/ flag:', flag);
+        return this.data.flags.indexOf(flag) !== -1;
+    }
+
+    // Set a counter in the data object for this object
+    setCounter (counter, value = 0)
+    {
+        //console.log('MMRPG_Object.setCounter() called w/ counter:', counter, 'value:', value);
+        this.data.counters[counter] = value;
+    }
+
+    // Get a counter from the data object for this object
+    getCounter (counter)
+    {
+        //console.log('MMRPG_Object.getCounter() called w/ counter:', counter);
+        return this.data.counters[counter] || 0;
+    }
+
+    // Increment a counter in the data object for this object, (create at zero if not exists first)
+    incCounter (counter, increment = 1){ this.incrementCounter(counter, increment); }
+    incrementCounter (counter, increment = 1)
+    {
+        //console.log('MMRPG_Object.incrementCounter() called w/ counter:', counter, 'increment:', increment);
+        this.data.counters[counter] = this.data.counters[counter] || 0;
+        this.data.counters[counter] += increment;
+    }
+
+    // Decrease a counter in the data object for this object, (create at zero if not exists first)
+    decCounter (counter, decrement = 1){ this.decreaseCounter(counter, decrement); }
+    decreaseCounter (counter, decrement = 1)
+    {
+        //console.log('MMRPG_Object.decreaseCounter() called w/ counter:', counter, 'decrement:', decrement);
+        this.data.counters[counter] = this.data.counters[counter] || 0;
+        this.data.counters[counter] -= decrement;
+    }
+
+    // Set a value in the data object for this object
+    setValue (key, value)
+    {
+        //console.log('MMRPG_Object.setValue() called w/ key:', key, 'value:', value);
+        this.data.values[key] = value;
+    }
+
+    // Get a value from the data object for this object
+    getValue (key)
+    {
+        //console.log('MMRPG_Object.getValue() called w/ key:', key);
+        return this.data.values[key];
+    }
+
 
     // -- SPRITE CREATION -- //
 
