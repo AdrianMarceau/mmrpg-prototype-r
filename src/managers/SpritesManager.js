@@ -229,10 +229,9 @@ export default class SpritesManager {
                 key: anim.key,
                 frames: scene.anims.generateFrameNumbers(anim.sheet, { frames: anim.frames }),
                 }));
-            if (typeof callback === 'function'){ callback(scene); }
             }
+        if (typeof callback === 'function'){ callback(scene); }
         //console.log('SpritesManager.createPending() now has', SPRITES.pendingAnims.length, 'pending animations');
-
     }
 
     // Define a function that takes a given sprite kind, token, and alt and then provides all the sheets and animation data
