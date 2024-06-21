@@ -506,9 +506,6 @@ export default class DebugScene extends Phaser.Scene
         let playerAnims = SPRITES.index.anims.players;
         let playersIndex = MMRPG.Indexes.players;
 
-        // Count the number of sliding sprites currently on the screen
-        let numSprites = ctx.debugAddedSprites - ctx.debugRemovedSprites;
-
         // Generate a list of random tokens to pull from should it be necessary
         let randTokens = [];
         if (!randTokens.length){ randTokens = randTokens.concat(ctx.runningDoctors); }
@@ -541,6 +538,9 @@ export default class DebugScene extends Phaser.Scene
             //console.log('Sprite alt not found, defaulting to base');
             spriteAlt = 'base';
             }
+
+        // Count the number of sliding sprites currently on the screen
+        let numSprites = ctx.debugAddedSprites - ctx.debugRemovedSprites;
 
         // Define the base coordinates for the sprite to be added
         var offset = ((numSprites % 10) * 5);
@@ -629,9 +629,6 @@ export default class DebugScene extends Phaser.Scene
         let robotsIndex = MMRPG.Indexes.robots;
         let abilitiesIndex = MMRPG.Indexes.abilities;
 
-        // Count the number of sliding sprites currently on the screen
-        let numSprites = ctx.debugAddedSprites - ctx.debugRemovedSprites;
-
         // Generate a list of random tokens to pull from should it be necessary
         let randTokens = [];
         if (this.safeTypeTokens.indexOf(alt) >= 0){
@@ -693,6 +690,9 @@ export default class DebugScene extends Phaser.Scene
         // Pull the ability data for the token we're using
         let abilityInfo = abilitiesIndex[abilitySpriteToken];
         //console.log('abilityInfo for ', abilitySpriteToken, '=', abilityInfo);
+
+        // Count the number of sliding sprites currently on the screen
+        let numSprites = ctx.debugAddedSprites - ctx.debugRemovedSprites;
 
         // Define the base coordinates for the sprite to be added
         var offset = ((numSprites % 10) * 5);
