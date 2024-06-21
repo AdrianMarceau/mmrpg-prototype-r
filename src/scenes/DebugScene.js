@@ -309,6 +309,15 @@ export default class DebugScene extends Phaser.Scene
             console.log('$field =', $field);
             console.log('$skill =', $skill);
             console.log('$type =', $type);
+            let onClickTestObject = function(){
+                SOUNDS.play('link-click', {volume: 0.3});
+                this.destroy();
+                };
+            $player.setOnClick(onClickTestObject);
+            $robot.setOnClick(onClickTestObject);
+            $ability.setOnClick(onClickTestObject);
+            $item.setOnClick(onClickTestObject);
+            $field.setOnClick(onClickTestObject);
 
             // Create some mods of the above to see what's possible
             var $ref = this.battleBanner;
