@@ -1022,8 +1022,8 @@ class MMRPG_Object {
         let _this = this;
         let $sprite = this.sprite;
         $sprite.setInteractive({ useHandCursor: true });
-        $sprite.on('pointerdown', (pointer) => {
-            callback.call(this, _this.sprite, pointer);
+        $sprite.on('pointerdown', (pointer, localX, localY) => {
+            callback.call(this, _this.sprite, pointer, localX, localY);
             });
     }
 
@@ -1035,12 +1035,12 @@ class MMRPG_Object {
         let _this = this;
         let $sprite = this.sprite;
         $sprite.setInteractive({ useHandCursor: true });
-        $sprite.on('pointerover', (pointer) => {
-            callback.call(_this, $sprite, pointer);
+        $sprite.on('pointerover', (pointer, localX, localY) => {
+            callback.call(_this, $sprite, pointer, localX, localY);
             });
         if (callback2) {
-            $sprite.on('pointerout', (pointer) => {
-                callback2.call(_this, $sprite, pointer);
+            $sprite.on('pointerout', (pointer, localX, localY) => {
+                callback2.call(_this, $sprite, pointer, localX, localY);
                 });
             }
     }
