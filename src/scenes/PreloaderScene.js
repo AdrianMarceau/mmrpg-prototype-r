@@ -29,7 +29,8 @@ export default class PreloaderScene extends Phaser.Scene
 
         // Define the preload steps if they haven't been
         this.preloadComplete = [];
-        this.preloadSteps = ['indexes', 'sprites', 'players', 'robots', 'abilities', 'items', 'fields', 'sounds', 'other', 'start'];
+        //this.preloadSteps = ['indexes', 'sprites', 'players', 'robots', 'abilities', 'items', 'fields', 'sounds', 'other', 'start'];
+        this.preloadSteps = ['indexes', 'sprites', 'sounds', 'other', 'start'];
         this.preloadStep = this.preloadSteps[0];
 
         // Set up the preload queue variables
@@ -40,7 +41,7 @@ export default class PreloaderScene extends Phaser.Scene
         // Define which players, robots, items, etc. to preload before starting
         this.preloadSprites = {
             players: [
-                //'dr-light', 'dr-wily', 'dr-cossack'
+                'dr-light', 'dr-wily', 'dr-cossack'
                 ],
             robots: [
                 //'mega-man', 'proto-man', 'bass',
