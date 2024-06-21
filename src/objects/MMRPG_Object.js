@@ -522,7 +522,8 @@ class MMRPG_Object {
         let spriteHeight = this.data.image_height;
         //console.log('-> token:', token, 'direction:', direction, 'spriteSheet:', spriteSheet, 'spritePath:', spritePath, 'spriteWidth:', spriteWidth, 'spriteHeight:', spriteHeight);
         this.spriteIsLoading = true;
-        scene.load.spritesheet(spriteSheet, spritePath, { frameWidth: spriteWidth, frameHeight: spriteHeight });
+        SPRITES.preloadPending(scene);
+        //scene.load.spritesheet(spriteSheet, spritePath, { frameWidth: spriteWidth, frameHeight: spriteHeight });
         scene.load.once('complete', () => {
             //console.log('-> loadSpriteTexture() complete for token:', token, 'direction:', direction, 'spriteSheet:', spriteSheet, 'spritePath:', spritePath, 'spriteWidth:', spriteWidth, 'spriteHeight:', spriteHeight);
             // DEBUG check if the texture and animations were loaded
@@ -540,12 +541,6 @@ class MMRPG_Object {
                     method.call(_this);
                     }
                 }
-            });
-        SPRITES.preloadPending(scene, function(){
-            //console.log('-> token:', token, ' - SPRITES.preloadPending() complete');
-            SPRITES.createPending(scene, function(){
-                //console.log('-> token:', token, ' - SPRITES.createPending() complete');
-                });
             });
         scene.load.start();
     }
