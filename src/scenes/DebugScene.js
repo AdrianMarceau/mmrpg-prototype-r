@@ -366,6 +366,7 @@ export default class DebugScene extends Phaser.Scene
                 origin: [0.5, 1],
                 direction: 'right'
                 });
+            $customBoss.setShadow(true);
             $customBoss.startIdleAnimation();
             $customBoss.setOnHover(customMouseOver, customMouseOut);
             $customBoss.setOnClick(customClickEvent);
@@ -381,6 +382,7 @@ export default class DebugScene extends Phaser.Scene
                 origin: [0.5, 1],
                 direction: 'left'
                 });
+            $customGuardian.setShadow(true);
             $customGuardian.startIdleAnimation();
             $customGuardian.setOnHover(customMouseOver, customMouseOut);
             $customGuardian.setOnClick(customClickEvent);
@@ -396,6 +398,7 @@ export default class DebugScene extends Phaser.Scene
                 origin: [0.5, 1],
                 direction: 'left'
                 });
+            $customRobot.setShadow(true);
             $customRobot.startIdleAnimation();
             $customRobot.setOnHover(customMouseOver, customMouseOut);
             $customRobot.setOnClick(customClickEvent);
@@ -411,6 +414,7 @@ export default class DebugScene extends Phaser.Scene
                 origin: [0.5, 1],
                 direction: 'left'
                 });
+            $customMecha.setShadow(true);
             $customMecha.setFlag('teleports', true);
             $customMecha.startIdleAnimation();
             $customMecha.setOnHover(customMouseOver, customMouseOut);

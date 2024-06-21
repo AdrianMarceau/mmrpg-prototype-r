@@ -811,6 +811,20 @@ class MMRPG_Object {
         $sprite.setTint(this.tint);
     }
 
+
+    setShadow (kind)
+    {
+        //console.log('MMRPG_Object.setTint() called w/ tint:', tint);
+        if (!this.sprite) { return; }
+        let $sprite = this.sprite;
+        let config = this.spriteConfig;
+
+        // support custom kinds here!!!
+        // TEMP TEMP TEMP
+        $sprite.preFX.addShadow();
+
+    }
+
     // Set the position of this object's sprite and update the spriteConfig
     setPosition (x, y)
     {
