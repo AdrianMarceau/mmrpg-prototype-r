@@ -30,6 +30,11 @@ class MMRPG {
             xMax: baseWidth,
             yMax: baseHeight,
         };
+        this.canvas.offscreen = {
+            x: -9999,
+            y: -9999,
+            z: -9999,
+            };
 
         // Initialize the game's core arrays and objects
         this.Init = [];
