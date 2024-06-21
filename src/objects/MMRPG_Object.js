@@ -181,6 +181,31 @@ class MMRPG_Object {
         objectConfig.currentAltSheetIsBase = objectConfig.currentAltSheet === 'base' || objectConfig.currentAltSheet === '1' || objectConfig.currentAltSheet === 1;
         //console.log(this.token + ' | -> objectConfig.currentAltSheet:', objectConfig.currentAltSheet, 'objectConfig.currentAltSheetIsBase:', objectConfig.currentAltSheetIsBase);
 
+        // Precalculate this object's speed modifier values if relevant
+        if (isCharacter){
+            let baseVal = 100;
+            let relSpeed = 1;
+            let speedMod = 1;
+            if (this.kind === 'player'){
+                let simSpeed = (((100) + this.data.speed) - this.data.defense);
+                relSpeed = (simSpeed / baseVal);
+                speedMod = 1 + (1 - relSpeed);
+                } else if (this.kind === 'robot'){
+                let energy = this.data.energy || 100;
+                let attack = this.data.attack || 100;
+                let defense = this.data.defense || 100;
+                let speed = this.data.speed || 100;
+                let baseTotal = (energy + attack + defense + speed);
+                baseVal = (baseTotal / 4);
+                relSpeed = (speed / baseVal);
+                speedMod = 1 + (1 - relSpeed);
+                }
+            relSpeed = Math.round(relSpeed * 10000) / 10000;
+            speedMod = Math.round(speedMod * 10000) / 10000;
+            this.data.relSpeed = relSpeed;
+            this.data.speedMod = speedMod;
+            }
+
         // Make sure we also create kind-specific data entries as-needed
         let directionalKinds = ['players', 'robots', 'abilities', 'items'];
         if (directionalKinds.indexOf(this.xkind) !== -1){
