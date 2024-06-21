@@ -164,6 +164,7 @@ export default class SpritesManager {
     // Define a function for preloading all pending spritesheets and animations
     preloadPending (scene, callback)
     {
+        //console.log('SpritesManager.preloadPending() called');
 
         // Loop through any pending spritesheets to load and do it now
         let SPRITES = this;
@@ -172,28 +173,23 @@ export default class SpritesManager {
         let queuedSheets = SPRITES.queuedSheets;
         let loadedSheets = SPRITES.loadedSheets;
         let existingTextures = Object.keys(scene.textures.list);
-
-        // Define a function to run when we're ready to move on
-        const onComplete = function(){
-            pendingSheets = [];
-            if (pendingAnims.length){ SPRITES.createPending(scene, callback); }
-            else if (typeof callback === 'function'){ callback(scene); }
-            else { return; }
-            };
+        if (typeof callback !== 'function'){ callback = function(scene){ /* ... */ }; }
 
         // We can return early if there are no pending sheets to load
         if (!pendingSheets.length){
-            //console.log('SpritesManager.preloadPending() no pending sheets');
-            return onComplete();
+            //console.log('SpritesManager.preloadPending() has no pending sheets to preload');
+            return callback(scene);
             } else {
-            //console.log('SpritesManager.preloadPending() has', pendingSheets.length, 'pending sheets');
+            //console.log('SpritesManager.preloadPending() has ' + pendingSheets.length + ' pending sheets to preload');
             }
 
         // Define a function for checking if all sheets loaded and running callback if true
         const checkAllLoaded = function(){
+            //console.log('SpritesManager.preloadPending() checkAllLoaded() called');
+            //console.log('-> pendingSheets:', pendingSheets.length, 'queuedSheets:', queuedSheets.length, 'loadedSheets:', loadedSheets.length);
             if (!queuedSheets.length){
                 //console.log('SpritesManager.preloadPending() all sheets loaded');
-                return onComplete();
+                return callback(scene);
                 }
             };
 
@@ -210,6 +206,8 @@ export default class SpritesManager {
                 // remove from queued sheets
                 let index = queuedSheets.indexOf(sheet.key);
                 if (index > -1){ queuedSheets.splice(index, 1); }
+                // create pending animations matching this sheet
+                SPRITES.createPending(scene, sheet.key);
                 // check if all sheets are loaded
                 checkAllLoaded();
                 });
@@ -219,38 +217,54 @@ export default class SpritesManager {
 
         //console.log('SpritesManager.preloadPending() queuedSheets:', queuedSheets.length, queuedSheets, 'existingTextures:', existingTextures.length, existingTextures);
         //console.log('SpritesManager.preloadPending() now has', SPRITES.pendingSheets.length, 'pending sheets');
+        //console.log('-> pendingSheets:', pendingSheets.length, 'queuedSheets:', queuedSheets.length, 'loadedSheets:', loadedSheets.length);
 
     }
 
-    // Define a function for actually creating all the pending animations
-    createPending (scene, callback)
+    // Define a function for looping through the queued animations and creating any matching a certain (loaded) sheet
+    createPending (scene, sheet)
     {
+        //console.log('SpritesManager.createPending() called w/ sheet:', sheet);
 
         // Loop through any pending animations to create and do it now
         let SPRITES = this;
         let pendingAnims = SPRITES.pendingAnims;
         let existingTextures = Object.keys(scene.textures.list);
-        if (!pendingAnims.length){
-            //console.log('SpritesManager.createPending() no pending animations');
-            pendingAnims = [];
-            if (typeof callback === 'function'){ return callback(scene); }
-            else { return; }
-            } else {
-            //console.log('SpritesManager.createPending() has', pendingAnims.length, 'pending animations');
-            }
-        while (pendingAnims.length){
-            // Collect the next animation to create
+
+        // Filter out any animations that don't match the provided sheet
+        let sheetAnimations = [];
+        for (let i = 0; i < pendingAnims.length; i++){
             let anim = pendingAnims.shift();
-            if (scene.anims.get(anim.key)){ continue; }
-            if (!existingTextures.includes(anim.sheet)){ continue; }
+            if (anim.sheet === sheet){ sheetAnimations.push(anim); }
+            else { pendingAnims.push(anim); }
+            }
+
+        // We can return early if there are no pending animations to create
+        if (!sheetAnimations.length){
+            //console.log('-> sheet ' + sheet + ' has no pending animations to create');
+            return;
+            } else {
+            //console.log('-> sheet ' + sheet + ' has ' + sheetAnimations.length + ' pending animations to create', sheetAnimations);
+            }
+
+        // Loop through all the pending animations and create ones that match the provided sheet
+        let numCreated = 0;
+        while (sheetAnimations.length){
+            // Collect the next animation to create
+            let anim = sheetAnimations.shift();
             //console.log('SpritesManager.createPending() creating anim:', anim);
+            if (scene.anims.get(anim.key)){ console.warn('anim.key: ' + anim.key + 'already exists'); continue; }
             scene.anims.create(Object.assign({}, anim, {
                 key: anim.key,
                 frames: scene.anims.generateFrameNumbers(anim.sheet, { frames: anim.frames }),
                 }));
+            numCreated++;
             }
-        if (typeof callback === 'function'){ callback(scene); }
-        //console.log('SpritesManager.createPending() now has', pendingAnims.length, 'pending animations');
+
+        // Return the number of animations created
+        //console.log('-> sheet ' + sheet + ' created ' + numCreated + ' animations');
+        return numCreated;
+
     }
 
     // Define a function that takes a given sprite kind, token, and alt and then provides all the sheets and animation data
