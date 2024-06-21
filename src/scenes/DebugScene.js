@@ -321,27 +321,23 @@ export default class DebugScene extends Phaser.Scene
 
             // Create some mods of the above to see what's possible
             var $ref = this.battleBanner;
-            let $customRobot = new MMRPG_Robot(this, 'proto-man', {
-                image_alt: 'water'
-                }, {
-                x: $ref.x + ($ref.width / 2),
-                y: $ref.y + ($ref.height / 2),
-                z: depth++,
-                scale: 2,
-                origin: [0.5, 1],
-                direction: 'left'
-                });
-            $customRobot.startIdleAnimation();
-            $customRobot.setOnHover(function(){
+            var commonX = $ref.x + ($ref.width / 2);
+            var commonY = $ref.y + ($ref.height / 2) + 76;
+
+            // Define a custom hover effect for all the custom robot masters/bosses/mechas
+            let customMouseOver = function(){
                 if (this.isMoving){ return; }
                 this.setFrame('taunt');
-                }, function(){
+                };
+            let customMouseOut = function(){
                 if (this.isMoving){ return; }
                 this.resetFrame();
-                });
-            $customRobot.setOnClick(function($sprite, pointer, localX, localY){
-                if (!this.data.clicks){ this.data.clicks = 0; }
-                this.data.clicks++;
+                };
+
+            // Define a custom click event for all the custom robot masters/bosses/mechas
+            let customClickEvent = function($sprite, pointer, localX, localY){
+                this.incrementCounter('clicks');
+                console.log('clicks =', this.getCounter('clicks'));
                 SOUNDS.play('lets-go', {volume: 0.3});
                 this.stopIdleAnimation();
                 var runDirX = (localX >= (this.width / 2) ? 'left' : 'right');
@@ -349,88 +345,76 @@ export default class DebugScene extends Phaser.Scene
                 if (runDirX !== this.direction){ this.flipDirection(); }
                 var newX = (runDirX === 'left' ? '-=' : '+=') + 90;
                 var newY = (runDirY === 'up' ? '-=' : '+=') + 30;
+                let duration = 1000;
+                if (this.getFlag('teleports')){ duration = 0; }
+                else { duration *= (this.data.speed / 100); }
                 this.setFrame('slide');
-                this.moveToPosition(newX, newY, 1000, function(){
+                this.moveToPosition(newX, newY, duration, function(){
                     if (this.x < 0){ return this.moveToPosition('+=100', null, 1000); }
                     this.setFrame('base');
                     this.startIdleAnimation();
                     });
-                });
-            console.log('$customRobot =', $customRobot);
+                };
 
             let $customBoss = new MMRPG_Robot(this, 'slur', {
                 image_alt: 'alt2'
                 }, {
-                x: $ref.x + ($ref.width / 2) - 60,
-                y: $ref.y + ($ref.height / 2),
+                x: commonX - 80,
+                y: commonY,
                 z: depth++,
                 scale: 2,
                 origin: [0.5, 1],
                 direction: 'right'
                 });
             $customBoss.startIdleAnimation();
-            $customBoss.setOnHover(function(){
-                if (this.isMoving){ return; }
-                //console.log('Hovered over $customBoss!');
-                this.setFrame('taunt');
-                }, function(){
-                if (this.isMoving){ return; }
-                //console.log('Moved away from $customBoss!');
-                this.resetFrame();
-                });
-            $customBoss.setOnClick(function($sprite){
-                //console.log('Clicked on $customBoss! w/ $sprite:', $sprite);
-                SOUNDS.play('level-up', {volume: 0.3});
-                this.stopIdleAnimation();
-                this.flipDirection();
-                this.setFrame('slide');
-                var newX = this.direction === 'left' ? $sprite.x - 90 : $sprite.x + 90;
-                var newY = $sprite.y + 30;
-                //console.log('Moving to:', newX, newY);
-                this.moveToPosition(newX, newY, 1000, function(){
-                    //console.log('Movement complete! $sprite.x =', $sprite.x, '$sprite.y =', $sprite.y);
-                    if (this.isMoving){ return; }
-                    this.setFrame('base');
-                    this.startIdleAnimation();
-                    });
-                });
+            $customBoss.setOnHover(customMouseOver, customMouseOut);
+            $customBoss.setOnClick(customClickEvent);
             console.log('$customBoss =', $customBoss);
 
-            let $customMecha = new MMRPG_Robot(this, 'met', {
-                //image_alt: 'alt2'
+            let $customGuardian = new MMRPG_Robot(this, 'duo', {
+                // ...
                 }, {
-                x: $ref.x + ($ref.width / 2) + 60,
-                y: $ref.y + ($ref.height / 2),
+                x: commonX + 40,
+                y: commonY - 2,
                 z: depth++,
                 scale: 2,
                 origin: [0.5, 1],
                 direction: 'left'
                 });
+            $customGuardian.startIdleAnimation();
+            $customGuardian.setOnHover(customMouseOver, customMouseOut);
+            $customGuardian.setOnClick(customClickEvent);
+            console.log('$customGuardian =', $customGuardian);
+
+            let $customRobot = new MMRPG_Robot(this, 'proto-man', {
+                image_alt: 'water'
+                }, {
+                x: commonX + 60,
+                y: commonY,
+                z: depth++,
+                scale: 2,
+                origin: [0.5, 1],
+                direction: 'left'
+                });
+            $customRobot.startIdleAnimation();
+            $customRobot.setOnHover(customMouseOver, customMouseOut);
+            $customRobot.setOnClick(customClickEvent);
+            console.log('$customRobot =', $customRobot);
+
+            let $customMecha = new MMRPG_Robot(this, 'met', {
+                //image_alt: 'alt2'
+                }, {
+                x: commonX + 100,
+                y: commonY + 2,
+                z: depth++,
+                scale: 2,
+                origin: [0.5, 1],
+                direction: 'left'
+                });
+            $customMecha.setFlag('teleports', true);
             $customMecha.startIdleAnimation();
-            $customMecha.setOnHover(function(){
-                if (this.isMoving){ return; }
-                //console.log('Hovered over $customMecha!');
-                this.setFrame('base2');
-                }, function(){
-                if (this.isMoving){ return; }
-                //console.log('Moved away from $customMecha!');
-                this.resetFrame();
-                });
-            $customMecha.setOnClick(function($sprite){
-                //console.log('Clicked on $customMecha! w/ $sprite:', $sprite);
-                SOUNDS.play('glass-klink', {volume: 0.3});
-                this.stopIdleAnimation();
-                this.flipDirection();
-                this.setFrame('damage');
-                var newX = this.direction === 'left' ? $sprite.x - 90 : $sprite.x + 90;
-                var newY = $sprite.y + 30;
-                //console.log('Moving to:', newX, newY);
-                this.moveToPosition(newX, newY, 0, function(){
-                    //console.log('Movement complete! $sprite.x =', $sprite.x, '$sprite.y =', $sprite.y);
-                    this.setFrame('base');
-                    this.startIdleAnimation();
-                    });
-                });
+            $customMecha.setOnHover(customMouseOver, customMouseOut);
+            $customMecha.setOnClick(customClickEvent);
             console.log('$customMecha =', $customMecha);
 
             /*
