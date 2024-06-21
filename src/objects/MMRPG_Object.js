@@ -967,6 +967,10 @@ class MMRPG_Object {
             delete $sprite.subTweens.moveTween;
             }
 
+        // Parse any relative string values from the x and y to get rel values
+        x = Graphics.parseRelativePosition(x, config.x);
+        y = Graphics.parseRelativePosition(y, config.y);
+
         // If the duration was not set of was zero, move the sprite instantly
         if (!duration) {
             config.x = x;
