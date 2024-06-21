@@ -133,6 +133,7 @@ export default class DebugScene extends Phaser.Scene
         preloadSprites.players = Object.values(this.runningDoctors);
         preloadSprites.robots = Object.values(this.slidingMasters);
 
+        /*
         // DEBUG!!! Preload the entire robots index for testing
         for (let robotToken in robotsIndex){
             let robotData = robotsIndex[robotToken];
@@ -140,6 +141,7 @@ export default class DebugScene extends Phaser.Scene
             if (!robotData.flag_complete){ continue; }
             preloadSprites.robots.push(robotToken);
             }
+        */
 
         // Also load type-specific sprites for any copy robots that have them
         let preloadMasters = Object.values(preloadSprites.robots);
