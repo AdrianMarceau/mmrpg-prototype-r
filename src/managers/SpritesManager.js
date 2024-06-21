@@ -291,6 +291,8 @@ export default class SpritesManager {
             return false;
             }
         //console.log('token:', token, 'kind:', kind, 'xkind:', xkind);
+        //console.log('spriteSheets[' + xkind + ']:', spriteSheets[xkind]);
+        //console.log('spriteSheets[' + xkind + '][' + token + ']:', spriteSheets[xkind][token]);
 
         // -- INFO TEMPLATE -- //
 
