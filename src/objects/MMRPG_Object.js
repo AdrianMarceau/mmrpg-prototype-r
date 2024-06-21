@@ -101,6 +101,36 @@ class MMRPG_Object {
 
     }
 
+    // Wait for a given condition function to be true before executing a callback
+    waitForCondition (conditionFn, checkInterval = 100)
+    {
+        return new Promise((resolve) => {
+            const interval = setInterval(() => {
+                if (conditionFn()) {
+                    clearInterval(interval);
+                    resolve();
+                    }
+                }, checkInterval);
+            });
+    }
+
+    // An async function that waits for the sprite to finish loading before continuing
+    async isReady()
+    {
+        await this.waitForCondition(() => !this.spriteIsLoading);
+    }
+
+    // Execute a given callback when the sprite is ready to be used
+    whenReady (callback)
+    {
+        //console.log('MMRPG_Object.whenReady() called for ', this.kind, this.token, 'w/ callback:', callback);
+        if (this.spriteIsLoading){
+            this.spriteMethodsQueued.push(callback);
+            } else {
+            callback.call(this);
+            }
+    }
+
 
     // -- DATA CREATION -- //
 
