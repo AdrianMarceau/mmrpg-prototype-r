@@ -29,7 +29,7 @@ export default class PreloaderScene extends Phaser.Scene
 
         // Define the preload steps if they haven't been
         this.preloadComplete = [];
-        this.preloadSteps = ['indexes', 'sprites', 'players', 'robots', 'abilities', 'items', 'fields', 'other', 'start'];
+        this.preloadSteps = ['indexes', 'sprites', 'players', 'robots', 'abilities', 'items', 'fields', 'sounds', 'other', 'start'];
         this.preloadStep = this.preloadSteps[0];
 
         // Set up the preload queue variables
@@ -225,6 +225,37 @@ export default class PreloaderScene extends Phaser.Scene
                     }
                 });
             }
+        // Else make sure we load all SOUNDS if it's their turn
+        else if (this.preloadStep === 'sounds'){
+            //console.log('Time to preload sounds...');
+
+            // Also preload the sound effects for the game here (?)
+            // Load the sound sprite and JSON configuration
+            //let soundsPath = 'content/sounds/misc/sound-effects-curated/';
+            //this.load.audioSprite('sounds', soundsPath+'audio.json', [soundsPath+'audio.mp3', soundsPath+'audio.ogg']);
+            let sfxPath = 'misc/sound-effects-curated/';
+            this.queueAudioSprite('effects', sfxPath+'audio.json', [sfxPath+'audio.mp3', sfxPath+'audio.ogg']);
+            let sfxAliasIndex = {};
+            if (typeof MMRPG.Indexes.sounds !== 'undefined'){
+                let soundsIndex = MMRPG.Indexes.sounds;
+                let soundCategories = Object.keys(soundsIndex);
+                for (let i = 0; i < soundCategories.length; i++){
+                    let token = soundCategories[i];
+                    let category = soundsIndex[token];
+                    let label = category.label;
+                    let index = category.index;
+                    let aliases = Object.keys(index);
+                    for (let j = 0; j < aliases.length; j++){
+                        let alias = aliases[j];
+                        let sound = index[alias];
+                        sfxAliasIndex[alias] = sound;
+                        }
+                    }
+                }
+            MMRPG.Indexes.sounds.aliases = sfxAliasIndex;
+            //console.log('sfxAliasIndex =', sfxAliasIndex);
+
+            }
         // Make sure we preload others on the final step
         else if (this.preloadStep === 'other'){
 
@@ -257,32 +288,6 @@ export default class PreloaderScene extends Phaser.Scene
             mockupImages.forEach((image) => {
                 this.queueMockupImage(image, 'mockup_' + image + '.png');
                 });
-
-            // Also preload the sound effects for the game here (?)
-            // Load the sound sprite and JSON configuration
-            //let soundsPath = 'content/sounds/misc/sound-effects-curated/';
-            //this.load.audioSprite('sounds', soundsPath+'audio.json', [soundsPath+'audio.mp3', soundsPath+'audio.ogg']);
-            let sfxPath = 'misc/sound-effects-curated/';
-            this.queueAudioSprite('effects', sfxPath+'audio.json', [sfxPath+'audio.mp3', sfxPath+'audio.ogg']);
-            let sfxAliasIndex = {};
-            if (typeof MMRPG.Indexes.sounds !== 'undefined'){
-                let soundsIndex = MMRPG.Indexes.sounds;
-                let soundCategories = Object.keys(soundsIndex);
-                for (let i = 0; i < soundCategories.length; i++){
-                    let token = soundCategories[i];
-                    let category = soundsIndex[token];
-                    let label = category.label;
-                    let index = category.index;
-                    let aliases = Object.keys(index);
-                    for (let j = 0; j < aliases.length; j++){
-                        let alias = aliases[j];
-                        let sound = index[alias];
-                        sfxAliasIndex[alias] = sound;
-                        }
-                    }
-                }
-            MMRPG.Indexes.sounds.aliases = sfxAliasIndex;
-            //console.log('sfxAliasIndex =', sfxAliasIndex);
 
             }
 
