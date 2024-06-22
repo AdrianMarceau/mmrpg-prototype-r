@@ -380,9 +380,9 @@ class MMRPG_Object {
                 this.createObjectSprite(tempSheet);
                 this.loadSpriteTexture(() => {
                     //console.log('%c' + '-> sprite texture '+spriteSheet+' loaded!', 'color: #00FF00');
-                    _this.createObjectSprite();
                     _this.spriteIsLoading = false;
                     _this.spriteIsPlaceholder = false;
+                    _this.createObjectSprite();
                     });
 
                 }
@@ -703,6 +703,7 @@ class MMRPG_Object {
             //let animationsExist = spriteAnimsIndex ? true : false;
             //console.log('-> textureExists:', textureExists);
             //console.log('-> animationsExist:', animationsExist, spriteAnimsIndex);
+            _this.createSpriteAnimations();
             _this.spriteIsLoading = false;
             if (onLoadCallback){ onLoadCallback.call(_this); }
             if (_this.spriteMethodsQueued){
@@ -743,7 +744,7 @@ class MMRPG_Object {
             && typeof spriteSheets[spriteToken][spriteAltOrSheet][spriteKey] !== 'undefined'){
             spriteSheet = spriteSheets[spriteToken][spriteAltOrSheet][spriteKey];
             } else {
-            spriteSheet = 'sprites.default';
+            spriteSheet = '~'+spriteKind+'s.'+this.xkind+'.'+spriteToken+'.'+spriteAltOrSheet+'.'+spriteDirection;
             }
         //console.log('-> spriteAltOrSheet:', spriteAltOrSheet, 'spriteSheet:', spriteSheet);
 
@@ -814,20 +815,130 @@ class MMRPG_Object {
         // Define the sprite key and sheet token given context
         //console.log('-> spriteToken:', spriteToken, 'spriteAnim:', spriteAnim, 'spriteDirection:', spriteDirection);
         let spriteAnimKey;
-        let spriteKey = 'sprite-'+spriteDirection;
+        let spriteKey = spriteKind+'-'+spriteDirection;
         if (typeof spriteAnims[spriteToken] !== 'undefined'
             && typeof spriteAnims[spriteToken][spriteAltOrSheet] !== 'undefined'
             && typeof spriteAnims[spriteToken][spriteAltOrSheet][spriteKey] !== 'undefined'
             && typeof spriteAnims[spriteToken][spriteAltOrSheet][spriteKey][spriteAnim] !== 'undefined'){
             spriteAnimKey = spriteAnims[spriteToken][spriteAltOrSheet][spriteKey][spriteAnim];
             } else {
-            spriteAnimKey = 'idle';
+            spriteAnimKey = '~'+spriteKind+'s.'+this.xkind+'.'+spriteToken+'.'+spriteAltOrSheet+'.'+spriteKey+'.'+spriteAnim;
             }
         //console.log('-> spriteAltOrSheet:', spriteAltOrSheet, 'spriteAnimKey:', spriteAnimKey);
 
         // Return the sheet token we found
         //console.log('Returning spriteAnimKey:', spriteAnimKey);
         return spriteAnimKey;
+
+    }
+
+    // Define a function that takes a given sprite kind, token, and alt and then provides all the sheets and animation data
+    getSpriteInfo ()
+    {
+        //console.log('MMRPG_Object.getSpriteInfo() called for \n kind: '+this.kind+', token: '+this.token);
+
+        // Pull in index references
+        let _this = this;
+        let SPRITES = this.SPRITES;
+        let spriteIndex = SPRITES.index;
+        let spriteSheets = spriteIndex.sheets;
+        let spriteAnims = spriteIndex.anims;
+        let kinds = spriteIndex.kinds;
+        let xkinds = spriteIndex.xkinds;
+
+        // Normalize the kind token to ensure they it's valid
+        let kind = this.kind;
+        let xkind = this.xkind;
+        let token = this.token;
+        //console.log('token:', token, 'kind:', kind, 'xkind:', xkind);
+        //console.log('spriteSheets[' + xkind + ']:', spriteSheets[xkind]);
+        //console.log('spriteSheets[' + xkind + '][' + token + ']:', spriteSheets[xkind][token]);
+
+        // -- INFO TEMPLATE -- //
+
+        // Put it all together info an object with appropriate references
+        let spriteInfo = {
+            'sprite': {
+                'left': {
+                    'sheet': this.getSpriteSheet('sprite', 'left'),
+                    'anim': {},
+                    },
+                'right': {
+                    'sheet': this.getSpriteSheet('sprite', 'right'),
+                    'anim': {},
+                    },
+                },
+            };
+
+        // -- MUG & ICON SPRITES -- //
+
+        // If this is either a player or a robot, we must include mugs
+        if (kind === 'player' || kind === 'robot'){
+
+            // Include the mug sheets for the player or robot
+            spriteInfo.mug = {
+                'left': {
+                    'sheet': this.getSpriteSheet('mug', 'left'),
+                    'anim': {},
+                    },
+                'right': {
+                    'sheet': this.getSpriteSheet('mug', 'right'),
+                    'anim': {},
+                    },
+                };
+
+            }
+        // Otherwise if any other type, we should include icons instead
+        else {
+
+            // Include the icon sheets for the ability, item, skill, field, etc.
+            spriteInfo.icon = {
+                'left': {
+                    'sheet': this.getSpriteSheet('icon', 'left'),
+                    'anim': {},
+                    },
+                'right': {
+                    'sheet': this.getSpriteSheet('icon', 'right'),
+                    'anim': {},
+                    },
+                };
+
+            }
+
+        // -- CHARACTER & OBJECT SPRITES -- //
+
+        // If this is a player, make sure we include appropriate sheets and animations
+        if (kind === 'player'){
+
+            // Include the idle animations for the player
+            spriteInfo.sprite.left.anim.idle = this.getSpriteAnim('sprite', 'idle', 'left');
+            spriteInfo.sprite.right.anim.idle = this.getSpriteAnim('sprite', 'idle', 'right');
+
+            // Include the running animations for the player
+            spriteInfo.sprite.left.anim.run = this.getSpriteAnim('sprite', 'run', 'left');
+            spriteInfo.sprite.right.anim.run = this.getSpriteAnim('sprite', 'run', 'right');
+
+            }
+        // If this is a robot, make sure we include appropriate sheets and animations
+        else if (kind === 'robot'){
+
+            // Include the idle animations for the robot
+            spriteInfo.sprite.left.anim.idle = this.getSpriteAnim('sprite', 'idle', 'left');
+            spriteInfo.sprite.right.anim.idle = this.getSpriteAnim('sprite', 'idle', 'right');
+
+            // Include the shooting animations for the robot
+            spriteInfo.sprite.left.anim.shoot = this.getSpriteAnim('sprite', 'shoot', 'left');
+            spriteInfo.sprite.right.anim.shoot = this.getSpriteAnim('sprite', 'shoot', 'right');
+
+            // Include the sliding animations for the robot
+            spriteInfo.sprite.left.anim.slide = this.getSpriteAnim('sprite', 'slide', 'left');
+            spriteInfo.sprite.right.anim.slide = this.getSpriteAnim('sprite', 'slide', 'right');
+
+            }
+
+        // Return the compiled sprite info
+        //console.log('Returning ', this.token, ' spriteInfo:', spriteInfo);
+        return spriteInfo;
 
     }
 
