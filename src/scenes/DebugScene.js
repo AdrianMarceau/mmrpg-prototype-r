@@ -663,6 +663,7 @@ export default class DebugScene extends Phaser.Scene
         let abilitySuffix = abilityRand % 3 === 0 ? 'buster' : 'shot';
         let abilityElement = robotIndexInfo.core !== '' && robotIndexInfo.core !== 'copy' ? robotIndexInfo.core : '';
         let abilitySpriteToken = abilityElement ? (abilityElement + '-' + abilitySuffix) : ('buster-shot');
+        let abilitySpriteSheet = 1;
         //console.log(abilitySpriteToken, 'abilityRand:', abilityRand, 'abilitySuffix:', abilitySuffix, 'abilityElement:', abilityElement);
 
         // Preload the Sprites
@@ -672,27 +673,27 @@ export default class DebugScene extends Phaser.Scene
         let $robot = new MMRPG_Robot(ctx, robotSpriteToken, {image_alt: robotSpriteAlt}, MMRPG.canvas.offscreen);
         await $robot.isReady();
         //console.log('Robot ' + $robot.token + ' is ready for action!', $robot);
-        $robot.destroy(); // temporary (will transition to actually using this $robot object later)
 
         // Create a temp ability object to ensure everything gets preloaded
         //console.log('creating new ability object for ' + abilitySpriteToken);
-        let $ability = new MMRPG_Ability(ctx, abilitySpriteToken, null, MMRPG.canvas.offscreen);
+        let $ability = new MMRPG_Ability(ctx, abilitySpriteToken, {image_sheet: abilitySpriteSheet}, MMRPG.canvas.offscreen);
         await $ability.isReady();
         //console.log('Ability ' + $ability.token + ' is ready for action!', $ability);
-        $ability.destroy(); // temporary (will transition to actually using this $ability object later)
 
         // Fallback for non-existent robot sprite sheets
-        if (!robotSheetsIndex[robotSpriteToken][robotSpriteAlt]){ robotSpriteAlt = 'base'; }
+        //if (!robotSheetsIndex[robotSpriteToken][robotSpriteAlt]){ robotSpriteAlt = 'base'; }
 
         // Collect the sprite info for the robot and ability now that everything is ready
-        let robotSpriteInfo = SPRITES.getSpriteInfo('robot', robotSpriteToken, robotSpriteAlt);
-        let abilitySpriteInfo = SPRITES.getSpriteInfo('ability', abilitySpriteToken, 1);
+        let robotSpriteInfo = $robot.getSpriteInfo();
+        let abilitySpriteInfo = $ability.getSpriteInfo();
+        $robot.destroy(); // temporary (will transition to actually using this $robot object later)
+        $ability.destroy(); // temporary (will transition to actually using this $ability object later)
         //console.log('robotSpriteToken =', robotSpriteToken, 'robotSpriteInfo =', robotSpriteInfo);
         //console.log('abilitySpriteToken =', abilitySpriteToken, 'abilitySpriteInfo =', abilitySpriteInfo);
 
         // Pull the ability data for the token we're using
-        let abilityInfo = abilitiesIndex[abilitySpriteToken];
-        //console.log('abilityInfo for ', abilitySpriteToken, '=', abilityInfo);
+        let abilityIndexInfo = abilitiesIndex[abilitySpriteToken];
+        //console.log('abilityIndexInfo for ', abilitySpriteToken, '=', abilityIndexInfo);
 
         // Count the number of sliding sprites currently on the screen
         let numSprites = ctx.debugAddedSprites - ctx.debugRemovedSprites;
@@ -925,7 +926,7 @@ export default class DebugScene extends Phaser.Scene
                     ease: 'Sine.easeOut',
                     duration: shotDuration,
                     onComplete: function () {
-                        //console.log(robotIndexInfo.name + '\'s ' + abilityInfo.name + ' movement complete!');
+                        //console.log(robotIndexInfo.name + '\'s ' + abilityIndexInfo.name + ' movement complete!');
                         SPRITES.destroySprite(ctx, $shotSprite);
                         }
                     });
