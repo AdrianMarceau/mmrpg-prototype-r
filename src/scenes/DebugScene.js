@@ -311,7 +311,9 @@ export default class DebugScene extends Phaser.Scene
             console.log('$type =', $type);
             let onClickTestObject = function(){
                 SOUNDS.play('link-click', {volume: 0.3});
-                this.destroy();
+                this.moveToPositionX('+=100', 1000, function(){
+                    this.destroy();
+                    });
                 };
             $player.setOnClick(onClickTestObject);
             $robot.setOnClick(onClickTestObject);
@@ -338,22 +340,74 @@ export default class DebugScene extends Phaser.Scene
             let customClickEvent = function($sprite, pointer, localX, localY){
                 this.incrementCounter('clicks');
                 //console.log('clicks =', this.getCounter('clicks'));
-                SOUNDS.play('lets-go', {volume: 0.3});
+                SOUNDS.play('link-click', {volume: 0.3});
                 this.stopIdleAnimation();
                 var runDirX = (localX >= (this.width / 2) ? 'left' : 'right');
                 var runDirY = (localY >= (this.height / 2) ? 'up' : 'down');
                 if (runDirX !== this.direction){ this.flipDirection(); }
-                var newX = (runDirX === 'left' ? '-=' : '+=') + 90;
-                var newY = (runDirY === 'up' ? '-=' : '+=') + 30;
+                var newX = (runDirX === 'left' ? '-=' : '+=') + 120;
+                var newY = (runDirY === 'up' ? '-=' : '+=') + 90;
                 let duration = 1000;
                 if (this.getFlag('teleports')){ duration = 0; }
                 else { duration *= this.data.speedMod; }
                 this.setFrame('slide');
                 this.moveToPosition(newX, newY, duration, function(){
-                    if (this.x < 0){ return this.moveToPosition('+=100', null, 1000); }
                     this.setFrame('base');
                     this.startIdleAnimation();
+                    return customPostMoveCheck.call(this, duration);
                     });
+                };
+
+            // Define a custom function to be run post-movement to check and readjust if offscreen
+            let customPostMoveCheck = function(duration){
+                let offset = {h: 0, v: 0};
+                let correction = 100;
+                let leeway = 40;
+                if ((this.x - leeway) < MMRPG.canvas.xMin){ offset.h = (this.x - leeway); }
+                else if ((this.x + leeway) > MMRPG.canvas.xMax){ offset.h = (this.x + leeway) - MMRPG.canvas.xMax; }
+                if ((this.y - leeway) < MMRPG.canvas.yMin){ offset.v = (this.y - leeway); }
+                else if ((this.y + leeway) > MMRPG.canvas.yMax){ offset.v = (this.y + leeway) - MMRPG.canvas.yMax; }
+                //console.log('offset =', offset);
+                if (offset.h !== 0 || offset.v !== 0){
+                    this.stopIdleAnimation();
+                    if (offset.h < 0 && this.direction === 'left'
+                        || offset.h > 0 && this.direction === 'right'){
+                        this.flipDirection();
+                        }
+                    this.setFrame('slide');
+                    let newX = null, newY = null;
+                    if (offset.h !== 0){
+                        newX = offset.h < 0 ? (MMRPG.canvas.xMin + correction) : (MMRPG.canvas.xMax - correction);
+                        }
+                    if (offset.v !== 0){
+                        newY = offset.v < 0 ? (MMRPG.canvas.yMin + correction) : (MMRPG.canvas.yMax - correction);
+                        newX = this.direction === 'left' ? (this.x - leeway) : (this.x + leeway);
+                        }
+                    this.moveToPosition(newX, newY, duration, function(){
+                        this.setFrame('base');
+                        this.startIdleAnimation();
+                        customPostMoveCheck.call(this, duration);
+                        });
+                    }
+                if (this.x < 0){
+                    this.stopIdleAnimation();
+                    if (this.direction === 'left'){ this.flipDirection(); }
+                    this.setFrame('slide');
+                    this.moveToPosition(100, null, 1000, function(){
+                        this.setFrame('base');
+                        this.startIdleAnimation();
+                        customPostMoveCheck.call(this, duration);
+                        });
+                    } else if (this.x > MMRPG.canvas.width){
+                    this.stopIdleAnimation();
+                    if (this.direction === 'right'){ this.flipDirection(); }
+                    this.setFrame('slide');
+                    this.moveToPosition(MMRPG.canvas.width - 100, null, 1000, function(){
+                        this.setFrame('base');
+                        this.startIdleAnimation();
+                        customPostMoveCheck.call(this, duration);
+                        });
+                    }
                 };
 
             let $customBoss = new MMRPG_Robot(this, 'slur', {
