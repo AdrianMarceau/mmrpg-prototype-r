@@ -1287,8 +1287,8 @@ class MMRPG_Object {
             }
 
         // Parse any relative string values from the x and y to get rel values
-        x = Graphics.parseRelativePosition(x, config.x);
-        y = Graphics.parseRelativePosition(y, config.y);
+        x = Math.round(Graphics.parseRelativePosition(x, config.x));
+        y = Math.round(Graphics.parseRelativePosition(y, config.y));
 
         // If the duration was not set of was zero, move the sprite instantly
         if (!duration) {
@@ -1328,6 +1328,106 @@ class MMRPG_Object {
                 },
             });
 
+    }
+
+    // Move the sprite a a new X position on the canvas and then execute the callback if provided (do not touch the Y)
+    moveToPositionX (x = null, duration = 0, callback = null)
+    {
+        //console.log('MMRPG_Object.moveToPositionX() called for ', this.kind, this.token, '\nw/ x:', x, 'duration:', duration, 'callback:', typeof callback);
+        let _this = this;
+        if (!this.sprite) { return; }
+        if (this.spriteIsLoading){ return this.spriteMethodsQueued.push(function(){ _this.moveToPositionX(x, duration, callback); }); }
+        let scene = this.scene;
+        let config = this.spriteConfig;
+        let $sprite = this.sprite;
+
+        // If the sprite is already moving, stop it and move it to the new position instantly
+        if ($sprite.subTweens.moveTween){
+            $sprite.subTweens.moveTween.stop();
+            delete $sprite.subTweens.moveTween;
+            }
+
+        // Parse any relative string values from the x and y to get rel values
+        x = Math.round(Graphics.parseRelativePosition(x, config.x));
+
+        // If the duration was not set of was zero, move the sprite instantly
+        if (!duration) {
+            config.x = x;
+            _this.x = x;
+            $sprite.x = x;
+            if (callback) { callback.call(_this, $sprite); }
+            return;
+            }
+
+        // Otherwise we create a tween to move the sprite to
+        $sprite.subTweens.moveTween = scene.tweens.add({
+            targets: $sprite,
+            x: x,
+            duration: duration,
+            ease: 'Linear',
+            onUpdate: () => {
+                config.x = $sprite.x;
+                _this.x = $sprite.x;
+                _this.isMoving = true;
+                },
+            onComplete: () => { // Use arrow function to preserve `this`
+                config.x = $sprite.x;
+                _this.x = $sprite.x;
+                _this.isMoving = false;
+                if (!callback) { return; }
+                callback.call(_this, $sprite);
+                },
+            });
+    }
+
+    // Move the sprite a a new Y position on the canvas and then execute the callback if provided (do not touch the X)
+    moveToPositionY (y = null, duration = 0, callback = null)
+    {
+        //console.log('MMRPG_Object.moveToPositionY() called for ', this.kind, this.token, '\nw/ y:', y, 'duration:', duration, 'callback:', typeof callback);
+        let _this = this;
+        if (!this.sprite) { return; }
+        if (this.spriteIsLoading){ return this.spriteMethodsQueued.push(function(){ _this.moveToPositionY(y, duration, callback); }); }
+        let scene = this.scene;
+        let config = this.spriteConfig;
+        let $sprite = this.sprite;
+
+        // If the sprite is already moving, stop it and move it to the new position instantly
+        if ($sprite.subTweens.moveTween){
+            $sprite.subTweens.moveTween.stop();
+            delete $sprite.subTweens.moveTween;
+            }
+
+        // Parse any relative string values from the x and y to get rel values
+        y = Math.round(Graphics.parseRelativePosition(y, config.y));
+
+        // If the duration was not set of was zero, move the sprite instantly
+        if (!duration) {
+            config.y = y;
+            _this.y = y;
+            $sprite.y = y;
+            if (callback) { callback.call(_this, $sprite); }
+            return;
+            }
+
+        // Otherwise we create a tween to move the sprite to
+        $sprite.subTweens.moveTween = scene.tweens.add({
+            targets: $sprite,
+            y: y,
+            duration: duration,
+            ease: 'Linear',
+            onUpdate: () => {
+                config.y = $sprite.y;
+                _this.y = $sprite.y;
+                _this.isMoving = true;
+                },
+            onComplete: () => { // Use arrow function to preserve `this`
+                config.y = $sprite.y;
+                _this.y = $sprite.y;
+                _this.isMoving = false;
+                if (!callback) { return; }
+                callback.call(_this, $sprite);
+                },
+            });
     }
 
 
