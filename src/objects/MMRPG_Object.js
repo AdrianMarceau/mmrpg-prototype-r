@@ -766,6 +766,44 @@ class MMRPG_Object {
 
     }
 
+    // Get the animation key of a specific animation on this loaded object
+    // Optionally accepts kind, direction, altOrSheet, and token to override defaults
+    getSpriteAnim (spriteKind = 'sprite', spriteAnim = 'idle', spriteDirection = null, spriteAltOrSheet = null, spriteToken = null)
+    {
+        //console.log('MMRPG_Object.getSpriteAnim() called w/ spriteKind:', spriteKind, 'spriteToken:', spriteToken, 'spriteAnim:', spriteAnim, 'spriteDirection:', spriteDirection);
+
+        // Pull in references to required global objects
+        let SPRITES = this.SPRITES;
+        let spriteAnims = SPRITES.index.anims[this.xkind];
+        let objectConfig = this.objectConfig;
+        //console.log('-> SPRITES:', SPRITES, 'spriteAnims:', spriteAnims, 'objectConfig:', objectConfig);
+
+        // Compensate for missing fields with obvious values
+        spriteKind = spriteKind || 'sprite';
+        spriteAnim = spriteAnim || 'idle';
+        spriteToken = spriteToken || this.data.image || this.token;
+        spriteDirection = spriteDirection || this.direction || 'right';
+        spriteAltOrSheet = spriteAltOrSheet || objectConfig.currentAltSheet || objectConfig.baseAltSheet || 'base';
+
+        // Define the sprite key and sheet token given context
+        //console.log('-> spriteToken:', spriteToken, 'spriteAnim:', spriteAnim, 'spriteDirection:', spriteDirection);
+        let spriteAnimKey;
+        let spriteKey = 'sprite-'+spriteDirection;
+        if (typeof spriteAnims[spriteToken] !== 'undefined'
+            && typeof spriteAnims[spriteToken][spriteAltOrSheet] !== 'undefined'
+            && typeof spriteAnims[spriteToken][spriteAltOrSheet][spriteKey] !== 'undefined'
+            && typeof spriteAnims[spriteToken][spriteAltOrSheet][spriteKey][spriteAnim] !== 'undefined'){
+            spriteAnimKey = spriteAnims[spriteToken][spriteAltOrSheet][spriteKey][spriteAnim];
+            } else {
+            spriteAnimKey = 'idle';
+            }
+        //console.log('-> spriteAltOrSheet:', spriteAltOrSheet, 'spriteAnimKey:', spriteAnimKey);
+
+        // Return the sheet token we found
+        return spriteAnimKey;
+
+    }
+
     // Prepare this object's sprite for use, creating it if it doesn't exist yet
     prepareSprite (spriteSheet = null)
     {
