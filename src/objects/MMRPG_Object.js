@@ -189,7 +189,7 @@ class MMRPG_Object {
             if (this.kind === 'player'){
                 let simSpeed = (((100) + this.data.speed) - this.data.defense);
                 relSpeed = (simSpeed / baseVal);
-                speedMod = 1 + (1 - relSpeed);
+                speedMod = relSpeed; //1 + (1 - relSpeed);
                 } else if (this.kind === 'robot'){
                 let energy = this.data.energy || 100;
                 let attack = this.data.attack || 100;
