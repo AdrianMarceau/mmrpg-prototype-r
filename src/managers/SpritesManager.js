@@ -126,6 +126,7 @@ export default class SpritesManager {
         //console.log('SpritesManager.loadSprite() called w/ \n _kind: '+_kind+', token: '+token+', alt: '+alt);
 
         // Pull in index references
+        let MMRPG = this.MMRPG;
         let SPRITES = this;
         let scene = ctx.scene;
         let index = SPRITES.index;
@@ -151,7 +152,6 @@ export default class SpritesManager {
 
         // Load the sprite sheets for this object
         $mmrpgObject.queueSpriteSheets();
-        $mmrpgObject.queueSpriteAnimations();
 
         // Delete the newly created object so it doesn't waste memory
         $mmrpgObject.destroy();
