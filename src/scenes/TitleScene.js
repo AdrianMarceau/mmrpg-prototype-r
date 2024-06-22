@@ -7,6 +7,8 @@
 
 import MMRPG from '../shared/MMRPG.js';
 
+import MMRPG_Player from '../objects/MMRPG_Player.js';
+
 import { GraphicsUtility as Graphics } from '../utils/GraphicsUtility.js';
 import { StringsUtility as Strings } from '../utils/StringsUtility.js';
 
@@ -67,6 +69,21 @@ export default class TitleScene extends Phaser.Scene
         this.currentIdleSprite = this.idleSpriteTokens[0];
         this.currentIdleDelay = 0;
 
+        // Loop through the idle sprite tokens and preload their sheets
+        for (let i = 0; i < this.idleSpriteTokens.length; i++){
+            let token = this.idleSpriteTokens[i];
+            let alt = 'base';
+            if (token.indexOf('_') !== -1){
+                let frags = token.split('_');
+                token = frags[0];
+                alt = frags[1];
+                }
+            //console.log('Preloading idle sprite token: ', token, ' (', alt, ')');
+            let $player = new MMRPG_Player(this, token, {image_alt: alt});
+            $player.preloadSpriteSheets();
+            $player.destroy();
+            }
+
     }
 
     create ()
@@ -74,6 +91,7 @@ export default class TitleScene extends Phaser.Scene
         //console.log('TitleScene.create() called');
 
         // Pull in required object references
+        let _this = this;
         let MMRPG = this.MMRPG;
         let SPRITES = this.SPRITES;
         let BUTTONS = this.BUTTONS;
@@ -97,31 +115,35 @@ export default class TitleScene extends Phaser.Scene
         //console.log('SPRITES.index = ', SPRITES.index);
         var x = -40, y = MMRPG.canvas.centerY + 125;
         for (let i = 0; i < this.idleSpriteTokens.length; i++){
-            let spriteToken = this.idleSpriteTokens[i];
-            if (typeof SPRITES.index.sheets.players[spriteToken] === 'undefined'){
-                //console.log('Missing spriteToken "', spriteToken, '" in SPRITES.index.sheets.players');
-                continue;
-                }
+            let idleToken = this.idleSpriteTokens[i];
+            let spriteToken = idleToken;
             let spriteAlt = 'base';
+            if (spriteToken.indexOf('_') !== -1){
+                let frags = spriteToken.split('_');
+                spriteToken = frags[0];
+                spriteAlt = frags[1];
+                }
+            //console.log('Creating idle sprite: ', spriteToken, ' (', spriteAlt, ')');
             let spriteDir = 'right';
-            let spriteKey = 'sprite-'+spriteDir;
-            let spriteSheet = SPRITES.index.sheets.players[spriteToken][spriteAlt][spriteKey];
-            let spriteRunAnim = SPRITES.index.anims.players[spriteToken][spriteAlt][spriteKey].run;
-            let spriteY = y + 100 + (i * 25);
-            //console.log('spriteSheet = ', spriteSheet);
-            //console.log('spriteRunAnim = ', spriteRunAnim);
-            let $idleSprite = this.add.sprite(x, y, spriteSheet);
-            this.add.tween({
+            let $idlePlayer = new MMRPG_Player(this, spriteToken, {image_alt: spriteAlt}, {x: x, y: y, direction: spriteDir});
+            let spriteRunAnim = $idlePlayer.getSpriteAnim('sprite', 'run');
+            let $idleSprite = $idlePlayer.sprite;
+            //console.log('-> $idlePlayer = ', $idlePlayer, ', $idleSprite = ', $idleSprite);
+            //console.log('-> $idlePlayer token:', $idlePlayer.token, 'speedMod:', $idlePlayer.data.speedMod, '$idlePlayer:', $idlePlayer);
+            $idleSprite.subTweens.runBounceTween = this.add.tween({
                 targets: $idleSprite,
                 y: '-=2',
                 ease: 'Sine.easeInOut',
                 duration: 200,
+                repeatDelay: 100,
                 repeat: -1,
                 yoyo: true
                 });
             $idleSprite.play(spriteRunAnim);
-            this.idleSprites[spriteToken] = $idleSprite;
+            this.idleSprites[idleToken] = $idlePlayer;
             }
+
+        //console.log('this.idleSprites = ', this.idleSprites);
 
         // Show the start button now that we're ready
         this.startButton = this.addStartButton(this);
@@ -131,7 +153,7 @@ export default class TitleScene extends Phaser.Scene
 
     }
 
-    update ()
+    update (time, delta)
     {
 
         //console.log('TitleScene.update() called');
@@ -141,17 +163,26 @@ export default class TitleScene extends Phaser.Scene
         //console.log('this.idleSprites = ', this.idleSprites);
         if (this.currentIdleDelay > 0){
             this.currentIdleDelay--;
-            } else {
-            let idleSprite = this.currentIdleSprite;
-            let $idleSprite = this.idleSprites[idleSprite];
-            let spriteSpeed = this.idleSpriteTokens.indexOf(idleSprite) + 1;
+            } else if (this.currentIdleSprite) {
+            let idleToken = this.currentIdleSprite;
+            let spriteToken = idleToken;
+            let spriteAlt = 'base';
+            if (idleToken.indexOf('_')){
+                let frags = idleToken.split('_');
+                spriteToken = frags[0];
+                spriteAlt = frags[1];
+                }
+            let $idlePlayer = this.idleSprites[idleToken];
+            let $idleSprite = $idlePlayer.sprite;
+            let spriteSpeed = Math.ceil(100 * $idlePlayer.data.speedMod) * (delta / 1000);
+            //console.log('-> idleToken:', idleToken, '$idlePlayer:', $idlePlayer, '$idleSprite:', $idleSprite, 'spriteSpeed:', spriteSpeed);
             $idleSprite.x += spriteSpeed;
             if ($idleSprite.x > MMRPG.canvas.width){
                 $idleSprite.x = -80;
                 this.currentIdleDelay += 80;
-                let options = this.idleSpriteTokens;
-                let nextIdleSprite = options[(options.indexOf(this.currentIdleSprite) + 1) % options.length];
-                this.currentIdleSprite = nextIdleSprite;
+                let idleOptions = this.idleSpriteTokens;
+                let nextIdleToken = idleOptions[(idleOptions.indexOf(idleToken) + 1) % idleOptions.length];
+                this.currentIdleSprite = nextIdleToken;
                 }
 
             }
