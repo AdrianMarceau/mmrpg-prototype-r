@@ -348,6 +348,10 @@ export default class SpritesManager {
         // If this is a player, make sure we include appropriate sheets and animations
         if (kind === 'player'){
 
+            // Include the idle animations for the player
+            spriteInfo.sprite.left.anim.idle = spriteAnims[xkind][token][alt]['sprite-left']['idle'];
+            spriteInfo.sprite.right.anim.idle = spriteAnims[xkind][token][alt]['sprite-right']['idle'];
+
             // Include the running animations for the player
             spriteInfo.sprite.left.anim.run = spriteAnims[xkind][token][alt]['sprite-left']['run'];
             spriteInfo.sprite.right.anim.run = spriteAnims[xkind][token][alt]['sprite-right']['run'];
@@ -355,6 +359,10 @@ export default class SpritesManager {
             }
         // If this is a robot, make sure we include appropriate sheets and animations
         else if (kind === 'robot'){
+
+            // Include the idle animations for the robot
+            spriteInfo.sprite.left.anim.idle = spriteAnims[xkind][token][alt]['sprite-left']['idle'];
+            spriteInfo.sprite.right.anim.idle = spriteAnims[xkind][token][alt]['sprite-right']['idle'];
 
             // Include the shooting animations for the robot
             spriteInfo.sprite.left.anim.shoot = spriteAnims[xkind][token][alt]['sprite-left']['shoot'];
