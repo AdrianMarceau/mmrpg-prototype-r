@@ -1159,7 +1159,7 @@ class MMRPG_Object {
     }
 
     // Move this sprite to a new position on the canvas and then execute the callback if provided
-    moveToPosition (x, y, duration = 1000, callback = null)
+    moveToPosition (x = null, y = null, duration = 0, callback = null)
     {
         //console.log('MMRPG_Object.moveToPosition() called for ', this.kind, this.token, '\nw/ x:', x, 'y:', y, 'duration:', duration, 'callback:', typeof callback);
         let _this = this;
