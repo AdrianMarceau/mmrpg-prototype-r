@@ -493,6 +493,23 @@ class MMRPG_Object {
 
     }
 
+    // Queue and then preload all of this sprite's sheets into the memory using the sprite manager utility
+    preloadSpriteSheets ()
+    {
+        //console.log('MMRPG_Object.preloadSpriteSheets() called for ', this.kind, this.token);
+
+        // Pull in index references
+        let scene = this.scene;
+        let SPRITES = this.SPRITES;
+
+        // Queue all of the sprite sheets into memory
+        this.queueSpriteSheets();
+
+        // Automatically run the preloadPending function
+        SPRITES.preloadPending(scene);
+
+    }
+
     // Generate animations for the sprite sheet currently loaded into memory
     createSpriteAnimations ()
     {
