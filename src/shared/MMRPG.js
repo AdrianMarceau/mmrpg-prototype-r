@@ -14,8 +14,8 @@ class MMRPG {
         this.name = 'mmrpg-prototype-r';
         this.title = 'Mega Man RPG: Prototype (Remake)';
         this.created = '2024-05-20';
-        this.modified = '2024-06-21';
-        this.version = '4.0.189';
+        this.modified = '2024-06-22';
+        this.version = '4.0.209';
 
         // Define the absolute base width and height for the game canvas
         const baseWidth = 780;
