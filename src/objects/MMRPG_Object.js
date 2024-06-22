@@ -308,7 +308,7 @@ class MMRPG_Object {
 
     // -- SPRITE CREATION -- //
 
-    // Creates the main sprite for this object using known token and config values
+    // Creates the main sprite for this object using known token and config values while preloading related
     createSprite ()
     {
         //console.log('MMRPG_Object.createSprite() called for ', this.kind, this.token, '\nw/ config:', this.spriteConfig);
@@ -345,7 +345,7 @@ class MMRPG_Object {
             //console.log('-> this is a directional kind! xkind:', this.xkind, ' of ['+directionalKinds.join(', ')+']');
 
             // Preload all the sprite sheets and animations into the queue
-            this.queueSpriteSheets();
+            this.preloadSpriteSheets();
             //console.log(this.token + ' | SPRITES.pendingSheets.length:', SPRITES.pendingSheets.length);
             //console.log(this.token + ' | SPRITES.pendingAnims.length:', SPRITES.pendingAnims.length);
 
@@ -378,7 +378,7 @@ class MMRPG_Object {
                 this.spriteIsLoading = true;
                 this.spriteIsPlaceholder = true;
                 this.createObjectSprite(tempSheet);
-                this.loadSpriteTexture(spriteToken, spriteDirection, () => {
+                this.loadSpriteTexture(() => {
                     //console.log('%c' + '-> sprite texture '+spriteSheet+' loaded!', 'color: #00FF00');
                     _this.createObjectSprite();
                     _this.spriteIsLoading = false;
@@ -525,13 +525,25 @@ class MMRPG_Object {
         // Collect info for the sprite given the kind it is
         let kind = this.kind;
         let xkind = this.xkind;
-        let token = this.token;
         let indexInfo = this.indexInfo;
+        let token = this.token;
         //console.log('indexInfo for ', kind, token, '=', indexInfo);
 
+        // Collect the sheet and base but be prepared to override
+        // if we're still a placeholder sprite so we don't take the
+        // real sprite's position in the index when ready
+        let altSheet;
+        let altIsBase;
+        if (!this.spriteIsPlaceholder){
+            altSheet = objectConfig.currentAltSheet || objectConfig.baseAltSheet;
+            altIsBase = objectConfig.currentAltSheetIsBase ? true : false;
+            } else {
+            altSheet = 'base';
+            altIsBase = true;
+            token = kind;
+            }
+
         // Predefine some base paths and keys
-        let altSheet = objectConfig.currentAltSheet || objectConfig.baseAltSheet;
-        let altIsBase = objectConfig.currentAltSheetIsBase ? true : false;
         let pathToken = token === kind ? ('.' + kind) : token;
         let basePath = 'content/'+ xkind + '/' + pathToken + '/sprites' + (!altIsBase ? '_'+altSheet : '') + '/';
         let baseKey = 'sprites.' + xkind + '.' + token + '.' + altSheet;
@@ -650,7 +662,7 @@ class MMRPG_Object {
         while (pendingAnims.length){
             // Collect the next animation to create
             let anim = pendingAnims.shift();
-            //console.log(this.token + ' | creating new animation for ', anim.key);
+            //console.log('%c' + this.token + ' | creating new animation for ' + anim.key, 'color: green;');
             //console.log(this.token + ' | creating new animation for ', anim.key, 'w/', anim);
             if (scene.anims.get(anim.key)){ console.warn(this.token + ' | anim.key: ' + anim.key + ' already exists'); continue; }
             scene.anims.create(Object.assign({}, anim, {
@@ -665,17 +677,17 @@ class MMRPG_Object {
     }
 
     // Load a given sprite texture (sheet) into memory and optionally execute a callback when done
-    loadSpriteTexture (token, direction, onLoadCallback)
+    loadSpriteTexture (onLoadCallback)
     {
-        //console.log('MMRPG_Object.loadSpriteTexture() called w/ token:', token, 'direction:', direction);
+        //console.log('MMRPG_Object.loadSpriteTexture() called');
         let _this = this;
         let scene = this.scene;
         let SPRITES = this.SPRITES;
         let spritePathsIndex = SPRITES.index.paths[this.xkind];
         let spriteSheetsIndex = SPRITES.index.sheets[this.xkind];
         //console.log('-> SPRITES:', SPRITES, 'spritePathsIndex:', spritePathsIndex);
-        let spriteSheet = _this.getSpriteSheet(token, direction, 'sprite');
-        let spritePath = _this.getSpritePath(token, direction, 'sprite');
+        let spriteSheet = _this.getSpriteSheet('sprite');
+        let spritePath = _this.getSpritePath('sprite');
         let spriteWidth = this.data.image_width;
         let spriteHeight = this.data.image_height;
         //console.log('-> token:', token, 'direction:', direction, 'spriteSheet:', spriteSheet, 'spritePath:', spritePath, 'spriteWidth:', spriteWidth, 'spriteHeight:', spriteHeight);
@@ -703,10 +715,11 @@ class MMRPG_Object {
         scene.load.start();
     }
 
-    // Determining and return the texture name (sheet) for an object given kind and direction (we already know the rest)
-    getSpriteSheet (spriteToken, spriteDirection = 'right', spriteKind = 'sprite')
+    // Get the current sprite sheet/texture key for the loaded object
+    // Optionally accepts kind, direction, altOrSheet, and token to override defaults
+    getSpriteSheet (spriteKind = 'sprite', spriteDirection = null, spriteAltOrSheet = null, spriteToken = null)
     {
-        //console.log('MMRPG_Object.getSpriteSheet() called w/ spriteToken:', spriteToken, 'spriteDirection:', spriteDirection, 'spriteKind:', spriteKind);
+        //console.log('MMRPG_Object.getSpriteSheet() called w/ spriteKind:', spriteKind, 'spriteToken:', spriteToken, 'spriteDirection:', spriteDirection);
 
         // Pull in references to required global objects
         let SPRITES = this.SPRITES;
@@ -714,12 +727,17 @@ class MMRPG_Object {
         let objectConfig = this.objectConfig;
         //console.log('-> SPRITES:', SPRITES, 'spriteSheets:', spriteSheets, 'objectConfig:', objectConfig);
 
+        // Compensate for missing fields with obvious values
+        spriteKind = spriteKind || 'sprite';
+        spriteToken = spriteToken || this.data.image || this.token;
+        spriteDirection = spriteDirection || this.direction || 'right';
+        spriteAltOrSheet = spriteAltOrSheet || objectConfig.currentAltSheet || objectConfig.baseAltSheet || 'base';
+        //console.log('Using getSpriteSheet() w/ spriteKind:', spriteKind, 'spriteToken:', spriteToken, 'spriteDirection:', spriteDirection, 'spriteAltOrSheet:', spriteAltOrSheet)
+
         // Define the sprite key and sheet token given context
-        spriteToken = spriteToken || this.data.image;
         //console.log('-> spriteToken:', spriteToken, 'spriteKind:', spriteKind, 'spriteDirection:', spriteDirection);
         let spriteSheet;
         let spriteKey = spriteKind+'-'+spriteDirection;
-        let spriteAltOrSheet = objectConfig.currentAltSheet || objectConfig.baseAltSheet;
         if (typeof spriteSheets[spriteToken] !== 'undefined'
             && typeof spriteSheets[spriteToken][spriteAltOrSheet] !== 'undefined'
             && typeof spriteSheets[spriteToken][spriteAltOrSheet][spriteKey] !== 'undefined'){
@@ -730,14 +748,15 @@ class MMRPG_Object {
         //console.log('-> spriteAltOrSheet:', spriteAltOrSheet, 'spriteSheet:', spriteSheet);
 
         // Return the sheet token we found
+        //console.log('Returning spriteSheet:', spriteSheet);
         return spriteSheet;
 
     }
 
     // Determine and return the texture path (sheet) for an object given kind and direction (we already know the rest)
-    getSpritePath (spriteToken, spriteDirection = 'right', spriteKind = 'sprite')
+    getSpritePath (spriteKind = 'sprite', spriteDirection = null, spriteAltOrSheet = null, spriteToken = null)
     {
-        //console.log('MMRPG_Object.getSpritePath() called w/ spriteToken:', spriteToken, 'spriteDirection:', spriteDirection, 'spriteKind:', spriteKind);
+        //console.log('MMRPG_Object.getSpritePath() called w/ spriteKind:', spriteKind, 'spriteToken:', spriteToken, 'spriteDirection:', spriteDirection);
 
         // Pull in references to required global objects
         let SPRITES = this.SPRITES;
@@ -745,12 +764,17 @@ class MMRPG_Object {
         let objectConfig = this.objectConfig;
         //console.log('-> SPRITES:', SPRITES, 'spritePaths:', spritePaths, 'objectConfig:', objectConfig);
 
+        // Compensate for missing fields with obvious values
+        spriteKind = spriteKind || 'sprite';
+        spriteToken = spriteToken || this.data.image || this.token;
+        spriteDirection = spriteDirection || this.direction || 'right';
+        spriteAltOrSheet = spriteAltOrSheet || objectConfig.currentAltSheet || objectConfig.baseAltSheet || 'base';
+        //console.log('Using getSpritePath() w/ spriteKind:', spriteKind, 'spriteToken:', spriteToken, 'spriteDirection:', spriteDirection, 'spriteAltOrSheet:', spriteAltOrSheet)
+
         // Define the sprite key and sheet token given context
-        spriteToken = spriteToken || this.data.image;
         //console.log('-> spriteToken:', spriteToken, 'spriteKind:', spriteKind, 'spriteDirection:', spriteDirection);
         let spritePath;
         let spriteKey = spriteKind+'-'+spriteDirection;
-        let spriteAltOrSheet = objectConfig.currentAltSheet || objectConfig.baseAltSheet;
         if (typeof spritePaths[spriteToken] !== 'undefined'
             && typeof spritePaths[spriteToken][spriteAltOrSheet] !== 'undefined'
             && typeof spritePaths[spriteToken][spriteAltOrSheet][spriteKey] !== 'undefined'){
@@ -762,6 +786,7 @@ class MMRPG_Object {
             }
 
         // Return the sheet token we found
+        //console.log('Returning spritePath:', spritePath);
         return spritePath;
 
     }
@@ -784,6 +809,7 @@ class MMRPG_Object {
         spriteToken = spriteToken || this.data.image || this.token;
         spriteDirection = spriteDirection || this.direction || 'right';
         spriteAltOrSheet = spriteAltOrSheet || objectConfig.currentAltSheet || objectConfig.baseAltSheet || 'base';
+        //console.log('Using getSpriteAnim() w/ spriteKind:', spriteKind, 'spriteToken:', spriteToken, 'spriteAnim:', spriteAnim, 'spriteDirection:', spriteDirection, 'spriteAltOrSheet:', spriteAltOrSheet)
 
         // Define the sprite key and sheet token given context
         //console.log('-> spriteToken:', spriteToken, 'spriteAnim:', spriteAnim, 'spriteDirection:', spriteDirection);
@@ -800,6 +826,7 @@ class MMRPG_Object {
         //console.log('-> spriteAltOrSheet:', spriteAltOrSheet, 'spriteAnimKey:', spriteAnimKey);
 
         // Return the sheet token we found
+        //console.log('Returning spriteAnimKey:', spriteAnimKey);
         return spriteAnimKey;
 
     }
@@ -1020,7 +1047,7 @@ class MMRPG_Object {
         this.updateSpriteProperties();
 
         // Now we check to see which sheet goes with this direction, if any, and reload it if needed when ready
-        let newSheet = _this.getSpriteSheet(this.data.token, direction, 'sprite');
+        let newSheet = _this.getSpriteSheet('sprite');
         if (!newSheet || (config.sheet === newSheet && this.sheet === newSheet)) { return; }
         if (!scene.textures.exists(newSheet)){
             //console.log('-> sprite texture '+newSheet+' not loaded, deffering sheet change...');
