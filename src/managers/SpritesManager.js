@@ -206,8 +206,6 @@ export default class SpritesManager {
                 // remove from queued sheets
                 let index = queuedSheets.indexOf(sheet.key);
                 if (index > -1){ queuedSheets.splice(index, 1); }
-                // create pending animations matching this sheet
-                SPRITES.createPending(scene, sheet.key);
                 // check if all sheets are loaded
                 checkAllLoaded();
                 });
