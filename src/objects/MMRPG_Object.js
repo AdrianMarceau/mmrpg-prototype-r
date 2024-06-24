@@ -140,6 +140,7 @@ class MMRPG_Object {
         //console.log('MMRPG_Object.createData() called w/ kind:', this.kind, 'token:', this.token, 'customInfo:', this.customInfo);
 
         // Pull in references to required global objects
+        let _this = this;
         let MMRPG = this.MMRPG;
         let SPRITES = this.SPRITES;
         let indexInfo = this.indexInfo;
@@ -147,6 +148,16 @@ class MMRPG_Object {
         let spriteConfig = this.spriteConfig;
         let objectConfig = this.objectConfig;
         //console.log('-> spriteConfig:', spriteConfig, 'objectConfig:', objectConfig);
+
+        // Determine whether or not this object is a "character" and thus requires special care
+        let isCharacter = (this.kind === 'player' || this.kind === 'robot');
+
+        // Precalculate this object's proportional base stat values if relevant
+        if (isCharacter && !indexInfo.baseStats){
+            let baseStats = _this.generateBaseStats(this.kind, indexInfo);
+            indexInfo.baseStats = baseStats;
+            //console.log(this.token + ' | -> baseStats:', baseStats);
+            }
 
         // Start the data as a clone of the index info
         this.data = Object.assign({}, indexInfo);
@@ -172,7 +183,6 @@ class MMRPG_Object {
         this.data.values = this.data.values || {};
 
         // Now we can collect or define key objectConfig properties that we need for later
-        let isCharacter = (this.kind === 'player' || this.kind === 'robot');
         objectConfig.iconPrefix = objectConfig.iconPrefix || 'icon';
         objectConfig.baseAlt = objectConfig.baseAlt || 'base';
         objectConfig.baseSheet = objectConfig.baseSheet || 1;
@@ -181,30 +191,6 @@ class MMRPG_Object {
         objectConfig.currentAltSheetIsBase = objectConfig.currentAltSheet === 'base' || objectConfig.currentAltSheet === '1' || objectConfig.currentAltSheet === 1;
         //console.log(this.token + ' | -> objectConfig.currentAltSheet:', objectConfig.currentAltSheet, 'objectConfig.currentAltSheetIsBase:', objectConfig.currentAltSheetIsBase);
 
-        // Precalculate this object's speed modifier values if relevant
-        if (isCharacter){
-            let baseVal = 100;
-            let relSpeed = 1;
-            let speedMod = 1;
-            if (this.kind === 'player'){
-                let simSpeed = (((100) + this.data.speed) - this.data.defense);
-                relSpeed = (simSpeed / baseVal);
-                speedMod = relSpeed; //1 + (1 - relSpeed);
-                } else if (this.kind === 'robot'){
-                let energy = this.data.energy || 100;
-                let attack = this.data.attack || 100;
-                let defense = this.data.defense || 100;
-                let speed = this.data.speed || 100;
-                let baseTotal = (energy + attack + defense + speed);
-                baseVal = (baseTotal / 4);
-                relSpeed = (speed / baseVal);
-                speedMod = 1 + (1 - relSpeed);
-                }
-            relSpeed = Math.round(relSpeed * 10000) / 10000;
-            speedMod = Math.round(speedMod * 10000) / 10000;
-            this.data.relSpeed = relSpeed;
-            this.data.speedMod = speedMod;
-            }
 
         // Make sure we also create kind-specific data entries as-needed
         let directionalKinds = ['players', 'robots', 'abilities', 'items'];
@@ -247,14 +233,15 @@ class MMRPG_Object {
     // Calculate an object's proportional stat values given its kind and the starting data
     generateBaseStats (kind, data)
     {
+        //console.log('MMRPG_Object.generateBaseStats() called w/ kind:', kind, 'data:', data);
 
         // Predefine the counters and objects we'll be using for the stats
         let total = 0;
         let average = 0;
         let values = {};
         let ratios = {};
-        let boosters = {};
-        let breakers = {};
+        let multipliers = {};
+        let dividers = {};
         let baseStats = {};
 
         // If this is a player we need to manually adjust their stats due to
@@ -266,7 +253,6 @@ class MMRPG_Object {
             values.attack = 100;
             values.defense = 100;
             values.speed = 100;
-            values.weapons = 10; // special, not included in average
 
             if (data.energy > 0){
                 let val = data.energy;
@@ -291,10 +277,6 @@ class MMRPG_Object {
                 values.speed += val;
                 values.attack -= val;
                 }
-            if (data.weapons > 0){
-                let val = data.weapons;
-                values.weapons += val;
-                }
 
             }
         // Otherwise we can pull stats normally
@@ -305,7 +287,6 @@ class MMRPG_Object {
             values.attack = data.attack || 100;
             values.defense = data.defense || 100;
             values.speed = data.speed || 100;
-            values.weapons = data.weapons || 10; // special, not included in average
 
             }
 
@@ -323,16 +304,16 @@ class MMRPG_Object {
         ratios.speed = (values.speed / total);
 
         // Calculate the "booster" values for when a stat is used beneficially
-        boosters.energy = values.energy === average ? 1 : (values.energy / average);
-        boosters.attack = values.attack === average ? 1 : (values.attack / average);
-        boosters.defense = values.defense === average ? 1 : (values.defense / average);
-        boosters.speed = values.speed === average ? 1 : (values.speed / average);
+        multipliers.energy = values.energy === average ? 1 : (values.energy / average);
+        multipliers.attack = values.attack === average ? 1 : (values.attack / average);
+        multipliers.defense = values.defense === average ? 1 : (values.defense / average);
+        multipliers.speed = values.speed === average ? 1 : (values.speed / average);
 
         // Calculate the "breaker" values for when a stat is used detrimentally
-        breakers.energy = 1 - (boosters.energy - 1);
-        breakers.attack = 1 - (boosters.attack - 1);
-        breakers.defense = 1 - (boosters.defense - 1);
-        breakers.speed = 1 - (boosters.speed - 1);
+        dividers.energy = 1 - (multipliers.energy - 1);
+        dividers.attack = 1 - (multipliers.attack - 1);
+        dividers.defense = 1 - (multipliers.defense - 1);
+        dividers.speed = 1 - (multipliers.speed - 1);
 
         // Quick inner function to round all values in an object to max 4 decimals
         const roundValues = function(obj){
@@ -351,8 +332,8 @@ class MMRPG_Object {
         baseStats.average = average;
         baseStats.values = values;
         baseStats.ratios = roundValues(ratios);
-        baseStats.boosters = roundValues(boosters);
-        baseStats.breakers = roundValues(breakers);
+        baseStats.multipliers = roundValues(multipliers);
+        baseStats.dividers = roundValues(dividers);
 
         // Return the baseStats object
         return baseStats;
