@@ -1407,6 +1407,7 @@ class MMRPG_Object {
             if (!animKey) { return; }
             $sprite.play(animKey);
             };
+        this.stopMoving();
         if (bounce){ startBouncing.call(_this); }
         if (emote){ startEmoting.call(_this); }
         this.isAnimating = true;
@@ -1430,7 +1431,7 @@ class MMRPG_Object {
     }
 
     // Move this sprite to a new position on the canvas and then execute the callback if provided
-    moveToPosition (x = null, y = null, duration = 0, callback = null)
+    moveToPosition (x = null, y = null, duration = 0, callback = null, easing = 'Linear')
     {
         //console.log('MMRPG_Object.moveToPosition() called for ', this.kind, this.token, '\nw/ x:', x, 'y:', y, 'duration:', duration, 'callback:', typeof callback);
         let _this = this;
@@ -1441,57 +1442,56 @@ class MMRPG_Object {
         let $sprite = this.sprite;
 
         // If the sprite is already moving, stop it and move it to the new position instantly
-        if ($sprite.subTweens.moveTween){
-            $sprite.subTweens.moveTween.stop();
-            delete $sprite.subTweens.moveTween;
-            }
+        this.stopMoving();
 
         // Parse any relative string values from the x and y to get rel values
         x = Math.round(Graphics.parseRelativePosition(x, config.x));
         y = Math.round(Graphics.parseRelativePosition(y, config.y));
+        let [ modX, modY ] = this.getOffsetPosition(x, y);
+        let [ finalX, finalY ] = [x, y];
 
         // If the duration was not set of was zero, move the sprite instantly
         if (!duration) {
-            config.x = x;
-            config.y = y;
-            _this.x = x;
-            _this.y = y;
-            $sprite.x = x;
-            $sprite.y = y;
-            if (callback) { callback.call(_this, $sprite); }
-            return;
+            config.x = finalX;
+            _this.x = finalX;
+            config.y = finalY;
+            _this.y = finalY;
+            $sprite.x = modX;
+            $sprite.y = modY;
+            if (!callback) { return; }
+            return callback.call(_this, $sprite);
             }
 
         // Otherwise we create a tween to move the sprite to the new position
-        let [ modX, modY ] = this.getOffsetPosition(x, y);
         $sprite.subTweens.moveTween = scene.tweens.add({
             targets: $sprite,
             x: modX,
             y: modY,
             duration: duration,
-            ease: 'Linear',
+            ease: easing, //'Linear',
             onUpdate: () => {
-                config.x = $sprite.x;
-                config.y = $sprite.y;
-                _this.x = $sprite.x;
-                _this.y = $sprite.y;
+                let [ modX, modY ] = this.reverseOffsetPosition($sprite.x, $sprite.y);
+                config.x = modX;
+                _this.x = modX;
+                config.y = modY;
+                _this.y = modY;
                 _this.isMoving = true;
                 },
             onComplete: () => { // Use arrow function to preserve `this`
-                config.x = $sprite.x;
-                config.y = $sprite.y;
-                _this.x = $sprite.x;
-                _this.y = $sprite.y;
+                config.x = finalX;
+                _this.x = finalX;
+                config.y = finalY;
+                _this.y = finalY;
                 _this.isMoving = false;
                 if (!callback) { return; }
-                callback.call(_this, $sprite);
+                return callback.call(_this, $sprite);
                 },
             });
 
     }
 
     // Move the sprite a a new X position on the canvas and then execute the callback if provided (do not touch the Y)
-    moveToPositionX (x = null, duration = 0, callback = null)
+    moveToPositionX (x = null, duration = 0, callback = null, easing = 'Linear')
     {
         //console.log('MMRPG_Object.moveToPositionX() called for ', this.kind, this.token, '\nw/ x:', x, 'duration:', duration, 'callback:', typeof callback);
         let _this = this;
@@ -1502,19 +1502,18 @@ class MMRPG_Object {
         let $sprite = this.sprite;
 
         // If the sprite is already moving, stop it and move it to the new position instantly
-        if ($sprite.subTweens.moveTween){
-            $sprite.subTweens.moveTween.stop();
-            delete $sprite.subTweens.moveTween;
-            }
+        this.stopMoving();
 
         // Parse any relative string values from the x and y to get rel values
         x = Math.round(Graphics.parseRelativePosition(x, config.x));
+        let [ modX ] = this.getOffsetPositionX(x);
+        let [ finalX ] = [ x ];
 
         // If the duration was not set of was zero, move the sprite instantly
         if (!duration) {
-            config.x = x;
-            _this.x = x;
-            $sprite.x = x;
+            config.x = finalX;
+            _this.x = finalX;
+            $sprite.x = modX;
             if (callback) { callback.call(_this, $sprite); }
             return;
             }
@@ -1522,17 +1521,18 @@ class MMRPG_Object {
         // Otherwise we create a tween to move the sprite to
         $sprite.subTweens.moveTween = scene.tweens.add({
             targets: $sprite,
-            x: x,
+            x: modX,
             duration: duration,
-            ease: 'Linear',
+            ease: easing, //'Linear',
             onUpdate: () => {
-                config.x = $sprite.x;
-                _this.x = $sprite.x;
+                let [ modX, modY ] = this.reverseOffsetPosition($sprite.x, $sprite.y);
+                config.x = modX;
+                _this.x = modX;
                 _this.isMoving = true;
                 },
             onComplete: () => { // Use arrow function to preserve `this`
-                config.x = $sprite.x;
-                _this.x = $sprite.x;
+                config.x = finalX;
+                _this.x = finalX;
                 _this.isMoving = false;
                 if (!callback) { return; }
                 callback.call(_this, $sprite);
@@ -1541,7 +1541,7 @@ class MMRPG_Object {
     }
 
     // Move the sprite a a new Y position on the canvas and then execute the callback if provided (do not touch the X)
-    moveToPositionY (y = null, duration = 0, callback = null)
+    moveToPositionY (y = null, duration = 0, callback = null, easing = 'Linear')
     {
         //console.log('MMRPG_Object.moveToPositionY() called for ', this.kind, this.token, '\nw/ y:', y, 'duration:', duration, 'callback:', typeof callback);
         let _this = this;
@@ -1551,43 +1551,60 @@ class MMRPG_Object {
         let config = this.spriteConfig;
         let $sprite = this.sprite;
 
-        // If the sprite is already moving, stop it and move it to the new position instantly
-        if ($sprite.subTweens.moveTween){
-            $sprite.subTweens.moveTween.stop();
-            delete $sprite.subTweens.moveTween;
-            }
+        // If the sprite is already moving, stop it and move it to the new position
+        this.stopMoving();
 
         // Parse any relative string values from the x and y to get rel values
         y = Math.round(Graphics.parseRelativePosition(y, config.y));
+        let [ modY ] = this.getOffsetPositionY(y);
+        let [ finalY ] = [ y ];
 
         // If the duration was not set of was zero, move the sprite instantly
         if (!duration) {
-            config.y = y;
-            _this.y = y;
-            $sprite.y = y;
+            config.y = finalY;
+            _this.y = finalY;
+            $sprite.y = modY;
             if (callback) { callback.call(_this, $sprite); }
             return;
             }
 
-        // Otherwise we create a tween to move the sprite to
+        // Otherwise we create a tween
         $sprite.subTweens.moveTween = scene.tweens.add({
             targets: $sprite,
-            y: y,
+            y: modY,
             duration: duration,
-            ease: 'Linear',
+            ease: easing, //'Linear',
             onUpdate: () => {
-                config.y = $sprite.y;
-                _this.y = $sprite.y;
+                let [ modX, modY ] = this.reverseOffsetPosition($sprite.x, $sprite.y);
+                config.y = modY;
+                _this.y = modY;
                 _this.isMoving = true;
                 },
             onComplete: () => { // Use arrow function to preserve `this`
-                config.y = $sprite.y;
-                _this.y = $sprite.y;
+                config.y = finalY;
+                _this.y = finalY;
                 _this.isMoving = false;
                 if (!callback) { return; }
                 callback.call(_this, $sprite);
                 },
             });
+
+    }
+
+    // Stop a sprite's move animation whichever way it might have been going abruptly
+    stopMoving ()
+    {
+        //console.log('MMRPG_Object.stopMoving() called for ', this.kind, this.token);
+        let _this = this;
+        if (!this.sprite) { return; }
+        if (this.spriteIsLoading){ return this.spriteMethodsQueued.push(function(){ _this.stopMoving(); }); }
+        let $sprite = this.sprite;
+        let config = this.spriteConfig;
+        if ($sprite.subTweens.moveTween){
+            $sprite.subTweens.moveTween.stop();
+            delete $sprite.subTweens.moveTween;
+            }
+        this.isMoving = false;
     }
 
 
