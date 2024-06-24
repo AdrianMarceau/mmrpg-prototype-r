@@ -5,7 +5,7 @@ export default class MainBanner extends Banner {
 
     constructor (scene, x, y, options = {})
     {
-        console.log('MainBanner.constructor() called');
+        //console.log('MainBanner.constructor() called');
 
         let defaults = {
             width: 750,

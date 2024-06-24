@@ -5,7 +5,7 @@ export default class BattleBanner extends Banner {
 
     constructor (scene, x, y, options = {})
     {
-        console.log('BattleBanner.constructor() called');
+        //console.log('BattleBanner.constructor() called');
 
         let defaults = {
             width: 752,
