@@ -74,6 +74,7 @@ class MMRPG_Object {
             spriteConfig.frame = spriteConfig.frame || 0;
             spriteConfig.sheet = spriteConfig.sheet || 'sprites.default';
             spriteConfig.origin = spriteConfig.origin || [0, 0];
+            spriteConfig.hitbox = spriteConfig.hitbox || [40, 40];
             spriteConfig.alpha = spriteConfig.alpha || 1;
             spriteConfig.depth = spriteConfig.depth || 1;
             spriteConfig.scale = spriteConfig.scale || 1;
