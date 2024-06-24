@@ -1430,12 +1430,182 @@ class MMRPG_Object {
         this.isAnimating = false;
     }
 
+    // Start the slide animation for this sprite and move it laterally across the screen given it's next direction
+    // If distance is not set (X-axis), the sprite will travel proportionally to its energy stat or equivalent
+    // If elevation is not set (Y-axis), the sprite will travel horizontally without any vertical movement
+    // If duration is not set, the sprite will advance proportionally to its speed stat or equivalent
+    slideSpriteForward (callback, distance, elevation, duration)
+    {
+        //console.log('MMRPG_Object.slideToDestination() called for ', this.kind, this.token, '\nw/ distance:', distance, 'duration:', duration, 'callback:', typeof callback);
+        let _this = this;
+        if (!this.sprite) { return; }
+        if (this.kind === 'player'){ return this.runSpriteForward(callback, distance, elevation, duration); }
+        else if (this.kind !== 'robot'){ return; }
+        if (this.spriteIsLoading){ return this.spriteMethodsQueued.push(function(){ _this.slideToDestination(distance, duration, callback); }); }
+        let scene = this.scene;
+        let $sprite = this.sprite;
+        let config = this.spriteConfig;
+        let direction = this.direction;
+
+        // Stop any idle animations or movement that might be playing
+        this.stopIdleAnimation();
+        this.stopMoving();
+
+        // Calculate the distance and duration if not already set
+        let baseStats = this.data.baseStats;
+        let speedMod = baseStats.multipliers.speed;
+        let speedMod2 = baseStats.dividers.speed;
+        let slideMax = (config.hitbox[0] * config.scale * 2) + Math.ceil(config.hitbox[0] * config.scale * 2 * speedMod);
+        let slideDistance = distance || slideMax;
+        let slideElevation = elevation || 0;
+        let slideDuration = 1500 + (1000 * speedMod2);
+        //console.log(this.token+' | -> baseStats = ', baseStats);
+        //console.log(this.token+' | -> slideMax = ', slideMax);
+        //console.log(this.token+' | -> slideDistance = ', slideDistance);
+        //console.log(this.token+' | -> slideElevation = ', slideElevation);
+        //console.log(this.token+' | -> slideDuration = ', slideDuration);
+
+        // Calcuylate the new X and Y positions for the sprite to slide to
+        let newX = slideDistance ? ((direction === 'left' ? '-=' : '+=') + slideDistance) : null;
+        let newY = slideElevation ? ((slideElevation > 0 ? '-=' : '+=') + slideElevation) : null;
+        //console.log(this.token+' | -> newX = ', newX);
+        //console.log(this.token+' | -> newY = ', newY);
+
+        // Predefine the slide callback to run when everything is over
+        let slideCallback = function(){
+            if (!callback){ return; }
+            return callback.call(_this, $sprite);
+            };
+
+        // Collect and play the appropriate animation for this slide action
+        let slideKey = 'slide';
+        let slideAnim = this.getSpriteAnim('sprite', slideKey);
+        let slideEasing = 'Sine.easeOut';
+        this.resetFrame();
+        $sprite.play(slideAnim);
+
+        // Remove any existing slide timers or tweens and then create a new one
+        // to facilitate the windup animation when sliding a character forward
+        let slideDelay = 200;
+        if ($sprite.subTimers.slideDelay){ $sprite.subTimers.slideDelay.remove(); }
+        if ($sprite.subTimers.slideReset){ $sprite.subTimers.slideReset.remove(); }
+        $sprite.subTimers.slideDelay = scene.time.delayedCall(slideDelay, function(){
+            if (!$sprite || $sprite.toBeDestroyed){ return; }
+            _this.moveToPosition(newX, newY, slideDuration, function(){
+                $sprite.stop();
+                $sprite.subTimers.slideReset = scene.time.delayedCall(200, function(){
+                    if (!$sprite || $sprite.toBeDestroyed){ return; }
+                    _this.resetFrame();
+                    slideCallback.call(_this, $sprite);
+                    }, [], scene);
+                }, slideEasing);
+            }, [], scene);
+
+        // Return now that the slide has been started
+        return;
+
+    }
+
+    // Start the run animation for this sprite and move it laterally across the screen given it's next direction
+    // If distance is not set (X-axis), the sprite will travel proportionally to its energy stat or equivalent
+    // If elevation is not set (Y-axis), the sprite will travel horizontally without any vertical movement
+    // If duration is not set, the sprite will advance proportionally to its speed stat or equivalent
+    runSpriteForward (callback, distance, elevation, duration)
+    {
+        //console.log('MMRPG_Object.runToDestination() called for ', this.kind, this.token, '\nw/ distance:', distance, 'duration:', duration, 'callback:', typeof callback);
+        let _this = this;
+        if (!this.sprite) { return; }
+        if (this.kind === 'robot'){ return this.runSpriteForward(callback, distance, elevation, duration); }
+        else if (this.kind !== 'player'){ return; }
+        if (this.spriteIsLoading){ return this.spriteMethodsQueued.push(function(){ _this.runToDestination(distance, duration, callback); }); }
+        let scene = this.scene;
+        let $sprite = this.sprite;
+        let config = this.spriteConfig;
+        let direction = this.direction;
+
+        // Stop any idle animations or movement that might be playing
+        this.stopIdleAnimation();
+        this.stopMoving();
+
+        // Calculate the distance and duration if not already set
+        let baseStats = this.data.baseStats;
+        let speedMod = baseStats.multipliers.speed;
+        let speedMod2 = baseStats.dividers.speed;
+        let runMax = (config.hitbox[0] * config.scale * 2) + Math.ceil(config.hitbox[0] * config.scale * 2 * speedMod);
+        let runDistance = distance || runMax;
+        let runElevation = elevation || 0;
+        let runDuration = 1500 + (1000 * speedMod2);
+        //console.log(this.token+' | -> baseStats = ', baseStats);
+        //console.log(this.token+' | -> runMax = ', runMax);
+        //console.log(this.token+' | -> runDistance = ', runDistance);
+        //console.log(this.token+' | -> runElevation = ', runElevation);
+        //console.log(this.token+' | -> runDuration = ', runDuration);
+
+        // Calcuylate the new X and Y positions for the sprite to run to
+        let newX = runDistance ? ((direction === 'left' ? '-=' : '+=') + runDistance) : null;
+        let newY = runElevation ? ((runElevation > 0 ? '-=' : '+=') + runElevation) : null;
+        //console.log(this.token+' | -> newX = ', newX);
+        //console.log(this.token+' | -> newY = ', newY);
+
+        // Predefine the run callback to run when everything is over
+        let runCallback = function(){
+            if (!callback){ return; }
+            return callback.call(_this, $sprite);
+            };
+
+        // Collect and play the appropriate animation for this run action
+        let runKey = 'run';
+        let runAnim = this.getSpriteAnim('sprite', runKey);
+        let runEasing = 'Sine.easeOut';
+        this.resetFrame();
+        $sprite.play(runAnim);
+
+        // Start the running bounce tween to make it look like they're properly stepping
+        if ($sprite.subTweens.runBounceTween){ $sprite.subTweens.runBounceTween.stop(); }
+        if (!newY){
+            $sprite.subTweens.runBounceTween = scene.add.tween({
+                targets: $sprite,
+                y: '-=2',
+                ease: runEasing,
+                delay: 100,
+                repeatDelay: 100,
+                duration: 200,
+                repeat: -1,
+                yoyo: true
+                });
+            }
+
+        // Remove any existing run timers or tweens and then create a new one
+        // to facilitate the windup animation when sliding a character forward
+        let runDelay = 0;
+        if ($sprite.subTimers.runDelay){ $sprite.subTimers.runDelay.remove(); }
+        if ($sprite.subTimers.runReset){ $sprite.subTimers.runReset.remove(); }
+        $sprite.subTimers.runDelay = scene.time.delayedCall(runDelay, function(){
+            if (!$sprite || $sprite.toBeDestroyed){ return; }
+            _this.moveToPosition(newX, newY, runDuration, function(){
+                $sprite.stop();
+                if ($sprite.subTweens.runBounceTween){ $sprite.subTweens.runBounceTween.stop(); }
+                $sprite.subTimers.runReset = scene.time.delayedCall(200, function(){
+                    if (!$sprite || $sprite.toBeDestroyed){ return; }
+                    _this.resetFrame();
+                    runCallback.call(_this, $sprite);
+                    }, [], scene);
+                }, runEasing);
+            }, [], scene);
+
+        // Return now that the run has been started
+        return;
+
+    }
+
     // Move this sprite to a new position on the canvas and then execute the callback if provided
     moveToPosition (x = null, y = null, duration = 0, callback = null, easing = 'Linear')
     {
         //console.log('MMRPG_Object.moveToPosition() called for ', this.kind, this.token, '\nw/ x:', x, 'y:', y, 'duration:', duration, 'callback:', typeof callback);
         let _this = this;
         if (!this.sprite) { return; }
+        if (x && !y){ return this.moveToPositionX(x, duration, callback, easing); }
+        if (!x && y){ return this.moveToPositionY(y, duration, callback, easing); }
         if (this.spriteIsLoading){ return this.spriteMethodsQueued.push(function(){ _this.moveToPosition(x, y, duration, callback); }); }
         let scene = this.scene;
         let config = this.spriteConfig;
@@ -1506,8 +1676,8 @@ class MMRPG_Object {
 
         // Parse any relative string values from the x and y to get rel values
         x = Math.round(Graphics.parseRelativePosition(x, config.x));
-        let [ modX ] = this.getOffsetPositionX(x);
-        let [ finalX ] = [ x ];
+        let modX = this.getOffsetPositionX(x);
+        let finalX = x;
 
         // If the duration was not set of was zero, move the sprite instantly
         if (!duration) {
@@ -1556,8 +1726,8 @@ class MMRPG_Object {
 
         // Parse any relative string values from the x and y to get rel values
         y = Math.round(Graphics.parseRelativePosition(y, config.y));
-        let [ modY ] = this.getOffsetPositionY(y);
-        let [ finalY ] = [ y ];
+        let modY = this.getOffsetPositionY(y);
+        let finalY = y;
 
         // If the duration was not set of was zero, move the sprite instantly
         if (!duration) {
