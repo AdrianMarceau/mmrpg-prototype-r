@@ -1185,6 +1185,71 @@ class MMRPG_Object {
         return [adjustedX, adjustedY];
     }
 
+    // Return a given sprite's adjusted x position based on it's origin and offset
+    getOffsetPositionX (x)
+    {
+        //console.log('MMRPG_Object.getOffsetPositionX() called');
+        let config = this.spriteConfig;
+        let origin = config.origin;
+        let offsetX = config.offsetX;
+        let adjustedX = x;
+
+        // x origin is to the left
+        if (origin[0] === 0){ adjustedX -= offsetX; }
+        // x orgin is centered
+        else if (origin[0] === 0.5){ adjustedX -= 0; }
+        // x origin it to the right
+        else if (origin[0] === 1){ adjustedX += offsetX; }
+
+        return adjustedX;
+    }
+
+    // Return a given sprite's adjusted y position based on it's origin and offset
+    getOffsetPositionY (y)
+    {
+        //console.log('MMRPG_Object.getOffsetPositionY() called');
+        let config = this.spriteConfig;
+        let origin = config.origin;
+        let offsetY = config.offsetY;
+        let adjustedY = y;
+
+        // y origin is up top
+        if (origin[1] === 0){ adjustedY -= offsetY; }
+        // y origin is middle
+        else if (origin[1] === 0.5){ adjustedY -= (offsetY / 2); }
+        // y origin is at the bottom
+        else if (origin[1] === 1){ adjustedY -= 0; }
+
+        return adjustedY;
+    }
+
+    // Reverse the effects of offset positionion on a given sprite's x and y position based on it's origin and offset
+    reverseOffsetPosition (x, y)
+    {
+        //console.log('MMRPG_Object.reverseOffsetPosition() called');
+        let config = this.spriteConfig;
+        let origin = config.origin;
+        let offsetX = config.offsetX;
+        let offsetY = config.offsetY;
+        let adjustedX = x, adjustedY = y;
+
+        // x origin is to the left
+        if (origin[0] === 0){ adjustedX += offsetX; }
+        // x orgin is centered
+        else if (origin[0] === 0.5){ adjustedX += 0; }
+        // x origin it to the right
+        else if (origin[0] === 1){ adjustedX -= offsetX; }
+
+        // y origin is up top
+        if (origin[1] === 0){ adjustedY += offsetY; }
+        // y origin is middle
+        else if (origin[1] === 0.5){ adjustedY += (offsetY / 2); }
+        // y origin is at the bottom
+        else if (origin[1] === 1){ adjustedY += 0; }
+
+        return [adjustedX, adjustedY];
+    }
+
     // Get the current frame of this object's sprite, returned as a string if an alias exists, otherwise as an integer
     getFrame (returnAlias = true)
     {
