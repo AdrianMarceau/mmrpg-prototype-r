@@ -1303,13 +1303,11 @@ class MMRPG_Object {
         let spritesIndex = this.SPRITES.index;
         const startBouncing = function(){
             // Animate the doctor bouncing up and down as they walk forward
-            let speed;
             let data = this.data;
-            if (_this.kind === 'player'){ speed = (((100) + data.speed) - data.defense); }
-            else { speed = data.speed; }
-            let speedMod = speed / 100;
-            //console.log('-> speed:', speed, 'speedMod:', speedMod);
+            let baseStats = data.baseStats;
+            //console.log('-> speed | base:', baseStats.values.speed, 'average:', baseStats.average, 'multiplier:', baseStats.multipliers.speed, 'divider:', baseStats.dividers.speed);
             let spriteY = $sprite.y;
+            let speedMod = baseStats.dividers.speed;
             $sprite.subTweens.idleBounceTween = scene.add.tween({
                 targets: $sprite,
                 y: {from: spriteY, to: spriteY - 2},

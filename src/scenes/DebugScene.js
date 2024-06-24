@@ -348,8 +348,9 @@ export default class DebugScene extends Phaser.Scene
                 var newX = (runDirX === 'left' ? '-=' : '+=') + 120;
                 var newY = (runDirY === 'up' ? '-=' : '+=') + 90;
                 let duration = 1000;
+                let speedMod = this.data.baseStats.dividers.speed || 1;
                 if (this.getFlag('teleports')){ duration = 0; }
-                else { duration *= this.data.speedMod; }
+                else { duration *= speedMod; }
                 this.setFrame('slide');
                 this.moveToPosition(newX, newY, duration, function(){
                     this.setFrame('base');
@@ -458,10 +459,26 @@ export default class DebugScene extends Phaser.Scene
             $customRobot.setOnClick(customClickEvent);
             console.log('$customRobot =', $customRobot);
 
+            let $customRobot2 = new MMRPG_Robot(this, 'quick-man', {
+                image_alt: 'alt'
+                }, {
+                x: commonX + 90,
+                y: commonY,
+                z: depth++,
+                scale: 2,
+                origin: [0.5, 1],
+                direction: 'left'
+                });
+            $customRobot2.setShadow(true);
+            $customRobot2.startIdleAnimation();
+            $customRobot2.setOnHover(customMouseOver, customMouseOut);
+            $customRobot2.setOnClick(customClickEvent);
+            console.log('$customRobot2 =', $customRobot2);
+
             let $customMecha = new MMRPG_Robot(this, 'met', {
                 //image_alt: 'alt2'
                 }, {
-                x: commonX + 100,
+                x: commonX + 110,
                 y: commonY + 2,
                 z: depth++,
                 scale: 2,
@@ -739,6 +756,7 @@ export default class DebugScene extends Phaser.Scene
 
         // Collect the sprite info for the robot and ability now that everything is ready
         let robotSpriteInfo = $robot.getSpriteInfo();
+        let robotBaseStats = $robot.data.baseStats;
         let abilitySpriteInfo = $ability.getSpriteInfo();
         $robot.destroy(); // temporary (will transition to actually using this $robot object later)
         $ability.destroy(); // temporary (will transition to actually using this $ability object later)
@@ -780,11 +798,11 @@ export default class DebugScene extends Phaser.Scene
         $robotSprite.setFrame(0);
 
         // Animate that sprite sliding across the screen then remove when done
-        let slideSpeed = robotIndexInfo.speed;
-        let slideSpeedMultiplier = (slideSpeed / 100);
-        let slideDistance = (MMRPG.canvas.width / 3) * slideSpeedMultiplier;
+        let speedMod = robotBaseStats.multipliers.speed;
+        let speedMod2 = robotBaseStats.dividers.speed;
+        let slideDistance = (MMRPG.canvas.width / 3) * speedMod;
         let slideDestination = spriteSide === 'left' ? (MMRPG.canvas.width + 40) : (0 - 40);
-        let slideDuration = 2000 - (500 * slideSpeedMultiplier);
+        let slideDuration = 2000 * speedMod2;
         //if (numSprites >= 10){ slideDuration /= 2; }
         //console.log('numSprites = ', numSprites);
         //console.log('slideDuration = ', slideDuration);
