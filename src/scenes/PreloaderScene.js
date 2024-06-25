@@ -368,6 +368,88 @@ export default class PreloaderScene extends Phaser.Scene
         this.loadQueuedAudio();
         this.loadQueuedAudioSprites();
 
+        // Preload indexes if we're on the indexes step
+        if (this.preloadComplete.includes('indexes')){
+            //console.log('PreloaderScene().create() - indexes have been loaded!!!');
+
+            // Create a variable to hold parsed indexes if not already there
+            if (typeof this.parsedIndexes === 'undefined'){ this.parsedIndexes = []; }
+
+            // Collect the types index as we need it for basically everything
+            let typesIndex = MMRPG.Indexes.types;
+            let typesTokens = Object.keys(typesIndex);
+
+            // If the players index has loaded but has not been parsed, do so now
+            if (MMRPG.Indexes.players
+                && !this.parsedIndexes.includes('players')){
+                //console.log('PreloaderScene().create() - parsing players index...');
+
+                // Collect the player keys and then loop through them
+                let playersIndex = MMRPG.Indexes.players;
+                let playersIndexTokens = Object.keys(playersIndex);
+                for (let i = 0; i < playersIndexTokens.length; i++){
+
+                    // Collect the player token and info at present
+                    let playerToken = playersIndexTokens[i];
+                    let playerInfo = playersIndex[playerToken];
+
+                    // Generate the base stats and assign them to the player
+                    let baseStats = MMRPG.generateBaseStats('player', playerInfo);
+                    playerInfo.baseStats = baseStats;
+                    //console.log('Player name:', playerInfo.name, 'baseStats:', baseStats);
+
+                    }
+
+                // Add the player index to the parsed indexes list
+                this.parsedIndexes.push('players');
+
+                }
+
+            // If the robots index has loaded but has not been parsed, do so now
+            if (MMRPG.Indexes.robots
+                && !this.parsedIndexes.includes('robots')){
+                //console.log('PreloaderScene().create() - parsing robots index...');
+
+                // Collect the robot keys and then loop through them
+                let robotsIndex = MMRPG.Indexes.robots;
+                let robotsIndexTokens = Object.keys(robotsIndex);
+                for (let i = 0; i < robotsIndexTokens.length; i++){
+
+                    // Collect the robot token and info at present
+                    let robotToken = robotsIndexTokens[i];
+                    let robotInfo = robotsIndex[robotToken];
+
+                    // Generate the base stats and assign them to the robot
+                    let baseStats = MMRPG.generateBaseStats('robot', robotInfo);
+                    robotInfo.baseStats = baseStats;
+                    //console.log('Robot name:', robotInfo.name, 'baseStats:', baseStats);
+
+                    // If this is a copy core and they don't their alts, generate them
+                    if (robotInfo.core === 'copy'){
+                        let imageAlts = robotInfo.image_alts || [];
+                        let altTokens = robotInfo.image_alts.map((alt) => alt.token);
+                        //imageAlts.push({token: 'none', name: 'None', summons: 0, colour: 'none'});
+                        for (let i = 0; i < typesTokens.length; i++){
+                            let typeToken = typesTokens[i];
+                            let typeInfo = typesIndex[typeToken];
+                            if (typeToken === 'copy'){ continue; }
+                            if (typeInfo.class !== 'normal'){ continue; }
+                            if (altTokens.includes(typeToken)){ continue; }
+                            imageAlts.push({token: typeToken, name: typeInfo.name + ' Core', colour: typeToken, summons: 0});
+                            }
+                        robotInfo.image_alts = imageAlts;
+                        //console.log('Copy-core robot name:', robotInfo.name, 'imageAlts:', imageAlts);
+                        }
+
+                    }
+
+                // Add the robot index to the parsed indexes list
+                this.parsedIndexes.push('robots');
+
+                }
+
+        }
+
         // Start loading and pending assets now that we're setup
         this.load.start();
 
