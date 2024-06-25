@@ -1359,13 +1359,10 @@ class MMRPG_Object {
             let baseStats = data.baseStats;
             //console.log('-> speed | base:', baseStats.values.speed, 'average:', baseStats.average, 'multiplier:', baseStats.multipliers.speed, 'divider:', baseStats.dividers.speed);
             //let spriteY = $sprite.y;
-            let [ modX, modY ] = this.getOffsetPosition(config.x, config.y);
-            let yFrom = modY;
-            let yTo = modY - config.scale;
             let speedMod = baseStats.dividers.speed;
             $sprite.subTweens.idleBounceTween = scene.add.tween({
                 targets: $sprite,
-                y: {from: yFrom, to: yTo},
+                y: '-='+config.scale,
                 ease: 'Stepped',
                 delay: Math.ceil(speedMod * 300),
                 repeatDelay: 100 + Math.ceil(speedMod * 200),
@@ -1468,29 +1465,32 @@ class MMRPG_Object {
             return callback.call(_this, $sprite);
             };
 
-        // Collect and play the appropriate animation for this slide action
-        let slideKey = 'slide';
-        let slideAnim = this.getSpriteAnim('sprite', slideKey);
-        let slideEasing = 'Sine.easeOut';
-        this.resetFrame();
-        $sprite.play(slideAnim);
+        // Predefine the move configuration for the animation
+        let moveConfig = {
+            easing: 'Sine.easeOut',
+            };
 
         // Remove any existing slide timers or tweens and then create a new one
         // to facilitate the windup animation when sliding a character forward
-        let slideDelay = 200;
-        if ($sprite.subTimers.slideDelay){ $sprite.subTimers.slideDelay.remove(); }
-        if ($sprite.subTimers.slideReset){ $sprite.subTimers.slideReset.remove(); }
-        $sprite.subTimers.slideDelay = scene.time.delayedCall(slideDelay, function(){
-            if (!$sprite || $sprite.toBeDestroyed){ return; }
+        this.isMoving = true;
+        this.isAnimating = true;
+        this.setFrame('defend');
+        let spriteTimers = $sprite.subTimers;
+        if (spriteTimers.slideAnimation){ spriteTimers.slideAnimation.remove(); }
+        spriteTimers.slideAnimation = this.delayedCall(100, function(){
+            this.setFrame('slide');
             _this.moveToPosition(newX, newY, slideDuration, function(){
-                $sprite.stop();
-                $sprite.subTimers.slideReset = scene.time.delayedCall(200, function(){
-                    if (!$sprite || $sprite.toBeDestroyed){ return; }
-                    _this.resetFrame();
-                    slideCallback.call(_this, $sprite);
-                    }, [], scene);
-                }, slideEasing);
-            }, [], scene);
+                _this.delayedCall(100, function(){
+                    this.setFrame('defend');
+                    _this.delayedCall(200, function(){
+                        _this.resetFrame();
+                        _this.isMoving = false;
+                        _this.isAnimating = false;
+                        slideCallback.call(_this, $sprite);
+                        });
+                    });
+                }, moveConfig);
+            });
 
         // Return now that the slide has been started
         return;
@@ -1545,20 +1545,24 @@ class MMRPG_Object {
             return callback.call(_this, $sprite);
             };
 
+        // Predefine the move configuration for the animation
+        let moveConfig = {
+            easing: 'Sine.easeOut',
+            };
+
         // Collect and play the appropriate animation for this run action
         let runKey = 'run';
         let runAnim = this.getSpriteAnim('sprite', runKey);
-        let runEasing = 'Sine.easeOut';
         this.resetFrame();
-        $sprite.play(runAnim);
+        //$sprite.play(runAnim);
 
         // Start the running bounce tween to make it look like they're properly stepping
         if ($sprite.subTweens.runBounceTween){ $sprite.subTweens.runBounceTween.stop(); }
         if (!newY){
             $sprite.subTweens.runBounceTween = scene.add.tween({
                 targets: $sprite,
-                y: '-=2',
-                ease: runEasing,
+                y: '-='+config.scale,
+                ease: 'Stepped',
                 delay: 100,
                 repeatDelay: 100,
                 duration: 200,
@@ -1569,21 +1573,26 @@ class MMRPG_Object {
 
         // Remove any existing run timers or tweens and then create a new one
         // to facilitate the windup animation when sliding a character forward
-        let runDelay = 0;
-        if ($sprite.subTimers.runDelay){ $sprite.subTimers.runDelay.remove(); }
-        if ($sprite.subTimers.runReset){ $sprite.subTimers.runReset.remove(); }
-        $sprite.subTimers.runDelay = scene.time.delayedCall(runDelay, function(){
-            if (!$sprite || $sprite.toBeDestroyed){ return; }
+        this.isMoving = true;
+        this.isAnimating = true;
+        this.setFrame('command');
+        let spriteTimers = $sprite.subTimers;
+        if (spriteTimers.runAnimation){ spriteTimers.runAnimation.remove(); }
+        spriteTimers.runAnimation = this.delayedCall(100, function(){
+            $sprite.play(runAnim);
             _this.moveToPosition(newX, newY, runDuration, function(){
-                $sprite.stop();
-                if ($sprite.subTweens.runBounceTween){ $sprite.subTweens.runBounceTween.stop(); }
-                $sprite.subTimers.runReset = scene.time.delayedCall(200, function(){
-                    if (!$sprite || $sprite.toBeDestroyed){ return; }
-                    _this.resetFrame();
-                    runCallback.call(_this, $sprite);
-                    }, [], scene);
-                }, runEasing);
-            }, [], scene);
+                _this.delayedCall(100, function(){
+                    $sprite.stop();
+                    this.setFrame('base2');
+                    _this.delayedCall(200, function(){
+                        _this.resetFrame();
+                        _this.isMoving = false;
+                        _this.isAnimating = false;
+                        runCallback.call(_this, $sprite);
+                        });
+                    });
+                }, moveConfig);
+            });
 
         // Return now that the run has been started
         return;
@@ -1591,14 +1600,14 @@ class MMRPG_Object {
     }
 
     // Move this sprite to a new position on the canvas and then execute the callback if provided
-    moveToPosition (x = null, y = null, duration = 0, callback = null, easing = 'Linear')
+    moveToPosition (x = null, y = null, duration = 0, callback = null, moveConfig = {})
     {
         //console.log('MMRPG_Object.moveToPosition() called for ', this.kind, this.token, '\nw/ x:', x, 'y:', y, 'duration:', duration, 'callback:', typeof callback);
         let _this = this;
         if (!this.sprite) { return; }
-        if (x && !y){ return this.moveToPositionX(x, duration, callback, easing); }
-        if (!x && y){ return this.moveToPositionY(y, duration, callback, easing); }
-        if (this.spriteIsLoading){ return this.spriteMethodsQueued.push(function(){ _this.moveToPosition(x, y, duration, callback); }); }
+        if (x && !y){ return this.moveToPositionX(x, duration, callback, moveConfig); }
+        if (!x && y){ return this.moveToPositionY(y, duration, callback, moveConfig); }
+        if (this.spriteIsLoading){ return this.spriteMethodsQueued.push(function(){ _this.moveToPosition(x, y, duration, callback, moveConfig); }); }
         let scene = this.scene;
         let config = this.spriteConfig;
         let $sprite = this.sprite;
@@ -1606,6 +1615,9 @@ class MMRPG_Object {
 
         // If the sprite is already moving, stop it and move it to the new position instantly
         this.stopMoving();
+
+        // Predefine some defaults for the move config
+        moveConfig.easing  = moveConfig.easing || 'Linear';
 
         // Parse any relative string values from the x and y to get rel values
         x = Math.round(Graphics.parseRelativePosition(x, config.x));
@@ -1633,7 +1645,7 @@ class MMRPG_Object {
             x: modX,
             y: modY,
             duration: duration,
-            ease: easing, //'Linear',
+            ease: moveConfig.easing,
             onUpdate: () => {
                 let [ revModX, revModY ] = this.reverseOffsetPosition($sprite.x, $sprite.y);
                 config.x = revModX;
@@ -1660,12 +1672,12 @@ class MMRPG_Object {
     }
 
     // Move the sprite a a new X position on the canvas and then execute the callback if provided (do not touch the Y)
-    moveToPositionX (x = null, duration = 0, callback = null, easing = 'Linear')
+    moveToPositionX (x = null, duration = 0, callback = null, moveConfig = {})
     {
         //console.log('MMRPG_Object.moveToPositionX() called for ', this.kind, this.token, '\nw/ x:', x, 'duration:', duration, 'callback:', typeof callback);
         let _this = this;
         if (!this.sprite) { return; }
-        if (this.spriteIsLoading){ return this.spriteMethodsQueued.push(function(){ _this.moveToPositionX(x, duration, callback); }); }
+        if (this.spriteIsLoading){ return this.spriteMethodsQueued.push(function(){ _this.moveToPositionX(x, duration, callback, moveConfig); }); }
         let scene = this.scene;
         let config = this.spriteConfig;
         let $sprite = this.sprite;
@@ -1673,6 +1685,9 @@ class MMRPG_Object {
 
         // If the sprite is already moving, stop it and move it to the new position instantly
         this.stopMoving();
+
+        // Predefine some defaults for the move config
+        moveConfig.easing  = moveConfig.easing || 'Linear';
 
         // Parse any relative string values from the x and y to get rel values
         x = Math.round(Graphics.parseRelativePosition(x, config.x));
@@ -1694,7 +1709,7 @@ class MMRPG_Object {
             targets: $sprite,
             x: modX,
             duration: duration,
-            ease: easing, //'Linear',
+            ease: moveConfig.easing,
             onUpdate: () => {
                 let [ revModX, revModY ] = this.reverseOffsetPosition($sprite.x, $sprite.y);
                 config.x = revModX;
@@ -1714,12 +1729,12 @@ class MMRPG_Object {
     }
 
     // Move the sprite a a new Y position on the canvas and then execute the callback if provided (do not touch the X)
-    moveToPositionY (y = null, duration = 0, callback = null, easing = 'Linear')
+    moveToPositionY (y = null, duration = 0, callback = null, moveConfig = {})
     {
         //console.log('MMRPG_Object.moveToPositionY() called for ', this.kind, this.token, '\nw/ y:', y, 'duration:', duration, 'callback:', typeof callback);
         let _this = this;
         if (!this.sprite) { return; }
-        if (this.spriteIsLoading){ return this.spriteMethodsQueued.push(function(){ _this.moveToPositionY(y, duration, callback); }); }
+        if (this.spriteIsLoading){ return this.spriteMethodsQueued.push(function(){ _this.moveToPositionY(y, duration, callback, moveConfig); }); }
         let scene = this.scene;
         let config = this.spriteConfig;
         let $sprite = this.sprite;
@@ -1732,6 +1747,9 @@ class MMRPG_Object {
         y = Math.round(Graphics.parseRelativePosition(y, config.y));
         let modY = this.getOffsetPositionY(y);
         let finalY = y;
+
+        // Predefine some defaults for the move config
+        moveConfig.easing  = moveConfig.easing || 'Linear';
 
         // If the duration was not set of was zero, move the sprite instantly
         if (!duration) {
@@ -1748,7 +1766,7 @@ class MMRPG_Object {
             targets: $sprite,
             y: modY,
             duration: duration,
-            ease: easing, //'Linear',
+            ease: moveConfig.easing,
             onUpdate: () => {
                 let [ revModX, revModY ] = this.reverseOffsetPosition($sprite.x, $sprite.y);
                 config.y = revModY;
