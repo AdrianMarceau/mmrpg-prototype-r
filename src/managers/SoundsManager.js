@@ -19,7 +19,7 @@ export default class SoundsManager {
     // Constructor for the SoundsManager class
     constructor(scene)
     {
-        console.log('SoundsManager.constructor() called');
+        //console.log('SoundsManager.constructor() called');
 
         // Ensure passed context is available to the entire class
         this.MMRPG = MMRPG;

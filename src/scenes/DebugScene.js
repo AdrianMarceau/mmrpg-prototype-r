@@ -32,7 +32,7 @@ export default class DebugScene extends Phaser.Scene
     constructor ()
     {
 
-        console.log('DebugScene.constructor() called');
+        //console.log('DebugScene.constructor() called');
         super('Debug');
 
         // Initialize MMRPG utility class objects

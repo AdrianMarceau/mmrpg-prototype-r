@@ -22,7 +22,7 @@ export default class ButtonsManager {
     // Constructor for the ButtonsManager class
     constructor(scene)
     {
-        console.log('ButtonsManager.constructor() called');
+        //console.log('ButtonsManager.constructor() called');
 
         // Ensure passed context is available to the entire class
         this.MMRPG = MMRPG;

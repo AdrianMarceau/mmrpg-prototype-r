@@ -17,7 +17,7 @@ export default class PreloaderScene extends Phaser.Scene
 
     constructor ()
     {
-        console.log('PreloaderScene.constructor() called');
+        //console.log('PreloaderScene.constructor() called');
         super('Preloader');
 
         // Initialize MMRPG utility class objects

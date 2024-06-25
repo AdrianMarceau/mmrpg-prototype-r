@@ -11,7 +11,7 @@ export default class BootScene extends Phaser.Scene
 {
     constructor ()
     {
-        console.log('BootScene.constructor() called');
+        //console.log('BootScene.constructor() called');
         super('Boot');
 
         // Update the ready and running flags externally

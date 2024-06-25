@@ -72,7 +72,7 @@ class MMRPG {
                 this.tick = 0;
             }
             this.tick++;
-            console.log('MMRPG.tick = ', this.tick, ' (', source, ')');
+            //console.log('MMRPG.tick = ', this.tick, ' (', source, ')');
 
             if (typeof namespace === 'string' && namespace.length > 0) {
                 this.Indexes[namespace] = {};

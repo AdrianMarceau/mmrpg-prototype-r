@@ -25,7 +25,7 @@ export default class DebugRunnerScene extends Phaser.Scene
     constructor ()
     {
 
-        console.log('DebugRunnerScene.constructor() called');
+        //console.log('DebugRunnerScene.constructor() called');
         super('DebugRunner');
 
         // Initialize MMRPG utility class objects

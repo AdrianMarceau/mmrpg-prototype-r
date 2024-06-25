@@ -17,7 +17,7 @@ export default class MainScene extends Phaser.Scene
 {
     constructor ()
     {
-        console.log('MainScene.constructor() called');
+        //console.log('MainScene.constructor() called');
         super('Main');
 
         // Initialize MMRPG utility class objects
@@ -52,7 +52,7 @@ export default class MainScene extends Phaser.Scene
 
     preload ()
     {
-        console.log('MainScene.preload() called');
+        //console.log('MainScene.preload() called');
 
         // Pull in required object references
         let MMRPG = this.MMRPG;
@@ -66,7 +66,7 @@ export default class MainScene extends Phaser.Scene
 
     create ()
     {
-        console.log('MainScene.create() called');
+        //console.log('MainScene.create() called');
 
         // Pull in global MMRPG object and trigger the create function
         let MMRPG = this.MMRPG;
@@ -158,7 +158,7 @@ export default class MainScene extends Phaser.Scene
     // <----------------
     debug ()
     {
-        console.log('MainScene.debug() called');
+        //console.log('MainScene.debug() called');
 
         // Pull in required object references
         let MMRPG = this.MMRPG;

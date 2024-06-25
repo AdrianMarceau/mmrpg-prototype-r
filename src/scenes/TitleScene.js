@@ -21,7 +21,7 @@ export default class TitleScene extends Phaser.Scene
 
     constructor ()
     {
-        console.log('TitleScene.constructor() called');
+        //console.log('TitleScene.constructor() called');
         super('Title');
 
         // Initialize MMRPG utility class objects
@@ -241,7 +241,7 @@ export default class TitleScene extends Phaser.Scene
 
         // Add a click event that triggers a move to the Main scene
         $startButton.on('pointerdown', () => {
-            console.log('Start button clicked!');
+            //console.log('Start button clicked!');
             SOUNDS.play('game-start', {volume: 0.5});
             ctx.scene.start('Main');
             });

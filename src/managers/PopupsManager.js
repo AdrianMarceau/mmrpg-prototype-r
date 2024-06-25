@@ -19,7 +19,7 @@ export default class PopupsManager {
     // Constructor for the PopupsManager class
     constructor(scene)
     {
-        console.log('PopupsManager.constructor() called');
+        //console.log('PopupsManager.constructor() called');
 
         // Ensure passed context is available to the entire class
         this.MMRPG = MMRPG;
