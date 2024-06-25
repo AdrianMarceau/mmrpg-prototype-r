@@ -22,22 +22,22 @@ class MMRPG_Object {
         // Initialize MMRPG utility class objects
         let SPRITES = SpritesManager.getInstance(scene);
 
-        // Pull in references to required global objects
-        let _this = this;
-        this.MMRPG = MMRPG;
-        this.SPRITES = SPRITES;
-        //console.log('-> MMRPG:', MMRPG);
-
         // Parse the kind so we have both the kind and xkind
         let [kind, xkind] = MMRPG.parseKind(_kind);
         //console.log('-> kind:', kind, 'xkind:', xkind);
 
         // Define the properties of the object
-        this.scene = scene;
+        this.token = token;
         this.kind = kind;
         this.xkind = xkind;
-        this.token = token;
+        this.scene = scene;
         this.data = {};
+
+        // Pull in refs to required global objects
+        let _this = this;
+        this.MMRPG = MMRPG;
+        this.SPRITES = SPRITES;
+        //console.log('-> MMRPG:', MMRPG);
 
         // Pull in required data from the MMRPG data
         let objectIndex = MMRPG.Indexes[xkind] || {};
