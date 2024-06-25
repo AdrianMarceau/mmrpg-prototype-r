@@ -264,6 +264,119 @@ class MMRPG {
     }
 
 
+    // -- OBJECT GENERATION & PARSING METHODS -- //
+
+    // Calculate an object's proportional stat values given its kind and the starting data
+    generateBaseStats (kind, data)
+    {
+        //console.log('MMRPG.generateBaseStats() called w/ kind:', kind, 'data:', data);
+
+        // Predefine the counters and objects we'll be using for the stats
+        let total = 0;
+        let average = 0;
+        let values = {};
+        let ratios = {};
+        let multipliers = {};
+        let dividers = {};
+        let baseStats = {};
+
+        // If this is a player we need to manually adjust their stats due to
+        // how their stats are coded like "bonus" values (ie. speed of 25 means +25%)
+        if (kind === 'player'){
+
+            // Start each stat at a flat value and work out way from there
+            values.energy = 100;
+            values.attack = 100;
+            values.defense = 100;
+            values.speed = 100;
+
+            if (data.energy > 0){
+                let val = data.energy;
+                let modVal = Math.ceil(val / 3);
+                values.energy += val;
+                values.attack -= modVal;
+                values.defense -= modVal;
+                values.speed -= modVal;
+                }
+            if (data.attack > 0){
+                let val = data.attack;
+                values.attack += val;
+                values.defense -= val;
+                }
+            if (data.defense > 0){
+                let val = data.defense;
+                values.defense += val;
+                values.speed -= val;
+                }
+            if (data.speed > 0){
+                let val = data.speed;
+                values.speed += val;
+                values.attack -= val;
+                }
+
+            }
+        // Otherwise we can pull stats normally
+        else {
+
+            // Pull any existing stat values from the data object
+            values.energy = data.energy || 100;
+            values.attack = data.attack || 100;
+            values.defense = data.defense || 100;
+            values.speed = data.speed || 100;
+
+            }
+
+        // Add the collected values together to get the total and average
+        total += values.energy;
+        total += values.attack;
+        total += values.defense;
+        total += values.speed;
+        average = Math.round(total / 4);
+
+        // Calculate the proportional ratios for each stat
+        ratios.energy = (values.energy / total);
+        ratios.attack = (values.attack / total);
+        ratios.defense = (values.defense / total);
+        ratios.speed = (values.speed / total);
+
+        // Calculate the "booster" values for when a stat is used beneficially
+        multipliers.energy = values.energy === average ? 1 : (values.energy / average);
+        multipliers.attack = values.attack === average ? 1 : (values.attack / average);
+        multipliers.defense = values.defense === average ? 1 : (values.defense / average);
+        multipliers.speed = values.speed === average ? 1 : (values.speed / average);
+
+        // Calculate the "breaker" values for when a stat is used detrimentally
+        dividers.energy = 1 - (multipliers.energy - 1);
+        dividers.attack = 1 - (multipliers.attack - 1);
+        dividers.defense = 1 - (multipliers.defense - 1);
+        dividers.speed = 1 - (multipliers.speed - 1);
+
+        // Quick inner function to round all values in an object to max 4 decimals
+        const roundValues = function(obj){
+            let newObj = {};
+            let keys = Object.keys(obj);
+            for (let i = 0; i < keys.length; i++){
+                let key = keys[i];
+                let val = obj[key];
+                newObj[key] = Math.round(val * 10000) / 10000;
+                }
+            return newObj;
+            };
+
+        // Update the baseStats object with the calculated values
+        baseStats.total = total;
+        baseStats.average = average;
+        baseStats.values = values;
+        baseStats.ratios = roundValues(ratios);
+        baseStats.multipliers = roundValues(multipliers);
+        baseStats.dividers = roundValues(dividers);
+
+        // Return the baseStats object
+        return baseStats;
+
+    }
+
+
     // -- USER SAVE FILE METHODS -- //
 
     // Define a function to be run at startup for crafting the save data structure
