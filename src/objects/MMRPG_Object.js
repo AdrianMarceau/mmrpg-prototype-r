@@ -518,6 +518,7 @@ class MMRPG_Object {
         let kind = this.kind;
         let xkind = this.xkind;
         let indexInfo = this.indexInfo;
+        let objectData = this.data;
         let token = this.token;
         //console.log('indexInfo for ', kind, token, '=', indexInfo);
 
@@ -567,6 +568,30 @@ class MMRPG_Object {
             // Also create animations for this sprite depending on kind
             if (kind === 'player'){
 
+                // Collect this player's base stats so we can adjust animations
+                let baseStats = objectData.baseStats || {};
+                let speedMod = baseStats.dividers.speed || 1;
+                //console.log(this.token + ' | baseStats:', baseStats);
+
+                // Generate the idle animation string for re-use later
+                var anim = 'idle';
+                var animKey = sheetKey + '.' + anim;
+                spritesIndex.prepForKeys(spritesIndex.anims, xkind, token, altSheet, sheetToken);
+                spritesIndex.anims[xkind][token][altSheet][sheetToken][anim] = animKey;
+                //console.log(this.token + ' | added "'+anim+'" anim [ '+animKey+' ] to spritesIndex.anims['+xkind+']['+token+']['+altSheet+']['+sheetToken+']['+anim+']');
+
+                // Queue the creation of an idle animation for this sprite
+                if (!scene.anims.get(animKey)){
+                    //console.log(this.token + ' | queued "'+anim+'" anim [ '+animKey+' ]');
+                    pendingAnims.push({
+                        key: animKey,
+                        sheet: sheetKey,
+                        frames: [ 0, 1, 0, 6, 0, 1, 0, 1, 0, 6 ],
+                        duration: Math.round(6000 * speedMod),
+                        repeat: -1
+                        });
+                    }
+
                 // Generate the running animation string for re-use later
                 var anim = 'run';
                 var animKey = sheetKey + '.' + anim;
@@ -589,6 +614,11 @@ class MMRPG_Object {
                 }
             else if (kind === 'robot'){
 
+                // Collect this robot's base stats so we can adjust animations
+                let baseStats = objectData.baseStats || {};
+                let speedMod = baseStats.dividers.speed || 1;
+                //console.log(this.token + ' | baseStats:', baseStats);
+
                 // Generate the idle animation string for re-use later
                 var anim = 'idle';
                 var animKey = sheetKey + '.' + anim;
@@ -602,8 +632,8 @@ class MMRPG_Object {
                     pendingAnims.push({
                         key: animKey,
                         sheet: sheetKey,
-                        frames: [ 0, 1, 0, 8, 0, 1, 0, 10 ],
-                        frameRate: 1,
+                        frames: [ 0, 1, 0, 8, 0, 1, 0, 10, 0, 0 ],
+                        duration: Math.round(10000 * speedMod),
                         repeat: -1
                         });
                     }
