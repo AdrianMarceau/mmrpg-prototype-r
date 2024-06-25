@@ -295,31 +295,33 @@ export default class DebugScene extends Phaser.Scene
 
             // Create some primitive MMRPG objects for testing purposes
             var depth = 9000;
-            let $player = new MMRPG_Player(this, 'dr-light', null, { x: 40, y: 40, z: depth++ });
-            let $robot = new MMRPG_Robot(this, 'mega-man', null, { x: 80, y: 80, z: depth++ });
-            let $ability = new MMRPG_Ability(this, 'buster-shot', null, { x: 120, y: 120, z: depth++ });
-            let $item = new MMRPG_Item(this, 'energy-tank', null, { x: 160, y: 160, z: depth++ });
-            let $field = new MMRPG_Field(this, 'preserved-forest', null, { x: 200, y: 200, z: depth++ });
-            let $skill = new MMRPG_Skill(this, 'xtreme-submodule', null);
-            let $type = new MMRPG_Type(this, 'water');
-            console.log('$player =', $player);
-            console.log('$robot =', $robot);
-            console.log('$ability =', $ability);
-            console.log('$item =', $item);
-            console.log('$field =', $field);
-            console.log('$skill =', $skill);
-            console.log('$type =', $type);
+            var debug = {};
+            debug.player = new MMRPG_Player(this, 'dr-light', null, { x: 40, y: 40, z: depth++ });
+            debug.robot = new MMRPG_Robot(this, 'mega-man', null, { x: 80, y: 80, z: depth++ });
+            debug.robot2 = new MMRPG_Robot(this, 'quick-man', null, { x: 120, y: 80, z: depth++ });
+            debug.robot3 = new MMRPG_Robot(this, 'wood-man', null, { x: 160, y: 80, z: depth++ });
+            debug.ability = new MMRPG_Ability(this, 'buster-shot', null, { x: 140, y: 120, z: depth++ });
+            debug.item = new MMRPG_Item(this, 'energy-tank', null, { x: 160, y: 180, z: depth++ });
+            debug.field = new MMRPG_Field(this, 'preserved-forest', null, { x: 220, y: 200, z: depth++ });
+            debug.skill = new MMRPG_Skill(this, 'xtreme-submodule', null);
+            debug.type = new MMRPG_Type(this, 'water');
             let onClickTestObject = function(){
                 SOUNDS.play('link-click', {volume: 0.3});
-                this.moveToPositionX('+=100', 1000, function(){
-                    this.destroy();
+                this.stopIdleAnimation();
+                this.slideSpriteForward(function(){
+                    this.flipDirection();
+                    this.delayedCall(500, function(){
+                        this.startIdleAnimation(true, true);
+                        });
                     });
                 };
-            $player.setOnClick(onClickTestObject);
-            $robot.setOnClick(onClickTestObject);
-            $ability.setOnClick(onClickTestObject);
-            $item.setOnClick(onClickTestObject);
-            $field.setOnClick(onClickTestObject);
+            for (let key in debug){
+                let $sprite = debug[key];
+                $sprite.setShadow(true);
+                $sprite.startIdleAnimation(true, true);
+                $sprite.setOnClick(onClickTestObject);
+                console.log('$'+key+' =', $sprite);
+                }
 
             // Create some mods of the above to see what's possible
             var $ref = this.battleBanner;
@@ -2372,7 +2374,7 @@ export default class DebugScene extends Phaser.Scene
         saveData.items.addItem('energy-tank', 99);
         saveData.items.addItem('weapons-tank', 99);
 
-        console.log('Fake save data generated:', saveData);
+        //console.log('Fake save data generated:', saveData);
 
     }
 
