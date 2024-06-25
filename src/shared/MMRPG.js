@@ -16,6 +16,9 @@ class MMRPG {
         this.created = '2024-05-20';
         this.modified = '2024-06-22';
         this.version = '4.0.209';
+        this.developer = 'Ageman20XX';
+        this.contributors = ['MegaBossMan', 'Rhythm_BCA'];
+        this.copyright = 'Mega Man Trademarks & Characters © Capcom 1986 - ' + new Date().getFullYear();
 
         // Define the absolute base width and height for the game canvas
         const baseWidth = 780;
