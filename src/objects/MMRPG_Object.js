@@ -1359,10 +1359,12 @@ class MMRPG_Object {
             //console.log('-> speed | base:', baseStats.values.speed, 'average:', baseStats.average, 'multiplier:', baseStats.multipliers.speed, 'divider:', baseStats.dividers.speed);
             //let spriteY = $sprite.y;
             let [ modX, modY ] = this.getOffsetPosition(config.x, config.y);
+            let yFrom = modY;
+            let yTo = modY - config.scale;
             let speedMod = baseStats.dividers.speed;
             $sprite.subTweens.idleBounceTween = scene.add.tween({
                 targets: $sprite,
-                y: {from: modY, to: modY - 2},
+                y: {from: yFrom, to: yTo},
                 ease: 'Stepped',
                 delay: Math.ceil(speedMod * 300),
                 repeatDelay: 100 + Math.ceil(speedMod * 200),
