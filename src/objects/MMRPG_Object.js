@@ -1380,15 +1380,16 @@ class MMRPG_Object {
         let baseStats = this.data.baseStats;
         let speedMod = baseStats.multipliers.speed;
         let speedMod2 = baseStats.dividers.speed;
-        let slideMax = (config.hitbox[0] * config.scale * 2) + Math.ceil(config.hitbox[0] * config.scale * 2 * speedMod);
-        let slideDistance = distance || slideMax;
-        let slideElevation = elevation || 0;
-        let slideDuration = 1000 + (1000 * speedMod2);
+        let distanceMax = (config.hitbox[0] * config.scale * 2) + Math.ceil(config.hitbox[0] * config.scale * 2 * speedMod);
+        let elevationMax = 0;
+        let durationMax = 1000 + (1000 * speedMod2);
+        let slideDistance = distance || distanceMax;
+        let slideElevation = elevation || elevationMax;
+        let slideDuration = duration || Math.ceil((slideDistance / distanceMax) * durationMax);
         //console.log(this.token+' | -> baseStats = ', baseStats);
-        //console.log(this.token+' | -> slideMax = ', slideMax);
-        //console.log(this.token+' | -> slideDistance = ', slideDistance);
-        //console.log(this.token+' | -> slideElevation = ', slideElevation);
-        //console.log(this.token+' | -> slideDuration = ', slideDuration);
+        //console.log(this.token+' | -> distance:', distance, 'distanceMax:', distanceMax, 'slideDistance:', slideDistance);
+        //console.log(this.token+' | -> elevation:', elevation, 'elevationMax:', elevationMax, 'slideElevation:', slideElevation);
+        //console.log(this.token+' | -> duration:', duration, 'durationMax:', durationMax, 'slideDuration:', slideDuration);
 
         // Calcuylate the new X and Y positions for the sprite to slide to
         let newX = slideDistance ? ((direction === 'left' ? '-=' : '+=') + slideDistance) : null;
@@ -1456,15 +1457,16 @@ class MMRPG_Object {
         let baseStats = this.data.baseStats;
         let speedMod = baseStats.multipliers.speed;
         let speedMod2 = baseStats.dividers.speed;
-        let runMax = (config.hitbox[0] * config.scale * 2) + Math.ceil(config.hitbox[0] * config.scale * 2 * speedMod);
-        let runDistance = distance || runMax;
-        let runElevation = elevation || 0;
-        let runDuration = 1000 + (1000 * speedMod2);
+        let distanceMax = (config.hitbox[0] * config.scale * 2) + Math.ceil(config.hitbox[0] * config.scale * 2 * speedMod);
+        let elevationMax = 0;
+        let durationMax = 1000 + (1000 * speedMod2);
+        let runDistance = distance || distanceMax;
+        let runElevation = elevation || elevationMax;
+        let runDuration = duration || Math.ceil((runDistance / distanceMax) * durationMax);
         //console.log(this.token+' | -> baseStats = ', baseStats);
-        //console.log(this.token+' | -> runMax = ', runMax);
-        //console.log(this.token+' | -> runDistance = ', runDistance);
-        //console.log(this.token+' | -> runElevation = ', runElevation);
-        //console.log(this.token+' | -> runDuration = ', runDuration);
+        //console.log(this.token+' | -> distance:', distance, 'distanceMax:', distanceMax, 'runDistance:', runDistance);
+        //console.log(this.token+' | -> elevation:', elevation, 'elevationMax:', elevationMax, 'runElevation:', runElevation);
+        //console.log(this.token+' | -> duration:', duration, 'durationMax:', durationMax, 'runDuration:', runDuration);
 
         // Calcuylate the new X and Y positions for the sprite to run to
         let newX = runDistance ? ((direction === 'left' ? '-=' : '+=') + runDistance) : null;
