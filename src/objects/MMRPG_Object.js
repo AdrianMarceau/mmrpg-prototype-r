@@ -1383,7 +1383,7 @@ class MMRPG_Object {
         let slideMax = (config.hitbox[0] * config.scale * 2) + Math.ceil(config.hitbox[0] * config.scale * 2 * speedMod);
         let slideDistance = distance || slideMax;
         let slideElevation = elevation || 0;
-        let slideDuration = 1500 + (1000 * speedMod2);
+        let slideDuration = 1000 + (1000 * speedMod2);
         //console.log(this.token+' | -> baseStats = ', baseStats);
         //console.log(this.token+' | -> slideMax = ', slideMax);
         //console.log(this.token+' | -> slideDistance = ', slideDistance);
@@ -1459,7 +1459,7 @@ class MMRPG_Object {
         let runMax = (config.hitbox[0] * config.scale * 2) + Math.ceil(config.hitbox[0] * config.scale * 2 * speedMod);
         let runDistance = distance || runMax;
         let runElevation = elevation || 0;
-        let runDuration = 1500 + (1000 * speedMod2);
+        let runDuration = 1000 + (1000 * speedMod2);
         //console.log(this.token+' | -> baseStats = ', baseStats);
         //console.log(this.token+' | -> runMax = ', runMax);
         //console.log(this.token+' | -> runDistance = ', runDistance);
