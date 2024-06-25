@@ -151,6 +151,21 @@ export default class TitleScene extends Phaser.Scene
         // We can also show the debug button now too
         this.debugButton = BUTTONS.addDebugButton(this);
 
+        // Now that everything else is done, print a welcome message in the console log
+        // for anyone who's interested in the game's development or debugging
+        var titleText = 'Welcome to ' + MMRPG.title;
+        console.log(
+            ('%c ') + ('%c ') + ('%c ') +
+            ('%c '+titleText+' ') +
+            ('%c ') + ('%c ') + ('%c '),
+            'background-color: #018894;', 'background-color: #bcf819;', '',
+            'font-weight: bold; background-color: #090909; color: #ffffff; ',
+            '', 'background-color: #bcf819;', 'background-color: #018894;',
+            );
+        console.log('Developed by ' + MMRPG.developer + ' | Help from ' + MMRPG.contributors.join(', ') + ', more.');
+        if (MMRPG.copyright){ console.log(MMRPG.copyright); }
+        console.log('Version: ' + MMRPG.version + ' | Last-Updated: ' + MMRPG.modified);
+
     }
 
     update (time, delta)
