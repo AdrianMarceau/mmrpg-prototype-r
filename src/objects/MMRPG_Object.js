@@ -1468,6 +1468,12 @@ class MMRPG_Object {
         // Predefine the move configuration for the animation
         let moveConfig = {
             easing: 'Sine.easeOut',
+            onUpdate: function($sprite, tween){
+                if (tween.progress >= 0.8
+                    && _this.frame !== 'defend'){
+                    _this.setFrame('defend');
+                    }
+                }
             };
 
         // Remove any existing slide timers or tweens and then create a new one
@@ -1475,9 +1481,8 @@ class MMRPG_Object {
         this.isMoving = true;
         this.isAnimating = true;
         this.setFrame('defend');
-        let spriteTimers = $sprite.subTimers;
-        if (spriteTimers.slideAnimation){ spriteTimers.slideAnimation.remove(); }
-        spriteTimers.slideAnimation = this.delayedCall(100, function(){
+        if ($sprite.subTimers.slideAnimation){ $sprite.subTimers.slideAnimation.remove(); }
+        $sprite.subTimers.slideAnimation = this.delayedCall(100, function(){
             this.setFrame('slide');
             _this.moveToPosition(newX, newY, slideDuration, function(){
                 _this.delayedCall(100, function(){
@@ -1576,9 +1581,8 @@ class MMRPG_Object {
         this.isMoving = true;
         this.isAnimating = true;
         this.setFrame('command');
-        let spriteTimers = $sprite.subTimers;
-        if (spriteTimers.runAnimation){ spriteTimers.runAnimation.remove(); }
-        spriteTimers.runAnimation = this.delayedCall(100, function(){
+        if ($sprite.subTimers.runAnimation){ $sprite.subTimers.runAnimation.remove(); }
+        $sprite.subTimers.runAnimation = this.delayedCall(100, function(){
             $sprite.play(runAnim);
             _this.moveToPosition(newX, newY, runDuration, function(){
                 _this.delayedCall(100, function(){
@@ -1618,6 +1622,7 @@ class MMRPG_Object {
 
         // Predefine some defaults for the move config
         moveConfig.easing  = moveConfig.easing || 'Linear';
+        moveConfig.onUpdate = moveConfig.onUpdate || null;
 
         // Parse any relative string values from the x and y to get rel values
         x = Math.round(Graphics.parseRelativePosition(x, config.x));
@@ -1640,7 +1645,7 @@ class MMRPG_Object {
             }
 
         // Otherwise we create a tween to move the sprite to the new position
-        $sprite.subTweens.moveTween = scene.tweens.add({
+        let moveTween = scene.tweens.add({
             targets: $sprite,
             x: modX,
             y: modY,
@@ -1655,6 +1660,7 @@ class MMRPG_Object {
                 _this.y = revModY;
                 $hitbox.y = revModY;
                 _this.isMoving = true;
+                if (moveConfig.onUpdate){ moveConfig.onUpdate.call(_this, $sprite, moveTween); }
                 },
             onComplete: () => { // Use arrow function to preserve `this`
                 config.x = finalX;
@@ -1668,6 +1674,7 @@ class MMRPG_Object {
                 return callback.call(_this, $sprite);
                 },
             });
+        $sprite.subTweens.moveTween = moveTween;
 
     }
 
@@ -1688,6 +1695,7 @@ class MMRPG_Object {
 
         // Predefine some defaults for the move config
         moveConfig.easing  = moveConfig.easing || 'Linear';
+        moveConfig.onUpdate = moveConfig.onUpdate || null;
 
         // Parse any relative string values from the x and y to get rel values
         x = Math.round(Graphics.parseRelativePosition(x, config.x));
@@ -1705,7 +1713,7 @@ class MMRPG_Object {
             }
 
         // Otherwise we create a tween to move the sprite to
-        $sprite.subTweens.moveTween = scene.tweens.add({
+        let moveTween = scene.tweens.add({
             targets: $sprite,
             x: modX,
             duration: duration,
@@ -1716,6 +1724,7 @@ class MMRPG_Object {
                 _this.x = revModX;
                 $hitbox.x = revModX;
                 _this.isMoving = true;
+                if (moveConfig.onUpdate){ moveConfig.onUpdate.call(_this, $sprite, moveTween); }
                 },
             onComplete: () => { // Use arrow function to preserve `this`
                 config.x = finalX;
@@ -1726,6 +1735,7 @@ class MMRPG_Object {
                 callback.call(_this, $sprite);
                 },
             });
+        $sprite.subTweens.moveTween = moveTween;
     }
 
     // Move the sprite a a new Y position on the canvas and then execute the callback if provided (do not touch the X)
@@ -1750,6 +1760,7 @@ class MMRPG_Object {
 
         // Predefine some defaults for the move config
         moveConfig.easing  = moveConfig.easing || 'Linear';
+        moveConfig.onUpdate = moveConfig.onUpdate || null;
 
         // If the duration was not set of was zero, move the sprite instantly
         if (!duration) {
@@ -1762,7 +1773,7 @@ class MMRPG_Object {
             }
 
         // Otherwise we create a tween
-        $sprite.subTweens.moveTween = scene.tweens.add({
+        let moveTween = scene.tweens.add({
             targets: $sprite,
             y: modY,
             duration: duration,
@@ -1773,6 +1784,7 @@ class MMRPG_Object {
                 _this.y = revModY;
                 $hitbox.y = revModY;
                 _this.isMoving = true;
+                if (moveConfig.onUpdate){ moveConfig.onUpdate.call(_this, $sprite, moveTween); }
                 },
             onComplete: () => { // Use arrow function to preserve `this`
                 config.y = finalY;
@@ -1783,6 +1795,7 @@ class MMRPG_Object {
                 callback.call(_this, $sprite);
                 },
             });
+        $sprite.subTweens.moveTween = moveTween;
 
     }
 
