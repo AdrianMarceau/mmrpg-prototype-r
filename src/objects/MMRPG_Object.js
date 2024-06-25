@@ -55,6 +55,7 @@ class MMRPG_Object {
 
         // If spriteConfig is provided, create a new sprite with it
         this.sprite = null;
+        this.spriteHitbox = null;
         this.spriteConfig = {};
         this.spriteFrames = ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09'];
         this.spriteFrameAliases = [];
@@ -80,6 +81,7 @@ class MMRPG_Object {
             spriteConfig.scale = spriteConfig.scale || 1;
             spriteConfig.offsetX = spriteConfig.offsetX || 0;
             spriteConfig.offsetY = spriteConfig.offsetY || 0;
+            spriteConfig.debug = spriteConfig.debug || false;
             if (SPRITES.config.baseSize){
                 let baseSize = SPRITES.config.baseSize;
                 if (spriteConfig.width > baseSize){ spriteConfig.offsetX = (spriteConfig.width - baseSize) / 2; }
@@ -95,6 +97,9 @@ class MMRPG_Object {
 
             // Automatically create the sprite with the spriteConfig provided
             this.createSprite();
+
+            // Automatically draw the hitbox on this sprite for click-functionality
+            this.createSpriteHitbox();
 
             }
 
@@ -991,14 +996,53 @@ class MMRPG_Object {
         this.createSpriteAnimations();
     }
 
+    // Creates the rectangular hitbox over top of the sprite for click-functionality, transparent by default but translucent magenta for debug
+    createSpriteHitbox ()
+    {
+        //console.log('MMRPG_Object.createSpriteHitbox() called for ', this.kind, this.token);
+
+        // Pull in references to required global objects
+        let _this = this;
+        let scene = this.scene;
+        let SPRITES = this.SPRITES;
+        if (!this.sprite) { return; }
+        let $sprite = this.sprite;
+        let config = this.spriteConfig;
+
+        // Define the hitbox config and create the hitbox sprite
+        let hitboxConfig = {
+            x: config.x,
+            y: config.y,
+            width: config.hitbox[0] * config.scale,
+            height: config.hitbox[1] * config.scale,
+            depth: config.depth + config.z + 1,
+            origin: [config.origin[0], config.origin[1]],
+            alpha: config.debug ? 0.5 : 0,
+            tint: 0xFF00FF,
+            };
+
+        // Create the hitbox sprite
+        //console.log('Creating hitbox sprite for ', this.token, ' w/ config:', hitboxConfig);
+        let $hitbox = scene.add.rectangle(hitboxConfig.x, hitboxConfig.y, hitboxConfig.width, hitboxConfig.height, hitboxConfig.tint, hitboxConfig.alpha);
+        $hitbox.setDepth(hitboxConfig.depth);
+        $hitbox.setOrigin(hitboxConfig.origin[0], hitboxConfig.origin[1]);
+        $hitbox.setAlpha(hitboxConfig.alpha);
+        //$hitbox.setInteractive();
+        this.spriteHitbox = $hitbox;
+
+    }
+
     // Update the existing sprite with any changes that have been made to the spriteConfig object
     updateSpriteGraphics ()
     {
         //console.log('MMRPG_Object.updateSpriteGraphics() called for ', this.kind, this.token, '\nw/ spriteConfig:', this.spriteConfig);
         if (!this.sprite) { return; }
         let $sprite = this.sprite;
+        let $hitbox = this.spriteHitbox;
         let config = this.spriteConfig;
         let [ modX, modY ] = this.getOffsetPosition(config.x, config.y);
+
+        // First update the sprite itself as that's most important
         $sprite.setPosition(modX, modY);
         $sprite.setDepth(config.depth + config.z);
         $sprite.setOrigin(config.origin[0], config.origin[1]);
@@ -1007,6 +1051,16 @@ class MMRPG_Object {
         $sprite.setFrame(config.frame);
         if (config.tint) { $sprite.setTint(config.tint); }
         $sprite.setTexture(config.sheet);
+
+        // Now update the hitbox with relevant changes
+        if ($hitbox){
+            let [ hitX, hitY ] = [ config.x, config.y ];
+            $hitbox.setPosition(hitX, hitY);
+            $hitbox.setDepth(config.depth + config.z + 1);
+            $hitbox.setOrigin(config.origin[0], config.origin[1]);
+            //console.log('-> updating hitbox sprite for ', this.token, ' w/ origin:', config.origin, 'x:', hitX, 'y:', hitY, 'config:', config);
+            }
+
     }
 
     // Update the objects public properties with the current sprite settings for those that might be accessed externally
@@ -1025,6 +1079,7 @@ class MMRPG_Object {
         this.alpha = $sprite.alpha;
         this.depth = $sprite.depth;
     }
+
 
     // -- SPRITE MANIPULATION -- //
 
@@ -1072,6 +1127,7 @@ class MMRPG_Object {
         //console.log('MMRPG_Object.setPosition() called w/ x:', x, 'y:', y);
         if (!this.sprite) { return; }
         let $sprite = this.sprite;
+        let $hitbox = this.spriteHitbox;
         let config = this.spriteConfig;
         x = Graphics.parseRelativePosition(x, config.x);
         y = Graphics.parseRelativePosition(y, config.y);
@@ -1081,6 +1137,7 @@ class MMRPG_Object {
         this.y = y;
         let [ modX, modY ] = this.getOffsetPosition(x, y);
         $sprite.setPosition(modX, modY);
+        $hitbox.setPosition(config.x, config.y);
     }
 
     // Return a given sprite's adjusted x and y position based on it's origin and offset
@@ -1297,11 +1354,12 @@ class MMRPG_Object {
             let data = this.data;
             let baseStats = data.baseStats;
             //console.log('-> speed | base:', baseStats.values.speed, 'average:', baseStats.average, 'multiplier:', baseStats.multipliers.speed, 'divider:', baseStats.dividers.speed);
-            let spriteY = $sprite.y;
+            //let spriteY = $sprite.y;
+            let [ modX, modY ] = this.getOffsetPosition(config.x, config.y);
             let speedMod = baseStats.dividers.speed;
             $sprite.subTweens.idleBounceTween = scene.add.tween({
                 targets: $sprite,
-                y: {from: spriteY, to: spriteY - 2},
+                y: {from: modY, to: modY - 2},
                 ease: 'Stepped',
                 delay: Math.ceil(speedMod * 300),
                 repeatDelay: 100 + Math.ceil(speedMod * 200),
@@ -1537,6 +1595,7 @@ class MMRPG_Object {
         let scene = this.scene;
         let config = this.spriteConfig;
         let $sprite = this.sprite;
+        let $hitbox = this.spriteHitbox;
 
         // If the sprite is already moving, stop it and move it to the new position instantly
         this.stopMoving();
@@ -1554,7 +1613,9 @@ class MMRPG_Object {
             config.y = finalY;
             _this.y = finalY;
             $sprite.x = modX;
+            $hitbox.x = modX;
             $sprite.y = modY;
+            $hitbox.y = modY;
             if (!callback) { return; }
             return callback.call(_this, $sprite);
             }
@@ -1567,18 +1628,22 @@ class MMRPG_Object {
             duration: duration,
             ease: easing, //'Linear',
             onUpdate: () => {
-                let [ modX, modY ] = this.reverseOffsetPosition($sprite.x, $sprite.y);
-                config.x = modX;
-                _this.x = modX;
-                config.y = modY;
-                _this.y = modY;
+                let [ revModX, revModY ] = this.reverseOffsetPosition($sprite.x, $sprite.y);
+                config.x = revModX;
+                _this.x = revModX;
+                $hitbox.x = revModX;
+                config.y = revModY;
+                _this.y = revModY;
+                $hitbox.y = revModY;
                 _this.isMoving = true;
                 },
             onComplete: () => { // Use arrow function to preserve `this`
                 config.x = finalX;
                 _this.x = finalX;
+                $hitbox.x = finalX;
                 config.y = finalY;
                 _this.y = finalY;
+                $hitbox.y = finalY;
                 _this.isMoving = false;
                 if (!callback) { return; }
                 return callback.call(_this, $sprite);
@@ -1597,6 +1662,7 @@ class MMRPG_Object {
         let scene = this.scene;
         let config = this.spriteConfig;
         let $sprite = this.sprite;
+        let $hitbox = this.spriteHitbox;
 
         // If the sprite is already moving, stop it and move it to the new position instantly
         this.stopMoving();
@@ -1611,6 +1677,7 @@ class MMRPG_Object {
             config.x = finalX;
             _this.x = finalX;
             $sprite.x = modX;
+            $hitbox.x = modX;
             if (callback) { callback.call(_this, $sprite); }
             return;
             }
@@ -1622,14 +1689,16 @@ class MMRPG_Object {
             duration: duration,
             ease: easing, //'Linear',
             onUpdate: () => {
-                let [ modX, modY ] = this.reverseOffsetPosition($sprite.x, $sprite.y);
-                config.x = modX;
-                _this.x = modX;
+                let [ revModX, revModY ] = this.reverseOffsetPosition($sprite.x, $sprite.y);
+                config.x = revModX;
+                _this.x = revModX;
+                $hitbox.x = revModX;
                 _this.isMoving = true;
                 },
             onComplete: () => { // Use arrow function to preserve `this`
                 config.x = finalX;
                 _this.x = finalX;
+                $hitbox.x = finalX;
                 _this.isMoving = false;
                 if (!callback) { return; }
                 callback.call(_this, $sprite);
@@ -1647,6 +1716,7 @@ class MMRPG_Object {
         let scene = this.scene;
         let config = this.spriteConfig;
         let $sprite = this.sprite;
+        let $hitbox = this.spriteHitbox;
 
         // If the sprite is already moving, stop it and move it to the new position
         this.stopMoving();
@@ -1661,6 +1731,7 @@ class MMRPG_Object {
             config.y = finalY;
             _this.y = finalY;
             $sprite.y = modY;
+            $hitbox.y = modY;
             if (callback) { callback.call(_this, $sprite); }
             return;
             }
@@ -1672,14 +1743,16 @@ class MMRPG_Object {
             duration: duration,
             ease: easing, //'Linear',
             onUpdate: () => {
-                let [ modX, modY ] = this.reverseOffsetPosition($sprite.x, $sprite.y);
-                config.y = modY;
-                _this.y = modY;
+                let [ revModX, revModY ] = this.reverseOffsetPosition($sprite.x, $sprite.y);
+                config.y = revModY;
+                _this.y = revModY;
+                $hitbox.y = revModY;
                 _this.isMoving = true;
                 },
             onComplete: () => { // Use arrow function to preserve `this`
                 config.y = finalY;
                 _this.y = finalY;
+                $hitbox.y = finalY;
                 _this.isMoving = false;
                 if (!callback) { return; }
                 callback.call(_this, $sprite);
@@ -1714,9 +1787,10 @@ class MMRPG_Object {
         if (!this.sprite) { return; }
         let _this = this;
         let $sprite = this.sprite;
-        $sprite.setInteractive({ useHandCursor: true });
-        $sprite.on('pointerdown', (pointer, localX, localY) => {
-            callback.call(this, _this.sprite, pointer, localX, localY);
+        let $hitbox = this.spriteHitbox;
+        $hitbox.setInteractive({ useHandCursor: true });
+        $hitbox.on('pointerdown', (pointer, localX, localY) => {
+            callback.call(this, $sprite, pointer, localX, localY);
             });
     }
 
@@ -1727,12 +1801,13 @@ class MMRPG_Object {
         if (!this.sprite) { return; }
         let _this = this;
         let $sprite = this.sprite;
-        $sprite.setInteractive({ useHandCursor: true });
-        $sprite.on('pointerover', (pointer, localX, localY) => {
+        let $hitbox = this.spriteHitbox;
+        $hitbox.setInteractive({ useHandCursor: true });
+        $hitbox.on('pointerover', (pointer, localX, localY) => {
             callback.call(_this, $sprite, pointer, localX, localY);
             });
         if (callback2) {
-            $sprite.on('pointerout', (pointer, localX, localY) => {
+            $hitbox.on('pointerout', (pointer, localX, localY) => {
                 callback2.call(_this, $sprite, pointer, localX, localY);
                 });
             }
@@ -1744,7 +1819,8 @@ class MMRPG_Object {
         //console.log('MMRPG_Object.removeOnClick() called');
         if (!this.sprite) { return; }
         let $sprite = this.sprite;
-        $sprite.removeAllListeners('pointerdown');
+        let $hitbox = this.spriteHitbox;
+        $hitbox.removeAllListeners('pointerdown');
     }
 
     // Remove any hover events this sprite may have assigned to it
@@ -1753,8 +1829,9 @@ class MMRPG_Object {
         //console.log('MMRPG_Object.removeOnHover() called');
         if (!this.sprite) { return; }
         let $sprite = this.sprite;
-        $sprite.removeAllListeners('pointerover');
-        $sprite.removeAllListeners('pointerout');
+        let $hitbox = this.spriteHitbox;
+        $hitbox.removeAllListeners('pointerover');
+        $hitbox.removeAllListeners('pointerout');
     }
 
 
@@ -1767,9 +1844,14 @@ class MMRPG_Object {
         let SPRITES = this.SPRITES;
         let scene = this.scene;
         let $sprite = this.sprite;
+        let $hitbox = this.spriteHitbox;
         if ($sprite) {
             SPRITES.destroySpriteAndCleanup(scene, $sprite);
-            delete this.sprite;
+            this.sprite = null;
+            }
+        if ($hitbox) {
+            $hitbox.destroy();
+            this.spriteHitbox = null;
             }
 
         // Perform any additional cleanup if needed
