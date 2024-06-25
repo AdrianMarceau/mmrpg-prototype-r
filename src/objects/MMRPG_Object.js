@@ -81,6 +81,7 @@ class MMRPG_Object {
             spriteConfig.scale = spriteConfig.scale || 1;
             spriteConfig.offsetX = spriteConfig.offsetX || 0;
             spriteConfig.offsetY = spriteConfig.offsetY || 0;
+            spriteConfig.interactive = spriteConfig.interactive || false;
             spriteConfig.debug = spriteConfig.debug || false;
             if (SPRITES.config.baseSize){
                 let baseSize = SPRITES.config.baseSize;
@@ -1005,8 +1006,6 @@ class MMRPG_Object {
         let _this = this;
         let scene = this.scene;
         let SPRITES = this.SPRITES;
-        if (!this.sprite) { return; }
-        let $sprite = this.sprite;
         let config = this.spriteConfig;
 
         // Define the hitbox config and create the hitbox sprite
@@ -1017,17 +1016,19 @@ class MMRPG_Object {
             height: config.hitbox[1] * config.scale,
             depth: config.depth + config.z + 1,
             origin: [config.origin[0], config.origin[1]],
-            alpha: config.debug ? 0.5 : 0,
+            alpha: 0.5,
             tint: 0xFF00FF,
             };
 
-        // Create the hitbox sprite
+        // Create the hitbox zone where we can click on the sprite
         //console.log('Creating hitbox sprite for ', this.token, ' w/ config:', hitboxConfig);
-        let $hitbox = scene.add.rectangle(hitboxConfig.x, hitboxConfig.y, hitboxConfig.width, hitboxConfig.height, hitboxConfig.tint, hitboxConfig.alpha);
+        //let $hitbox = scene.add.rectangle(hitboxConfig.x, hitboxConfig.y, hitboxConfig.width, hitboxConfig.height, hitboxConfig.tint, hitboxConfig.alpha);
+        let $hitbox = scene.add.zone(hitboxConfig.x, hitboxConfig.y, hitboxConfig.width, hitboxConfig.height);
+        $hitbox.setRectangleDropZone(hitboxConfig.width, hitboxConfig.height);
         $hitbox.setDepth(hitboxConfig.depth);
         $hitbox.setOrigin(hitboxConfig.origin[0], hitboxConfig.origin[1]);
         $hitbox.setAlpha(hitboxConfig.alpha);
-        //$hitbox.setInteractive();
+
         this.spriteHitbox = $hitbox;
 
     }
@@ -1058,6 +1059,8 @@ class MMRPG_Object {
             $hitbox.setPosition(hitX, hitY);
             $hitbox.setDepth(config.depth + config.z + 1);
             $hitbox.setOrigin(config.origin[0], config.origin[1]);
+            //if (config.debug){ $hitbox.setVisible(true); }
+            //else { $hitbox.setVisible(false); }
             //console.log('-> updating hitbox sprite for ', this.token, ' w/ origin:', config.origin, 'x:', hitX, 'y:', hitY, 'config:', config);
             }
 
@@ -1411,6 +1414,7 @@ class MMRPG_Object {
             }
         $sprite.stop();
         this.isAnimating = false;
+        this.updateSpriteGraphics();
     }
 
     // Start the slide animation for this sprite and move it laterally across the screen given it's next direction
@@ -1780,6 +1784,27 @@ class MMRPG_Object {
 
     // -- SPRITE INTERACTIONS -- //
 
+    // Make this sprite interactive by making the hitzone above it interactive (if not already done so)
+    setInteractive ()
+    {
+        //console.log('MMRPG_Object.setInteractive() called');
+        if (!this.sprite) { return; }
+        let $sprite = this.sprite;
+        let config = this.spriteConfig;
+        let $hitbox = this.spriteHitbox;
+        if (config.interactive){ return; }
+        $hitbox.setInteractive({ useHandCursor: true });
+        $hitbox.on('pointerover', (pointer, localX, localY) => {
+            //console.log('-> pointerover', pointer, localX, localY);
+            document.body.style.cursor = 'pointer';
+            });
+        $hitbox.on('pointerout', (pointer, localX, localY) => {
+            //console.log('-> pointerout', pointer, localX, localY);
+            document.body.style.cursor = 'default';
+            });
+        config.interactive = true;
+    }
+
     // Set a custom callback function to when when this sprite is clicked
     setOnClick (callback)
     {
@@ -1788,7 +1813,7 @@ class MMRPG_Object {
         let _this = this;
         let $sprite = this.sprite;
         let $hitbox = this.spriteHitbox;
-        $hitbox.setInteractive({ useHandCursor: true });
+        this.setInteractive();
         $hitbox.on('pointerdown', (pointer, localX, localY) => {
             callback.call(this, $sprite, pointer, localX, localY);
             });
@@ -1802,7 +1827,7 @@ class MMRPG_Object {
         let _this = this;
         let $sprite = this.sprite;
         let $hitbox = this.spriteHitbox;
-        $hitbox.setInteractive({ useHandCursor: true });
+        this.setInteractive();
         $hitbox.on('pointerover', (pointer, localX, localY) => {
             callback.call(_this, $sprite, pointer, localX, localY);
             });
