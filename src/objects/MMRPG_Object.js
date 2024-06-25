@@ -145,9 +145,10 @@ class MMRPG_Object {
         let _this = this;
         let MMRPG = this.MMRPG;
         let scene = this.scene;
-        scene.time.delayedCall(delay, function(){
+        let delayedCall = scene.time.delayedCall(delay, function(){
             return callback.call(_this);
             }, [], scene);
+        return delayedCall;
     }
 
 
