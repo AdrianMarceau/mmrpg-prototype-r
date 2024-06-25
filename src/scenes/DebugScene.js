@@ -196,8 +196,8 @@ export default class DebugScene extends Phaser.Scene
         let SOUNDS = this.SOUNDS;
 
         // Always print these when starting the DEBUG scene
-        console.log('MMRPG = ', MMRPG);
-        console.log('SPRITES =', SPRITES);
+        console.log('%c->%c MMRPG:', 'color: #bcf819;', '', MMRPG);
+        //console.log('>> SPRITES:', SPRITES);
 
         // First we add the title banner up at the top
         this.createTitleBanner();
@@ -295,16 +295,17 @@ export default class DebugScene extends Phaser.Scene
 
             // Create some primitive MMRPG objects for testing purposes
             var depth = 9000;
-            var debug = {};
-            debug.player = new MMRPG_Player(this, 'dr-light', null, { x: 40, y: 40, z: depth++ });
-            debug.robot = new MMRPG_Robot(this, 'mega-man', null, { x: 80, y: 80, z: depth++ });
-            debug.robot2 = new MMRPG_Robot(this, 'quick-man', null, { x: 120, y: 80, z: depth++ });
-            debug.robot3 = new MMRPG_Robot(this, 'wood-man', null, { x: 160, y: 80, z: depth++ });
-            debug.ability = new MMRPG_Ability(this, 'buster-shot', null, { x: 140, y: 120, z: depth++ });
-            debug.item = new MMRPG_Item(this, 'energy-tank', null, { x: 160, y: 180, z: depth++ });
-            debug.field = new MMRPG_Field(this, 'preserved-forest', null, { x: 220, y: 200, z: depth++ });
-            debug.skill = new MMRPG_Skill(this, 'xtreme-submodule', null);
-            debug.type = new MMRPG_Type(this, 'water');
+            var baseX = 50, baseY = 150;
+            var $debugObjects = {};
+            $debugObjects.player = new MMRPG_Player(this, 'dr-light', null, { x: (baseX + 0), y: (baseY + 0), z: depth++, origin: [0.5, 1] });
+            $debugObjects.robot = new MMRPG_Robot(this, 'mega-man', null, { x: (baseX + 0), y: (baseY + 40), z: depth++, origin: [0.5, 1] });
+            $debugObjects.robot2 = new MMRPG_Robot(this, 'quick-man', null, { x: (baseX + 40), y: (baseY + 40), z: depth++, origin: [0.5, 1] });
+            $debugObjects.robot3 = new MMRPG_Robot(this, 'wood-man', null, { x: (baseX + 80), y: (baseY + 40), z: depth++, origin: [0.5, 1] });
+            $debugObjects.ability = new MMRPG_Ability(this, 'buster-shot', null, { x: (baseX + 0), y: (baseY + 80), z: depth++, origin: [0.5, 1] });
+            $debugObjects.item = new MMRPG_Item(this, 'energy-tank', null, { x: (baseX + 0), y: (baseY + 120), z: depth++, origin: [0.5, 1] });
+            $debugObjects.field = new MMRPG_Field(this, 'preserved-forest', null, { x: (baseX + 0), y: (baseY + 160), z: depth++, origin: [0.5, 1] });
+            $debugObjects.skill = new MMRPG_Skill(this, 'xtreme-submodule', null);
+            $debugObjects.type = new MMRPG_Type(this, 'water');
             let onClickTestObject = function(){
                 SOUNDS.play('link-click', {volume: 0.3});
                 this.stopIdleAnimation();
@@ -315,13 +316,14 @@ export default class DebugScene extends Phaser.Scene
                         });
                     });
                 };
-            for (let key in debug){
-                let $sprite = debug[key];
+            for (let key in $debugObjects){
+                let $sprite = $debugObjects[key];
                 $sprite.setShadow(true);
                 $sprite.startIdleAnimation(true, true);
                 $sprite.setOnClick(onClickTestObject);
-                console.log('$'+key+' =', $sprite);
+                //console.log('$'+key+' =', $sprite);
                 }
+            console.log('-> $debugObjects:', $debugObjects);
 
             // Create some mods of the above to see what's possible
             var $ref = this.battleBanner;
@@ -331,11 +333,13 @@ export default class DebugScene extends Phaser.Scene
             // Define a custom hover effect for all the custom robot masters/bosses/mechas
             let customMouseOver = function(){
                 if (this.isMoving){ return; }
+                this.stopIdleAnimation();
                 this.setFrame('taunt');
                 };
             let customMouseOut = function(){
                 if (this.isMoving){ return; }
                 this.resetFrame();
+                this.startIdleAnimation();
                 };
 
             // Define a custom click event for all the custom robot masters/bosses/mechas
@@ -392,25 +396,6 @@ export default class DebugScene extends Phaser.Scene
                         customPostMoveCheck.call(this, duration);
                         });
                     }
-                if (this.x < 0){
-                    this.stopIdleAnimation();
-                    if (this.direction === 'left'){ this.flipDirection(); }
-                    this.setFrame('slide');
-                    this.moveToPosition(100, null, 1000, function(){
-                        this.setFrame('base');
-                        this.startIdleAnimation();
-                        customPostMoveCheck.call(this, duration);
-                        });
-                    } else if (this.x > MMRPG.canvas.width){
-                    this.stopIdleAnimation();
-                    if (this.direction === 'right'){ this.flipDirection(); }
-                    this.setFrame('slide');
-                    this.moveToPosition(MMRPG.canvas.width - 100, null, 1000, function(){
-                        this.setFrame('base');
-                        this.startIdleAnimation();
-                        customPostMoveCheck.call(this, duration);
-                        });
-                    }
                 };
 
             let $customBoss = new MMRPG_Robot(this, 'slur', {
@@ -427,7 +412,7 @@ export default class DebugScene extends Phaser.Scene
             $customBoss.startIdleAnimation();
             $customBoss.setOnHover(customMouseOver, customMouseOut);
             $customBoss.setOnClick(customClickEvent);
-            console.log('$customBoss =', $customBoss);
+            console.log('-> $customBoss:', $customBoss);
 
             let $customGuardian = new MMRPG_Robot(this, 'duo', {
                 // ...
@@ -443,7 +428,7 @@ export default class DebugScene extends Phaser.Scene
             $customGuardian.startIdleAnimation();
             $customGuardian.setOnHover(customMouseOver, customMouseOut);
             $customGuardian.setOnClick(customClickEvent);
-            console.log('$customGuardian =', $customGuardian);
+            console.log('-> $customGuardian:', $customGuardian);
 
             let $customRobot = new MMRPG_Robot(this, 'proto-man', {
                 image_alt: 'water'
@@ -459,7 +444,7 @@ export default class DebugScene extends Phaser.Scene
             $customRobot.startIdleAnimation();
             $customRobot.setOnHover(customMouseOver, customMouseOut);
             $customRobot.setOnClick(customClickEvent);
-            console.log('$customRobot =', $customRobot);
+            console.log('-> $customRobot:', $customRobot);
 
             let $customRobot2 = new MMRPG_Robot(this, 'quick-man', {
                 image_alt: 'alt'
@@ -475,7 +460,7 @@ export default class DebugScene extends Phaser.Scene
             $customRobot2.startIdleAnimation();
             $customRobot2.setOnHover(customMouseOver, customMouseOut);
             $customRobot2.setOnClick(customClickEvent);
-            console.log('$customRobot2 =', $customRobot2);
+            console.log('-> $customRobot2:', $customRobot2);
 
             let $customMecha = new MMRPG_Robot(this, 'met', {
                 //image_alt: 'alt2'
@@ -492,7 +477,7 @@ export default class DebugScene extends Phaser.Scene
             $customMecha.startIdleAnimation();
             $customMecha.setOnHover(customMouseOver, customMouseOut);
             $customMecha.setOnClick(customClickEvent);
-            console.log('$customMecha =', $customMecha);
+            console.log('-> $customMecha:', $customMecha);
 
             /*
             // -- DEBUG SPRITE-ORIGIN TESTING -- //
