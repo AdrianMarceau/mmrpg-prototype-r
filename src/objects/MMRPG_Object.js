@@ -132,6 +132,18 @@ class MMRPG_Object {
             }
     }
 
+    // Execute a given callback after a certain amount of time gas passed
+    delayedCall (delay, callback)
+    {
+        //console.log('MMRPG_Object.delayedCall() called for ', this.kind, this.token, 'w/ delay:', delay, 'callback:', typeof callback);
+        let _this = this;
+        let MMRPG = this.MMRPG;
+        let scene = this.scene;
+        scene.time.delayedCall(delay, function(){
+            return callback.call(_this);
+            }, [], scene);
+    }
+
 
     // -- DATA CREATION -- //
 
