@@ -1023,13 +1023,16 @@ class MMRPG_Object {
 
         // Create the hitbox zone where we can click on the sprite
         //console.log('Creating hitbox sprite for ', this.token, ' w/ config:', hitboxConfig);
-        //let $hitbox = scene.add.rectangle(hitboxConfig.x, hitboxConfig.y, hitboxConfig.width, hitboxConfig.height, hitboxConfig.tint, hitboxConfig.alpha);
-        let $hitbox = scene.add.zone(hitboxConfig.x, hitboxConfig.y, hitboxConfig.width, hitboxConfig.height);
-        $hitbox.setRectangleDropZone(hitboxConfig.width, hitboxConfig.height);
+        let $hitbox;
+        if (config.debug){
+            $hitbox = scene.add.rectangle(hitboxConfig.x, hitboxConfig.y, hitboxConfig.width, hitboxConfig.height, hitboxConfig.tint, hitboxConfig.alpha);
+            $hitbox.setAlpha(hitboxConfig.alpha);
+            } else {
+            $hitbox = scene.add.zone(hitboxConfig.x, hitboxConfig.y, hitboxConfig.width, hitboxConfig.height);
+            $hitbox.setRectangleDropZone(hitboxConfig.width, hitboxConfig.height);
+            }
         $hitbox.setDepth(hitboxConfig.depth);
         $hitbox.setOrigin(hitboxConfig.origin[0], hitboxConfig.origin[1]);
-        $hitbox.setAlpha(hitboxConfig.alpha);
-
         this.spriteHitbox = $hitbox;
 
     }
@@ -1353,6 +1356,8 @@ class MMRPG_Object {
         let $sprite = this.sprite;
         let config = this.spriteConfig;
         let spritesIndex = this.SPRITES.index;
+        this.stopMoving();
+        this.stopIdleAnimation();
         const startBouncing = function(){
             // Animate the doctor bouncing up and down as they walk forward
             let data = this.data;
@@ -1393,10 +1398,14 @@ class MMRPG_Object {
             if (!animKey) { return; }
             $sprite.play(animKey);
             };
-        this.stopMoving();
-        if (bounce){ startBouncing.call(_this); }
-        if (emote){ startEmoting.call(_this); }
-        this.isAnimating = true;
+        if (bounce){
+            startBouncing.call(_this);
+            this.isAnimating = true;
+            }
+        if (emote){
+            startEmoting.call(_this);
+            this.isAnimating = true;
+            }
     }
 
     // Stop the idle animation currently playing on this sprite if one exists
@@ -1632,19 +1641,21 @@ class MMRPG_Object {
 
         // If the duration was not set of was zero, move the sprite instantly
         if (!duration) {
-            config.x = finalX;
+            //console.log(_this.token + ' | moveToPosition() \n-> moving sprite instantly to x:', x, 'y:', y, 'modX:', modX, 'modY:', modY, 'finalX:', finalX, 'finalY:', finalY);
             _this.x = finalX;
-            config.y = finalY;
             _this.y = finalY;
+            config.x = finalX;
+            config.y = finalY;
             $sprite.x = modX;
-            $hitbox.x = modX;
             $sprite.y = modY;
+            $hitbox.x = modX;
             $hitbox.y = modY;
-            if (!callback) { return; }
-            return callback.call(_this, $sprite);
+            if (callback){ callback.call(_this, $sprite); }
+            return;
             }
 
         // Otherwise we create a tween to move the sprite to the new position
+        //console.log(_this.token + ' | moveToPosition() \n-> tweening sprite to x:', x, 'y:', y, 'modX:', modX, 'modY:', modY, 'finalX:', finalX, 'finalY:', finalY);
         let moveTween = scene.tweens.add({
             targets: $sprite,
             x: modX,
@@ -1652,26 +1663,27 @@ class MMRPG_Object {
             duration: duration,
             ease: moveConfig.easing,
             onUpdate: () => {
+                //console.log(_this.token + ' | moveToPosition() \n-> sprite tween to x:', x, 'y:', y, 'in progress...');
                 let [ revModX, revModY ] = this.reverseOffsetPosition($sprite.x, $sprite.y);
-                config.x = revModX;
                 _this.x = revModX;
-                $hitbox.x = revModX;
-                config.y = revModY;
                 _this.y = revModY;
+                config.x = revModX;
+                config.y = revModY;
+                $hitbox.x = revModX;
                 $hitbox.y = revModY;
                 _this.isMoving = true;
                 if (moveConfig.onUpdate){ moveConfig.onUpdate.call(_this, $sprite, moveTween); }
                 },
             onComplete: () => { // Use arrow function to preserve `this`
-                config.x = finalX;
+                //console.log(_this.token + ' | moveToPosition() \n-> sprite tween to x:', x, 'y:', y, 'completed!');
                 _this.x = finalX;
-                $hitbox.x = finalX;
-                config.y = finalY;
                 _this.y = finalY;
+                config.x = finalX;
+                config.y = finalY;
+                $hitbox.x = finalX;
                 $hitbox.y = finalY;
                 _this.isMoving = false;
-                if (!callback) { return; }
-                return callback.call(_this, $sprite);
+                if (callback){ callback.call(_this, $sprite); }
                 },
             });
         $sprite.subTweens.moveTween = moveTween;
@@ -1704,11 +1716,11 @@ class MMRPG_Object {
 
         // If the duration was not set of was zero, move the sprite instantly
         if (!duration) {
-            config.x = finalX;
             _this.x = finalX;
+            config.x = finalX;
             $sprite.x = modX;
             $hitbox.x = modX;
-            if (callback) { callback.call(_this, $sprite); }
+            if (callback){ callback.call(_this, $sprite); }
             return;
             }
 
@@ -1720,19 +1732,18 @@ class MMRPG_Object {
             ease: moveConfig.easing,
             onUpdate: () => {
                 let [ revModX, revModY ] = this.reverseOffsetPosition($sprite.x, $sprite.y);
-                config.x = revModX;
                 _this.x = revModX;
+                config.x = revModX;
                 $hitbox.x = revModX;
                 _this.isMoving = true;
                 if (moveConfig.onUpdate){ moveConfig.onUpdate.call(_this, $sprite, moveTween); }
                 },
             onComplete: () => { // Use arrow function to preserve `this`
-                config.x = finalX;
                 _this.x = finalX;
+                config.x = finalX;
                 $hitbox.x = finalX;
                 _this.isMoving = false;
-                if (!callback) { return; }
-                callback.call(_this, $sprite);
+                if (callback){ callback.call(_this, $sprite); }
                 },
             });
         $sprite.subTweens.moveTween = moveTween;
@@ -1764,11 +1775,11 @@ class MMRPG_Object {
 
         // If the duration was not set of was zero, move the sprite instantly
         if (!duration) {
-            config.y = finalY;
             _this.y = finalY;
+            config.y = finalY;
             $sprite.y = modY;
             $hitbox.y = modY;
-            if (callback) { callback.call(_this, $sprite); }
+            if (callback){ callback.call(_this, $sprite); }
             return;
             }
 
@@ -1780,19 +1791,18 @@ class MMRPG_Object {
             ease: moveConfig.easing,
             onUpdate: () => {
                 let [ revModX, revModY ] = this.reverseOffsetPosition($sprite.x, $sprite.y);
-                config.y = revModY;
                 _this.y = revModY;
+                config.y = revModY;
                 $hitbox.y = revModY;
                 _this.isMoving = true;
                 if (moveConfig.onUpdate){ moveConfig.onUpdate.call(_this, $sprite, moveTween); }
                 },
             onComplete: () => { // Use arrow function to preserve `this`
-                config.y = finalY;
                 _this.y = finalY;
+                config.y = finalY;
                 $hitbox.y = finalY;
                 _this.isMoving = false;
-                if (!callback) { return; }
-                callback.call(_this, $sprite);
+                if (callback){ callback.call(_this, $sprite); }
                 },
             });
         $sprite.subTweens.moveTween = moveTween;
@@ -1805,12 +1815,29 @@ class MMRPG_Object {
         //console.log('MMRPG_Object.stopMoving() called for ', this.kind, this.token);
         let _this = this;
         if (!this.sprite) { return; }
+        if (!this.isMoving){ return; }
         if (this.spriteIsLoading){ return this.spriteMethodsQueued.push(function(){ _this.stopMoving(); }); }
         let $sprite = this.sprite;
         let config = this.spriteConfig;
         if ($sprite.subTweens.moveTween){
+            //console.log('-> stopping moveTween');
             $sprite.subTweens.moveTween.stop();
             delete $sprite.subTweens.moveTween;
+            }
+        if ($sprite.subTimers.slideAnimation){
+            //console.log('-> stopping slideAnimation');
+            $sprite.subTimers.slideAnimation.remove();
+            delete $sprite.subTimers.slideAnimation;
+            }
+        if ($sprite.subTimers.runAnimation){
+            //console.log('-> stopping runAnimation');
+            $sprite.subTimers.runAnimation.remove();
+            delete $sprite.subTimers.runAnimation;
+            }
+        if ($sprite.subTweens.runBounceTween){
+            //console.log('-> stopping runBounceTween');
+            $sprite.subTweens.runBounceTween.stop();
+            delete $sprite.subTweens.runBounceTween;
             }
         this.isMoving = false;
     }
