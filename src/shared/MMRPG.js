@@ -11,14 +11,18 @@ class MMRPG {
     constructor() {
 
         // Define the game's core properties
-        this.name = 'mmrpg-prototype-r';
-        this.title = 'Mega Man RPG: Prototype (Remake)';
-        this.created = '2024-05-20';
-        this.modified = '2024-06-26';
-        this.version = '4.0.240';
-        this.developer = 'Ageman20XX';
-        this.contributors = ['MegaBossMan', 'Rhythm_BCA'];
-        this.copyright = 'Mega Man Trademarks & Characters © Capcom 1986 - ' + new Date().getFullYear();
+        let metaData = window.mmrpgMetaData || {};
+        this.name = metaData.name || 'mmrpg-prototype-r';
+        this.title = metaData.title || 'Mega Man RPG: Prototype (Remake)';
+        this.created = metaData.created || '20XX-XX-XX';
+        this.modified = metaData.modified || '20XX-XX-XX';
+        this.version = metaData.version || '0.0.1';
+        this.developer = metaData.developer || 'Ageman20XX';
+        this.contributors = metaData.contributors || [];
+        this.copyright = metaData.copyright || 'Mega Man Trademarks & Characters © Capcom 1986 - 20XX';
+        if (this.copyright.indexOf('20XX') !== -1){
+            this.copyright = this.copyright.replace('20XX', (new Date().getFullYear()));
+            }
 
         // Define the absolute base width and height for the game canvas
         const baseWidth = 780;
@@ -38,6 +42,15 @@ class MMRPG {
             y: -9999,
             z: -9999,
             };
+
+        // Define some paths we might find useful later
+        this.paths = {};
+        this.paths.base = 'game/';
+        this.paths.content = 'content/';
+        this.paths.sounds = 'content/sounds/';
+        this.paths.source = 'src/'+this.version+'/';
+        this.paths.assets = 'src/'+this.version+'/assets/';
+        this.paths.indexes = 'src/'+this.version+'/indexes/';
 
         // Initialize the game's core arrays and objects
         this.Init = [];
