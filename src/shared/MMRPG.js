@@ -14,8 +14,8 @@ class MMRPG {
         this.name = 'mmrpg-prototype-r';
         this.title = 'Mega Man RPG: Prototype (Remake)';
         this.created = '2024-05-20';
-        this.modified = '2024-06-22';
-        this.version = '4.0.209';
+        this.modified = '2024-06-26';
+        this.version = '4.0.240';
         this.developer = 'Ageman20XX';
         this.contributors = ['MegaBossMan', 'Rhythm_BCA'];
         this.copyright = 'Mega Man Trademarks & Characters © Capcom 1986 - ' + new Date().getFullYear();
