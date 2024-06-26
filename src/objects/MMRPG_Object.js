@@ -410,6 +410,7 @@ class MMRPG_Object {
         // Pull in index references
         let _this = this;
         let scene = this.scene;
+        let MMRPG = this.MMRPG;
         let SPRITES = this.SPRITES;
         let spritesIndex = SPRITES.index;
         let objectConfig = this.objectConfig;
@@ -425,7 +426,8 @@ class MMRPG_Object {
         let altSheet = objectConfig.currentAltSheet || objectConfig.baseAltSheet;
         let altIsBase = objectConfig.currentAltSheetIsBase ? true : false;
         let pathToken = token === kind ? ('.' + kind) : token;
-        let basePath = 'content/'+ xkind + '/' + pathToken + '/sprites' + (!altIsBase ? '_'+altSheet : '') + '/';
+        let contentPath = MMRPG.paths.content;
+        let basePath = contentPath + xkind + '/' + pathToken + '/sprites' + (!altIsBase ? '_'+altSheet : '') + '/';
         let baseKey = 'sprites.' + xkind + '.' + token + '.' + altSheet;
         let spriteSize = indexInfo.image_size || 40;
         let spriteSizeX = spriteSize+'x'+spriteSize;
