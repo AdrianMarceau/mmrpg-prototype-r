@@ -468,7 +468,8 @@ export default class PreloaderScene extends Phaser.Scene
     {
         //console.log('PreloaderScene.queueIndex() called w/ index = ' + index + ', file = ' + file);
         let ctx = this;
-        let basePath = 'src/indexes/';
+        let MMRPG = this.MMRPG;
+        let basePath = MMRPG.paths.indexes;
         let indexName = file.replace('.json', '');
         let indexKey = 'indexes.' + indexName;
         let indexPath = basePath + file;
@@ -505,7 +506,8 @@ export default class PreloaderScene extends Phaser.Scene
     queueMockupImage (name, file)
     {
         let ctx = this;
-        let basePath = 'src/assets/';
+        let MMRPG = this.MMRPG;
+        let basePath = MMRPG.paths.assets;
         let mockupKey = 'mockups.' + name;
         let mockupPath = basePath + file;
         ctx.load.on('filecomplete', (file) => {
@@ -520,7 +522,8 @@ export default class PreloaderScene extends Phaser.Scene
     queueMiscImage (name, file)
     {
         let ctx = this;
-        let basePath = 'src/assets/';
+        let MMRPG = this.MMRPG;
+        let basePath = MMRPG.paths.assets;
         let miscKey = 'misc.' + name;
         let miscPath = basePath + file;
         ctx.load.on('filecomplete', (file) => {
@@ -535,7 +538,8 @@ export default class PreloaderScene extends Phaser.Scene
     queueAudio (name, file)
     {
         let ctx = this;
-        let basePath = 'content/sounds/';
+        let MMRPG = this.MMRPG;
+        let basePath = MMRPG.paths.sounds;
         let audioKey = 'sounds.' + name;
         let audioPath = basePath + file;
         ctx.load.on('filecomplete', (file) => {
@@ -551,7 +555,8 @@ export default class PreloaderScene extends Phaser.Scene
     {
         //console.log('PreloaderScene.queueAudioSprite() called w/ name = ' + name + ', jsonFile = ' + jsonFile + ', audioFiles = ', audioFiles);
         let ctx = this;
-        let basePath = 'content/sounds/';
+        let MMRPG = this.MMRPG;
+        let basePath = MMRPG.paths.sounds;
         let audioKey = 'sounds.' + name;
         let jsonPath = basePath + jsonFile;
         let audioPaths = audioFiles.map((file) => basePath + file);
