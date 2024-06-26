@@ -323,7 +323,7 @@ export default class DebugScene extends Phaser.Scene
                 $sprite.setOnClick(onClickTestObject);
                 //console.log('$'+key+' =', $sprite);
                 }
-            console.log('-> $debugObjects:', $debugObjects);
+            console.log('-> $debugObjects(small):', $debugObjects);
 
             // Create some mods of the above to see what's possible
             var $ref = this.battleBanner;
@@ -344,9 +344,11 @@ export default class DebugScene extends Phaser.Scene
 
             // Define a custom click event for all the custom robot masters/bosses/mechas
             let customClickEvent = function($sprite, pointer, localX, localY){
+                //console.log('%c' + this.token+' | customClickEvent() called', 'color: magenta;');
                 this.incrementCounter('clicks');
                 //console.log('clicks =', this.getCounter('clicks'));
                 SOUNDS.play('link-click', {volume: 0.3});
+                this.stopMoving();
                 this.stopIdleAnimation();
                 var runDirX = (localX >= (this.width / 2) ? 'left' : 'right');
                 var runDirY = (localY >= (this.height / 2) ? 'up' : 'down');
@@ -359,24 +361,25 @@ export default class DebugScene extends Phaser.Scene
                 else { duration *= speedMod; }
                 this.setFrame('slide');
                 this.moveToPosition(newX, newY, duration, function(){
-                    this.setFrame('base');
-                    this.startIdleAnimation();
+                    //console.log(this.token+' | customClickEvent movement complete (A)!');
                     return customPostMoveCheck.call(this, duration);
                     });
                 };
 
             // Define a custom function to be run post-movement to check and readjust if offscreen
+            let customBounds = this.battleBanner.getBounds(); // contains xMin, yMin, xMax, yMax
+            //console.log('customBounds =', customBounds);
             let customPostMoveCheck = function(duration){
+                //console.log('%c' + this.token+' | customPostMoveCheck() called', 'color: pink;');
                 let offset = {h: 0, v: 0};
                 let correction = 100;
-                let leeway = 40;
-                if ((this.x - leeway) < MMRPG.canvas.xMin){ offset.h = (this.x - leeway); }
-                else if ((this.x + leeway) > MMRPG.canvas.xMax){ offset.h = (this.x + leeway) - MMRPG.canvas.xMax; }
-                if ((this.y - leeway) < MMRPG.canvas.yMin){ offset.v = (this.y - leeway); }
-                else if ((this.y + leeway) > MMRPG.canvas.yMax){ offset.v = (this.y + leeway) - MMRPG.canvas.yMax; }
-                //console.log('offset =', offset);
+                let leeway = this.spriteConfig.hitbox[0] * 2;
+                if ((this.x - leeway) < customBounds.xMin){ offset.h = (this.x - leeway); }
+                else if ((this.x + leeway) > customBounds.xMax){ offset.h = (this.x + leeway) - customBounds.xMax; }
+                if ((this.y - leeway) < customBounds.yMin){ offset.v = (this.y - leeway); }
+                else if ((this.y + leeway) > customBounds.yMax){ offset.v = (this.y + leeway) - customBounds.yMax; }
+                //console.log(this.token+' | customPostMoveCheck | offset =', offset);
                 if (offset.h !== 0 || offset.v !== 0){
-                    this.stopIdleAnimation();
                     if (offset.h < 0 && this.direction === 'left'
                         || offset.h > 0 && this.direction === 'right'){
                         this.flipDirection();
@@ -384,17 +387,22 @@ export default class DebugScene extends Phaser.Scene
                     this.setFrame('slide');
                     let newX = null, newY = null;
                     if (offset.h !== 0){
-                        newX = offset.h < 0 ? (MMRPG.canvas.xMin + correction) : (MMRPG.canvas.xMax - correction);
+                        newX = offset.h < 0 ? (customBounds.xMin + correction) : (customBounds.xMax - correction);
                         }
                     if (offset.v !== 0){
-                        newY = offset.v < 0 ? (MMRPG.canvas.yMin + correction) : (MMRPG.canvas.yMax - correction);
+                        newY = offset.v < 0 ? (customBounds.yMin + correction) : (customBounds.yMax - correction);
                         newX = this.direction === 'left' ? (this.x - leeway) : (this.x + leeway);
                         }
-                    this.moveToPosition(newX, newY, duration, function(){
-                        this.setFrame('base');
-                        this.startIdleAnimation();
-                        customPostMoveCheck.call(this, duration);
+                    //console.log(this.token+' | customPostMoveCheck | newX =', newX, 'newY =', newY);
+                    this.moveToPosition(newX, newY, ((duration || 200) / 2), function(){
+                        //console.log(this.token+' | customPostMoveCheck movement complete (B)!');
+                        return customPostMoveCheck.call(this, duration);
                         });
+                    } else {
+                    //console.log(this.token+' | customPostMoveCheck | robot is within bounds!');
+                    this.setFrame('base');
+                    this.startIdleAnimation();
+                    return;
                     }
                 };
 
@@ -408,11 +416,7 @@ export default class DebugScene extends Phaser.Scene
                 origin: [0.5, 1],
                 direction: 'right'
                 });
-            $customBoss.setShadow(true);
-            $customBoss.startIdleAnimation();
-            $customBoss.setOnHover(customMouseOver, customMouseOut);
-            $customBoss.setOnClick(customClickEvent);
-            console.log('-> $customBoss:', $customBoss);
+            //console.log('-> $customBoss:', $customBoss);
 
             let $customGuardian = new MMRPG_Robot(this, 'duo', {
                 // ...
@@ -424,11 +428,7 @@ export default class DebugScene extends Phaser.Scene
                 origin: [0.5, 1],
                 direction: 'left'
                 });
-            $customGuardian.setShadow(true);
-            $customGuardian.startIdleAnimation();
-            $customGuardian.setOnHover(customMouseOver, customMouseOut);
-            $customGuardian.setOnClick(customClickEvent);
-            console.log('-> $customGuardian:', $customGuardian);
+            //console.log('-> $customGuardian:', $customGuardian);
 
             let $customRobot = new MMRPG_Robot(this, 'proto-man', {
                 image_alt: 'water'
@@ -440,11 +440,7 @@ export default class DebugScene extends Phaser.Scene
                 origin: [0.5, 1],
                 direction: 'left'
                 });
-            $customRobot.setShadow(true);
-            $customRobot.startIdleAnimation();
-            $customRobot.setOnHover(customMouseOver, customMouseOut);
-            $customRobot.setOnClick(customClickEvent);
-            console.log('-> $customRobot:', $customRobot);
+            //console.log('-> $customRobot:', $customRobot);
 
             let $customRobot2 = new MMRPG_Robot(this, 'quick-man', {
                 image_alt: 'alt'
@@ -456,11 +452,7 @@ export default class DebugScene extends Phaser.Scene
                 origin: [0.5, 1],
                 direction: 'left'
                 });
-            $customRobot2.setShadow(true);
-            $customRobot2.startIdleAnimation();
-            $customRobot2.setOnHover(customMouseOver, customMouseOut);
-            $customRobot2.setOnClick(customClickEvent);
-            console.log('-> $customRobot2:', $customRobot2);
+            //console.log('-> $customRobot2:', $customRobot2);
 
             let $customMecha = new MMRPG_Robot(this, 'met', {
                 //image_alt: 'alt2'
@@ -470,14 +462,26 @@ export default class DebugScene extends Phaser.Scene
                 z: depth++,
                 scale: 2,
                 origin: [0.5, 1],
-                direction: 'left'
+                direction: 'left',
+                hitbox: [20, 20]
                 });
-            $customMecha.setShadow(true);
             $customMecha.setFlag('teleports', true);
-            $customMecha.startIdleAnimation();
-            $customMecha.setOnHover(customMouseOver, customMouseOut);
-            $customMecha.setOnClick(customClickEvent);
-            console.log('-> $customMecha:', $customMecha);
+            //console.log('-> $customMecha:', $customMecha);
+
+            let customObjects = [];
+            customObjects.push($customBoss);
+            customObjects.push($customGuardian);
+            customObjects.push($customRobot);
+            customObjects.push($customRobot2);
+            customObjects.push($customMecha);
+            for (let i = 0; i < customObjects.length; i++){
+                let $sprite = customObjects[i];
+                $sprite.setShadow(true);
+                $sprite.setOnHover(customMouseOver, customMouseOut);
+                $sprite.setOnClick(customClickEvent);
+                $sprite.startIdleAnimation();
+                }
+            console.log('-> $customObjects(large):', customObjects);
 
             /*
             // -- DEBUG SPRITE-ORIGIN TESTING -- //
