@@ -38,17 +38,20 @@ export default class BootScene extends Phaser.Scene
         // Pull in required object references
         let MMRPG = this.MMRPG;
 
+        // Collect the source path to make sure we pull the right files
+        let assetsPath = MMRPG.paths.assets;
+
         // Load global game assets
-        this.load.image('canvas', 'src/assets/mmrpg-canvas_fullsize.png');
+        this.load.image('canvas', assetsPath + 'mmrpg-canvas_fullsize.png');
 
         // Load the splash screen game assets
-        this.load.image('splash', 'src/assets/mmrpg-splash_static-fullsize.png');
-        this.load.image('start', 'src/assets/mmrpg-splash_start-text.png');
+        this.load.image('splash', assetsPath + 'mmrpg-splash_static-fullsize.png');
+        this.load.image('start', assetsPath + 'mmrpg-splash_start-text.png');
 
         // Load the bitmap font we'll be using
         // Charset:  _.,!?:;@`'"#$%&()[]{}*+-~\|/<=>0123456789^ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz
-        this.load.bitmapFont('megafont-white', 'src/assets/fonts/mega-man-10-font_white.png', 'src/assets/fonts/mega-man-10-font_white.xml.fnt');
-        this.load.bitmapFont('megafont-black', 'src/assets/fonts/mega-man-10-font_black.png', 'src/assets/fonts/mega-man-10-font_black.xml.fnt');
+        this.load.bitmapFont('megafont-white', assetsPath + 'fonts/mega-man-10-font_white.png', assetsPath + 'fonts/mega-man-10-font_white.xml.fnt');
+        this.load.bitmapFont('megafont-black', assetsPath + 'assets/fonts/mega-man-10-font_black.png', assetsPath + 'fonts/mega-man-10-font_black.xml.fnt');
 
     }
 
