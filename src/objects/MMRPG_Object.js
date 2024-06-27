@@ -2020,6 +2020,21 @@ class MMRPG_Object {
         config.interactive = true;
     }
 
+    // Remove all interactive properties from this sprite and it's hitbox
+    setNotInteractive ()
+    {
+        //console.log('MMRPG_Object.setNotInteractive() called');
+        if (!this.sprite) { return; }
+        let $sprite = this.sprite;
+        let config = this.spriteConfig;
+        let $hitbox = this.spriteHitbox;
+        if (!config.interactive){ return; }
+        $hitbox.disableInteractive();
+        $hitbox.removeAllListeners('pointerover');
+        $hitbox.removeAllListeners('pointerout');
+        config.interactive = false;
+    }
+
     // Set a custom callback function to when when this sprite is clicked
     setOnClick (callback)
     {
