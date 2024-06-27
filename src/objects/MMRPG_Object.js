@@ -1120,11 +1120,24 @@ class MMRPG_Object {
     {
         //console.log('MMRPG_Object.setTint() called w/ tint:', tint);
         if (!this.sprite) { return; }
+        if (tint === false){ return this.clearTint(); }
         let $sprite = this.sprite;
         let config = this.spriteConfig;
         config.tint = tint;
         this.tint = tint;
-        $sprite.setTint(this.tint);
+        $sprite.setTint(Graphics.returnHexColorValue(this.tint));
+    }
+
+    // Clear the tint property of the object's sprite and update
+    clearTint ()
+    {
+        //console.log('MMRPG_Object.clearTint() called');
+        if (!this.sprite) { return; }
+        let $sprite = this.sprite;
+        let config = this.spriteConfig;
+        config.tint = null;
+        this.tint = null;
+        $sprite.clearTint();
     }
 
 
