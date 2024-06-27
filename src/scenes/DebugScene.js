@@ -345,25 +345,61 @@ export default class DebugScene extends Phaser.Scene
             // Define a custom click event for all the custom robot masters/bosses/mechas
             let customClickEvent = function($sprite, pointer, localX, localY){
                 //console.log('%c' + this.token+' | customClickEvent() called', 'color: magenta;');
-                this.incrementCounter('clicks');
+                //this.setCounter('clicks', '+=1');
                 //console.log('clicks =', this.getCounter('clicks'));
-                SOUNDS.play('link-click', {volume: 0.3});
+                //SOUNDS.play('link-click', {volume: 0.3});
+                SOUNDS.play('damage', {volume: 0.3});
                 this.stopMoving();
                 this.stopIdleAnimation();
-                var runDirX = (localX >= (this.width / 2) ? 'left' : 'right');
-                var runDirY = (localY >= (this.height / 2) ? 'up' : 'down');
-                if (runDirX !== this.direction){ this.flipDirection(); }
-                var newX = (runDirX === 'left' ? '-=' : '+=') + 120;
-                var newY = (runDirY === 'up' ? '-=' : '+=') + 90;
-                let duration = 1000;
-                let speedMod = this.data.baseStats.dividers.speed || 1;
-                if (this.getFlag('teleports')){ duration = 0; }
-                else { duration *= speedMod; }
-                this.setFrame('slide');
-                this.moveToPosition(newX, newY, duration, function(){
-                    //console.log(this.token+' | customClickEvent movement complete (A)!');
-                    return customPostMoveCheck.call(this, duration);
-                    });
+                let damageAmount = 35, actualDamageAmount;
+                let currentEnergy = this.getCounter('energy');
+                let maxEnergy = this.getValue('energyMax');
+                if (currentEnergy <= 0){ return; }
+                actualDamageAmount = Math.min(damageAmount, currentEnergy);
+                this.setCounter('energy', '-='+damageAmount);
+                let newCurrentEnergy = this.getCounter('energy');
+                //console.log('current energy:', newCurrentEnergy);
+                //console.log('max energy:', maxEnergy);
+                if (newCurrentEnergy <= 0){
+                    // This robot is disabled so we should explode and return
+                    //console.log('->', this.token, 'is disabled! energy: 0/', maxEnergy);
+                    this.stopAll(true);
+                    SOUNDS.play('damage-reverb');
+                    this.showDamage(actualDamageAmount, function(){
+                        // Play a sound effect to make sure they're
+                        this.setFrame('defeat');
+                        this.flashSprite(3, 50, false);
+                        SOUNDS.play('explode-sound');
+                        this.delayedCall(600, function(){
+                            this.destroy();
+                            });
+                        });
+                    return;
+                    } else {
+                    // This robot is fine but we still need to display damage
+                    //console.log('->', this.token, 'is damaged | energy: ', newCurrentEnergy, '/', maxEnergy);
+                    this.stopAll(false);
+                    SOUNDS.play('damage-reverb');
+                    this.showDamage(actualDamageAmount, function(){
+                        //console.log('show damage complete');
+                        this.resetFrame();
+                        // Make the robot slide away from the clicked location
+                        var runDirX = (localX >= (this.width / 2) ? 'left' : 'right');
+                        var runDirY = (localY >= (this.height / 2) ? 'up' : 'down');
+                        if (runDirX !== this.direction){ this.flipDirection(); }
+                        var newX = (runDirX === 'left' ? '-=' : '+=') + 120;
+                        var newY = (runDirY === 'up' ? '-=' : '+=') + 90;
+                        let duration = 1000;
+                        let speedMod = this.data.baseStats.dividers.speed || 1;
+                        if (this.getFlag('teleports')){ duration = 0; }
+                        else { duration *= speedMod; }
+                        this.setFrame('slide');
+                        this.moveToPosition(newX, newY, duration, function(){
+                            //console.log(this.token+' | customClickEvent movement complete (A)!');
+                            return customPostMoveCheck.call(this, duration);
+                            });
+                        });
+                    }
                 };
 
             // Define a custom function to be run post-movement to check and readjust if offscreen
@@ -474,12 +510,16 @@ export default class DebugScene extends Phaser.Scene
             customObjects.push($customRobot);
             customObjects.push($customRobot2);
             customObjects.push($customMecha);
+            let energyMin = 0, energyMax = 100;
             for (let i = 0; i < customObjects.length; i++){
-                let $sprite = customObjects[i];
-                $sprite.setShadow(true);
-                $sprite.setOnHover(customMouseOver, customMouseOut);
-                $sprite.setOnClick(customClickEvent);
-                $sprite.startIdleAnimation();
+                let $object = customObjects[i];
+                $object.setValue('energyMin', energyMin);
+                $object.setValue('energyMax', energyMax);
+                $object.setCounter('energy', energyMax);
+                $object.setShadow(true);
+                $object.setOnHover(customMouseOver, customMouseOut);
+                $object.setOnClick(customClickEvent);
+                $object.startIdleAnimation();
                 }
             console.log('-> $customObjects(large):', customObjects);
 
