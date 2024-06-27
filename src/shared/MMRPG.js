@@ -52,6 +52,14 @@ class MMRPG {
         this.paths.assets = 'src/'+this.version+'/assets/';
         this.paths.indexes = 'src/'+this.version+'/indexes/';
 
+        // Define some settings we can change later maybe
+        this.settings = {};
+        this.settings.volume = {};
+        this.settings.volume.base = 1.0;
+        this.settings.volume.music = 1.0;
+        this.settings.volume.effects = 1.0;
+        this.settings.volume.menus = 1.0;
+
         // Initialize the game's core arrays and objects
         this.Init = [];
         this.Utilities = {};
