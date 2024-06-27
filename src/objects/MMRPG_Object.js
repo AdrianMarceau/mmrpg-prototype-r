@@ -263,7 +263,17 @@ class MMRPG_Object {
     setCounter (counter, value = 0)
     {
         //console.log('MMRPG_Object.setCounter() called w/ counter:', counter, 'value:', value);
-        this.data.counters[counter] = value;
+        if (typeof value === 'string'){
+            let oldValue = this.data.counters[counter] || 0;
+            let newValue = Graphics.parseRelativePosition(value, oldValue);
+            let minValue = this.data.counters[counter+'Min'] || null;
+            let maxValue = this.data.counters[counter+'Max'] || null;
+            if (minValue !== null && newValue < minValue){ newValue = minValue; }
+            if (maxValue !== null && newValue > maxValue){ newValue = maxValue; }
+            this.data.counters[counter] = newValue;
+            } else {
+            this.data.counters[counter] = value;
+            }
     }
 
     // Get a counter from the data object for this object
