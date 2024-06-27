@@ -64,6 +64,8 @@ export class StringsUtility {
         //console.log('StringsUtility.parseFormattedText() w/', input);
 
         // First break the text apart into blocks
+        if (typeof input === 'number'){ input = input.toString(); }
+        else if (typeof input !== 'string'){ return []; }
         let stringBlocks = this.parseFormattedStringBlocks(input);
 
         // Define a new array to hold the parsed text span objects
