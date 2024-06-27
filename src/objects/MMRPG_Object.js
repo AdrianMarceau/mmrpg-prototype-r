@@ -8,6 +8,7 @@
 
 import MMRPG from '../shared/MMRPG.js';
 
+import { StringsUtility as Strings } from '../utils/StringsUtility.js';
 import { GraphicsUtility as Graphics } from '../utils/GraphicsUtility.js';
 
 import SpritesManager from '../managers/SpritesManager.js';
