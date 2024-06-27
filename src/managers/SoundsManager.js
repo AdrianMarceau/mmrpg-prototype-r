@@ -37,6 +37,7 @@ export default class SoundsManager {
     }
     init (scene)
     {
+        //console.log('SoundsManager.init() called');
         this.scene = scene;
         scene.events.on('preload', this.preload, this);
         scene.events.on('create', this.create, this);
@@ -50,6 +51,7 @@ export default class SoundsManager {
     }
     create ()
     {
+        //console.log('SoundsManager.create() called');
 
         let MMRPG = this.MMRPG;
         let scene = this.scene;
