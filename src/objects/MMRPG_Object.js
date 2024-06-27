@@ -2092,6 +2092,29 @@ class MMRPG_Object {
 
     // -- SPRITE DESTRUCTION -- //
 
+    // Stop or halt any movement, animations, and callbacks for this object so we can destroy later
+    stopAll (removeInteractivity = false)
+    {
+        //console.log('MMRPG_Object.halt() called for ', this.kind, this.token);
+        let _this = this;
+        let scene = this.scene;
+        if (!this.sprite) { return; }
+        let SPRITES = this.SPRITES;
+        let $sprite = this.sprite;
+        let $hitbox = this.spriteHitbox;
+        this.stopMoving();
+        this.stopIdleAnimation();
+        this.spriteMethodsQueued = [];
+        if ($sprite.anims && $sprite.anims.stop){ $sprite.anims.stop(); }
+        SPRITES.stopSpriteTweens(scene, $sprite, true);
+        SPRITES.stopSpriteTimers(scene, $sprite, true);
+        if (removeInteractivity){
+            this.removeOnClicks();
+            this.removeOnHovers();
+            this.setNotInteractive();
+            }
+    }
+
     // Destroy this object's children and remove them from the scene and then itself
     destroy ()
     {
