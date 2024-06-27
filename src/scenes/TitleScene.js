@@ -50,6 +50,7 @@ export default class TitleScene extends Phaser.Scene
 
         // Initialize any objects that need it
         this.SPRITES.init(this);
+        this.SOUNDS.init(this);
         this.BUTTONS.init(this);
 
     }

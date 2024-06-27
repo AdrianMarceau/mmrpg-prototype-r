@@ -8,6 +8,7 @@
 import MMRPG from '../shared/MMRPG.js';
 
 import SpritesManager from '../managers/SpritesManager.js';
+import SoundsManager from '../managers/SoundsManager.js';
 import PopupsManager from '../managers/PopupsManager.js';
 import ButtonsManager from '../managers/ButtonsManager.js';
 
@@ -22,12 +23,14 @@ export default class MainScene extends Phaser.Scene
 
         // Initialize MMRPG utility class objects
         let SPRITES = SpritesManager.getInstance(this);
+        let SOUNDS = SoundsManager.getInstance(this);
         let POPUPS = PopupsManager.getInstance(this);
         let BUTTONS = ButtonsManager.getInstance(this);
 
         // Ensure MMRPG and utility objects are available to the entire class
         this.MMRPG = MMRPG;
         this.SPRITES = SPRITES;
+        this.SOUNDS = SOUNDS;
         this.BUTTONS = BUTTONS;
         this.POPUPS = POPUPS;
 
@@ -45,6 +48,7 @@ export default class MainScene extends Phaser.Scene
 
         // Initialize any objects that need it
         this.SPRITES.init(this);
+        this.SOUNDS.init(this);
         this.BUTTONS.init(this);
         this.POPUPS.init(this);
 
