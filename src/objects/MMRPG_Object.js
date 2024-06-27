@@ -1835,6 +1835,134 @@ class MMRPG_Object {
 
     }
 
+    // Show the damage frame, shake animation, and amount inflicted on this object then execute a callback
+    showDamage (amount, callback)
+    {
+        //console.log('MMRPG_Object.showDamage() called for ', this.kind, this.token, '\nw/ amount:', amount, 'callback:', typeof callback);
+        let _this = this;
+        if (!this.sprite) { return; }
+        if (this.spriteIsLoading){ return this.spriteMethodsQueued.push(function(){ _this.showDamage(amount, strength, callback); }); }
+        let SPRITES = this.SPRITES;
+        let scene = this.scene;
+        let $sprite = this.sprite;
+        let config = this.spriteConfig;
+        let kind = this.kind;
+        let xkind = this.xkind;
+        let token = this.token;
+        let direction = this.direction;
+        this.stopMoving();
+        this.stopIdleAnimation();
+        this.setFrame('damage');
+        this.flashSprite(2);
+        let shakeStrength = config.scale * 2;
+        this.shakeSprite(shakeStrength, 2, function(){
+            //console.log('-> shakeSprite callback');
+            if (callback){ callback.call(_this); }
+            });
+        var text = '-' + amount.toString();
+        var size = 8;
+        var padding = 5;
+        var width = ((12 * text.length) || 48) + (padding * 2);
+        var height = (12) + (padding * 2);
+        var x = config.x, y = config.y;
+        x -= Math.round(width / 2);
+        y -= ((config.hitbox[1] * config.scale) / 2) + (5 * config.scale);
+        let $damage = Strings.addFormattedText(scene, x, y, text, {
+            size: size,
+            width: width,
+            height: height,
+            border: false,
+            color: '#ffffff',
+            depth: _this.depth + 100,
+            padding: 5,
+            });
+        let damageTween = scene.tweens.addCounter({
+            from: 100,
+            to: 0,
+            ease: 'Sine.easeOut',
+            delay: 100,
+            duration: 1000,
+            onUpdate: function () {
+                //console.log('damageTween:', damageTween.getValue());
+                let alpha = damageTween.getValue() / 100;
+                $damage.setAlpha(alpha);
+                $damage.setPosition(null, '-=2');
+                },
+            onComplete: function () {
+                //console.log('damageTween complete!');
+                $damage.destroy();
+                }
+            });
+
+    }
+
+    // Define a function that "flashes" a sprite by changing it's tint back and forth a set amount of times
+    flashSprite (repeat = 1, duration = 100, tintShift = true, callback = null)
+    {
+        //console.log('MMRPG_Object.flashSprite() called for ', this.kind, this.token, '\nw/ repeat:', repeat, 'duration:', duration);
+        let _this = this;
+        if (!this.sprite) { return; }
+        if (this.spriteIsLoading){ return this.spriteMethodsQueued.push(function(){ _this.flashSprite(repeat, duration); }); }
+        let $sprite = this.sprite;
+        let config = this.spriteConfig;
+        let flashRepeat = repeat;
+        let flashDuration = duration;
+        let flashCallback = function(){
+            //console.log('-> flashCallback');
+            _this.clearTint();
+            if (callback){ callback.call(_this); }
+            };
+        if ($sprite.subTweens.flashTween){ $sprite.subTweens.flashTween.stop(); }
+        let flashTween = this.scene.tweens.add({
+            targets: $sprite,
+            alpha: 0.5,
+            duration: flashDuration,
+            repeat: flashRepeat,
+            yoyo: true,
+            onComplete: flashCallback,
+            onUpdate: function(){
+                if (!tintShift){ return; }
+                let progress = Math.round(flashTween.progress * 10);
+                let alpha = $sprite.alpha;
+                if (progress % 2 === 0){ _this.setTint('#000000'); }
+                else { _this.setTint('#ffffff'); }
+                }
+            });
+        $sprite.subTweens.flashTween = flashTween;
+    }
+
+    // Define a function that shakes a sprite back and forth once and then executes a callback
+    shakeSprite (strength, repeat = 1, callback)
+    {
+        //console.log('MMRPG_Object.shakeSprite() called for ', this.kind, this.token, '\nw/ strength:', strength, 'repeat:', repeat, 'callback:', typeof callback);
+        let _this = this;
+        if (!this.sprite) { return; }
+        if (this.spriteIsLoading){ return this.spriteMethodsQueued.push(function(){ _this.shakeSprite(strength, callback); }); }
+        let $sprite = this.sprite;
+        let config = this.spriteConfig;
+        let shakeX = strength * 2;
+        let shakeY = strength * 2;
+        let shakeDuration = 100;
+        let shakeEase = 'Sine.easeInOut';
+        let shakeRepeat = repeat;
+        let shakeYoyo = true;
+        let shakeCallback = function(){
+            if (callback){ callback.call(_this); }
+            };
+        if ($sprite.subTweens.shakeTween){ $sprite.subTweens.shakeTween.stop(); }
+        let shakeTween = this.scene.tweens.add({
+            targets: $sprite,
+            x: '+='+shakeX,
+            y: '+='+shakeY,
+            duration: shakeDuration,
+            ease: shakeEase,
+            repeat: shakeRepeat,
+            yoyo: shakeYoyo,
+            onComplete: shakeCallback
+            });
+        $sprite.subTweens.shakeTween = shakeTween;
+    }
+
     // Stop a sprite's move animation whichever way it might have been going abruptly
     stopMoving ()
     {
