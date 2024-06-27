@@ -292,11 +292,11 @@ class MMRPG_Object {
         this.data.counters[counter] += increment;
     }
 
-    // Decrease a counter in the data object for this object, (create at zero if not exists first)
-    decCounter (counter, decrement = 1){ this.decreaseCounter(counter, decrement); }
-    decreaseCounter (counter, decrement = 1)
+    // Decrement a counter in the data object for this object, (create at zero if not exists first)
+    decCounter (counter, decrement = 1){ this.decrementCounter(counter, decrement); }
+    decrementCounter (counter, decrement = 1)
     {
-        //console.log('MMRPG_Object.decreaseCounter() called w/ counter:', counter, 'decrement:', decrement);
+        //console.log('MMRPG_Object.decrementCounter() called w/ counter:', counter, 'decrement:', decrement);
         this.data.counters[counter] = this.data.counters[counter] || 0;
         this.data.counters[counter] -= decrement;
     }
