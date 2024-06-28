@@ -160,7 +160,7 @@ export default class ButtonsManager {
             $buttonRect.on('pointerdown', function () {
                 buttonCallback(buttonObject);
                 // add a tween where the text grows briefly then shrinks back
-                if (ctx.SOUNDS){ ctx.SOUNDS.play('icon-click-mini', {volume: 0.2}); }
+                if (ctx.SOUNDS){ ctx.SOUNDS.playMenuSound('icon-click-mini'); }
                 if (buttonClickTween){ buttonClickTween.stop(); }
                 $buttonText.scaleX = 1.2;
                 $buttonText.scaleY = 1.2;

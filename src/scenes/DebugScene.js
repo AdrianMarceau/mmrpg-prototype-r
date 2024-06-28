@@ -289,7 +289,7 @@ export default class DebugScene extends Phaser.Scene
             // -- DEBUG SOUND EFFECTS -- //
 
             // Play a sound effect to make sure they're working
-            SOUNDS.play('9-reggae-laughs_rockboard-nes');
+            SOUNDS.playSoundEffect('9-reggae-laughs_rockboard-nes', {volume: 1.5});
 
 
             // -- DEBUG SPRITE TESTING -- //
@@ -308,7 +308,7 @@ export default class DebugScene extends Phaser.Scene
             $debugObjects.skill = new MMRPG_Skill(this, 'xtreme-submodule', null);
             $debugObjects.type = new MMRPG_Type(this, 'water');
             let onClickTestObject = function(){
-                SOUNDS.play('link-click', {volume: 0.3});
+                SOUNDS.playMenuSound('link-click');
                 this.stopIdleAnimation();
                 this.slideSpriteForward(function(){
                     this.flipDirection();
@@ -348,8 +348,8 @@ export default class DebugScene extends Phaser.Scene
                 //console.log('%c' + this.token+' | customClickEvent() called', 'color: magenta;');
                 //this.setCounter('clicks', '+=1');
                 //console.log('clicks =', this.getCounter('clicks'));
-                //SOUNDS.play('link-click', {volume: 0.3});
-                SOUNDS.play('damage', {volume: 0.3});
+                //SOUNDS.playMenuSound('link-click');
+                SOUNDS.playSoundEffect('damage');
                 this.stopMoving();
                 this.stopIdleAnimation();
                 let damageAmount = 35, actualDamageAmount;
@@ -365,12 +365,12 @@ export default class DebugScene extends Phaser.Scene
                     // This robot is disabled so we should explode and return
                     //console.log('->', this.token, 'is disabled! energy: 0/', maxEnergy);
                     this.stopAll(true);
-                    SOUNDS.play('damage-reverb');
+                    SOUNDS.playSoundEffect('damage-reverb');
                     this.showDamage(actualDamageAmount, function(){
                         // Play a sound effect to make sure they're
                         this.setFrame('defeat');
                         this.flashSprite(3, 50, false);
-                        SOUNDS.play('explode-sound');
+                        SOUNDS.playSoundEffect('explode-sound');
                         this.delayedCall(600, function(){
                             this.destroy();
                             });
@@ -380,7 +380,7 @@ export default class DebugScene extends Phaser.Scene
                     // This robot is fine but we still need to display damage
                     //console.log('->', this.token, 'is damaged | energy: ', newCurrentEnergy, '/', maxEnergy);
                     this.stopAll(false);
-                    SOUNDS.play('damage-reverb');
+                    SOUNDS.playSoundEffect('damage-reverb');
                     this.showDamage(actualDamageAmount, function(){
                         //console.log('show damage complete');
                         this.resetFrame();
@@ -863,7 +863,7 @@ export default class DebugScene extends Phaser.Scene
                 if (!$sprite || $sprite.toBeDestroyed){ return; }
                 //console.log('$sprite:', typeof $sprite, $sprite);
                 $sprite.play(robotSpriteInfo['sprite'][$sprite.direction]['anim']['slide']);
-                //SOUNDS.play('glass-klink', {volume: 0.1});
+                //SOUNDS.playSoundEffect('glass-klink');
                 if ($sprite.slideTween){ $sprite.slideTween.stop().destroy(); }
                 $sprite.slideTween = ctx.add.tween({
                     targets: $sprite,
@@ -873,7 +873,7 @@ export default class DebugScene extends Phaser.Scene
                     duration: duration,
                     onComplete: function () {
                         //console.log('Partial sliding movement complete...');
-                        //SOUNDS.play('glass-klink', {volume: 0.1});
+                        //SOUNDS.playSoundEffect('glass-klink');
                         if ($sprite.subTimers.nextAction){ $sprite.subTimers.nextAction.remove(); }
                         $sprite.subTimers.nextAction = ctx.time.delayedCall(1000, function(){
                             //console.log('...let\'s slide somewhere else!');
@@ -909,7 +909,7 @@ export default class DebugScene extends Phaser.Scene
                 if (!$sprite || $sprite.toBeDestroyed){ return; }
                 //console.log('$sprite:', typeof $sprite, $sprite);
                 $sprite.play(robotSpriteInfo['sprite'][$sprite.direction]['anim']['slide']);
-                //SOUNDS.play('glass-klink', {volume: 0.1});
+                //SOUNDS.playSoundEffect('glass-klink');
                 if ($sprite.slideTween){ $sprite.slideTween.stop().destroy(); }
                 $sprite.slideTween = ctx.add.tween({
                     targets: $sprite,
@@ -919,7 +919,7 @@ export default class DebugScene extends Phaser.Scene
                     duration: duration,
                     onComplete: function () {
                         //console.log('Partial sliding movement complete...');
-                        //SOUNDS.play('glass-klink', {volume: 0.1});
+                        //SOUNDS.playSoundEffect('glass-klink');
                         if ($sprite.subTimers.nextAction){ $sprite.subTimers.nextAction.remove(); }
                         $sprite.subTimers.nextAction = ctx.time.delayedCall(1000, function(){
                             //console.log('...let\'s slide somewhere else!');
@@ -974,8 +974,8 @@ export default class DebugScene extends Phaser.Scene
             $sprite.setFrame(0);
             $sprite.play(robotSpriteInfo['sprite'][$sprite.direction]['anim']['shoot']);
             if ($sprite.subTweens.kickbackTween){ $sprite.subTweens.kickbackTween.stop().destroy(); }
-            if (abilitySuffix === 'shot'){ SOUNDS.play('shot-sound', {volume: 0.2}); }
-            else if (abilitySuffix === 'buster'){ SOUNDS.play('blast-sound', {volume: 0.3}); }
+            if (abilitySuffix === 'shot'){ SOUNDS.playSoundEffect('shot-sound'); }
+            else if (abilitySuffix === 'buster'){ SOUNDS.playSoundEffect('blast-sound'); }
             $sprite.subTweens.kickbackTween = ctx.add.tween({
                 targets: $sprite,
                 x: newX,
@@ -1185,7 +1185,7 @@ export default class DebugScene extends Phaser.Scene
             // Show the sprite and play its explode animation on loop
             $explodeSprite.setAlpha(0.8);
             $explodeSprite.play(explodeSpriteInfo['sprite'][$sprite.direction]['anim']['explode']);
-            SOUNDS.play('explode-sound', {volume: 0.5});
+            SOUNDS.playSoundEffect('explode-sound');
 
             // Generate a tween for the explode sprite that has it slowly fade away via alpha then remove itself
             $explodeSprite.subTweens.fadeTween = ctx.add.tween({
@@ -1406,7 +1406,7 @@ export default class DebugScene extends Phaser.Scene
         window.setGameResumeCallback(function(){
             $pauseButton.setText('PAUSE');
             ctx.scene.resume();
-            SOUNDS.play('icon-click-mini', {volume: 0.2});
+            SOUNDS.playMenuSound('icon-click-mini');
             });
         this.pauseButton = $pauseButton;
 
@@ -1706,7 +1706,7 @@ export default class DebugScene extends Phaser.Scene
             }
         if (newDir && $alphaBanner.isReady){
             //console.log('Changing alpha banner direction to', $alphaBanner.directionX, $alphaBanner.directionY);
-            SOUNDS.play('glass-klink', {volume: 0.2});
+            SOUNDS.playSoundEffect('glass-klink');
             var type = $alphaBanner.type;
             //console.log('$alphaBanner type:', type);
             if (ctx.allowRunningDoctors){
@@ -1767,7 +1767,7 @@ export default class DebugScene extends Phaser.Scene
             }
         if (newDir && $betaBanner.isReady){
             //console.log('Changing beta banner direction to', $betaBanner.directionX, $betaBanner.directionY);
-            SOUNDS.play('glass-klink', {volume: 0.2});
+            SOUNDS.playSoundEffect('glass-klink');
             var type = $betaBanner.type;
             //console.log('$betaBanner type:', type);
             if (ctx.allowSlidingMasters){

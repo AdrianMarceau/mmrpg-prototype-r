@@ -243,7 +243,7 @@ export default class TitleScene extends Phaser.Scene
         // Add a click event that triggers a move to the Main scene
         $startButton.on('pointerdown', () => {
             //console.log('Start button clicked!');
-            SOUNDS.play('game-start', {volume: 0.5});
+            SOUNDS.playMenuSound('game-start');
             ctx.scene.start('Main');
             });
 
