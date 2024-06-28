@@ -1061,6 +1061,7 @@ class MMRPG_Object {
         let [ modX, modY ] = this.getOffsetPosition(config.x, config.y);
 
         // First update the sprite itself as that's most important
+        $sprite.setTexture(config.sheet);
         $sprite.setPosition(modX, modY);
         $sprite.setDepth(config.depth + config.z);
         $sprite.setOrigin(config.origin[0], config.origin[1]);
@@ -1068,7 +1069,7 @@ class MMRPG_Object {
         $sprite.setScale(config.scale);
         $sprite.setFrame(config.frame);
         if (config.tint) { $sprite.setTint(config.tint); }
-        $sprite.setTexture(config.sheet);
+        //console.log('-> updating sprite for ', this.token, ' w/ origin:', config.origin, 'x:', modX, 'y:', modY, 'config.frame:', config.frame, 'config:', config);
 
         // Now update the hitbox with relevant changes
         if ($hitbox){
@@ -1365,6 +1366,108 @@ class MMRPG_Object {
         let direction = this.direction || 'right';
         direction = (direction === 'right') ? 'left' : 'right';
         this.setDirection(direction);
+    }
+
+    // Get the current image alt (string) for this object and return it
+    getImageAlt ()
+    {
+        //console.log('MMRPG_Object.getImageAlt() called w/ token:', this.token);
+        return this.data.image_alt;
+    }
+
+    // Change the image alt (string) for this object and then refresh the graphics when we're done updating variables
+    setImageAlt (alt = null, callback = null)
+    {
+        //console.log('MMRPG_Object.setImageAlt() called w/ token:', this.token, 'alt:', alt);
+        if (!this.sprite) { return; }
+        let _this = this;
+        let scene = this.scene;
+        let spriteConfig = this.spriteConfig;
+        let objectConfig = this.objectConfig;
+        let imageAlt = typeof alt === 'string' && alt.length > 0 ? alt : objectConfig.baseAltSheet;
+        this.data.image_alt = imageAlt;
+        objectConfig.currentAltSheet = imageAlt;
+        objectConfig.currentAltSheetIsBase = objectConfig.currentAltSheet === objectConfig.baseAltSheet;
+        this.preloadSpriteSheets();
+        let newSheet = _this.getSpriteSheet('sprite', null, imageAlt);
+        if (!newSheet || spriteConfig.sheet === newSheet) { return; }
+        spriteConfig.sheet = newSheet;
+        //console.log(this.token + ' | -> imageAlt:', imageAlt, 'newSheet:', newSheet);
+        //console.log(this.token + ' | checking if newSheet texture exists...');
+        if (!scene.textures.exists(newSheet)){
+            //console.log('%c' + this.token + ' | -> sprite texture '+newSheet+' not loaded, deffering sheet refreshing...', 'color: orange;');
+            this.loadSpriteTexture(() => {
+                //console.log('%c' + this.token + ' | -> sprite texture '+newSheet+' loaded! refreshing sheet now...', 'color: green;');
+                _this.createSpriteAnimations();
+                _this.updateSpriteProperties();
+                _this.updateSpriteGraphics();
+                if (callback){ callback.call(_this); }
+                });
+            } else {
+            //console.log('%c' + this.token + ' | -> sprite texture already '+newSheet+' loaded! refreshing sheet now...', 'color: green;');
+            _this.createSpriteAnimations();
+            this.updateSpriteProperties();
+            this.updateSpriteGraphics();
+            if (callback){ callback.call(_this); }
+            }
+    }
+
+    // Reset an image alt (string) back to its base value and then refresh the graphics when we're done updating variables
+    resetImageAlt (callback = null)
+    {
+        //console.log('MMRPG_Object.resetImageAlt() called w/ callback:', typeof callback);
+        return this.setImageAlt(this.objectConfig.baseAltSheet, callback);
+    }
+
+    // Get the current image sheet (numeric) for this object and return it
+    getImageSheet ()
+    {
+        //console.log('MMRPG_Object.getImageSheet() called w/ token:', this.token);
+        return this.data.image_sheet;
+    }
+
+    // Change the image sheet (numeric) for this object and then refresh the graphics when we're done updating variables
+    setImageSheet (sheet = null, callback = null)
+    {
+        //console.log('MMRPG_Object.setImageSheet() called w/ token:', this.token, 'sheet:', sheet);
+        if (!this.sprite) { return; }
+        let _this = this;
+        let scene = this.scene;
+        let spriteConfig = this.spriteConfig;
+        let objectConfig = this.objectConfig;
+        let imageSheet = typeof sheet === 'number' && sheet > 0 ? sheet : objectConfig.baseAltSheet;
+        this.data.image_sheet = imageSheet;
+        objectConfig.currentAltSheet = imageSheet;
+        objectConfig.currentAltSheetIsBase = objectConfig.currentAltSheet === objectConfig.baseAltSheet;
+        this.preloadSpriteSheets();
+        let newSheet = _this.getSpriteSheet('sprite', null, imageSheet);
+        if (!newSheet || spriteConfig.sheet === newSheet) { return; }
+        spriteConfig.sheet = newSheet;
+        //console.log(this.token + ' | -> imageSheet:', imageSheet, 'newSheet:', newSheet);
+        //console.log(this.token + ' | checking if newSheet texture exists...');
+        if (!scene.textures.exists(newSheet)){
+            //console.log('%c' + this.token + ' | -> sprite texture '+newSheet+' not loaded, deffering sheet refreshing...', 'color: orange;');
+            this.loadSpriteTexture(() => {
+                //console.log('%c' + this.token + ' | -> sprite texture '+newSheet+' loaded! refreshing sheet now...', 'color: green;');
+                _this.createSpriteAnimations();
+                _this.updateSpriteProperties();
+                _this.updateSpriteGraphics();
+                if (callback){ callback.call(_this); }
+                });
+            } else {
+            //console.log('%c' + this.token + ' | -> sprite texture already '+newSheet+' loaded! refreshing sheet now...', 'color: green;');
+            _this.createSpriteAnimations();
+            this.updateSpriteProperties();
+            this.updateSpriteGraphics();
+            if (callback){ callback.call(_this); }
+            }
+    }
+
+    // Reset an image sheet (numeric) back to its base value and then refresh the graphics when we're done updating variables
+    resetImageSheet (callback = null)
+    {
+        //console.log('MMRPG_Object.resetImageSheet() called w/ callback:', typeof callback);
+        return this.setImageSheet(this.objectConfig.baseAltSheet, callback);
     }
 
 
@@ -1932,7 +2035,7 @@ class MMRPG_Object {
     }
 
     // Define a function that shakes a sprite back and forth once and then executes a callback
-    shakeSprite (strength, repeat = 1, callback)
+    shakeSprite (strength = 1, repeat = 1, callback)
     {
         //console.log('MMRPG_Object.shakeSprite() called for ', this.kind, this.token, '\nw/ strength:', strength, 'repeat:', repeat, 'callback:', typeof callback);
         let _this = this;
@@ -1940,8 +2043,9 @@ class MMRPG_Object {
         if (this.spriteIsLoading){ return this.spriteMethodsQueued.push(function(){ _this.shakeSprite(strength, callback); }); }
         let $sprite = this.sprite;
         let config = this.spriteConfig;
-        let shakeX = strength * 2;
-        let shakeY = strength * 2;
+        let shake = strength || 1;
+        let shakeX = shake * 2;
+        let shakeY = shake * 2;
         let shakeDuration = 100;
         let shakeEase = 'Sine.easeInOut';
         let shakeRepeat = repeat;
