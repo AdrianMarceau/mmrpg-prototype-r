@@ -1390,7 +1390,10 @@ class MMRPG_Object {
         objectConfig.currentAltSheetIsBase = objectConfig.currentAltSheet === objectConfig.baseAltSheet;
         this.preloadSpriteSheets();
         let newSheet = _this.getSpriteSheet('sprite', null, imageAlt);
-        if (!newSheet || spriteConfig.sheet === newSheet) { return; }
+        if (!newSheet || spriteConfig.sheet === newSheet) {
+            if (callback){ callback.call(_this); }
+            return;
+            }
         spriteConfig.sheet = newSheet;
         //console.log(this.token + ' | -> imageAlt:', imageAlt, 'newSheet:', newSheet);
         //console.log(this.token + ' | checking if newSheet texture exists...');
@@ -1441,7 +1444,10 @@ class MMRPG_Object {
         objectConfig.currentAltSheetIsBase = objectConfig.currentAltSheet === objectConfig.baseAltSheet;
         this.preloadSpriteSheets();
         let newSheet = _this.getSpriteSheet('sprite', null, imageSheet);
-        if (!newSheet || spriteConfig.sheet === newSheet) { return; }
+        if (!newSheet || spriteConfig.sheet === newSheet) {
+            if (callback){ callback.call(_this); }
+            return;
+            }
         spriteConfig.sheet = newSheet;
         //console.log(this.token + ' | -> imageSheet:', imageSheet, 'newSheet:', newSheet);
         //console.log(this.token + ' | checking if newSheet texture exists...');
