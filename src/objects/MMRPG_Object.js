@@ -1476,6 +1476,29 @@ class MMRPG_Object {
         return this.setImageSheet(this.objectConfig.baseAltSheet, callback);
     }
 
+    // Set the scale of a given image and then redraw everything at the new size
+    setScale (scale)
+    {
+        //console.log('MMRPG_Object.setScale() called w/ scale:', scale);
+        if (!this.sprite) { return; }
+        let $sprite = this.sprite;
+        let $hitbox = this.spriteHitbox;
+        let config = this.spriteConfig;
+        config.scale = scale;
+        this.scale = scale;
+        $sprite.setScale(scale);
+        $hitbox.setScale(scale);
+        this.updateSpriteProperties();
+        this.updateSpriteGraphics();
+    }
+
+    // Reset the scale back to the default of 1 and then redraw everything at the new size
+    resetScale ()
+    {
+        //console.log('MMRPG_Object.resetScale() called');
+        return this.setScale(1);
+    }
+
 
     // -- SPRITE ANIMATION -- //
 
