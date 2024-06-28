@@ -55,7 +55,7 @@ class MMRPG {
         // Define some settings we can change later maybe
         this.settings = {};
         this.settings.volume = {};
-        this.settings.volume.base = 1.0;
+        this.settings.volume.base = 0.5;
         this.settings.volume.music = 1.0;
         this.settings.volume.effects = 1.0;
         this.settings.volume.menus = 1.0;
