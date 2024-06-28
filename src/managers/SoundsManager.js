@@ -57,7 +57,8 @@ export default class SoundsManager {
         let scene = this.scene;
 
         // Turn the base volumn down to start
-        scene.sound.volume = 0.5;
+        let baseVolume = MMRPG.settings.volume.base || 1.0;
+        scene.sound.volume = baseVolume;
 
         // Make it so sounds are paused whenever the game is inactive
         scene.sys.game.events.on('hidden', () => {
@@ -90,7 +91,7 @@ export default class SoundsManager {
     // Play a sound from the sound sprite
     play (token, options = {})
     {
-        //console.log('SoundsManager.play() called');
+        //console.log('SoundsManager.play() called w/ token:', token, 'options:', options);
         if (typeof token !== 'string'){ return; }
         let MMRPG = this.MMRPG;
         let scene = this.scene;
@@ -98,6 +99,45 @@ export default class SoundsManager {
         const sfxAliasIndex = MMRPG.Indexes.sounds.aliases || {};
         if (sfxAliasIndex[token]) { sfxToken = sfxAliasIndex[token]; }
         scene.sound.playAudioSprite('sounds.effects', sfxToken, options);
+    }
+
+    // Play a "music" sound effect with predefined volume and settings
+    playMusic (token, options = {})
+    {
+        //console.log('SoundsManager.playMusic() called w/ token:', token, 'options:', options);
+        let MMRPG = this.MMRPG;
+        let baseVolume = MMRPG.settings.volume.base || 1.0;
+        let musicVolume = MMRPG.settings.volume.music || 1.0;
+        let volume = (options.volume || 1.0) * (baseVolume * musicVolume);
+        //console.log(token + ' | -> baseVolume:', baseVolume, 'musicVolume:', musicVolume, 'volume:', volume);
+        options.volume = volume;
+        return this.play(token, options);
+    }
+
+    // Play an "battle" sound effect with predefined volume and settings
+    playSoundEffect (token, options = {})
+    {
+        //console.log('SoundsManager.playSoundEffect() called w/ token:', token, 'options:', options);
+        let MMRPG = this.MMRPG;
+        let baseVolume = MMRPG.settings.volume.base || 1.0;
+        let effectsVolume = MMRPG.settings.volume.effects || 1.0;
+        let volume = (options.volume || 1.0) * (baseVolume * effectsVolume);
+        //console.log(token + ' | -> baseVolume:', baseVolume, 'effectsVolume:', effectsVolume, 'volume:', volume);
+        options.volume = (options.volume || 1.0) * volume;
+        return this.play(token, options);
+    }
+
+    // Play a "menu" sound effect with predefined volume and settings
+    playMenuSound (token, options = {})
+    {
+        //console.log('SoundsManager.playMenuSound() called w/ token:', token, 'options:', options);
+        let MMRPG = this.MMRPG;
+        let baseVolume = MMRPG.settings.volume.base || 1.0;
+        let menusVolume = MMRPG.settings.volume.menus || 1.0;
+        let volume = (options.volume || 1.0) * (baseVolume * menusVolume);
+        //console.log(token + ' | -> baseVolume:', baseVolume, 'menusVolume:', menusVolume, 'volume:', volume);
+        options.volume = (options.volume || 1.0) * volume;
+        return this.play(token, options);
     }
 
 
