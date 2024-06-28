@@ -192,6 +192,8 @@ export default class ButtonsManager {
         $debugButton.setInteractive({ useHandCursor: true });
         $debugButton.on('pointerdown', () => { ctx.scene.start('Debug'); });
 
+        /*
+        // NOTE:  Disabld until the DebugRunner can be updated w/ newer sprite code
         // Add another small debug button next to the first for the RUNNER mini-game
         x += 50;
         let $debugRunnerButton = ctx.add.bitmapText(x, y, 'megafont-white', 'R', 8);
@@ -201,6 +203,7 @@ export default class ButtonsManager {
         $debugRunnerButton.setDepth(8000);
         $debugRunnerButton.setInteractive({ useHandCursor: true });
         $debugRunnerButton.on('pointerdown', () => { ctx.scene.start('DebugRunner'); });
+        */
 
         // Return the generated debug button
         return $debugButton;
