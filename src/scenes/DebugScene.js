@@ -303,6 +303,7 @@ export default class DebugScene extends Phaser.Scene
             $debugObjects.robot2 = new MMRPG_Robot(this, 'quick-man', null, { x: (baseX + 40), y: (baseY + 40), z: depth++, origin: [0.5, 1] });
             $debugObjects.robot3 = new MMRPG_Robot(this, 'wood-man', null, { x: (baseX + 80), y: (baseY + 40), z: depth++, origin: [0.5, 1] });
             $debugObjects.ability = new MMRPG_Ability(this, 'buster-shot', null, { x: (baseX + 0), y: (baseY + 80), z: depth++, origin: [0.5, 1] });
+            $debugObjects.ability2 = new MMRPG_Ability(this, 'super-arm', null, { x: (baseX + 40), y: (baseY + 80), z: depth++, origin: [0.5, 1] });
             $debugObjects.item = new MMRPG_Item(this, 'energy-tank', null, { x: (baseX + 0), y: (baseY + 120), z: depth++, origin: [0.5, 1] });
             $debugObjects.field = new MMRPG_Field(this, 'preserved-forest', null, { x: (baseX + 0), y: (baseY + 160), z: depth++, origin: [0.5, 1] });
             $debugObjects.skill = new MMRPG_Skill(this, 'xtreme-submodule', null);
@@ -311,34 +312,116 @@ export default class DebugScene extends Phaser.Scene
                 SOUNDS.playMenuSound('link-click');
                 let $sprite = this.sprite;
                 this.stopAll();
-                this.slideSpriteForward(function(){
-                    if ($sprite.subTimers.effectTimer){ $sprite.subTimers.effectTimer.remove(); }
-                    $sprite.subTimers.effectTimer = this.delayedCall(250, function(){
-                        let currentAlt = this.getImageAlt();
-                        let altOptions = this.data.image_alts || [];
-                        let altOptionsTokens = altOptions.map(item => item.token);
-                        altOptionsTokens.unshift(this.objectConfig.baseAltSheet);
-                        let nextAltKey = altOptionsTokens.indexOf(currentAlt) + 1;
-                        let nextAltToken = altOptionsTokens[nextAltKey];
-                        this.setFrame('summon');
-                        this.shakeSprite();
-                        this.setImageAlt(nextAltToken, function(){
-                            if ($sprite.subTimers.effectTimer){ $sprite.subTimers.effectTimer.remove(); }
-                            $sprite.subTimers.effectTimer = this.delayedCall(600, function(){
-                                this.resetFrame();
-                                this.flipDirection();
-                                this.startIdleAnimation(true, true);
+                if (this.kind === 'player' || this.kind === 'robot'){
+                    this.slideSpriteForward(function(){
+                        let flipDirection = false;
+                        if (this.direction === 'left' && this.x <= (MMRPG.canvas.xMin + 100)){ flipDirection = true; }
+                        else if (this.direction === 'right' && this.x >= (MMRPG.canvas.xMax - 100)){ flipDirection = true; }
+                        if ($sprite.subTimers.effectTimer){ $sprite.subTimers.effectTimer.remove(); }
+                        $sprite.subTimers.effectTimer = this.delayedCall(250, function(){
+                            let currentAlt = this.getImageAlt();
+                            let altOptions = this.data.image_alts || [];
+                            let altOptionsTokens = altOptions.map(item => item.token);
+                            altOptionsTokens.unshift(this.objectConfig.baseAltSheet);
+                            let nextAltKey = altOptionsTokens.indexOf(currentAlt) + 1;
+                            let nextAltToken = altOptionsTokens[nextAltKey];
+                            this.setFrame('summon');
+                            this.shakeSprite();
+                            this.setImageAlt(nextAltToken, function(){
+                                if ($sprite.subTimers.effectTimer){ $sprite.subTimers.effectTimer.remove(); }
+                                $sprite.subTimers.effectTimer = this.delayedCall(600, function(){
+                                    this.resetFrame();
+                                    if (flipDirection){ this.flipDirection(); }
+                                    this.startIdleAnimation(true, true);
+                                    });
                                 });
                             });
                         });
-                    });
+                    } else if (this.kind === 'ability'){
+                    let distance = 100;
+                    let direction = this.direction;
+                    let x = (direction === 'left' ? '-=' : '+=') + distance;
+                    let frame = this.getCounter('debugFrame') || 0;
+                    let maxFrame = this.getValue('debugMaxFrame') || 0;
+                    if (maxFrame > 0){ this.setFrame(frame + 1); }
+                    this.moveToPositionX(x, 500, function(){
+                        let flipDirection = false;
+                        if (this.direction === 'left' && this.x <= (MMRPG.canvas.xMin + 100)){ flipDirection = true; }
+                        else if (this.direction === 'right' && this.x >= (MMRPG.canvas.xMax - 100)){ flipDirection = true; }
+                        if (maxFrame > 0){ this.setFrame(frame); }
+                        this.shakeSprite();
+                        if ($sprite.subTimers.effectTimer){ $sprite.subTimers.effectTimer.remove(); }
+                        $sprite.subTimers.effectTimer = this.delayedCall(200, function(){
+                            if ((frame + 2) >= maxFrame){
+                                let currentSheet = this.getImageSheet();
+                                let numSheetOptions = this.data.image_sheets || 1;
+                                let nextSheet = currentSheet + 1;
+                                if (nextSheet > numSheetOptions){ nextSheet = 1; }
+                                //console.log(this.token + ' | -> changing sheet to ' + nextSheet);
+                                this.setImageSheet(nextSheet, function(){
+                                    //console.log(this.token + ' | -> sheet changed to ' + nextSheet);
+                                    this.setFrame(0);
+                                    this.setCounter('debugFrame', 0);
+                                    if ($sprite.subTimers.effectTimer){ $sprite.subTimers.effectTimer.remove(); }
+                                    $sprite.subTimers.effectTimer = this.delayedCall(200, function(){
+                                        //console.log(this.token + ' | -> flipping direction (current: ' + this.direction + ')');
+                                        if (flipDirection){ this.flipDirection(); }
+                                        });
+                                    });
+                                } else {
+                                let nextFrame = frame + 2;
+                                this.setFrame(nextFrame);
+                                this.setCounter('debugFrame', nextFrame);
+                                //console.log(this.token + ' | -> changing frame to ' + nextFrame);
+                                if ($sprite.subTimers.effectTimer){ $sprite.subTimers.effectTimer.remove(); }
+                                $sprite.subTimers.effectTimer = this.delayedCall(200, function(){
+                                    //console.log(this.token + ' | -> nextFrame changed to ' + nextFrame);
+                                    //console.log(this.token + ' | -> flipping direction (current: ' + this.direction + ')');
+                                    if (flipDirection){ this.flipDirection(); }
+                                    });
+                                }
+                            });
+                        }, {easing: 'Sine.easeOut'});
+                    } else if (this.kind === 'item'){
+                    let distance = 100;
+                    let direction = this.direction;
+                    let x = (direction === 'left' ? '-=' : '+=') + distance;
+                    this.moveToPositionX(x, 600, function(){
+                        let flipDirection = false;
+                        if (this.direction === 'left' && this.x <= (MMRPG.canvas.xMin + 100)){ flipDirection = true; }
+                        else if (this.direction === 'right' && this.x >= (MMRPG.canvas.xMax - 100)){ flipDirection = true; }
+                        if ($sprite.subTimers.effectTimer){ $sprite.subTimers.effectTimer.remove(); }
+                        $sprite.subTimers.effectTimer = this.delayedCall(200, function(){
+                            let currentSheet = this.getImageSheet();
+                            let numSheetOptions = this.data.image_sheets || 1;
+                            let nextSheet = currentSheet + 1;
+                            if (nextSheet > numSheetOptions){ nextSheet = 1; }
+                            this.shakeSprite();
+                            //console.log(this.token + ' | -> changing sheet to ' + nextSheet);
+                            this.setImageSheet(nextSheet, function(){
+                                //console.log(this.token + ' | -> sheet changed to ' + nextSheet);
+                                if ($sprite.subTimers.effectTimer){ $sprite.subTimers.effectTimer.remove(); }
+                                $sprite.subTimers.effectTimer = this.delayedCall(200, function(){
+                                    //console.log(this.token + ' | -> flipping direction (current: ' + this.direction + ')');
+                                    if (flipDirection){ this.flipDirection(); }
+                                    });
+                                });
+                            });
+                        });
+                    } else {
+                    return;
+                    }
                 };
             for (let key in $debugObjects){
-                let $sprite = $debugObjects[key];
-                $sprite.setShadow(true);
-                $sprite.startIdleAnimation(true, true);
-                $sprite.setOnClick(onClickTestObject);
-                //console.log('$'+key+' =', $sprite);
+                let $object = $debugObjects[key];
+                if ($object.kind === 'ability'
+                    && $object.token === 'super-arm'){
+                    $object.setValue('debugMaxFrame');
+                    }
+                $object.setShadow(true);
+                $object.startIdleAnimation(true, true);
+                $object.setOnClick(onClickTestObject);
+                //console.log('$'+key+' =', $object);
                 }
             console.log('-> $debugObjects(small):', $debugObjects);
 
