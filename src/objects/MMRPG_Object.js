@@ -1784,9 +1784,6 @@ class MMRPG_Object {
         let $sprite = this.sprite;
         let $hitbox = this.spriteHitbox;
 
-        // Manually emit the "pointerout" event for the hitbox if it's moving
-        if ($hitbox){ $hitbox.emit('pointerout', $hitbox); }
-
         // If the sprite is already moving, stop it and move it to the new position instantly
         this.stopMoving();
 
@@ -1863,9 +1860,6 @@ class MMRPG_Object {
         let $sprite = this.sprite;
         let $hitbox = this.spriteHitbox;
 
-        // Manually emit the "pointerout" event for the hitbox if it's moving
-        if ($hitbox){ $hitbox.emit('pointerout', $hitbox); }
-
         // If the sprite is already moving, stop it and move it to the new position instantly
         this.stopMoving();
 
@@ -1924,9 +1918,6 @@ class MMRPG_Object {
         let config = this.spriteConfig;
         let $sprite = this.sprite;
         let $hitbox = this.spriteHitbox;
-
-        // Manually emit the "pointerout" event for the hitbox if it's moving
-        if ($hitbox){ $hitbox.emit('pointerout', $hitbox); }
 
         // If the sprite is already moving, stop it and move it to the new position
         this.stopMoving();
@@ -2187,6 +2178,7 @@ class MMRPG_Object {
         let $hitbox = this.spriteHitbox;
         this.setInteractive();
         $hitbox.on('pointerdown', (pointer, localX, localY) => {
+            if ($hitbox){ $hitbox.emit('pointerout', $hitbox); }
             callback.call(this, $sprite, pointer, localX, localY);
             });
     }
