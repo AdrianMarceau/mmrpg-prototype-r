@@ -259,6 +259,13 @@ class MMRPG_Object {
         return this.data.flags.indexOf(flag) !== -1;
     }
 
+    // Unset a flag in the data object for this object
+    unsetFlag (flag)
+    {
+        //console.log('MMRPG_Object.unsetFlag() called w/ flag:', flag);
+        this.data.flags = this.data.flags.filter((v) => v !== flag);
+    }
+
     // Set a counter in the data object for this object
     setCounter (counter, value = 0)
     {
@@ -1968,7 +1975,7 @@ class MMRPG_Object {
     }
 
     // Show the damage frame, shake animation, and amount inflicted on this object then execute a callback
-    showDamage (amount, callback)
+    showDamage (amount, callback, damageConfig)
     {
         //console.log('MMRPG_Object.showDamage() called for ', this.kind, this.token, '\nw/ amount:', amount, 'callback:', typeof callback);
         let _this = this;
@@ -1982,6 +1989,8 @@ class MMRPG_Object {
         let xkind = this.xkind;
         let token = this.token;
         let direction = this.direction;
+        damageConfig = damageConfig || {};
+        damageConfig.color = damageConfig.color || '#ffffff';
         this.stopMoving();
         this.stopIdleAnimation();
         this.setFrame('damage');
@@ -2004,7 +2013,7 @@ class MMRPG_Object {
             width: width,
             height: height,
             border: false,
-            color: '#ffffff',
+            color: damageConfig.color,
             depth: _this.depth + 100,
             padding: 5,
             });
