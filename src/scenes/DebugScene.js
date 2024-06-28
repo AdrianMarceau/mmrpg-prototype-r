@@ -451,15 +451,21 @@ export default class DebugScene extends Phaser.Scene
                 SOUNDS.playSoundEffect('damage');
                 this.stopMoving();
                 this.stopIdleAnimation();
-                let damageAmount = 35, actualDamageAmount;
+                let damageAmount = 10, actualDamageAmount;
                 let currentEnergy = this.getCounter('energy');
                 let maxEnergy = this.getValue('energyMax');
+                let staggerCounter = this.getCounter('stagger');
                 if (currentEnergy <= 0){ return; }
+                if (staggerCounter){ damageAmount += Math.round((damageAmount * 0.1) * staggerCounter); }
                 actualDamageAmount = Math.min(damageAmount, currentEnergy);
                 this.setCounter('energy', '-='+damageAmount);
                 let newCurrentEnergy = this.getCounter('energy');
+                let damageTextColor = '#ffffff';
+                if (newCurrentEnergy < (maxEnergy / 4)){ damageTextColor = '#ff0000'; }
+                else if (newCurrentEnergy < (maxEnergy / 2)){ damageTextColor = '#ff9900'; }
                 //console.log('current energy:', newCurrentEnergy);
                 //console.log('max energy:', maxEnergy);
+                this.setCounter('stagger', '+=1');
                 if (newCurrentEnergy <= 0){
                     // This robot is disabled so we should explode and return
                     //console.log('->', this.token, 'is disabled! energy: 0/', maxEnergy);
@@ -473,7 +479,7 @@ export default class DebugScene extends Phaser.Scene
                         this.delayedCall(600, function(){
                             this.destroy();
                             });
-                        });
+                        }, {color: damageTextColor});
                     return;
                     } else {
                     // This robot is fine but we still need to display damage
@@ -483,6 +489,7 @@ export default class DebugScene extends Phaser.Scene
                     this.showDamage(actualDamageAmount, function(){
                         //console.log('show damage complete');
                         this.resetFrame();
+                        this.setCounter('stagger', 0);
                         // Make the robot slide away from the clicked location
                         var runDirX = (localX >= (this.width / 2) ? 'left' : 'right');
                         var runDirY = (localY >= (this.height / 2) ? 'up' : 'down');
@@ -498,7 +505,7 @@ export default class DebugScene extends Phaser.Scene
                             //console.log(this.token+' | customClickEvent movement complete (A)!');
                             return customPostMoveCheck.call(this, duration);
                             });
-                        });
+                        }, {color: damageTextColor});
                     }
                 };
 
