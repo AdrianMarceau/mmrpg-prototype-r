@@ -309,11 +309,27 @@ export default class DebugScene extends Phaser.Scene
             $debugObjects.type = new MMRPG_Type(this, 'water');
             let onClickTestObject = function(){
                 SOUNDS.playMenuSound('link-click');
-                this.stopIdleAnimation();
+                let $sprite = this.sprite;
+                this.stopAll();
                 this.slideSpriteForward(function(){
-                    this.flipDirection();
-                    this.delayedCall(500, function(){
-                        this.startIdleAnimation(true, true);
+                    if ($sprite.subTimers.effectTimer){ $sprite.subTimers.effectTimer.remove(); }
+                    $sprite.subTimers.effectTimer = this.delayedCall(250, function(){
+                        let currentAlt = this.getImageAlt();
+                        let altOptions = this.data.image_alts || [];
+                        let altOptionsTokens = altOptions.map(item => item.token);
+                        altOptionsTokens.unshift(this.objectConfig.baseAltSheet);
+                        let nextAltKey = altOptionsTokens.indexOf(currentAlt) + 1;
+                        let nextAltToken = altOptionsTokens[nextAltKey];
+                        this.setFrame('summon');
+                        this.shakeSprite();
+                        this.setImageAlt(nextAltToken, function(){
+                            if ($sprite.subTimers.effectTimer){ $sprite.subTimers.effectTimer.remove(); }
+                            $sprite.subTimers.effectTimer = this.delayedCall(600, function(){
+                                this.resetFrame();
+                                this.flipDirection();
+                                this.startIdleAnimation(true, true);
+                                });
+                            });
                         });
                     });
                 };
