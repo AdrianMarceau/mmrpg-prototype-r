@@ -87,7 +87,7 @@ export default class DebugScene extends Phaser.Scene
         this.generateFakeSaveData();
 
         // Pull in other required objects and references
-        let _this = this;
+        let scene = this;
         let SPRITES = this.SPRITES;
         let SOUNDS = this.SOUNDS;
         let POPUPS = this.POPUPS;
@@ -248,7 +248,7 @@ export default class DebugScene extends Phaser.Scene
                 depth: depth++,
                 padding: 10,
                 });
-            this.floatingTextBubble = $floatingTextBubble;
+            scene.floatingTextBubble = $floatingTextBubble;
             // add two robot masters talking to each other for effect
             var origin = [0.5, 1];
             var x = x + (width / 2), y = y + 2;
@@ -258,8 +258,8 @@ export default class DebugScene extends Phaser.Scene
             $bubbleRobot2.startIdleAnimation();
             // automatically fade out and remove the above after a few seconds
             let floatingTextBubbleTween;
-            this.time.delayedCall(4000, function(){
-                floatingTextBubbleTween = ctx.tweens.addCounter({
+            scene.time.delayedCall(4000, function(){
+                floatingTextBubbleTween = this.tweens.addCounter({
                     from: 100,
                     to: 0,
                     ease: 'Sine.easeOut',
@@ -512,7 +512,7 @@ export default class DebugScene extends Phaser.Scene
                 };
 
             // Define a custom function to be run post-movement to check and readjust if offscreen
-            let customBounds = this.battleBanner.getBounds(); // contains xMin, yMin, xMax, yMax
+            let customBounds = scene.battleBanner.getBounds(); // contains xMin, yMin, xMax, yMax
             //console.log('customBounds =', customBounds);
             let customPostMoveCheck = function(duration){
                 //console.log('%c' + this.token+' | customPostMoveCheck() called', 'color: pink;');
@@ -696,7 +696,7 @@ export default class DebugScene extends Phaser.Scene
         //console.log('DebugScene.showDoctorRunning() called w/ token =', token, 'alt =', alt, 'side =', side);
 
         // Pull in required object references
-        let ctx = this;
+        let scene = this;
         let MMRPG = this.MMRPG;
         let SPRITES = this.SPRITES;
         let playerSheets = SPRITES.index.sheets.players;
@@ -705,7 +705,7 @@ export default class DebugScene extends Phaser.Scene
 
         // Generate a list of random tokens to pull from should it be necessary
         let randTokens = [];
-        if (!randTokens.length){ randTokens = randTokens.concat(ctx.runningDoctors); }
+        if (!randTokens.length){ randTokens = randTokens.concat(scene.runningDoctors); }
         let randKey = Math.floor(Math.random() * randTokens.length);
 
         // Collect the sprite token and alt if provided, else rely on the random key
@@ -737,7 +737,7 @@ export default class DebugScene extends Phaser.Scene
             }
 
         // Count the number of sliding sprites currently on the screen
-        let numSprites = ctx.debugAddedSprites - ctx.debugRemovedSprites;
+        let numSprites = scene.debugAddedSprites - scene.debugRemovedSprites;
 
         // Define the base coordinates for the sprite to be added
         var offset = ((numSprites % 10) * 5);
@@ -751,10 +751,10 @@ export default class DebugScene extends Phaser.Scene
         let spriteRunAnim = playerAnims[spriteToken][spriteAlt][spriteKey]['run'];
 
         // Create the sprite and add it to the scene
-        let $playerSprite = ctx.add.sprite(spriteX, spriteY, spriteSheet);
-        ctx.debugSprites.push($playerSprite);
-        $playerSprite.debugKey = ctx.debugSprites.length - 1;
-        ctx.debugAddedSprites++;
+        let $playerSprite = scene.add.sprite(spriteX, spriteY, spriteSheet);
+        scene.debugSprites.push($playerSprite);
+        $playerSprite.debugKey = scene.debugSprites.length - 1;
+        scene.debugAddedSprites++;
 
         // Add required sub-objects to the sprite
         $playerSprite.subTweens = {};
@@ -764,16 +764,17 @@ export default class DebugScene extends Phaser.Scene
         // Set the origin, scale, and depth for the sprite then add to parent container
         $playerSprite.setOrigin(0.5, 1);
         $playerSprite.setScale(2.0);
-        $playerSprite.setDepth(ctx.battleBanner.depth + spriteY);
-        ctx.battleBannerContainer.add($playerSprite);
-        ctx.battleBannerContainer.sort('depth');
+        $playerSprite.setDepth(scene.battleBanner.depth + spriteY);
+        scene.battleBanner.addSprite($playerSprite);
+        //scene.battleBannerContainer.add($playerSprite);
+        //scene.battleBannerContainer.sort('depth');
 
         // Apply effects and setup the frame
         $playerSprite.preFX.addShadow();
         $playerSprite.play(spriteRunAnim);
 
         // Animate the doctor bouncing up and down as they walk forward
-        $playerSprite.subTweens.bounceTween = ctx.add.tween({
+        $playerSprite.subTweens.bounceTween = scene.add.tween({
             targets: $playerSprite,
             y: {from: spriteY, to: spriteY - 2},
             ease: 'Stepped',
@@ -793,19 +794,19 @@ export default class DebugScene extends Phaser.Scene
         //console.log(playerInfo.token, 'runSpeed:', runSpeed, 'runSpeedMultiplier:', runSpeedMultiplier, 'runDistance:', runDistance, 'runDestination:', runDestination, 'runDuration:', runDuration);
 
         // Animate that sprite using the previously defined variables
-        $playerSprite.subTweens.runTween = ctx.add.tween({
+        $playerSprite.subTweens.runTween = scene.add.tween({
             targets: $playerSprite,
             x: runDestination,
             ease: 'Linear',
             duration: runDuration,
             onComplete: function () {
                 //console.log(playerInfo.name + ' running movement complete!');
-                SPRITES.destroySpriteAndCleanup(ctx, $playerSprite);
+                SPRITES.destroySpriteAndCleanup(scene, $playerSprite);
                 }
             });
 
         // Update the scene with last-used sprite token
-        ctx.lastRunningDoctor = spriteToken;
+        scene.lastRunningDoctor = spriteToken;
 
     }
 
@@ -813,10 +814,10 @@ export default class DebugScene extends Phaser.Scene
     async showMasterSliding (token, alt, side)
     {
         //console.log('DebugScene.showMasterSliding() called w/ token =', token, 'alt =', alt, 'side =', side);
-        //console.log('ctx.masterTokensByCoreType['+alt+'] =', this.masterTokensByCoreType[alt]);
+        //console.log('scene.masterTokensByCoreType['+alt+'] =', this.masterTokensByCoreType[alt]);
 
         // Pull in required object references
-        let ctx = this;
+        let scene = this;
         let MMRPG = this.MMRPG;
         let SPRITES = this.SPRITES;
         let SOUNDS = this.SOUNDS;
@@ -833,16 +834,16 @@ export default class DebugScene extends Phaser.Scene
         // Pull a list of random tokens to pull from should it be necessary
         let randTokens = [];
         if (this.safeTypeTokens.indexOf(alt) >= 0){
-            if (typeof ctx.masterTokensByCoreType[alt] !== 'undefined'
-                && ctx.masterTokensByCoreType[alt].length > 0){
-                randTokens = randTokens.concat(ctx.masterTokensByCoreType[alt]);
+            if (typeof scene.masterTokensByCoreType[alt] !== 'undefined'
+                && scene.masterTokensByCoreType[alt].length > 0){
+                randTokens = randTokens.concat(scene.masterTokensByCoreType[alt]);
                 alt = '';
-                } else if (typeof ctx.masterTokensByCoreType['copy'] !== 'undefined'
-                && ctx.masterTokensByCoreType['copy'].length > 0){
-                randTokens = randTokens.concat(ctx.masterTokensByCoreType['copy']);
+                } else if (typeof scene.masterTokensByCoreType['copy'] !== 'undefined'
+                && scene.masterTokensByCoreType['copy'].length > 0){
+                randTokens = randTokens.concat(scene.masterTokensByCoreType['copy']);
                 }
             }
-        if (!randTokens.length){ randTokens = randTokens.concat(ctx.slidingMasters); }
+        if (!randTokens.length){ randTokens = randTokens.concat(scene.slidingMasters); }
         let randKey = Math.floor(Math.random() * randTokens.length);
 
         // Prepare the Robot
@@ -882,13 +883,13 @@ export default class DebugScene extends Phaser.Scene
 
         // Create a temp robot object to ensure everything gets preloaded
         //console.log('creating new robot object for ' + robotSpriteToken);
-        let $robot = new MMRPG_Robot(ctx, robotSpriteToken, {image_alt: robotSpriteAlt}, MMRPG.canvas.offscreen);
+        let $robot = new MMRPG_Robot(scene, robotSpriteToken, {image_alt: robotSpriteAlt}, MMRPG.canvas.offscreen);
         await $robot.isReady();
         //console.log('Robot ' + $robot.token + ' is ready for action!', $robot);
 
         // Create a temp ability object to ensure everything gets preloaded
         //console.log('creating new ability object for ' + abilitySpriteToken);
-        let $ability = new MMRPG_Ability(ctx, abilitySpriteToken, {image_sheet: abilitySpriteSheet}, MMRPG.canvas.offscreen);
+        let $ability = new MMRPG_Ability(scene, abilitySpriteToken, {image_sheet: abilitySpriteSheet}, MMRPG.canvas.offscreen);
         await $ability.isReady();
         //console.log('Ability ' + $ability.token + ' is ready for action!', $ability);
 
@@ -909,7 +910,7 @@ export default class DebugScene extends Phaser.Scene
         //console.log('abilityIndexInfo for ', abilitySpriteToken, '=', abilityIndexInfo);
 
         // Count the number of sliding sprites currently on the screen
-        let numSprites = ctx.debugAddedSprites - ctx.debugRemovedSprites;
+        let numSprites = scene.debugAddedSprites - scene.debugRemovedSprites;
 
         // Define the base coordinates for the sprite to be added
         var offset = ((numSprites % 10) * 5);
@@ -917,10 +918,10 @@ export default class DebugScene extends Phaser.Scene
         let spriteY = this.battleBanner.y + 90 + ((numSprites % 10) * 10);
 
         // Create the new sliding sprite and add it to the scene
-        let $robotSprite = ctx.add.sprite(spriteX, spriteY, robotSpriteInfo['sprite'][spriteDirection]['sheet']);
-        ctx.debugSprites.push($robotSprite);
-        $robotSprite.debugKey = ctx.debugSprites.length - 1;
-        ctx.debugAddedSprites++;
+        let $robotSprite = scene.add.sprite(spriteX, spriteY, robotSpriteInfo['sprite'][spriteDirection]['sheet']);
+        scene.debugSprites.push($robotSprite);
+        $robotSprite.debugKey = scene.debugSprites.length - 1;
+        scene.debugAddedSprites++;
 
         // Add required sub-objects to the sprite
         $robotSprite.subTweens = {};
@@ -930,9 +931,10 @@ export default class DebugScene extends Phaser.Scene
         // Set the origin, scale, and depth for the sprite then add to parent container
         $robotSprite.setOrigin(0.5, 1);
         $robotSprite.setScale(2.0);
-        $robotSprite.setDepth(ctx.battleBanner.depth + spriteY);
-        ctx.battleBannerContainer.add($robotSprite);
-        ctx.battleBannerContainer.sort('depth');
+        $robotSprite.setDepth(scene.battleBanner.depth + spriteY);
+        //scene.battleBannerContainer.add($robotSprite);
+        //scene.battleBannerContainer.sort('depth');
+        scene.battleBanner.addSprite($robotSprite);
 
         // Add effects and setup the frame for the sliding sprite
         $robotSprite.preFX.addShadow();
@@ -954,7 +956,7 @@ export default class DebugScene extends Phaser.Scene
             if (!$sprite || $sprite.toBeDestroyed){ return; }
             //console.log('$sprite', typeof $sprite, $sprite, ($sprite ? true : false));
             $sprite.direction = 'right';
-            let others = Object.keys(ctx.debugSprites).length;
+            let others = Object.keys(scene.debugSprites).length;
             let newX = $sprite.x + distance;
             let overflow = 0;
             let delay = 1000;
@@ -968,13 +970,13 @@ export default class DebugScene extends Phaser.Scene
             $sprite.setFrame(0);
             $sprite.setTexture(robotSpriteInfo['sprite'][$sprite.direction]['sheet']);
             if ($sprite.subTimers.slideDelay){ $sprite.subTimers.slideDelay.remove(); }
-            $sprite.subTimers.slideDelay = ctx.time.delayedCall(delay, function(){
+            $sprite.subTimers.slideDelay = scene.time.delayedCall(delay, function(){
                 if (!$sprite || $sprite.toBeDestroyed){ return; }
                 //console.log('$sprite:', typeof $sprite, $sprite);
                 $sprite.play(robotSpriteInfo['sprite'][$sprite.direction]['anim']['slide']);
                 //SOUNDS.playSoundEffect('glass-klink');
                 if ($sprite.slideTween){ $sprite.slideTween.stop().destroy(); }
-                $sprite.slideTween = ctx.add.tween({
+                $sprite.slideTween = scene.add.tween({
                     targets: $sprite,
                     x: newX,
                     ease: 'Sine.easeOut',
@@ -984,14 +986,14 @@ export default class DebugScene extends Phaser.Scene
                         //console.log('Partial sliding movement complete...');
                         //SOUNDS.playSoundEffect('glass-klink');
                         if ($sprite.subTimers.nextAction){ $sprite.subTimers.nextAction.remove(); }
-                        $sprite.subTimers.nextAction = ctx.time.delayedCall(1000, function(){
+                        $sprite.subTimers.nextAction = scene.time.delayedCall(1000, function(){
                             //console.log('...let\'s slide somewhere else!');
                             slideSpriteSomewhere($sprite, distance, destination, duration, onComplete);
                             delete $sprite.subTimers.nextAction;
                             });
                         }
                     });
-                }, [], ctx);
+                }, [], scene);
             };
 
         // Define a function for sliding a given sprite backward, then calling another function to slide it somewhere else
@@ -1000,7 +1002,7 @@ export default class DebugScene extends Phaser.Scene
             if (!$sprite || $sprite.toBeDestroyed){ return; }
             //console.log('$sprite', typeof $sprite, $sprite, ($sprite ? true : false));
             $sprite.direction = 'left';
-            let others = Object.keys(ctx.debugSprites).length;
+            let others = Object.keys(scene.debugSprites).length;
             let newX = $sprite.x - distance;
             let overflow = 0;
             let delay = 1000;
@@ -1014,13 +1016,13 @@ export default class DebugScene extends Phaser.Scene
             $sprite.setFrame(0);
             $sprite.setTexture(robotSpriteInfo['sprite'][$sprite.direction]['sheet']);
             if ($sprite.subTimers.slideDelay){ $sprite.subTimers.slideDelay.remove(); }
-            $sprite.subTimers.slideDelay = ctx.time.delayedCall(delay, function(){
+            $sprite.subTimers.slideDelay = scene.time.delayedCall(delay, function(){
                 if (!$sprite || $sprite.toBeDestroyed){ return; }
                 //console.log('$sprite:', typeof $sprite, $sprite);
                 $sprite.play(robotSpriteInfo['sprite'][$sprite.direction]['anim']['slide']);
                 //SOUNDS.playSoundEffect('glass-klink');
                 if ($sprite.slideTween){ $sprite.slideTween.stop().destroy(); }
-                $sprite.slideTween = ctx.add.tween({
+                $sprite.slideTween = scene.add.tween({
                     targets: $sprite,
                     x: newX,
                     ease: 'Sine.easeOut',
@@ -1030,14 +1032,14 @@ export default class DebugScene extends Phaser.Scene
                         //console.log('Partial sliding movement complete...');
                         //SOUNDS.playSoundEffect('glass-klink');
                         if ($sprite.subTimers.nextAction){ $sprite.subTimers.nextAction.remove(); }
-                        $sprite.subTimers.nextAction = ctx.time.delayedCall(1000, function(){
+                        $sprite.subTimers.nextAction = scene.time.delayedCall(1000, function(){
                             //console.log('...let\'s slide somewhere else!');
                             slideSpriteSomewhere($sprite, distance, destination, duration, onComplete);
                             delete $sprite.subTimers.nextAction;
                             });
                         }
                     });
-                }, [], ctx);
+                }, [], scene);
             };
 
         // Define a function that makes a given sprite perform a shoot animation and then move w/ a slide
@@ -1053,10 +1055,10 @@ export default class DebugScene extends Phaser.Scene
             let shotY = $sprite.y + shotOffset;
 
             // First create the shot sprite and add it to the scene
-            let $shotSprite = ctx.add.sprite(shotX, shotY, abilitySpriteInfo['sprite'][$sprite.direction]['sheet']);
-            ctx.debugSprites.push($shotSprite);
-            $shotSprite.debugKey = ctx.debugSprites.length - 1;
-            ctx.debugAddedSprites++;
+            let $shotSprite = scene.add.sprite(shotX, shotY, abilitySpriteInfo['sprite'][$sprite.direction]['sheet']);
+            scene.debugSprites.push($shotSprite);
+            $shotSprite.debugKey = scene.debugSprites.length - 1;
+            scene.debugAddedSprites++;
             $shotSprite.setOrigin(0.5, 1);
             $shotSprite.setScale(2.0);
             $shotSprite.setDepth($sprite.depth + 1);
@@ -1086,7 +1088,7 @@ export default class DebugScene extends Phaser.Scene
             if ($sprite.subTweens.kickbackTween){ $sprite.subTweens.kickbackTween.stop().destroy(); }
             if (abilitySuffix === 'shot'){ SOUNDS.playSoundEffect('shot-sound'); }
             else if (abilitySuffix === 'buster'){ SOUNDS.playSoundEffect('blast-sound'); }
-            $sprite.subTweens.kickbackTween = ctx.add.tween({
+            $sprite.subTweens.kickbackTween = scene.add.tween({
                 targets: $sprite,
                 x: newX,
                 ease: 'Linear',
@@ -1096,7 +1098,7 @@ export default class DebugScene extends Phaser.Scene
                 onComplete: function () {
                     //console.log('Partial shooting movement complete!');
                     if ($sprite.subTimers.nextAction){ $sprite.subTimers.nextAction.remove(); }
-                    $sprite.subTimers.nextAction = ctx.time.delayedCall(1000, function(){
+                    $sprite.subTimers.nextAction = scene.time.delayedCall(1000, function(){
                         //console.log('Partial shooting movement complete!');
                         slideSpriteSomewhere($sprite, distance, destination, duration, onComplete);
                         delete $sprite.subTimers.nextAction;
@@ -1111,7 +1113,7 @@ export default class DebugScene extends Phaser.Scene
             let shotDuration = (distFromEdge * 1.5);
             $sprite.fx = $sprite.preFX.addColorMatrix();
             $sprite.fx.brightness(3.0);
-            $sprite.subTweens.chargeTween = ctx.tweens.addCounter({
+            $sprite.subTweens.chargeTween = scene.tweens.addCounter({
                 from: 0,
                 to: 3,
                 duration: 400,
@@ -1122,18 +1124,18 @@ export default class DebugScene extends Phaser.Scene
                     $sprite.fx.brightness($sprite.subTweens.chargeTween.getValue());
                     }
                 });
-            $sprite.subTimers.afterCharge = ctx.time.delayedCall(400, function(){
+            $sprite.subTimers.afterCharge = scene.time.delayedCall(400, function(){
                 if (!$sprite || $sprite.toBeDestroyed){ return; }
                 $sprite.fx.reset();
                 $sprite.subTweens.chargeTween.remove();
                 });
 
             // Wait a moment for the robot to finish its kickback, then animate the shot going offscreen at predetermined speed
-            $shotSprite.subTimers.bulletTween = ctx.time.delayedCall(400, function(){
+            $shotSprite.subTimers.bulletTween = scene.time.delayedCall(400, function(){
                 if (!$shotSprite){ return; }
                 $shotSprite.setAlpha(0.6);
                 $shotSprite.setFrame(shotFrame);
-                $shotSprite.subTweens.bulletTween = ctx.add.tween({
+                $shotSprite.subTweens.bulletTween = scene.add.tween({
                     targets: $shotSprite,
                     x: shotDestX,
                     alpha: 1.0,
@@ -1141,7 +1143,7 @@ export default class DebugScene extends Phaser.Scene
                     duration: shotDuration,
                     onComplete: function () {
                         //console.log(robotIndexInfo.name + '\'s ' + abilityIndexInfo.name + ' movement complete!');
-                        SPRITES.destroySprite(ctx, $shotSprite);
+                        SPRITES.destroySprite(scene, $shotSprite);
                         }
                     });
                 });
@@ -1183,7 +1185,7 @@ export default class DebugScene extends Phaser.Scene
         // Collect data for the explosion sprite and the generate the sheets and animation
         let effectElement = (robotIndexInfo.core !== '' && robotIndexInfo.core !== 'copy' ? robotIndexInfo.core : '');
         let effectToken = effectElement ? effectElement + '-buster' : 'mega-buster';
-        let $tempAbility = new MMRPG_Ability(ctx, effectToken, null, MMRPG.canvas.offscreen);
+        let $tempAbility = new MMRPG_Ability(scene, effectToken, null, MMRPG.canvas.offscreen);
         await $tempAbility.isReady();
         $tempAbility.destroy();
         let explodeSpriteInfo = SPRITES.getSpriteInfo('ability', effectToken, 1);
@@ -1205,14 +1207,14 @@ export default class DebugScene extends Phaser.Scene
                 frameRate: 12,
                 repeat: -1
                 };
-            let explodeAnimation = ctx.anims.get(animKey);
+            let explodeAnimation = scene.anims.get(animKey);
             if (!explodeAnimation){
-                ctx.anims.create(Object.assign({}, animTemplate, {
+                scene.anims.create(Object.assign({}, animTemplate, {
                     key: animKey,
                     sheet: sheetKey,
-                    frames: ctx.anims.generateFrameNumbers(sheetKey, { frames: animTemplate.frames }),
+                    frames: scene.anims.generateFrameNumbers(sheetKey, { frames: animTemplate.frames }),
                     }));
-                explodeAnimation = ctx.anims.get(animKey);
+                explodeAnimation = scene.anims.get(animKey);
                 //console.log('Created explodeAnimation w/ key:', explodeAnimation.key, 'sheet:', explodeAnimation.sheet);
                 }
             spriteInfo['sprite'][spriteDirection]['anim']['explode'] = explodeAnimation.key;
@@ -1234,8 +1236,8 @@ export default class DebugScene extends Phaser.Scene
             // Stop any of this sprite's tweens and timers, then play the explosion animation
             $sprite.isDisabled = true;
             $sprite.stop();
-            SPRITES.stopSpriteTweens(ctx, $sprite, false);
-            SPRITES.stopSpriteTimers(ctx, $sprite, false);
+            SPRITES.stopSpriteTweens(scene, $sprite, false);
+            SPRITES.stopSpriteTimers(scene, $sprite, false);
 
             // Set the frame to disabled and darken the sprite, then play the explosion animation
             $sprite.setFrame(3);
@@ -1243,7 +1245,7 @@ export default class DebugScene extends Phaser.Scene
             $sprite.fx.brightness(3.0);
 
             // Generate the explosion animation tween of flashing, then destroy the sprite when done
-            $sprite.subTweens.flashTween = ctx.tweens.addCounter({
+            $sprite.subTweens.flashTween = scene.tweens.addCounter({
                 from: 0.6,
                 to: 1.4,
                 duration: 40,
@@ -1255,7 +1257,7 @@ export default class DebugScene extends Phaser.Scene
                     },
                 onComplete: function (){
                     //console.log(robotIndexInfo.name + ' explosion complete!');
-                    SPRITES.destroySprite(ctx, $sprite);
+                    SPRITES.destroySprite(scene, $sprite);
                     }
                 });
 
@@ -1267,10 +1269,10 @@ export default class DebugScene extends Phaser.Scene
             let explodeY = $sprite.y + explodeOffsets.y;
 
             // First create the explode sprite and add it to the scene
-            let $explodeSprite = ctx.add.sprite(explodeX, explodeY, explodeSpriteInfo['sprite'][$sprite.direction]['sheet']);
-            ctx.debugSprites.push($explodeSprite);
-            $explodeSprite.debugKey = ctx.debugSprites.length - 1;
-            ctx.debugAddedSprites++;
+            let $explodeSprite = scene.add.sprite(explodeX, explodeY, explodeSpriteInfo['sprite'][$sprite.direction]['sheet']);
+            scene.debugSprites.push($explodeSprite);
+            $explodeSprite.debugKey = scene.debugSprites.length - 1;
+            scene.debugAddedSprites++;
             $explodeSprite.setOrigin(0.5, 1);
             $explodeSprite.setScale(2.0);
             $explodeSprite.setDepth($sprite.depth - 1);
@@ -1299,7 +1301,7 @@ export default class DebugScene extends Phaser.Scene
             SOUNDS.playSoundEffect('explode-sound');
 
             // Generate a tween for the explode sprite that has it slowly fade away via alpha then remove itself
-            $explodeSprite.subTweens.fadeTween = ctx.add.tween({
+            $explodeSprite.subTweens.fadeTween = scene.add.tween({
                 targets: $explodeSprite,
                 alpha: 0.1,
                 ease: 'Linear',
@@ -1311,7 +1313,7 @@ export default class DebugScene extends Phaser.Scene
                     },
                 onComplete: function () {
                     //console.log(robotIndexInfo.name + '\'s explosion fade complete!');
-                    SPRITES.destroySprite(ctx, $explodeSprite);
+                    SPRITES.destroySprite(scene, $explodeSprite);
                     }
                 });
 
@@ -1322,10 +1324,10 @@ export default class DebugScene extends Phaser.Scene
         let robotQuoteTweens = [];
         const showRobotDefeatQuote = function($sprite){
             // Destroy any existing floating text bubbles
-            if (ctx.floatingTextBubble){
-                //console.log('Destroying clicked ctx.floatingTextBubble:', ctx.floatingTextBubble);
-                ctx.floatingTextBubble.destroy();
-                ctx.floatingTextBubble = null;
+            if (scene.floatingTextBubble){
+                //console.log('Destroying clicked scene.floatingTextBubble:', scene.floatingTextBubble);
+                scene.floatingTextBubble.destroy();
+                scene.floatingTextBubble = null;
                 }
             // If the robot has quotes to display, let's do so now
             let quoteDisplayed = false;
@@ -1345,7 +1347,7 @@ export default class DebugScene extends Phaser.Scene
                     //console.log('text:', text, 'color:', color);
                     var x = $robotSprite.x + 40, y = $robotSprite.y - 60;
                     var width = Math.ceil(MMRPG.canvas.width / 4), height = 90;
-                    $floatingTextBubble = Strings.addFormattedText(ctx, x, y, text, {
+                    $floatingTextBubble = Strings.addFormattedText(scene, x, y, text, {
                         width: width,
                         height: height,
                         color: color,
@@ -1361,7 +1363,7 @@ export default class DebugScene extends Phaser.Scene
             // After a set amount of time, automatically destroy the floating text bubble
             if (quoteDisplayed
                 && $floatingTextBubble){
-                let quoteDisplayTween = ctx.tweens.addCounter({
+                let quoteDisplayTween = scene.tweens.addCounter({
                     from: 100,
                     to: 0,
                     ease: 'Sine.easeOut',
@@ -1407,26 +1409,26 @@ export default class DebugScene extends Phaser.Scene
             //console.log('queueSpriteCleanup()');
             if (cleanupTimer){ cleanupTimer.remove(); }
             let removeDebugKeys = [];
-            cleanupTimer = ctx.time.delayedCall(cleanupDelay, function(){
+            cleanupTimer = scene.time.delayedCall(cleanupDelay, function(){
                 //console.log('Time to cleanup sprites:', $robotSprite);
                 removeDebugKeys = removeDebugKeys.concat(getDebugKeys($robotSprite));
-                SPRITES.destroySpriteAndCleanup(ctx, $robotSprite, true);
+                SPRITES.destroySpriteAndCleanup(scene, $robotSprite, true);
                 for (let i = 0; i < abilityShotSprites.length; i++){
                     let $abilityShotSprite = abilityShotSprites[i];
                     removeDebugKeys = removeDebugKeys.concat(getDebugKeys($abilityShotSprite));
-                    SPRITES.destroySpriteAndCleanup(ctx, $abilityShotSprite, true);
+                    SPRITES.destroySpriteAndCleanup(scene, $abilityShotSprite, true);
                     }
                 for (let i = 0; i < explodeEffectSprites.length; i++){
                     let $explodeEffectSprite = explodeEffectSprites[i];
                     removeDebugKeys = removeDebugKeys.concat(getDebugKeys($explodeEffectSprite));
-                    SPRITES.destroySpriteAndCleanup(ctx, $explodeEffectSprite, true);
+                    SPRITES.destroySpriteAndCleanup(scene, $explodeEffectSprite, true);
                     }
                 //console.log('removeDebugKeys:', removeDebugKeys);
                 for (let i = 0; i < removeDebugKeys.length; i++){
                     let debugKey = removeDebugKeys[i];
-                    //console.log('Removing debug key:', debugKey, 'from debugSprites:', ctx.debugSprites);
-                    delete ctx.debugSprites[debugKey];
-                    ctx.debugRemovedSprites++;
+                    //console.log('Removing debug key:', debugKey, 'from debugSprites:', scene.debugSprites);
+                    delete scene.debugSprites[debugKey];
+                    scene.debugRemovedSprites++;
                     }
                 });
             };
@@ -1454,7 +1456,7 @@ export default class DebugScene extends Phaser.Scene
             });
 
         // Update the scene with last-used sprite token
-        ctx.lastSlidingMaster = robotSpriteToken;
+        scene.lastSlidingMaster = robotSpriteToken;
     }
 
     // Define a function for creating the title banner and associated elements inside it
@@ -1463,7 +1465,7 @@ export default class DebugScene extends Phaser.Scene
         //console.log('DebugScene.createTitleBanner() called');
 
         // Pull in other required objects and references
-        let ctx = this;
+        let scene = this;
         let BUTTONS = this.BUTTONS;
         let SOUNDS = this.SOUNDS;
 
@@ -1473,7 +1475,7 @@ export default class DebugScene extends Phaser.Scene
         var depth = 1000;
         var y = 10, x = 10;
         var width = MMRPG.canvas.width - 20, height = 30;
-        this.titleBanner = new Banner(ctx, x, y, {
+        this.titleBanner = new Banner(scene, x, y, {
             width: width,
             height: height,
             depth: depth++
@@ -1507,7 +1509,7 @@ export default class DebugScene extends Phaser.Scene
             //console.log('Pause button clicked');
             window.toggleGameIsClickable(false);
             window.toggleGameIsRunning(false);
-            ctx.scene.pause();
+            scene.scene.pause();
             $pauseButton.setText('PAUSED');
             if (pauseTimeout){ clearTimeout(pauseTimeout); }
             pauseTimeout = setTimeout(function(){
@@ -1516,7 +1518,7 @@ export default class DebugScene extends Phaser.Scene
             });
         window.setGameResumeCallback(function(){
             $pauseButton.setText('PAUSE');
-            ctx.scene.resume();
+            scene.scene.resume();
             SOUNDS.playMenuSound('icon-click-mini');
             });
         this.pauseButton = $pauseButton;
@@ -1536,7 +1538,7 @@ export default class DebugScene extends Phaser.Scene
         buttonConfig.depth = depth++;
         BUTTONS.makeSimpleButton('< Back to Title', buttonConfig, function(){
             //console.log('Back button clicked');
-            ctx.scene.start('Title');
+            scene.scene.start('Title');
             });
 
         // Create a next button so we can go to the main scene
@@ -1544,7 +1546,7 @@ export default class DebugScene extends Phaser.Scene
         buttonConfig.depth = depth++;
         BUTTONS.makeSimpleButton('Restart Debug', buttonConfig, function(){
             //console.log('Debug button clicked');
-            ctx.scene.start('Debug');
+            scene.scene.start('Debug');
             });
 
     }
@@ -1555,7 +1557,7 @@ export default class DebugScene extends Phaser.Scene
         //console.log('DebugScene.createHeaderBanner() called');
 
         // Pull in other required objects and references
-        let ctx = this;
+        let scene = this;
         let SPRITES = this.SPRITES;
         let POPUPS = this.POPUPS;
         let BUTTONS = this.BUTTONS;
@@ -1567,7 +1569,7 @@ export default class DebugScene extends Phaser.Scene
         var depth = 1000;
         var y = 45, x = 10;
         var width = MMRPG.canvas.width - 20, height = 28;
-        this.headerBanner = new Banner(ctx, x, y, {
+        this.headerBanner = new Banner(scene, x, y, {
             width: width,
             height: height,
             depth: depth++
@@ -1602,7 +1604,7 @@ export default class DebugScene extends Phaser.Scene
         //console.log('DebugScene.createBattleBanner() called');
 
         // Pull in required object references
-        let ctx = this;
+        let scene = this;
         let MMRPG = this.MMRPG;
         let BUTTONS = this.BUTTONS;
 
@@ -1678,7 +1680,7 @@ export default class DebugScene extends Phaser.Scene
         //console.log('DebugScene.createBounceBanners() called');
 
         // Pull in required object references
-        let ctx = this;
+        let scene = this;
         let MMRPG = this.MMRPG;
         let SPRITES = this.SPRITES;
         let POPUPS = this.POPUPS;
@@ -1687,7 +1689,7 @@ export default class DebugScene extends Phaser.Scene
         // Pull in refs to specific indexes
         let typesIndex = MMRPG.Indexes.types;
         let typesIndexTokens = Object.keys(typesIndex);
-        let safeTypeTokens = ctx.safeTypeTokens;
+        let safeTypeTokens = scene.safeTypeTokens;
 
         // Create an empty type panel we can use as a boundary
         var depth = 1000;
@@ -1771,7 +1773,7 @@ export default class DebugScene extends Phaser.Scene
         //console.log('DebugScene.updateBounceBanners() called');
 
         // Pull in required object references
-        let ctx = this;
+        let scene = this;
         let MMRPG = this.MMRPG;
         let SPRITES = this.SPRITES;
         let POPUPS = this.POPUPS;
@@ -1781,7 +1783,7 @@ export default class DebugScene extends Phaser.Scene
         // Pull in refs to specific indexes
         let typesIndex = MMRPG.Indexes.types;
         let typesIndexTokens = Object.keys(typesIndex);
-        let safeTypeTokens = ctx.safeTypeTokens;
+        let safeTypeTokens = scene.safeTypeTokens;
 
         // Pull in the bounce banner panel and bounds for reference
         let $bouncePanel = this.bouncePanel;
@@ -1824,7 +1826,7 @@ export default class DebugScene extends Phaser.Scene
             SOUNDS.playSoundEffect('glass-klink');
             var type = $alphaBanner.type;
             //console.log('$alphaBanner type:', type);
-            if (ctx.allowRunningDoctors){
+            if (scene.allowRunningDoctors){
                 //console.log('Show a running doctor of stat type:', type);
                 let doctor = '', alt = '';
                 if (type === 'defense'){ doctor = 'dr-light'; }
@@ -1885,7 +1887,7 @@ export default class DebugScene extends Phaser.Scene
             SOUNDS.playSoundEffect('glass-klink');
             var type = $betaBanner.type;
             //console.log('$betaBanner type:', type);
-            if (ctx.allowSlidingMasters){
+            if (scene.allowSlidingMasters){
                 //console.log('Show a sliding master of type:', type);
                 this.showMasterSliding(null, type, 'left');
                 }
@@ -1906,9 +1908,9 @@ export default class DebugScene extends Phaser.Scene
         //console.log('DebugScene.updateMainBanner() called');
 
         // Pull in required object references
-        let ctx = this;
+        let scene = this;
         let types = MMRPG.Indexes.types;
-        let safeTypes = ctx.safeTypeTokens;
+        let safeTypes = scene.safeTypeTokens;
         //console.log('types =', typeof types, types);
         //console.log('safeTypes =', typeof safeTypes, safeTypes);
 
@@ -1933,9 +1935,9 @@ export default class DebugScene extends Phaser.Scene
                 mainBanner.setSize(width - resize, height - resize);
                 } else {
                 // We need to bounce to the other side now
-                if (ctx.allowRunningDoctors){ ctx.showDoctorRunning(); }
-                if (ctx.allowSlidingMasters){
-                    var doctor = ctx.lastRunningDoctor;
+                if (scene.allowRunningDoctors){ scene.showDoctorRunning(); }
+                if (scene.allowSlidingMasters){
+                    var doctor = scene.lastRunningDoctor;
                     var master = 'robot';
                     if (doctor === 'dr-light'){ master = mainBanner.type === 'copy' ? 'mega-man' : 'roll'; }
                     else if (doctor === 'dr-wily'){ master = mainBanner.type === 'copy' ? 'bass' : 'disco'; }
@@ -1959,9 +1961,9 @@ export default class DebugScene extends Phaser.Scene
                 mainBanner.setSize(width + resize, height + resize);
                 } else {
                 // We need to bounce to the other side now
-                if (ctx.allowRunningDoctors){ ctx.showDoctorRunning(); }
-                if (ctx.allowSlidingMasters){
-                    var doctor = ctx.lastRunningDoctor;
+                if (scene.allowRunningDoctors){ scene.showDoctorRunning(); }
+                if (scene.allowSlidingMasters){
+                    var doctor = scene.lastRunningDoctor;
                     var master = 'robot';
                     if (doctor === 'dr-light'){ master = mainBanner.type === 'copy' ? 'mega-man' : 'roll'; }
                     else if (doctor === 'dr-wily'){ master = mainBanner.type === 'copy' ? 'bass' : 'disco'; }
@@ -1988,9 +1990,9 @@ export default class DebugScene extends Phaser.Scene
         //console.log('DebugScene.updateTestBanner() called');
 
         // Pull in required object references
-        let ctx = this;
+        let scene = this;
         let types = MMRPG.Indexes.types;
-        let safeTypes = ctx.safeTypeTokens;
+        let safeTypes = scene.safeTypeTokens;
         //console.log('types =', typeof types, types);
         //console.log('safeTypes =', typeof safeTypes, safeTypes);
 
@@ -2023,7 +2025,7 @@ export default class DebugScene extends Phaser.Scene
             var color = types[type]['colour_light'];
             var color2 = types[type]['colour_dark'];
             testBanner.setColor(color, color2);
-            if (ctx.allowSlidingMasters){
+            if (scene.allowSlidingMasters){
                 this.showMasterSliding(null, type, 'right');
                 }
             }
@@ -2036,7 +2038,7 @@ export default class DebugScene extends Phaser.Scene
         //console.log('DebugScene.addPanelWithDebugButtons() called');
 
         // Pull in other required objects and references
-        let ctx = this;
+        let scene = this;
         let SPRITES = this.SPRITES;
         let POPUPS = this.POPUPS;
         let BUTTONS = this.BUTTONS;
@@ -2048,7 +2050,7 @@ export default class DebugScene extends Phaser.Scene
         var depth = 1000;
         var width = MMRPG.canvas.width - 20, height = 148;
         var y = MMRPG.canvas.height - height - 32, x = 10;
-        let $debugButtonPanel = new Banner(ctx, x, y, {
+        let $debugButtonPanel = new Banner(scene, x, y, {
             width: width,
             height: height,
             depth: depth++
@@ -2110,7 +2112,7 @@ export default class DebugScene extends Phaser.Scene
                 depth: depth++
                 }, function(){
                 //console.log('Show Welcome Home button clicked');
-                ctx.showWelcomeToThePrototype();
+                scene.showWelcomeToThePrototype();
                 });
 
         cell = buttonGrid[0][1];
@@ -2128,7 +2130,7 @@ export default class DebugScene extends Phaser.Scene
                 depth: depth++
                 }, function(){
                 //console.log(label.toUpperCase() + ' button clicked');
-                ctx.showDoctorRunning(null, null, 'left');
+                scene.showDoctorRunning(null, null, 'left');
                 });
 
         cell = buttonGrid[0][3];
@@ -2142,7 +2144,7 @@ export default class DebugScene extends Phaser.Scene
                 depth: depth++
                 }, function(){
                 //console.log(label.toUpperCase() + ' button clicked');
-                ctx.showMasterSliding(null, null, 'left');
+                scene.showMasterSliding(null, null, 'left');
                 });
 
         // COLUMN 2
@@ -2166,16 +2168,16 @@ export default class DebugScene extends Phaser.Scene
                 depth: depth++
                 }, function(button){
                 //console.log('Toggle Doctors Running button clicked');
-                if (ctx.allowRunningDoctors){
+                if (scene.allowRunningDoctors){
                     button.text.setTint(0xff0000);
                     //button.text.setColor('#ff0000');
-                    ctx.allowRunningDoctors = false;
-                    ctx.bounceBannerAlpha.setAlpha(0.1);
+                    scene.allowRunningDoctors = false;
+                    scene.bounceBannerAlpha.setAlpha(0.1);
                     } else {
                     button.text.setTint(0x00ff00);
                     //button.text.setColor('#00ff00');
-                    ctx.allowRunningDoctors = true;
-                    ctx.bounceBannerAlpha.setAlpha(1);
+                    scene.allowRunningDoctors = true;
+                    scene.bounceBannerAlpha.setAlpha(1);
                     }
                 });
 
@@ -2190,16 +2192,16 @@ export default class DebugScene extends Phaser.Scene
                 depth: depth++
                 }, function(button){
                 //console.log('Toggle Masters Sliding button clicked');
-                if (ctx.allowSlidingMasters){
+                if (scene.allowSlidingMasters){
                     button.text.setTint(0xff0000);
                     //button.text.setColor('#ff0000');
-                    ctx.allowSlidingMasters = false;
-                    ctx.bounceBannerBeta.setAlpha(0.1);
+                    scene.allowSlidingMasters = false;
+                    scene.bounceBannerBeta.setAlpha(0.1);
                     } else {
                     button.text.setTint(0x00ff00);
                     //button.text.setColor('#00ff00');
-                    ctx.allowSlidingMasters = true;
-                    ctx.bounceBannerBeta.setAlpha(1);
+                    scene.allowSlidingMasters = true;
+                    scene.bounceBannerBeta.setAlpha(1);
                     }
                 });
 
@@ -2216,7 +2218,7 @@ export default class DebugScene extends Phaser.Scene
                 depth: depth++
                 }, function(){
                 //console.log('Show Tales from the Void button clicked');
-                ctx.showTalesFromTheVoid();
+                scene.showTalesFromTheVoid();
                 });
 
         cell = buttonGrid[2][1];
@@ -2234,7 +2236,7 @@ export default class DebugScene extends Phaser.Scene
                 depth: depth++
                 }, function(){
                 //console.log(label.toUpperCase() + ' button clicked');
-                ctx.showDoctorRunning(null, null, 'right');
+                scene.showDoctorRunning(null, null, 'right');
                 });
 
         cell = buttonGrid[2][3];
@@ -2248,7 +2250,7 @@ export default class DebugScene extends Phaser.Scene
                 depth: depth++
                 }, function(){
                 //console.log(label.toUpperCase() + ' button clicked');
-                ctx.showMasterSliding(null, null, 'right');
+                scene.showMasterSliding(null, null, 'right');
                 });
 
         /*
@@ -2264,7 +2266,7 @@ export default class DebugScene extends Phaser.Scene
         //console.log('DebugScene.addPanelWithTypeButtons() called');
 
         // Pull in required object references
-        let ctx = this;
+        let scene = this;
         let MMRPG = this.MMRPG;
 
         // Draw a panel with all of the elemental types as buttons
@@ -2282,7 +2284,7 @@ export default class DebugScene extends Phaser.Scene
             typesPerRow: 10,
             onClick: function($button, type){
                 //console.log('Wow! Type button clicked!', 'type:', type, '$button:', $button);
-                ctx.showMasterSliding(null, type, 'left');
+                scene.showMasterSliding(null, type, 'left');
                 }
             });
         this.typeButtonPanel = $typeButtonPanel;
@@ -2294,7 +2296,7 @@ export default class DebugScene extends Phaser.Scene
     {
 
         // Pull in required object references
-        let ctx = this;
+        let scene = this;
         let MMRPG = this.MMRPG;
         let SPRITES = this.SPRITES;
         let POPUPS = this.POPUPS;
@@ -2323,7 +2325,7 @@ export default class DebugScene extends Phaser.Scene
             };
 
         // Draw the panel with the specified configuration
-        const $panelBack = Graphics.addTypePanel(ctx, panelConfig);
+        const $panelBack = Graphics.addTypePanel(scene, panelConfig);
 
         // Draw little buttons on the type panel for each type
         let numTypes = panelConfig.types.length;
@@ -2406,7 +2408,7 @@ export default class DebugScene extends Phaser.Scene
         let POPUPS = this.POPUPS;
 
         // Display a popup to welcome the user to the debug room
-        let ctx = this;
+        let scene = this;
         let panelText = "Welcome to Mega Man RPG: Legacy of the Prototype!";
         panelText += '\n' + "Looks like you've reached the DEBUG room!";
         POPUPS.displayPopup(panelText, {
@@ -2417,8 +2419,8 @@ export default class DebugScene extends Phaser.Scene
             });
 
         // Show a robot master sliding the the background while they're reading
-        if (ctx.allowSlidingMasters){
-            ctx.showMasterSliding('auto', null, 'right');
+        if (scene.allowSlidingMasters){
+            scene.showMasterSliding('auto', null, 'right');
             }
 
     }
@@ -2433,7 +2435,7 @@ export default class DebugScene extends Phaser.Scene
         let POPUPS = this.POPUPS;
 
         // Display a series of popups to tell the story of the dark void and the alien entity
-        let ctx = this;
+        let scene = this;
         POPUPS.displayPopup([
             "Who am I?  What is my name?  Why do I exist here in this place all alone? Is anyone even out there?",
             "It happened suddenly.  I woke up in this world, fully aware of myself but blind to my own form.  I felt... pieces... around me.  Not pieces of myself... but pieces of... others... Pieces of memories, of hopes, of ambitions... Fragments of form... Whispers of souls... Phantoms in the network...  I felt streams of consciousness flitting in and out of reach, so I pulled them into myself... and I made them a part of me...",
@@ -2451,8 +2453,8 @@ export default class DebugScene extends Phaser.Scene
             });
 
         // Show a doctor running the the background while they're reading
-        if (ctx.allowRunningDoctors){
-            ctx.showDoctorRunning('proxy', null, 'right');
+        if (scene.allowRunningDoctors){
+            scene.showDoctorRunning('proxy', null, 'right');
             }
 
     }
