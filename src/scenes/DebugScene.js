@@ -190,7 +190,7 @@ export default class DebugScene extends Phaser.Scene
         MMRPG.create(this);
 
         // Pull in other required objects and references
-        let ctx = this;
+        let scene = this;
         let SPRITES = this.SPRITES;
         let POPUPS = this.POPUPS;
         let BUTTONS = this.BUTTONS;
@@ -414,6 +414,7 @@ export default class DebugScene extends Phaser.Scene
                 };
             for (let key in $debugObjects){
                 let $object = $debugObjects[key];
+                scene.battleBanner.addSprite($object);
                 if ($object.kind === 'ability'
                     && $object.token === 'super-arm'){
                     $object.setValue('debugMaxFrame');
@@ -426,7 +427,7 @@ export default class DebugScene extends Phaser.Scene
             console.log('-> $debugObjects(small):', $debugObjects);
 
             // Create some mods of the above to see what's possible
-            var $ref = this.battleBanner;
+            var $ref = scene.battleBanner;
             var commonX = $ref.x + ($ref.width / 2);
             var commonY = $ref.y + ($ref.height / 2) + 76;
 
@@ -448,6 +449,7 @@ export default class DebugScene extends Phaser.Scene
                 //this.setCounter('clicks', '+=1');
                 //console.log('clicks =', this.getCounter('clicks'));
                 //SOUNDS.playMenuSound('link-click');
+                if (!scene.battleBanner.isWithinBounds(pointer.x, pointer.y)){ return; }
                 SOUNDS.playSoundEffect('damage');
                 this.stopMoving();
                 this.stopIdleAnimation();
@@ -620,6 +622,7 @@ export default class DebugScene extends Phaser.Scene
             let energyMin = 0, energyMax = 100;
             for (let i = 0; i < customObjects.length; i++){
                 let $object = customObjects[i];
+                scene.battleBanner.addSprite($object);
                 $object.setValue('energyMin', energyMin);
                 $object.setValue('energyMax', energyMax);
                 $object.setCounter('energy', energyMax);
@@ -1057,8 +1060,9 @@ export default class DebugScene extends Phaser.Scene
             $shotSprite.setOrigin(0.5, 1);
             $shotSprite.setScale(2.0);
             $shotSprite.setDepth($sprite.depth + 1);
-            ctx.battleBannerContainer.add($shotSprite);
-            ctx.battleBannerContainer.sort('depth');
+            //scene.battleBannerContainer.add($shotSprite);
+            //scene.battleBannerContainer.sort('depth');
+            scene.battleBanner.addSprite($shotSprite);
 
             // Add required sub-objects to the sprite
             $shotSprite.subTweens = {};
@@ -1270,8 +1274,9 @@ export default class DebugScene extends Phaser.Scene
             $explodeSprite.setOrigin(0.5, 1);
             $explodeSprite.setScale(2.0);
             $explodeSprite.setDepth($sprite.depth - 1);
-            ctx.battleBannerContainer.add($explodeSprite);
-            ctx.battleBannerContainer.sort('depth');
+            //scene.battleBannerContainer.add($explodeSprite);
+            //scene.battleBannerContainer.sort('depth');
+            scene.battleBanner.addSprite($explodeSprite);
 
             // Add required sub-objects to the sprite
             $explodeSprite.subTweens = {};
@@ -1621,10 +1626,14 @@ export default class DebugScene extends Phaser.Scene
         this.battleBanner = $battleBanner;
 
         // Create a mask for the battle banner area that we can add sprites to
+        /*
         const spriteContainer = this.add.container();
-        const spriteContainerMask = Graphics.makeRectangleMask(ctx, x, y, $battleBanner.width, $battleBanner.height, 5, false);
+        const spriteContainerMask = Graphics.makeRectangleMask(scene, x, y, $battleBanner.width, $battleBanner.height, 5, false);
         spriteContainer.setMask(spriteContainerMask);
         spriteContainer.setDepth(depth++);
+        this.battleBannerContainer = spriteContainer;
+        */
+        const spriteContainer = $battleBanner.createContainer();
         this.battleBannerContainer = spriteContainer;
 
         // Draw the sprite grid as a background texture in front of the battle banner
