@@ -134,16 +134,6 @@ export default class DebugScene extends Phaser.Scene
         preloadSprites.players = Object.values(this.runningDoctors);
         preloadSprites.robots = Object.values(this.slidingMasters);
 
-        /*
-        // DEBUG!!! Preload the entire robots index for testing
-        for (let robotToken in robotsIndex){
-            let robotData = robotsIndex[robotToken];
-            if (robotData.class === 'system'){ continue; }
-            if (!robotData.flag_complete){ continue; }
-            preloadSprites.robots.push(robotToken);
-            }
-        */
-
         // Also load type-specific sprites for any copy robots that have them
         let preloadMasters = Object.values(preloadSprites.robots);
         for (let i = 0; i < preloadMasters.length; i++){
@@ -414,7 +404,7 @@ export default class DebugScene extends Phaser.Scene
                 };
             for (let key in $debugObjects){
                 let $object = $debugObjects[key];
-                scene.battleBanner.addSprite($object);
+                scene.battleBanner.add($object);
                 if ($object.kind === 'ability'
                     && $object.token === 'super-arm'){
                     $object.setValue('debugMaxFrame');
@@ -446,9 +436,6 @@ export default class DebugScene extends Phaser.Scene
             // Define a custom click event for all the custom robot masters/bosses/mechas
             let customClickEvent = function($sprite, pointer, localX, localY){
                 //console.log('%c' + this.token+' | customClickEvent() called', 'color: magenta;');
-                //this.setCounter('clicks', '+=1');
-                //console.log('clicks =', this.getCounter('clicks'));
-                //SOUNDS.playMenuSound('link-click');
                 if (!scene.battleBanner.isWithinBounds(pointer.x, pointer.y)){ return; }
                 SOUNDS.playSoundEffect('damage');
                 this.stopMoving();
@@ -622,7 +609,7 @@ export default class DebugScene extends Phaser.Scene
             let energyMin = 0, energyMax = 100;
             for (let i = 0; i < customObjects.length; i++){
                 let $object = customObjects[i];
-                scene.battleBanner.addSprite($object);
+                scene.battleBanner.add($object);
                 $object.setValue('energyMin', energyMin);
                 $object.setValue('energyMax', energyMax);
                 $object.setCounter('energy', energyMax);
@@ -765,9 +752,7 @@ export default class DebugScene extends Phaser.Scene
         $playerSprite.setOrigin(0.5, 1);
         $playerSprite.setScale(2.0);
         $playerSprite.setDepth(scene.battleBanner.depth + spriteY);
-        scene.battleBanner.addSprite($playerSprite);
-        //scene.battleBannerContainer.add($playerSprite);
-        //scene.battleBannerContainer.sort('depth');
+        scene.battleBanner.add($playerSprite);
 
         // Apply effects and setup the frame
         $playerSprite.preFX.addShadow();
@@ -932,9 +917,7 @@ export default class DebugScene extends Phaser.Scene
         $robotSprite.setOrigin(0.5, 1);
         $robotSprite.setScale(2.0);
         $robotSprite.setDepth(scene.battleBanner.depth + spriteY);
-        //scene.battleBannerContainer.add($robotSprite);
-        //scene.battleBannerContainer.sort('depth');
-        scene.battleBanner.addSprite($robotSprite);
+        scene.battleBanner.add($robotSprite);
 
         // Add effects and setup the frame for the sliding sprite
         $robotSprite.preFX.addShadow();
@@ -1062,9 +1045,7 @@ export default class DebugScene extends Phaser.Scene
             $shotSprite.setOrigin(0.5, 1);
             $shotSprite.setScale(2.0);
             $shotSprite.setDepth($sprite.depth + 1);
-            //scene.battleBannerContainer.add($shotSprite);
-            //scene.battleBannerContainer.sort('depth');
-            scene.battleBanner.addSprite($shotSprite);
+            scene.battleBanner.add($shotSprite);
 
             // Add required sub-objects to the sprite
             $shotSprite.subTweens = {};
@@ -1276,9 +1257,7 @@ export default class DebugScene extends Phaser.Scene
             $explodeSprite.setOrigin(0.5, 1);
             $explodeSprite.setScale(2.0);
             $explodeSprite.setDepth($sprite.depth - 1);
-            //scene.battleBannerContainer.add($explodeSprite);
-            //scene.battleBannerContainer.sort('depth');
-            scene.battleBanner.addSprite($explodeSprite);
+            scene.battleBanner.add($explodeSprite);
 
             // Add required sub-objects to the sprite
             $explodeSprite.subTweens = {};
@@ -1628,13 +1607,6 @@ export default class DebugScene extends Phaser.Scene
         this.battleBanner = $battleBanner;
 
         // Create a mask for the battle banner area that we can add sprites to
-        /*
-        const spriteContainer = this.add.container();
-        const spriteContainerMask = Graphics.makeRectangleMask(scene, x, y, $battleBanner.width, $battleBanner.height, 5, false);
-        spriteContainer.setMask(spriteContainerMask);
-        spriteContainer.setDepth(depth++);
-        this.battleBannerContainer = spriteContainer;
-        */
         const spriteContainer = $battleBanner.createContainer();
         this.battleBannerContainer = spriteContainer;
 
@@ -1645,8 +1617,9 @@ export default class DebugScene extends Phaser.Scene
         $gridBackground.setOrigin(0, 0);
         $gridBackground.setDepth(depth++);
         $gridBackground.setAlpha(0.2);
-        spriteContainer.add($gridBackground);
-        spriteContainer.sort('depth');
+        this.battleBanner.add($gridBackground);
+        //spriteContainer.add($gridBackground);
+        //spriteContainer.sort('depth');
 
         // Draw a second sprite grid slightly shorter to act as a foreground texture for the battle banner
         y += 60, height -= 60;
@@ -1654,16 +1627,18 @@ export default class DebugScene extends Phaser.Scene
         $gridForeground.setOrigin(0, 0);
         $gridForeground.setDepth(depth++);
         $gridForeground.setAlpha(0.4);
-        spriteContainer.add($gridForeground);
-        spriteContainer.sort('depth');
+        this.battleBanner.add($gridForeground);
+        //spriteContainer.add($gridForeground);
+        //spriteContainer.sort('depth');
 
         // Draw a vertical black line on top of the foreground to make it look like a horizon
         var $horizonLine = this.add.graphics();
         $horizonLine.fillStyle(0x191919);
         $horizonLine.fillRect(x, y, width, 2);
         $horizonLine.setDepth(depth++);
-        spriteContainer.add($horizonLine);
-        spriteContainer.sort('depth');
+        this.battleBanner.add($horizonLine);
+        //spriteContainer.add($horizonLine);
+        //spriteContainer.sort('depth');
 
         // Add the parts of the sprite grid object to the global object for easy reference
         this.spriteGrid = {
