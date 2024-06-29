@@ -15,6 +15,7 @@ class MMRPG_Field extends MMRPG_Object {
 
         // Predefine object configurations unique to the field class
         let objectConfig = {};
+        objectConfig.baseSize = [1124, 768];
 
         // Call the parent constructor
         super(scene, 'field', token, customInfo, spriteConfig, objectConfig);
