@@ -70,13 +70,13 @@ class MMRPG_Object {
             spriteConfig.x = spriteConfig.x || 0;
             spriteConfig.y = spriteConfig.y || 0;
             spriteConfig.z = spriteConfig.z || 0;
-            spriteConfig.width = spriteConfig.width || this.data.image_width || this.data.image_size;
-            spriteConfig.height = spriteConfig.height || this.data.image_height || this.data.image_size;
+            spriteConfig.width = spriteConfig.width || this.data.image_width || this.data.image_size || 0;
+            spriteConfig.height = spriteConfig.height || this.data.image_height || this.data.image_size || 0;
             spriteConfig.direction = spriteConfig.direction || 'right';
             spriteConfig.frame = spriteConfig.frame || 0;
             spriteConfig.sheet = spriteConfig.sheet || 'sprites.default';
             spriteConfig.origin = spriteConfig.origin || [0, 0];
-            spriteConfig.hitbox = spriteConfig.hitbox || [40, 40];
+            spriteConfig.hitbox = spriteConfig.hitbox || [0, 0];
             spriteConfig.alpha = spriteConfig.alpha || 1;
             spriteConfig.depth = spriteConfig.depth || 1;
             spriteConfig.scale = spriteConfig.scale || 1;
@@ -84,13 +84,21 @@ class MMRPG_Object {
             spriteConfig.offsetY = spriteConfig.offsetY || 0;
             spriteConfig.interactive = spriteConfig.interactive || false;
             spriteConfig.debug = spriteConfig.debug || false;
-            if (SPRITES.config.baseSize){
-                let baseSize = SPRITES.config.baseSize;
-                if (spriteConfig.width > baseSize){ spriteConfig.offsetX = (spriteConfig.width - baseSize) / 2; }
-                if (spriteConfig.height > baseSize){ spriteConfig.offsetY = (spriteConfig.height - baseSize); }
+
+            // Compensate for missing size defaults using the object config
+            if (objectConfig.baseSize){
+                let [ baseWidth, baseHeight ] = objectConfig.baseSize;
+                if (!spriteConfig.width){ spriteConfig.width = baseWidth; }
+                if (!spriteConfig.height){ spriteConfig.height = baseHeight; }
+                if (spriteConfig.width > baseWidth){ spriteConfig.offsetX = (spriteConfig.width - baseWidth) / 2; }
+                if (spriteConfig.height > baseHeight){ spriteConfig.offsetY = (spriteConfig.height - baseHeight); }
+                if (!spriteConfig.hitbox[0]){ spriteConfig.hitbox[0] = baseWidth; }
+                if (!spriteConfig.hitbox[1]){ spriteConfig.hitbox[1] = baseHeight; }
                 spriteConfig.offsetX *= spriteConfig.scale;
                 spriteConfig.offsetY *= spriteConfig.scale;
                 }
+
+            // Overwrite default frame aliases if they've been provided in the sprite or object config
             if (spriteConfig.frameAliases){
                 this.spriteFrameAliases = spriteConfig.frameAliases;
                 } else if (objectConfig.frameAliases){
@@ -198,6 +206,7 @@ class MMRPG_Object {
 
         // Now we can collect or define key objectConfig properties that we need for later
         objectConfig.iconPrefix = objectConfig.iconPrefix || 'icon';
+        objectConfig.baseSize = objectConfig.baseSize || [40, 40];
         objectConfig.baseAlt = objectConfig.baseAlt || 'base';
         objectConfig.baseSheet = objectConfig.baseSheet || 1;
         objectConfig.baseAltSheet = isCharacter ? objectConfig.baseAlt : objectConfig.baseSheet;
@@ -211,9 +220,10 @@ class MMRPG_Object {
         if (directionalKinds.indexOf(this.xkind) !== -1){
 
             // Add default values for image direction and size
-            this.data.image_size = this.data.image_size || 40;
-            this.data.image_width = this.data.image_width || this.data.image_size;
-            this.data.image_height = this.data.image_height || this.data.image_size;
+            let [ baseWidth, baseHeight ] = objectConfig.baseSize;
+            this.data.image_size = this.data.image_size || Math.max(baseWidth, baseHeight);
+            this.data.image_width = this.data.image_width || baseWidth || this.data.image_size;
+            this.data.image_height = this.data.image_height || baseHeight || this.data.image_size;
 
             // If this is a robot or player, add default values for the alt
             if (this.kind === 'robot' || this.kind === 'player') {
@@ -227,8 +237,9 @@ class MMRPG_Object {
             } else if (this.kind === 'field') {
 
             // Add the default value for the field image size
-            this.data.image_width = this.data.image_width || 1124;
-            this.data.image_height = this.data.image_height || 248;
+            let [ baseWidth, baseHeight ] = objectConfig.baseSize;
+            this.data.image_width = this.data.image_width || baseWidth;
+            this.data.image_height = this.data.image_height || baseHeight;
 
             // Add default values for background and foreground variants
             this.data.background_variant = this.data.background_variant || '';
@@ -328,7 +339,7 @@ class MMRPG_Object {
     // Creates the main sprite for this object using known token and config values while preloading related
     createSprite ()
     {
-        //console.log('MMRPG_Object.createSprite() called for ', this.kind, this.token, '\nw/ config:', this.spriteConfig);
+        console.log('MMRPG_Object.createSprite() called for ', this.kind, this.token, '\nw/ config:', this.spriteConfig);
 
         // Update this object's x, y, z and props that may be accessed externally
         let _this = this;
@@ -447,7 +458,7 @@ class MMRPG_Object {
         let contentPath = MMRPG.paths.content;
         let basePath = contentPath + xkind + '/' + pathToken + '/sprites' + (!altIsBase ? '_'+altSheet : '') + '/';
         let baseKey = 'sprites.' + xkind + '.' + token + '.' + altSheet;
-        let spriteSize = indexInfo.image_size || 40;
+        let spriteSize = indexInfo.image_size || objectConfig.baseSize[0];
         let spriteSizeX = spriteSize+'x'+spriteSize;
         let spriteDirections = ['left', 'right'];
         spritesIndex.prepForKeys(spritesIndex.sizes, kind);
@@ -567,7 +578,7 @@ class MMRPG_Object {
         let pathToken = token === kind ? ('.' + kind) : token;
         let basePath = 'content/'+ xkind + '/' + pathToken + '/sprites' + (!altIsBase ? '_'+altSheet : '') + '/';
         let baseKey = 'sprites.' + xkind + '.' + token + '.' + altSheet;
-        let spriteSize = indexInfo.image_size || 40;
+        let spriteSize = indexInfo.image_size || objectConfig.baseSize[0];
         let spriteSizeX = spriteSize+'x'+spriteSize;
         let spriteDirections = ['left', 'right'];
         spritesIndex.prepForKeys(spritesIndex.sizes, kind);
@@ -830,7 +841,7 @@ class MMRPG_Object {
             && typeof spritePaths[spriteToken][spriteAltOrSheet][spriteKey] !== 'undefined'){
             spritePath = spritePaths[spriteToken][spriteAltOrSheet][spriteKey];
             } else {
-            let size = this.data.image_size || 40;
+            let size = this.data.image_size || objectConfig.baseSize[0];
             let xSize = size+'x'+size;
             spritePath = 'content/' + this.xkind + '/' + this.kind + '/' + spriteKind + '_' + spriteDirection +  '_' + xSize + '.png';
             }
