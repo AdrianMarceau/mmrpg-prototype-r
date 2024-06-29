@@ -3,6 +3,8 @@ import MMRPG from '../../shared/MMRPG.js';
 
 import { GraphicsUtility as Graphics } from '../../utils/GraphicsUtility.js';
 
+import MMRPG_Object from '../../objects/MMRPG_Object.js';
+
 export default class Banner {
 
     constructor (scene, x, y, options = {})
@@ -282,5 +284,53 @@ export default class Banner {
             }
         this.refreshBanner();
     }
+
+    // Generate a rectangular mask container for this banner and apply it, allowing objects to be added later
+    createContainer ()
+    {
+        //console.log('Banner.createContainer() called');
+        let scene = this.scene;
+        let bounds = this.bounds;
+
+        // Create a mask for the battle banner area that we can add sprites to
+        const spriteContainer = scene.add.container();
+        const spriteContainerMask = Graphics.makeRectangleMask(scene, bounds.x, bounds.y, bounds.width, bounds.height, 5, false);
+        spriteContainer.setMask(spriteContainerMask);
+        spriteContainer.setDepth(this.depth + 1);
+
+        // Save the sprite container to this object
+        this.spriteContainer = spriteContainer;
+
+        // Return the sprite container
+        return spriteContainer;
+
+    }
+
+    // Add a sprite to the container (create if not created yet) and then re-sort based on depth
+    addSprite ($sprite)
+    {
+        //console.log('Banner.addSprite() called w/ $sprite =', $sprite);
+        let spriteContainer = this.spriteContainer;
+        if (!spriteContainer){ spriteContainer = this.createContainer(); }
+        //$sprite is instance of Phaser.GameObjects.Sprite
+        if ($sprite instanceof Phaser.GameObjects.Sprite){
+            spriteContainer.add($sprite);
+            spriteContainer.sort('depth');
+            }
+        if ($sprite instanceof MMRPG_Object){
+            let $object = $sprite;
+            if ($object.sprite){
+                let $objectSprite = $object.sprite;
+                spriteContainer.add($objectSprite);
+                }
+            if ($object.interactive
+                && $object.spriteHitbox){
+                let $objectHitbox = $object.spriteHitbox;
+                spriteContainer.add($objectHitbox);
+                }
+            spriteContainer.sort('depth');
+            }
+    }
+
 
 }
