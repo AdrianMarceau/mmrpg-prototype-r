@@ -306,30 +306,39 @@ export default class Banner {
 
     }
 
-    // Add a sprite to the container (create if not created yet) and then re-sort based on depth
-    addSprite ($sprite)
+    // Add a game object to the container (create if not created yet) and then re-sort based on depth
+    add ($object)
     {
-        //console.log('Banner.addSprite() called w/ $sprite =', $sprite);
+        //console.log('Banner.addSprite() called w/ $object =', $object);
         let spriteContainer = this.spriteContainer;
         if (!spriteContainer){ spriteContainer = this.createContainer(); }
-        //$sprite is instance of Phaser.GameObjects.Sprite
-        if ($sprite instanceof Phaser.GameObjects.Sprite){
+
+        // If this is a standard Phaser game object sprite
+        if ($object instanceof Phaser.GameObjects.Sprite){
+            let $sprite = $object;
             spriteContainer.add($sprite);
             spriteContainer.sort('depth');
             }
-        if ($sprite instanceof MMRPG_Object){
-            let $object = $sprite;
-            if ($object.sprite){
-                let $objectSprite = $object.sprite;
-                spriteContainer.add($objectSprite);
-                }
-            if ($object.interactive
-                && $object.spriteHitbox){
-                let $objectHitbox = $object.spriteHitbox;
-                spriteContainer.add($objectHitbox);
-                }
+        // If this is a standard Phaser game object tilesprite
+        else if ($object instanceof Phaser.GameObjects.TileSprite){
+            let $sprite = $object;
+            spriteContainer.add($sprite);
             spriteContainer.sort('depth');
             }
+        // If this is a custom MMRPG object w/ sprites inside
+        else if ($object instanceof MMRPG_Object){
+            let $sprite = $object.sprite;
+            let $hitbox = $object.spriteHitbox;
+            if ($sprite){ spriteContainer.add($sprite); }
+            if ($hitbox && $object.interactive){ spriteContainer.add($hitbox); }
+            spriteContainer.sort('depth');
+            }
+        // Otherwise we just try to add it directly and hope for the best
+        else {
+            spriteContainer.add($object);
+            spriteContainer.sort('depth');
+            }
+
     }
 
 
