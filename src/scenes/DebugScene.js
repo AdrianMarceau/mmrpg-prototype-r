@@ -1618,8 +1618,6 @@ export default class DebugScene extends Phaser.Scene
         $gridBackground.setDepth(depth++);
         $gridBackground.setAlpha(0.2);
         this.battleBanner.add($gridBackground);
-        //spriteContainer.add($gridBackground);
-        //spriteContainer.sort('depth');
 
         // Draw a second sprite grid slightly shorter to act as a foreground texture for the battle banner
         y += 60, height -= 60;
@@ -1628,8 +1626,6 @@ export default class DebugScene extends Phaser.Scene
         $gridForeground.setDepth(depth++);
         $gridForeground.setAlpha(0.4);
         this.battleBanner.add($gridForeground);
-        //spriteContainer.add($gridForeground);
-        //spriteContainer.sort('depth');
 
         // Draw a vertical black line on top of the foreground to make it look like a horizon
         var $horizonLine = this.add.graphics();
@@ -1637,8 +1633,6 @@ export default class DebugScene extends Phaser.Scene
         $horizonLine.fillRect(x, y, width, 2);
         $horizonLine.setDepth(depth++);
         this.battleBanner.add($horizonLine);
-        //spriteContainer.add($horizonLine);
-        //spriteContainer.sort('depth');
 
         // Add the parts of the sprite grid object to the global object for easy reference
         this.spriteGrid = {
