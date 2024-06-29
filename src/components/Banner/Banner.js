@@ -72,6 +72,7 @@ export default class Banner {
 
     }
 
+    // Collect the bounds and dimensions of this banner
     getBounds ()
     {
         //console.log('Banner.getBounds() called');
@@ -89,6 +90,14 @@ export default class Banner {
             centerX: this.x + (this.width / 2),
             centerY: this.y + (this.height / 2),
             };
+    }
+
+    // Check if a point is within the bounds of the mask
+    isWithinBounds (x, y)
+    {
+        let bounds = this.bounds;
+        return x >= bounds.x && x <= bounds.x + bounds.width &&
+               y >= bounds.y && y <= bounds.y + bounds.height;
     }
 
     createBanner()
