@@ -313,14 +313,9 @@ export default class Banner {
         let spriteContainer = this.spriteContainer;
         if (!spriteContainer){ spriteContainer = this.createContainer(); }
 
-        // If this is a standard Phaser game object sprite
-        if ($object instanceof Phaser.GameObjects.Sprite){
-            let $sprite = $object;
-            spriteContainer.add($sprite);
-            spriteContainer.sort('depth');
-            }
-        // If this is a standard Phaser game object tilesprite
-        else if ($object instanceof Phaser.GameObjects.TileSprite){
+        // If this is a standard Phaser game object sprite or tile-sprite
+        if ($object instanceof Phaser.GameObjects.Sprite
+            || $object instanceof Phaser.GameObjects.TileSprite){
             let $sprite = $object;
             spriteContainer.add($sprite);
             spriteContainer.sort('depth');
@@ -329,8 +324,17 @@ export default class Banner {
         else if ($object instanceof MMRPG_Object){
             let $sprite = $object.sprite;
             let $hitbox = $object.spriteHitbox;
+            let $spriteLayers = $object.spriteLayers;
+            //console.log($object.token + ' | -> adding MMRPG_Object to container \n$sprite:', $sprite, '\n$hitbox:', $hitbox, '\n$spriteLayers:', $spriteLayers);
             if ($sprite){ spriteContainer.add($sprite); }
-            if ($hitbox && $object.interactive){ spriteContainer.add($hitbox); }
+            if ($hitbox){ spriteContainer.add($hitbox); }
+            if ($spriteLayers){
+                for (let i = 0; i < $spriteLayers.length; i++){
+                    let $layer = $spriteLayers[i];
+                    //console.log($object.token + ' | -> adding sprite layer', typeof $layer, 'to container \n$layer:', $layer);
+                    spriteContainer.add($layer.sprite);
+                    }
+                }
             spriteContainer.sort('depth');
             }
         // Otherwise we just try to add it directly and hope for the best
