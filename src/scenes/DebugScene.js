@@ -285,7 +285,9 @@ export default class DebugScene extends Phaser.Scene
             // -- DEBUG SPRITE TESTING -- //
 
             // Create some primitive MMRPG objects for testing purposes
-            var depth = 9000;
+            var bannerY = scene.battleBanner.y;
+            var baseDepth = 8000;
+            var depth = baseDepth + 1000;
             var baseX = 50, baseY = 150;
             var $debugObjects = {};
             $debugObjects.player = new MMRPG_Player(this, 'dr-light', null, { x: (baseX + 0), y: (baseY + 0), z: depth++, origin: [0.5, 1] });
@@ -295,7 +297,7 @@ export default class DebugScene extends Phaser.Scene
             $debugObjects.ability = new MMRPG_Ability(this, 'buster-shot', null, { x: (baseX + 0), y: (baseY + 80), z: depth++, origin: [0.5, 1] });
             $debugObjects.ability2 = new MMRPG_Ability(this, 'super-arm', null, { x: (baseX + 40), y: (baseY + 80), z: depth++, origin: [0.5, 1] });
             $debugObjects.item = new MMRPG_Item(this, 'energy-tank', null, { x: (baseX + 0), y: (baseY + 120), z: depth++, origin: [0.5, 1] });
-            $debugObjects.field = new MMRPG_Field(this, 'preserved-forest', null, { x: (baseX + 0), y: (baseY + 160), z: depth++, origin: [0.5, 1] });
+            $debugObjects.field = new MMRPG_Field(this, 'prototype-subspace', { foreground_variant: 'decayed' }, { x: 0, y: bannerY, z: baseDepth, origin: [0, 0], debug: true });
             $debugObjects.skill = new MMRPG_Skill(this, 'xtreme-submodule', null);
             $debugObjects.type = new MMRPG_Type(this, 'water');
             let onClickTestObject = function(){
@@ -404,6 +406,7 @@ export default class DebugScene extends Phaser.Scene
                 };
             for (let key in $debugObjects){
                 let $object = $debugObjects[key];
+                //console.log('$'+key+' =', $object);
                 scene.battleBanner.add($object);
                 if ($object.kind === 'ability'
                     && $object.token === 'super-arm'){
@@ -411,8 +414,9 @@ export default class DebugScene extends Phaser.Scene
                     }
                 $object.setShadow(true);
                 $object.startIdleAnimation(true, true);
-                $object.setOnClick(onClickTestObject);
-                //console.log('$'+key+' =', $object);
+                if ($object.kind !== 'field'){
+                    $object.setOnClick(onClickTestObject);
+                    }
                 }
             console.log('-> $debugObjects(small):', $debugObjects);
 
