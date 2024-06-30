@@ -121,14 +121,13 @@ export default class SpritesManager {
     }
 
     // Load a sprite sheet for a specific kind of object into the game
-    loadSprite (ctx, _kind, token, altSheet = 'base')
+    loadSprite (scene, _kind, token, altSheet, altSheet2)
     {
-        //console.log('SpritesManager.loadSprite() called w/ \n _kind: '+_kind+', token: '+token+', alt: '+alt);
+        //console.log('SpritesManager.loadSprite() called w/ \n _kind: '+_kind+', token: '+token+', alt: '+altSheet+', alt2: '+altSheet2+' \n scene:', typeof scene, scene);
 
         // Pull in index references
         let MMRPG = this.MMRPG;
         let SPRITES = this;
-        let scene = ctx.scene;
         let index = SPRITES.index;
 
         // Normalize the kind token to ensure they it's valid
@@ -138,8 +137,24 @@ export default class SpritesManager {
         // Create a new object to use for loading this sprite's assets and dat
         let $mmrpgObject;
         let customInfo = {};
-        if (typeof altSheet === 'number' && altSheet > 0){ customInfo.image_sheet = altSheet; }
-        else if (typeof altSheet === 'string' && altSheet.length > 0){ customInfo.image_alt = altSheet; }
+        if (kind === 'player' || kind === 'robot'){
+            let altString = typeof altSheet === 'string' && altSheet.length > 0 && altSheet !== 'base' ? altSheet : null;
+            if (altString){ customInfo.image_alt = altString; }
+            }
+        else if (kind === 'ability' || kind === 'item'){
+            let sheetNumber = typeof altSheet === 'number' && altSheet > 0 ? altSheet : null;
+            if (sheetNumber){ customInfo.image_sheet = sheetNumber; }
+            }
+        else if (kind === 'field'){
+            let backgroundVariant = typeof altSheet === 'string' && altSheet.length > 0 && altSheet !== 'base' ? altSheet : null;
+            let foregroundVariant = typeof altSheet2 === 'string' && altSheet2.length > 0 && altSheet2 !== 'base' ? altSheet2 : null;
+            if (backgroundVariant){ customInfo.background_variant = backgroundVariant; }
+            if (foregroundVariant){ customInfo.foreground_variant = foregroundVariant; }
+            }
+        else {
+            if (typeof altSheet === 'string' && altSheet.length > 0 && altSheet !== 'base'){ customInfo.image_alt = altSheet; }
+            else if (typeof altSheet === 'number' && altSheet > 0){ customInfo.image_sheet = altSheet; }
+            }
         if (kind === 'player'){ $mmrpgObject = new MMRPG_Player(scene, token, customInfo, null); }
         else if (kind === 'robot'){ $mmrpgObject = new MMRPG_Robot(scene, token, customInfo, null); }
         else if (kind === 'ability'){ $mmrpgObject = new MMRPG_Ability(scene, token, customInfo, null); }
@@ -164,7 +179,7 @@ export default class SpritesManager {
     // Define a function for preloading all pending spritesheets and animations
     preloadPending (scene, callback)
     {
-        //console.log('SpritesManager.preloadPending() called');
+        //console.log('SpritesManager.preloadPending() called w/ scene:', scene, 'callback:', callback);
 
         // Loop through any pending spritesheets to load and do it now
         let SPRITES = this;
@@ -172,7 +187,7 @@ export default class SpritesManager {
         let pendingAnims = SPRITES.pendingAnims;
         let queuedSheets = SPRITES.queuedSheets;
         let loadedSheets = SPRITES.loadedSheets;
-        let existingTextures = Object.keys(scene.textures.list);
+        let existingTextures = scene.textures && scene.textures.list ? Object.keys(scene.textures.list) : [];
         if (typeof callback !== 'function'){ callback = function(scene){ /* ... */ }; }
 
         // We can return early if there are no pending sheets to load
@@ -209,7 +224,9 @@ export default class SpritesManager {
                 // check if all sheets are loaded
                 checkAllLoaded();
                 });
-            scene.load.spritesheet(sheet.key, sheet.path, { frameWidth: sheet.size, frameHeight: sheet.size });
+            let width = sheet.width || sheet.size[0] || sheet.size;
+            let height = sheet.height || sheet.size[1] || sheet.size;
+            scene.load.spritesheet(sheet.key, sheet.path, { frameWidth: width, frameHeight: height });
             queuedSheets.push(sheet.key);
             }
 
