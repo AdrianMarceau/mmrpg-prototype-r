@@ -55,6 +55,9 @@ export default class PreloaderScene extends Phaser.Scene
             items: [
                 //'small-screw', 'large-screw'
                 ],
+            fields: [
+                //'light-laboratory', 'wily-castle'
+                ],
             };
 
         // Initialize this scene with a first-load callback function
@@ -124,12 +127,12 @@ export default class PreloaderScene extends Phaser.Scene
                 let kind = kinds[i];
                 let xkind = xkinds[i];
                 if (!this.preloadSprites[xkind]){ continue; }
-                SPRITES.loadSprite(this, kind, kind, 'base');
+                SPRITES.loadSprite(ctx, kind, kind, 'base');
                 let tokens = this.preloadSprites[xkind];
                 let numTokens = tokens.length;
                 for (let i = 0; i < numTokens; i++){
                     let token = tokens[i];
-                    SPRITES.loadSprite(this, kind, token, 'base');
+                    SPRITES.loadSprite(ctx, kind, token, 'base');
                     }
                 }
             }
@@ -143,7 +146,7 @@ export default class PreloaderScene extends Phaser.Scene
                 //console.log('token = ', token, 'info = ', info);
                 if (!info.flag_complete){ return; }
                 //console.log('Preload player ', token);
-                SPRITES.loadSprite(this, 'players', token, 'base');
+                SPRITES.loadSprite(ctx, 'player', token, 'base');
                 let alts = [];
                 if (info.image_alts){ alts = alts.concat(info.image_alts); }
                 if (alts.length){
@@ -151,7 +154,7 @@ export default class PreloaderScene extends Phaser.Scene
                     altKeys.forEach((key) => {
                         let alt = alts[key];
                         //console.log('Preload player ', token, ' w/ ', alt.token);
-                        SPRITES.loadSprite(this, 'players', token, alt.token);
+                        SPRITES.loadSprite(ctx, 'player', token, alt.token);
                         });
                     }
                 });
@@ -167,7 +170,7 @@ export default class PreloaderScene extends Phaser.Scene
                 if (info.class !== 'master'){ return; }
                 if (!info.flag_complete){ return; }
                 //console.log('Preload robot ', token);
-                SPRITES.loadSprite(this, 'robots', token, 'base');
+                SPRITES.loadSprite(ctx, 'robot', token, 'base');
                 let alts = [];
                 if (info.image_alts){ alts = alts.concat(info.image_alts); }
                 if (info.core === 'copy'){
@@ -185,7 +188,7 @@ export default class PreloaderScene extends Phaser.Scene
                     altKeys.forEach((key) => {
                         let alt = alts[key];
                         //console.log('Preload robot ', token, ' w/ ', alt.token);
-                        SPRITES.loadSprite(this, 'robots', token, alt.token);
+                        SPRITES.loadSprite(ctx, 'robot', token, alt.token);
                         });
                     }
                 });
@@ -203,7 +206,7 @@ export default class PreloaderScene extends Phaser.Scene
                 if (info.image_sheets > 0){
                     for (let sheet = 1; sheet <= info.image_sheets; sheet++){
                         //console.log('Preload ability ', token, ' s/ ', sheet);
-                        SPRITES.loadSprite(this, 'abilities', token, sheet);
+                        SPRITES.loadSprite(ctx, 'ability', token, sheet);
                         }
                     }
                 });
@@ -221,7 +224,7 @@ export default class PreloaderScene extends Phaser.Scene
                 if (info.image_sheets > 0){
                     for (let sheet = 1; sheet <= info.image_sheets; sheet++){
                         //console.log('Preload item ', token, ' s/ ', sheet);
-                        SPRITES.loadSprite(this, 'items', token, sheet);
+                        SPRITES.loadSprite(ctx, 'item', token, sheet);
                         }
                     }
                 });
@@ -573,7 +576,7 @@ export default class PreloaderScene extends Phaser.Scene
     loadQueuedIndexes ()
     {
         let ctx = this;
-        let queue = this.preloadQueue.filter((item) => item.kind === 'index');
+        let queue = ctx.preloadQueue.filter((item) => item.kind === 'index');
         queue.forEach((item) => {
             let indexKey = item.key;
             let indexPath = item.path;
@@ -586,7 +589,7 @@ export default class PreloaderScene extends Phaser.Scene
         let SPRITES = this.SPRITES;
         ctx.preloadQueue.push({ kind: 'sprites', name: 'sprites.' + ctx.preloadStep });
         ctx.preloadsQueued++;
-        SPRITES.preloadPending(this, function(){
+        SPRITES.preloadPending(ctx, function(){
             ctx.preloadsCompleted++;
             ctx.preloadQueue = ctx.preloadQueue.filter((item) => item.name !== name);
             });
@@ -594,7 +597,7 @@ export default class PreloaderScene extends Phaser.Scene
     loadQueuedMockupImages ()
     {
         let ctx = this;
-        let queue = this.preloadQueue.filter((item) => item.kind === 'mockup');
+        let queue = ctx.preloadQueue.filter((item) => item.kind === 'mockup');
         queue.forEach((item) => {
             let key = item.key;
             let path = item.path;
@@ -604,7 +607,7 @@ export default class PreloaderScene extends Phaser.Scene
     loadQueuedMiscImages ()
     {
         let ctx = this;
-        let queue = this.preloadQueue.filter((item) => item.kind === 'misc');
+        let queue = ctx.preloadQueue.filter((item) => item.kind === 'misc');
         queue.forEach((item) => {
             let key = item.key;
             let path = item.path;
@@ -615,7 +618,7 @@ export default class PreloaderScene extends Phaser.Scene
     loadQueuedAudio ()
     {
         let ctx = this;
-        let queue = this.preloadQueue.filter((item) => item.kind === 'audio');
+        let queue = ctx.preloadQueue.filter((item) => item.kind === 'audio');
         queue.forEach((item) => {
             let key = item.key;
             let path = item.path;
@@ -625,7 +628,7 @@ export default class PreloaderScene extends Phaser.Scene
     loadQueuedAudioSprites ()
     {
         let ctx = this;
-        let queue = this.preloadQueue.filter((item) => item.kind === 'audio-sprite');
+        let queue = ctx.preloadQueue.filter((item) => item.kind === 'audio-sprite');
         queue.forEach((item) => {
             let key = item.key;
             let path = item.path;
