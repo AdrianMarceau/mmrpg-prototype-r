@@ -180,6 +180,7 @@ class MMRPG_Object {
 
         // Determine whether or not this object is a "character" and thus requires special care
         let isCharacter = (this.kind === 'player' || this.kind === 'robot');
+        let isField = (this.kind === 'field');
 
         // Start the data as a clone of the index info
         this.data = Object.assign({}, indexInfo);
@@ -209,8 +210,8 @@ class MMRPG_Object {
         objectConfig.baseSize = objectConfig.baseSize || [40, 40];
         objectConfig.baseAlt = objectConfig.baseAlt || 'base';
         objectConfig.baseSheet = objectConfig.baseSheet || 1;
-        objectConfig.baseAltSheet = isCharacter ? objectConfig.baseAlt : objectConfig.baseSheet;
-        objectConfig.currentAltSheet = (isCharacter ? this.data.image_alt : this.data.image_sheet) || objectConfig.baseAltSheet;
+        objectConfig.baseAltSheet = isCharacter || isField ? objectConfig.baseAlt : objectConfig.baseSheet;
+        objectConfig.currentAltSheet = (isCharacter || isField ? this.data.image_alt : this.data.image_sheet) || objectConfig.baseAltSheet;
         objectConfig.currentAltSheetIsBase = objectConfig.currentAltSheet === 'base' || objectConfig.currentAltSheet === '1' || objectConfig.currentAltSheet === 1;
         //console.log(this.token + ' | -> objectConfig.currentAltSheet:', objectConfig.currentAltSheet, 'objectConfig.currentAltSheetIsBase:', objectConfig.currentAltSheetIsBase);
 
@@ -339,7 +340,7 @@ class MMRPG_Object {
     // Creates the main sprite for this object using known token and config values while preloading related
     createSprite ()
     {
-        console.log('MMRPG_Object.createSprite() called for ', this.kind, this.token, '\nw/ config:', this.spriteConfig);
+        //console.log('MMRPG_Object.createSprite() called for ', this.kind, this.token, '\nw/ config:', this.spriteConfig);
 
         // Update this object's x, y, z and props that may be accessed externally
         let _this = this;
@@ -386,9 +387,9 @@ class MMRPG_Object {
             this.sheet = spriteSheet;
 
             // Create the sprite with the information we've collected when ready
-            if (spriteSheet
-                && scene.textures
-                && scene.textures.exists(spriteSheet)) {
+            if (scene.textures
+                && spriteSheet && scene.textures.exists(spriteSheet)
+                ) {
                 //console.log('sprite texture for ' + this.token + ' already exists');
 
                 // Texture is loaded, create sprite normally
@@ -400,9 +401,9 @@ class MMRPG_Object {
                 //console.log('sprite texture for ' + this.token + ' does not exist');
 
                 // Texture is not loaded, create placeholder and load texture
+                let tempToken = this.kind;
                 let tempAlt = objectConfig.baseAltSheet;
-                let tempKey = 'sprite-' + this.direction;
-                let tempSheet = spriteSheets[this.kind][tempAlt][tempKey];
+                let tempSheet = _this.getSpriteSheet('sprite', this.direction, tempAlt, tempToken);
                 this.spriteIsLoading = true;
                 this.spriteIsPlaceholder = true;
                 this.createObjectSprite(tempSheet);
@@ -418,8 +419,67 @@ class MMRPG_Object {
             }
         // Otherwise, if this is field, it's a much much bigger "sprite" without direction
         else if (this.kind === 'field') {
+            //console.log('MMRPG_Object.createSprite() called for ', this.kind, this.token, '\nw/ config:', this.spriteConfig);
+            //console.log(this.token + ' | -> this is a unique field kind! xkind:', this.xkind);
 
-            // ...
+            // Preload all the sprite sheets and animations into the queue
+            this.preloadSpriteSheets();
+            //console.log(this.token + ' should have pending sheets and anims now...');
+            //console.log(this.token + ' | SPRITES.pendingSheets.length:', SPRITES.pendingSheets.length);
+            //console.log(this.token + ' | SPRITES.pendingAnims.length:', SPRITES.pendingAnims.length);
+
+            // Pull in the sprite token and direction then use it to update the current sheet
+            let spriteToken = this.data.token;
+            let backgroundVariant = this.data.background_variant;
+            let foregroundVariant = this.data.foreground_variant;
+            let backgroundSheet = _this.getSpriteSheet('background', backgroundVariant);
+            let foregroundSheet = _this.getSpriteSheet('foreground', foregroundVariant);
+            let previewSheet = _this.getSpriteSheet('preview', backgroundVariant);
+            let avatarSheet = _this.getSpriteSheet('avatar');
+            //console.log(this.token + ' | -> spriteToken:', spriteToken, '\nbackgroundSheet:', backgroundSheet, '\nforegroundSheet:', foregroundSheet, '\npreviewSheet:', previewSheet, '\navatarSheet:', avatarSheet);
+            config.sheet = avatarSheet;
+            this.sheet = avatarSheet;
+            config.backgroundSheet = backgroundSheet;
+            config.foregroundSheet = foregroundSheet;
+            config.previewSheet = previewSheet;
+            config.avatarSheet = avatarSheet;
+            this.backgroundSheet = backgroundSheet;
+            this.foregroundSheet = foregroundSheet;
+            this.previewSheet = previewSheet;
+            this.avatarSheet = avatarSheet;
+
+            // Create the sprite with the information we've collected when ready
+            if (scene.textures
+                && backgroundSheet && scene.textures.exists(backgroundSheet)
+                && foregroundSheet && scene.textures.exists(foregroundSheet)
+                && previewSheet && scene.textures.exists(previewSheet)
+                && avatarSheet && scene.textures.exists(avatarSheet)
+                ) {
+                //console.log('field sprite textures for ' + this.token + ' already exist');
+
+                // Texture is loaded, create sprite normally
+                this.spriteIsLoading = false;
+                this.spriteIsPlaceholder = false;
+                this.createObjectSprite();
+
+                } else {
+                //console.log('field sprite textures for ' + this.token + ' do not exist');
+
+                // Texture is not loaded, create placeholder and load texture
+                let tempToken = this.kind;
+                let tempVariant = 'base';
+                let tempSheet = _this.getSpriteSheet('avatar', null, tempToken);
+                this.spriteIsLoading = true;
+                this.spriteIsPlaceholder = true;
+                this.createObjectSprite(tempSheet);
+                this.loadSpriteTexture(() => {
+                    //console.log('%c' + '-> sprite texture '+spriteSheet+' loaded!', 'color: #00FF00');
+                    _this.spriteIsLoading = false;
+                    _this.spriteIsPlaceholder = false;
+                    _this.createObjectSprite();
+                    });
+
+                }
 
             }
         // Otherwise it's unclear what this is or what to do with it
@@ -461,9 +521,9 @@ class MMRPG_Object {
         let spriteSize = indexInfo.image_size || objectConfig.baseSize[0];
         let spriteSizeX = spriteSize+'x'+spriteSize;
         let spriteDirections = ['left', 'right'];
-        spritesIndex.prepForKeys(spritesIndex.sizes, kind);
-        spritesIndex.sizes[kind][token] = spriteSize;
-        //console.log('queued [ '+spriteSize+' ] to spritesIndex.sizes['+kind+']['+token+']')
+        spritesIndex.prepForKeys(spritesIndex.sizes, xkind);
+        spritesIndex.sizes[xkind][token] = spriteSize;
+        //console.log('queued [ '+spriteSize+' ] to spritesIndex.sizes['+xkind+']['+token+']')
         //console.log(this.token + ' | -> altSheet:', altSheet, 'altIsBase:', altIsBase, 'basePath:', basePath);
 
         // Loop through each direction and load the sprite sheet, making note of the sheet created
@@ -581,8 +641,8 @@ class MMRPG_Object {
         let spriteSize = indexInfo.image_size || objectConfig.baseSize[0];
         let spriteSizeX = spriteSize+'x'+spriteSize;
         let spriteDirections = ['left', 'right'];
-        spritesIndex.prepForKeys(spritesIndex.sizes, kind);
-        spritesIndex.sizes[kind][token] = spriteSize;
+        spritesIndex.prepForKeys(spritesIndex.sizes, xkind);
+        spritesIndex.sizes[xkind][token] = spriteSize;
         //console.log('queued [ '+spriteSize+' ] to spritesIndex.sizes['+kind+']['+token+']')
 
         // Loop through each direction and load the sprite sheet, making note of the sheet created
@@ -743,26 +803,10 @@ class MMRPG_Object {
         let _this = this;
         let scene = this.scene;
         let SPRITES = this.SPRITES;
-        let spritePathsIndex = SPRITES.index.paths[this.xkind];
-        let spriteSheetsIndex = SPRITES.index.sheets[this.xkind];
-        //console.log('-> SPRITES:', SPRITES, 'spritePathsIndex:', spritePathsIndex);
-        let spriteSheet = _this.getSpriteSheet('sprite');
-        let spritePath = _this.getSpritePath('sprite');
-        let spriteWidth = this.data.image_width;
-        let spriteHeight = this.data.image_height;
-        //console.log('-> token:', token, 'direction:', direction, 'spriteSheet:', spriteSheet, 'spritePath:', spritePath, 'spriteWidth:', spriteWidth, 'spriteHeight:', spriteHeight);
         this.spriteIsLoading = true;
         SPRITES.preloadPending(scene);
-        //scene.load.spritesheet(spriteSheet, spritePath, { frameWidth: spriteWidth, frameHeight: spriteHeight });
         scene.load.once('complete', () => {
-            //console.log('-> loadSpriteTexture() complete for token:', token, 'direction:', direction, 'spriteSheet:', spriteSheet, 'spritePath:', spritePath, 'spriteWidth:', spriteWidth, 'spriteHeight:', spriteHeight);
-            // DEBUG check if the texture and animations were loaded
-            //let textureExists = scene.textures.exists(spriteSheet);
-            //let spriteAnims = SPRITES.index.anims[this.xkind];
-            //let spriteAnimsIndex = spriteAnims[this.token] || null;
-            //let animationsExist = spriteAnimsIndex ? true : false;
-            //console.log('-> textureExists:', textureExists);
-            //console.log('-> animationsExist:', animationsExist, spriteAnimsIndex);
+            //console.log('-> loadSpriteTexture() complete for token:', token);
             _this.createSpriteAnimations();
             _this.spriteIsLoading = false;
             if (onLoadCallback){ onLoadCallback.call(_this); }
@@ -799,9 +843,10 @@ class MMRPG_Object {
         //console.log('-> spriteToken:', spriteToken, 'spriteKind:', spriteKind, 'spriteDirection:', spriteDirection);
         let spriteSheet;
         let spriteKey = spriteKind+'-'+spriteDirection;
-        if (typeof spriteSheets[spriteToken] !== 'undefined'
-            && typeof spriteSheets[spriteToken][spriteAltOrSheet] !== 'undefined'
-            && typeof spriteSheets[spriteToken][spriteAltOrSheet][spriteKey] !== 'undefined'){
+        if (spriteSheets
+            && spriteSheets[spriteToken]
+            && spriteSheets[spriteToken][spriteAltOrSheet]
+            && spriteSheets[spriteToken][spriteAltOrSheet][spriteKey]){
             spriteSheet = spriteSheets[spriteToken][spriteAltOrSheet][spriteKey];
             } else {
             spriteSheet = '~'+spriteKind+'s.'+this.xkind+'.'+spriteToken+'.'+spriteAltOrSheet+'.'+spriteDirection;
@@ -1019,10 +1064,10 @@ class MMRPG_Object {
         //console.log('-> created new sprite w/ sheet:', sheet, 'x:', config.x, 'y:', config.y);
     }
 
-    // Create the new object sprite with the sprite sheet provided, else default, and config settings
+    // Create the new object sprite with the sprite sheet provided and then update/create their graphics, properties, and animations
     createObjectSprite (spriteSheet = null)
     {
-        //console.log('MMRPG_Object.createObjectSprite() called for ', this.kind, this.token, '\nw/ spriteConfig:', this.spriteConfig, 'spriteSheet:', spriteSheet);
+        //console.log('MMRPG_Object.createObjectSprite() called for ', this.kind, this.token, '\nw/ spriteSheet:', spriteSheet, '\n& spriteConfig:', this.spriteConfig);
         this.prepareSprite(spriteSheet);
         this.updateSpriteGraphics();
         this.updateSpriteProperties();
@@ -2285,9 +2330,6 @@ class MMRPG_Object {
             $hitbox.destroy();
             this.spriteHitbox = null;
             }
-
-        // Perform any additional cleanup if needed
-        this.scene = null;
 
     }
 
