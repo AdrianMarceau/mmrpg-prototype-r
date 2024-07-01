@@ -6,6 +6,8 @@
 
 import MMRPG_Object from './MMRPG_Object.js';
 
+import { GraphicsUtility as Graphics } from '../utils/GraphicsUtility.js';
+
 class MMRPG_Field extends MMRPG_Object {
 
     // Define the class constructor for the field class
@@ -23,6 +25,7 @@ class MMRPG_Field extends MMRPG_Object {
         spriteConfig.showBackground = spriteConfig.showBackground || true;
         spriteConfig.showForeground = spriteConfig.showForeground || true;
         spriteConfig.showAvatar = spriteConfig.showAvatar || false;
+        spriteConfig.depth = spriteConfig.depth || 1000;
 
         // Call the parent constructor
         super(scene, 'field', token, customInfo, spriteConfig, objectConfig);
@@ -248,55 +251,49 @@ class MMRPG_Field extends MMRPG_Object {
 
     }
 
-    // Prepare this object's sprite for use, creating it if it doesn't exist yet
-    prepareSprite (spriteSheet = null)
-    {
-        //console.log('MMRPG_Field.prepareSprite() called for ', this.kind, this.token, '\nw/ spriteSheet:', spriteSheet, 'spriteConfig:', this.spriteConfig);
-        super.prepareSprite(spriteSheet);
-        this.prepareSpriteLayers();
-    }
-
     // Prepare this object's individual sprite layers for use, creating them if they doesn't exist yet
     prepareSpriteLayers ()
     {
         //console.log('MMRPG_Field.prepareSpriteLayers() called for ', this.kind, this.token, '\nw/ spriteConfig:', this.spriteConfig);
         if (!this.sprite){ return; }
-        if (this.spriteLayers){ return }
+        if (!this.spriteLayers){ return }
         let _this = this;
         let scene = this.scene;
         let $sprite = this.sprite;
         let config = this.spriteConfig;
+        let layersConfig = this.spriteConfig.layers;
         let [ modX, modY ] = this.getOffsetPosition(config.x, config.y);
-        this.spriteLayers = [];
         let $layers = this.spriteLayers;
-        $layers.push({kind: 'preview', sheet: config.previewSheet, visible: config.showPreview});
-        $layers.push({kind: 'background', sheet: config.backgroundSheet, visible: config.showBackground});
-        $layers.push({kind: 'foreground', sheet: config.foregroundSheet, visible: config.showForeground});
-        $layers.push({kind: 'avatar', sheet: config.avatarSheet, visible: config.showAvatar});
+        let layerKeys = Object.keys($layers);
+        if (!layerKeys.includes('preview')){ $layers.preview = {kind: 'preview', sheet: config.previewSheet, visible: config.showPreview, depth: 10}; }
+        if (!layerKeys.includes('background')){ $layers.background = {kind: 'background', sheet: config.backgroundSheet, visible: config.showBackground, depth: 20}; }
+        if (!layerKeys.includes('foreground')){ $layers.foreground = {kind: 'foreground', sheet: config.foregroundSheet, visible: config.showForeground, depth: 30}; }
+        if (!layerKeys.includes('avatar')){ $layers.avatar = {kind: 'avatar', sheet: config.avatarSheet, visible: config.showAvatar, depth: 40}; }
         //console.log('-> creating $layers:', $layers);
         $sprite.setVisible(true);
-        for (let i = 0; i < $layers.length; i++){
-            let $layer = $layers[i];
+        layerKeys = Object.keys($layers);
+        for (let i = 0; i < layerKeys.length; i++){
+            let layer = layerKeys[i];
+            let $layer = $layers[layer];
+            if ($layer.sprite){ continue; }
             let layerKind = $layer.kind;
             let layerSheet = $layer.sheet;
+            if (!layersConfig[layer]){ layersConfig[layer] = {}; }
+            let layerConfig = layersConfig[layer];
+            let layerOffset = {x: 0, y: 0, z: ($layer.depth || 0)};
+            let layerDepth = config.depth + config.z + layerOffset.z;
             let $layerSprite = scene.add.sprite(modX, modY, layerSheet);
+            //console.log('-> creating ', layerKind, ' w/ depth:', layerDepth);
             $layerSprite.setVisible(false);
+            $layerSprite.setDepth(layerDepth);
             $layerSprite.subTweens = {};
             $layerSprite.subTimers = {};
             $layerSprite.subSprites = {};
             $layer.sprite = $layerSprite;
-            _this[layerKind] = $layerSprite;
+            layerConfig.offset = layerOffset;
             //console.log('-> created new ', layerKind, ' w/ sheet:', layerSheet, 'x:', config.x, 'y:', config.y);
             }
         //console.log('-> done creating $layers:', $layers);
-    }
-
-    // Update the graphics of this object's sprite layers, including position, scale, and visibility
-    updateSpriteGraphics ()
-    {
-        //console.log('MMRPG_Field.updateSpriteGraphics() called for ', this.kind, this.token, '\nw/ spriteConfig:', this.spriteConfig);
-        super.updateSpriteGraphics();
-        this.updateSpriteLayerGraphics();
     }
 
     // Update the graphics of this object's individual sprite layers, including position, scale, and visibility
@@ -311,24 +308,71 @@ class MMRPG_Field extends MMRPG_Object {
         let $layers = this.spriteLayers;
         //console.log('-> updating $layers:', $layers);
         $sprite.setVisible(false);
-        for (let i = 0; i < $layers.length; i++){
-            let $layer = $layers[i];
+        let layerKeys = Object.keys($layers);
+        for (let i = 0; i < layerKeys.length; i++){
+            let layer = layerKeys[i];
+            let $layer = $layers[layer];
             let layerKind = $layer.kind;
             let layerSheet = $layer.sheet;
             let layerVisible = $layer.visible;
+            let layerOffset = this.getLayerOffset(layer);
+            let layerDepth = config.depth + config.z + layerOffset.z;
             let $layerSprite = $layer.sprite;
+            //console.log('-> updating ', layerKind, ' w/ depth:', layerDepth);
             $layerSprite.setVisible(layerVisible);
             $layerSprite.setTexture($layer.sheet);
             $layerSprite.setPosition(modX, modY);
-            $layerSprite.setDepth(config.depth + config.z + (i * 10));
+            $layerSprite.setDepth(layerDepth);
             $layerSprite.setOrigin(config.origin[0], config.origin[1]);
             $layerSprite.setAlpha(config.alpha);
             $layerSprite.setScale(config.scale);
             $layerSprite.setFrame(config.frame);
             if (config.tint) { $layerSprite.setTint(config.tint); }
+            let [ offsetX, offsetY ] = this.getOffsetPosition(layerOffset.x, layerOffset.y);
+            $layerSprite.setPosition(modX + offsetX, modY + offsetY);
             //console.log('-> updating ', layerKind, ' w/ sheet:', layerSheet, 'x:', modX, 'y:', modY, 'depth:', $layerSprite.depth, 'alpha:', $layerSprite.alpha, 'scale:', $layerSprite.scale, 'frame:', $layerSprite.frame, 'tint:', $layerSprite.tint);
             }
     }
+
+    // Update or return the offset values for the preview layer of this sprite
+    setPreviewOffset (x, y, z) { return this.setLayerOffset('preview', x, y, z); }
+    setPreviewOffsetX (x) { this.setPreviewOffset(x, null, null); }
+    setPreviewOffsetY (y) { this.setPreviewOffset(null, y, null); }
+    setPreviewOffsetZ (z) { this.setPreviewOffset(null, null, z); }
+    getPreviewOffset () { return this.getLayerOffset('preview'); }
+    getPreviewOffsetX () { return this.getPreviewOffset().x; }
+    getPreviewOffsetY () { return this.getPreviewOffset().y; }
+    getPreviewOffsetZ () { return this.getPreviewOffset().z; }
+
+    // Update or return the offset values for the background layer of this sprite
+    setBackgroundOffset (x, y, z) { return this.setLayerOffset('background', x, y, z); }
+    setBackgroundOffsetX (x) { this.setBackgroundOffset(x, null, null); }
+    setBackgroundOffsetY (y) { this.setBackgroundOffset(null, y, null); }
+    setBackgroundOffsetZ (z) { this.setBackgroundOffset(null, null, z); }
+    getBackgroundOffset () { return this.getLayerOffset('background'); }
+    getBackgroundOffsetX () { return this.getBackgroundOffset().x; }
+    getBackgroundOffsetY () { return this.getBackgroundOffset().y; }
+    getBackgroundOffsetZ () { return this.getBackgroundOffset().z; }
+
+    // Update or return the offset values for the foreground layer of this sprite
+    setForegroundOffset (x, y, z) { return this.setLayerOffset('foreground', x, y, z); }
+    setForegroundOffsetX (x) { this.setForegroundOffset(x, null, null); }
+    setForegroundOffsetY (y) { this.setForegroundOffset(null, y, null); }
+    setForegroundOffsetZ (z) { this.setForegroundOffset(null, null, z); }
+    getForegroundOffset () { return this.getLayerOffset('foreground'); }
+    getForegroundOffsetX () { return this.getForegroundOffset().x; }
+    getForegroundOffsetY () { return this.getForegroundOffset().y; }
+    getForegroundOffsetZ () { return this.getForegroundOffset().z; }
+
+    // Update or return the offset values for the avatar layer of this sprite
+    setAvatarOffset (x, y, z) { return this.setLayerOffset('avatar', x, y, z); }
+    setAvatarOffsetX (x) { this.setAvatarOffset(x, null, null); }
+    setAvatarOffsetY (y) { this.setAvatarOffset(null, y, null); }
+    setAvatarOffsetZ (z) { this.setAvatarOffset(null, null, z); }
+    getAvatarOffset () { return this.getLayerOffset('avatar'); }
+    getAvatarOffsetX () { return this.getAvatarOffset().x; }
+    getAvatarOffsetY () { return this.getAvatarOffset().y; }
+    getAvatarOffsetZ () { return this.getAvatarOffset().z; }
 
 }
 
