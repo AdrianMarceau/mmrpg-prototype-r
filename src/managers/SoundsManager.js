@@ -88,11 +88,30 @@ export default class SoundsManager {
         /* ... */
     }
 
+    // Execute a given callback after a certain amount of time gas passed
+    delayedCall (delay, callback)
+    {
+        //console.log('SoundsManager.delayedCall() called for w/ delay:', delay, 'callback:', typeof callback);
+        let _this = this;
+        let MMRPG = this.MMRPG;
+        let scene = this.scene;
+        let delayedCall = scene.time.delayedCall(delay, function(){
+            //console.log('SoundsManager.delayedCall() callback triggered after delay:', delay, 'callback:', typeof callback, 'scene:', scene);
+            return callback.call(_this);
+            }, [], scene);
+        return delayedCall;
+    }
+
     // Play a sound from the sound sprite
     play (token, options = {})
     {
         //console.log('SoundsManager.play() called w/ token:', token, 'options:', options);
         if (typeof token !== 'string'){ return; }
+        if (options.delay){
+            let delay = options.delay;
+            delete options.delay;
+            return this.delayedCall(delay, this.play.bind(this, token, options));
+            }
         let MMRPG = this.MMRPG;
         let scene = this.scene;
         let sfxToken = token;
