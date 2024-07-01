@@ -56,8 +56,9 @@ class MMRPG_Object {
 
         // If spriteConfig is provided, create a new sprite with it
         this.sprite = null;
-        this.spriteHitbox = null;
+        this.spriteLayers = {};
         this.spriteConfig = {};
+        this.spriteHitbox = null;
         this.spriteFrames = ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09'];
         this.spriteFrameAliases = [];
         if (spriteConfig && Object.keys(spriteConfig).length > 0) {
@@ -83,6 +84,7 @@ class MMRPG_Object {
             spriteConfig.offsetX = spriteConfig.offsetX || 0;
             spriteConfig.offsetY = spriteConfig.offsetY || 0;
             spriteConfig.interactive = spriteConfig.interactive || false;
+            spriteConfig.layers = spriteConfig.layers || {};
             spriteConfig.debug = spriteConfig.debug || false;
 
             // Compensate for missing size defaults using the object config
@@ -1064,11 +1066,21 @@ class MMRPG_Object {
         //console.log('-> created new sprite w/ sheet:', sheet, 'x:', config.x, 'y:', config.y);
     }
 
+    // Prepare this object's individual sprite layers for use, creating them if they doesn't exist yet
+    prepareSpriteLayers ()
+    {
+        //console.log('MMRPG_Object.prepareSpriteLayers() called for ', this.kind, this.token, '\nw/ spriteConfig:', this.spriteConfig);
+
+        // ... nothing to do here for yet ... //
+
+    }
+
     // Create the new object sprite with the sprite sheet provided and then update/create their graphics, properties, and animations
     createObjectSprite (spriteSheet = null)
     {
         //console.log('MMRPG_Object.createObjectSprite() called for ', this.kind, this.token, '\nw/ spriteSheet:', spriteSheet, '\n& spriteConfig:', this.spriteConfig);
         this.prepareSprite(spriteSheet);
+        this.prepareSpriteLayers();
         this.updateSpriteGraphics();
         this.updateSpriteProperties();
         this.createSpriteAnimations();
@@ -1145,7 +1157,21 @@ class MMRPG_Object {
             //console.log('-> updating hitbox sprite for ', this.token, ' w/ origin:', config.origin, 'x:', hitX, 'y:', hitY, 'config:', config);
             }
 
+        // And finally, update any layer graphics that are present
+        this.updateSpriteLayerGraphics();
+
     }
+
+
+    // Update the graphics of this object's individual sprite layers, including position, scale, and visibility
+    updateSpriteLayerGraphics ()
+    {
+        //console.log('MMRPG_Object.updateSpriteLayerGraphics() called for ', this.kind, this.token, '\nw/ spriteConfig:', this.spriteConfig);
+
+        // ... nothing to do here for yet ... //
+
+    }
+
 
     // Update the objects public properties with the current sprite settings for those that might be accessed externally
     updateSpriteProperties ()
@@ -1228,6 +1254,10 @@ class MMRPG_Object {
         let config = this.spriteConfig;
         x = Graphics.parseRelativePosition(x, config.x);
         y = Graphics.parseRelativePosition(y, config.y);
+        if (x === null && y === null){ return; }
+        if (config.x === x && config.y === y){ return; }
+        if (this.x === x && this.y === y){ return; }
+        let deltaX = x - config.x, deltaY = y - config.y;
         config.x = x;
         config.y = y;
         this.x = x;
@@ -1235,6 +1265,25 @@ class MMRPG_Object {
         let [ modX, modY ] = this.getOffsetPosition(x, y);
         $sprite.setPosition(modX, modY);
         $hitbox.setPosition(config.x, config.y);
+        if (this.spriteLayers){
+            let layerKeys = Object.keys(this.spriteLayers);
+            for (let i = 0; i < layerKeys.length; i++){
+                let layer = layerKeys[i];
+                let $layer = this.spriteLayers[layer];
+                let $layerSprite = $layer.sprite;
+                $layerSprite.setPosition($layerSprite.x + deltaX, $layerSprite.y + deltaY);
+                }
+        }
+    }
+    setPositionX (x)
+    {
+        //console.log('MMRPG_Object.setPositionX() called w/ x:', x);
+        return this.setPosition(x, null);
+    }
+    setPositionY (y)
+    {
+        //console.log('MMRPG_Object.setPositionY() called w/ y:', y);
+        return this.setPosition(null, y);
     }
 
     // Return a given sprite's adjusted x and y position based on it's origin and offset
@@ -1561,6 +1610,41 @@ class MMRPG_Object {
         //console.log('MMRPG_Object.resetScale() called');
         return this.setScale(1);
     }
+
+
+    // -- SPRITE LAYER HANDLING -- //
+
+    // Update the offset values for a given layer of this sprite
+    setLayerOffset (layer, x, y, z)
+    {
+        //console.log('MMRPG_Field.setLayerOffset() called for ', this.kind, this.token, '\nw/ layer:', layer, 'x:', x, 'y:', y);
+        let layersConfig = this.spriteConfig.layers;
+        let layerConfig = layersConfig[layer] || {};
+        let offset = layerConfig.offset || {x: 0, y: 0, z: 0};
+        x = typeof x === 'number' || typeof x === 'string' ? Graphics.parseRelativePosition(x, offset.x) : offset.x;
+        y = typeof y === 'number' || typeof y === 'string'  ? Graphics.parseRelativePosition(y, offset.y) : offset.y;
+        z = typeof z === 'number' || typeof z === 'string'  ? Graphics.parseRelativePosition(z, offset.z) : offset.z;
+        if (offset.x === x && offset.y === y && offset.z === z){ return; }
+        layerConfig.offset = {x: x, y: y, z: z};
+        layersConfig[layer] = layerConfig;
+        this.updateSpriteGraphics();
+    }
+    setLayerOffsetX (layer, x) { this.setLayerOffset(layer, x, null, null); }
+    setLayerOffsetY (layer, y) { this.setLayerOffset(layer, null, y, null); }
+    setLayerOffsetZ (layer, z) { this.setLayerOffset(layer, null, null, z); }
+
+    // Return the offset values for a given later of this sprite
+    getLayerOffset (layer)
+    {
+        //console.log('MMRPG_Field.getLayerOffset() called for ', this.kind, this.token, '\nw/ layer:', layer);
+        let layersConfig = this.spriteConfig.layers;
+        let layerConfig = layersConfig[layer] || {};
+        let offset = layerConfig.offset || {x: 0, y: 0, z: 0};
+        return offset;
+    }
+    getLayerOffsetX (layer) { return this.getLayerOffset(layer).x; }
+    getLayerOffsetY (layer) { return this.getLayerOffset(layer).y; }
+    getLayerOffsetZ (layer) { return this.getLayerOffset(layer).z; }
 
 
     // -- SPRITE ANIMATION -- //
