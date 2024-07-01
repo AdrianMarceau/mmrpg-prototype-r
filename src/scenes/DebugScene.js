@@ -279,25 +279,26 @@ export default class DebugScene extends Phaser.Scene
             // -- DEBUG SOUND EFFECTS -- //
 
             // Play a sound effect to make sure they're working
-            SOUNDS.playSoundEffect('9-reggae-laughs_rockboard-nes', {volume: 1.5});
+            SOUNDS.playSoundEffect('9-reggae-laughs_rockboard-nes', {volume: 1.5, delay: 100});
 
 
             // -- DEBUG SPRITE TESTING -- //
 
             // Create some primitive MMRPG objects for testing purposes
-            var bannerY = scene.battleBanner.y;
-            var baseDepth = 8000;
-            var depth = baseDepth + 1000;
-            var baseX = 50, baseY = 150;
+            let $battleBanner = scene.battleBanner;
+            var bannerY = $battleBanner.y;
+            var fieldDepth = $battleBanner.depths.field;
+            var actionDepth = $battleBanner.depths.action;
+            var baseX = 50, baseY = 150, baseZ = 0, lastZ = baseZ;
             var $debugObjects = {};
-            $debugObjects.player = new MMRPG_Player(this, 'dr-light', null, { x: (baseX + 0), y: (baseY + 0), z: depth++, origin: [0.5, 1] });
-            $debugObjects.robot = new MMRPG_Robot(this, 'mega-man', null, { x: (baseX + 0), y: (baseY + 40), z: depth++, origin: [0.5, 1] });
-            $debugObjects.robot2 = new MMRPG_Robot(this, 'quick-man', null, { x: (baseX + 40), y: (baseY + 40), z: depth++, origin: [0.5, 1] });
-            $debugObjects.robot3 = new MMRPG_Robot(this, 'wood-man', null, { x: (baseX + 80), y: (baseY + 40), z: depth++, origin: [0.5, 1] });
-            $debugObjects.ability = new MMRPG_Ability(this, 'buster-shot', null, { x: (baseX + 0), y: (baseY + 80), z: depth++, origin: [0.5, 1] });
-            $debugObjects.ability2 = new MMRPG_Ability(this, 'super-arm', null, { x: (baseX + 40), y: (baseY + 80), z: depth++, origin: [0.5, 1] });
-            $debugObjects.item = new MMRPG_Item(this, 'energy-tank', null, { x: (baseX + 0), y: (baseY + 120), z: depth++, origin: [0.5, 1] });
-            $debugObjects.field = new MMRPG_Field(this, 'prototype-subspace', { foreground_variant: 'decayed' }, { x: 0, y: bannerY, z: baseDepth, origin: [0, 0], debug: true });
+            $debugObjects.player = new MMRPG_Player(this, 'dr-light', null, { x: (baseX + 0), y: (baseY + 0), z: lastZ++, depth: actionDepth, origin: [0.5, 1] });
+            $debugObjects.robot = new MMRPG_Robot(this, 'mega-man', null, { x: (baseX + 0), y: (baseY + 40), z: lastZ++, depth: actionDepth, origin: [0.5, 1] });
+            $debugObjects.robot2 = new MMRPG_Robot(this, 'quick-man', null, { x: (baseX + 40), y: (baseY + 40), z: lastZ++, depth: actionDepth, origin: [0.5, 1] });
+            $debugObjects.robot3 = new MMRPG_Robot(this, 'wood-man', null, { x: (baseX + 80), y: (baseY + 40), z: lastZ++, depth: actionDepth, origin: [0.5, 1] });
+            $debugObjects.ability = new MMRPG_Ability(this, 'buster-shot', null, { x: (baseX + 0), y: (baseY + 80), z: lastZ++, depth: actionDepth, origin: [0.5, 1] });
+            $debugObjects.ability2 = new MMRPG_Ability(this, 'super-arm', null, { x: (baseX + 40), y: (baseY + 80), z: lastZ++, depth: actionDepth, origin: [0.5, 1] });
+            $debugObjects.item = new MMRPG_Item(this, 'energy-tank', null, { x: (baseX + 0), y: (baseY + 120), z: lastZ++, depth: actionDepth, origin: [0.5, 1] });
+            $debugObjects.field = new MMRPG_Field(this, 'prototype-subspace', { foreground_variant: 'decayed' }, { x: 0, y: bannerY, z: baseZ, depth: fieldDepth, origin: [0, 0] });
             $debugObjects.skill = new MMRPG_Skill(this, 'xtreme-submodule', null);
             $debugObjects.type = new MMRPG_Type(this, 'water');
             let onClickTestObject = function(){
@@ -414,16 +415,56 @@ export default class DebugScene extends Phaser.Scene
                     }
                 $object.setShadow(true);
                 $object.startIdleAnimation(true, true);
-                if ($object.kind !== 'field'){
+                if ($object.kind === 'field'){
+                    $object.setForegroundOffset(null, -34);
+                    } else {
                     $object.setOnClick(onClickTestObject);
                     }
                 }
             console.log('-> $debugObjects(small):', $debugObjects);
 
+            // Animate the MMRPG field object in various ways for testing purposes
+            const debugFieldConfig = {};
+            const startDebugFieldAnimations = function(){
+                //console.log('DebugScene.create().startDebugFieldAnimations()');
+                let $field = $debugObjects.field;
+                let config = debugFieldConfig;
+                if (!config.baseX){ config.baseX = $field.x; }
+                if (!config.baseY){ config.baseY = $field.y; }
+                if (!config.baseOffsetX){ config.baseOffsetX = $field.getBackgroundOffsetX(); }
+                if (!config.baseOffsetY){ config.baseOffsetY = $field.getBackgroundOffsetY(); }
+                if (config.tween){ config.tween.remove(); }
+                config.tween = scene.tweens.addCounter({
+                    from: 0,
+                    to: 100,
+                    ease: 'Sine.easeInOut',
+                    duration: 3000,
+                    yoyo: true,
+                    repeat: -1,
+                    delay: 600,
+                    onUpdate: function () {
+                        //console.log('startDebugFieldAnimations().onUpdate() | -> config.tween:', config.tween.getValue());
+                        let value = config.tween.getValue();
+                        //let newPositionY = config.baseY + Math.floor(15 * (value / 100));
+                        //$field.setPositionY(newPositionY);
+                        let backgroundOffsetY = config.baseOffsetY - Math.floor(15 * (value / 100));
+                        //console.log('config.baseOffsetY =', config.baseOffsetY, 'backgroundOffsetY =', backgroundOffsetY);
+                        $field.setBackgroundOffsetY(backgroundOffsetY);
+                        },
+                    onComplete: function () {
+                        //console.log('startDebugFieldAnimations().onComplete() | -> config.tween complete!');
+                        if (config.tween){ config.tween.remove(); }
+                        //$field.setPositionY(config.baseY);
+                        //$field.setBackgroundOffsetY(config.baseOffsetY);
+                        }
+                    });
+                };
+            startDebugFieldAnimations();
+
             // Create some mods of the above to see what's possible
             var $ref = scene.battleBanner;
             var commonX = $ref.x + ($ref.width / 2);
-            var commonY = $ref.y + ($ref.height / 2) + 76;
+            var commonY = $ref.y + ($ref.height / 2) + 50; //76;
 
             // Define a custom hover effect for all the custom robot masters/bosses/mechas
             let customMouseOver = function(){
@@ -441,11 +482,12 @@ export default class DebugScene extends Phaser.Scene
             let customClickEvent = function($sprite, pointer, localX, localY){
                 //console.log('%c' + this.token+' | customClickEvent() called', 'color: magenta;');
                 if (!scene.battleBanner.isWithinBounds(pointer.x, pointer.y)){ return; }
-                SOUNDS.playSoundEffect('damage');
                 this.stopMoving();
                 this.stopIdleAnimation();
-                let damageAmount = 10, actualDamageAmount;
+                SOUNDS.playSoundEffect('damage');
+                let damageAmount = 35, actualDamageAmount;
                 let currentEnergy = this.getCounter('energy');
+                let minEnergy = this.getValue('energyMin');
                 let maxEnergy = this.getValue('energyMax');
                 let staggerCounter = this.getCounter('stagger');
                 if (currentEnergy <= 0){ return; }
@@ -453,9 +495,15 @@ export default class DebugScene extends Phaser.Scene
                 actualDamageAmount = Math.min(damageAmount, currentEnergy);
                 this.setCounter('energy', '-='+damageAmount);
                 let newCurrentEnergy = this.getCounter('energy');
+                let threatLevel = 0;
+                if (newCurrentEnergy <= Math.floor(maxEnergy / 2)){ threatLevel++; }
+                if (newCurrentEnergy <= Math.floor(maxEnergy / 3)){ threatLevel++; }
+                if (newCurrentEnergy <= Math.floor(maxEnergy / 4)){ threatLevel++; }
+                if (newCurrentEnergy <= minEnergy){ threatLevel++; }
                 let damageTextColor = '#ffffff';
-                if (newCurrentEnergy < (maxEnergy / 4)){ damageTextColor = '#ff0000'; }
-                else if (newCurrentEnergy < (maxEnergy / 2)){ damageTextColor = '#ff9900'; }
+                if (threatLevel >= 2){ damageTextColor = '#ff9900'; }
+                if (threatLevel >= 3){ damageTextColor = '#ff0000'; SOUNDS.playSoundEffect('damage-reverb', {delay: 50}); }
+                if (threatLevel >= 4) { SOUNDS.playSoundEffect('damage-reverb', {delay: 100}); }
                 //console.log('current energy:', newCurrentEnergy);
                 //console.log('max energy:', maxEnergy);
                 this.setCounter('stagger', '+=1');
@@ -463,13 +511,17 @@ export default class DebugScene extends Phaser.Scene
                     // This robot is disabled so we should explode and return
                     //console.log('->', this.token, 'is disabled! energy: 0/', maxEnergy);
                     this.stopAll(true);
-                    SOUNDS.playSoundEffect('damage-reverb');
+                    SOUNDS.playSoundEffect('damage-critical', {delay: 100});
+                    SOUNDS.playSoundEffect('master-overloading-sound', {delay: 200});
                     this.showDamage(actualDamageAmount, function(){
                         // Play a sound effect to make sure they're
                         this.setFrame('defeat');
                         this.flashSprite(3, 50, false);
                         SOUNDS.playSoundEffect('explode-sound');
-                        this.delayedCall(600, function(){
+                        //this.showExplosions();
+                        this.delayedCall(1000, function(){
+                            //this.stopExplosions();
+                            SOUNDS.playSoundEffect('master-destroyed-sound');
                             this.destroy();
                             });
                         }, {color: damageTextColor});
@@ -755,7 +807,7 @@ export default class DebugScene extends Phaser.Scene
         // Set the origin, scale, and depth for the sprite then add to parent container
         $playerSprite.setOrigin(0.5, 1);
         $playerSprite.setScale(2.0);
-        $playerSprite.setDepth(scene.battleBanner.depth + spriteY);
+        $playerSprite.setDepth(scene.battleBanner.depths.action + spriteY);
         scene.battleBanner.add($playerSprite);
 
         // Apply effects and setup the frame
@@ -920,7 +972,7 @@ export default class DebugScene extends Phaser.Scene
         // Set the origin, scale, and depth for the sprite then add to parent container
         $robotSprite.setOrigin(0.5, 1);
         $robotSprite.setScale(2.0);
-        $robotSprite.setDepth(scene.battleBanner.depth + spriteY);
+        $robotSprite.setDepth(scene.battleBanner.depths.action + spriteY);
         scene.battleBanner.add($robotSprite);
 
         // Add effects and setup the frame for the sliding sprite
@@ -1606,9 +1658,20 @@ export default class DebugScene extends Phaser.Scene
             height: 213,
             fillStyle: { color: xcolor },
             mainText: '',
-            depth: depth++
+            depth: depth
             });
+        // base needs 10, field needs 100, underlay needs 100, action needs 1000, overlay needs 100
+        var depths = {};
+        var lastDepth = $battleBanner.depth;
+        lastDepth = depths.base = lastDepth + 0;
+        lastDepth = depths.grid = lastDepth + 10;
+        lastDepth = depths.field = lastDepth + 1000;
+        lastDepth = depths.underlay = lastDepth + 1000;
+        lastDepth = depths.action = lastDepth + 1000;
+        lastDepth = depths.overlay = lastDepth + 1000;
+        $battleBanner.depths = depths;
         this.battleBanner = $battleBanner;
+        //console.log('Battle banner created w/ depths:', depths);
 
         // Create a mask for the battle banner area that we can add sprites to
         const spriteContainer = $battleBanner.createContainer();
@@ -1619,7 +1682,7 @@ export default class DebugScene extends Phaser.Scene
         var width = $battleBanner.width, height = $battleBanner.height;
         var $gridBackground = this.add.tileSprite(x, y, width, height, 'misc.sprite-grid');
         $gridBackground.setOrigin(0, 0);
-        $gridBackground.setDepth(depth++);
+        $gridBackground.setDepth($battleBanner.depths.grid + 1);
         $gridBackground.setAlpha(0.2);
         this.battleBanner.add($gridBackground);
 
@@ -1627,7 +1690,7 @@ export default class DebugScene extends Phaser.Scene
         y += 60, height -= 60;
         var $gridForeground = this.add.tileSprite(x, y, width, height, 'misc.sprite-grid');
         $gridForeground.setOrigin(0, 0);
-        $gridForeground.setDepth(depth++);
+        $gridForeground.setDepth($battleBanner.depths.grid + 2);
         $gridForeground.setAlpha(0.4);
         this.battleBanner.add($gridForeground);
 
@@ -1635,7 +1698,7 @@ export default class DebugScene extends Phaser.Scene
         var $horizonLine = this.add.graphics();
         $horizonLine.fillStyle(0x191919);
         $horizonLine.fillRect(x, y, width, 2);
-        $horizonLine.setDepth(depth++);
+        $horizonLine.setDepth($battleBanner.depths.grid + 3);
         this.battleBanner.add($horizonLine);
 
         // Add the parts of the sprite grid object to the global object for easy reference
