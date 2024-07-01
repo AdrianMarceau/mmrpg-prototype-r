@@ -338,6 +338,7 @@ export default class Banner {
                 spriteContainer.add($sprite);
                 containerSprites.push($sprite);
                 containerDepths.push($sprite.depth);
+                //console.log($object.token + ' | -> added sprite w/ depth', $sprite.depth);
                 }
             if ($hitbox){
                 spriteContainer.add($hitbox);
@@ -345,12 +346,16 @@ export default class Banner {
                 containerDepths.push($hitbox.depth);
                 }
             if ($spriteLayers){
-                for (let i = 0; i < $spriteLayers.length; i++){
-                    let $layer = $spriteLayers[i];
-                    //console.log($object.token + ' | -> adding sprite layer', typeof $layer, 'to container \n$layer:', $layer);
-                    spriteContainer.add($layer.sprite);
-                    containerSprites.push($layer.sprite);
-                    containerDepths.push($layer.sprite.depth);
+                let layerKeys = Object.keys($spriteLayers);
+                for (let i = 0; i < layerKeys.length; i++){
+                    let layer = layerKeys[i];
+                    let $layer = $spriteLayers[layer];
+                    let $layerSprite = $layer.sprite;
+                    //console.log($object.token + ' | -> adding sprite layer ' + $layer.kind + ' to container w/ \n$layer:', $layer, '\n$layerSprite:', $layerSprite);
+                    spriteContainer.add($layerSprite);
+                    containerSprites.push($layerSprite);
+                    containerDepths.push($layerSprite.depth);
+                    //console.log($object.token + ' | -> added layer ' + $layer.kind + ' sprite w/ depth', $layerSprite.depth);
                     }
                 }
             spriteContainer.sort('depth');
