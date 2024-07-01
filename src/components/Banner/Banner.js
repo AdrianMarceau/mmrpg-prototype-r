@@ -56,6 +56,10 @@ export default class Banner {
         this.elements.images = [];
         this.elements.sprites = [];
 
+        this.spriteContainer = null;
+        this.spriteContainerSprites = [];
+        this.spriteContainerDepths = [];
+
         this.createBanner();
 
     }
@@ -311,6 +315,8 @@ export default class Banner {
     {
         //console.log('Banner.addSprite() called w/ $object =', $object);
         let spriteContainer = this.spriteContainer;
+        let containerSprites = this.spriteContainerSprites;
+        let containerDepths = this.spriteContainerDepths;
         if (!spriteContainer){ spriteContainer = this.createContainer(); }
 
         // If this is a standard Phaser game object sprite or tile-sprite
@@ -318,6 +324,8 @@ export default class Banner {
             || $object instanceof Phaser.GameObjects.TileSprite){
             let $sprite = $object;
             spriteContainer.add($sprite);
+            containerSprites.push($sprite);
+            containerDepths.push($sprite.depth);
             spriteContainer.sort('depth');
             }
         // If this is a custom MMRPG object w/ sprites inside
@@ -326,13 +334,23 @@ export default class Banner {
             let $hitbox = $object.spriteHitbox;
             let $spriteLayers = $object.spriteLayers;
             //console.log($object.token + ' | -> adding MMRPG_Object to container \n$sprite:', $sprite, '\n$hitbox:', $hitbox, '\n$spriteLayers:', $spriteLayers);
-            if ($sprite){ spriteContainer.add($sprite); }
-            if ($hitbox){ spriteContainer.add($hitbox); }
+            if ($sprite){
+                spriteContainer.add($sprite);
+                containerSprites.push($sprite);
+                containerDepths.push($sprite.depth);
+                }
+            if ($hitbox){
+                spriteContainer.add($hitbox);
+                containerSprites.push($hitbox);
+                containerDepths.push($hitbox.depth);
+                }
             if ($spriteLayers){
                 for (let i = 0; i < $spriteLayers.length; i++){
                     let $layer = $spriteLayers[i];
                     //console.log($object.token + ' | -> adding sprite layer', typeof $layer, 'to container \n$layer:', $layer);
                     spriteContainer.add($layer.sprite);
+                    containerSprites.push($layer.sprite);
+                    containerDepths.push($layer.sprite.depth);
                     }
                 }
             spriteContainer.sort('depth');
@@ -340,9 +358,33 @@ export default class Banner {
         // Otherwise we just try to add it directly and hope for the best
         else {
             spriteContainer.add($object);
+            containerSprites.push($object);
+            containerDepths.push($object.depth);
             spriteContainer.sort('depth');
             }
 
+    }
+
+    // Return the max depth of all the sprite container sprites in the container
+    getMaxDepth ()
+    {
+        //console.log('Banner.getMaxDepth() called');
+        let containerDepths = this.spriteContainerDepths;
+        if (containerDepths.length > 0){
+            return Math.max(...containerDepths);
+            }
+        return 0;
+    }
+
+    // Return the min depth of all the sprite container sprites in the container
+    getMinDepth ()
+    {
+        //console.log('Banner.getMinDepth() called');
+        let containerDepths = this.spriteContainerDepths;
+        if (containerDepths.length > 0){
+            return Math.min(...containerDepths);
+            }
+        return 0;
     }
 
 
