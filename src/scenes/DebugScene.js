@@ -719,8 +719,8 @@ export default class DebugScene extends Phaser.Scene
         // ---------------->
         // DEBUG DEBUG DEBUG
 
-        window.MMRPG_DebugScene_showMasterSliding = this.showMasterSliding.bind(this);
-        window.MMRPG_DebugScene_showDoctorRunning = this.showDoctorRunning.bind(this);
+        window.MMRPG_DebugScene_showSlidingRobot = this.showSlidingRobot.bind(this);
+        window.MMRPG_DebugScene_showRunningPlayer = this.showRunningPlayer.bind(this);
 
     }
 
@@ -746,9 +746,9 @@ export default class DebugScene extends Phaser.Scene
     }
 
     // Define a function that generates a sprite of a player and animates it running across the screen
-    showDoctorRunning (token, alt, side = 'left')
+    showRunningPlayer (token, alt, side = 'left')
     {
-        //console.log('DebugScene.showDoctorRunning() called w/ token =', token, 'alt =', alt, 'side =', side);
+        //console.log('DebugScene.showRunningPlayer() called w/ token =', token, 'alt =', alt, 'side =', side);
 
         // Pull in required object references
         let scene = this;
@@ -864,9 +864,9 @@ export default class DebugScene extends Phaser.Scene
     }
 
     // Define a function that generates a sprite of a robot and animates it sliding across the screen
-    async showMasterSliding (token, alt, side)
+    async showSlidingRobot (token, alt, side)
     {
-        //console.log('DebugScene.showMasterSliding() called w/ token =', token, 'alt =', alt, 'side =', side);
+        //console.log('DebugScene.showSlidingRobot() called w/ token =', token, 'alt =', alt, 'side =', side);
         //console.log('scene.masterTokensByCoreType['+alt+'] =', this.masterTokensByCoreType[alt]);
 
         // Pull in required object references
@@ -1912,9 +1912,9 @@ export default class DebugScene extends Phaser.Scene
                 if (doctor === 'dr-light'){ master = 'mega-man'; support = 'roll'; }
                 if (doctor === 'dr-wily'){ master = 'bass'; support = 'disco'; }
                 if (doctor === 'dr-cossack'){ master = 'proto-man'; support = 'rhythm'; }
-                if (doctor){ this.showDoctorRunning(doctor, alt, 'left'); }
-                if (master && $alphaBanner.directionY === 'up'){ this.showMasterSliding(master, null, 'left'); }
-                if (support && $alphaBanner.directionY === 'down'){ this.showMasterSliding(support, null, 'left'); }
+                if (doctor){ this.showRunningPlayer(doctor, alt, 'left'); }
+                if (master && $alphaBanner.directionY === 'up'){ this.showSlidingRobot(master, null, 'left'); }
+                if (support && $alphaBanner.directionY === 'down'){ this.showSlidingRobot(support, null, 'left'); }
                 }
             // pick a new type for next time
             type = $alphaBanner.types[Math.floor(Math.random() * $alphaBanner.types.length)];
@@ -1964,7 +1964,7 @@ export default class DebugScene extends Phaser.Scene
             //console.log('$betaBanner type:', type);
             if (scene.allowSlidingMasters){
                 //console.log('Show a sliding master of type:', type);
-                this.showMasterSliding(null, type, 'left');
+                this.showSlidingRobot(null, type, 'left');
                 }
             // pick a new type for next time
             type = $betaBanner.types[Math.floor(Math.random() * $betaBanner.types.length)];
@@ -2010,14 +2010,14 @@ export default class DebugScene extends Phaser.Scene
                 mainBanner.setSize(width - resize, height - resize);
                 } else {
                 // We need to bounce to the other side now
-                if (scene.allowRunningDoctors){ scene.showDoctorRunning(); }
+                if (scene.allowRunningDoctors){ scene.showRunningPlayer(); }
                 if (scene.allowSlidingMasters){
                     var doctor = scene.lastRunningDoctor;
                     var master = 'robot';
                     if (doctor === 'dr-light'){ master = mainBanner.type === 'copy' ? 'mega-man' : 'roll'; }
                     else if (doctor === 'dr-wily'){ master = mainBanner.type === 'copy' ? 'bass' : 'disco'; }
                     else if (doctor === 'dr-cossack'){ master = mainBanner.type === 'copy' ? 'proto-man' : 'rhythm'; }
-                    this.showMasterSliding(master, null, 'left');
+                    this.showSlidingRobot(master, null, 'left');
                     }
                 var type = 'copy';
                 var typeInfo = types[type];
@@ -2036,14 +2036,14 @@ export default class DebugScene extends Phaser.Scene
                 mainBanner.setSize(width + resize, height + resize);
                 } else {
                 // We need to bounce to the other side now
-                if (scene.allowRunningDoctors){ scene.showDoctorRunning(); }
+                if (scene.allowRunningDoctors){ scene.showRunningPlayer(); }
                 if (scene.allowSlidingMasters){
                     var doctor = scene.lastRunningDoctor;
                     var master = 'robot';
                     if (doctor === 'dr-light'){ master = mainBanner.type === 'copy' ? 'mega-man' : 'roll'; }
                     else if (doctor === 'dr-wily'){ master = mainBanner.type === 'copy' ? 'bass' : 'disco'; }
                     else if (doctor === 'dr-cossack'){ master = mainBanner.type === 'copy' ? 'proto-man' : 'rhythm'; }
-                    this.showMasterSliding(master, null, 'left');
+                    this.showSlidingRobot(master, null, 'left');
                     }
                 var type = 'none';
                 var typeInfo = types[type];
@@ -2101,7 +2101,7 @@ export default class DebugScene extends Phaser.Scene
             var color2 = types[type]['colour_dark'];
             testBanner.setColor(color, color2);
             if (scene.allowSlidingMasters){
-                this.showMasterSliding(null, type, 'right');
+                this.showSlidingRobot(null, type, 'right');
                 }
             }
 
@@ -2205,7 +2205,7 @@ export default class DebugScene extends Phaser.Scene
                 depth: depth++
                 }, function(){
                 //console.log(label.toUpperCase() + ' button clicked');
-                scene.showDoctorRunning(null, null, 'left');
+                scene.showRunningPlayer(null, null, 'left');
                 });
 
         cell = buttonGrid[0][3];
@@ -2219,7 +2219,7 @@ export default class DebugScene extends Phaser.Scene
                 depth: depth++
                 }, function(){
                 //console.log(label.toUpperCase() + ' button clicked');
-                scene.showMasterSliding(null, null, 'left');
+                scene.showSlidingRobot(null, null, 'left');
                 });
 
         // COLUMN 2
@@ -2311,7 +2311,7 @@ export default class DebugScene extends Phaser.Scene
                 depth: depth++
                 }, function(){
                 //console.log(label.toUpperCase() + ' button clicked');
-                scene.showDoctorRunning(null, null, 'right');
+                scene.showRunningPlayer(null, null, 'right');
                 });
 
         cell = buttonGrid[2][3];
@@ -2325,7 +2325,7 @@ export default class DebugScene extends Phaser.Scene
                 depth: depth++
                 }, function(){
                 //console.log(label.toUpperCase() + ' button clicked');
-                scene.showMasterSliding(null, null, 'right');
+                scene.showSlidingRobot(null, null, 'right');
                 });
 
         /*
@@ -2359,7 +2359,7 @@ export default class DebugScene extends Phaser.Scene
             typesPerRow: 10,
             onClick: function($button, type){
                 //console.log('Wow! Type button clicked!', 'type:', type, '$button:', $button);
-                scene.showMasterSliding(null, type, 'left');
+                scene.showSlidingRobot(null, type, 'left');
                 }
             });
         this.typeButtonPanel = $typeButtonPanel;
@@ -2495,7 +2495,7 @@ export default class DebugScene extends Phaser.Scene
 
         // Show a robot master sliding the the background while they're reading
         if (scene.allowSlidingMasters){
-            scene.showMasterSliding('auto', null, 'right');
+            scene.showSlidingRobot('auto', null, 'right');
             }
 
     }
@@ -2529,7 +2529,7 @@ export default class DebugScene extends Phaser.Scene
 
         // Show a doctor running the the background while they're reading
         if (scene.allowRunningDoctors){
-            scene.showDoctorRunning('proxy', null, 'right');
+            scene.showRunningPlayer('proxy', null, 'right');
             }
 
     }
