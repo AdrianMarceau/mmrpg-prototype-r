@@ -1223,6 +1223,14 @@ class MMRPG_Object {
         this.depth = $sprite.depth;
     }
 
+    // Refresh this sprite by updating sprite properties, graphics, and animations
+    refreshSprite ()
+    {
+        //console.log('MMRPG_Object.refreshSprite() called for ', this.kind, this.token);
+        this.updateSpriteProperties();
+        this.updateSpriteGraphics();
+    }
+
 
     // -- SPRITE MANIPULATION -- //
 
