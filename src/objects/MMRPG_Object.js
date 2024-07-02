@@ -56,6 +56,7 @@ class MMRPG_Object {
 
         // If spriteConfig is provided, create a new sprite with it
         this.sprite = null;
+        this.spriteContainer = null;
         this.spriteLayers = {};
         this.spriteConfig = {};
         this.spriteHitbox = null;
@@ -87,6 +88,9 @@ class MMRPG_Object {
             spriteConfig.layers = spriteConfig.layers || {};
             spriteConfig.debug = spriteConfig.debug || false;
 
+            // Also predefine some of the more complicated ones for later
+            spriteConfig.useContainerForDepth = spriteConfig.useContainerForDepth || false;
+
             // Compensate for missing size defaults using the object config
             if (objectConfig.baseSize){
                 let [ baseWidth, baseHeight ] = objectConfig.baseSize;
@@ -114,6 +118,9 @@ class MMRPG_Object {
             this.createSpriteHitbox();
 
             }
+
+        // Define an empty cache object for us to use
+        this.cache = {};
 
         // end of object constructor
 
@@ -1135,6 +1142,23 @@ class MMRPG_Object {
         let config = this.spriteConfig;
         let [ modX, modY ] = this.getOffsetPosition(config.x, config.y);
 
+        // If this sprite is inside of a container and we're allowed to, track Z changes to that container
+        if (this.spriteContainer
+            && config.useContainerForDepth){
+            //console.log(this.token + ' | -> tracking Z to container:', this.spriteContainer);
+            let containerBounds = this.spriteContainer.getBounds() || null;
+            let containerY = containerBounds.y || 0;
+            let objectY = this.y || 0;
+            let offsetZ = Math.ceil(objectY - containerY);
+            //console.log(this.token + ' | -> containerY:', containerY, 'objectY:', objectY, 'offsetZ:', offsetZ);
+            config.z = offsetZ;
+            this.z = offsetZ;
+            if (!this.cache.lastZ || this.cache.lastZ !== offsetZ){
+                this.cache.lastZ = offsetZ;
+                this.cache.sortContainer = true;
+                }
+            }
+
         // First update the sprite itself as that's most important
         $sprite.setTexture(config.sheet);
         $sprite.setPosition(modX, modY);
@@ -1161,10 +1185,12 @@ class MMRPG_Object {
         this.updateSpriteLayerGraphics();
 
         // If there's a container attached to this sprite, sort it by depth
-        if (this.container
-            && this.container.sort){
-            //console.log('-> sorting container:', typeof this.container, this.container);
-            this.container.sort('depth');
+        if (this.spriteContainer
+            && this.spriteContainer.sort
+            && this.cache.sortContainer){
+            //console.log(this.token + ' | -> sorting container:', typeof this.spriteContainer, this.spriteContainer);
+            this.spriteContainer.sort('depth');
+            delete this.cache.sortContainer;
             }
 
     }
@@ -1188,7 +1214,7 @@ class MMRPG_Object {
         let $sprite = this.sprite;
         this.x = $sprite.x;
         this.y = $sprite.y;
-        this.z = $sprite.depth;
+        this.z = $sprite.z;
         this.width = $sprite.width;
         this.height = $sprite.height;
         this.direction = this.direction;
@@ -1657,6 +1683,33 @@ class MMRPG_Object {
         this.updateSpriteGraphics();
     }
 
+    // Set a sprite configuration value for this object and then redraw everything after
+    setSpriteConfig (key, value)
+    {
+        //console.log('MMRPG_Object.setSpriteConfig() called for', this.token, 'w/ key:', key, 'value:', value);
+        if (!this.sprite) { return; }
+        let $sprite = this.sprite;
+        let $hitbox = this.spriteHitbox;
+        let config = this.spriteConfig;
+        if (config[key] === value){ return; }
+        config[key] = value;
+        this.updateSpriteProperties();
+        this.updateSpriteGraphics();
+    }
+
+    // Set the sprite config value for useContainerForDepth to the boolean value provided
+    useContainerForDepth (bool)
+    {
+        //console.log('MMRPG_Object.setUseContainerForDepth() called for', this.token, 'w/ bool:', bool);
+        if (!this.sprite) { return; }
+        if (!this.spriteContainer){ return; }
+        let config = this.spriteConfig;
+        if (config.useContainerForDepth === bool){ return; }
+        config.useContainerForDepth = bool;
+        this.updateSpriteProperties();
+        this.updateSpriteGraphics();
+    }
+
 
     // -- SPRITE LAYER HANDLING -- //
 
@@ -2001,6 +2054,7 @@ class MMRPG_Object {
             $sprite.y = modY;
             $hitbox.x = modX;
             $hitbox.y = modY;
+            _this.updateSpriteGraphics();
             if (callback){ callback.call(_this, $sprite); }
             return;
             }
@@ -2023,6 +2077,7 @@ class MMRPG_Object {
                 $hitbox.x = revModX;
                 $hitbox.y = revModY;
                 _this.isMoving = true;
+                _this.updateSpriteGraphics();
                 if (moveConfig.onUpdate){ moveConfig.onUpdate.call(_this, $sprite, moveTween); }
                 },
             onComplete: () => { // Use arrow function to preserve `this`
@@ -2034,6 +2089,7 @@ class MMRPG_Object {
                 $hitbox.x = finalX;
                 $hitbox.y = finalY;
                 _this.isMoving = false;
+                _this.updateSpriteGraphics();
                 if (callback){ callback.call(_this, $sprite); }
                 },
             });
@@ -2071,6 +2127,7 @@ class MMRPG_Object {
             config.x = finalX;
             $sprite.x = modX;
             $hitbox.x = modX;
+            _this.updateSpriteGraphics();
             if (callback){ callback.call(_this, $sprite); }
             return;
             }
@@ -2087,6 +2144,7 @@ class MMRPG_Object {
                 config.x = revModX;
                 $hitbox.x = revModX;
                 _this.isMoving = true;
+                _this.updateSpriteGraphics();
                 if (moveConfig.onUpdate){ moveConfig.onUpdate.call(_this, $sprite, moveTween); }
                 },
             onComplete: () => { // Use arrow function to preserve `this`
@@ -2094,6 +2152,7 @@ class MMRPG_Object {
                 config.x = finalX;
                 $hitbox.x = finalX;
                 _this.isMoving = false;
+                _this.updateSpriteGraphics();
                 if (callback){ callback.call(_this, $sprite); }
                 },
             });
@@ -2130,6 +2189,7 @@ class MMRPG_Object {
             config.y = finalY;
             $sprite.y = modY;
             $hitbox.y = modY;
+            _this.updateSpriteGraphics();
             if (callback){ callback.call(_this, $sprite); }
             return;
             }
@@ -2146,6 +2206,7 @@ class MMRPG_Object {
                 config.y = revModY;
                 $hitbox.y = revModY;
                 _this.isMoving = true;
+                _this.updateSpriteGraphics();
                 if (moveConfig.onUpdate){ moveConfig.onUpdate.call(_this, $sprite, moveTween); }
                 },
             onComplete: () => { // Use arrow function to preserve `this`
@@ -2153,6 +2214,7 @@ class MMRPG_Object {
                 config.y = finalY;
                 $hitbox.y = finalY;
                 _this.isMoving = false;
+                _this.updateSpriteGraphics();
                 if (callback){ callback.call(_this, $sprite); }
                 },
             });
