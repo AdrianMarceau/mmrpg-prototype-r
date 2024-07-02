@@ -1160,6 +1160,13 @@ class MMRPG_Object {
         // And finally, update any layer graphics that are present
         this.updateSpriteLayerGraphics();
 
+        // If there's a container attached to this sprite, sort it by depth
+        if (this.container
+            && this.container.sort){
+            //console.log('-> sorting container:', typeof this.container, this.container);
+            this.container.sort('depth');
+            }
+
     }
 
 
@@ -1245,35 +1252,31 @@ class MMRPG_Object {
     }
 
     // Set the position of this object's sprite and update the spriteConfig
-    setPosition (x, y)
+    setPosition (x, y, z)
     {
-        //console.log('MMRPG_Object.setPosition() called w/ x:', x, 'y:', y);
+        //console.log('MMRPG_Object.setPosition() called w/ x:', x, 'y:', y, 'z:', z);
         if (!this.sprite) { return; }
         let $sprite = this.sprite;
         let $hitbox = this.spriteHitbox;
         let config = this.spriteConfig;
         x = Graphics.parseRelativePosition(x, config.x);
         y = Graphics.parseRelativePosition(y, config.y);
-        if (x === null && y === null){ return; }
-        if (config.x === x && config.y === y){ return; }
-        if (this.x === x && this.y === y){ return; }
-        let deltaX = x - config.x, deltaY = y - config.y;
+        z = Graphics.parseRelativePosition(z, config.z);
+        if (x === null && y === null && z === null){ return; }
+        if (config.x === x && config.y === y && config.z === z){ return; }
+        if (this.x === x && this.y === y && this.z === z){ return; }
+        let deltaX = x - config.x, deltaY = y - config.y, deltaZ = z - config.z;
         config.x = x;
         config.y = y;
+        config.z = z;
         this.x = x;
         this.y = y;
-        let [ modX, modY ] = this.getOffsetPosition(x, y);
-        $sprite.setPosition(modX, modY);
-        $hitbox.setPosition(config.x, config.y);
-        if (this.spriteLayers){
-            let layerKeys = Object.keys(this.spriteLayers);
-            for (let i = 0; i < layerKeys.length; i++){
-                let layer = layerKeys[i];
-                let $layer = this.spriteLayers[layer];
-                let $layerSprite = $layer.sprite;
-                $layerSprite.setPosition($layerSprite.x + deltaX, $layerSprite.y + deltaY);
-                }
-        }
+        this.z = z;
+        if (deltaX || deltaY || deltaZ){
+            this.updateSpriteProperties();
+            this.updateSpriteGraphics();
+            return;
+            }
     }
     setPositionX (x)
     {
@@ -1284,6 +1287,11 @@ class MMRPG_Object {
     {
         //console.log('MMRPG_Object.setPositionY() called w/ y:', y);
         return this.setPosition(null, y);
+    }
+    setPositionZ (z)
+    {
+        //console.log('MMRPG_Object.setPositionZ() called w/ z:', z);
+        return this.setPosition(null, null, z);
     }
 
     // Return a given sprite's adjusted x and y position based on it's origin and offset
@@ -1588,18 +1596,16 @@ class MMRPG_Object {
         return this.setImageSheet(this.objectConfig.baseAltSheet, callback);
     }
 
-    // Set the scale of a given image and then redraw everything at the new size
+    // Set the scale of this object's images and then redraw everything at the new size
     setScale (scale)
     {
-        //console.log('MMRPG_Object.setScale() called w/ scale:', scale);
+        //console.log('MMRPG_Object.setScale() called for', this.token, 'w/ scale:', scale);
         if (!this.sprite) { return; }
         let $sprite = this.sprite;
         let $hitbox = this.spriteHitbox;
         let config = this.spriteConfig;
         config.scale = scale;
         this.scale = scale;
-        $sprite.setScale(scale);
-        $hitbox.setScale(scale);
         this.updateSpriteProperties();
         this.updateSpriteGraphics();
     }
@@ -1609,6 +1615,46 @@ class MMRPG_Object {
     {
         //console.log('MMRPG_Object.resetScale() called');
         return this.setScale(1);
+    }
+
+    // Set the origin of this object's images and then redraw everything at the new origin
+    setOrigin (originX, originY)
+    {
+        //console.log('MMRPG_Object.setOrigin() called for', this.token, 'w/ originX:', originX, 'originY:', originY);
+        if (!this.sprite) { return; }
+        let $sprite = this.sprite;
+        let $hitbox = this.spriteHitbox;
+        let config = this.spriteConfig;
+        if (originX === null && originY === null){ return; }
+        if (typeof originX !== 'number'){ originX = config.origin[0]; }
+        if (typeof originY !== 'number'){ originY = config.origin[1]; }
+        if (config.origin[0] === originX && config.origin[1] === originY){ return; }
+        config.origin = [originX, originY];
+        this.origin = [originX, originY];
+        this.updateSpriteProperties();
+        this.updateSpriteGraphics();
+    }
+
+    // Reset the origin back to the default of [0.5, 0.5] and then redraw everything at the new origin
+    resetOrigin ()
+    {
+        //console.log('MMRPG_Object.resetOrigin() called');
+        return this.setOrigin(0.5, 0.5);
+    }
+
+    // Set the depth of this object's images (and thus any sub images) and then redraw everything at the new depth
+    setDepth (depth)
+    {
+        //console.log('MMRPG_Object.setDepth() called for', this.token, 'w/ depth:', depth);
+        if (!this.sprite) { return; }
+        let $sprite = this.sprite;
+        let $hitbox = this.spriteHitbox;
+        let config = this.spriteConfig;
+        if (config.depth === depth){ return; }
+        config.depth = depth;
+        this.depth = depth;
+        this.updateSpriteProperties();
+        this.updateSpriteGraphics();
     }
 
 
