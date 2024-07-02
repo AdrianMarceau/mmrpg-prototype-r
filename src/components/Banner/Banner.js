@@ -359,6 +359,14 @@ export default class Banner {
                     }
                 }
             spriteContainer.sort('depth');
+            if (!$object.banner){
+                //console.log($object.token + ' | -> setting $object.banner to `this` Banner component');
+                $object.banner = this;
+                }
+            if (!$object.container){
+                //console.log($object.token + ' | -> setting $object.container to spriteContainer');
+                $object.container = spriteContainer;
+                }
             }
         // Otherwise we just try to add it directly and hope for the best
         else {
