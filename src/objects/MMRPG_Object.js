@@ -1241,9 +1241,12 @@ class MMRPG_Object {
         if (!this.sprite) { return; }
         let $sprite = this.sprite;
         let config = this.spriteConfig;
+        if (alpha === false){ return this.clearAlpha(); }
+        if (alpha === config.alpha){ return; }
         config.alpha = alpha;
         this.alpha = alpha;
         $sprite.setAlpha(this.alpha);
+        this.refreshSprite();
     }
 
     // Set the tint property of the object's sprite and update the spriteConfig
@@ -1282,6 +1285,7 @@ class MMRPG_Object {
         // support custom kinds here!!!
         // TEMP TEMP TEMP
         $sprite.preFX.addShadow();
+        this.refreshSprite();
 
     }
 
@@ -1307,8 +1311,7 @@ class MMRPG_Object {
         this.y = y;
         this.z = z;
         if (deltaX || deltaY || deltaZ){
-            this.updateSpriteProperties();
-            this.updateSpriteGraphics();
+            this.refreshSprite();
             return;
             }
     }
@@ -1455,10 +1458,11 @@ class MMRPG_Object {
                 frame = 0;
                 }
             }
+        if (frame === config.frame){ return; }
         config.frame = frame;
         this.frame = frame;
         $sprite.setFrame(frame);
-
+        this.refreshSprite();
     }
 
     // Reset the object's sprite frame to the default of it's sheet and update the spriteConfig
@@ -1486,8 +1490,7 @@ class MMRPG_Object {
         if (config.direction === direction && this.direction === direction) { return; }
         config.direction = direction;
         this.direction = direction;
-        this.updateSpriteGraphics();
-        this.updateSpriteProperties();
+        this.refreshSprite();
 
         // Now we check to see which sheet goes with this direction, if any, and reload it if needed when ready
         let newSheet = _this.getSpriteSheet('sprite');
@@ -1498,15 +1501,13 @@ class MMRPG_Object {
                 //console.log('%c' + '-> sprite texture '+newSheet+' loaded!', 'color: #00FF00');
                 config.sheet = newSheet;
                 this.sheet = newSheet;
-                this.updateSpriteGraphics();
-                this.updateSpriteProperties();
+                this.refreshSprite();
                 });
             } else {
             //console.log('-> sprite texture '+newSheet+' already loaded, changing sheet now...');
             config.sheet = newSheet;
             this.sheet = newSheet;
-            this.updateSpriteGraphics();
-            this.updateSpriteProperties();
+            this.refreshSprite();
             }
 
     }
@@ -1556,15 +1557,13 @@ class MMRPG_Object {
             this.loadSpriteTexture(() => {
                 //console.log('%c' + this.token + ' | -> sprite texture '+newSheet+' loaded! refreshing sheet now...', 'color: green;');
                 _this.createSpriteAnimations();
-                _this.updateSpriteProperties();
-                _this.updateSpriteGraphics();
+                _this.refreshSprite();
                 if (callback){ callback.call(_this); }
                 });
             } else {
             //console.log('%c' + this.token + ' | -> sprite texture already '+newSheet+' loaded! refreshing sheet now...', 'color: green;');
             _this.createSpriteAnimations();
-            this.updateSpriteProperties();
-            this.updateSpriteGraphics();
+            _this.refreshSprite();
             if (callback){ callback.call(_this); }
             }
     }
@@ -1610,15 +1609,13 @@ class MMRPG_Object {
             this.loadSpriteTexture(() => {
                 //console.log('%c' + this.token + ' | -> sprite texture '+newSheet+' loaded! refreshing sheet now...', 'color: green;');
                 _this.createSpriteAnimations();
-                _this.updateSpriteProperties();
-                _this.updateSpriteGraphics();
+                _this.refreshSprite();
                 if (callback){ callback.call(_this); }
                 });
             } else {
             //console.log('%c' + this.token + ' | -> sprite texture already '+newSheet+' loaded! refreshing sheet now...', 'color: green;');
             _this.createSpriteAnimations();
-            this.updateSpriteProperties();
-            this.updateSpriteGraphics();
+            _this.refreshSprite();
             if (callback){ callback.call(_this); }
             }
     }
@@ -1638,10 +1635,11 @@ class MMRPG_Object {
         let $sprite = this.sprite;
         let $hitbox = this.spriteHitbox;
         let config = this.spriteConfig;
+        if (scale === false){ return this.resetScale(); }
+        if (config.scale === scale){ return; }
         config.scale = scale;
         this.scale = scale;
-        this.updateSpriteProperties();
-        this.updateSpriteGraphics();
+        this.refreshSprite();
     }
 
     // Reset the scale back to the default of 1 and then redraw everything at the new size
@@ -1665,8 +1663,7 @@ class MMRPG_Object {
         if (config.origin[0] === originX && config.origin[1] === originY){ return; }
         config.origin = [originX, originY];
         this.origin = [originX, originY];
-        this.updateSpriteProperties();
-        this.updateSpriteGraphics();
+        this.refreshSprite();
     }
 
     // Reset the origin back to the default of [0.5, 0.5] and then redraw everything at the new origin
@@ -1687,8 +1684,7 @@ class MMRPG_Object {
         if (config.depth === depth){ return; }
         config.depth = depth;
         this.depth = depth;
-        this.updateSpriteProperties();
-        this.updateSpriteGraphics();
+        this.refreshSprite();
     }
 
     // Set a sprite configuration value for this object and then redraw everything after
@@ -1701,8 +1697,7 @@ class MMRPG_Object {
         let config = this.spriteConfig;
         if (config[key] === value){ return; }
         config[key] = value;
-        this.updateSpriteProperties();
-        this.updateSpriteGraphics();
+        this.refreshSprite();
     }
 
     // Set the sprite config value for useContainerForDepth to the boolean value provided
@@ -1714,8 +1709,7 @@ class MMRPG_Object {
         let config = this.spriteConfig;
         if (config.useContainerForDepth === bool){ return; }
         config.useContainerForDepth = bool;
-        this.updateSpriteProperties();
-        this.updateSpriteGraphics();
+        this.refreshSprite();
     }
 
 
@@ -1734,7 +1728,7 @@ class MMRPG_Object {
         if (offset.x === x && offset.y === y && offset.z === z){ return; }
         layerConfig.offset = {x: x, y: y, z: z};
         layersConfig[layer] = layerConfig;
-        this.updateSpriteGraphics();
+        this.refreshSprite();
     }
     setLayerOffsetX (layer, x) { this.setLayerOffset(layer, x, null, null); }
     setLayerOffsetY (layer, y) { this.setLayerOffset(layer, null, y, null); }
@@ -1835,7 +1829,7 @@ class MMRPG_Object {
             }
         $sprite.stop();
         this.isAnimating = false;
-        this.updateSpriteGraphics();
+        this.refreshSprite();
     }
 
     // Start the slide animation for this sprite and move it laterally across the screen given it's next direction
@@ -2062,7 +2056,7 @@ class MMRPG_Object {
             $sprite.y = modY;
             $hitbox.x = modX;
             $hitbox.y = modY;
-            _this.updateSpriteGraphics();
+            _this.refreshSprite();
             if (callback){ callback.call(_this, $sprite); }
             return;
             }
@@ -2085,7 +2079,7 @@ class MMRPG_Object {
                 $hitbox.x = revModX;
                 $hitbox.y = revModY;
                 _this.isMoving = true;
-                _this.updateSpriteGraphics();
+                _this.refreshSprite();
                 if (moveConfig.onUpdate){ moveConfig.onUpdate.call(_this, $sprite, moveTween); }
                 },
             onComplete: () => { // Use arrow function to preserve `this`
@@ -2097,7 +2091,7 @@ class MMRPG_Object {
                 $hitbox.x = finalX;
                 $hitbox.y = finalY;
                 _this.isMoving = false;
-                _this.updateSpriteGraphics();
+                _this.refreshSprite();
                 if (callback){ callback.call(_this, $sprite); }
                 },
             });
@@ -2135,7 +2129,7 @@ class MMRPG_Object {
             config.x = finalX;
             $sprite.x = modX;
             $hitbox.x = modX;
-            _this.updateSpriteGraphics();
+            _this.refreshSprite();
             if (callback){ callback.call(_this, $sprite); }
             return;
             }
@@ -2152,7 +2146,7 @@ class MMRPG_Object {
                 config.x = revModX;
                 $hitbox.x = revModX;
                 _this.isMoving = true;
-                _this.updateSpriteGraphics();
+                _this.refreshSprite();
                 if (moveConfig.onUpdate){ moveConfig.onUpdate.call(_this, $sprite, moveTween); }
                 },
             onComplete: () => { // Use arrow function to preserve `this`
@@ -2160,7 +2154,7 @@ class MMRPG_Object {
                 config.x = finalX;
                 $hitbox.x = finalX;
                 _this.isMoving = false;
-                _this.updateSpriteGraphics();
+                _this.refreshSprite();
                 if (callback){ callback.call(_this, $sprite); }
                 },
             });
@@ -2197,7 +2191,7 @@ class MMRPG_Object {
             config.y = finalY;
             $sprite.y = modY;
             $hitbox.y = modY;
-            _this.updateSpriteGraphics();
+            _this.refreshSprite();
             if (callback){ callback.call(_this, $sprite); }
             return;
             }
@@ -2214,7 +2208,7 @@ class MMRPG_Object {
                 config.y = revModY;
                 $hitbox.y = revModY;
                 _this.isMoving = true;
-                _this.updateSpriteGraphics();
+                _this.refreshSprite();
                 if (moveConfig.onUpdate){ moveConfig.onUpdate.call(_this, $sprite, moveTween); }
                 },
             onComplete: () => { // Use arrow function to preserve `this`
@@ -2222,7 +2216,7 @@ class MMRPG_Object {
                 config.y = finalY;
                 $hitbox.y = finalY;
                 _this.isMoving = false;
-                _this.updateSpriteGraphics();
+                _this.refreshSprite();
                 if (callback){ callback.call(_this, $sprite); }
                 },
             });
