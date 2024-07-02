@@ -874,8 +874,6 @@ export default class DebugScene extends Phaser.Scene
         let MMRPG = this.MMRPG;
         let SPRITES = this.SPRITES;
         let SOUNDS = this.SOUNDS;
-        let robotSheetsIndex = SPRITES.index.sheets.robots;
-        let robotAnimsIndex = SPRITES.index.anims.robots;
         let typesIndex = MMRPG.Indexes.types;
         let robotsIndex = MMRPG.Indexes.robots;
         let abilitiesIndex = MMRPG.Indexes.abilities;
@@ -899,28 +897,28 @@ export default class DebugScene extends Phaser.Scene
         if (!randTokens.length){ randTokens = randTokens.concat(scene.slidingMasters); }
         let randKey = Math.floor(Math.random() * randTokens.length);
 
+        // Count the number of sliding sprites already on the screen (for adjusting the animations)
+        let numSprites = scene.debugAddedSprites - scene.debugRemovedSprites;
+
         // Prepare the Robot
 
         // Collect the sprite token and alt if provided, else rely on the random key
         let robotSpriteToken = token || randTokens[randKey];
         let robotSpriteAlt = alt || 'base';
-        //console.log('robotSpriteToken =', robotSpriteToken, 'robotSpriteAlt =', robotSpriteAlt, 'spriteSide =', spriteSide, 'spriteDirection =', spriteDirection);
-
-        // If the sprite token ends with an "*_{alt}", make sure we parse it out
         if (robotSpriteToken.indexOf('_') !== -1){
             let tokenParts = robotSpriteToken.split('_');
             robotSpriteToken = tokenParts[0];
             robotSpriteAlt = tokenParts[1];
             }
-
-        // Pull the robot data for the token we're using
         let robotIndexInfo = robotsIndex[robotSpriteToken];
         let robotAltTokens = robotIndexInfo.image_alts ? robotIndexInfo.image_alts.map(item => item.token) : [];
-        //console.log('robotIndexInfo for ', robotSpriteToken, '=', robotIndexInfo);
-        //console.log('robotAltTokens for ', robotSpriteToken, '=', robotAltTokens);
-
-        // Ensure the selected alt actually exists, else default to base
         if (robotSpriteAlt !== 'base' && robotAltTokens.indexOf(robotSpriteAlt) === -1){ robotSpriteAlt = 'base'; }
+        //console.log('robotSpriteToken:', robotSpriteToken, 'robotSpriteAlt:', robotSpriteAlt, 'robotIndexInfo:', robotIndexInfo, 'robotAltTokens:', robotAltTokens);
+
+        // Create a temp robot object to ensure everything gets preloaded
+        let $robot = new MMRPG_Robot(scene, robotSpriteToken, {image_alt: robotSpriteAlt}, MMRPG.canvas.offscreen);
+        await $robot.isReady();
+        //console.log('Robot ' + $robot.token + ' is ready for action!', $robot);
 
         // Prepare the Ability
 
@@ -930,71 +928,19 @@ export default class DebugScene extends Phaser.Scene
         let abilityElement = robotIndexInfo.core !== '' && robotIndexInfo.core !== 'copy' ? robotIndexInfo.core : '';
         let abilitySpriteToken = abilityElement ? (abilityElement + '-' + abilitySuffix) : ('buster-shot');
         let abilitySpriteSheet = 1;
-        //console.log(abilitySpriteToken, 'abilityRand:', abilityRand, 'abilitySuffix:', abilitySuffix, 'abilityElement:', abilityElement);
-
-        // Preload the Sprites
-
-        // Create a temp robot object to ensure everything gets preloaded
-        //console.log('creating new robot object for ' + robotSpriteToken);
-        let $robot = new MMRPG_Robot(scene, robotSpriteToken, {image_alt: robotSpriteAlt}, MMRPG.canvas.offscreen);
-        await $robot.isReady();
-        //console.log('Robot ' + $robot.token + ' is ready for action!', $robot);
+        let abilityIndexInfo = abilitiesIndex[abilitySpriteToken];
+        //console.log(abilitySpriteToken, 'abilityRand:', abilityRand, 'abilitySuffix:', abilitySuffix, 'abilityElement:', abilityElement, 'abilityIndexInfo:', abilityIndexInfo);
 
         // Create a temp ability object to ensure everything gets preloaded
-        //console.log('creating new ability object for ' + abilitySpriteToken);
         let $ability = new MMRPG_Ability(scene, abilitySpriteToken, {image_sheet: abilitySpriteSheet}, MMRPG.canvas.offscreen);
         await $ability.isReady();
         //console.log('Ability ' + $ability.token + ' is ready for action!', $ability);
-
-        // Fallback for non-existent robot sprite sheets
-        //if (!robotSheetsIndex[robotSpriteToken][robotSpriteAlt]){ robotSpriteAlt = 'base'; }
-
-        // Collect the sprite info for the robot and ability now that everything is ready
-        let robotSpriteInfo = $robot.getSpriteInfo();
-        let robotBaseStats = $robot.data.baseStats;
-        let abilitySpriteInfo = $ability.getSpriteInfo();
-        //$robot.destroy(); // temporary (will transition to actually using this $robot object later)
-        $ability.destroy(); // temporary (will transition to actually using this $ability object later)
-        //console.log('robotSpriteToken =', robotSpriteToken, 'robotSpriteInfo =', robotSpriteInfo);
-        //console.log('abilitySpriteToken =', abilitySpriteToken, 'abilitySpriteInfo =', abilitySpriteInfo);
-
-        // Pull the ability data for the token we're using
-        let abilityIndexInfo = abilitiesIndex[abilitySpriteToken];
-        //console.log('abilityIndexInfo for ', abilitySpriteToken, '=', abilityIndexInfo);
-
-        // Count the number of sliding sprites currently on the screen
-        let numSprites = scene.debugAddedSprites - scene.debugRemovedSprites;
 
         // Define the base coordinates for the sprite to be added
         var offset = ((numSprites % 10) * 5);
         let spriteX = spriteSide === 'left' ? (0 - offset - 40) : (MMRPG.canvas.width + offset + 40);
         let spriteY = this.battleBanner.y + 90 + ((numSprites % 10) * 10);
         var spriteDepth = scene.battleBanner.depths.action;
-
-        /*
-
-        // Create the new sliding sprite and add it to the scene
-        let $robotSprite = scene.add.sprite(spriteX, spriteY, robotSpriteInfo['sprite'][spriteDirection]['sheet']);
-        scene.debugSprites.push($robotSprite);
-        $robotSprite.debugKey = scene.debugSprites.length - 1;
-        scene.debugAddedSprites++;
-
-        // Add required sub-objects to the sprite
-        $robotSprite.subTweens = {};
-        $robotSprite.subTimers = {};
-        $robotSprite.subSprites = {};
-
-        // Set the origin, scale, and depth for the sprite then add to parent container
-        $robotSprite.setOrigin(0.5, 1);
-        $robotSprite.setScale(2.0);
-        $robotSprite.setDepth(scene.battleBanner.depths.action + spriteY);
-        scene.battleBanner.add($robotSprite);
-
-        // Add effects and setup the frame for the sliding sprite
-        $robotSprite.preFX.addShadow();
-        $robotSprite.setFrame(0);
-
-        */
 
         // Add this robot to the battle banner and update graphics
         scene.battleBanner.add($robot);
@@ -1019,8 +965,9 @@ export default class DebugScene extends Phaser.Scene
         scene.debugAddedSprites++;
 
         // Animate that sprite sliding across the screen then remove when done
-        let speedMod = robotBaseStats.multipliers.speed;
-        let speedMod2 = robotBaseStats.dividers.speed;
+        let baseStats = robotIndexInfo.baseStats;
+        let speedMod = baseStats.multipliers.speed;
+        let speedMod2 = baseStats.dividers.speed;
         let slideDistance = (MMRPG.canvas.width / 3) * speedMod;
         let slideDestination = spriteSide === 'left' ? (MMRPG.canvas.width + 40) : (0 - 40);
         let slideDuration = 2000 * speedMod2;
@@ -1045,13 +992,15 @@ export default class DebugScene extends Phaser.Scene
                 if (delay < 0){ delay = 0; }
                 //if (duration < 500){ duration = 500; }
                 }
+            let slideSheet = $robot.getSpriteSheet('sprite', $sprite.direction);
+            let slideAnim = $robot.getSpriteAnim('sprite', 'slide', $sprite.direction);
             $sprite.setFrame(0);
-            $sprite.setTexture(robotSpriteInfo['sprite'][$sprite.direction]['sheet']);
+            $sprite.setTexture(slideSheet);
             if ($sprite.subTimers.slideDelay){ $sprite.subTimers.slideDelay.remove(); }
             $sprite.subTimers.slideDelay = scene.time.delayedCall(delay, function(){
                 if (!$sprite || $sprite.toBeDestroyed){ return; }
                 //console.log('$sprite:', typeof $sprite, $sprite);
-                $sprite.play(robotSpriteInfo['sprite'][$sprite.direction]['anim']['slide']);
+                $sprite.play(slideAnim);
                 //SOUNDS.playSoundEffect('glass-klink');
                 if ($sprite.slideTween){ $sprite.slideTween.stop().destroy(); }
                 $sprite.slideTween = scene.add.tween({
@@ -1091,13 +1040,15 @@ export default class DebugScene extends Phaser.Scene
                 if (delay < 0){ delay = 0; }
                 //if (duration < 500){ duration = 500; }
                 }
+            let slideSheet = $robot.getSpriteSheet('sprite', $sprite.direction);
+            let slideAnim = $robot.getSpriteAnim('sprite', 'slide', $sprite.direction);
             $sprite.setFrame(0);
-            $sprite.setTexture(robotSpriteInfo['sprite'][$sprite.direction]['sheet']);
+            $sprite.setTexture(slideSheet);
             if ($sprite.subTimers.slideDelay){ $sprite.subTimers.slideDelay.remove(); }
             $sprite.subTimers.slideDelay = scene.time.delayedCall(delay, function(){
                 if (!$sprite || $sprite.toBeDestroyed){ return; }
                 //console.log('$sprite:', typeof $sprite, $sprite);
-                $sprite.play(robotSpriteInfo['sprite'][$sprite.direction]['anim']['slide']);
+                $sprite.play(slideAnim);
                 //SOUNDS.playSoundEffect('glass-klink');
                 if ($sprite.slideTween){ $sprite.slideTween.stop().destroy(); }
                 $sprite.slideTween = scene.add.tween({
@@ -1133,7 +1084,8 @@ export default class DebugScene extends Phaser.Scene
             let shotY = $sprite.y + shotOffset;
 
             // First create the shot sprite and add it to the scene
-            let $shotSprite = scene.add.sprite(shotX, shotY, abilitySpriteInfo['sprite'][$sprite.direction]['sheet']);
+            let shotSheet = $ability.getSpriteSheet('sprite', $sprite.direction);
+            let $shotSprite = scene.add.sprite(shotX, shotY, shotSheet);
             scene.debugSprites.push($shotSprite);
             $shotSprite.debugKey = scene.debugSprites.length - 1;
             scene.debugAddedSprites++;
@@ -1159,8 +1111,9 @@ export default class DebugScene extends Phaser.Scene
 
             // Now we animate the kickback of the shoot animation w/ intentional pause after
             let newX = $sprite.x + ($sprite.direction === 'left' ? 4 : -4); //kickback
+            let shootAnim = $robot.getSpriteAnim('sprite', 'shoot', $sprite.direction);
             $sprite.setFrame(0);
-            $sprite.play(robotSpriteInfo['sprite'][$sprite.direction]['anim']['shoot']);
+            $sprite.play(shootAnim);
             if ($sprite.subTweens.kickbackTween){ $sprite.subTweens.kickbackTween.stop().destroy(); }
             if (abilitySuffix === 'shot'){ SOUNDS.playSoundEffect('shot-sound'); }
             else if (abilitySuffix === 'buster'){ SOUNDS.playSoundEffect('blast-sound'); }
@@ -1487,10 +1440,12 @@ export default class DebugScene extends Phaser.Scene
                 //console.log('Time to cleanup sprites:', $robotSprite);
                 removeDebugKeys = removeDebugKeys.concat(getDebugKeys($robotSprite));
                 SPRITES.destroySpriteAndCleanup(scene, $robotSprite, true);
+                $robot.destroy();
                 for (let i = 0; i < abilityShotSprites.length; i++){
                     let $abilityShotSprite = abilityShotSprites[i];
                     removeDebugKeys = removeDebugKeys.concat(getDebugKeys($abilityShotSprite));
                     SPRITES.destroySpriteAndCleanup(scene, $abilityShotSprite, true);
+                    $ability.destroy();
                     }
                 for (let i = 0; i < explodeEffectSprites.length; i++){
                     let $explodeEffectSprite = explodeEffectSprites[i];
@@ -1509,7 +1464,8 @@ export default class DebugScene extends Phaser.Scene
 
         // Preset the sprite direction to right, and then start playing the slide animation
         $robotSprite.direction = spriteDirection;
-        $robotSprite.play(robotSpriteInfo['sprite'][spriteDirection]['anim']['slide']);
+        let slideAnim = $robot.getSpriteAnim('sprite', 'slide', spriteDirection);
+        $robotSprite.play(slideAnim);
         let startFunction;
         if (spriteDirection === 'right'){ startFunction = slideSpriteForward; }
         else if (spriteDirection === 'left'){ startFunction = slideSpriteBackward; }
@@ -1528,6 +1484,10 @@ export default class DebugScene extends Phaser.Scene
             explodeSpriteAndDestroy($robotSprite);
             queueSpriteCleanup();
             });
+
+        // Destroy stuff we don't need anymore
+        //$robot.destroy(); // temporary (will transition to actually using this $robot object later)
+        //$ability.destroy(); // temporary (will transition to actually using this $ability object later)
 
         // Update the scene with last-used sprite token
         scene.lastSlidingMaster = robotSpriteToken;
