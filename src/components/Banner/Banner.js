@@ -363,9 +363,24 @@ export default class Banner {
                 //console.log($object.token + ' | -> setting $object.banner to `this` Banner component');
                 $object.banner = this;
                 }
-            if (!$object.container){
+            if (!$object.spriteContainer){
                 //console.log($object.token + ' | -> setting $object.container to spriteContainer');
-                $object.container = spriteContainer;
+                $object.spriteContainer = spriteContainer;
+                $object.spriteContainer.getBounds = function(){
+                    let [ x, y, width, height ] = [ $object.banner.x, $object.banner.y, $object.banner.width, $object.banner.height ];
+                    return {
+                        x: x,
+                        y: y,
+                        x2: x + (width),
+                        y2: y + (height),
+                        xMin: x,
+                        yMin: y,
+                        xMax: x + (width),
+                        yMax: y + (height),
+                        width: width,
+                        height: height,
+                        };
+                    };
                 }
             }
         // Otherwise we just try to add it directly and hope for the best
