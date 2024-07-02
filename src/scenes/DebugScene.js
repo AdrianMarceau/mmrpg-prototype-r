@@ -289,7 +289,7 @@ export default class DebugScene extends Phaser.Scene
             var bannerY = $battleBanner.y;
             var fieldDepth = $battleBanner.depths.field;
             var actionDepth = $battleBanner.depths.action;
-            var baseX = 50, baseY = 150, baseZ = 0, lastZ = baseZ;
+            var baseX = 50, baseY = 170, baseZ = 0, lastZ = baseZ;
             var $debugObjects = {};
             $debugObjects.player = new MMRPG_Player(this, 'dr-light', null, { x: (baseX + 0), y: (baseY + 0), z: lastZ++, depth: actionDepth, origin: [0.5, 1] });
             $debugObjects.robot = new MMRPG_Robot(this, 'mega-man', null, { x: (baseX + 0), y: (baseY + 40), z: lastZ++, depth: actionDepth, origin: [0.5, 1] });
@@ -409,6 +409,7 @@ export default class DebugScene extends Phaser.Scene
                 let $object = $debugObjects[key];
                 //console.log('$'+key+' =', $object);
                 scene.battleBanner.add($object);
+                $object.useContainerForDepth(true);
                 if ($object.kind === 'ability'
                     && $object.token === 'super-arm'){
                     $object.setValue('debugMaxFrame');
@@ -421,7 +422,8 @@ export default class DebugScene extends Phaser.Scene
                     $object.setOnClick(onClickTestObject);
                     }
                 }
-            console.log('-> $debugObjects(small):', $debugObjects);
+            window.MMRPG_DebugScene_debugObjects = $debugObjects;
+            console.log('$debugObjects (small) (MMRPG_DebugScene_customObjects) =\n', $debugObjects);
 
             // Animate the MMRPG field object in various ways for testing purposes
             const debugFieldConfig = {};
@@ -429,6 +431,7 @@ export default class DebugScene extends Phaser.Scene
                 //console.log('DebugScene.create().startDebugFieldAnimations()');
                 let $field = $debugObjects.field;
                 let config = debugFieldConfig;
+                if (!$field){ return; }
                 if (!config.baseX){ config.baseX = $field.x; }
                 if (!config.baseY){ config.baseY = $field.y; }
                 if (!config.baseOffsetX){ config.baseOffsetX = $field.getBackgroundOffsetX(); }
@@ -599,10 +602,11 @@ export default class DebugScene extends Phaser.Scene
                 }, {
                 x: commonX - 80,
                 y: commonY,
-                z: depth++,
+                //z: depth++,
+                depth: actionDepth,
                 scale: 2,
                 origin: [0.5, 1],
-                direction: 'right'
+                direction: 'right',
                 });
             //console.log('-> $customBoss:', $customBoss);
 
@@ -611,7 +615,8 @@ export default class DebugScene extends Phaser.Scene
                 }, {
                 x: commonX + 40,
                 y: commonY - 2,
-                z: depth++,
+                //z: depth++,
+                depth: actionDepth,
                 scale: 2,
                 origin: [0.5, 1],
                 direction: 'left'
@@ -623,7 +628,8 @@ export default class DebugScene extends Phaser.Scene
                 }, {
                 x: commonX + 60,
                 y: commonY,
-                z: depth++,
+                //z: depth++,
+                depth: actionDepth,
                 scale: 2,
                 origin: [0.5, 1],
                 direction: 'left'
@@ -635,7 +641,8 @@ export default class DebugScene extends Phaser.Scene
                 }, {
                 x: commonX + 90,
                 y: commonY,
-                z: depth++,
+                //z: depth++,
+                depth: actionDepth,
                 scale: 2,
                 origin: [0.5, 1],
                 direction: 'left'
@@ -647,7 +654,8 @@ export default class DebugScene extends Phaser.Scene
                 }, {
                 x: commonX + 110,
                 y: commonY + 2,
-                z: depth++,
+                //z: depth++,
+                depth: actionDepth,
                 scale: 2,
                 origin: [0.5, 1],
                 direction: 'left',
@@ -666,6 +674,7 @@ export default class DebugScene extends Phaser.Scene
             for (let i = 0; i < customObjects.length; i++){
                 let $object = customObjects[i];
                 scene.battleBanner.add($object);
+                $object.useContainerForDepth(true);
                 $object.setValue('energyMin', energyMin);
                 $object.setValue('energyMax', energyMax);
                 $object.setCounter('energy', energyMax);
@@ -674,7 +683,8 @@ export default class DebugScene extends Phaser.Scene
                 $object.setOnClick(customClickEvent);
                 $object.startIdleAnimation();
                 }
-            console.log('-> $customObjects(large):', customObjects);
+            window.MMRPG_DebugScene_customObjects = customObjects;
+            console.log('$customObjects (large) (MMRPG_DebugScene_customObjects) =\n', customObjects);
 
             /*
             // -- DEBUG SPRITE-ORIGIN TESTING -- //
@@ -709,6 +719,8 @@ export default class DebugScene extends Phaser.Scene
         // ---------------->
         // DEBUG DEBUG DEBUG
 
+        window.MMRPG_DebugScene_showMasterSliding = this.showMasterSliding.bind(this);
+        window.MMRPG_DebugScene_showDoctorRunning = this.showDoctorRunning.bind(this);
 
     }
 
@@ -941,7 +953,7 @@ export default class DebugScene extends Phaser.Scene
         let robotSpriteInfo = $robot.getSpriteInfo();
         let robotBaseStats = $robot.data.baseStats;
         let abilitySpriteInfo = $ability.getSpriteInfo();
-        $robot.destroy(); // temporary (will transition to actually using this $robot object later)
+        //$robot.destroy(); // temporary (will transition to actually using this $robot object later)
         $ability.destroy(); // temporary (will transition to actually using this $ability object later)
         //console.log('robotSpriteToken =', robotSpriteToken, 'robotSpriteInfo =', robotSpriteInfo);
         //console.log('abilitySpriteToken =', abilitySpriteToken, 'abilitySpriteInfo =', abilitySpriteInfo);
@@ -957,6 +969,9 @@ export default class DebugScene extends Phaser.Scene
         var offset = ((numSprites % 10) * 5);
         let spriteX = spriteSide === 'left' ? (0 - offset - 40) : (MMRPG.canvas.width + offset + 40);
         let spriteY = this.battleBanner.y + 90 + ((numSprites % 10) * 10);
+        var spriteDepth = scene.battleBanner.depths.action;
+
+        /*
 
         // Create the new sliding sprite and add it to the scene
         let $robotSprite = scene.add.sprite(spriteX, spriteY, robotSpriteInfo['sprite'][spriteDirection]['sheet']);
@@ -978,6 +993,30 @@ export default class DebugScene extends Phaser.Scene
         // Add effects and setup the frame for the sliding sprite
         $robotSprite.preFX.addShadow();
         $robotSprite.setFrame(0);
+
+        */
+
+        // Add this robot to the battle banner and update graphics
+        scene.battleBanner.add($robot);
+        $robot.useContainerForDepth(true);
+        $robot.refreshSprite();
+
+        // Set the origin, scale, and depth for the sprite then add to parent container
+        $robot.setPosition(spriteX, spriteY, spriteY);
+        $robot.setDepth(spriteDepth);
+        $robot.setOrigin(0.5, 1);
+        $robot.setScale(2.0);
+        $robot.setShadow(true);
+        $robot.refreshSprite();
+
+        // Add effects and setup the frame for the sliding sprite
+        $robot.setFrame('base');
+
+        // Fallback to later code for now (remove later)
+        let $robotSprite = $robot.sprite;
+        scene.debugSprites.push($robotSprite);
+        $robotSprite.debugKey = scene.debugSprites.length - 1;
+        scene.debugAddedSprites++;
 
         // Animate that sprite sliding across the screen then remove when done
         let speedMod = robotBaseStats.multipliers.speed;
