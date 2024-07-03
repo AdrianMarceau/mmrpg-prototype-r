@@ -180,6 +180,28 @@ class MMRPG_Object {
         return delayedCall;
     }
 
+    // Set this object as working on a specific task (for internal queueing purposes)
+    isWorkingOn (taskToken)
+    {
+        this.spriteMethodsInProgress.add(taskToken);
+    }
+
+    // Set this object as done working on a specific task (and then executre any queued methods)
+    isDoneWorkingOn (taskToken)
+    {
+        this.spriteMethodsInProgress.remove(taskToken);
+        this.executeQueuedSpriteMethods();
+    }
+
+    // Execute a given callback when the sprite is done being animated and/or moved in some way
+    whenDone (callback)
+    {
+        //console.log('MMRPG_Object.whenDone() called for ', this.kind, this.token, 'w/ callback:', callback);
+        this.spriteMethodsQueued.push(callback);
+        if (this.spriteMethodsInProgress.length > 0){ return false; }
+        else { this.executeQueuedSpriteMethods(); }
+    }
+
 
     // -- DATA CREATION -- //
 
