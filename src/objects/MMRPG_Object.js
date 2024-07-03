@@ -1574,11 +1574,13 @@ class MMRPG_Object {
         if (!newSheet || (config.sheet === newSheet && this.sheet === newSheet)) { return; }
         if (!scene.textures.exists(newSheet)){
             //console.log('-> sprite texture '+newSheet+' not loaded, deffering sheet change...');
+            this.isWorkingOn('setDirection');
             this.loadSpriteTexture(this.data.token, direction, () => {
                 //console.log('%c' + '-> sprite texture '+newSheet+' loaded!', 'color: #00FF00');
                 config.sheet = newSheet;
                 this.sheet = newSheet;
                 this.refreshSprite();
+                this.isDoneWorkingOn('setDirection');
                 });
             } else {
             //console.log('-> sprite texture '+newSheet+' already loaded, changing sheet now...');
