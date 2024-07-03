@@ -1633,10 +1633,12 @@ class MMRPG_Object {
         //console.log(this.token + ' | checking if newSheet texture exists...');
         if (!scene.textures.exists(newSheet)){
             //console.log('%c' + this.token + ' | -> sprite texture '+newSheet+' not loaded, deffering sheet refreshing...', 'color: orange;');
+            this.isWorkingOn('setImageAlt');
             this.loadSpriteTexture(() => {
                 //console.log('%c' + this.token + ' | -> sprite texture '+newSheet+' loaded! refreshing sheet now...', 'color: green;');
                 _this.createSpriteAnimations();
                 _this.refreshSprite();
+                _this.isDoneWorkingOn('setImageAlt');
                 if (callback){ callback.call(_this); }
                 });
             } else {
@@ -1685,10 +1687,12 @@ class MMRPG_Object {
         //console.log(this.token + ' | checking if newSheet texture exists...');
         if (!scene.textures.exists(newSheet)){
             //console.log('%c' + this.token + ' | -> sprite texture '+newSheet+' not loaded, deffering sheet refreshing...', 'color: orange;');
+            this.isWorkingOn('setImageSheet');
             this.loadSpriteTexture(() => {
                 //console.log('%c' + this.token + ' | -> sprite texture '+newSheet+' loaded! refreshing sheet now...', 'color: green;');
                 _this.createSpriteAnimations();
                 _this.refreshSprite();
+                _this.isDoneWorkingOn('setImageSheet');
                 if (callback){ callback.call(_this); }
                 });
             } else {
