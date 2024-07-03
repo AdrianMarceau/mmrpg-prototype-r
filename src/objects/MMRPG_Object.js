@@ -54,6 +54,9 @@ class MMRPG_Object {
         this.spriteIsLoading = true;
         this.spriteIsPlaceholder = true;
         this.spriteMethodsQueued = [];
+        this.spriteMethodsInProgress = [];
+        this.spriteMethodsInProgress.add = function(method){ this.push(method); };
+        this.spriteMethodsInProgress.remove = function(method){ this.splice(this.indexOf(method), 1); };
 
         // If spriteConfig is provided, create a new sprite with it
         this.sprite = null;
@@ -147,10 +150,20 @@ class MMRPG_Object {
     whenReady (callback)
     {
         //console.log('MMRPG_Object.whenReady() called for ', this.kind, this.token, 'w/ callback:', callback);
-        if (this.spriteIsLoading){
-            this.spriteMethodsQueued.push(callback);
-            } else {
-            callback.call(this);
+        this.spriteMethodsQueued.push(callback);
+        if (this.spriteIsLoading){ return false; }
+        else { this.executeQueuedSpriteMethods(); }
+    }
+
+    // Execute all queued sprite methods now that the sprite is ready
+    executeQueuedSpriteMethods ()
+    {
+        //console.log('MMRPG_Object.executeQueuedSpriteMethods() called for ', this.kind, this.token);
+        if (this.spriteMethodsQueued){
+            for (let i = 0; i < this.spriteMethodsQueued.length; i++){
+                let method = this.spriteMethodsQueued.shift();
+                method.call(this);
+                }
             }
     }
 
