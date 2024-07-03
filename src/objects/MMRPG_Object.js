@@ -1901,10 +1901,12 @@ class MMRPG_Object {
             $sprite.play(animKey);
             };
         if (bounce){
+            this.isWorkingOn('startIdleAnimation/bounce');
             startBouncing.call(_this);
             this.isAnimating = true;
             }
         if (emote){
+            this.isWorkingOn('startIdleAnimation/emote');
             startEmoting.call(_this);
             this.isAnimating = true;
             }
@@ -1919,13 +1921,15 @@ class MMRPG_Object {
         if (this.spriteIsLoading){ return this.spriteMethodsQueued.push(function(){ _this.stopIdleAnimation(); }); }
         let $sprite = this.sprite;
         let config = this.spriteConfig;
+        $sprite.stop();
+        this.isAnimating = false;
         if ($sprite.subTweens.idleBounceTween){
             $sprite.subTweens.idleBounceTween.stop();
             delete $sprite.subTweens.idleBounceTween;
             }
-        $sprite.stop();
-        this.isAnimating = false;
         this.refreshSprite();
+        this.isDoneWorkingOn('startIdleAnimation/bounce');
+        this.isDoneWorkingOn('startIdleAnimation/emote');
     }
 
     // Start the slide animation for this sprite and move it laterally across the screen given it's next direction
