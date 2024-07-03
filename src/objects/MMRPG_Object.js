@@ -33,6 +33,7 @@ class MMRPG_Object {
         this.xkind = xkind;
         this.scene = scene;
         this.data = {};
+        this.cache = {};
 
         // Pull in refs to required global objects
         let _this = this;
@@ -118,9 +119,6 @@ class MMRPG_Object {
             this.createSpriteHitbox();
 
             }
-
-        // Define an empty cache object for us to use
-        this.cache = {};
 
         // end of object constructor
 
