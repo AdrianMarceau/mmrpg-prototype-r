@@ -1193,14 +1193,58 @@ class MMRPG_Object {
             }
 
         // First update the sprite itself as that's most important
-        $sprite.setTexture(config.sheet);
-        $sprite.setPosition(modX, modY);
-        $sprite.setDepth(config.depth + config.z);
-        $sprite.setOrigin(config.origin[0], config.origin[1]);
-        $sprite.setAlpha(config.alpha);
-        $sprite.setScale(config.scale);
-        $sprite.setFrame(config.frame);
-        if (config.tint) { $sprite.setTint(config.tint); }
+        //console.log(this.token + ' | -> attempting to update sheet from', this.cache.sheet, 'to', config.sheet);
+        if (!this.cache.sheet || this.cache.sheet !== config.sheet || $sprite.texture.key !== config.sheet){
+            $sprite.setTexture(config.sheet);
+            this.cache.sheet = config.sheet;
+            //console.log(this.token + ' | -> updated sheet to', config.sheet, 'and updated cache');
+            }
+        //console.log(this.token + ' | -> attempting to update frame from', this.cache.frame, 'to', config.frame);
+        if (!this.cache.frame || this.cache.frame !== config.frame){
+            $sprite.setFrame(config.frame);
+            this.cache.frame = config.frame;
+            //console.log(this.token + ' | -> updated frame to', config.frame, 'and updated cache');
+            }
+        //console.log(this.token + ' | -> attempting to update tint from', this.cache.tint, 'to', config.tint);
+        if (!this.cache.tint || this.cache.tint !== config.tint){
+            if (config.tint){ $sprite.setTint(config.tint); }
+            else { $sprite.clearTint(); }
+            this.cache.tint = config.tint;
+            //console.log(this.token + ' | -> updated tint to', config.tint, 'and updated cache');
+            }
+        //console.log(this.token + ' | -> attempting to update alpha from', this.cache.alpha, 'to', config.alpha);
+        if (!this.cache.alpha || this.cache.alpha !== config.alpha){
+            $sprite.setAlpha(config.alpha);
+            this.cache.alpha = config.alpha;
+            //console.log(this.token + ' | -> updated alpha to', config.alpha, 'and updated cache');
+            }
+        //console.log(this.token + ' | -> attempting to update scale from', this.cache.scale, 'to', config.scale);
+        if (!this.cache.scale || this.cache.scale !== config.scale){
+            $sprite.setScale(config.scale);
+            this.cache.scale = config.scale;
+            //console.log(this.token + ' | -> updated scale to', config.scale, 'and updated cache');
+            }
+        //console.log(this.token + ' | -> attempting to update depth from', this.cache.depth, 'to', config.depth);
+        if (!this.cache.depth || this.cache.depth !== config.depth){
+            $sprite.setDepth(config.depth + config.z);
+            this.cache.depth = config.depth;
+            //console.log(this.token + ' | -> updated depth to', config.depth, 'and updated cache');
+            }
+        //console.log(this.token + ' | -> attempting to update origin from', this.cache.origin, 'to', config.origin);
+        if (!this.cache.origin || this.cache.origin !== config.origin){
+            $sprite.setOrigin(config.origin[0], config.origin[1]);
+            this.cache.origin = config.origin;
+            //console.log(this.token + ' | -> updated origin to', config.origin, 'and updated cache');
+            }
+        //console.log(this.token + ' | -> attempting to update position from', this.cache.x, this.cache.y, 'to', modX, modY);
+        if (!this.cache.x || this.cache.x !== modX
+            || !this.cache.y || this.cache.y !== modY){
+            $sprite.setPosition(modX, modY);
+            this.cache.x = modX;
+            this.cache.y = modY;
+            //console.log(this.token + ' | -> updated position to', modX, modY, 'and updated cache');
+            }
+
         //console.log('-> updating sprite for ', this.token, ' w/ origin:', config.origin, 'x:', modX, 'y:', modY, 'config.frame:', config.frame, 'config:', config);
 
         // Now update the hitbox with relevant changes
