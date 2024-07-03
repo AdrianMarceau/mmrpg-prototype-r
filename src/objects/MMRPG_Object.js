@@ -1833,6 +1833,19 @@ class MMRPG_Object {
 
     // -- SPRITE ANIMATION -- //
 
+    // Play a named animation on this sprite if it exists
+    playAnim (anim)
+    {
+        //console.log('MMRPG_Object.playAnim() called for ', this.kind, this.token, '\nw/ anim:', anim);
+        if (!this.sprite) { return; }
+        let $sprite = this.sprite;
+        let config = this.spriteConfig;
+        let animKey = this.getSpriteAnim('sprite', anim);
+        if (!animKey){ console.warn('MMRPG_Object.playAnim() -> animation "'+anim+'" not found for ', this.token); return; }
+        //console.log('-> animKey:', animKey);
+        $sprite.play(animKey);
+    }
+
     // Start the idle animation for this sprite given all we know about it
     startIdleAnimation (bounce = true, emote = true)
     {
