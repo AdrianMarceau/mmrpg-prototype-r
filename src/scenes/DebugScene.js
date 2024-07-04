@@ -530,7 +530,7 @@ export default class DebugScene extends Phaser.Scene
                     this.showDamage(actualDamageAmount, function(){
                         // Play a sound effect to make sure they're
                         this.setFrame('defeat');
-                        this.flashSprite(3, 50, false);
+                        this.flashSprite(3, 100);
                         SOUNDS.playSoundEffect('explode-sound');
                         //this.showExplosions();
                         this.delayedCall(1000, function(){
