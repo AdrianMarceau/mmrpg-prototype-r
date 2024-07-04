@@ -310,25 +310,36 @@ export default class DebugScene extends Phaser.Scene
                         let flipDirection = false;
                         if (this.direction === 'left' && this.x <= (MMRPG.canvas.xMin + 100)){ flipDirection = true; }
                         else if (this.direction === 'right' && this.x >= (MMRPG.canvas.xMax - 100)){ flipDirection = true; }
-                        if ($sprite.subTimers.effectTimer){ $sprite.subTimers.effectTimer.remove(); }
-                        $sprite.subTimers.effectTimer = this.delayedCall(250, function(){
-                            let currentAlt = this.getImageAlt();
-                            let altOptions = this.data.image_alts || [];
-                            let altOptionsTokens = altOptions.map(item => item.token);
-                            altOptionsTokens.unshift(this.objectConfig.baseAltSheet);
-                            let nextAltKey = altOptionsTokens.indexOf(currentAlt) + 1;
-                            let nextAltToken = altOptionsTokens[nextAltKey];
-                            this.setFrame('summon');
+                        if (this.kind === 'player'){
                             this.shakeSprite();
-                            this.setImageAlt(nextAltToken, function(){
-                                if ($sprite.subTimers.effectTimer){ $sprite.subTimers.effectTimer.remove(); }
-                                $sprite.subTimers.effectTimer = this.delayedCall(600, function(){
-                                    this.resetFrame();
-                                    if (flipDirection){ this.flipDirection(); }
-                                    this.startIdleAnimation(true, true);
+                            this.setFrame('summon');
+                            if ($sprite.subTimers.effectTimer){ $sprite.subTimers.effectTimer.remove(); }
+                            $sprite.subTimers.effectTimer = this.delayedCall(600, function(){
+                                this.resetFrame();
+                                if (flipDirection){ this.flipDirection(); }
+                                this.startIdleAnimation(true, true);
+                                });
+                            } else if (this.kind === 'robot'){
+                            if ($sprite.subTimers.effectTimer){ $sprite.subTimers.effectTimer.remove(); }
+                            $sprite.subTimers.effectTimer = this.delayedCall(250, function(){
+                                let currentAlt = this.getImageAlt();
+                                let altOptions = this.data.image_alts || [];
+                                let altOptionsTokens = altOptions.map(item => item.token);
+                                altOptionsTokens.unshift(this.objectConfig.baseAltSheet);
+                                let nextAltKey = altOptionsTokens.indexOf(currentAlt) + 1;
+                                let nextAltToken = altOptionsTokens[nextAltKey];
+                                this.setFrame('summon');
+                                this.shakeSprite();
+                                this.setImageAlt(nextAltToken, function(){
+                                    if ($sprite.subTimers.effectTimer){ $sprite.subTimers.effectTimer.remove(); }
+                                    $sprite.subTimers.effectTimer = this.delayedCall(600, function(){
+                                        this.resetFrame();
+                                        if (flipDirection){ this.flipDirection(); }
+                                        this.startIdleAnimation(true, true);
+                                        });
                                     });
                                 });
-                            });
+                            }
                         });
                     } else if (this.kind === 'ability'){
                     let distance = 100;
