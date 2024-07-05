@@ -2299,22 +2299,20 @@ class MMRPG_Object {
         moveConfig.onUpdate = moveConfig.onUpdate || null;
 
         // Parse any relative string values from the x and y to get rel values
-        x = Math.round(Graphics.parseRelativePosition(x, config.x));
-        y = Math.round(Graphics.parseRelativePosition(y, config.y));
-        let [ modX, modY ] = this.getOffsetPosition(x, y);
-        let [ finalX, finalY ] = [x, y];
+        //console.log('-> provided sprite x:', x, 'y:', y, '\nvs. config x:', config.x, 'y:', config.y);
+        let finalX = Math.round(Graphics.parseRelativePosition(x, config.x));
+        let finalY = Math.round(Graphics.parseRelativePosition(y, config.y));
+        let fromX = config.x, toX = finalX;
+        let fromY = config.y, toY = finalY;
+        //console.log('-> moving sprite fromX:', fromX, 'fromY:', fromY, 'toX:', toX, 'toY:', toY);
 
-        // If the duration was not set of was zero, move the sprite instantly
+        // If the duration was not set or was zero, move the sprite instantly
         if (!duration) {
-            //console.log(_this.token + ' | moveToPosition() \n-> moving sprite instantly to x:', x, 'y:', y, 'modX:', modX, 'modY:', modY, 'finalX:', finalX, 'finalY:', finalY);
-            _this.x = finalX;
-            _this.y = finalY;
+            //console.log(_this.token + ' | moveToPosition() \n-> moving sprite instantly to finalX:', finalX, 'finalY:', finalY);
             config.x = finalX;
             config.y = finalY;
-            $sprite.x = modX;
-            $sprite.y = modY;
-            $hitbox.x = modX;
-            $hitbox.y = modY;
+            _this.x = finalX;
+            _this.y = finalY;
             _this.refreshSprite();
             if (callback){ callback.call(_this, $sprite); }
             return;
@@ -2322,35 +2320,35 @@ class MMRPG_Object {
 
         // Otherwise we create a tween to move the sprite to the new position
         //console.log(_this.token + ' | moveToPosition() \n-> tweening sprite to x:', x, 'y:', y, 'modX:', modX, 'modY:', modY, 'finalX:', finalX, 'finalY:', finalY);
-        let moveTween = scene.tweens.add({
-            targets: $sprite,
-            x: modX,
-            y: modY,
+        this.isWorkingOn('moveToPosition');
+        let moveTween = scene.tweens.addCounter({
+            from: 0,
+            to: 100,
             duration: duration,
             ease: moveConfig.easing,
             onUpdate: () => {
-                //console.log(_this.token + ' | moveToPosition() \n-> sprite tween to x:', x, 'y:', y, 'in progress...');
-                let [ revModX, revModY ] = this.reverseOffsetPosition($sprite.x, $sprite.y);
-                _this.x = revModX;
-                _this.y = revModY;
-                config.x = revModX;
-                config.y = revModY;
-                $hitbox.x = revModX;
-                $hitbox.y = revModY;
+                //console.log(_this.token + ' | moveToPosition() \n-> sprite tween to x:', toX, 'y:', toY, 'in progress... ');
+                let progress = moveTween.getValue();
+                //console.log(_this.token + ' | moveToPosition() \n-> progress:', progress);
+                let currX = Math.ceil(Phaser.Math.Linear(fromX, toX, progress / 100));
+                let currY = Math.ceil(Phaser.Math.Linear(fromY, toY, progress / 100));
+                config.x = currX;
+                config.y = currY;
+                _this.x = currX;
+                _this.y = currY;
                 _this.isMoving = true;
                 _this.refreshSprite();
                 if (moveConfig.onUpdate){ moveConfig.onUpdate.call(_this, $sprite, moveTween); }
                 },
-            onComplete: () => { // Use arrow function to preserve `this`
+            onComplete: () => {
                 //console.log(_this.token + ' | moveToPosition() \n-> sprite tween to x:', x, 'y:', y, 'completed!');
-                _this.x = finalX;
-                _this.y = finalY;
                 config.x = finalX;
                 config.y = finalY;
-                $hitbox.x = finalX;
-                $hitbox.y = finalY;
+                _this.x = finalX;
+                _this.y = finalY;
                 _this.isMoving = false;
                 _this.refreshSprite();
+                _this.isDoneWorkingOn('moveToPosition');
                 if (callback){ callback.call(_this, $sprite); }
                 },
             });
@@ -2378,46 +2376,50 @@ class MMRPG_Object {
         moveConfig.onUpdate = moveConfig.onUpdate || null;
 
         // Parse any relative string values from the x and y to get rel values
-        x = Math.round(Graphics.parseRelativePosition(x, config.x));
-        let modX = this.getOffsetPositionX(x);
-        let finalX = x;
+        let finalX = Math.round(Graphics.parseRelativePosition(x, config.x));
+        let fromX = config.x, toX = finalX;
 
-        // If the duration was not set of was zero, move the sprite instantly
+        // If the duration was not set or was zero, move the sprite instantly
         if (!duration) {
-            _this.x = finalX;
+            //console.log(_this.token + ' | moveToPositionX() \n-> moving sprite instantly to finalX:', finalX);
             config.x = finalX;
-            $sprite.x = modX;
-            $hitbox.x = modX;
+            _this.x = finalX;
             _this.refreshSprite();
             if (callback){ callback.call(_this, $sprite); }
             return;
             }
 
-        // Otherwise we create a tween to move the sprite to
-        let moveTween = scene.tweens.add({
-            targets: $sprite,
-            x: modX,
+        // Otherwise we create a tween to move the sprite to the new position
+        //console.log(_this.token + ' | moveToPositionX() \n-> tweening sprite to x:', x, 'modX:', modX, 'finalX:', finalX);
+        this.isWorkingOn('moveToPositionX');
+        let moveTween = scene.tweens.addCounter({
+            from: 0,
+            to: 100,
             duration: duration,
             ease: moveConfig.easing,
             onUpdate: () => {
-                let [ revModX, revModY ] = this.reverseOffsetPosition($sprite.x, $sprite.y);
-                _this.x = revModX;
-                config.x = revModX;
-                $hitbox.x = revModX;
+                //console.log(_this.token + ' | moveToPositionX() \n-> sprite tween to x:', x, 'in progress...');
+                let progress = moveTween.getValue();
+                //console.log(_this.token + ' | moveToPositionX() \n-> progress:', progress);
+                let currX = Math.ceil(Phaser.Math.Linear(fromX, toX, progress / 100));
+                config.x = currX;
+                _this.x = currX;
                 _this.isMoving = true;
                 _this.refreshSprite();
                 if (moveConfig.onUpdate){ moveConfig.onUpdate.call(_this, $sprite, moveTween); }
                 },
-            onComplete: () => { // Use arrow function to preserve `this`
-                _this.x = finalX;
+            onComplete: () => {
+                //console.log(_this.token + ' | moveToPositionX() \n-> sprite tween to x:', x, 'completed!');
                 config.x = finalX;
-                $hitbox.x = finalX;
+                _this.x = finalX;
                 _this.isMoving = false;
                 _this.refreshSprite();
+                _this.isDoneWorkingOn('moveToPositionX');
                 if (callback){ callback.call(_this, $sprite); }
                 },
             });
         $sprite.subTweens.moveTween = moveTween;
+
     }
 
     // Move the sprite a a new Y position on the canvas and then execute the callback if provided (do not touch the X)
@@ -2435,47 +2437,50 @@ class MMRPG_Object {
         // If the sprite is already moving, stop it and move it to the new position
         this.stopMoving();
 
-        // Parse any relative string values from the x and y to get rel values
-        y = Math.round(Graphics.parseRelativePosition(y, config.y));
-        let modY = this.getOffsetPositionY(y);
-        let finalY = y;
-
         // Predefine some defaults for the move config
         moveConfig.easing  = moveConfig.easing || 'Linear';
         moveConfig.onUpdate = moveConfig.onUpdate || null;
 
-        // If the duration was not set of was zero, move the sprite instantly
+        // Parse any relative string values from the x and y to get rel values
+        let finalY = Math.round(Graphics.parseRelativePosition(y, config.y));
+        let fromY = config.y, toY = finalY;
+
+        // If the duration was not set or was zero, move the sprite instantly
         if (!duration) {
-            _this.y = finalY;
+            //console.log(_this.token + ' | moveToPositionY() \n-> moving sprite instantly to finalY:', finalY);
             config.y = finalY;
-            $sprite.y = modY;
-            $hitbox.y = modY;
+            _this.y = finalY;
             _this.refreshSprite();
             if (callback){ callback.call(_this, $sprite); }
             return;
             }
 
-        // Otherwise we create a tween
-        let moveTween = scene.tweens.add({
-            targets: $sprite,
-            y: modY,
+        // Otherwise we create a tween to move the sprite to the new position
+        //console.log(_this.token + ' | moveToPositionY() \n-> tweening sprite to y:', y, 'modY:', modY, 'finalY:', finalY);
+        this.isWorkingOn('moveToPositionY');
+        let moveTween = scene.tweens.addCounter({
+            from: 0,
+            to: 100,
             duration: duration,
             ease: moveConfig.easing,
             onUpdate: () => {
-                let [ revModX, revModY ] = this.reverseOffsetPosition($sprite.x, $sprite.y);
-                _this.y = revModY;
-                config.y = revModY;
-                $hitbox.y = revModY;
+                //console.log(_this.token + ' | moveToPositionY() \n-> sprite tween to y:', y, 'in progress...');
+                let progress = moveTween.getValue();
+                //console.log(_this.token + ' | moveToPositionY() \n-> progress:', progress);
+                let currY = Math.ceil(Phaser.Math.Linear(fromY, toY, progress / 100));
+                config.y = currY;
+                _this.y = currY;
                 _this.isMoving = true;
                 _this.refreshSprite();
                 if (moveConfig.onUpdate){ moveConfig.onUpdate.call(_this, $sprite, moveTween); }
                 },
-            onComplete: () => { // Use arrow function to preserve `this`
-                _this.y = finalY;
+            onComplete: () => {
+                //console.log(_this.token + ' | moveToPositionY() \n-> sprite tween to y:', y, 'completed!');
                 config.y = finalY;
-                $hitbox.y = finalY;
+                _this.y = finalY;
                 _this.isMoving = false;
                 _this.refreshSprite();
+                _this.isDoneWorkingOn('moveToPositionY');
                 if (callback){ callback.call(_this, $sprite); }
                 },
             });
