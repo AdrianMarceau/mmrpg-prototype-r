@@ -1151,18 +1151,20 @@ class MMRPG_Object {
         if (typeof this.cache.transY === 'undefined'){ this.cache.transY = null; }
         if (this.cache.x !== config.x || this.cache.y !== config.y
             || this.cache.transX !== transX || this.cache.transY !== transY){
-            /* if (this.kind !== 'field'){
+            /* if (this.token === 'test-man'){
                 console.log(this.token + ' | -> position updates required!',
-                    '\nw/ config.x:', config.x, 'vs. cache.x:', this.cache.x,
-                    '\nw/ config.y:', config.y, 'vs. cache.y:', this.cache.y,
-                    '\nw/ transX:', transX, 'vs. cache.transX', this.cache.transX,
-                    '\nw/ transY:', transY, 'vs. cache.transY', this.cache.transY,
+                    '\nw/ cache.x:', this.cache.x, 'vs. config.x:', config.x,
+                    '\nw/ cache.y:', this.cache.y, 'vs. config.y:', config.y,
+                    '\nw/ cache.transX:', this.cache.transX, 'vs. transX:', transX,
+                    '\nw/ cache.transY:', this.cache.transY, 'vs. transY:', transY,
                     '\nw/ spriteOffsets:', spriteOffsets
                     );
                 } */
             spriteX = config.x + spriteOffsets[0] + transX;
             spriteY = config.y + spriteOffsets[1] + transY;
-            //console.log(this.token + ' | -> updating final positions to spriteX:', spriteX, 'spriteY:', spriteY);
+            /* if (this.token === 'test-man'){
+                console.log(this.token + ' | -> updating final positions to spriteX:', spriteX, 'spriteY:', spriteY);
+                } */
             $sprite.setPosition(spriteX, spriteY);
             if ($hitbox){ $hitbox.setPosition(config.x, config.y); }
             this.cache.x = config.x;
