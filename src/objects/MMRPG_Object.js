@@ -755,7 +755,7 @@ class MMRPG_Object {
                     pendingAnims.push({
                         key: animKey,
                         sheet: sheetKey,
-                        frames: [ 7, 8, 9 ],
+                        frames: [ 7, 8, 9, 8 ],
                         frameRate: 5,
                         repeat: -1
                         });
