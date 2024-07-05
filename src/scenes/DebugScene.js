@@ -110,8 +110,8 @@ export default class DebugScene extends Phaser.Scene
         this.safeTypeTokens.push('none');
 
         // Define a list of players and robots we should preload
-        this.allowRunningDoctors = true;
-        this.allowSlidingMasters = true;
+        this.allowRunningDoctors = false;
+        this.allowSlidingMasters = false;
         this.runningDoctors = ['dr-light', 'dr-wily', 'dr-cossack'];
         this.slidingMasters = ['mega-man', 'bass', 'proto-man', 'roll', 'disco', 'rhythm'];
         this.debugSprites = [];
@@ -1787,6 +1787,7 @@ export default class DebugScene extends Phaser.Scene
             });
         $bounceBannerAlpha.type = type;
         $bounceBannerAlpha.types = types;
+        $bounceBannerAlpha.setAlpha(scene.allowRunningDoctors ? 1 : 0.1);
         $bounceBannerAlpha.addToContainer(bounceContainer);
         this.bounceBannerAlpha = $bounceBannerAlpha;
 
@@ -1808,6 +1809,7 @@ export default class DebugScene extends Phaser.Scene
             });
         $bounceBannerBeta.type = type;
         $bounceBannerBeta.types = types;
+        $bounceBannerBeta.setAlpha(scene.allowSlidingRobots ? 1 : 0.1);
         $bounceBannerBeta.addToContainer(bounceContainer);
         this.bounceBannerBeta = $bounceBannerBeta;
 
@@ -1869,11 +1871,11 @@ export default class DebugScene extends Phaser.Scene
             }
         if (newDir && $alphaBanner.isReady){
             //console.log('Changing alpha banner direction to', $alphaBanner.directionX, $alphaBanner.directionY);
-            SOUNDS.playSoundEffect('glass-klink');
             var type = $alphaBanner.type;
             //console.log('$alphaBanner type:', type);
             if (scene.allowRunningDoctors){
                 //console.log('Show a running doctor of stat type:', type);
+                SOUNDS.playSoundEffect('glass-klink');
                 let doctor = '', alt = '';
                 if (type === 'defense'){ doctor = 'dr-light'; }
                 if (type === 'attack'){ doctor = 'dr-wily'; }
@@ -1886,6 +1888,9 @@ export default class DebugScene extends Phaser.Scene
                 if (doctor){ this.showRunningPlayer(doctor, alt, 'left'); }
                 if (master && $alphaBanner.directionY === 'up'){ this.showSlidingRobot(master, null, 'left'); }
                 if (support && $alphaBanner.directionY === 'down'){ this.showSlidingRobot(support, null, 'left'); }
+                $alphaBanner.setAlpha(1);
+                } else {
+                $alphaBanner.setAlpha(0.1);
                 }
             // pick a new type for next time
             type = $alphaBanner.types[Math.floor(Math.random() * $alphaBanner.types.length)];
@@ -1930,12 +1935,15 @@ export default class DebugScene extends Phaser.Scene
             }
         if (newDir && $betaBanner.isReady){
             //console.log('Changing beta banner direction to', $betaBanner.directionX, $betaBanner.directionY);
-            SOUNDS.playSoundEffect('glass-klink');
             var type = $betaBanner.type;
             //console.log('$betaBanner type:', type);
             if (scene.allowSlidingMasters){
                 //console.log('Show a sliding master of type:', type);
+                SOUNDS.playSoundEffect('glass-klink');
                 this.showSlidingRobot(null, type, 'left');
+                $betaBanner.setAlpha(1);
+                } else {
+                $betaBanner.setAlpha(0.1);
                 }
             // pick a new type for next time
             type = $betaBanner.types[Math.floor(Math.random() * $betaBanner.types.length)];
@@ -2206,7 +2214,7 @@ export default class DebugScene extends Phaser.Scene
         cell = buttonGrid[1][2];
             // Create a button to toggle the doctor stream
             label = 'Toggle Doctor Stream';
-            color = '#00ff00';
+            color = scene.allowRunningDoctors ? '#00ff00' : '#ff0000';
             BUTTONS.makeSimpleButton(label.toUpperCase(), {
                 y: cell.y, x: cell.x,
                 width: cell.width, height: cell.height,
@@ -2230,7 +2238,7 @@ export default class DebugScene extends Phaser.Scene
         cell = buttonGrid[1][3];
             // Create a button to toggle the master stream
             label = 'Toggle Master Stream';
-            color = '#00ff00';
+            color = scene.allowSlidingMasters ? '#00ff00' : '#ff0000';
             BUTTONS.makeSimpleButton(label.toUpperCase(), {
                 y: cell.y, x: cell.x,
                 width: cell.width, height: cell.height,
