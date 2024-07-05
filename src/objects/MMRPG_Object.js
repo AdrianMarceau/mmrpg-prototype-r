@@ -1459,6 +1459,69 @@ class MMRPG_Object {
         return this.setPosition(null, null, z);
     }
 
+    // Return a given sprite's size-related offset position (used when sprites are larger than default)
+    // Note: Origin takes care of most position-related calculations when centered (0.5), but because
+    // character/object sprites appear in the center-bottom of the frame, we need to manually adjust
+    // the offset when they're at aligned left/right or top/bottom instead of middle/center
+    getSpriteSizeOffsets ()
+    {
+        //console.log('MMRPG_Object.getSpriteSizeOffsets() called for', this.kind, this.token);
+        let spriteConfig = this.spriteConfig;
+        let objectConfig = this.objectConfig;
+        let origin = spriteConfig.origin;
+        let offsetX = 0, offsetY = 0;
+
+        // If this is a field sprite, we do not deal with size offsets
+        if (this.kind === 'field'){
+            //console.log('-> sprite is a field, returning [0, 0]');
+            return [ offsetX, offsetY ];
+            }
+
+        // Check to see if this sprite is already at the default size
+        let [ baseWidth, baseHeight ] = objectConfig.baseSize;
+        let [ spriteWidth, spriteHeight ] = [ spriteConfig.width, spriteConfig.height ];
+        //console.log('-> baseWidth:', baseWidth, 'baseHeight:', baseHeight, 'spriteWidth:', spriteWidth, 'spriteHeight:', spriteHeight);
+        if (spriteWidth === baseWidth && spriteHeight === baseHeight){
+            //console.log('-> sprite is already at default size, returning [0, 0]');
+            return [ offsetX, offsetY ];
+            }
+
+        // Otherwise, we need to adjust the values manually based on origin
+        let widthDiff = spriteWidth - baseWidth, heightDiff = spriteHeight - baseHeight;
+        //console.log('-> widthDiff:', widthDiff, 'heightDiff:', heightDiff);
+        if (origin[0] === 0){ offsetX -= (widthDiff / 2); }
+        else if (origin[0] === 1){ offsetX += (widthDiff / 2); }
+        if (origin[1] === 0){ offsetY -= heightDiff; }
+        else if (origin[1] === 1){ offsetY += heightDiff; }
+        //console.log('-> returning offsetX:', offsetX, 'offsetY:', offsetY);
+        return [ offsetX, offsetY ];
+
+    }
+
+    // Return adjusted X and Y positions based on this sprite's size offset settings
+    applySpriteSizeOffsets (x, y)
+    {
+        //console.log('MMRPG_Object.getAdjustedOffsets() called w/ x:', x, 'y:', y);
+        let [ offsetX, offsetY ] = this.getSpriteSizeOffsets();
+        return [ x + offsetX, y + offsetY ];
+    }
+
+    // Return an adjusted X position based on this sprite's size offset settings
+    applySpriteSizeOffsetX (x)
+    {
+        //console.log('MMRPG_Object.getAdjustedOffsetX() called w/ x:', x);
+        let [ offsetX, offsetY ] = this.getSpriteSizeOffsets();
+        return x + offsetX;
+    }
+
+    // Return an adjusted Y position based on this sprite's size offset settings
+    applySpriteSizeOffsetY (y)
+    {
+        //console.log('MMRPG_Object.getAdjustedOffsetY() called w/ y:', y);
+        let [ offsetX, offsetY ] = this.getSpriteSizeOffsets();
+        return y + offsetY;
+    }
+
     // Return a given sprite's adjusted x and y position based on it's origin and offset
     getOffsetPosition (x, y)
     {
