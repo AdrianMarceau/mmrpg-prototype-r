@@ -2503,17 +2503,17 @@ class MMRPG_Object {
         let xkind = this.xkind;
         let token = this.token;
         let direction = this.direction;
-        damageConfig = damageConfig || {};
-        damageConfig.color = damageConfig.color || '#ffffff';
+
+        // Stop any idle animations or movement that might be playing
         this.stopMoving();
         this.stopIdleAnimation();
+
+        // Immediately set the frame to the damage frame before doing anything else
         this.setFrame('damage');
-        this.flashSprite(2);
-        let shakeStrength = config.scale * 2;
-        this.shakeSprite(shakeStrength, 2, function(){
-            //console.log('-> shakeSprite callback');
-            if (callback){ callback.call(_this); }
-            });
+
+        // Create the damage text and add it to the scene using calculated settings
+        damageConfig = damageConfig || {};
+        damageConfig.color = damageConfig.color || '#ffffff';
         var text = '-' + amount.toString();
         var size = 8;
         var padding = 5;
@@ -2531,6 +2531,9 @@ class MMRPG_Object {
             depth: _this.depth + 100,
             padding: 5,
             });
+
+        // Create the damage animation to run on it's own and then execute the callback
+        //console.log('-> about to animate the damage text with a damageTween');
         let damageTween = scene.tweens.addCounter({
             from: 100,
             to: 0,
@@ -2544,9 +2547,39 @@ class MMRPG_Object {
                 $damage.setPosition(null, '-=2');
                 },
             onComplete: function () {
-                //console.log('damageTween complete!');
+                //console.log('damageTween complete for the damage text');
                 $damage.destroy();
                 }
+            });
+
+        // Define the callback to run after showing the damage
+        let actionQueue = 0;
+        this.isWorkingOn('showDamage');
+        let showDamageCallback = function(){
+            if (actionQueue > 0){ return; }
+            //console.log('-> showDamageCallback w/ actionQueue:', actionQueue);
+            _this.isDoneWorkingOn('showDamage');
+            if (callback){ callback.call(_this); }
+            };
+
+        // We know which animations we'll be running so we can preset the queue value
+        actionQueue = 2;
+
+        // Create the flash animation to run in sequence w/ its own callback
+        //console.log('-> about to start flash, actionQueue:', actionQueue);
+        this.flashSprite(2, function(){
+            //console.log('-> flashSprite callback w/ actionQueue:', actionQueue);
+            actionQueue--;
+            showDamageCallback();
+            });
+
+        // Create the shake animation to run in sequence w/ its own callback
+        //console.log('-> about to start shake, actionQueue:', actionQueue);
+        let shakeStrength = 1;
+        this.shakeSprite(shakeStrength, 2, function(){
+            //console.log('-> shakeSprite callback w/ actionQueue:', actionQueue);
+            actionQueue--;
+            showDamageCallback();
             });
 
     }
