@@ -1074,22 +1074,24 @@ class MMRPG_Object {
         let $hitbox = this.spriteHitbox;
         let config = this.spriteConfig;
 
-        // If this sprite is inside of a container and we're allowed to, track Z changes to that container
-        if (this.spriteContainer
-            && config.useContainerForDepth){
-            //console.log(this.token + ' | -> tracking Z to container:', this.spriteContainer);
-            let containerBounds = this.spriteContainer.getBounds() || null;
-            let containerY = containerBounds.y || 0;
-            let objectY = this.y || 0;
-            let offsetZ = Math.ceil(objectY - containerY);
-            //console.log(this.token + ' | -> containerY:', containerY, 'objectY:', objectY, 'offsetZ:', offsetZ);
-            config.z = offsetZ;
-            this.z = offsetZ;
-            if (!this.cache.lastZ || this.cache.lastZ !== offsetZ){
-                this.cache.lastZ = offsetZ;
-                this.cache.sortContainer = true;
+        // Define a quick function that checks for any any transforms to a given property and returns the final value
+        const getTransProp = (propName) => {
+            let propVal = 0;
+            let transformsList = config.transforms.data || {};
+            let transformKeys = Object.keys(transformsList);
+            //console.log(this.token + ' | -> checking transformsList:', transformsList, 'for propName:', propName, 'w/ transformKeys:', transformKeys);
+            for (let i = 0; i < transformKeys.length; i++){
+                let transKey = transformKeys[i];
+                let transProps = transformsList[transKey];
+                //console.log(this.token + ' | -> checking if transKey:', transKey, 'transProps:', transProps, 'has propName:', propName);
+                if (transProps[propName]){
+                    //console.log(this.token + ' | -> found transProps['+propName+']:', transProps[propName]);
+                    propVal += transProps[propName];
+                    }
                 }
-            }
+            //console.log(this.token + ' | -> returning final trans', propName, 'as', propVal);
+            return propVal;
+            };
 
         // First update the sprite itself as that's most important
         //console.log(this.token + ' | -> attempting to update sheet from', this.cache.sheet, 'to', config.sheet);
@@ -1136,33 +1138,6 @@ class MMRPG_Object {
             this.cache.origin = config.origin;
             //console.log(this.token + ' | -> updated origin to', config.origin, 'and updated cache');
             }
-        //console.log(this.token + ' | -> attempting to update depth from', this.cache.depth, 'to', config.depth);
-        if (typeof this.cache.depth === 'undefined'){ this.cache.depth = null; }
-        if (this.cache.depth !== config.depth){
-            $sprite.setDepth(config.depth + config.z);
-            if ($hitbox){ $hitbox.setDepth(config.depth + config.z + 1); }
-            this.cache.depth = config.depth;
-            //console.log(this.token + ' | -> updated depth to', config.depth, 'and updated cache');
-            }
-
-        // Define a quick function that checks for any any transforms to a given property and returns the final value
-        const getTransProp = (propName) => {
-            let propVal = 0;
-            let transformsList = config.transforms.data || {};
-            let transformKeys = Object.keys(transformsList);
-            //console.log(this.token + ' | -> checking transformsList:', transformsList, 'for propName:', propName, 'w/ transformKeys:', transformKeys);
-            for (let i = 0; i < transformKeys.length; i++){
-                let transKey = transformKeys[i];
-                let transProps = transformsList[transKey];
-                //console.log(this.token + ' | -> checking if transKey:', transKey, 'transProps:', transProps, 'has propName:', propName);
-                if (transProps[propName]){
-                    //console.log(this.token + ' | -> found transProps['+propName+']:', transProps[propName]);
-                    propVal += transProps[propName];
-                    }
-                }
-            //console.log(this.token + ' | -> returning final trans', propName, 'as', propVal);
-            return propVal;
-            };
 
         // Calculate the sprite's position based on hard-coded x and y values present in the spriteConfig
         let allowTransforms = this.kind !== 'field' ? true : false;
@@ -1197,16 +1172,42 @@ class MMRPG_Object {
             //console.log(this.token + ' | -> updated positions w/ spriteX:', spriteX, 'spriteY:', spriteY, 'transX:', transX, 'transY:', transY, 'and updated cache');
             }
 
+        // If this sprite is inside of a container and we're allowed to, track Z changes to that container
+        let spriteContainer = this.spriteContainer || null;
+        let useContainerForDepth = spriteContainer && config.useContainerForDepth ? true : false;
+        let sortSpriteContainer = false;
+        //console.log(this.token + ' | -> check if we update z via the sprite container w/ spriteContainer:', typeof this.spriteContainer, 'and config.useContainerForDepth:', config.useContainerForDepth);
+        if (useContainerForDepth){
+            //console.log(this.token + ' | -> tracking Z to container:', this.spriteContainer);
+            let containerBounds = spriteContainer.getBounds() || null;
+            let containerY = containerBounds.y || 0;
+            let objectY = config.y || 0;
+            let offsetZ = Math.ceil(objectY - containerY);
+            //console.log(this.token + ' | -> containerY:', containerY, 'objectY:', objectY, 'offsetZ:', offsetZ);
+            config.z = offsetZ;
+            }
+
+        if (typeof this.cache.depth === 'undefined'){ this.cache.depth = null; }
+        if (typeof this.cache.z === 'undefined'){ this.cache.z = null; }
+        //console.log(this.token + ' | -> attempting to update depth from', this.cache.depth, 'to', config.depth);
+        //console.log(this.token + ' | -> also considering z from', this.cache.z, 'to', config.z);
+        if (this.cache.depth !== config.depth
+            || this.cache.z !== config.z){
+            $sprite.setDepth(config.depth + config.z);
+            if ($hitbox){ $hitbox.setDepth(config.depth + config.z + 1); }
+            this.cache.depth = config.depth;
+            this.cache.z = config.z;
+            if (useContainerForDepth){ sortSpriteContainer = true; }
+            //console.log(this.token + ' | -> updated depth to', config.depth, 'and updated cache');
+            }
+
         // And finally, update any layer graphics that are present
         this.updateSpriteLayerGraphics();
 
         // If there's a container attached to this sprite, sort it by depth
-        if (this.spriteContainer
-            && this.spriteContainer.sort
-            && this.cache.sortContainer){
+        if (useContainerForDepth && sortSpriteContainer){
             //console.log(this.token + ' | -> sorting container:', typeof this.spriteContainer, this.spriteContainer);
-            this.spriteContainer.sort('depth');
-            delete this.cache.sortContainer;
+            spriteContainer.sort('depth');
             }
 
     }
