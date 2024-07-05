@@ -2633,35 +2633,61 @@ class MMRPG_Object {
         $sprite.subTweens.flashTween = flashTween;
     }
 
-    // Define a function that shakes a sprite back and forth once and then executes a callback
-    shakeSprite (strength = 1, repeat = 1, callback)
+
+    // Shakes the sprite back and forth once and then executes a callback
+    shakeSprite (strength = 1, repeat = 1, callback = null, duration = 100)
     {
-        //console.log('MMRPG_Object.shakeSprite() called for ', this.kind, this.token, '\nw/ strength:', strength, 'repeat:', repeat, 'callback:', typeof callback);
+        //console.log('MMRPG_Object.shakeSprite() called for ', this.kind, this.token, '\nw/ strength:', strength, 'repeat:', repeat, 'callback:', typeof callback, 'duration:', duration);
         let _this = this;
         if (!this.sprite) { return; }
-        if (this.spriteIsLoading){ return this.spriteMethodsQueued.push(function(){ _this.shakeSprite(strength, callback); }); }
+        if (this.spriteIsLoading){ return this.spriteMethodsQueued.push(function(){ _this.shakeSprite(strength, repeat, duration, callback); }); }
         let $sprite = this.sprite;
         let config = this.spriteConfig;
-        let shake = strength || 1;
-        let shakeX = shake * 2;
-        let shakeY = shake * 2;
-        let shakeDuration = 100;
+        let shakeVal = (strength || 1) * 2;
+        let shakeOffset = shakeVal * config.scale; // Combined shake offset for both X and Y
+        let shakeDuration = duration || 100;
         let shakeEase = 'Sine.easeInOut';
         let shakeRepeat = repeat;
         let shakeYoyo = true;
-        let shakeCallback = function(){
-            if (callback){ callback.call(_this); }
+        const killTweens = function(){
+            if ($sprite.subTweens.shakeTween){
+                $sprite.subTweens.shakeTween.stop();
+                delete $sprite.subTweens.shakeTween;
+                }
             };
-        if ($sprite.subTweens.shakeTween){ $sprite.subTweens.shakeTween.stop(); }
-        let shakeTween = this.scene.tweens.add({
-            targets: $sprite,
-            x: '+='+shakeX,
-            y: '+='+shakeY,
+        killTweens();
+        this.isAnimating = true;
+        this.isWorkingOn('shakeSprite');
+        // Create a single counter for shaking both X and Y
+        let xMod = 1, yMod = -1;
+        let transforms = config.transforms;
+        let shakeTrans = transforms.get('shake');
+        //console.log('-> transforms.data:', transforms.data, 'shakeTrans:', shakeTrans);
+        let shakeTween = this.scene.tweens.addCounter({
+            from: 0,
+            to: shakeOffset,
             duration: shakeDuration,
             ease: shakeEase,
             repeat: shakeRepeat,
             yoyo: shakeYoyo,
-            onComplete: shakeCallback
+            onUpdate: () => {
+                let progress = Math.round(shakeTween.getValue());
+                shakeTrans.x = progress * xMod;
+                shakeTrans.y = progress * yMod;
+                _this.refreshSprite();
+                },
+            onYoyo: () => {
+                xMod *= -1;
+                yMod *= -1;
+                },
+            onComplete: () => {
+                killTweens();
+                transforms.remove('shake');
+                _this.refreshSprite();
+                _this.isAnimating = false;
+                _this.isDoneWorkingOn('shakeSprite');
+                if (callback){ callback.call(_this); }
+                }
             });
         $sprite.subTweens.shakeTween = shakeTween;
     }
