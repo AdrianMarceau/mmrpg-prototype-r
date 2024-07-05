@@ -2584,36 +2584,50 @@ class MMRPG_Object {
 
     }
 
-    // Define a function that "flashes" a sprite by changing it's tint back and forth a set amount of times
-    flashSprite (repeat = 1, duration = 100, tintShift = true, callback = null)
+    // Flash the sprite by changing its tint back and forth a set amount of times
+    flashSprite (repeat = 1, callback = null, duration = 100)
     {
         //console.log('MMRPG_Object.flashSprite() called for ', this.kind, this.token, '\nw/ repeat:', repeat, 'duration:', duration);
         let _this = this;
         if (!this.sprite) { return; }
-        if (this.spriteIsLoading){ return this.spriteMethodsQueued.push(function(){ _this.flashSprite(repeat, duration); }); }
+        if (this.spriteIsLoading) { return this.spriteMethodsQueued.push(function() { _this.flashSprite(repeat, callback, duration); }); }
+        let scene = this.scene;
         let $sprite = this.sprite;
         let config = this.spriteConfig;
-        let flashRepeat = repeat;
+        let flashLoops = repeat;
         let flashDuration = duration;
-        let flashCallback = function(){
-            //console.log('-> flashCallback');
-            _this.clearTint();
-            if (callback){ callback.call(_this); }
+        let flashDuration2 = Math.floor(duration / 2); // because the yoyo effect
+        const killTweens = function() {
+            if ($sprite.subTweens.flashTween) {
+                $sprite.subTweens.flashTween.stop();
+                delete $sprite.subTweens.flashTween;
+                }
             };
-        if ($sprite.subTweens.flashTween){ $sprite.subTweens.flashTween.stop(); }
-        let flashTween = this.scene.tweens.add({
-            targets: $sprite,
-            alpha: 0.5,
-            duration: flashDuration,
-            repeat: flashRepeat,
+        killTweens();
+        this.isAnimating = true;
+        this.isWorkingOn('flashSprite');
+        $sprite.setAlpha(1.0);
+        $sprite.fx = $sprite.preFX.addColorMatrix();
+        $sprite.fx.brightness(1.0);
+        let flashTween = scene.tweens.addCounter({
+            from: 0,
+            to: 100,
+            duration: flashDuration2,
+            loop: flashLoops,
+            ease: 'Linear',
             yoyo: true,
-            onComplete: flashCallback,
-            onUpdate: function(){
-                if (!tintShift){ return; }
-                let progress = Math.round(flashTween.progress * 10);
-                let alpha = $sprite.alpha;
-                if (progress % 2 === 0){ _this.setTint('#000000'); }
-                else { _this.setTint('#ffffff'); }
+            onUpdate: (tween) => {
+                let progress = tween.getValue() / 100;
+                $sprite.alpha = 1.0 - 0.5 * progress;
+                $sprite.fx.brightness(1.0 + 5.0 * progress);
+                },
+            onComplete: () => {
+                //console.log('-> onComplete for flashTween');
+                $sprite.alpha = 1.0;
+                $sprite.fx.brightness(1.0);
+                this.isAnimating = false;
+                this.isDoneWorkingOn('flashSprite');
+                if (callback) { callback.call(_this); }
                 }
             });
         $sprite.subTweens.flashTween = flashTween;
