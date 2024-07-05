@@ -311,8 +311,8 @@ export default class DebugScene extends Phaser.Scene
                         if (this.direction === 'left' && this.x <= (MMRPG.canvas.xMin + 100)){ flipDirection = true; }
                         else if (this.direction === 'right' && this.x >= (MMRPG.canvas.xMax - 100)){ flipDirection = true; }
                         if (this.kind === 'player'){
-                            this.shakeSprite();
                             this.setFrame('summon');
+                            this.shakeSprite();
                             if ($sprite.subTimers.effectTimer){ $sprite.subTimers.effectTimer.remove(); }
                             $sprite.subTimers.effectTimer = this.delayedCall(600, function(){
                                 this.resetFrame();
@@ -329,13 +329,13 @@ export default class DebugScene extends Phaser.Scene
                                 let nextAltKey = altOptionsTokens.indexOf(currentAlt) + 1;
                                 let nextAltToken = altOptionsTokens[nextAltKey];
                                 this.setFrame('summon');
-                                this.shakeSprite();
-                                this.setImageAlt(nextAltToken, function(){
-                                    if ($sprite.subTimers.effectTimer){ $sprite.subTimers.effectTimer.remove(); }
-                                    $sprite.subTimers.effectTimer = this.delayedCall(600, function(){
-                                        this.resetFrame();
-                                        if (flipDirection){ this.flipDirection(); }
-                                        this.startIdleAnimation(true, true);
+                                this.shakeSprite(1, 1, function(){
+                                    this.setImageAlt(nextAltToken, function(){
+                                        this.shakeSprite(1, 1, function(){
+                                            this.resetFrame();
+                                            if (flipDirection){ this.flipDirection(); }
+                                            this.startIdleAnimation(true, true);
+                                            });
                                         });
                                     });
                                 });
@@ -487,7 +487,7 @@ export default class DebugScene extends Phaser.Scene
                 this.setFrame('taunt');
                 };
             let customMouseOut = function(){
-                if (this.isMoving){ return; }
+                if (this.isMoving || this.isAnimating){ return; }
                 this.resetFrame();
                 this.startIdleAnimation();
                 };
@@ -530,7 +530,7 @@ export default class DebugScene extends Phaser.Scene
                     this.showDamage(actualDamageAmount, function(){
                         // Play a sound effect to make sure they're
                         this.setFrame('defeat');
-                        this.flashSprite(3, 100);
+                        this.flashSprite(3, null, 900);
                         SOUNDS.playSoundEffect('explode-sound');
                         //this.showExplosions();
                         this.delayedCall(1000, function(){
@@ -545,8 +545,9 @@ export default class DebugScene extends Phaser.Scene
                     //console.log('->', this.token, 'is damaged | energy: ', newCurrentEnergy, '/', maxEnergy);
                     this.stopAll(false);
                     SOUNDS.playSoundEffect('damage-reverb');
+                    //console.log(this.token + ' | -> about to show damage with amount', actualDamageAmount);
                     this.showDamage(actualDamageAmount, function(){
-                        //console.log('show damage complete');
+                        //console.log(this.token + ' | -> show damage complete');
                         this.resetFrame();
                         this.setCounter('stagger', 0);
                         // Make the robot slide away from the clicked location
@@ -562,6 +563,7 @@ export default class DebugScene extends Phaser.Scene
                         this.setFrame('slide');
                         this.moveToPosition(newX, newY, duration, function(){
                             //console.log(this.token+' | customClickEvent movement complete (A)!');
+                            this.setFrame('defend');
                             return customPostMoveCheck.call(this, duration);
                             });
                         }, {color: damageTextColor});
@@ -582,11 +584,11 @@ export default class DebugScene extends Phaser.Scene
                 else if ((this.y + leeway) > customBounds.yMax){ offset.v = (this.y + leeway) - customBounds.yMax; }
                 //console.log(this.token+' | customPostMoveCheck | offset =', offset);
                 if (offset.h !== 0 || offset.v !== 0){
+                    this.stopAnimation();
                     if (offset.h < 0 && this.direction === 'left'
                         || offset.h > 0 && this.direction === 'right'){
                         this.flipDirection();
                         }
-                    this.setFrame('slide');
                     let newX = null, newY = null;
                     if (offset.h !== 0){
                         newX = offset.h < 0 ? (customBounds.xMin + correction) : (customBounds.xMax - correction);
@@ -596,8 +598,10 @@ export default class DebugScene extends Phaser.Scene
                         newX = this.direction === 'left' ? (this.x - leeway) : (this.x + leeway);
                         }
                     //console.log(this.token+' | customPostMoveCheck | newX =', newX, 'newY =', newY);
+                    this.setFrame('slide');
                     this.moveToPosition(newX, newY, ((duration || 200) / 2), function(){
                         //console.log(this.token+' | customPostMoveCheck movement complete (B)!');
+                        this.setFrame('defend');
                         return customPostMoveCheck.call(this, duration);
                         });
                     } else {
