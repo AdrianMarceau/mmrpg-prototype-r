@@ -1183,7 +1183,6 @@ class MMRPG_Object {
         let $sprite = this.sprite;
         let $hitbox = this.spriteHitbox;
         let config = this.spriteConfig;
-        let [ modX, modY ] = this.getOffsetPosition(config.x, config.y);
 
         // If this sprite is inside of a container and we're allowed to, track Z changes to that container
         if (this.spriteContainer
@@ -1204,68 +1203,108 @@ class MMRPG_Object {
 
         // First update the sprite itself as that's most important
         //console.log(this.token + ' | -> attempting to update sheet from', this.cache.sheet, 'to', config.sheet);
-        if (!this.cache.sheet || this.cache.sheet !== config.sheet || $sprite.texture.key !== config.sheet){
+        if (typeof this.cache.sheet === 'undefined'){ this.cache.sheet = null; }
+        if (this.cache.sheet !== config.sheet || $sprite.texture.key !== config.sheet){
             $sprite.setTexture(config.sheet);
             this.cache.sheet = config.sheet;
             //console.log(this.token + ' | -> updated sheet to', config.sheet, 'and updated cache');
             }
         //console.log(this.token + ' | -> attempting to update frame from', this.cache.frame, 'to', config.frame);
-        if (!this.cache.frame || this.cache.frame !== config.frame){
+        if (typeof this.cache.frame === 'undefined'){ this.cache.frame = null; }
+        if (this.cache.frame !== config.frame){
             $sprite.setFrame(config.frame);
             this.cache.frame = config.frame;
             //console.log(this.token + ' | -> updated frame to', config.frame, 'and updated cache');
             }
         //console.log(this.token + ' | -> attempting to update tint from', this.cache.tint, 'to', config.tint);
-        if (!this.cache.tint || this.cache.tint !== config.tint){
+        if (typeof this.cache.tint === 'undefined'){ this.cache.tint = null; }
+        if (this.cache.tint !== config.tint){
             if (config.tint){ $sprite.setTint(config.tint); }
             else { $sprite.clearTint(); }
             this.cache.tint = config.tint;
             //console.log(this.token + ' | -> updated tint to', config.tint, 'and updated cache');
             }
         //console.log(this.token + ' | -> attempting to update alpha from', this.cache.alpha, 'to', config.alpha);
-        if (!this.cache.alpha || this.cache.alpha !== config.alpha){
+        if (typeof this.cache.alpha === 'undefined'){ this.cache.alpha = null; }
+        if (this.cache.alpha !== config.alpha){
             $sprite.setAlpha(config.alpha);
             this.cache.alpha = config.alpha;
             //console.log(this.token + ' | -> updated alpha to', config.alpha, 'and updated cache');
             }
         //console.log(this.token + ' | -> attempting to update scale from', this.cache.scale, 'to', config.scale);
-        if (!this.cache.scale || this.cache.scale !== config.scale){
+        if (typeof this.cache.scale === 'undefined'){ this.cache.scale = null; }
+        if (this.cache.scale !== config.scale){
             $sprite.setScale(config.scale);
             this.cache.scale = config.scale;
             //console.log(this.token + ' | -> updated scale to', config.scale, 'and updated cache');
             }
-        //console.log(this.token + ' | -> attempting to update depth from', this.cache.depth, 'to', config.depth);
-        if (!this.cache.depth || this.cache.depth !== config.depth){
-            $sprite.setDepth(config.depth + config.z);
-            this.cache.depth = config.depth;
-            //console.log(this.token + ' | -> updated depth to', config.depth, 'and updated cache');
-            }
         //console.log(this.token + ' | -> attempting to update origin from', this.cache.origin, 'to', config.origin);
-        if (!this.cache.origin || this.cache.origin !== config.origin){
+        if (typeof this.cache.origin === 'undefined'){ this.cache.origin = null; }
+        if (this.cache.origin !== config.origin){
             $sprite.setOrigin(config.origin[0], config.origin[1]);
+            if ($hitbox){ $hitbox.setOrigin(config.origin[0], config.origin[1]); }
             this.cache.origin = config.origin;
             //console.log(this.token + ' | -> updated origin to', config.origin, 'and updated cache');
             }
-        //console.log(this.token + ' | -> attempting to update position from', this.cache.x, this.cache.y, 'to', modX, modY);
-        if (!this.cache.x || this.cache.x !== modX
-            || !this.cache.y || this.cache.y !== modY){
-            $sprite.setPosition(modX, modY);
-            this.cache.x = modX;
-            this.cache.y = modY;
-            //console.log(this.token + ' | -> updated position to', modX, modY, 'and updated cache');
+        //console.log(this.token + ' | -> attempting to update depth from', this.cache.depth, 'to', config.depth);
+        if (typeof this.cache.depth === 'undefined'){ this.cache.depth = null; }
+        if (this.cache.depth !== config.depth){
+            $sprite.setDepth(config.depth + config.z);
+            if ($hitbox){ $hitbox.setDepth(config.depth + config.z + 1); }
+            this.cache.depth = config.depth;
+            //console.log(this.token + ' | -> updated depth to', config.depth, 'and updated cache');
             }
 
-        //console.log('-> updating sprite for ', this.token, ' w/ origin:', config.origin, 'x:', modX, 'y:', modY, 'config.frame:', config.frame, 'config:', config);
+        // Define a quick function that checks for any any transforms to a given property and returns the final value
+        const getTransProp = (propName) => {
+            let propVal = 0;
+            let transformsList = config.transforms.data || {};
+            let transformKeys = Object.keys(transformsList);
+            //console.log(this.token + ' | -> checking transformsList:', transformsList, 'for propName:', propName, 'w/ transformKeys:', transformKeys);
+            for (let i = 0; i < transformKeys.length; i++){
+                let transKey = transformKeys[i];
+                let transProps = transformsList[transKey];
+                //console.log(this.token + ' | -> checking if transKey:', transKey, 'transProps:', transProps, 'has propName:', propName);
+                if (transProps[propName]){
+                    //console.log(this.token + ' | -> found transProps['+propName+']:', transProps[propName]);
+                    propVal += transProps[propName];
+                    }
+                }
+            //console.log(this.token + ' | -> returning final trans', propName, 'as', propVal);
+            return propVal;
+            };
 
-        // Now update the hitbox with relevant changes
-        if ($hitbox){
-            let [ hitX, hitY ] = [ config.x, config.y ];
-            $hitbox.setPosition(hitX, hitY);
-            $hitbox.setDepth(config.depth + config.z + 1);
-            $hitbox.setOrigin(config.origin[0], config.origin[1]);
-            //if (config.debug){ $hitbox.setVisible(true); }
-            //else { $hitbox.setVisible(false); }
-            //console.log('-> updating hitbox sprite for ', this.token, ' w/ origin:', config.origin, 'x:', hitX, 'y:', hitY, 'config:', config);
+        // Calculate the sprite's position based on hard-coded x and y values present in the spriteConfig
+        let allowTransforms = this.kind !== 'field' ? true : false;
+        let spriteOffsets = this.kind !== 'field' ? this.getSpriteSizeOffsets() : [0, 0];
+        let spriteX, spriteY;
+        let transX = allowTransforms ? getTransProp('x') : 0;
+        let transY = allowTransforms ? getTransProp('y') : 0;
+        if (typeof this.cache.x === 'undefined'){ this.cache.x = null; }
+        if (typeof this.cache.y === 'undefined'){ this.cache.y = null; }
+        if (typeof this.cache.transX === 'undefined'){ this.cache.transX = null; }
+        if (typeof this.cache.transY === 'undefined'){ this.cache.transY = null; }
+        if (this.cache.x !== config.x || this.cache.y !== config.y
+            || this.cache.transX !== transX || this.cache.transY !== transY){
+            /* if (this.kind !== 'field'){
+                console.log(this.token + ' | -> position updates required!',
+                    '\nw/ config.x:', config.x, 'vs. cache.x:', this.cache.x,
+                    '\nw/ config.y:', config.y, 'vs. cache.y:', this.cache.y,
+                    '\nw/ transX:', transX, 'vs. cache.transX', this.cache.transX,
+                    '\nw/ transY:', transY, 'vs. cache.transY', this.cache.transY,
+                    '\nw/ spriteOffsets:', spriteOffsets
+                    );
+                } */
+            spriteX = config.x + spriteOffsets[0] + transX;
+            spriteY = config.y + spriteOffsets[1] + transY;
+            //console.log(this.token + ' | -> updating final positions to spriteX:', spriteX, 'spriteY:', spriteY);
+            $sprite.setPosition(spriteX, spriteY);
+            if ($hitbox){ $hitbox.setPosition(config.x, config.y); }
+            this.cache.x = config.x;
+            this.cache.y = config.y;
+            this.cache.transX = transX;
+            this.cache.transY = transY;
+            //console.log(this.token + ' | -> updated positions w/ spriteX:', spriteX, 'spriteY:', spriteY, 'transX:', transX, 'transY:', transY, 'and updated cache');
             }
 
         // And finally, update any layer graphics that are present
