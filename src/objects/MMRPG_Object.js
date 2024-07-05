@@ -1667,7 +1667,7 @@ class MMRPG_Object {
     }
 
     // Set the scale of this object's sprite and update the spriteConfig
-    setDirection (direction)
+    setDirection (direction, callback = null)
     {
         //console.log('MMRPG_Object.setDirection() called w/ direction:', direction);
         if (!this.sprite) { return; }
@@ -1688,13 +1688,16 @@ class MMRPG_Object {
         if (!newSheet || (config.sheet === newSheet && this.sheet === newSheet)) { return; }
         if (!scene.textures.exists(newSheet)){
             //console.log('-> sprite texture '+newSheet+' not loaded, deffering sheet change...');
+            this.spriteIsLoading = true;
             this.isWorkingOn('setDirection');
             this.loadSpriteTexture(this.data.token, direction, () => {
                 //console.log('%c' + '-> sprite texture '+newSheet+' loaded!', 'color: #00FF00');
                 config.sheet = newSheet;
                 this.sheet = newSheet;
-                this.refreshSprite();
+                this.refreshSprite(true);
                 this.isDoneWorkingOn('setDirection');
+                this.spriteIsLoading = false;
+                if (callback){ callback.call(_this); }
                 });
             } else {
             //console.log('-> sprite texture '+newSheet+' already loaded, changing sheet now...');
@@ -1706,14 +1709,14 @@ class MMRPG_Object {
     }
 
     // Flip the current direction of the robot sprite and update the spriteConfig
-    flipDirection ()
+    flipDirection (callback = null)
     {
         //console.log('MMRPG_Object.flipDirection() called');
         if (!this.sprite) { return; }
         let $sprite = this.sprite;
         let direction = this.direction || 'right';
         direction = (direction === 'right') ? 'left' : 'right';
-        this.setDirection(direction);
+        this.setDirection(direction, callback);
     }
 
     // Get the current image alt (string) for this object and return it
