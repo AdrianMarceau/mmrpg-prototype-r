@@ -1351,9 +1351,10 @@ class MMRPG_Object {
     }
 
     // Refresh this sprite by updating sprite properties, graphics, and animations
-    refreshSprite ()
+    refreshSprite (clearCache = false)
     {
         //console.log('MMRPG_Object.refreshSprite() called for ', this.kind, this.token);
+        if (clearCache){ this.cache = {}; }
         this.updateSpriteProperties();
         this.updateSpriteGraphics();
     }
