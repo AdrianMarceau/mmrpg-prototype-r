@@ -1338,15 +1338,16 @@ class MMRPG_Object {
         //console.log('MMRPG_Object.updateSpriteProperties() called for ', this.kind, this.token);
         if (!this.sprite) { return; }
         let $sprite = this.sprite;
-        this.x = $sprite.x;
-        this.y = $sprite.y;
-        this.z = $sprite.z;
-        this.width = $sprite.width;
-        this.height = $sprite.height;
-        this.direction = this.direction;
-        this.origin = $sprite.origin;
-        this.alpha = $sprite.alpha;
-        this.depth = $sprite.depth;
+        let config = this.spriteConfig;
+        this.x = config.x;
+        this.y = config.y;
+        this.z = config.z;
+        this.width = config.width;
+        this.height = config.height;
+        this.direction = config.direction;
+        this.origin = config.origin;
+        this.alpha = config.alpha;
+        this.depth = config.depth;
     }
 
     // Refresh this sprite by updating sprite properties, graphics, and animations
