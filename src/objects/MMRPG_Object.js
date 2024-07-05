@@ -92,6 +92,16 @@ class MMRPG_Object {
             spriteConfig.layers = spriteConfig.layers || {};
             spriteConfig.debug = spriteConfig.debug || false;
 
+            // Predefine a transforms object to hold temporary effect-related transforms to properties
+            spriteConfig.transforms = {};
+            spriteConfig.transforms.data = {};
+            spriteConfig.transforms.keys = function(){ return Object.keys(this.data); };
+            spriteConfig.transforms.has = function(key){ return typeof this.data[key] !== 'undefined' ? true : false; };
+            spriteConfig.transforms.add = function(key, data){ this.data[key] = data; };
+            spriteConfig.transforms.get = function(key, create = true){ if (this.has(key)){ return this.data[key]; } else if (create){ this.add(key, {}); return this.data[key]; } else { return null; } };
+            spriteConfig.transforms.remove = function(key){ delete this.data[key]; };
+            spriteConfig.transforms.clear = function(){ this.data = {}; };
+
             // Also predefine some of the more complicated ones for later
             spriteConfig.useContainerForDepth = spriteConfig.useContainerForDepth || false;
 
