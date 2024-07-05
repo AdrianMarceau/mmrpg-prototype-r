@@ -2702,27 +2702,70 @@ class MMRPG_Object {
         if (this.spriteIsLoading){ return this.spriteMethodsQueued.push(function(){ _this.stopMoving(); }); }
         let $sprite = this.sprite;
         let config = this.spriteConfig;
+        let transforms = config.transforms;
+        if ($sprite.subTimers.slideMovement){
+            $sprite.subTimers.slideMovement.remove();
+            delete $sprite.subTimers.slideMovement;
+            }
+        if ($sprite.subTimers.runMovement){
+            $sprite.subTimers.runMovement.remove();
+            delete $sprite.subTimers.runMovement;
+            }
         if ($sprite.subTweens.moveTween){
-            //console.log('-> stopping moveTween');
             $sprite.subTweens.moveTween.stop();
             delete $sprite.subTweens.moveTween;
             }
-        if ($sprite.subTimers.slideAnimation){
-            //console.log('-> stopping slideAnimation');
-            $sprite.subTimers.slideAnimation.remove();
-            delete $sprite.subTimers.slideAnimation;
-            }
-        if ($sprite.subTimers.runAnimation){
-            //console.log('-> stopping runAnimation');
-            $sprite.subTimers.runAnimation.remove();
-            delete $sprite.subTimers.runAnimation;
+        this.isMoving = false;
+        this.isDoneWorkingOn('moveToPosition');
+        this.isDoneWorkingOn('moveToPositionX');
+        this.isDoneWorkingOn('moveToPositionY');
+        this.isDoneWorkingOn('slideSpriteForward');
+        this.isDoneWorkingOn('runSpriteForward');
+        this.refreshSprite();
+    }
+
+    // Stop a sprite's animation whichever way it might have been going abruptly
+    stopAnimation ()
+    {
+        //console.log('MMRPG_Object.stopAnimation() called for ', this.kind, this.token);
+        let _this = this;
+        if (!this.sprite) { return; }
+        if (!this.isAnimating){ return; }
+        if (this.spriteIsLoading){ return this.spriteMethodsQueued.push(function(){ _this.stopAnimation(); }); }
+        let $sprite = this.sprite;
+        let config = this.spriteConfig;
+        let transforms = config.transforms;
+        $sprite.stop();
+        if ($sprite.subTweens.idleBounceTween){
+            $sprite.subTweens.idleBounceTween.stop();
+            delete $sprite.subTweens.idleBounceTween;
             }
         if ($sprite.subTweens.runBounceTween){
-            //console.log('-> stopping runBounceTween');
             $sprite.subTweens.runBounceTween.stop();
             delete $sprite.subTweens.runBounceTween;
             }
-        this.isMoving = false;
+        if ($sprite.subTweens.shakeTween){
+            $sprite.subTweens.shakeTween.stop();
+            delete $sprite.subTweens.shakeTween;
+            }
+        if ($sprite.subTweens.flashTween){
+            $sprite.subTweens.flashTween.stop();
+            delete $sprite.subTweens.flashTween;
+            }
+        if ($sprite.subTweens.kickbackTween){
+            $sprite.subTweens.kickbackTween.stop();
+            delete $sprite.subTweens.kickbackTween;
+            }
+        transforms.remove('idle');
+        transforms.remove('shake');
+        transforms.remove('flash');
+        transforms.remove('bounce');
+        transforms.remove('kickback');
+        this.isAnimating = false;
+        this.isDoneWorkingOn('flashSprite');
+        this.isDoneWorkingOn('shakeSprite');
+        this.isDoneWorkingOn('kickbackSprite');
+        this.refreshSprite();
     }
 
 
@@ -2825,16 +2868,18 @@ class MMRPG_Object {
     // Stop or halt any movement, animations, and callbacks for this object so we can destroy later
     stopAll (removeInteractivity = false)
     {
-        //console.log('MMRPG_Object.halt() called for ', this.kind, this.token);
+        //console.log('MMRPG_Object.stopAll() called for ', this.kind, this.token);
         let _this = this;
         let scene = this.scene;
         if (!this.sprite) { return; }
         let SPRITES = this.SPRITES;
         let $sprite = this.sprite;
+        let config = this.spriteConfig;
         let $hitbox = this.spriteHitbox;
         this.stopMoving();
         this.stopIdleAnimation();
         this.spriteMethodsQueued = [];
+        config.transforms.clear();
         if ($sprite.anims && $sprite.anims.stop){ $sprite.anims.stop(); }
         SPRITES.stopSpriteTweens(scene, $sprite, true);
         SPRITES.stopSpriteTimers(scene, $sprite, true);
