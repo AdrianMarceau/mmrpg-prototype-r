@@ -1750,12 +1750,14 @@ class MMRPG_Object {
         //console.log(this.token + ' | checking if newSheet texture exists...');
         if (!scene.textures.exists(newSheet)){
             //console.log('%c' + this.token + ' | -> sprite texture '+newSheet+' not loaded, deffering sheet refreshing...', 'color: orange;');
+            this.spriteIsLoading = true;
             this.isWorkingOn('setImageAlt');
             this.loadSpriteTexture(() => {
                 //console.log('%c' + this.token + ' | -> sprite texture '+newSheet+' loaded! refreshing sheet now...', 'color: green;');
                 _this.createSpriteAnimations();
-                _this.refreshSprite();
+                _this.refreshSprite(true);
                 _this.isDoneWorkingOn('setImageAlt');
+                _this.spriteIsLoading = false;
                 if (callback){ callback.call(_this); }
                 });
             } else {
