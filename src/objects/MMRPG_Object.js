@@ -1976,59 +1976,59 @@ class MMRPG_Object {
         let scene = this.scene;
         let $sprite = this.sprite;
         let config = this.spriteConfig;
+        let transforms = config.transforms;
         let spritesIndex = this.SPRITES.index;
         this.stopMoving();
         this.stopIdleAnimation();
         const startBouncing = function(){
-            // Animate the doctor bouncing up and down as they walk forward
-            let data = this.data;
-            let baseStats = data.baseStats;
-            //console.log('-> speed | base:', baseStats.values.speed, 'average:', baseStats.average, 'multiplier:', baseStats.multipliers.speed, 'divider:', baseStats.dividers.speed);
-            //let spriteY = $sprite.y;
-            let speedMod = baseStats.dividers.speed;
-            $sprite.subTweens.idleBounceTween = scene.add.tween({
-                targets: $sprite,
-                y: '-='+config.scale,
+            let shiftY = config.scale * 1;
+            let speedMod = this.data.baseStats.dividers.speed;
+            let idleTrans = transforms.get('idle');
+            let idleBounceTween = scene.tweens.addCounter({
+                from: 0,
+                to: shiftY,
                 ease: 'Stepped',
                 delay: Math.ceil(speedMod * 300),
                 repeatDelay: 100 + Math.ceil(speedMod * 200),
                 duration: 100 + Math.ceil(speedMod * 200),
                 repeat: -1,
                 yoyo: true,
+                onUpdate: function(tween){
+                    idleTrans.y = -1 * tween.getValue();
+                    //console.log(_this.token + ' | -> idleBounceTween transforms y += ', idleTrans.y);
+                    _this.refreshSprite();
+                    }
                 });
+            $sprite.subTweens.idleBounceTween = idleBounceTween;
+            this.isAnimating = true;
             };
-        const startEmoting = function(){
+        const startEmoting = function() {
             let animationsIndex = spritesIndex.anims;
             let animationToken = 'idle';
             let xkind = this.xkind,
                 token = this.data.token,
                 alt = this.data.image_alt,
                 direction = this.direction,
-                key = 'sprite-'+direction;
-                ;
-            //console.log('-> spritesIndex:', spritesIndex);
-            if (typeof animationsIndex[xkind] === 'undefined'){ return; }
-            if (typeof animationsIndex[xkind][token] === 'undefined'){ return; }
-            if (typeof animationsIndex[xkind][token][alt] === 'undefined'){ return; }
-            if (typeof animationsIndex[xkind][token][alt][key] === 'undefined'){ return; }
+                key = 'sprite-' + direction;
+            if (typeof animationsIndex[xkind] === 'undefined') { return; }
+            if (typeof animationsIndex[xkind][token] === 'undefined') { return; }
+            if (typeof animationsIndex[xkind][token][alt] === 'undefined') { return; }
+            if (typeof animationsIndex[xkind][token][alt][key] === 'undefined') { return; }
             let spriteAnims = animationsIndex[xkind][token][alt][key];
-            //console.log('-> spriteAnims:', spriteAnims);
             if (!spriteAnims) { return; }
             let animKey = spriteAnims[animationToken];
-            //console.log('-> animKey for "'+animationToken+'":', animKey);
             if (!animKey) { return; }
             $sprite.play(animKey);
+            this.isAnimating = true;
             };
-        if (bounce){
+        if (bounce) {
             this.isWorkingOn('startIdleAnimation/bounce');
             startBouncing.call(_this);
-            this.isAnimating = true;
-            }
-        if (emote){
+        }
+        if (emote) {
             this.isWorkingOn('startIdleAnimation/emote');
             startEmoting.call(_this);
-            this.isAnimating = true;
-            }
+        }
     }
 
     // Stop the idle animation currently playing on this sprite if one exists
@@ -2040,15 +2040,20 @@ class MMRPG_Object {
         if (this.spriteIsLoading){ return this.spriteMethodsQueued.push(function(){ _this.stopIdleAnimation(); }); }
         let $sprite = this.sprite;
         let config = this.spriteConfig;
+        let transforms = config.transforms;
+        // Stop the running any keyframe animations
         $sprite.stop();
-        this.isAnimating = false;
+        // Stop the idle bounce tween if running and remove the transform
         if ($sprite.subTweens.idleBounceTween){
             $sprite.subTweens.idleBounceTween.stop();
             delete $sprite.subTweens.idleBounceTween;
             }
+        transforms.remove('idle');
+        // Refresh the sprite now that we're done
         this.refreshSprite();
         this.isDoneWorkingOn('startIdleAnimation/bounce');
         this.isDoneWorkingOn('startIdleAnimation/emote');
+        this.isAnimating = false;
     }
 
     // Start the slide animation for this sprite and move it laterally across the screen given it's next direction
