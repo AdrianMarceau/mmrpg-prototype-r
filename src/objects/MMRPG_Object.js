@@ -2198,46 +2198,64 @@ class MMRPG_Object {
         //console.log(this.token+' | -> newX = ', newX);
         //console.log(this.token+' | -> newY = ', newY);
 
-        // Predefine the run callback to run when everything is over
-        let runCallback = function(){
-            if (!callback){ return; }
-            return callback.call(_this, $sprite);
-            };
-
         // Predefine the move configuration for the animation
         let moveConfig = {
             easing: 'Sine.easeOut',
             };
 
-        // Collect and play the appropriate animation for this run action
-        let runKey = 'run';
-        let runAnim = this.getSpriteAnim('sprite', runKey);
-        this.resetFrame();
-        //$sprite.play(runAnim);
-
-        // Start the running bounce tween to make it look like they're properly stepping
-        if ($sprite.subTweens.runBounceTween){ $sprite.subTweens.runBounceTween.stop(); }
-        if (!newY){
-            $sprite.subTweens.runBounceTween = scene.add.tween({
-                targets: $sprite,
-                y: '-='+config.scale,
-                ease: 'Stepped',
-                delay: 100,
-                repeatDelay: 100,
-                duration: 200,
-                repeat: -1,
-                yoyo: true
-                });
-            }
+        // Kill any existing tweens for the run animation
+        const killTweens = function(){
+            if ($sprite.subTweens.runBounceTween){
+                $sprite.subTweens.runBounceTween.stop();
+                delete $sprite.subTweens.runBounceTween;
+                }
+            if ($sprite.subTimers.runMovement){
+                $sprite.subTimers.runMovement.remove();
+                delete $sprite.subTimers.runMovement;
+                }
+            };
 
         // Remove any existing run timers or tweens and then create a new one
-        // to facilitate the windup animation when sliding a character forward
+        // to facilitate the windup animation when moving the character forward
+        killTweens();
+        this.resetFrame();
         this.isMoving = true;
         this.isAnimating = true;
+
+        // Start the running bounce tween to make it look like they're properly stepping
+        let shiftY = config.scale * 1;
+        let transforms = config.transforms;
+        let bounceTrans = transforms.get('bounce');
+        //console.log(this.token+' | -> transforms.data:', transforms.data, 'bounceTrans:', bounceTrans, 'shiftY:', shiftY);
+        let runBounceTween = scene.tweens.addCounter({
+            from: 0,
+            to: 1,
+            ease: 'Linear',
+            delay: 100,
+            duration: 800,
+            repeat: -1,
+            yoyo: true,
+            onUpdate: (tween) => {
+                let frame = $sprite.frame.name;
+                bounceTrans.y = frame !== 8 ? (-1 * shiftY) : 0;
+                //console.log(this.token+' | -> onUpdate(frame:', frame, ') transforms y += ', bounceTrans.y);
+                _this.refreshSprite();
+                },
+            });
+        $sprite.subTweens.runBounceTween = runBounceTween;
+
+        // Predefine the run callback to run when everything is over
+        let onRunComplete = function(){
+            killTweens();
+            transforms.remove('bounce');
+            if (callback){ callback.call(_this, $sprite); }
+            };
+
+        // Perform the animation and movement to make it look like they're running
         this.setFrame('command');
-        if ($sprite.subTimers.runAnimation){ $sprite.subTimers.runAnimation.remove(); }
-        $sprite.subTimers.runAnimation = this.delayedCall(100, function(){
-            $sprite.play(runAnim);
+        this.isWorkingOn('runSpriteForward');
+        let runMovementTimer = this.delayedCall(100, function(){
+            _this.playAnim('run');
             _this.moveToPosition(newX, newY, runDuration, function(){
                 _this.delayedCall(100, function(){
                     $sprite.stop();
@@ -2246,11 +2264,13 @@ class MMRPG_Object {
                         _this.resetFrame();
                         _this.isMoving = false;
                         _this.isAnimating = false;
-                        runCallback.call(_this, $sprite);
+                        _this.isDoneWorkingOn('runSpriteForward');
+                        onRunComplete.call(_this, $sprite);
                         });
                     });
                 }, moveConfig);
             });
+        $sprite.subTimers.runMovement = runMovementTimer;
 
         // Return now that the run has been started
         return;
