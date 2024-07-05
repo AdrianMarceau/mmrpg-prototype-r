@@ -2098,12 +2098,6 @@ class MMRPG_Object {
         //console.log(this.token+' | -> newX = ', newX);
         //console.log(this.token+' | -> newY = ', newY);
 
-        // Predefine the slide callback to run when everything is over
-        let slideCallback = function(){
-            if (!callback){ return; }
-            return callback.call(_this, $sprite);
-            };
-
         // Predefine the move configuration for the animation
         let moveConfig = {
             easing: 'Sine.easeOut',
@@ -2115,13 +2109,32 @@ class MMRPG_Object {
                 }
             };
 
+        // Kill any existing tweens for the run animation
+        const killTweens = function(){
+            if ($sprite.subTweens.slideMovement){
+                $sprite.subTweens.slideMovement.stop();
+                delete $sprite.subTweens.slideMovement;
+                }
+            };
+
+        // Predefine the slide callback to run when everything is over
+        let onSlideComplete = function(){
+            killTweens();
+            if (!callback){ return; }
+            return callback.call(_this, $sprite);
+            };
+
         // Remove any existing slide timers or tweens and then create a new one
-        // to facilitate the windup animation when sliding a character forward
+        // to facilitate the windup animation when sliding the character forward
+        killTweens();
+        this.resetFrame();
         this.isMoving = true;
         this.isAnimating = true;
+
+        // Perform the animation and movement to make it look like they're sliding
         this.setFrame('defend');
-        if ($sprite.subTimers.slideAnimation){ $sprite.subTimers.slideAnimation.remove(); }
-        $sprite.subTimers.slideAnimation = this.delayedCall(100, function(){
+        this.isWorkingOn('slideSpriteForward');
+        let slideMovementTimer = this.delayedCall(100, function(){
             this.setFrame('slide');
             _this.moveToPosition(newX, newY, slideDuration, function(){
                 _this.delayedCall(100, function(){
@@ -2130,11 +2143,13 @@ class MMRPG_Object {
                         _this.resetFrame();
                         _this.isMoving = false;
                         _this.isAnimating = false;
-                        slideCallback.call(_this, $sprite);
+                        _this.isDoneWorkingOn('slideSpriteForward');
+                        onSlideComplete.call(_this, $sprite);
                         });
                     });
                 }, moveConfig);
             });
+        $sprite.subTimers.slideMovement = slideMovementTimer;
 
         // Return now that the slide has been started
         return;
