@@ -16,7 +16,7 @@ import SpritesManager from '../managers/SpritesManager.js';
 class MMRPG_Object {
 
     // Define the class constructor for the object class
-    constructor (scene, _kind, token, customInfo = {}, spriteConfig = {}, objectConfig = {})
+    constructor (scene, _kind, token, _customInfo = {}, _spriteConfig = {}, _objectConfig = {})
     {
         //console.log('MMRPG_Object.constructor() called w/ _kind:', _kind, 'token:', token, 'customInfo:', customInfo, 'spriteConfig:', spriteConfig, 'objectConfig:', objectConfig);
 
@@ -46,9 +46,13 @@ class MMRPG_Object {
         let indexInfo = objectIndex[token] || objectIndex[kind];
         //console.log('-> objectIndex:', objectIndex, 'indexInfo:', indexInfo);
         this.indexInfo = indexInfo || {};
-        this.customInfo = customInfo || {};
-        this.objectConfig = objectConfig || {};
-        this.createData(indexInfo, customInfo, objectConfig);
+        this.customInfo = _customInfo && typeof _customInfo === 'object' ? Object.assign({}, _customInfo) : {};
+        this.spriteConfig = _spriteConfig && typeof _spriteConfig === 'object' ? Object.assign({}, _spriteConfig) : {};
+        this.objectConfig = _objectConfig && typeof _objectConfig === 'object' ? Object.assign({}, _objectConfig) : {};
+        this.createData();
+        let customInfo = this.customInfo;
+        let spriteConfig = this.spriteConfig;
+        let objectConfig = this.objectConfig;
 
         // Create some flags and a queue to help with lazy-loading
         this.spriteIsLoading = true;
@@ -58,72 +62,83 @@ class MMRPG_Object {
         this.spriteMethodsInProgress.add = function(method){ this.push(method); };
         this.spriteMethodsInProgress.remove = function(method){ this.splice(this.indexOf(method), 1); };
 
-        // If spriteConfig is provided, create a new sprite with it
-        this.sprite = null;
-        this.spriteContainer = null;
-        this.spriteLayers = {};
-        this.spriteConfig = {};
-        this.spriteHitbox = null;
-        this.spriteFrames = ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09'];
-        this.spriteFrameAliases = [];
-        if (spriteConfig && Object.keys(spriteConfig).length > 0) {
-
-            // If the sprite config was not an object, just true, make it an object
-            if (typeof spriteConfig !== 'object'){ spriteConfig = {}; }
-            this.spriteConfig = spriteConfig;
-
-            // Predefine spriteConfig properties to avoid errors
+        // Before we modify anything, check if a sprite was expected given existing of position variables
+        let createSprite = false;
+        if (typeof spriteConfig.x !== 'undefined'
+            && typeof spriteConfig.y !== 'undefined'){
             spriteConfig.x = spriteConfig.x || 0;
             spriteConfig.y = spriteConfig.y || 0;
             spriteConfig.z = spriteConfig.z || 0;
-            spriteConfig.width = spriteConfig.width || this.data.image_width || this.data.image_size || 0;
-            spriteConfig.height = spriteConfig.height || this.data.image_height || this.data.image_size || 0;
-            spriteConfig.direction = spriteConfig.direction || 'right';
-            spriteConfig.frame = spriteConfig.frame || 0;
-            spriteConfig.sheet = spriteConfig.sheet || 'sprites.default';
-            spriteConfig.origin = spriteConfig.origin || [0, 0];
-            spriteConfig.hitbox = spriteConfig.hitbox || [0, 0];
-            spriteConfig.alpha = spriteConfig.alpha || 1;
-            spriteConfig.depth = spriteConfig.depth || 1;
-            spriteConfig.scale = spriteConfig.scale || 1;
-            spriteConfig.offsetX = spriteConfig.offsetX || 0;
-            spriteConfig.offsetY = spriteConfig.offsetY || 0;
-            spriteConfig.interactive = spriteConfig.interactive || false;
-            spriteConfig.layers = spriteConfig.layers || {};
-            spriteConfig.debug = spriteConfig.debug || false;
+            createSprite = true;
+            }
+        else if (typeof spriteConfig.offscreen !== 'undefined'
+            && spriteConfig.offscreen === true){
+            spriteConfig.x = -9999;
+            spriteConfig.y = -9999;
+            spriteConfig.z = -9999;
+            createSprite = true;
+            }
 
-            // Predefine a transforms object to hold temporary effect-related transforms to properties
-            spriteConfig.transforms = {};
-            spriteConfig.transforms.data = {};
-            spriteConfig.transforms.keys = function(){ return Object.keys(this.data); };
-            spriteConfig.transforms.has = function(key){ return typeof this.data[key] !== 'undefined' ? true : false; };
-            spriteConfig.transforms.add = function(key, data){ this.data[key] = data; };
-            spriteConfig.transforms.get = function(key, create = true){ if (this.has(key)){ return this.data[key]; } else if (create){ this.add(key, {}); return this.data[key]; } else { return null; } };
-            spriteConfig.transforms.remove = function(key){ delete this.data[key]; };
-            spriteConfig.transforms.clear = function(){ this.data = {}; };
+        // Predefine parent sprite variables to avoid errors
+        this.sprite = null;
+        this.spriteLayers = {};
+        this.spriteHitbox = null;
 
-            // Also predefine some of the more complicated ones for later
-            spriteConfig.useContainerForDepth = spriteConfig.useContainerForDepth || false;
+        // Predefine spriteConfig properties to avoid errors
+        spriteConfig.width = spriteConfig.width || this.data.image_width || this.data.image_size || 0;
+        spriteConfig.height = spriteConfig.height || this.data.image_height || this.data.image_size || 0;
+        spriteConfig.direction = spriteConfig.direction || 'right';
+        spriteConfig.frame = spriteConfig.frame || 0;
+        spriteConfig.sheet = spriteConfig.sheet || 'sprites.default';
+        spriteConfig.origin = spriteConfig.origin || [0, 0];
+        spriteConfig.hitbox = spriteConfig.hitbox || [0, 0];
+        spriteConfig.alpha = spriteConfig.alpha || 1;
+        spriteConfig.depth = spriteConfig.depth || 1;
+        spriteConfig.scale = spriteConfig.scale || 1;
+        spriteConfig.offsetX = spriteConfig.offsetX || 0;
+        spriteConfig.offsetY = spriteConfig.offsetY || 0;
+        spriteConfig.interactive = spriteConfig.interactive || false;
+        spriteConfig.layers = spriteConfig.layers || {};
+        spriteConfig.debug = spriteConfig.debug || false;
 
-            // Compensate for missing size defaults using the object config
-            if (objectConfig.baseSize){
-                let [ baseWidth, baseHeight ] = objectConfig.baseSize;
-                if (!spriteConfig.width){ spriteConfig.width = baseWidth; }
-                if (!spriteConfig.height){ spriteConfig.height = baseHeight; }
-                if (spriteConfig.width > baseWidth){ spriteConfig.offsetX = (spriteConfig.width - baseWidth) / 2; }
-                if (spriteConfig.height > baseHeight){ spriteConfig.offsetY = (spriteConfig.height - baseHeight); }
-                if (!spriteConfig.hitbox[0]){ spriteConfig.hitbox[0] = baseWidth; }
-                if (!spriteConfig.hitbox[1]){ spriteConfig.hitbox[1] = baseHeight; }
-                spriteConfig.offsetX *= spriteConfig.scale;
-                spriteConfig.offsetY *= spriteConfig.scale;
-                }
+        // Compensate for missing size defaults using the object config
+        if (objectConfig.baseSize){
+            let [ baseWidth, baseHeight ] = objectConfig.baseSize;
+            if (!spriteConfig.width){ spriteConfig.width = baseWidth; }
+            if (!spriteConfig.height){ spriteConfig.height = baseHeight; }
+            if (spriteConfig.width > baseWidth){ spriteConfig.offsetX = (spriteConfig.width - baseWidth) / 2; }
+            if (spriteConfig.height > baseHeight){ spriteConfig.offsetY = (spriteConfig.height - baseHeight); }
+            if (!spriteConfig.hitbox[0]){ spriteConfig.hitbox[0] = baseWidth; }
+            if (!spriteConfig.hitbox[1]){ spriteConfig.hitbox[1] = baseHeight; }
+            spriteConfig.offsetX *= spriteConfig.scale;
+            spriteConfig.offsetY *= spriteConfig.scale;
+            }
 
-            // Overwrite default frame aliases if they've been provided in the sprite or object config
-            if (spriteConfig.frameAliases){
-                this.spriteFrameAliases = spriteConfig.frameAliases;
-                } else if (objectConfig.frameAliases){
-                this.spriteFrameAliases = objectConfig.frameAliases;
-                }
+        // Overwrite default frame aliases if they've been provided in the sprite or object config
+        this.spriteFrames = ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09'];
+        this.spriteFrameAliases = [];
+        if (spriteConfig.frameAliases){
+            this.spriteFrameAliases = spriteConfig.frameAliases;
+            } else if (objectConfig.frameAliases){
+            this.spriteFrameAliases = objectConfig.frameAliases;
+            }
+
+        // Predefine a transforms object to hold temporary effect-related transforms to properties
+        spriteConfig.transforms = {};
+        spriteConfig.transforms.data = {};
+        spriteConfig.transforms.keys = function(){ return Object.keys(this.data); };
+        spriteConfig.transforms.has = function(key){ return typeof this.data[key] !== 'undefined' ? true : false; };
+        spriteConfig.transforms.add = function(key, data){ this.data[key] = data; };
+        spriteConfig.transforms.get = function(key, create = true){ if (this.has(key)){ return this.data[key]; } else if (create){ this.add(key, {}); return this.data[key]; } else { return null; } };
+        spriteConfig.transforms.remove = function(key){ delete this.data[key]; };
+        spriteConfig.transforms.clear = function(){ this.data = {}; };
+
+        // Also predefine some of the more complicated ones for later
+        this.spriteContainer = null;
+        spriteConfig.useContainerForDepth = spriteConfig.useContainerForDepth || false;
+
+        // If spriteConfig is provided, create a new sprite with it
+        if (createSprite){
 
             // Automatically create the sprite with the spriteConfig provided
             this.createSprite();
