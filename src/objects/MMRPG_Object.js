@@ -2563,8 +2563,8 @@ class MMRPG_Object {
             ease: shakeEase,
             repeat: shakeRepeat,
             yoyo: shakeYoyo,
-            onUpdate: () => {
-                let progress = Math.round(shakeTween.getValue());
+            onUpdate: (tween) => {
+                let progress = Math.round(tween.getValue());
                 shakeTrans.x = progress * xMod;
                 shakeTrans.y = progress * yMod;
                 _this.refreshSprite();
@@ -2583,6 +2583,60 @@ class MMRPG_Object {
                 }
             });
         $sprite.subTweens.shakeTween = shakeTween;
+    }
+
+    // Kickback this sprite visually by moving it back slightly and then forward again
+    kickbackSprite (strength = 1, repeat = 1, callback)
+    {
+        //console.log('MMRPG_Object.kickbackSprite() called for ', this.kind, this.token, '\nw/ strength:', strength, 'repeat:', repeat, 'callback:', typeof callback);
+        let _this = this;
+        if (!this.sprite) { return; }
+        if (this.spriteIsLoading){ return this.spriteMethodsQueued.push(function(){ _this.kickbackSprite(strength, callback); }); }
+        let scene = this.scene;
+        let $sprite = this.sprite;
+        let config = this.spriteConfig;
+        let kickback = strength || 1;
+        let kickbackX = kickback * 2;
+        let kickbackDuration = 100;
+        let kickbackEase = 'Sine.easeInOut';
+        let kickbackRepeat = repeat;
+        let kickbackYoyo = true;
+        const killTweens = function(){
+            if ($sprite.subTweens.kickbackTween){
+                $sprite.subTweens.kickbackTween.stop();
+                delete $sprite.subTweens.kickbackTween;
+                }
+            };
+        killTweens();
+        this.isAnimating = true;
+        this.isWorkingOn('kickbackSprite');
+        let xMod = (this.direction === 'right' ? -1 : 1) * kickbackX;
+        let transforms = config.transforms;
+        let kickTrans = transforms.get('kickback');
+        //console.log('-> xMod:', xMod, 'kickTrans:', kickTrans, 'transforms.data:', transforms.data);
+        let kickbackTween = scene.tweens.addCounter({
+            from: 0,
+            to: kickbackX,
+            duration: kickbackDuration,
+            ease: kickbackEase,
+            repeat: kickbackRepeat,
+            yoyo: kickbackYoyo,
+            onUpdate: (tween) => {
+                let progress = Math.round(tween.getValue());
+                kickTrans.x = progress * xMod;
+                //console.log('-> onUpdate for kickbackTween progress:', progress, 'kickTrans.x:', kickTrans.x);
+                _this.refreshSprite();
+                },
+            onComplete: () => {
+                killTweens();
+                transforms.remove('kickback');
+                _this.refreshSprite();
+                _this.isAnimating = false;
+                _this.isDoneWorkingOn('kickbackSprite');
+                if (callback){ callback.call(_this); }
+                }
+            });
+        $sprite.subTweens.kickbackTween = kickbackTween;
     }
 
     // Stop a sprite's move animation whichever way it might have been going abruptly
