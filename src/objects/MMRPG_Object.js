@@ -2502,8 +2502,8 @@ class MMRPG_Object {
         let scene = this.scene;
         let $sprite = this.sprite;
         let config = this.spriteConfig;
-        let flashLoops = repeat;
-        let flashDuration = duration;
+        let flashLoops = repeat || 1;
+        let flashDuration = duration || 100;
         let flashDuration2 = Math.floor(duration / 2); // because the yoyo effect
         const killTweens = function() {
             if ($sprite.subTweens.flashTween) {
@@ -2555,7 +2555,7 @@ class MMRPG_Object {
         let shakeOffset = shakeVal * config.scale; // Combined shake offset for both X and Y
         let shakeDuration = duration || 100;
         let shakeEase = 'Sine.easeInOut';
-        let shakeRepeat = repeat;
+        let shakeRepeat = repeat || 1;
         let shakeYoyo = true;
         const killTweens = function(){
             if ($sprite.subTweens.shakeTween){
