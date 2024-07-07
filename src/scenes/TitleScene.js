@@ -67,8 +67,8 @@ export default class TitleScene extends Phaser.Scene
         // Define some idle sprite variables first and preload so we can use them later
         this.idleSprites = {};
         this.idleSpriteTokens = ['dr-light', 'dr-wily', 'dr-cossack'];
-        this.currentIdleSprite = this.idleSpriteTokens[0];
-        this.currentIdleDelay = 0;
+        this.currentIdleSprite = null;
+        this.lastIdleSprite = null;
 
         // Loop through the idle sprite tokens and preload their sheets
         for (let i = 0; i < this.idleSpriteTokens.length; i++){
@@ -93,6 +93,7 @@ export default class TitleScene extends Phaser.Scene
 
         // Pull in required object references
         let _this = this;
+        let scene = this;
         let MMRPG = this.MMRPG;
         let SPRITES = this.SPRITES;
         let BUTTONS = this.BUTTONS;
@@ -100,21 +101,23 @@ export default class TitleScene extends Phaser.Scene
         // Create the base canvas for which the rest of the game will be drawn
         this.canvasImage = this.add.image(0, 0, 'canvas');
         this.canvasImage.setOrigin(0, 0);
+        this.canvasImage.setDepth(100);
 
         // Add a splash screen with the logo and the game's title
         this.splashImage = this.add.image(0, 0, 'splash');
         this.splashImage.setOrigin(0, 0);
+        this.splashImage.setDepth(200);
 
         // We should also show the current version just to be safe
         var x = MMRPG.canvas.centerX - 50, y = MMRPG.canvas.height - 30;
         var version = 'v ' + MMRPG.version;
         let $version = Strings.addPlainText(this, x, y, version, {color: '#696969', fontSize: '12px'});
         $version.x = MMRPG.canvas.centerX - ($version.width / 2);
-        $version.setDepth(9999);
+        $version.setDepth(7000);
 
         // Generate some idle sprites to keep the user entertained
         //console.log('SPRITES.index = ', SPRITES.index);
-        var x = -40, y = MMRPG.canvas.centerY + 125;
+        var x = -40, y = MMRPG.canvas.centerY + 125, depth = 1000;
         for (let i = 0; i < this.idleSpriteTokens.length; i++){
             let idleToken = this.idleSpriteTokens[i];
             let spriteToken = idleToken;
@@ -126,31 +129,23 @@ export default class TitleScene extends Phaser.Scene
                 }
             //console.log('Creating idle sprite: ', spriteToken, ' (', spriteAlt, ')');
             let spriteDir = 'right';
-            let $idlePlayer = new MMRPG_Player(this, spriteToken, {image_alt: spriteAlt}, {x: x, y: y, direction: spriteDir});
-            let spriteRunAnim = $idlePlayer.getSpriteAnim('sprite', 'run');
-            let $idleSprite = $idlePlayer.sprite;
-            //console.log('-> $idlePlayer = ', $idlePlayer, ', $idleSprite = ', $idleSprite);
-            //console.log('-> $idlePlayer token:', $idlePlayer.token, 'speedMod:', $idlePlayer.data.speedMod, '$idlePlayer:', $idlePlayer);
-            $idleSprite.subTweens.runBounceTween = this.add.tween({
-                targets: $idleSprite,
-                y: '-=2',
-                ease: 'Sine.easeInOut',
-                duration: 200,
-                repeatDelay: 100,
-                repeat: -1,
-                yoyo: true
+            let $idlePlayer = new MMRPG_Player(this, spriteToken, {
+                image_alt: spriteAlt
+                }, {
+                x: x, y: y,
+                direction: spriteDir,
+                depth: depth
                 });
-            $idleSprite.play(spriteRunAnim);
             this.idleSprites[idleToken] = $idlePlayer;
             }
 
         //console.log('this.idleSprites = ', this.idleSprites);
 
         // Show the start button now that we're ready
-        this.startButton = this.addStartButton(this);
+        this.startButton = this.addStartButton(this, 9000);
 
         // We can also show the debug button now too
-        this.debugButton = BUTTONS.addDebugButton(this);
+        this.debugButton = BUTTONS.addDebugButton(this, 8000);
 
         // Now that everything else is done, print a welcome message in the console log
         // for anyone who's interested in the game's development or debugging
@@ -171,41 +166,50 @@ export default class TitleScene extends Phaser.Scene
 
     update (time, delta)
     {
-
         //console.log('TitleScene.update() called');
+        let _this = this;
 
         // Animate the idle sprites to give the user something to look at
         //console.log('this.currentIdleSprite = ', this.currentIdleSprite);
+        //console.log('this.lastIdleSprite = ', this.lastIdleSprite);
         //console.log('this.idleSprites = ', this.idleSprites);
-        if (this.currentIdleDelay > 0){
-            this.currentIdleDelay--;
-            } else if (this.currentIdleSprite) {
-            let idleToken = this.currentIdleSprite;
-            let spriteToken = idleToken;
-            let spriteAlt = 'base';
-            if (idleToken.indexOf('_')){
-                let frags = idleToken.split('_');
-                spriteToken = frags[0];
-                spriteAlt = frags[1];
+        if (!this.currentIdleSprite){
+            //console.log('No current idle sprite, deciding next one');
+            let idleSpriteTokens = Object.keys(this.idleSprites);
+            //console.log('idleSpriteTokens: ', this.lastIdleSprite);
+            if (this.lastIdleSprite){
+                //console.log('Last idle sprite was: ', this.lastIdleSprite);
+                let lastIndex = idleSpriteTokens.indexOf(this.lastIdleSprite);
+                let nextIndex = (lastIndex + 1) % idleSpriteTokens.length;
+                //console.log('lastIndex:', lastIndex, 'nextIndex:', nextIndex);
+                this.currentIdleSprite = idleSpriteTokens[nextIndex];
+                //console.log('Setting current idle sprite to next in sequence: ', this.currentIdleSprite);
+                } else {
+                //console.log('No last idle sprite, setting first one');
+                let idleSpriteTokens = Object.keys(this.idleSprites);
+                this.currentIdleSprite = idleSpriteTokens[0];
+                //console.log('Setting current idle sprite to first available: ', this.currentIdleSprite);
                 }
-            let $idlePlayer = this.idleSprites[idleToken];
-            let $idleSprite = $idlePlayer.sprite;
-            let spriteSpeed = Math.ceil(100 * $idlePlayer.data.speedMod) * (delta / 1000);
-            //console.log('-> idleToken:', idleToken, '$idlePlayer:', $idlePlayer, '$idleSprite:', $idleSprite, 'spriteSpeed:', spriteSpeed);
-            $idleSprite.x += spriteSpeed;
-            if ($idleSprite.x > MMRPG.canvas.width){
-                $idleSprite.x = -80;
-                this.currentIdleDelay += 80;
-                let idleOptions = this.idleSpriteTokens;
-                let nextIdleToken = idleOptions[(idleOptions.indexOf(idleToken) + 1) % idleOptions.length];
-                this.currentIdleSprite = nextIdleToken;
-                }
-
+            let $idlePlayer = this.idleSprites[this.currentIdleSprite];
+            $idlePlayer.whenReady(function(){
+                //console.log('Idle sprite ready: ', $idlePlayer.token, $idlePlayer);
+                $idlePlayer.setPositionX(-40);
+                let distance = (MMRPG.canvas.width + 40) - $idlePlayer.x;
+                $idlePlayer.runSpriteForward(function(){
+                    //console.log('Idle sprite running forward complete');
+                    _this.currentIdleSprite = null;
+                    }, distance, null, null, {
+                    easing: 'Linear'
+                    });
+                });
+            this.lastIdleSprite = this.currentIdleSprite;
+            //console.log('Setting last idle sprite to: ', this.lastIdleSprite);
             }
 
     }
 
-    addStartButton(ctx) {
+    addStartButton (ctx, depth)
+    {
 
         let MMRPG = this.MMRPG;
         let SOUNDS = this.SOUNDS;
@@ -213,6 +217,8 @@ export default class TitleScene extends Phaser.Scene
         // Add a start button and get ready to fade in slowly
         var x = MMRPG.canvas.centerX, y = MMRPG.canvas.centerY + 60;
         let $startButton = this.add.image(x, y, 'start');
+        $startButton.setOrigin(0.5, 0.5);
+        $startButton.setDepth(depth);
 
         // Add a tween to the button that pulses alpha but make it start paused
         let pulseTween = ctx.add.tween({
