@@ -958,6 +958,10 @@ export default class DebugScene extends Phaser.Scene
         $robotSprite.debugKey = scene.debugSprites.length - 1;
         scene.debugAddedSprites++;
 
+        // Set the disabled flag to false initially and make it easy to check
+        $robot.isDisabled = false;
+        const robotIsNotDisabled = function(){ return !$robot.isDisabled; };
+
         // Animate that sprite sliding across the screen then remove when done
         let baseStats = robotIndexInfo.baseStats;
         let speedMod = baseStats.multipliers.speed;
@@ -1032,9 +1036,9 @@ export default class DebugScene extends Phaser.Scene
                 $robot.slideSpriteForward(function(){
                     $robot.delayedCall(1000, function(){
                         slideSpriteSomewhere($robot, onComplete);
-                        });
+                        }, robotIsNotDisabled);
                     });
-                });
+                }, robotIsNotDisabled);
             };
 
         // Define a function for sliding a given sprite to the right
@@ -1119,9 +1123,9 @@ export default class DebugScene extends Phaser.Scene
                     $robot.whenDone(function(){
                         $robot.delayedCall(1000, function(){
                             slideSpriteSomewhere($robot, onComplete);
-                            });
+                            }, robotIsNotDisabled);
                         });
-                    });
+                    }, robotIsNotDisabled);
 
                 // Wait a moment for the robot to finish its kickback, then animate the shot going offscreen at predetermined speed
                 let leftBounds = -40, rightBounds = MMRPG.canvas.width + 40;
@@ -1156,6 +1160,7 @@ export default class DebugScene extends Phaser.Scene
             // First we stop any of this sprite's tweens and timers, then play the explosion animation
             $robot.isDisabled = true;
             $robot.stopAll(true);
+            $robot.setFrame('damage');
 
             // Collect data for the explosion sprite to generate the sheets and animation
             let effectElement = (robotIndexInfo.core !== '' && robotIndexInfo.core !== 'copy' ? robotIndexInfo.core : '');
@@ -1187,14 +1192,16 @@ export default class DebugScene extends Phaser.Scene
                     }
 
                 // Set the robot frame to disabled and darken the sprite, then play the explosion animation
-                $robot.setFrame('defeat');
-                $robot.shakeSprite(3, 3, null, 100);
-                $robot.flashSprite(3, null, 100);
-                $robot.whenDone(function(){
-                    //console.log($robot.token + ' | -> time to destroy this robot object');
-                    $robot.setAlpha(0.5);
-                    $robot.destroy();
-                    });
+                $robot.flashSprite(3, null, 60);
+                $robot.shakeSprite(1, 3, function(){
+                    $robot.setFrame('defeat');
+                    $robot.flashSprite(3, null, 100);
+                    $robot.whenDone(function(){
+                        //console.log($robot.token + ' | -> time to destroy this robot object');
+                        $robot.setAlpha(0.5);
+                        $robot.destroy();
+                        });
+                    }, 60);
 
                 // Calculate where we're going to draw the explosion sprite itself given context
                 let explodeOffsets = { x: (($robot.direction === 'left' ? 1 : -1) * 10), y: 15 };
@@ -1375,7 +1382,7 @@ export default class DebugScene extends Phaser.Scene
                         console.log('%c' + 'Robot ' + $robot.token + ' is done all tests!', 'color: green;');
                         showRobotDefeatQuote($robot);
                         explodeSpriteAndDestroy($robot);
-                        });
+                        }, robotIsNotDisabled);
                     });
                 });
             });
