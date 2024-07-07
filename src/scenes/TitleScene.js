@@ -36,7 +36,7 @@ export default class TitleScene extends Phaser.Scene
         this.BUTTONS = BUTTONS;
 
         // Initialize this scene with a first-load callback function
-        MMRPG.init('TitleScene', 'Title', function(){
+        MMRPG.onload('TitleScene', 'Title', function(){
 
             /* ... */
 
@@ -47,20 +47,17 @@ export default class TitleScene extends Phaser.Scene
     init ()
     {
         //console.log('TitleScene.init() called');
-
-        // Initialize any objects that need it
-        this.SPRITES.init(this);
-        this.SOUNDS.init(this);
-        this.BUTTONS.init(this);
-
+        let MMRPG = this.MMRPG;
+        MMRPG.init(this);
     }
 
     preload ()
     {
         //console.log('TitleScene.preload() called');
+        let MMRPG = this.MMRPG;
+        MMRPG.preload(this);
 
         // Pull in required object references
-        let MMRPG = this.MMRPG;
         let SPRITES = this.SPRITES;
         let BUTTONS = this.BUTTONS;
 
@@ -90,11 +87,12 @@ export default class TitleScene extends Phaser.Scene
     create ()
     {
         //console.log('TitleScene.create() called');
+        let MMRPG = this.MMRPG;
+        MMRPG.create(this);
 
         // Pull in required object references
         let _this = this;
         let scene = this;
-        let MMRPG = this.MMRPG;
         let SPRITES = this.SPRITES;
         let BUTTONS = this.BUTTONS;
 
