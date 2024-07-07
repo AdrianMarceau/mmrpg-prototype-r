@@ -2458,6 +2458,8 @@ class MMRPG_Object {
         let scene = this.scene;
         let $sprite = this.sprite;
         let config = this.spriteConfig;
+        let onComplete = callback ? (callback.onComplete || callback) : null;
+        let onUpdate = callback ? (callback.onUpdate || null) : null;
         let kind = this.kind;
         let xkind = this.xkind;
         let token = this.token;
@@ -2499,11 +2501,12 @@ class MMRPG_Object {
             ease: 'Sine.easeOut',
             delay: 100,
             duration: 1000,
-            onUpdate: function () {
+            onUpdate: function (tween) {
                 //console.log('damageTween:', damageTween.getValue());
                 let alpha = damageTween.getValue() / 100;
                 $damage.setAlpha(alpha);
                 $damage.setPosition(null, '-=2');
+                if (onUpdate){ onUpdate.call(_this, tween); }
                 },
             onComplete: function () {
                 //console.log('damageTween complete for the damage text');
@@ -2518,7 +2521,7 @@ class MMRPG_Object {
             if (actionQueue > 0){ return; }
             //console.log('-> showDamageCallback w/ actionQueue:', actionQueue);
             _this.isDoneWorkingOn('showDamage');
-            if (callback){ callback.call(_this); }
+            if (onComplete){ onComplete.call(_this); }
             };
 
         // We know which animations we'll be running so we can preset the queue value
@@ -2553,6 +2556,8 @@ class MMRPG_Object {
         let scene = this.scene;
         let $sprite = this.sprite;
         let config = this.spriteConfig;
+        let onComplete = callback ? (callback.onComplete || callback) : null;
+        let onUpdate = callback ? (callback.onUpdate || null) : null;
         let flashLoops = repeat || 1;
         let flashDuration = duration || 100;
         let flashDuration2 = Math.floor(duration / 2); // because the yoyo effect
@@ -2579,6 +2584,7 @@ class MMRPG_Object {
                 let progress = tween.getValue() / 100;
                 $sprite.alpha = 1.0 - 0.5 * progress;
                 $sprite.fx.brightness(1.0 + 5.0 * progress);
+                if (onUpdate) { onUpdate.call(_this, tween); }
                 },
             onComplete: () => {
                 //console.log('-> onComplete for flashTween');
@@ -2586,7 +2592,7 @@ class MMRPG_Object {
                 $sprite.fx.brightness(1.0);
                 this.isAnimating = false;
                 this.isDoneWorkingOn('flashSprite');
-                if (callback) { callback.call(_this); }
+                if (onComplete) { onComplete.call(_this); }
                 }
             });
         $sprite.subTweens.flashTween = flashTween;
@@ -2601,6 +2607,8 @@ class MMRPG_Object {
         if (this.spriteIsLoading){ return this.spriteMethodsQueued.push(function(){ _this.shakeSprite(strength, repeat, duration, callback); }); }
         let $sprite = this.sprite;
         let config = this.spriteConfig;
+        let onComplete = callback ? (callback.onComplete || callback) : null;
+        let onUpdate = callback ? (callback.onUpdate || null) : null;
         let shakeVal = (strength || 1) * 2;
         let shakeOffset = shakeVal * config.scale; // Combined shake offset for both X and Y
         let shakeDuration = duration || 100;
@@ -2633,6 +2641,7 @@ class MMRPG_Object {
                 shakeTrans.x = progress * xMod;
                 shakeTrans.y = progress * yMod;
                 _this.refreshSprite();
+                if (onUpdate){ onUpdate.call(_this, tween); }
                 },
             onYoyo: () => {
                 xMod *= -1;
@@ -2644,7 +2653,7 @@ class MMRPG_Object {
                 _this.refreshSprite();
                 _this.isAnimating = false;
                 _this.isDoneWorkingOn('shakeSprite');
-                if (callback){ callback.call(_this); }
+                if (onComplete){ onComplete.call(_this); }
                 }
             });
         $sprite.subTweens.shakeTween = shakeTween;
@@ -2660,6 +2669,8 @@ class MMRPG_Object {
         let scene = this.scene;
         let $sprite = this.sprite;
         let config = this.spriteConfig;
+        let onComplete = callback ? (callback.onComplete || callback) : null;
+        let onUpdate = callback ? (callback.onUpdate || null) : null;
         let kickback = strength || 1;
         let kickbackX = kickback * 2;
         let kickbackDuration = duration || 100;
@@ -2691,6 +2702,7 @@ class MMRPG_Object {
                 kickTrans.x = progress * xMod;
                 //console.log('-> onUpdate for kickbackTween progress:', progress, 'kickTrans.x:', kickTrans.x);
                 _this.refreshSprite();
+                if (onUpdate){ onUpdate.call(_this, tween); }
                 },
             onComplete: () => {
                 killTweens();
@@ -2698,7 +2710,7 @@ class MMRPG_Object {
                 _this.refreshSprite();
                 _this.isAnimating = false;
                 _this.isDoneWorkingOn('kickbackSprite');
-                if (callback){ callback.call(_this); }
+                if (onComplete){ onComplete.call(_this); }
                 }
             });
         $sprite.subTweens.kickbackTween = kickbackTween;
@@ -2713,6 +2725,8 @@ class MMRPG_Object {
         if (this.spriteIsLoading){ return this.spriteMethodsQueued.push(function(){ _this.fadeSprite(alpha, duration, callback); }); }
         let scene = this.scene;
         let $sprite = this.sprite;
+        let onComplete = callback ? (callback.onComplete || callback) : null;
+        let onUpdate = callback ? (callback.onUpdate || null) : null;
         let fadeDuration = duration || 100;
         fromAlpha = Phaser.Math.Clamp(fromAlpha, 0, 1);
         toAlpha = Phaser.Math.Clamp(toAlpha, 0, 1);
@@ -2734,13 +2748,14 @@ class MMRPG_Object {
                 let progress = tween.getValue() / 100;
                 let alpha = Phaser.Math.Linear(fromAlpha, toAlpha, progress);
                 _this.setAlpha(alpha);
+                if (onUpdate){ onUpdate.call(_this, tween); }
                 },
             onComplete: () => {
                 killTweens();
                 _this.setAlpha(toAlpha);
                 _this.isAnimating = false;
                 _this.isDoneWorkingOn('fadeSprite');
-                if (callback){ callback.call(_this); }
+                if (onComplete){ onComplete.call(_this); }
                 }
             });
         $sprite.subTweens.fadeTween = fadeTween;
