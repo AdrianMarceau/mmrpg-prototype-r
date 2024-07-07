@@ -924,30 +924,15 @@ export default class DebugScene extends Phaser.Scene
         //console.log('robotSpriteToken:', robotSpriteToken, 'robotSpriteAlt:', robotSpriteAlt, 'robotIndexInfo:', robotIndexInfo, 'robotAltTokens:', robotAltTokens);
 
         // Create a temp robot object to ensure everything gets preloaded
-        let $robot = new MMRPG_Robot(scene, robotSpriteToken, {image_alt: robotSpriteAlt}, MMRPG.canvas.offscreen);
+        let $robot = new MMRPG_Robot(scene, robotSpriteToken, { image_alt: robotSpriteAlt }, { offscreen: true });
         await $robot.isReady();
-        //console.log('Robot ' + $robot.token + ' is ready for action!', $robot);
-
-        // Prepare the Ability
-
-        // Define the ability-specific details for potential animation sequence
-        let abilityRand = Math.floor(Math.random() * 100);
-        let abilitySuffix = abilityRand % 3 === 0 ? 'buster' : 'shot';
-        let abilityElement = robotIndexInfo.core !== '' && robotIndexInfo.core !== 'copy' ? robotIndexInfo.core : '';
-        let abilitySpriteToken = abilityElement ? (abilityElement + '-' + abilitySuffix) : ('buster-shot');
-        let abilitySpriteSheet = 1;
-        let abilityIndexInfo = abilitiesIndex[abilitySpriteToken];
-        //console.log(abilitySpriteToken, 'abilityRand:', abilityRand, 'abilitySuffix:', abilitySuffix, 'abilityElement:', abilityElement, 'abilityIndexInfo:', abilityIndexInfo);
-
-        // Create a temp ability object to ensure everything gets preloaded
-        let $ability = new MMRPG_Ability(scene, abilitySpriteToken, {image_sheet: abilitySpriteSheet}, MMRPG.canvas.offscreen);
-        await $ability.isReady();
-        //console.log('Ability ' + $ability.token + ' is ready for action!', $ability);
+        //console.log('%c' + 'Robot ' + $robot.token + ' is ready for action!', 'color: green;');
+        //console.log('-> $robot:', $robot);
 
         // Define the base coordinates for the sprite to be added
         var offset = ((numSprites % 10) * 5);
         let spriteX = spriteSide === 'left' ? (0 - offset - 40) : (MMRPG.canvas.width + offset + 40);
-        let spriteY = this.battleBanner.y + 90 + ((numSprites % 10) * 10);
+        let spriteY = this.battleBanner.y + 100 + ((numSprites % 10) * 10);
         var spriteDepth = scene.battleBanner.depths.action;
 
         // Add this robot to the battle banner and update graphics
@@ -955,7 +940,7 @@ export default class DebugScene extends Phaser.Scene
         $robot.useContainerForDepth(true);
         $robot.refreshSprite();
 
-        // Set the origin, scale, and depth for the sprite then add to parent container
+        // Update the origin, scale, depth and other basic props for the sprite to real values
         $robot.setPosition(spriteX, spriteY, spriteY);
         $robot.setDepth(spriteDepth);
         $robot.setOrigin(0.5, 1);
@@ -965,6 +950,7 @@ export default class DebugScene extends Phaser.Scene
 
         // Add effects and setup the frame for the sliding sprite
         $robot.setFrame('base');
+        $robot.setDirection(spriteDirection);
 
         // Fallback to later code for now (remove later)
         let $robotSprite = $robot.sprite;
@@ -976,380 +962,285 @@ export default class DebugScene extends Phaser.Scene
         let baseStats = robotIndexInfo.baseStats;
         let speedMod = baseStats.multipliers.speed;
         let speedMod2 = baseStats.dividers.speed;
-        let slideDistance = (MMRPG.canvas.width / 3) * speedMod;
         let slideDestination = spriteSide === 'left' ? (MMRPG.canvas.width + 40) : (0 - 40);
-        let slideDuration = 2000 * speedMod2;
         //if (numSprites >= 10){ slideDuration /= 2; }
         //console.log('numSprites = ', numSprites);
         //console.log('slideDuration = ', slideDuration);
-
-        // Define a function for sliding a given sprite forward, then calling another function to slide it somewhere else
-        const slideSpriteForward = function($sprite, distance, destination, duration, onComplete){
-            //console.log('Starting forward slide movement for sprite!', robotSpriteToken, 'x:', $sprite.x);
-            if (!$sprite || $sprite.toBeDestroyed){ return; }
-            //console.log('$sprite', typeof $sprite, $sprite, ($sprite ? true : false));
-            $sprite.direction = 'right';
-            let others = Object.keys(scene.debugSprites).length;
-            let newX = $sprite.x + distance;
-            let overflow = 0;
-            let delay = 1000;
-            if (others >= 10){
-                overflow = others - 10;
-                delay -= overflow * 100;
-                //duration -= overflow * (slideDuration / 100);
-                if (delay < 0){ delay = 0; }
-                //if (duration < 500){ duration = 500; }
-                }
-            let slideSheet = $robot.getSpriteSheet('sprite', $sprite.direction);
-            let slideAnim = $robot.getSpriteAnim('sprite', 'slide', $sprite.direction);
-            $sprite.setFrame(0);
-            $sprite.setTexture(slideSheet);
-            if ($sprite.subTimers.slideDelay){ $sprite.subTimers.slideDelay.remove(); }
-            $sprite.subTimers.slideDelay = scene.time.delayedCall(delay, function(){
-                if (!$sprite || $sprite.toBeDestroyed){ return; }
-                //console.log('$sprite:', typeof $sprite, $sprite);
-                $sprite.play(slideAnim);
-                //SOUNDS.playSoundEffect('glass-klink');
-                if ($sprite.slideTween){ $sprite.slideTween.stop().destroy(); }
-                $sprite.slideTween = scene.add.tween({
-                    targets: $sprite,
-                    x: newX,
-                    ease: 'Sine.easeOut',
-                    delay: 300,
-                    duration: duration,
-                    onComplete: function () {
-                        //console.log('Partial sliding movement complete...');
-                        //SOUNDS.playSoundEffect('glass-klink');
-                        if ($sprite.subTimers.nextAction){ $sprite.subTimers.nextAction.remove(); }
-                        $sprite.subTimers.nextAction = scene.time.delayedCall(1000, function(){
-                            //console.log('...let\'s slide somewhere else!');
-                            slideSpriteSomewhere($sprite, distance, destination, duration, onComplete);
-                            delete $sprite.subTimers.nextAction;
-                            });
-                        }
-                    });
-                }, [], scene);
-            };
-
-        // Define a function for sliding a given sprite backward, then calling another function to slide it somewhere else
-        const slideSpriteBackward = function($sprite, distance, destination, duration, onComplete){
-            //console.log('Starting backward slide movement for sprite!', robotSpriteToken, 'x:', $sprite.x);
-            if (!$sprite || $sprite.toBeDestroyed){ return; }
-            //console.log('$sprite', typeof $sprite, $sprite, ($sprite ? true : false));
-            $sprite.direction = 'left';
-            let others = Object.keys(scene.debugSprites).length;
-            let newX = $sprite.x - distance;
-            let overflow = 0;
-            let delay = 1000;
-            if (others >= 10){
-                overflow = others - 10;
-                delay -= overflow * 100;
-                //duration -= overflow * (slideDuration / 100);
-                if (delay < 0){ delay = 0; }
-                //if (duration < 500){ duration = 500; }
-                }
-            let slideSheet = $robot.getSpriteSheet('sprite', $sprite.direction);
-            let slideAnim = $robot.getSpriteAnim('sprite', 'slide', $sprite.direction);
-            $sprite.setFrame(0);
-            $sprite.setTexture(slideSheet);
-            if ($sprite.subTimers.slideDelay){ $sprite.subTimers.slideDelay.remove(); }
-            $sprite.subTimers.slideDelay = scene.time.delayedCall(delay, function(){
-                if (!$sprite || $sprite.toBeDestroyed){ return; }
-                //console.log('$sprite:', typeof $sprite, $sprite);
-                $sprite.play(slideAnim);
-                //SOUNDS.playSoundEffect('glass-klink');
-                if ($sprite.slideTween){ $sprite.slideTween.stop().destroy(); }
-                $sprite.slideTween = scene.add.tween({
-                    targets: $sprite,
-                    x: newX,
-                    ease: 'Sine.easeOut',
-                    delay: 300,
-                    duration: duration,
-                    onComplete: function () {
-                        //console.log('Partial sliding movement complete...');
-                        //SOUNDS.playSoundEffect('glass-klink');
-                        if ($sprite.subTimers.nextAction){ $sprite.subTimers.nextAction.remove(); }
-                        $sprite.subTimers.nextAction = scene.time.delayedCall(1000, function(){
-                            //console.log('...let\'s slide somewhere else!');
-                            slideSpriteSomewhere($sprite, distance, destination, duration, onComplete);
-                            delete $sprite.subTimers.nextAction;
-                            });
-                        }
-                    });
-                }, [], scene);
-            };
-
-        // Define a function that makes a given sprite perform a shoot animation and then move w/ a slide
-        let abilityShotSprites = [];
-        const makeSpriteShoot = function($sprite, distance, destination, duration, onComplete){
-            //console.log('Starting shooting movement for sprite!', robotSpriteToken, 'x:', $sprite.x);
-            if (!$sprite || $sprite.toBeDestroyed){ return; }
-            //console.log('$sprite', typeof $sprite, $sprite, ($sprite ? true : false));
-
-            // Calculate where we're going to draw the shot sprite itself given context
-            let shotOffset = abilitySuffix === 'buster' ? 10 : 0;
-            let shotX = $sprite.x + ($sprite.direction === 'left' ? -60 : 60);
-            let shotY = $sprite.y + shotOffset;
-
-            // First create the shot sprite and add it to the scene
-            let shotSheet = $ability.getSpriteSheet('sprite', $sprite.direction);
-            let $shotSprite = scene.add.sprite(shotX, shotY, shotSheet);
-            scene.debugSprites.push($shotSprite);
-            $shotSprite.debugKey = scene.debugSprites.length - 1;
-            scene.debugAddedSprites++;
-            $shotSprite.setOrigin(0.5, 1);
-            $shotSprite.setScale(2.0);
-            $shotSprite.setDepth($sprite.depth + 1);
-            scene.battleBanner.add($shotSprite);
-
-            // Add required sub-objects to the sprite
-            $shotSprite.subTweens = {};
-            $shotSprite.subTimers = {};
-            $shotSprite.subSprites = {};
-
-            // Apply effects and setup the frame
-            let shotFrame = abilitySuffix === 'buster' ? 3 : 0;
-            $shotSprite.preFX.addShadow();
-            $shotSprite.setAlpha(0);
-            $shotSprite.setFrame(shotFrame);
-
-            // Add this shot sprite as a child of the parent
-            abilityShotSprites.push($shotSprite);
-            $shotSprite.shotKey = abilityShotSprites.length - 1;
-
-            // Now we animate the kickback of the shoot animation w/ intentional pause after
-            let newX = $sprite.x + ($sprite.direction === 'left' ? 4 : -4); //kickback
-            let shootAnim = $robot.getSpriteAnim('sprite', 'shoot', $sprite.direction);
-            $sprite.setFrame(0);
-            $sprite.play(shootAnim);
-            if ($sprite.subTweens.kickbackTween){ $sprite.subTweens.kickbackTween.stop().destroy(); }
-            if (abilitySuffix === 'shot'){ SOUNDS.playSoundEffect('shot-sound'); }
-            else if (abilitySuffix === 'buster'){ SOUNDS.playSoundEffect('blast-sound'); }
-            $sprite.subTweens.kickbackTween = scene.add.tween({
-                targets: $sprite,
-                x: newX,
-                ease: 'Linear',
-                delay: 300,
-                duration: 100,
-                yoyo: true,
-                onComplete: function () {
-                    //console.log('Partial shooting movement complete!');
-                    if ($sprite.subTimers.nextAction){ $sprite.subTimers.nextAction.remove(); }
-                    $sprite.subTimers.nextAction = scene.time.delayedCall(1000, function(){
-                        //console.log('Partial shooting movement complete!');
-                        slideSpriteSomewhere($sprite, distance, destination, duration, onComplete);
-                        delete $sprite.subTimers.nextAction;
-                        });
-                    }
-                });
-
-            // Then animate the robot flashing brightly back and forth to simulate charging
-            let leftBounds = -40, rightBounds = MMRPG.canvas.width + 40;
-            let distFromEdge = $sprite.direction === 'left' ? $sprite.x - leftBounds : rightBounds - $sprite.x;
-            let shotDestX = $sprite.direction === 'left' ? leftBounds : rightBounds;
-            let shotDuration = (distFromEdge * 1.5);
-            $sprite.fx = $sprite.preFX.addColorMatrix();
-            $sprite.fx.brightness(3.0);
-            $sprite.subTweens.chargeTween = scene.tweens.addCounter({
-                from: 0,
-                to: 3,
-                duration: 400,
-                delay: 200,
-                loop: -1,
-                yoyo: true,
-                onUpdate: () => {
-                    $sprite.fx.brightness($sprite.subTweens.chargeTween.getValue());
-                    }
-                });
-            $sprite.subTimers.afterCharge = scene.time.delayedCall(400, function(){
-                if (!$sprite || $sprite.toBeDestroyed){ return; }
-                $sprite.fx.reset();
-                $sprite.subTweens.chargeTween.remove();
-                });
-
-            // Wait a moment for the robot to finish its kickback, then animate the shot going offscreen at predetermined speed
-            $shotSprite.subTimers.bulletTween = scene.time.delayedCall(400, function(){
-                if (!$shotSprite){ return; }
-                $shotSprite.setAlpha(0.6);
-                $shotSprite.setFrame(shotFrame);
-                $shotSprite.subTweens.bulletTween = scene.add.tween({
-                    targets: $shotSprite,
-                    x: shotDestX,
-                    alpha: 1.0,
-                    ease: 'Sine.easeOut',
-                    duration: shotDuration,
-                    onComplete: function () {
-                        //console.log(robotIndexInfo.name + '\'s ' + abilityIndexInfo.name + ' movement complete!');
-                        SPRITES.destroySprite(scene, $shotSprite);
-                        }
-                    });
-                });
-
-            };
 
         // Define a function that takes a given sprite and then randomly slides it forward or backward
         // (other actions may occasionally be taken as well, such as shooting or other animations)
         let safeZone = 40;
         let safeZoneMinX = MMRPG.canvas.xMin - safeZone;
         let safeZoneMaxX = MMRPG.canvas.xMax + safeZone;
-        const slideSpriteSomewhere = function($sprite, distance, destination, duration, onComplete){
-            //console.log('Starting random movement for sprite!', robotSpriteToken, 'x:', $sprite.x, 'xMin:', safeZoneMinX, 'xMax:', safeZoneMaxX);
-            //console.log('$sprite', typeof $sprite, $sprite, ($sprite ? true : false));
-            if (!$sprite
-                || $sprite.toBeDestroyed
-                || $sprite.x >= safeZoneMaxX
-                || $sprite.x <= safeZoneMinX){
-                return onComplete($sprite);
-                } else if ($sprite.x >= (MMRPG.canvas.xMax - 20)){
-                return slideSpriteForward($sprite, distance, destination, duration, onComplete);
-                } else if ($sprite.x < (MMRPG.canvas.xMin + 20)){
-                return slideSpriteBackward($sprite, distance, destination, duration, onComplete);
+        const slideSpriteSomewhere = function($robot, onComplete){
+            //console.log('DebugScene.slideSpriteSomewhere() \nw/', typeof $robot, $robot.token, $robot, 'at x:', $robot.x, 'y:', $robot.y);
+            //console.log('-> Starting random movement for', $robot.token, 'w/ x:', $robot.x, 'xMin:', safeZoneMinX, 'xMax:', safeZoneMaxX);
+            /*
+            // TEMP TEMP TEMP TEMP TESTING
+            console.warn('slideSpriteSomewhere is disabled right now');
+            if (onComplete){ onComplete($robot); }
+            return;
+            */
+            //console.log('$robot', typeof $robot, $robot);
+            if (!$robot.sprite
+                || $robot.toBeDestroyed
+                || $robot.x >= safeZoneMaxX
+                || $robot.x <= safeZoneMinX){
+                //console.log('-> Robot is offscreen or destroyed, skipping movement! onComplete:', typeof onComplete);
+                return onComplete($robot);
+                } else if ($robot.x >= (MMRPG.canvas.xMax - 20)){
+                //console.log('-> Robot is too close to the right edge, sliding left...');
+                return slideSpriteRight($robot, onComplete);
+                } else if ($robot.x < (MMRPG.canvas.xMin + 20)){
+                //console.log('-> Robot is too close to the left edge, sliding right...');
+                return slideSpriteLeft($robot, onComplete);
                 } else {
-                let slidePref = destination > MMRPG.canvas.centerX ? 'forward' : 'backward';
+                //console.log('-> Robot is in the safe zone, determining next move...');
+                let slidePref = slideDestination > MMRPG.canvas.centerX ? 'forward' : 'backward';
                 let randChance = Math.random() * 100;
                 let nextSpriteFunction;
+                //console.log('-> slidePref:', slidePref, 'randChance:', randChance);
                 if (randChance <= 20) {
                     nextSpriteFunction = makeSpriteShoot;
                     } else if (slidePref === 'forward'){
-                    nextSpriteFunction = randChance <= 80 ? slideSpriteForward : slideSpriteBackward;
+                    nextSpriteFunction = randChance <= 80 ? slideSpriteRight : slideSpriteLeft;
                     } else if (slidePref === 'backward'){
-                    nextSpriteFunction = randChance <= 80 ? slideSpriteBackward : slideSpriteForward;
+                    nextSpriteFunction = randChance <= 80 ? slideSpriteLeft : slideSpriteRight;
                     }
-                return nextSpriteFunction($sprite, distance, destination, duration, onComplete);
+                //console.log('-> nextSpriteFunction:', nextSpriteFunction);
+                return nextSpriteFunction($robot, onComplete);
                 }
             };
 
-        // Collect data for the explosion sprite and the generate the sheets and animation
-        let effectElement = (robotIndexInfo.core !== '' && robotIndexInfo.core !== 'copy' ? robotIndexInfo.core : '');
-        let effectToken = effectElement ? effectElement + '-buster' : 'mega-buster';
-        let $tempAbility = new MMRPG_Ability(scene, effectToken, null, MMRPG.canvas.offscreen);
-        await $tempAbility.isReady();
-        $tempAbility.destroy();
-        let explodeSpriteInfo = SPRITES.getSpriteInfo('ability', effectToken, 1);
-        //console.log('%c----------', 'color: orange;');
-        //console.log('explodeSpriteInfo (before) =', explodeSpriteInfo);
-        //console.log('explodeSpriteInfo.sprite (before) =', JSON.stringify(explodeSpriteInfo.sprite));
-        const createExplodeSpriteAnimation = function(robotIndexInfo, spriteInfo, spriteDirection){
-            let xkind = 'abilities';
-            let token = effectToken;
-            let sheet = '1';
-            let anim = 'explode';
-            let baseKey = 'sprites.' + xkind + '.' + token + '.' + sheet;
-            let sheetKey = baseKey+'.sprite-'+spriteDirection;
-            let animKey = baseKey+'.sprite-'+spriteDirection+'.' + anim;
-            let animTemplate = {
-                key: '',
-                sheet: '',
-                frames: [ 0, 1, 2, 0, 2, 1, 0, 1, 0, 0 ],
-                frameRate: 12,
-                repeat: -1
-                };
-            let explodeAnimation = scene.anims.get(animKey);
-            if (!explodeAnimation){
-                scene.anims.create(Object.assign({}, animTemplate, {
-                    key: animKey,
-                    sheet: sheetKey,
-                    frames: scene.anims.generateFrameNumbers(sheetKey, { frames: animTemplate.frames }),
-                    }));
-                explodeAnimation = scene.anims.get(animKey);
-                //console.log('Created explodeAnimation w/ key:', explodeAnimation.key, 'sheet:', explodeAnimation.sheet);
+        // Define a parent function for sliding a given sprite in a specified direction
+        const slideSprite = function($robot, direction, onComplete){
+            //console.log('DebugScene.slideSprite() w/ $robot:', typeof $robot, $robot.token, 'direction:', direction, 'onComplete:', typeof onComplete);
+            if (!$robot.sprite || $robot.toBeDestroyed){ return; }
+            $robot.setFrame(0);
+            $robot.setDirection(direction);
+            let others = Object.keys(scene.debugSprites).length;
+            let overflow = 0;
+            let delay = 1000;
+            if (others >= 10){
+                overflow = others - 10;
+                delay -= overflow * 100;
+                if (delay < 0){ delay = 0; }
                 }
-            spriteInfo['sprite'][spriteDirection]['anim']['explode'] = explodeAnimation.key;
+            let slideAnim = $robot.getSpriteAnim('sprite', 'slide', $robot.direction);
+            $robot.delayedCall(delay, function(){
+                if (!$robot.sprite || $robot.toBeDestroyed){ return; }
+                $robot.slideSpriteForward(function(){
+                    $robot.delayedCall(1000, function(){
+                        slideSpriteSomewhere($robot, onComplete);
+                        });
+                    });
+                });
             };
-        createExplodeSpriteAnimation(robotIndexInfo, explodeSpriteInfo, 'left');
-        createExplodeSpriteAnimation(robotIndexInfo, explodeSpriteInfo, 'right');
-        //console.log('explodeSpriteInfo (after) =', explodeSpriteInfo);
-        //console.log('explodeSpriteInfo.sprite (after) =', JSON.stringify(explodeSpriteInfo.sprite));
+
+        // Define a function for sliding a given sprite to the right
+        const slideSpriteRight = function($robot, onComplete){
+            //console.log('DebugScene.slideSpriteRight() \nw/ $robot:', typeof $robot, $robot.token, 'onComplete:', typeof onComplete);
+            slideSprite($robot, 'right', onComplete);
+            };
+
+        // Define a function for sliding a given sprite to the left
+        const slideSpriteLeft = function($robot, onComplete){
+            //console.log('DebugScene.slideSpriteLeft() \nw/ $robot:', typeof $robot, $robot.token, 'onComplete:', typeof onComplete);
+            slideSprite($robot, 'left', onComplete);
+            };
+
+        // Define a function that makes a given sprite perform a shoot animation before their next move
+        let abilityShotSprites = [];
+        const makeSpriteShoot = function($robot, onComplete){
+            //console.log('DebugScene.makeSpriteShoot() \nw/ $robot:', typeof $robot, $robot.token, 'onComplete:', typeof onComplete);
+            if (!$robot.sprite || $robot.toBeDestroyed){ return; }
+
+            // Pre-set the robot into the shooting position
+            $robot.setFrame('shoot');
+
+            // Define the ability-specific details for potential animation sequence
+            let abilityRand = Math.floor(Math.random() * 100);
+            let abilitySuffix = abilityRand % 3 === 0 ? 'buster' : 'shot';
+            let abilityElement = robotIndexInfo.core !== '' && robotIndexInfo.core !== 'copy' ? robotIndexInfo.core : '';
+            let abilitySpriteToken = abilityElement ? (abilityElement + '-' + abilitySuffix) : ('buster-shot');
+            let abilitySpriteSheet = 1;
+            //let abilityIndexInfo = abilitiesIndex[abilitySpriteToken];
+            //console.log(abilitySpriteToken, 'abilityRand:', abilityRand, 'abilitySuffix:', abilitySuffix, 'abilityElement:', abilityElement, 'abilityIndexInfo:', abilityIndexInfo);
+
+            // Create a temp ability object to ensure everything gets preloaded
+            let $ability = new MMRPG_Ability(scene, abilitySpriteToken, {image_sheet: abilitySpriteSheet}, {offscreen: true});
+            //console.log('Waiting for ability ' + $ability.token + ' to be ready...', $ability);
+            $ability.whenReady(function(){
+                //console.log('%c' + 'Ability ' + $ability.token + ' is ready for action!', 'color: green;');
+
+                // Calculate where we're going to draw the shot sprite itself given context
+                let shotKind = $ability.token.split('-').pop();
+                let shotOffset = shotKind === 'buster' ? 10 : 0;
+                let shotX = $robot.sprite.x + ($robot.direction === 'left' ? -60 : 60);
+                let shotY = $robot.sprite.y + shotOffset;
+                let shotDepth = $robot.depth + 1;
+                //console.log('robot:', $robot.token, '$robot.sprite.x:', $robot.sprite.x, '$robot.sprite.y:', $robot.sprite.y, '$robot.direction:', $robot.direction);
+                //console.log('shotKind:', shotKind, 'shotX:', shotX, 'shotY:', shotY, 'shotDepth:', shotDepth);
+
+                // Add this robot to the battle banner and update graphics
+                scene.battleBanner.add($ability);
+                $ability.useContainerForDepth(true);
+                $ability.refreshSprite();
+
+                // Set the origin, scale, and depth for the sprite then add to parent container
+                let shotFrame = shotKind === 'buster' ? 3 : 0;
+                $ability.setPosition(shotX, shotY, shotY);
+                $ability.setDepth(shotDepth);
+                $ability.setOrigin(0.5, 1);
+                $ability.setScale(2.0);
+                $ability.setShadow(true);
+                $ability.setAlpha(0);
+                $ability.setFrame(shotFrame);
+                $ability.refreshSprite();
+
+                // Fallback to later code for now (remove later)
+                let $shotSprite = $ability.sprite;
+                scene.debugSprites.push($shotSprite);
+                $shotSprite.debugKey = scene.debugSprites.length - 1;
+                scene.debugAddedSprites++;
+
+                // Add this shot sprite as a child of the parent
+                abilityShotSprites.push($shotSprite);
+                $shotSprite.shotKey = abilityShotSprites.length - 1;
+
+                // Animate the kickback of the shoot animation w/ intentional pause after
+                $robot.setFrame('defend');
+                $robot.delayedCall(100, function(){
+                    $robot.flashSprite();
+                    $robot.kickbackSprite();
+                    $robot.setFrame('shoot');
+                    if (shotKind === 'shot'){ SOUNDS.playSoundEffect('shot-sound'); }
+                    else if (shotKind === 'buster'){ SOUNDS.playSoundEffect('blast-sound'); }
+                    $robot.whenDone(function(){
+                        $robot.delayedCall(1000, function(){
+                            slideSpriteSomewhere($robot, onComplete);
+                            });
+                        });
+                    });
+
+                // Wait a moment for the robot to finish its kickback, then animate the shot going offscreen at predetermined speed
+                let leftBounds = -40, rightBounds = MMRPG.canvas.width + 40;
+                let distFromEdge = $robot.direction === 'left' ? $robot.x - leftBounds : rightBounds - $robot.x;
+                let shotDestX = $robot.direction === 'left' ? leftBounds : rightBounds;
+                let shotDuration = (distFromEdge * 1.5);
+                $ability.delayedCall(400, function(){
+                    if (!$shotSprite){ return; }
+                    $ability.setAlpha(0.6);
+                    $ability.setFrame(shotFrame);
+                    let onUpdate = function($sprite, moveTween){ $ability.setAlpha(0.6 + (0.4 * moveTween.progress / 100)); };
+                    $ability.moveToPositionX(shotDestX, shotDuration, function(){
+                        //console.log($robot.token + ' ability ' + $ability.name + ' moveToPositionX complete!');
+                        $ability.destroy();
+                        }, {
+                        easing: 'Sine.easeOut',
+                        onUpdate: onUpdate
+                        });
+                    });
+
+                });
+
+            };
 
         // Define a function that plays an explode animation and then destroyed the sprite when done
         let explodeCleanupTimer = null;
         let explodeEffectSprites = [];
-        const explodeSpriteAndDestroy = function($sprite){
-            //console.log('explodeSpriteAndDestroy() w/ $sprite:', $sprite);
-            if (!$sprite || $sprite.toBeDestroyed){ return; }
+        const explodeSpriteAndDestroy = function($robot){
+            //console.log('explodeSpriteAndDestroy() w/ $robot:', $robot);
+            if (!$robot.sprite || $robot.toBeDestroyed){ return; }
 
-            // -- First we disable the sprite itself and make sure it gets cleaned up
+            // First we stop any of this sprite's tweens and timers, then play the explosion animation
+            $robot.isDisabled = true;
+            $robot.stopAll(true);
 
-            // Stop any of this sprite's tweens and timers, then play the explosion animation
-            $sprite.isDisabled = true;
-            $sprite.stop();
-            SPRITES.stopSpriteTweens(scene, $sprite, false);
-            SPRITES.stopSpriteTimers(scene, $sprite, false);
+            // Collect data for the explosion sprite to generate the sheets and animation
+            let effectElement = (robotIndexInfo.core !== '' && robotIndexInfo.core !== 'copy' ? robotIndexInfo.core : '');
+            let effectToken = effectElement ? effectElement + '-buster' : 'mega-buster';
+            let $explode = new MMRPG_Ability(scene, effectToken, null, {offscreen: true});
+            //console.log('%c' + $robot.token + ' | -> $explode was just created!', 'color: cyan;');
+            //console.log($robot.token + ' | -> $explode.spriteIsLoading', $explode.spriteIsLoading);
+            //console.log($robot.token + ' | -> $explode.spriteIsPlaceholder', $explode.spriteIsPlaceholder);
 
-            // Set the frame to disabled and darken the sprite, then play the explosion animation
-            $sprite.setFrame(3);
-            $sprite.fx = $sprite.preFX.addColorMatrix();
-            $sprite.fx.brightness(3.0);
+            // Wait for the explosion object to be ready before we do anything to the robot
+            $explode.whenReady(function(){
+                //console.log('%c' + $robot.token + ' | -> $explode is ready to be used!', 'color: lime;');
+                //console.log($robot.token + ' | -> $explode.token', $explode.token);
+                //console.log($robot.token + ' | -> $explode.data.image', $explode.data.image);
+                //console.log($robot.token + ' | -> $explode.spriteIsLoading', $explode.spriteIsLoading);
+                //console.log($robot.token + ' | -> $explode.spriteIsPlaceholder', $explode.spriteIsPlaceholder);
+                //console.log($robot.token + ' | -> $explode:', $explode);
 
-            // Generate the explosion animation tween of flashing, then destroy the sprite when done
-            $sprite.subTweens.flashTween = scene.tweens.addCounter({
-                from: 0.6,
-                to: 1.4,
-                duration: 40,
-                delay: 100,
-                loop: 3,
-                yoyo: true,
-                onUpdate: () => {
-                    $sprite.fx.brightness($sprite.subTweens.flashTween.getValue());
-                    },
-                onComplete: function (){
-                    //console.log(robotIndexInfo.name + ' explosion complete!');
-                    SPRITES.destroySprite(scene, $sprite);
+                // First we need to synthetically create an explosion animation using this ability sprite
+                //console.log($robot.token + ' | -> $explode.getSpriteAnim(sprite, explode)', $explode.getSpriteAnim('sprite', 'explode'));
+                if (!$explode.hasSpriteAnim('sprite', 'explode')){
+                    //console.log('%c' + 'Creating explodeSpriteAnims...', 'color: orange;');
+                    let frames = [ 0, 1, 2, 0, 2, 1, 0, 1, 0, 0 ];
+                    $explode.addSpriteAnimation('explode', {
+                        frames: [ 0, 1, 2, 0, 2, 1, 0, 1, 0, 2 ],
+                        frameRate: 12,
+                        repeat: -1
+                        });
                     }
-                });
 
-            // -- Then we separately generate an explosion effect sprite in the same location
+                // Set the robot frame to disabled and darken the sprite, then play the explosion animation
+                $robot.setFrame('defeat');
+                $robot.shakeSprite(3, 3, null, 100);
+                $robot.flashSprite(3, null, 100);
+                $robot.whenDone(function(){
+                    //console.log($robot.token + ' | -> time to destroy this robot object');
+                    $robot.setAlpha(0.5);
+                    $robot.destroy();
+                    });
 
-            // Calculate where we're going to draw the explosion sprite itself given context
-            let explodeOffsets = { x: (($sprite.direction === 'left' ? 1 : -1) * 10), y: 15 };
-            let explodeX = $sprite.x + explodeOffsets.x;
-            let explodeY = $sprite.y + explodeOffsets.y;
+                // Calculate where we're going to draw the explosion sprite itself given context
+                let explodeOffsets = { x: (($robot.direction === 'left' ? 1 : -1) * 10), y: 15 };
+                let explodeX = $robot.x + explodeOffsets.x;
+                let explodeY = $robot.y + explodeOffsets.y;
 
-            // First create the explode sprite and add it to the scene
-            let $explodeSprite = scene.add.sprite(explodeX, explodeY, explodeSpriteInfo['sprite'][$sprite.direction]['sheet']);
-            scene.debugSprites.push($explodeSprite);
-            $explodeSprite.debugKey = scene.debugSprites.length - 1;
-            scene.debugAddedSprites++;
-            $explodeSprite.setOrigin(0.5, 1);
-            $explodeSprite.setScale(2.0);
-            $explodeSprite.setDepth($sprite.depth - 1);
-            scene.battleBanner.add($explodeSprite);
+                // Add this explosion to the battle banner and update graphics
+                scene.battleBanner.add($explode);
+                $explode.useContainerForDepth(true);
+                $explode.refreshSprite();
 
-            // Add required sub-objects to the sprite
-            $explodeSprite.subTweens = {};
-            $explodeSprite.subTimers = {};
-            $explodeSprite.subSprites = {};
+                // Update the origin, scale, depth and other basic props for the explosion to real values
+                $explode.setPosition(explodeX, explodeY, explodeY);
+                $explode.setDepth($robot.depth - 100);
+                $explode.setOrigin(0.5, 1);
+                $explode.setScale(2.0);
+                $explode.setShadow(true);
+                $explode.refreshSprite();
 
-            // Apply effects and setup the frame
-            let explodeFrame = 0;
-            $explodeSprite.preFX.addShadow();
-            $explodeSprite.setAlpha(0);
-            $explodeSprite.setFrame(explodeFrame);
+                // First create the explode sprite and add it to the scene
+                let $explodeSprite = $explode.sprite;
+                scene.debugSprites.push($explodeSprite);
+                $explodeSprite.debugKey = scene.debugSprites.length - 1;
+                scene.debugAddedSprites++;
 
-            // Add this explode sprite as a child of the parent
-            explodeEffectSprites.push($explodeSprite);
-            $explodeSprite.explodeKey = explodeEffectSprites.length - 1;
+                // Add this explode sprite as a child of the parent (TODO: remove?)
+                explodeEffectSprites.push($explodeSprite);
+                $explodeSprite.explodeKey = explodeEffectSprites.length - 1;
 
-            // Show the sprite and play its explode animation on loop
-            $explodeSprite.setAlpha(0.8);
-            $explodeSprite.play(explodeSpriteInfo['sprite'][$sprite.direction]['anim']['explode']);
-            SOUNDS.playSoundEffect('explode-sound');
+                // Show the sprite and play its explode animation on loop
+                SOUNDS.playSoundEffect('explode-sound');
+                $explode.resetFrame();
+                $explode.setAlpha(0.8);
+                $explode.playAnim('explode');
+                $explode.delayedCall(900, function(){
+                    $explode.fadeSprite($explode.alpha, 0.1, {
+                        onUpdate: function(){
+                            $explode.setPositionX($robot.x + explodeOffsets.x);
+                            },
+                        onComplete: function(){
+                            //console.log('explodeSpriteAndDestroy() -> $explode fade complete!');
+                            $explode.destroy();
+                            }
+                        }, 800);
+                    });
 
-            // Generate a tween for the explode sprite that has it slowly fade away via alpha then remove itself
-            $explodeSprite.subTweens.fadeTween = scene.add.tween({
-                targets: $explodeSprite,
-                alpha: 0.1,
-                ease: 'Linear',
-                delay: 200,
-                duration: 800,
-                onUpdate: function () {
-                    // also make the explode's x track the source robot's x
-                    $explodeSprite.x = $sprite.x + explodeOffsets.x;
-                    },
-                onComplete: function () {
-                    //console.log(robotIndexInfo.name + '\'s explosion fade complete!');
-                    SPRITES.destroySprite(scene, $explodeSprite);
-                    }
                 });
 
             };
@@ -1357,7 +1248,7 @@ export default class DebugScene extends Phaser.Scene
         // Define a function that shows a robot's defeat quote in the position it was defeated
         let robotQuoteBubbles = [];
         let robotQuoteTweens = [];
-        const showRobotDefeatQuote = function($sprite){
+        const showRobotDefeatQuote = function($robot){
             // Destroy any existing floating text bubbles
             if (scene.floatingTextBubble){
                 //console.log('Destroying clicked scene.floatingTextBubble:', scene.floatingTextBubble);
@@ -1453,7 +1344,6 @@ export default class DebugScene extends Phaser.Scene
                     let $abilityShotSprite = abilityShotSprites[i];
                     removeDebugKeys = removeDebugKeys.concat(getDebugKeys($abilityShotSprite));
                     SPRITES.destroySpriteAndCleanup(scene, $abilityShotSprite, true);
-                    $ability.destroy();
                     }
                 for (let i = 0; i < explodeEffectSprites.length; i++){
                     let $explodeEffectSprite = explodeEffectSprites[i];
@@ -1470,32 +1360,46 @@ export default class DebugScene extends Phaser.Scene
                 });
             };
 
+        /*
+        // TEMP TEMP TEMP TEMP TESTING
+        $robot.setPosition(200, null);
+        console.log('%c' + 'Robot ' + $robot.token + ' will slide now...', 'color: orange;');
+        slideSpriteRight($robot, function($robot){
+            console.log('%c' + 'Robot ' + $robot.token + ' has completed the slideSpriteRight test!', 'color: yellow;');
+            slideSpriteLeft($robot, function($robot){
+                console.log('%c' + 'Robot ' + $robot.token + ' has completed the slideSpriteLeft test!', 'color: yellow;');
+                $robot.flipDirection();
+                makeSpriteShoot($robot, function($robot){
+                    console.log('%c' + 'Robot ' + $robot.token + ' has completed the makeSpriteShoot test!', 'color: yellow;');
+                    $robot.delayedCall(600, function(){
+                        console.log('%c' + 'Robot ' + $robot.token + ' is done all tests!', 'color: green;');
+                        showRobotDefeatQuote($robot);
+                        explodeSpriteAndDestroy($robot);
+                        });
+                    });
+                });
+            });
+        return;
+        */
+
         // Preset the sprite direction to right, and then start playing the slide animation
-        $robotSprite.direction = spriteDirection;
-        let slideAnim = $robot.getSpriteAnim('sprite', 'slide', spriteDirection);
-        $robotSprite.play(slideAnim);
         let startFunction;
-        if (spriteDirection === 'right'){ startFunction = slideSpriteForward; }
-        else if (spriteDirection === 'left'){ startFunction = slideSpriteBackward; }
-        //console.log('Starting slide animation for', robotIndexInfo.name, 'w/ token:', robotSpriteToken, 'and alt:', robotSpriteAlt);
-        startFunction($robotSprite, slideDistance, slideDestination, slideDuration, function($robotSprite){
-            //console.log('%c' + 'All animations for ' + robotIndexInfo.name + ' complete!', 'color: amber;');
-            queueSpriteCleanup();
+        //console.log('%c' + 'Robot ' + $robot.token + ' will slide now...', 'color: orange;');
+        if ($robot.direction === 'right'){ startFunction = slideSpriteRight; }
+        else if ($robot.direction === 'left'){ startFunction = slideSpriteLeft; }
+        //console.log('Starting some animation w/ $robot token:', $robot.token, 'and alt:', $robot.data.image_alt);
+        startFunction($robot, function($robot){
+            //console.log('%c' + 'All animations for ' + $robot.token + ' complete!', 'color: green;');
+            $robot.destroy();
             });
 
         // Make it so the sprite is clickable to shows an alert
-        $robotSprite.setInteractive({ useHandCursor: true });
-        $robotSprite.on('pointerdown', function(){
+        $robot.setOnClick(function(){
             //console.log('Sliding sprite clicked:', robotSpriteToken);
-            if (!$robotSprite || $robotSprite.isDisabled){ return; }
-            showRobotDefeatQuote($robotSprite);
-            explodeSpriteAndDestroy($robotSprite);
-            queueSpriteCleanup();
+            if (!$robot.sprite || $robot.isDisabled){ return; }
+            showRobotDefeatQuote($robot);
+            explodeSpriteAndDestroy($robot);
             });
-
-        // Destroy stuff we don't need anymore
-        //$robot.destroy(); // temporary (will transition to actually using this $robot object later)
-        //$ability.destroy(); // temporary (will transition to actually using this $ability object later)
 
         // Update the scene with last-used sprite token
         scene.lastSlidingMaster = robotSpriteToken;
