@@ -2119,7 +2119,7 @@ class MMRPG_Object {
     // If distance is not set (X-axis), the sprite will travel proportionally to its energy stat or equivalent
     // If elevation is not set (Y-axis), the sprite will travel horizontally without any vertical movement
     // If duration is not set, the sprite will advance proportionally to its speed stat or equivalent
-    runSpriteForward (callback, distance, elevation, duration)
+    runSpriteForward (callback, distance, elevation, duration, moveConfig)
     {
         //console.log('MMRPG_Object.runToDestination() called for ', this.kind, this.token, '\nw/ distance:', distance, 'duration:', duration, 'callback:', typeof callback);
         let _this = this;
@@ -2158,9 +2158,8 @@ class MMRPG_Object {
         //console.log(this.token+' | -> newY = ', newY);
 
         // Predefine the move configuration for the animation
-        let moveConfig = {
-            easing: 'Sine.easeOut',
-            };
+        moveConfig = typeof moveConfig === 'object' ? moveConfig : {};
+        moveConfig.easing = moveConfig.easing || 'Sine.easeOut';
 
         // Kill any existing tweens for the run animation
         const killTweens = function(){
@@ -2254,6 +2253,7 @@ class MMRPG_Object {
         this.stopMoving();
 
         // Predefine some defaults for the move config
+        moveConfig = typeof moveConfig === 'object' ? moveConfig : {};
         moveConfig.easing  = moveConfig.easing || 'Linear';
         moveConfig.onUpdate = moveConfig.onUpdate || null;
 
