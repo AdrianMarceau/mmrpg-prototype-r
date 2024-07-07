@@ -49,14 +49,14 @@ export default class DebugScene extends Phaser.Scene
         this.POPUPS = POPUPS;
 
         // Initialize this scene with a first-load callback function
-        MMRPG.init('DebugScene', 'Debug', function(){
+        MMRPG.onload('DebugScene', 'Debug', function(){
 
-            //console.log('DebugScene.init() called for the first time');
-            MMRPG.Cache.Debug.foo = 'bar';
+            //console.log('DebugScene.onload() called for the first time');
+            //MMRPG.Cache.Debug.foo = 'bar';
 
             }, function(){
 
-            //console.log('DebugScene.init() called every other time');
+            //console.log('DebugScene.onload() called every other time');
             //console.log('MMRPG.Cache.Debug = ', MMRPG.Cache.Debug);
 
             });
@@ -66,20 +66,13 @@ export default class DebugScene extends Phaser.Scene
     init ()
     {
         //console.log('MainScene.init() called');
-
-        // Initialize any objects that need it
-        this.SPRITES.init(this);
-        this.SOUNDS.init(this);
-        this.BUTTONS.init(this);
-        this.POPUPS.init(this);
-
+        let MMRPG = this.MMRPG;
+        MMRPG.init(this);
     }
 
     preload ()
     {
         //console.log('DebugScene.preload() called');
-
-        // Pull in global MMRPG object and trigger the create function
         let MMRPG = this.MMRPG;
         MMRPG.preload(this);
 
@@ -89,9 +82,9 @@ export default class DebugScene extends Phaser.Scene
         // Pull in other required objects and references
         let scene = this;
         let SPRITES = this.SPRITES;
-        let SOUNDS = this.SOUNDS;
         let POPUPS = this.POPUPS;
         let BUTTONS = this.BUTTONS;
+        let SOUNDS = this.SOUNDS;
 
         // Pull in some indexes for later use
         let typesIndex = MMRPG.Indexes.types;
@@ -174,8 +167,6 @@ export default class DebugScene extends Phaser.Scene
     create ()
     {
         //console.log('DebugScene.create() called');
-
-        // Pull in global MMRPG object and trigger the create function
         let MMRPG = this.MMRPG;
         MMRPG.create(this);
 
@@ -742,6 +733,8 @@ export default class DebugScene extends Phaser.Scene
     update (time, delta)
     {
         //console.log('DebugScene.update() called w/ time =', time, 'delta =', delta);
+        let MMRPG = this.MMRPG;
+        MMRPG.update(this, time, delta);
 
         if (typeof this.debugAddedSprites === 'undefined'){ this.debugAddedSprites = 0; }
         if (typeof this.debugRemovedSprites === 'undefined'){ this.debugRemovedSprites = 0; }
