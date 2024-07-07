@@ -114,6 +114,7 @@ export default class SoundsManager {
         let sfxToken = token;
         const sfxAliasIndex = MMRPG.Indexes.sounds.aliases || {};
         if (sfxAliasIndex[token]) { sfxToken = sfxAliasIndex[token]; }
+        scene.sound.unlock();
         scene.sound.playAudioSprite('sounds.effects', sfxToken, options);
     }
 
