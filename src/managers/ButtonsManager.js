@@ -180,7 +180,7 @@ export default class ButtonsManager {
 
     }
 
-    addDebugButton (ctx)
+    addDebugButton (ctx, depth)
     {
 
         // Add a small debug button at the bottom we can click
@@ -188,7 +188,7 @@ export default class ButtonsManager {
         let $debugButton = ctx.add.bitmapText(x, y, 'megafont-white', 'DEBUG', 8);
         $debugButton.setLetterSpacing(20);
         $debugButton.setOrigin(0, 1);
-        $debugButton.setDepth(8000);
+        $debugButton.setDepth(depth || 8000);
         $debugButton.setInteractive({ useHandCursor: true });
         $debugButton.on('pointerdown', () => { ctx.scene.start('Debug'); });
 
