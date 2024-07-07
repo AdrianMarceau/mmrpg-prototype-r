@@ -34,6 +34,7 @@ class MMRPG_Object {
         this.scene = scene;
         this.data = {};
         this.cache = {};
+        this.ready = false;
 
         // Pull in refs to required global objects
         let _this = this;
@@ -136,6 +137,9 @@ class MMRPG_Object {
         // Also predefine some of the more complicated ones for later
         this.spriteContainer = null;
         spriteConfig.useContainerForDepth = spriteConfig.useContainerForDepth || false;
+
+        // Set this object to ready now that we're done setup
+        this.ready = true;
 
         // If spriteConfig is provided, create a new sprite with it
         if (createSprite){
@@ -428,6 +432,7 @@ class MMRPG_Object {
         this.scale = config.scale;
         this.isMoving = false;
         this.isAnimating = false;
+        this.ready = false;
 
         // Pull in references to required global objects
         let SPRITES = this.SPRITES;
@@ -463,6 +468,8 @@ class MMRPG_Object {
                 this.spriteIsLoading = false;
                 this.spriteIsPlaceholder = false;
                 this.createObjectSprite();
+                this.executeQueuedSpriteMethods();
+                this.ready = true;
 
                 } else {
                 //console.log('sprite texture for ' + this.token + ' does not exist');
@@ -479,6 +486,8 @@ class MMRPG_Object {
                     _this.spriteIsLoading = false;
                     _this.spriteIsPlaceholder = false;
                     _this.createObjectSprite();
+                    _this.executeQueuedSpriteMethods();
+                    _this.ready = true;
                     });
 
                 }
@@ -528,6 +537,8 @@ class MMRPG_Object {
                 this.spriteIsLoading = false;
                 this.spriteIsPlaceholder = false;
                 this.createObjectSprite();
+                this.executeQueuedSpriteMethods();
+                this.ready = true;
 
                 } else {
                 //console.log('field sprite textures for ' + this.token + ' do not exist');
@@ -544,6 +555,8 @@ class MMRPG_Object {
                     _this.spriteIsLoading = false;
                     _this.spriteIsPlaceholder = false;
                     _this.createObjectSprite();
+                    _this.executeQueuedSpriteMethods();
+                    _this.ready = true;
                     });
 
                 }
