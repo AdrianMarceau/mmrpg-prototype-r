@@ -2704,6 +2704,48 @@ class MMRPG_Object {
         $sprite.subTweens.kickbackTween = kickbackTween;
     }
 
+    // Fade a sprite's alpha value to a given amount over a set duration and then execute a callback
+    fadeSprite (fromAlpha = 1, toAlpha = 0, callback = null, duration = 100)
+    {
+        //console.log('MMRPG_Object.fadeSprite() called for ', this.kind, this.token, '\nw/ alpha:', alpha, 'duration:', duration, 'callback:', typeof callback);
+        let _this = this;
+        if (!this.sprite) { return; }
+        if (this.spriteIsLoading){ return this.spriteMethodsQueued.push(function(){ _this.fadeSprite(alpha, duration, callback); }); }
+        let scene = this.scene;
+        let $sprite = this.sprite;
+        let fadeDuration = duration || 100;
+        fromAlpha = Phaser.Math.Clamp(fromAlpha, 0, 1);
+        toAlpha = Phaser.Math.Clamp(toAlpha, 0, 1);
+        const killTweens = function(){
+            if ($sprite.subTweens.fadeTween){
+                $sprite.subTweens.fadeTween.stop();
+                delete $sprite.subTweens.fadeTween;
+                }
+            };
+        killTweens();
+        this.isAnimating = true;
+        this.isWorkingOn('fadeSprite');
+        let fadeTween = scene.tweens.addCounter({
+            from: 0,
+            to: 100,
+            duration: fadeDuration,
+            ease: 'Linear',
+            onUpdate: (tween) => {
+                let progress = tween.getValue() / 100;
+                let alpha = Phaser.Math.Linear(fromAlpha, toAlpha, progress);
+                _this.setAlpha(alpha);
+                },
+            onComplete: () => {
+                killTweens();
+                _this.setAlpha(toAlpha);
+                _this.isAnimating = false;
+                _this.isDoneWorkingOn('fadeSprite');
+                if (callback){ callback.call(_this); }
+                }
+            });
+        $sprite.subTweens.fadeTween = fadeTween;
+    }
+
     // Stop a sprite's move animation whichever way it might have been going abruptly
     stopMoving ()
     {
