@@ -1640,15 +1640,18 @@ class MMRPG_Object {
         if (!newSheet || (config.sheet === newSheet && this.sheet === newSheet)) { return; }
         if (!scene.textures.exists(newSheet)){
             //console.log('-> sprite texture '+newSheet+' not loaded, deffering sheet change...');
+            this.ready = false;
             this.spriteIsLoading = true;
             this.isWorkingOn('setDirection');
             this.loadSpriteTexture(this.data.token, direction, () => {
                 //console.log('%c' + '-> sprite texture '+newSheet+' loaded!', 'color: #00FF00');
                 config.sheet = newSheet;
-                this.sheet = newSheet;
-                this.refreshSprite(true);
-                this.isDoneWorkingOn('setDirection');
-                this.spriteIsLoading = false;
+                _this.sheet = newSheet;
+                _this.refreshSprite(true);
+                _this.isDoneWorkingOn('setDirection');
+                _this.spriteIsLoading = false;
+                _this.ready = true;
+                _this.executeQueuedSpriteMethods();
                 if (callback){ callback.call(_this); }
                 });
             } else {
@@ -1702,6 +1705,7 @@ class MMRPG_Object {
         //console.log(this.token + ' | checking if newSheet texture exists...');
         if (!scene.textures.exists(newSheet)){
             //console.log('%c' + this.token + ' | -> sprite texture '+newSheet+' not loaded, deffering sheet refreshing...', 'color: orange;');
+            this.ready = false;
             this.spriteIsLoading = true;
             this.isWorkingOn('setImageAlt');
             this.loadSpriteTexture(() => {
@@ -1710,6 +1714,8 @@ class MMRPG_Object {
                 _this.refreshSprite(true);
                 _this.isDoneWorkingOn('setImageAlt');
                 _this.spriteIsLoading = false;
+                _this.ready = true;
+                this.executeQueuedSpriteMethods();
                 if (callback){ callback.call(_this); }
                 });
             } else {
@@ -1909,6 +1915,7 @@ class MMRPG_Object {
     {
         //console.log('MMRPG_Object.playAnim() called for ', this.kind, this.token, '\nw/ anim:', anim);
         if (!this.sprite) { return; }
+        if (this.spriteIsLoading){ return this.spriteMethodsQueued.push(function(){ _this.playAnim(anim); }); }
         let $sprite = this.sprite;
         let config = this.spriteConfig;
         let animKey = this.getSpriteAnim('sprite', anim);
