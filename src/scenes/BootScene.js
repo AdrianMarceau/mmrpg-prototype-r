@@ -23,7 +23,7 @@ export default class BootScene extends Phaser.Scene
         this.MMRPG = MMRPG;
 
         // Initialize this scene with a first-load callback function
-        MMRPG.init('BootScene', 'Boot', function(){
+        MMRPG.onload('BootScene', 'Boot', function(){
 
             /* ... */
 
