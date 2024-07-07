@@ -969,8 +969,9 @@ class MMRPG_Object {
         //console.log('MMRPG_Object.getSpritePath() called w/ spriteKind:', spriteKind, 'spriteToken:', spriteToken, 'spriteDirection:', spriteDirection);
 
         // Pull in references to required global objects
+        let xkind = this.xkind;
         let SPRITES = this.SPRITES;
-        let spritePaths = SPRITES.index.paths[this.xkind];
+        let spritePaths = SPRITES.index.paths[xkind];
         let objectConfig = this.objectConfig;
         //console.log('-> SPRITES:', SPRITES, 'spritePaths:', spritePaths, 'objectConfig:', objectConfig);
 
@@ -992,7 +993,7 @@ class MMRPG_Object {
             } else {
             let size = this.data.image_size || objectConfig.baseSize[0];
             let xSize = size+'x'+size;
-            spritePath = 'content/' + this.xkind + '/' + this.kind + '/' + spriteKind + '_' + spriteDirection +  '_' + xSize + '.png';
+            spritePath = 'content/' + xkind + '/' + this.kind + '/' + spriteKind + '_' + spriteDirection +  '_' + xSize + '.png';
             }
 
         // Return the sheet token we found
