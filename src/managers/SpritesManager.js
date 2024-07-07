@@ -35,7 +35,7 @@ export default class SpritesManager {
         this.scene = scene;
 
         // Initialize this manager via the global MMRPG object
-        MMRPG.init('SpritesManager', 'Sprites');
+        MMRPG.onload('SpritesManager', 'Sprites');
 
         // Define some base sprite settings for the rest of the game
         let config = {
@@ -99,19 +99,14 @@ export default class SpritesManager {
     }
     init (scene)
     {
+        //console.log('SpritesManager.init() called from scene:', scene.scene.key);
         this.scene = scene;
-        scene.events.on('preload', this.preload, this);
-        scene.events.on('create', this.create, this);
-        scene.events.on('update', this.update, this);
     }
 
     preload ()
     {
         //console.log('SpritesManager.preload() called');
-
-        // If there are "active" sprites already in the buffer, make sure we get rid of them
         this.empty();
-
     }
     create ()
     {
@@ -127,13 +122,13 @@ export default class SpritesManager {
     // Add a sprite to the list of currently active sprites
     add (x, y, sheet)
     {
-        console.log('SpritesManager.add() called w/ x:', x, 'y:', y, 'sheet:', sheet);
+        //console.log('SpritesManager.add() called w/ x:', x, 'y:', y, 'sheet:', sheet);
         let scene = this.scene;
         let $sprite = scene.add.sprite(x, y, sheet);
         let spriteKey = this.activeSprites.length;
         $sprite.spriteKey = spriteKey;
         this.activeSprites.push($sprite);
-        console.log('-> SPRITES.count() = ', this.count());
+        //console.log('-> SPRITES.count() = ', this.count());
         return $sprite;
     }
 

@@ -29,7 +29,7 @@ export default class SoundsManager {
         this.soundSprite = null;
 
         // Initialize this scene with a first-load callback function
-        MMRPG.init('SoundsManager', 'Sounds', function(){
+        MMRPG.onload('SoundsManager', 'Sounds', function(){
 
             /* ... */
 
@@ -39,9 +39,6 @@ export default class SoundsManager {
     {
         //console.log('SoundsManager.init() called');
         this.scene = scene;
-        scene.events.on('preload', this.preload, this);
-        scene.events.on('create', this.create, this);
-        scene.events.on('update', this.update, this);
     }
 
     preload ()

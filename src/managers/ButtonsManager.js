@@ -29,7 +29,7 @@ export default class ButtonsManager {
         this.scene = scene;
 
         // Initialize this scene with a first-load callback function
-        MMRPG.init('ButtonsManager', 'Buttons', function(){
+        MMRPG.onload('ButtonsManager', 'Buttons', function(){
 
             /* ... */
 
@@ -38,10 +38,8 @@ export default class ButtonsManager {
     }
     init (scene)
     {
+        //console.log('ButtonsManager.init() called from scene:', scene.scene.key);
         this.scene = scene;
-        scene.events.on('preload', this.preload, this);
-        scene.events.on('create', this.create, this);
-        scene.events.on('update', this.update, this);
     }
 
     preload ()

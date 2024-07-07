@@ -31,7 +31,7 @@ export default class PopupsManager {
         this.queuedPopups = [];
 
         // Initialize this scene with a first-load callback function
-        MMRPG.init('PopupsManager', 'Popups', function(){
+        MMRPG.onload('PopupsManager', 'Popups', function(){
 
             /* ... */
 
@@ -40,10 +40,8 @@ export default class PopupsManager {
     }
     init (scene)
     {
+        //console.log('PopupsManager.init() called');
         this.scene = scene;
-        scene.events.on('preload', this.preload, this);
-        scene.events.on('create', this.create, this);
-        scene.events.on('update', this.update, this);
     }
 
     preload ()
