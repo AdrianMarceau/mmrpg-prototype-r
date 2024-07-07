@@ -1147,11 +1147,13 @@ class MMRPG_Object {
     {
         //console.log('MMRPG_Object.prepareSprite() called for ', this.kind, this.token, '\nw/ spriteSheet:', spriteSheet, 'spriteConfig:', this.spriteConfig);
         if (this.sprite){ return; }
+        let SPRITES = this.SPRITES;
         let scene = this.scene;
         let config = this.spriteConfig;
         let sheet = spriteSheet || config.sheet;
         let [ modX, modY ] = this.getOffsetPosition(config.x, config.y);
-        let $sprite = scene.add.sprite(modX, modY, sheet);
+        //let $sprite = scene.add.sprite(modX, modY, sheet);
+        let $sprite = SPRITES.add(modX, modY, sheet);
         $sprite.subTweens = {};
         $sprite.subTimers = {};
         $sprite.subSprites = {};
