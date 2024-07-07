@@ -35,7 +35,7 @@ export default class MainScene extends Phaser.Scene
         this.POPUPS = POPUPS;
 
         // Initialize this scene with a first-load callback function
-        MMRPG.init('MainScene', 'Main', function(){
+        MMRPG.onload('MainScene', 'Main', function(){
 
             /* ... */
 
@@ -45,34 +45,20 @@ export default class MainScene extends Phaser.Scene
     init ()
     {
         //console.log('MainScene.init() called');
-
-        // Initialize any objects that need it
-        this.SPRITES.init(this);
-        this.SOUNDS.init(this);
-        this.BUTTONS.init(this);
-        this.POPUPS.init(this);
-
+        let MMRPG = this.MMRPG;
+        MMRPG.init(this);
     }
 
     preload ()
     {
         //console.log('MainScene.preload() called');
-
-        // Pull in required object references
         let MMRPG = this.MMRPG;
-        let SPRITES = this.SPRITES;
-        let BUTTONS = this.BUTTONS;
-        let POPUPS = this.POPUPS;
-
-        /* ... */
-
+        MMRPG.preload(this);
     }
 
     create ()
     {
         //console.log('MainScene.create() called');
-
-        // Pull in global MMRPG object and trigger the create function
         let MMRPG = this.MMRPG;
         MMRPG.create(this);
 
@@ -152,10 +138,11 @@ export default class MainScene extends Phaser.Scene
 
     }
 
-    update(time, delta) {
+    update (time, delta)
+    {
         //console.log('MainScene.update() called w/ time =', time, 'delta =', delta);
-
-
+        let MMRPG = this.MMRPG;
+        MMRPG.update(this, time, delta);
     }
 
     // DEBUG DEBUG DEBUG
