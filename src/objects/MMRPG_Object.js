@@ -680,13 +680,12 @@ class MMRPG_Object {
 
     }
 
-    // Generate animations for the sprite sheet currently loaded into memory
+    // Main function to generate animations for the sprite sheet currently loaded into memory
     createSpriteAnimations ()
     {
         //console.log('MMRPG_Object.createSpriteAnimations() called for ', this.kind, this.token);
 
         // Pull in index references
-        let _this = this;
         let scene = this.scene;
         let SPRITES = this.SPRITES;
         let spritesIndex = SPRITES.index;
@@ -698,14 +697,13 @@ class MMRPG_Object {
         let indexInfo = this.indexInfo;
         let objectData = this.data;
         let token = this.token;
-        //console.log('indexInfo for ', kind, token, '=', indexInfo);
 
         // Collect the sheet and base but be prepared to override
         // if we're still a placeholder sprite so we don't take the
         // real sprite's position in the index when ready
         let altSheet;
         let altIsBase;
-        if (!this.spriteIsPlaceholder){
+        if (!this.spriteIsPlaceholder) {
             altSheet = objectConfig.currentAltSheet || objectConfig.baseAltSheet;
             altIsBase = objectConfig.currentAltSheetIsBase ? true : false;
             } else {
@@ -715,165 +713,189 @@ class MMRPG_Object {
             }
 
         // Predefine some base paths and keys
-        let pathToken = token === kind ? ('.' + kind) : token;
-        let basePath = 'content/'+ xkind + '/' + pathToken + '/sprites' + (!altIsBase ? '_'+altSheet : '') + '/';
-        let baseKey = 'sprites.' + xkind + '.' + token + '.' + altSheet;
         let spriteSize = indexInfo.image_size || objectConfig.baseSize[0];
-        let spriteSizeX = spriteSize+'x'+spriteSize;
         let spriteDirections = ['left', 'right'];
         spritesIndex.prepForKeys(spritesIndex.sizes, xkind);
         spritesIndex.sizes[xkind][token] = spriteSize;
-        //console.log('queued [ '+spriteSize+' ] to spritesIndex.sizes['+kind+']['+token+']')
 
         // Loop through each direction and load the sprite sheet, making note of the sheet created
         let pendingAnims = [];
-        for (let i = 0; i < spriteDirections.length; i++){
+        for (let i = 0; i < spriteDirections.length; i++) {
             let direction = spriteDirections[i];
-
-            // -- DEFINE SHEET KEYS & TOKENS -- //
-
-            // Define and register the key for this sprite sheet using direction, image, key, and path
-            let sheetKey = baseKey+'.sprite-'+direction;
-            let sheetToken = 'sprite-' + direction;
-
-            // Define and register the key for this icon sheet using direction, image, key, and path
-            let iconPrefix = objectConfig.iconPrefix;
-            let iconSheetKey = sheetKey.replace('sprites.', iconPrefix+'s.');
-            let iconSheetToken = sheetToken.replace('sprite-', iconPrefix+'-');
-
-            // -- DEFINE SPRITE ANIMATIONS -- //
-
-            // Also create animations for this sprite depending on kind
-            if (kind === 'player'){
-
-                // Collect this player's base stats so we can adjust animations
-                let baseStats = objectData.baseStats || {};
-                let speedMod = baseStats.dividers.speed || 1;
-                //console.log(this.token + ' | baseStats:', baseStats);
-
-                // Generate the idle animation string for re-use later
-                var anim = 'idle';
-                var animKey = sheetKey + '.' + anim;
-                spritesIndex.prepForKeys(spritesIndex.anims, xkind, token, altSheet, sheetToken);
-                spritesIndex.anims[xkind][token][altSheet][sheetToken][anim] = animKey;
-                //console.log(this.token + ' | added "'+anim+'" anim [ '+animKey+' ] to spritesIndex.anims['+xkind+']['+token+']['+altSheet+']['+sheetToken+']['+anim+']');
-
-                // Queue the creation of an idle animation for this sprite
-                if (!scene.anims.get(animKey)){
-                    //console.log(this.token + ' | queued "'+anim+'" anim [ '+animKey+' ]');
-                    pendingAnims.push({
-                        key: animKey,
-                        sheet: sheetKey,
-                        frames: [ 0, 1, 0, 6, 0, 1, 0, 1, 0, 6 ],
-                        duration: Math.round(6000 * speedMod),
-                        repeat: -1
-                        });
-                    }
-
-                // Generate the running animation string for re-use later
-                var anim = 'run';
-                var animKey = sheetKey + '.' + anim;
-                spritesIndex.prepForKeys(spritesIndex.anims, xkind, token, altSheet, sheetToken);
-                spritesIndex.anims[xkind][token][altSheet][sheetToken][anim] = animKey;
-                //console.log(this.token + ' | added "'+anim+'" anim [ '+animKey+' ] to spritesIndex.anims['+xkind+']['+token+']['+altSheet+']['+sheetToken+']['+anim+']');
-
-                // Queue the creation of a running animation for this sprite
-                if (!scene.anims.get(animKey)){
-                    //console.log(this.token + ' | queued "'+anim+'" anim [ '+animKey+' ]');
-                    pendingAnims.push({
-                        key: animKey,
-                        sheet: sheetKey,
-                        frames: [ 8, 7, 8, 9 ],
-                        duration: 800, //Math.round(1000 * speedMod),
-                        repeat: -1
-                        });
-                    }
-
+            // Create animations for this sprite depending on kind
+            if (kind === 'player') {
+                this.addPlayerAnimations({ token: token, altSheet: altSheet, direction: direction }, pendingAnims);
+                } else if (kind === 'robot') {
+                this.addRobotAnimations({ token: token, altSheet: altSheet, direction: direction }, pendingAnims);
                 }
-            else if (kind === 'robot'){
-
-                // Collect this robot's base stats so we can adjust animations
-                let baseStats = objectData.baseStats || {};
-                let speedMod = baseStats.dividers.speed || 1;
-                //console.log(this.token + ' | baseStats:', baseStats);
-
-                // Generate the idle animation string for re-use later
-                var anim = 'idle';
-                var animKey = sheetKey + '.' + anim;
-                spritesIndex.prepForKeys(spritesIndex.anims, xkind, token, altSheet, sheetToken);
-                spritesIndex.anims[xkind][token][altSheet][sheetToken][anim] = animKey;
-                //console.log(this.token + ' | added "'+anim+'" anim [ '+animKey+' ] to spritesIndex.anims['+xkind+']['+token+']['+altSheet+']['+sheetToken+']['+anim+']');
-
-                // Queue the creation of a sliding animation for this sprite
-                if (!scene.anims.get(animKey)){
-                    //console.log(this.token + ' | queued "'+anim+'" anim [ '+animKey+' ]');
-                    pendingAnims.push({
-                        key: animKey,
-                        sheet: sheetKey,
-                        frames: [ 0, 1, 0, 8, 0, 1, 0, 10, 0, 0 ],
-                        duration: Math.round(10000 * speedMod),
-                        repeat: -1
-                        });
-                    }
-
-                // Generate the sliding animation string for re-use later
-                var anim = 'slide';
-                var animKey = sheetKey + '.' + anim;
-                spritesIndex.prepForKeys(spritesIndex.anims, xkind, token, altSheet, sheetToken);
-                spritesIndex.anims[xkind][token][altSheet][sheetToken][anim] = animKey;
-                //console.log(this.token + ' | added "'+anim+'" anim [ '+animKey+' ] to spritesIndex.anims['+xkind+']['+token+']['+altSheet+']['+sheetToken+']['+anim+']');
-
-                // Queue the creation of a sliding animation for this sprite
-                if (!scene.anims.get(animKey)){
-                    //console.log(this.token + ' | queued "'+anim+'" anim [ '+animKey+' ]');
-                    pendingAnims.push({
-                        key: animKey,
-                        sheet: sheetKey,
-                        frames: [ 8, 7, 7, 7, 7, 7, 7, 8 ],
-                        frameRate: 6,
-                        repeat: 0
-                        });
-                    }
-
-                // Generate the shooting animation string for re-use later
-                var anim = 'shoot';
-                var animKey = sheetKey + '.' + anim;
-                spritesIndex.prepForKeys(spritesIndex.anims, xkind, token, altSheet, sheetToken);
-                spritesIndex.anims[xkind][token][altSheet][sheetToken][anim] = animKey;
-                //console.log(this.token + ' | added "'+anim+'" anim [ '+animKey+' ] to spritesIndex.anims['+xkind+']['+token+']['+altSheet+']['+sheetToken+']['+anim+']');
-
-                // Queue the creation of a sliding animation for this sprite
-                if (!scene.anims.get(animKey)){
-                    //console.log(this.token + ' | queued "'+anim+'" anim [ '+animKey+' ]');
-                    pendingAnims.push({
-                        key: animKey,
-                        sheet: sheetKey,
-                        frames: [ 8, 4, 4, 4, 4, 4, 4, 4 ],
-                        frameRate: 6,
-                        repeat: 0
-                        });
-                    }
-
-                }
-
             }
 
         // Now that we've queued everything up, we can re-loop through the anims and create them
-        while (pendingAnims.length){
-            // Collect the next animation to create
+        this.createPendingAnimations(pendingAnims);
+
+        // Return when we are done creating sprite animations
+        return;
+    }
+
+    // Function to get the base key
+    getBaseSpriteKey (xkind, token, altSheet)
+    {
+        //console.log('MMRPG_Object.getBaseSpriteKey() called w/ xkind:', xkind, 'token:', token, 'altSheet:', altSheet);
+        let objectConfig = this.objectConfig;
+        xkind = xkind || this.xkind;
+        token = token || this.token;
+        altSheet = altSheet || objectConfig.currentAltSheet || objectConfig.baseAltSheet;
+        if (this.spriteIsPlaceholder){ token = this.kind; altSheet = 'base'; }
+        let baseKey = 'sprites.' + xkind + '.' + token + '.' + altSheet;
+        return baseKey;
+    }
+
+    // Function to get the sheet key
+    getBaseSheetKey (direction)
+    {
+        //console.log('MMRPG_Object.getBaseSheetKey() called w/ direction:', direction);
+        let baseKey = this.getBaseSpriteKey();
+        direction = direction || this.direction;
+        let sheetKey = baseKey + '.sprite-' + direction;
+        return sheetKey;
+    }
+
+    // Function to queue animations using config objects
+    queueAnimation (name, config, pendingAnims = [])
+    {
+        //console.log('MMRPG_Object.queueAnimation() called w/ name:', name, 'config:', config);
+        let scene = this.scene;
+        let spritesIndex = this.SPRITES.index;
+        let spriteAnims = spritesIndex.anims;
+        let xkind = this.xkind;
+        let token = config.token || this.token;
+        let direction = config.direction || this.direction;
+        let altSheet = config.altSheet || 'base';
+        let sheetToken = config.sheetToken || 'sprite-' + direction;
+        let sheetKey = config.sheetKey || this.getBaseSheetKey(config.direction);
+        let animKey = sheetKey + '.' + name;
+        spritesIndex.prepForKeys(spriteAnims, xkind, token, altSheet, sheetToken);
+        spriteAnims[xkind][token][altSheet][sheetToken][name] = animKey;
+        //console.log(this.token + ' | -> queued [ '+animKey+' ] to spriteAnims['+xkind+']['+token+']['+altSheet+']['+sheetToken+']['+name+']');
+        //console.log(this.token + ' | -> spriteAnims:', spriteAnims);
+        if (!scene.anims.get(animKey)){
+            pendingAnims.push({
+                name: name,
+                key: animKey,
+                sheet: sheetKey,
+                frames: config.frames,
+                duration: config.duration,
+                repeat: config.repeat
+                });
+            }
+    }
+
+    // Function to add player animations using config objects
+    addPlayerAnimations (config, pendingAnims = [])
+    {
+        //console.log('MMRPG_Object.addPlayerAnimations() called w/ config:', config);
+        let token = config.token || this.token;
+        let direction = config.direction || this.direction;
+        let indexInfo = this.indexInfo;
+        let baseStats = indexInfo.baseStats || {};
+        let speedMod = baseStats.dividers.speed || 1;
+
+        // Add idle animation
+        this.queueAnimation('idle', {
+            token: token,
+            frames: [0, 1, 0, 6, 0, 1, 0, 1, 0, 6],
+            duration: Math.round(6000 * speedMod),
+            repeat: -1,
+            direction: direction
+            }, pendingAnims);
+
+        // Add running animation
+        this.queueAnimation('run', {
+            token: token,
+            frames: [8, 7, 8, 9],
+            duration: 800,
+            repeat: -1,
+            direction: direction
+            }, pendingAnims);
+    }
+
+    // Function to add robot animations using config objects
+    addRobotAnimations (config, pendingAnims = [])
+    {
+        //console.log('MMRPG_Object.addRobotAnimations() called w/ config:', config);
+        let token = config.token || this.token;
+        let direction = config.direction || this.direction;
+        let indexInfo = this.indexInfo;
+        let baseStats = indexInfo.baseStats || {};
+        let speedMod = baseStats.dividers.speed || 1;
+
+        // Add idle animation
+        this.queueAnimation('idle', {
+            token: token,
+            frames: [0, 1, 0, 8, 0, 1, 0, 10, 0, 0],
+            duration: Math.round(10000 * speedMod),
+            repeat: -1,
+            direction: direction
+            }, pendingAnims);
+
+        // Add sliding animation
+        this.queueAnimation('slide', {
+            token: token,
+            frames: [8, 7, 7, 7, 7, 7, 7, 8],
+            frameRate: 6,
+            repeat: 0,
+            direction: direction
+            }, pendingAnims);
+
+        // Add shooting animation
+        this.queueAnimation('shoot', {
+            token: token,
+            frames: [8, 4, 4, 4, 4, 4, 4, 4],
+            frameRate: 6,
+            repeat: 0,
+            direction: direction
+            }, pendingAnims);
+    }
+
+    // Function to create pending animations provided a list of their configs
+    createPendingAnimations (pendingAnims)
+    {
+        //console.log('MMRPG_Object.createPendingAnimations() called w/ pendingAnims:', pendingAnims);
+        let scene = this.scene;
+        while (pendingAnims.length) {
             let anim = pendingAnims.shift();
+            if (scene.anims.get(anim.key)){ console.warn(this.token + ' | anim.key: ' + anim.key + ' already exists'); continue; }
+            anim.frames = scene.anims.generateFrameNumbers(anim.sheet, { frames: anim.frames });
             //console.log('%c' + this.token + ' | creating new animation for ' + anim.key, 'color: green;');
             //console.log(this.token + ' | creating new animation for ', anim.key, 'w/', anim);
-            if (scene.anims.get(anim.key)){ console.warn(this.token + ' | anim.key: ' + anim.key + ' already exists'); continue; }
-            scene.anims.create(Object.assign({}, anim, {
-                key: anim.key,
-                frames: scene.anims.generateFrameNumbers(anim.sheet, { frames: anim.frames }),
-                }));
+            scene.anims.create(anim);
+            let createdAnim = scene.anims.get(anim.key);
+            //console.log(this.token + ' | createdAnim:', createdAnim);
             }
+    }
 
-        // Return when done
-        return;
+    // Function to add a sprite animation externally using config objects
+    addSpriteAnimation (name, config)
+    {
+        //console.log('MMRPG_Object.addSpriteAnimation() called w/ config:', config);
+        let pendingAnims = [];
+        this.queueAnimation(name, config, pendingAnims);
+        this.createPendingAnimations(pendingAnims);
+    }
 
+    // Check if a given animation exists for this object given a name
+    hasSpriteAnimation (name)
+    {
+        //console.log('MMRPG_Object.hasSpriteAnimation() called for ', this.kind, this.token);
+        let scene = this.scene;
+        let spritesIndex = this.SPRITES.index;
+        let spriteAnims = spritesIndex.anims;
+        let xkind = this.xkind;
+        let token = this.token;
+        let altSheet = 'base';
+        let sheetToken = 'sprite';
+        let animKey = spriteAnims[xkind][token][altSheet][sheetToken][name];
+        return scene.anims.get(animKey) ? true : false;
     }
 
     // Load a given sprite texture (sheet) into memory and optionally execute a callback when done
