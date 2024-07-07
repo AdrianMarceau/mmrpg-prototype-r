@@ -297,7 +297,6 @@ class MMRPG_Object {
         objectConfig.currentAltSheetIsBase = objectConfig.currentAltSheet === 'base' || objectConfig.currentAltSheet === '1' || objectConfig.currentAltSheet === 1;
         //console.log(this.token + ' | -> objectConfig.currentAltSheet:', objectConfig.currentAltSheet, 'objectConfig.currentAltSheetIsBase:', objectConfig.currentAltSheetIsBase);
 
-
         // Make sure we also create kind-specific data entries as-needed
         let directionalKinds = ['players', 'robots', 'abilities', 'items'];
         if (directionalKinds.indexOf(this.xkind) !== -1){
@@ -477,7 +476,6 @@ class MMRPG_Object {
 
                 // Texture is loaded, create sprite normally
                 this.spriteIsLoading = false;
-                this.spriteIsPlaceholder = false;
                 this.createObjectSprite();
                 this.executeQueuedSpriteMethods();
                 this.ready = true;
@@ -493,7 +491,7 @@ class MMRPG_Object {
                 this.spriteIsPlaceholder = true;
                 this.createObjectSprite(tempSheet);
                 this.loadSpriteTexture(() => {
-                    //console.log('%c' + '-> sprite texture '+spriteSheet+' loaded!', 'color: #00FF00');
+                    //console.log('%c' + '-> sprite texture '+this.sheet+' loaded! (via directionalKinds)', 'color: #00FF00');
                     _this.spriteIsLoading = false;
                     _this.spriteIsPlaceholder = false;
                     _this.createObjectSprite();
@@ -546,7 +544,6 @@ class MMRPG_Object {
 
                 // Texture is loaded, create sprite normally
                 this.spriteIsLoading = false;
-                this.spriteIsPlaceholder = false;
                 this.createObjectSprite();
                 this.executeQueuedSpriteMethods();
                 this.ready = true;
@@ -562,7 +559,7 @@ class MMRPG_Object {
                 this.spriteIsPlaceholder = true;
                 this.createObjectSprite(tempSheet);
                 this.loadSpriteTexture(() => {
-                    //console.log('%c' + '-> sprite texture '+spriteSheet+' loaded!', 'color: #00FF00');
+                    //console.log('%c' + '-> sprite texture '+this.sheet+' loaded (via fieldKinds)!', 'color: #00FF00');
                     _this.spriteIsLoading = false;
                     _this.spriteIsPlaceholder = false;
                     _this.createObjectSprite();
@@ -580,6 +577,27 @@ class MMRPG_Object {
 
             }
 
+    }
+
+    // Load a given sprite texture (sheet) into memory and optionally execute a callback when done
+    loadSpriteTexture (onLoadCallback)
+    {
+        //console.log('MMRPG_Object.loadSpriteTexture() called');
+        let _this = this;
+        let scene = this.scene;
+        let SPRITES = this.SPRITES;
+        this.ready = false;
+        this.spriteIsLoading = true;
+        SPRITES.preloadPending(scene);
+        scene.load.once('complete', () => {
+            //console.log('-> loadSpriteTexture() complete for token:', token);
+            _this.createSpriteAnimations();
+            _this.spriteIsLoading = false;
+            _this.executeQueuedSpriteMethods();
+            if (onLoadCallback){ onLoadCallback.call(_this); }
+            _this.ready = true;
+            });
+        scene.load.start();
     }
 
     // Queue all of this sprite's sheets into the memory using the sprite manager utility
@@ -718,7 +736,7 @@ class MMRPG_Object {
             altSheet = objectConfig.currentAltSheet || objectConfig.baseAltSheet;
             altIsBase = objectConfig.currentAltSheetIsBase ? true : false;
             } else {
-            altSheet = 'base';
+            altSheet = objectConfig.baseAltSheet;
             altIsBase = true;
             token = kind;
             }
@@ -738,6 +756,8 @@ class MMRPG_Object {
                 this.addPlayerAnimations({ token: token, altSheet: altSheet, direction: direction }, pendingAnims);
                 } else if (kind === 'robot') {
                 this.addRobotAnimations({ token: token, altSheet: altSheet, direction: direction }, pendingAnims);
+                } else if (kind === 'ability') {
+                this.addAbilityAnimations({ token: token, altSheet: altSheet, direction: direction }, pendingAnims);
                 }
             }
 
@@ -749,25 +769,28 @@ class MMRPG_Object {
     }
 
     // Function to get the base key
-    getBaseSpriteKey (xkind, token, altSheet)
+    getBaseSpriteKey (xkind, token, altSheet, spriteKind = 'sprite')
     {
-        //console.log('MMRPG_Object.getBaseSpriteKey() called w/ xkind:', xkind, 'token:', token, 'altSheet:', altSheet);
+        //console.log('MMRPG_Object.getBaseSpriteKey() called w/ xkind:', xkind, 'token:', token, 'altSheet:', altSheet, 'spriteKind:', spriteKind);
         let objectConfig = this.objectConfig;
         xkind = xkind || this.xkind;
-        token = token || this.token;
+        token = token || this.data.image || this.token;
         altSheet = altSheet || objectConfig.currentAltSheet || objectConfig.baseAltSheet;
-        if (this.spriteIsPlaceholder){ token = this.kind; altSheet = 'base'; }
-        let baseKey = 'sprites.' + xkind + '.' + token + '.' + altSheet;
+        if (this.spriteIsPlaceholder){ token = this.kind; altSheet = objectConfig.baseAltSheet; }
+        //console.log(this.token + ' | -> spriteIsPlaceholder:', this.spriteIsPlaceholder, '-> token:', token, 'altSheet:', altSheet);
+        let baseKey = spriteKind+'s.' + xkind + '.' + token + '.' + altSheet;
+        //console.log(this.token + ' | -> returning baseKey:', baseKey);
         return baseKey;
     }
 
     // Function to get the sheet key
-    getBaseSheetKey (direction)
+    getBaseSheetKey (direction, spriteKind = 'sprite')
     {
         //console.log('MMRPG_Object.getBaseSheetKey() called w/ direction:', direction);
         let baseKey = this.getBaseSpriteKey();
         direction = direction || this.direction;
-        let sheetKey = baseKey + '.sprite-' + direction;
+        let sheetKey = baseKey + '.' + spriteKind + '-' + direction;
+        //console.log(this.token + ' | -> returning sheetKey:', sheetKey);
         return sheetKey;
     }
 
@@ -776,28 +799,34 @@ class MMRPG_Object {
     {
         //console.log('MMRPG_Object.queueAnimation() called w/ name:', name, 'config:', config);
         let scene = this.scene;
+        let objectConfig = this.objectConfig;
         let spritesIndex = this.SPRITES.index;
         let spriteAnims = spritesIndex.anims;
         let xkind = this.xkind;
-        let token = config.token || this.token;
+        let token = config.token || this.data.image || this.token;
         let direction = config.direction || this.direction;
-        let altSheet = config.altSheet || 'base';
-        let sheetToken = config.sheetToken || 'sprite-' + direction;
-        let sheetKey = config.sheetKey || this.getBaseSheetKey(config.direction);
+        let altSheet = config.altSheet || objectConfig.currentAltSheet || objectConfig.baseAltSheet;
+        //console.log(this.token + ' | -> token:', token, 'altSheet:', altSheet, '(via config.altSheet:', config.altSheet, '|| objectConfig.currentAltSheet:', objectConfig.currentAltSheet, '|| objectConfig.baseAltSheet:', objectConfig.baseAltSheet+')');
+        let spriteKind = 'sprite';
+        let sheetToken = config.sheetToken || spriteKind+'-' + direction;
+        let sheetKey = config.sheetKey || this.getBaseSheetKey(config.direction, spriteKind);
         let animKey = sheetKey + '.' + name;
+        //console.log(this.token + ' | -> spriteKind:', spriteKind, 'sheetToken:', sheetToken, 'sheetKey:', sheetKey, 'animKey:', animKey);
         spritesIndex.prepForKeys(spriteAnims, xkind, token, altSheet, sheetToken);
         spriteAnims[xkind][token][altSheet][sheetToken][name] = animKey;
         //console.log(this.token + ' | -> queued [ '+animKey+' ] to spriteAnims['+xkind+']['+token+']['+altSheet+']['+sheetToken+']['+name+']');
         //console.log(this.token + ' | -> spriteAnims:', spriteAnims);
         if (!scene.anims.get(animKey)){
-            pendingAnims.push({
+            let pendingAnim = {
                 name: name,
                 key: animKey,
                 sheet: sheetKey,
-                frames: config.frames,
-                duration: config.duration,
-                repeat: config.repeat
-                });
+                frames: config.frames
+                };
+            if (config.frameRate){ pendingAnim.frameRate = config.frameRate; }
+            if (config.duration){ pendingAnim.duration = config.duration; }
+            if (config.repeat){ pendingAnim.repeat = config.repeat; }
+            pendingAnims.push(pendingAnim);
             }
     }
 
@@ -805,7 +834,7 @@ class MMRPG_Object {
     addPlayerAnimations (config, pendingAnims = [])
     {
         //console.log('MMRPG_Object.addPlayerAnimations() called w/ config:', config);
-        let token = config.token || this.token;
+        let token = config.token || this.data.image || this.token;
         let direction = config.direction || this.direction;
         let indexInfo = this.indexInfo;
         let baseStats = indexInfo.baseStats || {};
@@ -834,7 +863,7 @@ class MMRPG_Object {
     addRobotAnimations (config, pendingAnims = [])
     {
         //console.log('MMRPG_Object.addRobotAnimations() called w/ config:', config);
-        let token = config.token || this.token;
+        let token = config.token || this.data.image || this.token;
         let direction = config.direction || this.direction;
         let indexInfo = this.indexInfo;
         let baseStats = indexInfo.baseStats || {};
@@ -868,20 +897,53 @@ class MMRPG_Object {
             }, pendingAnims);
     }
 
+    // Function to add ability animations using config objects
+    addAbilityAnimations (config, pendingAnims = [])
+    {
+        //console.log('MMRPG_Object.addAbilityAnimations() called w/ config:', config);
+        let token = config.token || this.data.image || this.token;
+        let direction = config.direction || this.direction;
+        let indexInfo = this.indexInfo;
+
+        // Add idle animation
+        this.queueAnimation('slideshow', {
+            token: token,
+            frames: [0, 1, 2, 3], // TODO: Add more frames here
+            duration: 4000,
+            repeat: -1,
+            direction: direction
+            }, pendingAnims);
+    }
+
     // Function to create pending animations provided a list of their configs
     createPendingAnimations (pendingAnims)
     {
         //console.log('MMRPG_Object.createPendingAnimations() called w/ pendingAnims:', pendingAnims);
         let scene = this.scene;
         while (pendingAnims.length) {
+
+            // Pull the next animation in sequence, but skip if it already exists
             let anim = pendingAnims.shift();
             if (scene.anims.get(anim.key)){ console.warn(this.token + ' | anim.key: ' + anim.key + ' already exists'); continue; }
-            anim.frames = scene.anims.generateFrameNumbers(anim.sheet, { frames: anim.frames });
-            //console.log('%c' + this.token + ' | creating new animation for ' + anim.key, 'color: green;');
+            //console.log('%c' + this.token + ' | creating new animation for ' + anim.key + ' -> ' + JSON.stringify(anim), 'color: green;');
+
+            // Parse any frame numbers into frame objects for the animation
+            if (anim.frames
+                && anim.frames.length > 0
+                && typeof anim.frames[0] === 'number'){
+                //console.log(this.token + ' | -> anim.frames(before):', anim.frames);
+                anim.frames = scene.anims.generateFrameNumbers(anim.sheet, { frames: anim.frames });
+                //console.log(this.token + ' | -> anim.frames(after):', anim.frames);
+                }
+
+            // Create the new animation in the scene
             //console.log(this.token + ' | creating new animation for ', anim.key, 'w/', anim);
             scene.anims.create(anim);
+
+            // Pull the new animation from the scene to validate it was created
             let createdAnim = scene.anims.get(anim.key);
-            //console.log(this.token + ' | createdAnim:', createdAnim);
+            //console.log(this.token + ' | created new animation w/ createdAnim:', createdAnim);
+
             }
     }
 
@@ -894,40 +956,61 @@ class MMRPG_Object {
         this.createPendingAnimations(pendingAnims);
     }
 
-    // Check if a given animation exists for this object given a name
-    hasSpriteAnimation (name)
+    // Check if a sprite sheet exists for the loaded object
+    hasSpriteSheet (spriteKind = 'sprite', spriteDirection = null, spriteAltOrSheet = null, spriteToken = null)
     {
-        //console.log('MMRPG_Object.hasSpriteAnimation() called for ', this.kind, this.token);
-        let scene = this.scene;
-        let spritesIndex = this.SPRITES.index;
-        let spriteAnims = spritesIndex.anims;
+        //console.log('MMRPG_Object.hasSpriteSheet() called w/ spriteKind:', spriteKind, 'spriteToken:', spriteToken, 'spriteDirection:', spriteDirection);
         let xkind = this.xkind;
-        let token = this.token;
-        let altSheet = 'base';
-        let sheetToken = 'sprite';
-        let animKey = spriteAnims[xkind][token][altSheet][sheetToken][name];
-        return scene.anims.get(animKey) ? true : false;
+        let SPRITES = this.SPRITES;
+        let spritesIndex = SPRITES.index;
+        let sheetsIndex = spritesIndex.sheets;
+        let objectConfig = this.objectConfig;
+        spriteKind = spriteKind || 'sprite';
+        spriteToken = spriteToken || this.data.image || this.token;
+        if (!sheetsIndex[xkind]) return false;
+        if (!sheetsIndex[xkind][spriteToken]) return false;
+        spriteDirection = spriteDirection || this.direction;
+        spriteAltOrSheet = spriteAltOrSheet || objectConfig.currentAltSheet || objectConfig.baseAltSheet;
+        let spriteKindKey = spriteKind+'-'+spriteDirection;
+        let spriteSheets = sheetsIndex[xkind][spriteToken] || {};
+        return spriteSheets && spriteSheets[spriteAltOrSheet] && spriteSheets[spriteAltOrSheet][spriteKindKey];
     }
 
-    // Load a given sprite texture (sheet) into memory and optionally execute a callback when done
-    loadSpriteTexture (onLoadCallback)
+    // Check if a sprite path exists for the loaded object
+    hasSpritePath (spriteKind = 'sprite', spriteDirection = null, spriteAltOrSheet = null, spriteToken = null)
     {
-        //console.log('MMRPG_Object.loadSpriteTexture() called');
-        let _this = this;
-        let scene = this.scene;
+        //console.log('MMRPG_Object.hasSpritePath() called w/ spriteKind:', spriteKind, 'spriteToken:', spriteToken, 'spriteDirection:', spriteDirection);
+        let xkind = this.xkind;
         let SPRITES = this.SPRITES;
-        this.ready = false;
-        this.spriteIsLoading = true;
-        SPRITES.preloadPending(scene);
-        scene.load.once('complete', () => {
-            //console.log('-> loadSpriteTexture() complete for token:', token);
-            _this.createSpriteAnimations();
-            _this.spriteIsLoading = false;
-            _this.executeQueuedSpriteMethods();
-            if (onLoadCallback){ onLoadCallback.call(_this); }
-            _this.ready = true;
-            });
-        scene.load.start();
+        let spritePaths = SPRITES.index.paths[xkind];
+        let objectConfig = this.objectConfig;
+        spriteKind = spriteKind || 'sprite';
+        spriteToken = spriteToken || this.data.image || this.token;
+        spriteDirection = spriteDirection || this.direction;
+        spriteAltOrSheet = spriteAltOrSheet || objectConfig.currentAltSheet || objectConfig.baseAltSheet;
+        let spriteKey = spriteKind+'-'+spriteDirection;
+        return spritePaths && spritePaths[spriteToken] && spritePaths[spriteToken][spriteAltOrSheet] && spritePaths[spriteToken][spriteAltOrSheet][spriteKey];
+    }
+
+    // Check if a sprite animation exists for the loaded object
+    hasSpriteAnim (spriteKind = 'sprite', animName = 'idle', spriteDirection = null, spriteAltOrSheet = null, spriteToken = null)
+    {
+        //console.log('MMRPG_Object.hasSpriteAnim() called w/ spriteKind:', spriteKind, 'spriteToken:', spriteToken, 'spriteDirection:', spriteDirection, 'animName:', animName);
+        let xkind = this.xkind;
+        let SPRITES = this.SPRITES;
+        let spritesIndex = SPRITES.index;
+        let animationsIndex = spritesIndex.anims;
+        let objectConfig = this.objectConfig;
+        animName = animName || 'idle';
+        spriteKind = spriteKind || 'sprite';
+        spriteToken = spriteToken || this.data.image || this.token;
+        if (!animationsIndex[xkind]) return false;
+        if (!animationsIndex[xkind][spriteToken]) return false;
+        spriteDirection = spriteDirection || this.direction;
+        spriteAltOrSheet = spriteAltOrSheet || objectConfig.currentAltSheet || objectConfig.baseAltSheet;
+        let spriteKindKey = spriteKind+'-'+spriteDirection;
+        let spriteAnims = animationsIndex[xkind][spriteToken] || {};
+        return spriteAnims && spriteAnims[spriteAltOrSheet] && spriteAnims[spriteAltOrSheet][spriteKindKey] && spriteAnims[spriteAltOrSheet][spriteKindKey][animName];
     }
 
     // Get the current sprite sheet/texture key for the loaded object
@@ -949,8 +1032,8 @@ class MMRPG_Object {
         spriteToken = spriteToken || this.data.image || this.token;
         if (!sheetsIndex[xkind]){ console.warn(this.token + ' | -> sheetsIndex['+xkind+'] does not exist'); return; }
         if (!sheetsIndex[xkind][spriteToken]){ console.warn(this.token + ' | -> sheetsIndex['+xkind+']['+spriteToken+'] does not exist'); return; }
-        spriteDirection = spriteDirection || this.direction || 'right';
-        spriteAltOrSheet = spriteAltOrSheet || objectConfig.currentAltSheet || objectConfig.baseAltSheet || 'base';
+        spriteDirection = spriteDirection || this.direction;
+        spriteAltOrSheet = spriteAltOrSheet || objectConfig.currentAltSheet || objectConfig.baseAltSheet;
         let spriteKindKey = spriteKind+'-'+spriteDirection;
         let spriteSheets = sheetsIndex[xkind][spriteToken] || {};
         //console.log(this.token + ' | -> spriteKind:', spriteKind, 'spriteToken:', spriteToken, 'spriteDirection:', spriteDirection, 'spriteAltOrSheet:', spriteAltOrSheet, 'spriteKindKey:', spriteKindKey, 'spriteSheets:', spriteSheets);
@@ -965,7 +1048,7 @@ class MMRPG_Object {
             //console.log(this.token + ' | -> found sheetKey:', sheetKey);
             } else {
             sheetKey = '~'+spriteKind+'s.'+xkind+'.'+spriteToken+'.'+spriteAltOrSheet+'.'+spriteKindKey;
-            console.warn(this.token + ' | -> could not find sheetKey:', sheetKey);
+            console.warn(this.token + ' | -> could not find sheetKey:', sheetKey, 'in spriteSheets:', spriteSheets);
             }
 
         // Return the sheet token we found
@@ -989,8 +1072,8 @@ class MMRPG_Object {
         // Compensate for missing fields with obvious values
         spriteKind = spriteKind || 'sprite';
         spriteToken = spriteToken || this.data.image || this.token;
-        spriteDirection = spriteDirection || this.direction || 'right';
-        spriteAltOrSheet = spriteAltOrSheet || objectConfig.currentAltSheet || objectConfig.baseAltSheet || 'base';
+        spriteDirection = spriteDirection || this.direction;
+        spriteAltOrSheet = spriteAltOrSheet || objectConfig.currentAltSheet || objectConfig.baseAltSheet;
         //console.log('Using getSpritePath() w/ spriteKind:', spriteKind, 'spriteToken:', spriteToken, 'spriteDirection:', spriteDirection, 'spriteAltOrSheet:', spriteAltOrSheet)
 
         // Define the sprite key and sheet token given context
@@ -1033,8 +1116,8 @@ class MMRPG_Object {
         spriteToken = spriteToken || this.data.image || this.token;
         if (!animationsIndex[xkind]){ console.warn(this.token + ' | -> animationsIndex['+xkind+'] does not exist'); return; }
         if (!animationsIndex[xkind][spriteToken]){ console.warn(this.token + ' | -> animationsIndex['+xkind+']['+spriteToken+'] does not exist'); return; }
-        spriteDirection = spriteDirection || this.direction || 'right';
-        spriteAltOrSheet = spriteAltOrSheet || objectConfig.currentAltSheet || objectConfig.baseAltSheet || 'base';
+        spriteDirection = spriteDirection || this.direction;
+        spriteAltOrSheet = spriteAltOrSheet || objectConfig.currentAltSheet || objectConfig.baseAltSheet;
         let spriteKindKey = spriteKind+'-'+spriteDirection;
         let spriteAnims = animationsIndex[xkind][spriteToken] || {};
         //console.log(this.token + ' | -> animName:', animName, 'spriteKind:', spriteKind, 'spriteToken:', spriteToken, 'spriteDirection:', spriteDirection, 'spriteAltOrSheet:', spriteAltOrSheet, 'spriteKindKey:', spriteKindKey, 'spriteAnims:', spriteAnims);
@@ -1050,7 +1133,7 @@ class MMRPG_Object {
             //console.log(this.token + ' | -> found animKey:', animKey);
             } else {
             animKey = '~'+spriteKind+'s.'+xkind+'.'+spriteToken+'.'+spriteAltOrSheet+'.'+spriteKindKey+'.'+animName;
-            console.warn(this.token + ' -> could not find animKey:', animKey);
+            console.warn(this.token + ' -> could not find animKey:', animKey, 'in spriteAnims:', spriteAnims);
             }
 
         // Return the sheet token we found
@@ -1924,15 +2007,19 @@ class MMRPG_Object {
     // Play a named animation on this sprite if it exists
     playAnim (anim)
     {
-        //console.log('MMRPG_Object.playAnim() called for ', this.kind, this.token, '\nw/ anim:', anim);
         if (!this.sprite) { return; }
         if (this.spriteIsLoading){ return this.spriteMethodsQueued.push(function(){ _this.playAnim(anim); }); }
+        //console.log('MMRPG_Object.playAnim() called for ', this.kind, this.token, '\nw/ anim:', anim);
+        let scene = this.scene;
         let $sprite = this.sprite;
         let config = this.spriteConfig;
         let animKey = this.getSpriteAnim('sprite', anim);
-        if (!animKey){ console.warn('MMRPG_Object.playAnim() -> animation "'+anim+'" not found for ', this.token); return; }
-        //console.log('-> animKey:', animKey);
+        if (!animKey){ console.warn('MMRPG_Object.playAnim() -> animation "'+anim+'" not found in SPRITES index for ', this.token); return; }
+        if (!scene.anims.exists(animKey)){ console.warn('MMRPG_Object.playAnim() -> animation "'+animKey+'" not found in scene.anims for ', this.token); return; }
+        let animData = scene.anims.get(animKey);
+        //console.log('-> trying to $sprite.play(', animKey, ') w/ animData:', animData);
         $sprite.play(animKey);
+        //console.log('-> did it play?');
     }
 
     // Start the idle animation for this sprite given all we know about it
