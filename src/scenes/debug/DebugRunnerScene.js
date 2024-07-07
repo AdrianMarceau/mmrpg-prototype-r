@@ -42,7 +42,7 @@ export default class DebugRunnerScene extends Phaser.Scene
         this.POPUPS = POPUPS;
 
         // Initialize this scene with a first-load callback function
-        MMRPG.init('DebugRunnerScene', 'DebugRunner', function(){
+        MMRPG.onload('DebugRunnerScene', 'DebugRunner', function(){
 
             //console.log('DebugRunnerScene.init() called for the first time');
             MMRPG.Cache.Debug.foo = 'bar';
@@ -58,20 +58,14 @@ export default class DebugRunnerScene extends Phaser.Scene
 
     init ()
     {
-        //console.log('MainScene.init() called');
-
-        // Initialize any objects that need it
-        this.SPRITES.init(this);
-        this.BUTTONS.init(this);
-        this.POPUPS.init(this);
-
+        //console.log('DebugRunnerScene.init() called');
+        let MMRPG = this.MMRPG;
+        MMRPG.init(this);
     }
 
     preload ()
     {
         //console.log('DebugRunnerScene.preload() called');
-
-        // Pull in global MMRPG object and trigger the create function
         let MMRPG = this.MMRPG;
         MMRPG.preload(this);
 
@@ -176,8 +170,6 @@ export default class DebugRunnerScene extends Phaser.Scene
     create ()
     {
         //console.log('DebugRunnerScene.create() called');
-
-        // Pull in global MMRPG object and trigger the create function
         let MMRPG = this.MMRPG;
         MMRPG.create(this);
 
@@ -350,6 +342,8 @@ export default class DebugRunnerScene extends Phaser.Scene
     update (time, delta)
     {
         //console.log('DebugRunnerScene.update() called w/ time =', time, 'delta =', delta);
+        let MMRPG = this.MMRPG;
+        MMRPG.update(this, time, delta);
 
         if (typeof this.debugAddedSprites === 'undefined'){ this.debugAddedSprites = 0; }
         if (typeof this.debugRemovedSprites === 'undefined'){ this.debugRemovedSprites = 0; }
