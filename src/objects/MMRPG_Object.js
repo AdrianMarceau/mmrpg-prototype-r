@@ -1280,6 +1280,7 @@ class MMRPG_Object {
         if (typeof this.cache.scale === 'undefined'){ this.cache.scale = null; }
         if (this.cache.scale !== config.scale){
             $sprite.setScale(config.scale);
+            if ($hitbox){ $hitbox.setScale(config.scale); }
             this.cache.scale = config.scale;
             //console.log(this.token + ' | -> updated scale to', config.scale, 'and updated cache');
             }
