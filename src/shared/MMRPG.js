@@ -8,7 +8,8 @@
 class MMRPG {
 
     // The constructor for the global MMRPG object
-    constructor() {
+    constructor () {
+        //console.log('%c' + 'MMRPG global constructor called!', 'color: #00f; font-weight: bold;');
 
         // Define the game's core properties
         let metaData = window.mmrpgMetaData || {};
@@ -75,19 +76,31 @@ class MMRPG {
         // Initialize the save data index with necessary sub-indexes and values
         this.initSaveDataStructure();
 
+        // Add some supplimentary methods to the MMRPG parent objects above
+        this.Managers.init = this.initManagers.bind(this);
+        this.Managers.preload = this.preloadManagers.bind(this);
+        this.Managers.create = this.createManagers.bind(this);
+        this.Managers.update = this.updateManagers.bind(this);
+        this.Managers.getKeys = function (){
+            let keys = Object.keys(this);
+            let remove = ['getKeys', 'init', 'preload', 'create', 'update'];
+            return keys.filter((key) => !remove.includes(key));
+            };
+        //console.log('-> MMRPG.Managers:', this.Managers);
+
     }
 
     // -- MMRPG INIT & PRELOAD/CREATE/UPDATE METHODS -- //
 
-    // Define a global init function for all the MMRPG scenes and utilities
-    init (source, namespace, onFirstLoad, onRepeatLoads)
+    // Define a global constructor function for all the MMRPG scenes and utilities to use
+    onload (source, namespace, onFirstLoad, onRepeatLoads)
     {
+        //console.log('MMRPG.onload() called w/ source:', source, 'namespace:', namespace);
         let firstLoad = false;
         if (this.Init.indexOf(source) === -1) {
             this.Init.push(source);
             firstLoad = true;
         }
-
         if (firstLoad) {
             if (typeof this.tick === 'undefined') {
                 this.tick = 0;
@@ -111,20 +124,127 @@ class MMRPG {
         }
     }
 
+    // Define a global init function to run at the start of any MMRPG scene
+    init (scene, isPreloadPhase = false)
+    {
+        //console.log('MMRPG.init() called w/ scene:', scene, 'isPreloadPhase:', isPreloadPhase);
+
+        // Automatically run the init methods for any managers
+        this.Managers.init(scene);
+
+    }
+
     // Define a global preload function to run at the start of any MMRPG scene
     preload (scene, isPreloadPhase = false)
     {
-        // Preload logic here
+        //console.log('MMRPG.preload() called w/ scene:', scene, 'isPreloadPhase:', isPreloadPhase);
+
+        // Automatically run the preload methods for any managers in memory
+        this.Managers.preload(scene);
+
     }
 
     // Define a global create function to run at the start of any MMRPG scene
     create (scene, isPreloadPhase = false)
     {
+        //console.log('MMRPG.create() called w/ scene:', scene, 'isPreloadPhase:', isPreloadPhase);
+
+        // Automatically run the create methods for any managers in memory
+        this.Managers.create(scene);
 
         // Create the canvas for everything else to be drawn upon
         const canvas = scene.add.image(0, 0, 'canvas');
         canvas.setOrigin(0, 0);
 
+    }
+
+    // Define a global update function to run at the start of any MMRPG scene
+    update (scene, time, delta)
+    {
+        //console.log('MMRPG.update() called w/ scene:', scene, 'time:', time, 'delta:', delta);
+
+        // Automatically run the update methods for any managers in memory
+        this.Managers.update(scene, time, delta);
+
+    }
+
+    // -- MMRPG MANAGER METHODS -- //
+
+    // Loop through any managers in memory and re-initialize them with the current scene
+    initManagers (scene)
+    {
+        //console.log('MMRPG.initManagers() called w/ scene:', scene.scene.key);
+        let managers = this.Managers;
+        //console.log('-> managers:', managers);
+        //console.log('-> this.Managers:', this.Managers);
+        if (typeof managers === 'object' && Object.keys(managers).length > 0) {
+            const managerKeys = managers.getKeys();
+            //console.log('-> found', managerKeys.length, 'manager keys:', managerKeys);
+            for (let i = 0; i < managerKeys.length; i++) {
+                const managerKey = managerKeys[i];
+                const manager = managers[managerKey];
+                if (typeof manager.init === 'function') {
+                    manager.init(scene);
+                }
+            }
+        }
+    }
+
+    // Loop through any managers in memory and re-preload them with the current scene
+    preloadManagers (scene)
+    {
+        //console.log('MMRPG.preloadManagers() called w/ scene:', scene.scene.key);
+        let managers = this.Managers;
+        //console.log('-> managers:', managers);
+        if (typeof managers === 'object' && Object.keys(managers).length > 0) {
+            const managerKeys = managers.getKeys();
+            //console.log('-> found', managerKeys.length, 'manager keys:', managerKeys);
+            for (let i = 0; i < managerKeys.length; i++) {
+                const managerKey = managerKeys[i];
+                const manager = managers[managerKey];
+                if (typeof manager.preload === 'function') {
+                    manager.preload(scene);
+                }
+            }
+        }
+    }
+
+    // Loop through any managers in memory and re-create them with the current scene
+    createManagers (scene)
+    {
+        //console.log('MMRPG.createManagers() called w/ scene:', scene.scene.key);
+        let managers = this.Managers;
+        //console.log('-> managers:', managers);
+        if (typeof managers === 'object' && Object.keys(managers).length > 0) {
+            const managerKeys = managers.getKeys();
+            //console.log('-> found', managerKeys.length, 'manager keys:', managerKeys);
+            for (let i = 0; i < managerKeys.length; i++) {
+                const managerKey = managerKeys[i];
+                const manager = managers[managerKey];
+                if (typeof manager.create === 'function') {
+                    manager.create(scene);
+                }
+            }
+        }
+    }
+
+    // Loop through any managers in memory and re-update them with the current scene
+    updateManagers (scene, time, delta)
+    {
+        //console.log('MMRPG.updateManagers() called w/ scene:', scene.scene.key, 'time:', time, 'delta:', delta);
+        let managers = this.Managers;
+        //console.log('-> managers:', managers);
+        if (typeof managers === 'object' && Object.keys(managers).length > 0) {
+            const managerKeys = managers.getKeys();
+            //console.log('-> found', managerKeys.length, 'manager keys:', managerKeys);
+            for (let i = 0; i < managerKeys.length; i++) {
+                const managerKey = managerKeys[i];
+                const manager = managers[managerKey];
+                if (typeof manager.update === 'function') {
+                    manager.update(scene, time, delta);
+                }
+            }
+        }
     }
 
 
