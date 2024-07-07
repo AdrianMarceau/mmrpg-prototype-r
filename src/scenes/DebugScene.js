@@ -108,6 +108,16 @@ export default class DebugScene extends Phaser.Scene
         this.runningDoctors = ['dr-light', 'dr-wily', 'dr-cossack'];
         this.slidingMasters = ['mega-man', 'bass', 'proto-man', 'roll', 'disco', 'rhythm'];
         this.debugSprites = [];
+        this.debugAddedSprites = 0;
+        this.debugRemovedSprites = 0;
+
+        // Define a quick function for saving a sprite reference to the debug list
+        this.saveDebugSprite = function($sprite){
+            scene.debugSprites.push($sprite);
+            $sprite.debugKey = scene.debugSprites.length - 1;
+            scene.debugAddedSprites++;
+            return $sprite.debugKey;
+            };
 
         // Predefine a list of robot master tokens sorted into core type(s)
         this.masterTokensByCoreType = {};
@@ -179,7 +189,6 @@ export default class DebugScene extends Phaser.Scene
 
         // Always print these when starting the DEBUG scene
         console.log('%c->%c MMRPG:', 'color: #bcf819;', '', MMRPG);
-        //console.log('>> SPRITES:', SPRITES);
 
         // First we add the title banner up at the top
         this.createTitleBanner();
@@ -247,7 +256,6 @@ export default class DebugScene extends Phaser.Scene
                     delay: 100,
                     duration: 1000,
                     onUpdate: function () {
-                        //console.log('floatingTextBubbleTween:', floatingTextBubbleTween.getValue());
                         let alpha = floatingTextBubbleTween.getValue() / 100;
                         $floatingTextBubble.setAlpha(alpha);
                         $bubbleRobot1.setAlpha(alpha);
@@ -257,7 +265,6 @@ export default class DebugScene extends Phaser.Scene
                         $bubbleRobot2.setPosition(null, '-=1');
                         },
                     onComplete: function () {
-                        //console.log('floatingTextBubbleTween complete!');
                         $floatingTextBubble.destroy();
                         $bubbleRobot1.destroy();
                         $bubbleRobot2.destroy();
@@ -352,14 +359,11 @@ export default class DebugScene extends Phaser.Scene
                                 let numSheetOptions = this.data.image_sheets || 1;
                                 let nextSheet = currentSheet + 1;
                                 if (nextSheet > numSheetOptions){ nextSheet = 1; }
-                                //console.log(this.token + ' | -> changing sheet to ' + nextSheet);
                                 this.setImageSheet(nextSheet, function(){
-                                    //console.log(this.token + ' | -> sheet changed to ' + nextSheet);
                                     this.setFrame(0);
                                     this.setCounter('debugFrame', 0);
                                     if ($sprite.subTimers.effectTimer){ $sprite.subTimers.effectTimer.remove(); }
                                     $sprite.subTimers.effectTimer = this.delayedCall(200, function(){
-                                        //console.log(this.token + ' | -> flipping direction (current: ' + this.direction + ')');
                                         if (flipDirection){ this.flipDirection(); }
                                         });
                                     });
@@ -367,11 +371,8 @@ export default class DebugScene extends Phaser.Scene
                                 let nextFrame = frame + 2;
                                 this.setFrame(nextFrame);
                                 this.setCounter('debugFrame', nextFrame);
-                                //console.log(this.token + ' | -> changing frame to ' + nextFrame);
                                 if ($sprite.subTimers.effectTimer){ $sprite.subTimers.effectTimer.remove(); }
                                 $sprite.subTimers.effectTimer = this.delayedCall(200, function(){
-                                    //console.log(this.token + ' | -> nextFrame changed to ' + nextFrame);
-                                    //console.log(this.token + ' | -> flipping direction (current: ' + this.direction + ')');
                                     if (flipDirection){ this.flipDirection(); }
                                     });
                                 }
@@ -392,12 +393,9 @@ export default class DebugScene extends Phaser.Scene
                             let nextSheet = currentSheet + 1;
                             if (nextSheet > numSheetOptions){ nextSheet = 1; }
                             this.shakeSprite();
-                            //console.log(this.token + ' | -> changing sheet to ' + nextSheet);
                             this.setImageSheet(nextSheet, function(){
-                                //console.log(this.token + ' | -> sheet changed to ' + nextSheet);
                                 if ($sprite.subTimers.effectTimer){ $sprite.subTimers.effectTimer.remove(); }
                                 $sprite.subTimers.effectTimer = this.delayedCall(200, function(){
-                                    //console.log(this.token + ' | -> flipping direction (current: ' + this.direction + ')');
                                     if (flipDirection){ this.flipDirection(); }
                                     });
                                 });
@@ -409,7 +407,6 @@ export default class DebugScene extends Phaser.Scene
                 };
             for (let key in $debugObjects){
                 let $object = $debugObjects[key];
-                //console.log('$'+key+' =', $object);
                 scene.battleBanner.add($object);
                 $object.useContainerForDepth(true);
                 if ($object.kind === 'ability'
@@ -448,19 +445,12 @@ export default class DebugScene extends Phaser.Scene
                     repeat: -1,
                     delay: 600,
                     onUpdate: function () {
-                        //console.log('startDebugFieldAnimations().onUpdate() | -> config.tween:', config.tween.getValue());
                         let value = config.tween.getValue();
-                        //let newPositionY = config.baseY + Math.floor(15 * (value / 100));
-                        //$field.setPositionY(newPositionY);
                         let backgroundOffsetY = config.baseOffsetY - Math.floor(15 * (value / 100));
-                        //console.log('config.baseOffsetY =', config.baseOffsetY, 'backgroundOffsetY =', backgroundOffsetY);
                         $field.setBackgroundOffsetY(backgroundOffsetY);
                         },
                     onComplete: function () {
-                        //console.log('startDebugFieldAnimations().onComplete() | -> config.tween complete!');
                         if (config.tween){ config.tween.remove(); }
-                        //$field.setPositionY(config.baseY);
-                        //$field.setBackgroundOffsetY(config.baseOffsetY);
                         }
                     });
                 };
@@ -509,8 +499,6 @@ export default class DebugScene extends Phaser.Scene
                 if (threatLevel >= 2){ damageTextColor = '#ff9900'; }
                 if (threatLevel >= 3){ damageTextColor = '#ff0000'; SOUNDS.playSoundEffect('damage-reverb', {delay: 50}); }
                 if (threatLevel >= 4) { SOUNDS.playSoundEffect('damage-reverb', {delay: 100}); }
-                //console.log('current energy:', newCurrentEnergy);
-                //console.log('max energy:', maxEnergy);
                 this.setCounter('stagger', '+=1');
                 if (newCurrentEnergy <= 0){
                     // This robot is disabled so we should explode and return
@@ -536,9 +524,7 @@ export default class DebugScene extends Phaser.Scene
                     //console.log('->', this.token, 'is damaged | energy: ', newCurrentEnergy, '/', maxEnergy);
                     this.stopAll(false);
                     SOUNDS.playSoundEffect('damage-reverb');
-                    //console.log(this.token + ' | -> about to show damage with amount', actualDamageAmount);
                     this.showDamage(actualDamageAmount, function(){
-                        //console.log(this.token + ' | -> show damage complete');
                         this.resetFrame();
                         this.setCounter('stagger', 0);
                         // Make the robot slide away from the clicked location
@@ -553,7 +539,6 @@ export default class DebugScene extends Phaser.Scene
                         else { duration *= speedMod; }
                         this.setFrame('slide');
                         this.moveToPosition(newX, newY, duration, function(){
-                            //console.log(this.token+' | customClickEvent movement complete (A)!');
                             this.setFrame('defend');
                             return customPostMoveCheck.call(this, duration);
                             });
@@ -563,7 +548,6 @@ export default class DebugScene extends Phaser.Scene
 
             // Define a custom function to be run post-movement to check and readjust if offscreen
             let customBounds = scene.battleBanner.getBounds(); // contains xMin, yMin, xMax, yMax
-            //console.log('customBounds =', customBounds);
             let customPostMoveCheck = function(duration){
                 //console.log('%c' + this.token+' | customPostMoveCheck() called', 'color: pink;');
                 let offset = {h: 0, v: 0};
@@ -736,19 +720,7 @@ export default class DebugScene extends Phaser.Scene
         let MMRPG = this.MMRPG;
         MMRPG.update(this, time, delta);
 
-        if (typeof this.debugAddedSprites === 'undefined'){ this.debugAddedSprites = 0; }
-        if (typeof this.debugRemovedSprites === 'undefined'){ this.debugRemovedSprites = 0; }
-
-        const activeSprites = this.battleBannerContainer.getAll();
-        const activeSpritesLength = activeSprites.length;
-        //console.log('activeSprites =', activeSprites);
-        //console.log('activeSpritesLength =', activeSpritesLength);
-        //console.log('this.debugAddedSprites =', this.debugAddedSprites);
-        //console.log('this.debugRemovedSprites =', this.debugRemovedSprites);
-
-        //this.updateMainBanner(time, delta);
-        //this.updateTestBanner(time, delta);
-
+        // Update the bounce banners if they exist
         this.updateBounceBanners(time, delta);
 
     }
@@ -815,9 +787,7 @@ export default class DebugScene extends Phaser.Scene
 
         // Create the sprite and add it to the scene
         let $playerSprite = scene.add.sprite(spriteX, spriteY, spriteSheet);
-        scene.debugSprites.push($playerSprite);
-        $playerSprite.debugKey = scene.debugSprites.length - 1;
-        scene.debugAddedSprites++;
+        scene.saveDebugSprite($playerSprite);
 
         // Add required sub-objects to the sprite
         $playerSprite.subTweens = {};
@@ -954,9 +924,7 @@ export default class DebugScene extends Phaser.Scene
 
         // Fallback to later code for now (remove later)
         let $robotSprite = $robot.sprite;
-        scene.debugSprites.push($robotSprite);
-        $robotSprite.debugKey = scene.debugSprites.length - 1;
-        scene.debugAddedSprites++;
+        scene.saveDebugSprite($robotSprite);
 
         // Set the disabled flag to false initially and make it easy to check
         $robot.isDisabled = false;
@@ -979,12 +947,6 @@ export default class DebugScene extends Phaser.Scene
         const slideSpriteSomewhere = function($robot, onComplete){
             //console.log('DebugScene.slideSpriteSomewhere() \nw/', typeof $robot, $robot.token, $robot, 'at x:', $robot.x, 'y:', $robot.y);
             //console.log('-> Starting random movement for', $robot.token, 'w/ x:', $robot.x, 'xMin:', safeZoneMinX, 'xMax:', safeZoneMaxX);
-            /*
-            // TEMP TEMP TEMP TEMP TESTING
-            console.warn('slideSpriteSomewhere is disabled right now');
-            if (onComplete){ onComplete($robot); }
-            return;
-            */
             //console.log('$robot', typeof $robot, $robot);
             if (!$robot.sprite
                 || $robot.toBeDestroyed
@@ -1104,9 +1066,7 @@ export default class DebugScene extends Phaser.Scene
 
                 // Fallback to later code for now (remove later)
                 let $shotSprite = $ability.sprite;
-                scene.debugSprites.push($shotSprite);
-                $shotSprite.debugKey = scene.debugSprites.length - 1;
-                scene.debugAddedSprites++;
+                scene.saveDebugSprite($shotSprite);
 
                 // Add this shot sprite as a child of the parent
                 abilityShotSprites.push($shotSprite);
@@ -1166,21 +1126,12 @@ export default class DebugScene extends Phaser.Scene
             let effectElement = (robotIndexInfo.core !== '' && robotIndexInfo.core !== 'copy' ? robotIndexInfo.core : '');
             let effectToken = effectElement ? effectElement + '-buster' : 'mega-buster';
             let $explode = new MMRPG_Ability(scene, effectToken, null, {offscreen: true});
-            //console.log('%c' + $robot.token + ' | -> $explode was just created!', 'color: cyan;');
-            //console.log($robot.token + ' | -> $explode.spriteIsLoading', $explode.spriteIsLoading);
-            //console.log($robot.token + ' | -> $explode.spriteIsPlaceholder', $explode.spriteIsPlaceholder);
 
             // Wait for the explosion object to be ready before we do anything to the robot
             $explode.whenReady(function(){
                 //console.log('%c' + $robot.token + ' | -> $explode is ready to be used!', 'color: lime;');
-                //console.log($robot.token + ' | -> $explode.token', $explode.token);
-                //console.log($robot.token + ' | -> $explode.data.image', $explode.data.image);
-                //console.log($robot.token + ' | -> $explode.spriteIsLoading', $explode.spriteIsLoading);
-                //console.log($robot.token + ' | -> $explode.spriteIsPlaceholder', $explode.spriteIsPlaceholder);
-                //console.log($robot.token + ' | -> $explode:', $explode);
 
                 // First we need to synthetically create an explosion animation using this ability sprite
-                //console.log($robot.token + ' | -> $explode.getSpriteAnim(sprite, explode)', $explode.getSpriteAnim('sprite', 'explode'));
                 if (!$explode.hasSpriteAnim('sprite', 'explode')){
                     //console.log('%c' + 'Creating explodeSpriteAnims...', 'color: orange;');
                     let frames = [ 0, 1, 2, 0, 2, 1, 0, 1, 0, 0 ];
@@ -1223,9 +1174,7 @@ export default class DebugScene extends Phaser.Scene
 
                 // First create the explode sprite and add it to the scene
                 let $explodeSprite = $explode.sprite;
-                scene.debugSprites.push($explodeSprite);
-                $explodeSprite.debugKey = scene.debugSprites.length - 1;
-                scene.debugAddedSprites++;
+                scene.saveDebugSprite($explodeSprite);
 
                 // Add this explode sprite as a child of the parent (TODO: remove?)
                 explodeEffectSprites.push($explodeSprite);
@@ -1315,79 +1264,6 @@ export default class DebugScene extends Phaser.Scene
                 robotQuoteTweens.push(quoteDisplayTween);
                 }
             };
-
-        // Define a function for pulling debug keys from a sprite recursively
-        const getDebugKeys = function($sprite){
-            //console.log('getDebugKeys() w/ $sprite:', $sprite);
-            let debugKeys = [];
-            if (!$sprite){ return debugKeys; }
-            if ($sprite.debugKey){ debugKeys.push($sprite.debugKey); }
-            //console.log('debugKeys:', debugKeys);
-            if (typeof $sprite.subSprites !== 'undefined'
-                && $sprite.subSprites.length){
-                //console.log('Checking subSprites:', $sprite.subSprites);
-                for (let i = 0; i < $sprite.subSprites.length; i++){
-                    let $subSprite = $sprite.subSprites[i];
-                    let subKeys = getDebugKeys($subSprite);
-                    if (subKeys.length){ debugKeys = debugKeys.concat(subKeys); }
-                    }
-                }
-            return debugKeys;
-            };
-
-        // Define a function for queueing cleanup of the sprite after a set amount of time
-        let cleanupTimer = null;
-        let cleanupDelay = 3000;
-        const queueSpriteCleanup = function(){
-            //console.log('queueSpriteCleanup()');
-            if (cleanupTimer){ cleanupTimer.remove(); }
-            let removeDebugKeys = [];
-            cleanupTimer = scene.time.delayedCall(cleanupDelay, function(){
-                //console.log('Time to cleanup sprites:', $robotSprite);
-                removeDebugKeys = removeDebugKeys.concat(getDebugKeys($robotSprite));
-                SPRITES.destroySpriteAndCleanup(scene, $robotSprite, true);
-                $robot.destroy();
-                for (let i = 0; i < abilityShotSprites.length; i++){
-                    let $abilityShotSprite = abilityShotSprites[i];
-                    removeDebugKeys = removeDebugKeys.concat(getDebugKeys($abilityShotSprite));
-                    SPRITES.destroySpriteAndCleanup(scene, $abilityShotSprite, true);
-                    }
-                for (let i = 0; i < explodeEffectSprites.length; i++){
-                    let $explodeEffectSprite = explodeEffectSprites[i];
-                    removeDebugKeys = removeDebugKeys.concat(getDebugKeys($explodeEffectSprite));
-                    SPRITES.destroySpriteAndCleanup(scene, $explodeEffectSprite, true);
-                    }
-                //console.log('removeDebugKeys:', removeDebugKeys);
-                for (let i = 0; i < removeDebugKeys.length; i++){
-                    let debugKey = removeDebugKeys[i];
-                    //console.log('Removing debug key:', debugKey, 'from debugSprites:', scene.debugSprites);
-                    delete scene.debugSprites[debugKey];
-                    scene.debugRemovedSprites++;
-                    }
-                });
-            };
-
-        /*
-        // TEMP TEMP TEMP TEMP TESTING
-        $robot.setPosition(200, null);
-        console.log('%c' + 'Robot ' + $robot.token + ' will slide now...', 'color: orange;');
-        slideSpriteRight($robot, function($robot){
-            console.log('%c' + 'Robot ' + $robot.token + ' has completed the slideSpriteRight test!', 'color: yellow;');
-            slideSpriteLeft($robot, function($robot){
-                console.log('%c' + 'Robot ' + $robot.token + ' has completed the slideSpriteLeft test!', 'color: yellow;');
-                $robot.flipDirection();
-                makeSpriteShoot($robot, function($robot){
-                    console.log('%c' + 'Robot ' + $robot.token + ' has completed the makeSpriteShoot test!', 'color: yellow;');
-                    $robot.delayedCall(600, function(){
-                        console.log('%c' + 'Robot ' + $robot.token + ' is done all tests!', 'color: green;');
-                        showRobotDefeatQuote($robot);
-                        explodeSpriteAndDestroy($robot);
-                        }, robotIsNotDisabled);
-                    });
-                });
-            });
-        return;
-        */
 
         // Preset the sprite direction to right, and then start playing the slide animation
         let startFunction;
