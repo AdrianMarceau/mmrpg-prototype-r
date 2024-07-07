@@ -34,6 +34,7 @@ class MMRPG_Object {
         this.scene = scene;
         this.data = {};
         this.cache = {};
+        this.timers = {};
         this.ready = false;
 
         // Pull in refs to required global objects
@@ -57,7 +58,7 @@ class MMRPG_Object {
 
         // Create some flags and a queue to help with lazy-loading
         this.spriteIsLoading = true;
-        this.spriteIsPlaceholder = true;
+        this.spriteIsPlaceholder = false;
         this.spriteMethodsQueued = [];
         this.spriteMethodsInProgress = [];
         this.spriteMethodsInProgress.add = function(method){ this.push(method); };
@@ -178,16 +179,26 @@ class MMRPG_Object {
     // Execute a given callback when the sprite is ready to be used
     whenReady (callback)
     {
-        //console.log('MMRPG_Object.whenReady() called for ', this.kind, this.token, 'w/ callback:', callback);
+        //console.log('MMRPG_Object.whenReady() called for ', this.kind, this.token, 'w/ callback:', typeof callback);
+        //console.log(this.token + ' | -> this.spriteIsLoading', this.spriteIsLoading);
+        //console.log(this.token + ' | -> this.spriteIsPlaceholder', this.spriteIsPlaceholder);
         this.spriteMethodsQueued.push(callback);
-        if (this.spriteIsLoading){ return false; }
-        else { this.executeQueuedSpriteMethods(); }
+        this.executeQueuedSpriteMethods();
     }
 
     // Execute all queued sprite methods now that the sprite is ready
     executeQueuedSpriteMethods ()
     {
-        //console.log('MMRPG_Object.executeQueuedSpriteMethods() called for ', this.kind, this.token);
+        if (!this.spriteMethodsQueued){ return; }
+        if (this.spriteMethodsQueued.length === 0){ return; }
+        //console.log('MMRPG_Object.executeQueuedSpriteMethods() called for ', this.kind, this.token, 'w/ ', this.spriteMethodsQueued.length, 'in the queue');
+        if (this.spriteIsLoading || this.spriteIsPlaceholder){
+            //console.log('-> sprite is not ready to execute methods yet!');
+            if (this.timers.executeQueuedSpriteMethods){ this.timers.executeQueuedSpriteMethods.destroy(); }
+            this.timers.executeQueuedSpriteMethods = this.delayedCall(100, this.executeQueuedSpriteMethods);
+            return;
+            }
+        //console.log('-> sprite is ready to execute methods!');
         if (this.spriteMethodsQueued){
             for (let i = 0; i < this.spriteMethodsQueued.length; i++){
                 let method = this.spriteMethodsQueued.shift();
