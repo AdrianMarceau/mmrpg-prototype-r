@@ -2592,7 +2592,6 @@ class MMRPG_Object {
         $sprite.subTweens.flashTween = flashTween;
     }
 
-
     // Shakes the sprite back and forth once and then executes a callback
     shakeSprite (strength = 1, repeat = 1, callback = null, duration = 100)
     {
@@ -2652,7 +2651,7 @@ class MMRPG_Object {
     }
 
     // Kickback this sprite visually by moving it back slightly and then forward again
-    kickbackSprite (strength = 1, repeat = 1, callback)
+    kickbackSprite (strength = 1, repeat = 1, callback = null, duration = 100)
     {
         //console.log('MMRPG_Object.kickbackSprite() called for ', this.kind, this.token, '\nw/ strength:', strength, 'repeat:', repeat, 'callback:', typeof callback);
         let _this = this;
@@ -2663,7 +2662,7 @@ class MMRPG_Object {
         let config = this.spriteConfig;
         let kickback = strength || 1;
         let kickbackX = kickback * 2;
-        let kickbackDuration = 100;
+        let kickbackDuration = duration || 100;
         let kickbackEase = 'Sine.easeInOut';
         let kickbackRepeat = repeat;
         let kickbackYoyo = true;
