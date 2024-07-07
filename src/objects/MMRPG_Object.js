@@ -926,35 +926,35 @@ class MMRPG_Object {
         //console.log('MMRPG_Object.getSpriteSheet() called w/ spriteKind:', spriteKind, 'spriteToken:', spriteToken, 'spriteDirection:', spriteDirection);
 
         // Pull in references to required global objects
+        let xkind = this.xkind;
         let SPRITES = this.SPRITES;
         let spritesIndex = SPRITES.index;
         let sheetsIndex = spritesIndex.sheets;
-        //let spriteSheets = SPRITES.index.sheets[this.xkind];
         let objectConfig = this.objectConfig;
         //console.log('-> SPRITES:', SPRITES, 'sheetsIndex:', sheetsIndex, 'objectConfig:', objectConfig);
-        if (!sheetsIndex[this.xkind]){ console.warn('-> sheetsIndex['+this.xkind+'] does not exist'); return; }
-        if (!sheetsIndex[this.xkind][this.token]){ console.warn('-> sheetsIndex['+this.xkind+']['+this.token+'] does not exist'); return; }
 
         // Compensate for missing fields with obvious values
         spriteKind = spriteKind || 'sprite';
-        //spriteToken = spriteToken || this.data.image || this.token; // Needed???????
+        spriteToken = spriteToken || this.data.image || this.token;
+        if (!sheetsIndex[xkind]){ console.warn(this.token + ' | -> sheetsIndex['+xkind+'] does not exist'); return; }
+        if (!sheetsIndex[xkind][spriteToken]){ console.warn(this.token + ' | -> sheetsIndex['+xkind+']['+spriteToken+'] does not exist'); return; }
         spriteDirection = spriteDirection || this.direction || 'right';
         spriteAltOrSheet = spriteAltOrSheet || objectConfig.currentAltSheet || objectConfig.baseAltSheet || 'base';
         let spriteKindKey = spriteKind+'-'+spriteDirection;
-        let spriteSheets = sheetsIndex[this.xkind][this.token] || {};
+        let spriteSheets = sheetsIndex[xkind][spriteToken] || {};
         //console.log(this.token + ' | -> spriteKind:', spriteKind, 'spriteToken:', spriteToken, 'spriteDirection:', spriteDirection, 'spriteAltOrSheet:', spriteAltOrSheet, 'spriteKindKey:', spriteKindKey, 'spriteSheets:', spriteSheets);
 
         // Define the sprite key and sheet token given context
-        //console.log(this.token + ' | -> looking for sheetKey in spriteSheets['+this.xkind+']['+this.token+']['+spriteAltOrSheet+']['+spriteKindKey+']');
+        //console.log(this.token + ' | -> looking for sheetKey in spriteSheets['+xkind+']['+spriteToken+']['+spriteAltOrSheet+']['+spriteKindKey+']');
         let sheetKey;
         if (spriteSheets
             && spriteSheets[spriteAltOrSheet]
             && spriteSheets[spriteAltOrSheet][spriteKindKey]){
             sheetKey = spriteSheets[spriteAltOrSheet][spriteKindKey];
-            //console.log('%c' + this.token + ' | -> found sheetKey:', sheetKey, 'color: green;');
+            //console.log(this.token + ' | -> found sheetKey:', sheetKey);
             } else {
-            sheetKey = '~'+spriteKind+'s.'+this.xkind+'.'+spriteToken+'.'+spriteAltOrSheet+'.'+spriteDirection;
-            console.warn('%c' + this.token + ' | -> could not find sheetKey:', sheetKey, 'color: red;');
+            sheetKey = '~'+spriteKind+'s.'+xkind+'.'+spriteToken+'.'+spriteAltOrSheet+'.'+spriteKindKey;
+            console.warn(this.token + ' | -> could not find sheetKey:', sheetKey);
             }
 
         // Return the sheet token we found
