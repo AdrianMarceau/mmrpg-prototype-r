@@ -90,6 +90,7 @@ export default class SpritesManager {
         this.index = MMRPG.Indexes.Sprites;
 
         // Create a buffer for pending sheets, animations, etc.
+        this.activeSprites = [];
         this.pendingSheets = [];
         this.queuedSheets = [];
         this.loadedSheets = [];
@@ -107,7 +108,10 @@ export default class SpritesManager {
     preload ()
     {
         //console.log('SpritesManager.preload() called');
-        /* ... */
+
+        // If there are "active" sprites already in the buffer, make sure we get rid of them
+        this.empty();
+
     }
     create ()
     {
@@ -118,6 +122,66 @@ export default class SpritesManager {
     {
         //console.log('SpritesManager.update() called');
         /* ... */
+    }
+
+    // Add a sprite to the list of currently active sprites
+    add (x, y, sheet)
+    {
+        console.log('SpritesManager.add() called w/ x:', x, 'y:', y, 'sheet:', sheet);
+        let scene = this.scene;
+        let $sprite = scene.add.sprite(x, y, sheet);
+        let spriteKey = this.activeSprites.length;
+        $sprite.spriteKey = spriteKey;
+        this.activeSprites.push($sprite);
+        console.log('-> SPRITES.count() = ', this.count());
+        return $sprite;
+    }
+
+    // Remove a sprite from the list of currently active sprites
+    remove ($sprite)
+    {
+        //console.log('SpritesManager.remove() called w/ $sprite:', $sprite);
+        if (!$sprite){ return; }
+        let spriteKey = $sprite.spriteKey;
+        if (typeof spriteKey !== 'number'){ return; }
+        this.activeSprites[spriteKey] = null;
+        delete this.activeSprites[spriteKey];
+        return spriteKey;
+    }
+
+    // Return the number of (registered) active sprites currently in memory
+    count ()
+    {
+        //console.log('SpritesManager.count() called');
+        let activeSprites = this.activeSprites;
+        let activeSpritesKeys = Object.keys(activeSprites);
+        //console.log('-> this.activeSprites = ', Object.assign({}, activeSprites));
+        //console.log('-> this.activeSprites.keys = ', Object.assign({}, activeSpritesKeys));
+        return activeSpritesKeys.length;
+    }
+
+    // Empty out the sprite registry and destroy any remaining active sprites
+    empty ()
+    {
+        //console.log('SpritesManager.empty() called');
+        // If there are "active" sprites already in the buffer, make sure we get rid of them
+        let activeSprites = this.activeSprites;
+        if (activeSprites.length){
+            //console.warn('SpritesManager.empty() has ' + activeSprites.length + ' active sprites in memory');
+            //console.warn('activeSprites (before) =', activeSprites.length, activeSprites);
+            for (let i = 0; i < activeSprites.length; i++){
+                //console.log('-> activeSprites[', i, '] before:', activeSprites[i]);
+                if (!activeSprites[i]){ continue; }
+                activeSprites[i].destroy();
+                //console.log('-> activeSprites[', i, '] progress:', activeSprites[i]);
+                activeSprites[i] = null;
+                //console.log('-> activeSprites[', i, '] after:', activeSprites[i]);
+                }
+            //console.warn('activeSprites (progress) =', activeSprites.length, activeSprites);
+            activeSprites.length = 0;
+            //console.warn('activeSprites (after) =', activeSprites.length, activeSprites);
+            //console.warn('this.activeSprites (after) =', this.activeSprites.length, this.activeSprites);
+            }
     }
 
     // Load a sprite sheet for a specific kind of object into the game
@@ -500,6 +564,7 @@ export default class SpritesManager {
 
             // Now we can destroy this actual sprite
             //console.log('$sprite.destroy() from destroySprite()');
+            SPRITES.remove($sprite);
             $sprite.destroy();
 
             // Set the sprite equal to null to ensure it's not used again
@@ -543,6 +608,7 @@ export default class SpritesManager {
 
         // Now we can destroy this actual sprite
         //console.log('$sprite.destroy() from destroySpriteAndCleanup()');
+        SPRITES.remove($sprite);
         $sprite.destroy();
 
         // Set the sprite equal to null to ensure it's not used again
