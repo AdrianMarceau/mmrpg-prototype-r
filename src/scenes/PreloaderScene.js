@@ -61,7 +61,7 @@ export default class PreloaderScene extends Phaser.Scene
             };
 
         // Initialize this scene with a first-load callback function
-        MMRPG.init('PreloaderScene', 'Preloader', function(){
+        MMRPG.onload('PreloaderScene', 'Preloader', function(){
 
             /* ... */
 
@@ -72,10 +72,8 @@ export default class PreloaderScene extends Phaser.Scene
     init ()
     {
         //console.log('PreloaderScene.init() called');
-
-        // Initialize any objects that need it
-        this.SPRITES.init(this);
-
+        let MMRPG = this.MMRPG;
+        MMRPG.init(this, true);
     }
 
     preload ()
