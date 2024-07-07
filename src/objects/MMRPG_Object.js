@@ -905,19 +905,16 @@ class MMRPG_Object {
         let _this = this;
         let scene = this.scene;
         let SPRITES = this.SPRITES;
+        this.ready = false;
         this.spriteIsLoading = true;
         SPRITES.preloadPending(scene);
         scene.load.once('complete', () => {
             //console.log('-> loadSpriteTexture() complete for token:', token);
             _this.createSpriteAnimations();
             _this.spriteIsLoading = false;
+            _this.executeQueuedSpriteMethods();
             if (onLoadCallback){ onLoadCallback.call(_this); }
-            if (_this.spriteMethodsQueued){
-                for (let i = 0; i < _this.spriteMethodsQueued.length; i++){
-                    let method = _this.spriteMethodsQueued[i];
-                    method.call(_this);
-                    }
-                }
+            _this.ready = true;
             });
         scene.load.start();
     }
