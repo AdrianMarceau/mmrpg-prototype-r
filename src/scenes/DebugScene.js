@@ -1328,27 +1328,24 @@ export default class DebugScene extends Phaser.Scene
         var y = (ref.y + 3);
         var x = (ref.x + (bannerWidth / 2) - (width / 2));
         var color = '#cacaca', background = '#262626';
-        let pauseTimeout = null;
+        const pauseScene = function(){
+            SOUNDS.playMenuSound('icon-click-mini');
+            $pauseButton.setText('PAUSED');
+            scene.scene.pause();
+            };
+        const unpauseScene = function(){
+            scene.scene.resume();
+            $pauseButton.setText('PAUSE');
+            SOUNDS.playMenuSound('icon-click-mini');
+            };
         let $pauseButton = BUTTONS.makeSimpleButton('PAUSE', {
             y: y, x: x,
             width: width, height: height, size: size,
             color: color, background: background,
             depth: depth++
             }, function(){
-            //console.log('Pause button clicked');
-            window.toggleGameIsClickable(false);
-            window.toggleGameIsRunning(false);
-            scene.scene.pause();
-            $pauseButton.setText('PAUSED');
-            if (pauseTimeout){ clearTimeout(pauseTimeout); }
-            pauseTimeout = setTimeout(function(){
-                window.toggleGameIsClickable(true);
-                }, 500);
-            });
-        window.setGameResumeCallback(function(){
-            $pauseButton.setText('PAUSE');
-            scene.scene.resume();
-            SOUNDS.playMenuSound('icon-click-mini');
+            pauseScene();
+            scene.scene.launch('Pause', { pauseKey: 'Debug', resumeCallback: unpauseScene });
             });
         this.pauseButton = $pauseButton;
 
