@@ -35,7 +35,7 @@ $version = $metaData['version'];
         <span class="bold-italic">.</span>
     </div>
 
-    <div id="game-container" class="paused">
+    <div id="game-container">
         <script type="module" src="src/<?= $version ?>/main.js"></script>
     </div>
 
