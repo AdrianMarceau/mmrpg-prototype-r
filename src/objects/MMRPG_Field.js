@@ -441,6 +441,113 @@ class MMRPG_Field extends MMRPG_Object {
             //console.log('-> updating ', layerKind, ' w/ sheet:', layerSheet, 'x:', modX, 'y:', modY, 'depth:', $layerSprite.depth, 'alpha:', $layerSprite.alpha, 'scale:', $layerSprite.scale, 'frame:', $layerSprite.frame, 'tint:', $layerSprite.tint);
             }
     }
+    */
+
+    // Function to get the base key
+    getBaseSpriteKey (xkind, token, spriteKind, sheetVariant)
+    {
+        //console.log('MMRPG_Field.getBaseSpriteKey() called w/ xkind:', xkind, 'token:', token, 'sheetVariant:', sheetVariant, 'spriteKind:', spriteKind);
+        let objectConfig = this.objectConfig;
+        xkind = xkind || this.xkind;
+        token = token || this.data.image || this.token;
+        spriteKind = spriteKind || 'preview';
+        sheetVariant = sheetVariant || this.data[spriteKind+'_variant'] || 'base';
+        if (this.spriteIsPlaceholder){ token = this.kind; sheetVariant = 'base'; }
+        //console.log(this.token + ' | -> spriteIsPlaceholder:', this.spriteIsPlaceholder, '-> token:', token, 'sheetVariant:', sheetVariant);
+        let baseKey = 'sprites.' + xkind + '.' + token + '.' + spriteKind + '.' + sheetVariant;
+        //console.log(this.token + ' | -> returning baseKey:', baseKey);
+        return baseKey;
+    }
+
+    // Check if a sprite animation exists for specified layer of the loaded object
+    hasSpriteLayerAnim (spriteKind = 'preview', animName = 'loop', spriteVariant = null, spriteToken = null)
+    {
+        //console.log('MMRPG_Field.hasSpriteLayerAnim() called w/ spriteKind:', spriteKind, 'animName:', animName, 'spriteVariant:', spriteVariant, 'spriteToken:', spriteToken);
+        let xkind = this.xkind;
+        let SPRITES = this.SPRITES;
+        let spritesIndex = SPRITES.index;
+        let animationsIndex = spritesIndex.anims;
+        let objectConfig = this.objectConfig;
+        animName = animName || 'loop';
+        spriteKind = spriteKind || 'preview';
+        spriteToken = spriteToken || this.data.image || this.token;
+        spriteVariant = spriteVariant || this.data[spriteKind+'_variant'] || 'base';
+        //console.log(this.token + ' | -> looking for animName:', animName, 'spriteKind:', spriteKind, 'spriteToken:', spriteToken, 'spriteVariant:', spriteVariant, 'in animationsIndex:', animationsIndex);
+        if (!animationsIndex[xkind]) return false;
+        if (!animationsIndex[xkind][spriteToken]) return false;
+        let spriteAnims = animationsIndex[xkind][spriteToken] || {};
+        return spriteAnims
+            && spriteAnims[spriteKind]
+            && spriteAnims[spriteKind][spriteVariant]
+            && spriteAnims[spriteKind][spriteVariant][animName]
+            ? true : false;
+    }
+
+    // Function to add a sprite animation externally using config objects
+    addSpriteLayerAnimation (layer, name, config)
+    {
+        //console.log('MMRPG_Field.addSpriteAnimation() called w/ name:', name, 'config:', config);
+        let pendingAnims = [];
+        config.spriteKind = layer;
+        this.queueAnimation(name, config, pendingAnims);
+        this.createPendingAnimations(pendingAnims);
+    }
+
+    // Function to queue animations using config objects
+    queueAnimation (name, config, pendingAnims = [])
+    {
+        //console.log('MMRPG_Field.queueAnimation() called w/ name:', name, 'config:', config);
+        let scene = this.scene;
+        let objectConfig = this.objectConfig;
+        let spritesIndex = this.SPRITES.index;
+        let spriteAnims = spritesIndex.anims;
+        let kind = this.kind;
+        let xkind = this.xkind;
+        let spriteToken = config.token || this.data.image || this.token;
+        let spriteKind = config.spriteKind || 'preview';
+        let spriteVariant = config.spriteVariant || this.data[spriteKind+'_variant'] || 'base';
+        let sheetKey = this.getBaseSpriteKey(null, null, spriteKind, spriteVariant);
+        let animKey = sheetKey + '.' + name;
+        //console.log(this.token + ' | -> spriteToken:', spriteToken, 'spriteKind:', spriteKind, 'spriteVariant:', spriteVariant, 'sheetKey:', sheetKey, 'animKey:', animKey);
+        spritesIndex.prepForKeys(spriteAnims, xkind, spriteToken, spriteKind, spriteVariant);
+        spriteAnims[xkind][spriteToken][spriteKind][spriteVariant][name] = animKey;
+        //console.log(this.token + ' | -> queued [ '+animKey+' ] to spriteAnims['+xkind+']['+spriteToken+']['+spriteKind+']['+spriteVariant+']');
+        //console.log(this.token + ' | -> spriteAnims:', spriteAnims);
+        if (!scene.anims.get(animKey)){
+            let pendingAnim = {
+                name: name,
+                key: animKey,
+                sheet: sheetKey,
+                frames: config.frames
+                };
+            if (config.frameRate){ pendingAnim.frameRate = config.frameRate; }
+            if (config.duration){ pendingAnim.duration = config.duration; }
+            if (config.repeat){ pendingAnim.repeat = config.repeat; }
+            //console.log(this.token + ' | -> queued [ '+animKey+' ] to pendingAnims w/ pendingAnim:', pendingAnim);
+            pendingAnims.push(pendingAnim);
+            }
+    }
+
+    // Play a named animation on this sprite if it exists
+    playAnim (layer, anim)
+    {
+        if (!this.sprite) { return; }
+        if (this.spriteIsLoading){ return this.spriteMethodsQueued.push(function(){ _this.playAnim(anim); }); }
+        //console.log('MMRPG_Field.playAnim() called for ', this.kind, this.token, '\nw/ layer:', layer, 'anim:', anim);
+        let scene = this.scene;
+        let $sprite = this.sprite;
+        let $layers = this.spriteLayers;
+        let config = this.spriteConfig;
+        let animKey = this.getSpriteAnim(layer, anim);
+        if (!$layers[layer]){ console.warn(this.token + ' | MMRPG_Field.playAnim() -> layer "'+layer+'" not found in spriteLayers for ', this.token); return; }
+        if (!animKey){ console.warn(this.token + ' | MMRPG_Field.playAnim() -> animation "'+anim+'" not found in SPRITES index for ', this.token); return; }
+        if (!scene.anims.exists(animKey)){ console.warn(this.token + ' | MMRPG_Field.playAnim() -> animation "'+animKey+'" not found in scene.anims for ', this.token); return; }
+        let animData = scene.anims.get(animKey);
+        //console.log(this.token + ' | -> trying to $sprite.play(', animKey, ') w/ animData:', animData);
+        let $layer = $layers[layer];
+        let $layerSprite = $layer.sprite;
+        $layerSprite.play(animKey);
+    }
 
     // Update or return the offset values for the preview layer of this sprite
     setPreviewOffset (x, y, z) { return this.setLayerOffset('preview', x, y, z); }
