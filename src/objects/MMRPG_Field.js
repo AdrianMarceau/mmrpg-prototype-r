@@ -301,6 +301,114 @@ class MMRPG_Field extends MMRPG_Object {
     {
         //console.log('MMRPG_Field.updateSpriteLayerGraphics() called for ', this.kind, this.token, '\nw/ spriteConfig:', this.spriteConfig);
         if (!this.sprite){ return; }
+        let $sprite = this.sprite;
+        let config = this.spriteConfig;
+        let [ modX, modY ] = this.getOffsetPosition(config.x, config.y);
+        let $layers = this.spriteLayers;
+        // Initialize the cache layers if not already present
+        if (!this.cache.layers) { this.cache.layers = {}; }
+        $sprite.setVisible(false);
+        let layerKeys = Object.keys($layers);
+        for (let i = 0; i < layerKeys.length; i++){
+            let layer = layerKeys[i];
+            let $layer = $layers[layer];
+            let layerKind = $layer.kind;
+            let layerSheet = $layer.sheet;
+            let layerVisible = $layer.visible;
+            let layerOffset = this.getLayerOffset(layer);
+            let layerDepth = config.depth + config.z + layerOffset.z;
+            let $layerSprite = $layer.sprite;
+
+            // Initialize layer cache if not already present
+            if (!this.cache.layers[layer]) { this.cache.layers[layer] = {}; }
+            let layerCache = this.cache.layers[layer];
+
+            // Check and update visibility
+            if (typeof layerCache.visible === 'undefined') { layerCache.visible = null; }
+            if (layerCache.visible !== layerVisible) {
+                $layerSprite.setVisible(layerVisible);
+                layerCache.visible = layerVisible;
+            }
+
+            // Check and update texture
+            if (typeof layerCache.sheet === 'undefined') { layerCache.sheet = null; }
+            if (layerCache.sheet !== layerSheet || $layerSprite.texture.key !== layerSheet) {
+                $layerSprite.setTexture(layerSheet);
+                layerCache.sheet = layerSheet;
+            }
+
+            // Check and update position
+            if (typeof layerCache.x === 'undefined') { layerCache.x = null; }
+            if (typeof layerCache.y === 'undefined') { layerCache.y = null; }
+            if (layerCache.x !== modX || layerCache.y !== modY) {
+                $layerSprite.setPosition(modX, modY);
+                layerCache.x = modX;
+                layerCache.y = modY;
+            }
+
+            // Check and update depth
+            if (typeof layerCache.depth === 'undefined') { layerCache.depth = null; }
+            if (layerCache.depth !== layerDepth) {
+                $layerSprite.setDepth(layerDepth);
+                layerCache.depth = layerDepth;
+            }
+
+            // Check and update origin
+            if (typeof layerCache.origin === 'undefined') { layerCache.origin = null; }
+            if (!layerCache.origin || layerCache.origin[0] !== config.origin[0] || layerCache.origin[1] !== config.origin[1]) {
+                $layerSprite.setOrigin(config.origin[0], config.origin[1]);
+                layerCache.origin = config.origin.slice(); // Clone the origin array
+            }
+
+            // Check and update alpha
+            if (typeof layerCache.alpha === 'undefined') { layerCache.alpha = null; }
+            if (layerCache.alpha !== config.alpha) {
+                $layerSprite.setAlpha(config.alpha);
+                layerCache.alpha = config.alpha;
+            }
+
+            // Check and update scale
+            if (typeof layerCache.scale === 'undefined') { layerCache.scale = null; }
+            if (layerCache.scale !== config.scale) {
+                $layerSprite.setScale(config.scale);
+                layerCache.scale = config.scale;
+            }
+
+            // Check and update frame
+            if (typeof layerCache.frame === 'undefined') { layerCache.frame = null; }
+            if (layerCache.frame !== config.frame) {
+                $layerSprite.setFrame(config.frame);
+                layerCache.frame = config.frame;
+            }
+
+            // Check and update tint
+            if (typeof layerCache.tint === 'undefined') { layerCache.tint = null; }
+            if (layerCache.tint !== config.tint) {
+                if (config.tint) { $layerSprite.setTint(config.tint); }
+                else { $layerSprite.clearTint(); }
+                layerCache.tint = config.tint;
+            }
+
+            // Calculate offset position for the layer
+            let [ offsetX, offsetY ] = this.getOffsetPosition(layerOffset.x, layerOffset.y);
+            let finalX = modX + offsetX;
+            let finalY = modY + offsetY;
+            if (layerCache.finalX !== finalX || layerCache.finalY !== finalY) {
+                $layerSprite.setPosition(finalX, finalY);
+                layerCache.finalX = finalX;
+                layerCache.finalY = finalY;
+            }
+
+            //console.log('-> updating ', layerKind, ' w/ sheet:', layerSheet, 'x:', finalX, 'y:', finalY, 'depth:', $layerSprite.depth, 'alpha:', $layerSprite.alpha, 'scale:', $layerSprite.scale, 'frame:', $layerSprite.frame, 'tint:', $layerSprite.tint);
+        }
+    }
+
+    /*
+    // Update the graphics of this object's individual sprite layers, including position, scale, and visibility
+    updateSpriteLayerGraphics ()
+    {
+        //console.log('MMRPG_Field.updateSpriteLayerGraphics() called for ', this.kind, this.token, '\nw/ spriteConfig:', this.spriteConfig);
+        if (!this.sprite){ return; }
         let _this = this;
         let $sprite = this.sprite;
         let config = this.spriteConfig;
