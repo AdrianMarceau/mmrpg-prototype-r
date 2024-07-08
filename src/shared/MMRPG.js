@@ -155,6 +155,7 @@ class MMRPG {
         // Create the canvas for everything else to be drawn upon
         const canvas = scene.add.image(0, 0, 'canvas');
         canvas.setOrigin(0, 0);
+        canvas.setDepth(0);
 
     }
 
