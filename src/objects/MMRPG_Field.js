@@ -403,46 +403,6 @@ class MMRPG_Field extends MMRPG_Object {
         }
     }
 
-    /*
-    // Update the graphics of this object's individual sprite layers, including position, scale, and visibility
-    updateSpriteLayerGraphics ()
-    {
-        //console.log('MMRPG_Field.updateSpriteLayerGraphics() called for ', this.kind, this.token, '\nw/ spriteConfig:', this.spriteConfig);
-        if (!this.sprite){ return; }
-        let _this = this;
-        let $sprite = this.sprite;
-        let config = this.spriteConfig;
-        let [ modX, modY ] = this.getOffsetPosition(config.x, config.y);
-        let $layers = this.spriteLayers;
-        //console.log('-> updating $layers:', $layers);
-        $sprite.setVisible(false);
-        let layerKeys = Object.keys($layers);
-        for (let i = 0; i < layerKeys.length; i++){
-            let layer = layerKeys[i];
-            let $layer = $layers[layer];
-            let layerKind = $layer.kind;
-            let layerSheet = $layer.sheet;
-            let layerVisible = $layer.visible;
-            let layerOffset = this.getLayerOffset(layer);
-            let layerDepth = config.depth + config.z + layerOffset.z;
-            let $layerSprite = $layer.sprite;
-            //console.log('-> updating ', layerKind, ' w/ depth:', layerDepth);
-            $layerSprite.setVisible(layerVisible);
-            $layerSprite.setTexture($layer.sheet);
-            $layerSprite.setPosition(modX, modY);
-            $layerSprite.setDepth(layerDepth);
-            $layerSprite.setOrigin(config.origin[0], config.origin[1]);
-            $layerSprite.setAlpha(config.alpha);
-            $layerSprite.setScale(config.scale);
-            $layerSprite.setFrame(config.frame);
-            if (config.tint) { $layerSprite.setTint(config.tint); }
-            let [ offsetX, offsetY ] = this.getOffsetPosition(layerOffset.x, layerOffset.y);
-            $layerSprite.setPosition(modX + offsetX, modY + offsetY);
-            //console.log('-> updating ', layerKind, ' w/ sheet:', layerSheet, 'x:', modX, 'y:', modY, 'depth:', $layerSprite.depth, 'alpha:', $layerSprite.alpha, 'scale:', $layerSprite.scale, 'frame:', $layerSprite.frame, 'tint:', $layerSprite.tint);
-            }
-    }
-    */
-
     // Function to get the base key
     getBaseSpriteKey (xkind, token, spriteKind, sheetVariant)
     {
