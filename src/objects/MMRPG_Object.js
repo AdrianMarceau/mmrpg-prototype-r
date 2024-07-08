@@ -2664,6 +2664,9 @@ class MMRPG_Object {
             if (actionQueue > 0){ return; }
             //console.log('-> showDamageCallback w/ actionQueue:', actionQueue);
             _this.isDoneWorkingOn('showDamage');
+            _this.stopFlashing();
+            _this.stopFading();
+            _this.stopShaking();
             if (onComplete){ onComplete.call(_this); }
             };
 
@@ -2902,6 +2905,88 @@ class MMRPG_Object {
                 }
             });
         $sprite.subTweens.fadeTween = fadeTween;
+    }
+
+    // Stop a flashing sprite and reset it back to its original state
+    stopFlashing ()
+    {
+        //console.log('MMRPG_Object.stopFlashing() called for ', this.kind, this.token);
+        let _this = this;
+        if (!this.sprite) { return; }
+        if (this.spriteIsLoading) { return this.spriteMethodsQueued.push(function() { _this.stopFlashSprite(); }); }
+        let $sprite = this.sprite;
+        let config = this.spriteConfig;
+        const killTweens = function() {
+            if ($sprite.subTweens.flashTween) {
+                $sprite.subTweens.flashTween.stop();
+                delete $sprite.subTweens.flashTween;
+                }
+            }
+        killTweens();
+        $sprite.alpha = 1.0;
+        $sprite.fx.brightness(1.0);
+        this.refreshSprite();
+    }
+
+    // Stop a shaking sprite and reset it back to its original state
+    stopShaking ()
+    {
+        //console.log('MMRPG_Object.stopShaking() called for ', this.kind, this.token);
+        let _this = this;
+        if (!this.sprite) { return; }
+        if (this.spriteIsLoading){ return this.spriteMethodsQueued.push(function(){ _this.stopShakeSprite(); }); }
+        let $sprite = this.sprite;
+        let config = this.spriteConfig;
+        const killTweens = function(){
+            if ($sprite.subTweens.shakeTween){
+                $sprite.subTweens.shakeTween.stop();
+                delete $sprite.subTweens.shakeTween;
+                }
+            };
+        killTweens();
+        let transforms = config.transforms;
+        transforms.remove('shake');
+        this.refreshSprite();
+    }
+
+    // Stop kickback on a sprite and reset it back to its original state
+    stopKickback ()
+    {
+        //console.log('MMRPG_Object.stopKickback() called for ', this.kind, this.token);
+        let _this = this;
+        if (!this.sprite) { return; }
+        if (this.spriteIsLoading){ return this.spriteMethodsQueued.push(function(){ _this.stopKickbackSprite(); }); }
+        let $sprite = this.sprite;
+        let config = this.spriteConfig;
+        const killTweens = function(){
+            if ($sprite.subTweens.kickbackTween){
+                $sprite.subTweens.kickbackTween.stop();
+                delete $sprite.subTweens.kickbackTween;
+                }
+            };
+        killTweens();
+        let transforms = config.transforms;
+        transforms.remove('kickback');
+        this.refreshSprite();
+    }
+
+    // Stop a fading sprite and reset it back to its original state
+    stopFading ()
+    {
+        //console.log('MMRPG_Object.stopFadeSprite() called for ', this.kind, this.token);
+        let _this = this;
+        if (!this.sprite) { return; }
+        if (this.spriteIsLoading){ return this.spriteMethodsQueued.push(function(){ _this.stopFadeSprite(); }); }
+        let $sprite = this.sprite;
+        const killTweens = function(){
+            if ($sprite.subTweens.fadeTween){
+                $sprite.subTweens.fadeTween.stop();
+                delete $sprite.subTweens.fadeTween;
+                }
+            };
+        killTweens();
+        this.setAlpha(1);
+        this.refreshSprite();
     }
 
     // Stop a sprite's move animation whichever way it might have been going abruptly
