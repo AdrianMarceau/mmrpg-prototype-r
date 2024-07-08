@@ -35,6 +35,128 @@ class MMRPG_Field extends MMRPG_Object {
 
     }
 
+    // Function to get the base key
+    getBaseSpriteKey (xkind, token, spriteKind, sheetVariant)
+    {
+        //console.log('MMRPG_Field.getBaseSpriteKey() called w/ xkind:', xkind, 'token:', token, 'sheetVariant:', sheetVariant, 'spriteKind:', spriteKind);
+        let objectConfig = this.objectConfig;
+        xkind = xkind || this.xkind;
+        token = token || this.data.image || this.token;
+        spriteKind = spriteKind || 'preview';
+        sheetVariant = sheetVariant || this.data[spriteKind+'_variant'] || 'base';
+        if (this.spriteIsPlaceholder){ token = this.kind; sheetVariant = 'base'; }
+        //console.log(this.token + ' | -> spriteIsPlaceholder:', this.spriteIsPlaceholder, '-> token:', token, 'sheetVariant:', sheetVariant);
+        let baseKey = 'sprites.' + xkind + '.' + token + '.' + spriteKind + '.' + sheetVariant;
+        //console.log(this.token + ' | -> returning baseKey:', baseKey);
+        return baseKey;
+    }
+
+    // Get the current sprite sheet/texture key for the loaded field object
+    // Optionally accepts kind, variant, and token to override defaults
+    getSpriteSheet (spriteKind = 'preview', spriteVariant = null, spriteToken = null)
+    {
+        //console.log('MMRPG_Field.getSpriteSheet() called w/ spriteKind:', spriteKind, 'spriteVariant:', spriteVariant, 'spriteToken:', spriteToken);
+
+        // Pull in references to required global objects
+        let SPRITES = this.SPRITES;
+        let spriteSheets = SPRITES.index.sheets[this.xkind];
+        let objectConfig = this.objectConfig;
+        //console.log('-> SPRITES:', SPRITES, 'spriteSheets:', spriteSheets, 'objectConfig:', objectConfig);
+
+        // Compensate for missing fields with obvious values
+        spriteKind = spriteKind || 'preview';
+        spriteToken = spriteToken || this.data.image || this.token;
+        spriteVariant = spriteVariant || this.data[spriteKind+'_variant'] || 'base';
+        //console.log('-> spriteKind:', spriteKind, 'spriteToken:', spriteToken, 'spriteVariant:', spriteVariant);
+
+        // Check if the sprite sheet exists in the index
+        let spriteSheet;
+        if (spriteSheets
+            && spriteSheets[spriteToken]
+            && spriteSheets[spriteToken][spriteKind]
+            && spriteSheets[spriteToken][spriteKind][spriteVariant]){
+            spriteSheet = spriteSheets[spriteToken][spriteKind][spriteVariant];
+            } else {
+            spriteSheet = '~sprites.'+this.xkind+'.'+spriteToken+'.'+spriteKind+'.'+spriteVariant;
+            }
+        //console.log('-> spriteSheet:', spriteSheet);
+
+        // Return the sheet token we found
+        //console.log('Returning spriteSheet:', spriteSheet);
+        return spriteSheet;
+
+    }
+
+    // Get the animation key of a specific animation on this loaded field object
+    // Optionally accepts kind, variant, and token to override defaults
+    getSpriteAnim (spriteKind = 'preview', spriteAnim = 'idle', spriteVariant = null, spriteToken = null)
+    {
+        //console.log('MMRPG_Field.getSpriteAnim() called w/ spriteKind:', spriteKind, 'spriteAnim:', spriteAnim, 'spriteVariant:', spriteVariant, 'spriteToken:', spriteToken);
+
+        // Pull in references to required global objects
+        let SPRITES = this.SPRITES;
+        let spriteAnims = SPRITES.index.anims[this.xkind];
+        let objectConfig = this.objectConfig;
+        //console.log('-> SPRITES:', SPRITES, 'spriteAnims:', spriteAnims, 'objectConfig:', objectConfig);
+
+        // Compensate for missing fields with obvious values
+        spriteKind = spriteKind || 'preview';
+        spriteToken = spriteToken || this.data.image || this.token;
+        spriteVariant = spriteVariant || this.data[spriteKind+'_variant'] || 'base';
+        //console.log('-> spriteKind:', spriteKind, 'spriteToken:', spriteToken, 'spriteVariant:', spriteVariant);
+
+        // Check if the sprite animation exists in the index
+        let spriteAnimKey;
+        if (spriteAnims
+            && spriteAnims[spriteToken]
+            && spriteAnims[spriteToken][spriteKind]
+            && spriteAnims[spriteToken][spriteKind][spriteVariant]
+            && spriteAnims[spriteToken][spriteKind][spriteVariant][spriteAnim]){
+            spriteAnimKey = spriteAnims[spriteToken][spriteKind][spriteVariant][spriteAnim];
+            } else {
+            spriteAnimKey = '~anims.'+this.xkind+'.'+spriteToken+'.'+spriteKind+'.'+spriteVariant+'.'+spriteAnim;
+            }
+        //console.log('-> spriteAnimKey:', spriteAnimKey);
+
+        // Return the animation key we found
+        return spriteAnimKey;
+
+    }
+
+    // Check if a sprite animation exists for specified layer of the loaded object
+    hasSpriteLayerAnim (spriteKind = 'preview', animName = 'loop', spriteVariant = null, spriteToken = null)
+    {
+        //console.log('MMRPG_Field.hasSpriteLayerAnim() called w/ spriteKind:', spriteKind, 'animName:', animName, 'spriteVariant:', spriteVariant, 'spriteToken:', spriteToken);
+        let xkind = this.xkind;
+        let SPRITES = this.SPRITES;
+        let spritesIndex = SPRITES.index;
+        let animationsIndex = spritesIndex.anims;
+        let objectConfig = this.objectConfig;
+        animName = animName || 'loop';
+        spriteKind = spriteKind || 'preview';
+        spriteToken = spriteToken || this.data.image || this.token;
+        spriteVariant = spriteVariant || this.data[spriteKind+'_variant'] || 'base';
+        //console.log(this.token + ' | -> looking for animName:', animName, 'spriteKind:', spriteKind, 'spriteToken:', spriteToken, 'spriteVariant:', spriteVariant, 'in animationsIndex:', animationsIndex);
+        if (!animationsIndex[xkind]) return false;
+        if (!animationsIndex[xkind][spriteToken]) return false;
+        let spriteAnims = animationsIndex[xkind][spriteToken] || {};
+        return spriteAnims
+            && spriteAnims[spriteKind]
+            && spriteAnims[spriteKind][spriteVariant]
+            && spriteAnims[spriteKind][spriteVariant][animName]
+            ? true : false;
+    }
+
+    // Function to add a sprite animation externally using config objects
+    addSpriteLayerAnimation (layer, name, config)
+    {
+        //console.log('MMRPG_Field.addSpriteAnimation() called w/ name:', name, 'config:', config);
+        let pendingAnims = [];
+        config.spriteKind = layer;
+        this.queueAnimation(name, config, pendingAnims);
+        this.createPendingAnimations(pendingAnims);
+    }
+
     // Queue all of this sprite's sheets unique to field objects into the memory using the sprite manager utility
     queueSpriteSheets ()
     {
@@ -179,76 +301,39 @@ class MMRPG_Field extends MMRPG_Object {
 
     }
 
-    // Get the current sprite sheet/texture key for the loaded field object
-    // Optionally accepts kind, variant, and token to override defaults
-    getSpriteSheet (spriteKind = 'preview', spriteVariant = null, spriteToken = null)
+    // Function to queue animations using config objects
+    queueAnimation (name, config, pendingAnims = [])
     {
-        //console.log('MMRPG_Field.getSpriteSheet() called w/ spriteKind:', spriteKind, 'spriteVariant:', spriteVariant, 'spriteToken:', spriteToken);
-
-        // Pull in references to required global objects
-        let SPRITES = this.SPRITES;
-        let spriteSheets = SPRITES.index.sheets[this.xkind];
+        //console.log('MMRPG_Field.queueAnimation() called w/ name:', name, 'config:', config);
+        let scene = this.scene;
         let objectConfig = this.objectConfig;
-        //console.log('-> SPRITES:', SPRITES, 'spriteSheets:', spriteSheets, 'objectConfig:', objectConfig);
-
-        // Compensate for missing fields with obvious values
-        spriteKind = spriteKind || 'preview';
-        spriteToken = spriteToken || this.data.image || this.token;
-        spriteVariant = spriteVariant || this.data[spriteKind+'_variant'] || 'base';
-        //console.log('-> spriteKind:', spriteKind, 'spriteToken:', spriteToken, 'spriteVariant:', spriteVariant);
-
-        // Check if the sprite sheet exists in the index
-        let spriteSheet;
-        if (spriteSheets
-            && spriteSheets[spriteToken]
-            && spriteSheets[spriteToken][spriteKind]
-            && spriteSheets[spriteToken][spriteKind][spriteVariant]){
-            spriteSheet = spriteSheets[spriteToken][spriteKind][spriteVariant];
-            } else {
-            spriteSheet = '~sprites.'+this.xkind+'.'+spriteToken+'.'+spriteKind+'.'+spriteVariant;
+        let spritesIndex = this.SPRITES.index;
+        let spriteAnims = spritesIndex.anims;
+        let kind = this.kind;
+        let xkind = this.xkind;
+        let spriteToken = config.token || this.data.image || this.token;
+        let spriteKind = config.spriteKind || 'preview';
+        let spriteVariant = config.spriteVariant || this.data[spriteKind+'_variant'] || 'base';
+        let sheetKey = this.getBaseSpriteKey(null, null, spriteKind, spriteVariant);
+        let animKey = sheetKey + '.' + name;
+        //console.log(this.token + ' | -> spriteToken:', spriteToken, 'spriteKind:', spriteKind, 'spriteVariant:', spriteVariant, 'sheetKey:', sheetKey, 'animKey:', animKey);
+        spritesIndex.prepForKeys(spriteAnims, xkind, spriteToken, spriteKind, spriteVariant);
+        spriteAnims[xkind][spriteToken][spriteKind][spriteVariant][name] = animKey;
+        //console.log(this.token + ' | -> queued [ '+animKey+' ] to spriteAnims['+xkind+']['+spriteToken+']['+spriteKind+']['+spriteVariant+']');
+        //console.log(this.token + ' | -> spriteAnims:', spriteAnims);
+        if (!scene.anims.get(animKey)){
+            let pendingAnim = {
+                name: name,
+                key: animKey,
+                sheet: sheetKey,
+                frames: config.frames
+                };
+            if (config.frameRate){ pendingAnim.frameRate = config.frameRate; }
+            if (config.duration){ pendingAnim.duration = config.duration; }
+            if (config.repeat){ pendingAnim.repeat = config.repeat; }
+            //console.log(this.token + ' | -> queued [ '+animKey+' ] to pendingAnims w/ pendingAnim:', pendingAnim);
+            pendingAnims.push(pendingAnim);
             }
-        //console.log('-> spriteSheet:', spriteSheet);
-
-        // Return the sheet token we found
-        //console.log('Returning spriteSheet:', spriteSheet);
-        return spriteSheet;
-
-    }
-
-    // Get the animation key of a specific animation on this loaded field object
-    // Optionally accepts kind, variant, and token to override defaults
-    getSpriteAnim (spriteKind = 'preview', spriteAnim = 'idle', spriteVariant = null, spriteToken = null)
-    {
-        //console.log('MMRPG_Field.getSpriteAnim() called w/ spriteKind:', spriteKind, 'spriteAnim:', spriteAnim, 'spriteVariant:', spriteVariant, 'spriteToken:', spriteToken);
-
-        // Pull in references to required global objects
-        let SPRITES = this.SPRITES;
-        let spriteAnims = SPRITES.index.anims[this.xkind];
-        let objectConfig = this.objectConfig;
-        //console.log('-> SPRITES:', SPRITES, 'spriteAnims:', spriteAnims, 'objectConfig:', objectConfig);
-
-        // Compensate for missing fields with obvious values
-        spriteKind = spriteKind || 'preview';
-        spriteToken = spriteToken || this.data.image || this.token;
-        spriteVariant = spriteVariant || this.data[spriteKind+'_variant'] || 'base';
-        //console.log('-> spriteKind:', spriteKind, 'spriteToken:', spriteToken, 'spriteVariant:', spriteVariant);
-
-        // Check if the sprite animation exists in the index
-        let spriteAnimKey;
-        if (spriteAnims
-            && spriteAnims[spriteToken]
-            && spriteAnims[spriteToken][spriteKind]
-            && spriteAnims[spriteToken][spriteKind][spriteVariant]
-            && spriteAnims[spriteToken][spriteKind][spriteVariant][spriteAnim]){
-            spriteAnimKey = spriteAnims[spriteToken][spriteKind][spriteVariant][spriteAnim];
-            } else {
-            spriteAnimKey = '~anims.'+this.xkind+'.'+spriteToken+'.'+spriteKind+'.'+spriteVariant+'.'+spriteAnim;
-            }
-        //console.log('-> spriteAnimKey:', spriteAnimKey);
-
-        // Return the animation key we found
-        return spriteAnimKey;
-
     }
 
     // Prepare this object's individual sprite layers for use, creating them if they doesn't exist yet
@@ -401,91 +486,6 @@ class MMRPG_Field extends MMRPG_Object {
 
             //console.log('-> updating ', layerKind, ' w/ sheet:', layerSheet, 'x:', finalX, 'y:', finalY, 'depth:', $layerSprite.depth, 'alpha:', $layerSprite.alpha, 'scale:', $layerSprite.scale, 'frame:', $layerSprite.frame, 'tint:', $layerSprite.tint);
         }
-    }
-
-    // Function to get the base key
-    getBaseSpriteKey (xkind, token, spriteKind, sheetVariant)
-    {
-        //console.log('MMRPG_Field.getBaseSpriteKey() called w/ xkind:', xkind, 'token:', token, 'sheetVariant:', sheetVariant, 'spriteKind:', spriteKind);
-        let objectConfig = this.objectConfig;
-        xkind = xkind || this.xkind;
-        token = token || this.data.image || this.token;
-        spriteKind = spriteKind || 'preview';
-        sheetVariant = sheetVariant || this.data[spriteKind+'_variant'] || 'base';
-        if (this.spriteIsPlaceholder){ token = this.kind; sheetVariant = 'base'; }
-        //console.log(this.token + ' | -> spriteIsPlaceholder:', this.spriteIsPlaceholder, '-> token:', token, 'sheetVariant:', sheetVariant);
-        let baseKey = 'sprites.' + xkind + '.' + token + '.' + spriteKind + '.' + sheetVariant;
-        //console.log(this.token + ' | -> returning baseKey:', baseKey);
-        return baseKey;
-    }
-
-    // Check if a sprite animation exists for specified layer of the loaded object
-    hasSpriteLayerAnim (spriteKind = 'preview', animName = 'loop', spriteVariant = null, spriteToken = null)
-    {
-        //console.log('MMRPG_Field.hasSpriteLayerAnim() called w/ spriteKind:', spriteKind, 'animName:', animName, 'spriteVariant:', spriteVariant, 'spriteToken:', spriteToken);
-        let xkind = this.xkind;
-        let SPRITES = this.SPRITES;
-        let spritesIndex = SPRITES.index;
-        let animationsIndex = spritesIndex.anims;
-        let objectConfig = this.objectConfig;
-        animName = animName || 'loop';
-        spriteKind = spriteKind || 'preview';
-        spriteToken = spriteToken || this.data.image || this.token;
-        spriteVariant = spriteVariant || this.data[spriteKind+'_variant'] || 'base';
-        //console.log(this.token + ' | -> looking for animName:', animName, 'spriteKind:', spriteKind, 'spriteToken:', spriteToken, 'spriteVariant:', spriteVariant, 'in animationsIndex:', animationsIndex);
-        if (!animationsIndex[xkind]) return false;
-        if (!animationsIndex[xkind][spriteToken]) return false;
-        let spriteAnims = animationsIndex[xkind][spriteToken] || {};
-        return spriteAnims
-            && spriteAnims[spriteKind]
-            && spriteAnims[spriteKind][spriteVariant]
-            && spriteAnims[spriteKind][spriteVariant][animName]
-            ? true : false;
-    }
-
-    // Function to add a sprite animation externally using config objects
-    addSpriteLayerAnimation (layer, name, config)
-    {
-        //console.log('MMRPG_Field.addSpriteAnimation() called w/ name:', name, 'config:', config);
-        let pendingAnims = [];
-        config.spriteKind = layer;
-        this.queueAnimation(name, config, pendingAnims);
-        this.createPendingAnimations(pendingAnims);
-    }
-
-    // Function to queue animations using config objects
-    queueAnimation (name, config, pendingAnims = [])
-    {
-        //console.log('MMRPG_Field.queueAnimation() called w/ name:', name, 'config:', config);
-        let scene = this.scene;
-        let objectConfig = this.objectConfig;
-        let spritesIndex = this.SPRITES.index;
-        let spriteAnims = spritesIndex.anims;
-        let kind = this.kind;
-        let xkind = this.xkind;
-        let spriteToken = config.token || this.data.image || this.token;
-        let spriteKind = config.spriteKind || 'preview';
-        let spriteVariant = config.spriteVariant || this.data[spriteKind+'_variant'] || 'base';
-        let sheetKey = this.getBaseSpriteKey(null, null, spriteKind, spriteVariant);
-        let animKey = sheetKey + '.' + name;
-        //console.log(this.token + ' | -> spriteToken:', spriteToken, 'spriteKind:', spriteKind, 'spriteVariant:', spriteVariant, 'sheetKey:', sheetKey, 'animKey:', animKey);
-        spritesIndex.prepForKeys(spriteAnims, xkind, spriteToken, spriteKind, spriteVariant);
-        spriteAnims[xkind][spriteToken][spriteKind][spriteVariant][name] = animKey;
-        //console.log(this.token + ' | -> queued [ '+animKey+' ] to spriteAnims['+xkind+']['+spriteToken+']['+spriteKind+']['+spriteVariant+']');
-        //console.log(this.token + ' | -> spriteAnims:', spriteAnims);
-        if (!scene.anims.get(animKey)){
-            let pendingAnim = {
-                name: name,
-                key: animKey,
-                sheet: sheetKey,
-                frames: config.frames
-                };
-            if (config.frameRate){ pendingAnim.frameRate = config.frameRate; }
-            if (config.duration){ pendingAnim.duration = config.duration; }
-            if (config.repeat){ pendingAnim.repeat = config.repeat; }
-            //console.log(this.token + ' | -> queued [ '+animKey+' ] to pendingAnims w/ pendingAnim:', pendingAnim);
-            pendingAnims.push(pendingAnim);
-            }
     }
 
     // Play a named animation on this sprite if it exists
