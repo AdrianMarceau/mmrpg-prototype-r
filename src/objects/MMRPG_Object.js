@@ -755,16 +755,25 @@ class MMRPG_Object {
 
         // Loop through each direction and load the sprite sheet, making note of the sheet created
         let pendingAnims = [];
-        for (let i = 0; i < spriteDirections.length; i++) {
-            let direction = spriteDirections[i];
-            // Create animations for this sprite depending on kind
-            if (kind === 'player') {
-                this.addPlayerAnimations({ token: token, altSheet: altSheet, direction: direction }, pendingAnims);
-                } else if (kind === 'robot') {
-                this.addRobotAnimations({ token: token, altSheet: altSheet, direction: direction }, pendingAnims);
-                } else if (kind === 'ability') {
-                this.addAbilityAnimations({ token: token, altSheet: altSheet, direction: direction }, pendingAnims);
+        if (kind === 'player'
+            || kind === 'robot'
+            || kind === 'ability'
+            || kind === 'item') {
+            for (let i = 0; i < spriteDirections.length; i++) {
+                let direction = spriteDirections[i];
+                // Create animations for this sprite depending on kind
+                if (kind === 'player') {
+                    this.addPlayerAnimations({ token: token, altSheet: altSheet, direction: direction }, pendingAnims);
+                    } else if (kind === 'robot') {
+                    this.addRobotAnimations({ token: token, altSheet: altSheet, direction: direction }, pendingAnims);
+                    } else if (kind === 'ability') {
+                    this.addAbilityAnimations({ token: token, altSheet: altSheet, direction: direction }, pendingAnims);
+                    } else if (kind === 'item') {
+                    //this.addItemAnimations({ token: token, altSheet: altSheet, direction: direction }, pendingAnims);
+                    }
                 }
+            } else if (kind === 'field') {
+            this.addFieldAnimations({ token: token, altSheet: altSheet }, pendingAnims);
             }
 
         // Now that we've queued everything up, we can re-loop through the anims and create them
@@ -911,20 +920,47 @@ class MMRPG_Object {
         let direction = config.direction || this.direction;
         let indexInfo = this.indexInfo;
 
-        // Add idle animation
-        this.queueAnimation('slideshow', {
+        // Add static animation
+        this.queueAnimation('static', {
             token: token,
-            frames: [0, 1, 2, 3], // TODO: Add more frames here
-            duration: 4000,
+            frames: [0],
+            duration: 1000,
             repeat: -1,
             direction: direction
             }, pendingAnims);
     }
 
+    // Function to add field animations using config objects
+    addFieldAnimations (config, pendingAnims = [])
+    {
+        //console.log('MMRPG_Object.addFieldAnimations() called w/ config:', config);
+        let scene = this.scene;
+        let token = config.token || this.data.image || this.token;
+        let sheet = config.sheet || this.avatarSheet;
+        let direction = config.direction || this.direction;
+        let indexInfo = this.indexInfo;
+
+        // Add basic loop animation for the background (containing all frames in sequence)
+        let backgroundSheet = this.getBaseSpriteKey(null, null, 'background');
+        let backgroundTexture = scene.textures.get(backgroundSheet);
+        let backgroundTextureSize = backgroundTexture && backgroundTexture.frameTotal ? backgroundTexture.frameTotal - 1 : 0;
+        //console.log(this.token + ' | -> backgroundSheet:', backgroundSheet, 'backgroundTexture:', backgroundTexture);
+        let backgroundFrames = backgroundTextureSize ? scene.anims.generateFrameNumbers(backgroundSheet, { start: 0, end: (backgroundTextureSize - 1) }) : [];
+        //console.log(this.token + ' | -> backgroundFrames:', backgroundFrames);
+        this.queueAnimation('loop', {
+            token: token,
+            frames: backgroundFrames,
+            frameRate: 3,
+            repeat: -1,
+            spriteKind: 'background'
+            }, pendingAnims);
+
+    }
+
     // Function to create pending animations provided a list of their configs
     createPendingAnimations (pendingAnims)
     {
-        //console.log('MMRPG_Object.createPendingAnimations() called w/ pendingAnims:', pendingAnims);
+        //console.log('MMRPG_Object.createPendingAnimations() called for ', this.kind, this.token, 'w/ pendingAnims:', pendingAnims);
         let scene = this.scene;
         while (pendingAnims.length) {
 
@@ -956,7 +992,7 @@ class MMRPG_Object {
     // Function to add a sprite animation externally using config objects
     addSpriteAnimation (name, config)
     {
-        //console.log('MMRPG_Object.addSpriteAnimation() called w/ config:', config);
+        //console.log('MMRPG_Object.addSpriteAnimation() called w/ name:', name, 'config:', config);
         let pendingAnims = [];
         this.queueAnimation(name, config, pendingAnims);
         this.createPendingAnimations(pendingAnims);
