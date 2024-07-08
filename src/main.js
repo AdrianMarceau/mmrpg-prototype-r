@@ -14,6 +14,8 @@ import MainScene from './scenes/MainScene.js';
 import DebugScene from './scenes/DebugScene.js';
 import DebugRunnerScene from './scenes/debug/DebugRunnerScene.js';
 
+import PauseOverlay from './scenes/PauseOverlay.js';
+
 var config = {
     type: Phaser.AUTO,
     width: MMRPG.canvas.width,
