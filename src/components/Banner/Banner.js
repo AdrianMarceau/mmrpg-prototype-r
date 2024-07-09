@@ -331,6 +331,7 @@ export default class Banner {
         // If this is a custom MMRPG object w/ sprites inside
         else if ($object instanceof MMRPG_Object){
             let $sprite = $object.sprite;
+            let $shadow = $object.spriteShadow;
             let $hitbox = $object.spriteHitbox;
             let $spriteLayers = $object.spriteLayers;
             //console.log($object.token + ' | -> adding MMRPG_Object to container \n$sprite:', $sprite, '\n$hitbox:', $hitbox, '\n$spriteLayers:', $spriteLayers);
@@ -339,6 +340,11 @@ export default class Banner {
                 containerSprites.push($sprite);
                 containerDepths.push($sprite.depth);
                 //console.log($object.token + ' | -> added sprite w/ depth', $sprite.depth);
+                }
+            if ($shadow){
+                spriteContainer.add($shadow);
+                containerSprites.push($shadow);
+                containerDepths.push($shadow.depth);
                 }
             if ($hitbox){
                 spriteContainer.add($hitbox);
