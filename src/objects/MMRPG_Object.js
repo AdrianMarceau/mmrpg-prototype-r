@@ -84,6 +84,7 @@ class MMRPG_Object {
         // Predefine parent sprite variables to avoid errors
         this.sprite = null;
         this.spriteLayers = {};
+        this.spriteShadow = null;
         this.spriteHitbox = null;
 
         // Predefine spriteConfig properties to avoid errors
@@ -1202,6 +1203,32 @@ class MMRPG_Object {
         $sprite.subSprites = {};
         this.sprite = $sprite;
         //console.log('-> created new sprite w/ sheet:', sheet, 'x:', config.x, 'y:', config.y);
+        if (config.shadow){ this.prepareSpriteShadow(sheet); }
+    }
+
+    // Prepare this object's sprite shadow for us, creating it if it doesn't exist yet
+    // Note: This is an exactly replica of the prepareSprite function, but for shadows
+    prepareSpriteShadow (spriteSheet = null)
+    {
+        //console.log('MMRPG_Object.prepareSpriteShadow() called for ', this.kind, this.token, '\nw/ spriteSheet:', spriteSheet, 'spriteConfig:', this.spriteConfig);
+        if (!this.sprite){ return; }
+        if (this.spriteShadow){ return; }
+        let SPRITES = this.SPRITES;
+        let $sprite = this.sprite;
+        let scene = this.scene;
+        let config = this.spriteConfig;
+        let sheet = spriteSheet || config.sheet;
+        let [ modX, modY ] = this.getOffsetPosition(config.x, config.y);
+        let $shadow = SPRITES.add(modX, modY, sheet);
+        $shadow.subTweens = {};
+        $shadow.subTimers = {};
+        $shadow.subSprites = {};
+        this.spriteShadow = $shadow;
+        //console.log('-> created new sprite shadow w/ sheet:', sheet, 'x:', config.x, 'y:', config.y);
+        // Make sure this shadow tracks animation updates on the parent
+        $sprite.on('animationupdate', function (animation, frame){
+            $shadow.setFrame(frame.textureFrame);
+            });
     }
 
     // Prepare this object's individual sprite layers for use, creating them if they doesn't exist yet
@@ -1260,6 +1287,11 @@ class MMRPG_Object {
         $hitbox.setDepth(hitboxConfig.depth);
         $hitbox.setOrigin(hitboxConfig.origin[0], hitboxConfig.origin[1]);
         this.spriteHitbox = $hitbox;
+
+    }
+
+    createSpriteShadow ()
+    {
 
     }
 
@@ -1373,28 +1405,6 @@ class MMRPG_Object {
             //console.log(this.token + ' | -> updated positions w/ spriteX:', spriteX, 'spriteY:', spriteY, 'transX:', transX, 'transY:', transY, 'and updated cache');
             }
 
-        //console.log(this.token + ' | -> attempting to update shadow from', this.cache.shadow, 'to', config.shadow);
-        let shadowSide = 'center';
-        if (config.x < MMRPG.canvas.centerX){ shadowSide = 'left'; }
-        else if (config.x > MMRPG.canvas.centerX){ shadowSide = 'right'; }
-        if (typeof this.cache.shadow === 'undefined'){ this.cache.shadow = null; }
-        if (typeof this.cache.shadowSide === 'undefined'){ this.cache.shadowSide = null; }
-        if (this.cache.shadow !== config.shadow
-            || (config.shadow && this.cache.shadowSide !== shadowSide)){
-            //console.log(this.token + ' | -> attempting to update shadow from', this.cache.shadow, 'to', config.shadow, 'w/ shadowSide:', shadowSide);
-            let fx = this.cache.shadowFX || null;
-            let offset = [0, 1];
-            if (shadowSide === 'left'){ offset[0] = 1; }
-            else if (shadowSide === 'right'){ offset[0] = -1; }
-            if (config.shadow && !fx){ fx = $sprite.preFX.addShadow(offset[0], offset[1]); }
-            else if (!config.shadow && fx){ $sprite.preFX.remove(fx); fx = null; }
-            else if (config.shadow && fx){ fx.x = offset[0]; fx.y = offset[1]; }
-            this.cache.shadow = config.shadow;
-            this.cache.shadowFX = fx;
-            this.cache.shadowSide = shadowSide;
-            //console.log(this.token + ' | -> updated shadow to ', config.shadow, 'w/ offset:', offset, ' and fx:', fx, 'and updated cache');
-            }
-
         // If this sprite is inside of a container and we're allowed to, track Z changes to that container
         let spriteContainer = this.spriteContainer || null;
         let useContainerForDepth = spriteContainer && config.useContainerForDepth ? true : false;
@@ -1422,6 +1432,75 @@ class MMRPG_Object {
             this.cache.z = config.z;
             if (useContainerForDepth){ sortSpriteContainer = true; }
             //console.log(this.token + ' | -> updated depth to', config.depth, 'and updated cache');
+            }
+
+        // If there's a shadow created, we should update that with any changes to the parent
+        if (typeof this.cache.shadow === 'undefined'){ this.cache.shadow = {}; }
+        let shadowCache = this.cache.shadow;
+        if (config.shadow && this.spriteShadow){
+            //console.log('%c' + this.token + ' | -> updating shadow!', 'color: lime;');
+            //console.log(this.token + ' | -> config:', config);
+            //console.log(this.token + ' | -> spriteShadow:', this.spriteShadow);
+            let $shadow = this.spriteShadow;
+            let shadowSheet = config.sheet;
+            let shadowScale = config.scale;
+            let shadowOriginX = config.origin[0];
+            let shadowOriginY = config.origin[1];
+            let shadowAlpha = 0.3;
+            let shadowTint = 0x000000;
+            let shadowFrame = $sprite.frame.name;
+            let shadowDepth = $sprite.depth - 1;
+            let shadowX = $sprite.x;
+            let shadowY = $sprite.y;
+            let shadowShift = 2 * config.scale;
+            if (config.x < MMRPG.canvas.centerX){ shadowX -= shadowShift; }
+            else if (config.x > MMRPG.canvas.centerX){ shadowX += shadowShift; }
+            if (shadowCache.sheet !== shadowSheet
+                || $shadow.texture.key !== shadowSheet){
+                //console.log(this.token + ' | -> updating shadow sheet from', shadowCache.sheet, 'to', shadowSheet);
+                $shadow.setTexture(shadowSheet);
+                shadowCache.sheet = shadowSheet;
+                }
+            if (shadowCache.scale !== shadowScale){
+                //console.log(this.token + ' | -> updating shadow scale from', shadowCache.scale, 'to', shadowScale);
+                $shadow.setScale(shadowScale);
+                shadowCache.scale = shadowScale;
+                }
+            if (shadowCache.originX !== shadowOriginX
+                || shadowCache.originY !== shadowOriginY){
+                //console.log(this.token + ' | -> updating shadow origin from', shadowCache.originX, shadowCache.originY, 'to', shadowOriginX, shadowOriginY);
+                $shadow.setOrigin(shadowOriginX, shadowOriginY);
+                shadowCache.originX = shadowOriginX;
+                shadowCache.originY = shadowOriginY;
+                }
+            if (shadowCache.alpha !== shadowAlpha){
+                //console.log(this.token + ' | -> updating shadow alpha from', shadowCache.alpha, 'to', shadowAlpha);
+                $shadow.setAlpha(shadowAlpha);
+                shadowCache.alpha = shadowAlpha;
+                }
+            if (shadowCache.tint !== shadowTint){
+                //console.log(this.token + ' | -> updating shadow tint from', shadowCache.tint, 'to', shadowTint);
+                if (shadowTint === false){ $shadow.clearTint(); }
+                else { $shadow.setTint(shadowTint); }
+                shadowCache.tint = shadowTint;
+                }
+            if (shadowCache.x !== shadowX || shadowCache.y !== shadowY){
+                //console.log(this.token + ' | -> updating shadow position from', shadowCache.x, shadowCache.y, 'to', shadowX, shadowY);
+                $shadow.setPosition(shadowX, shadowY);
+                shadowCache.x = shadowX;
+                shadowCache.y = shadowY;
+                }
+            if (shadowCache.depth !== shadowDepth){
+                //console.log(this.token + ' | -> updating shadow depth from', shadowCache.depth, 'to', shadowDepth);
+                $shadow.setDepth(shadowDepth);
+                shadowCache.depth = shadowDepth;
+                if (useContainerForDepth){ sortSpriteContainer = true; }
+                }
+            if (shadowCache.frame !== shadowFrame){
+                //console.log(this.token + ' | -> updating shadow frame from', shadowCache.frame, 'to', shadowFrame);
+                $shadow.setFrame(shadowFrame);
+                shadowCache.frame = shadowFrame;
+                }
             }
 
         // And finally, update any layer graphics that are present
@@ -1515,20 +1594,18 @@ class MMRPG_Object {
         $sprite.clearTint();
     }
 
-
-    setShadow (kind)
+    // Set the shadow property for this sprite and update the spriteConfig
+    setShadow (shadow)
     {
-        //console.log('MMRPG_Object.setShadow() called w/ kind:', kind);
+        //console.log('MMRPG_Object.setShadow() called w/ shadow:', shadow);
         if (!this.sprite) { return; }
         let $sprite = this.sprite;
+        let $shadow = this.spriteShadow;
         let config = this.spriteConfig;
-
-        // support custom kinds here!!!
-        // TEMP TEMP TEMP (TODO: Add logic for different types)
-        config.shadow = kind ? true : false;
-        //$sprite.preFX.addShadow(-1, 1);
+        config.shadow = shadow ? true : false;
+        if (shadow && !$shadow){ this.prepareSpriteShadow(); }
+        else if (!shadow && $shadow){ $shadow.destroy(); this.spriteShadow = null; }
         this.refreshSprite();
-
     }
 
     // Set the position of this object's sprite and update the spriteConfig
@@ -1748,7 +1825,7 @@ class MMRPG_Object {
     // Set the specific frame of this object's sprite to be shown right now and update the spriteConfig
     setFrame (frame)
     {
-        //console.log('MMRPG_Object.setFrame() called w/ frame:', frame);
+        //console.log('MMRPG_Object.setFrame() called for ', this.kind, this.token, 'w/ frame:', frame);
         if (!this.sprite) { return; }
         let $sprite = this.sprite;
         let config = this.spriteConfig;
@@ -1766,7 +1843,6 @@ class MMRPG_Object {
         if (frame === config.frame){ return; }
         config.frame = frame;
         this.frame = frame;
-        $sprite.setFrame(frame);
         this.refreshSprite();
     }
 
@@ -1774,10 +1850,7 @@ class MMRPG_Object {
     resetFrame ()
     {
         //console.log('MMRPG_Object.resetFrame() called');
-        if (!this.sprite) { return; }
-        let $sprite = this.sprite;
-        let config = this.spriteConfig;
-        this.setFrame(0);
+        return this.setFrame(0);
     }
 
     // Set the scale of this object's sprite and update the spriteConfig
@@ -2080,6 +2153,7 @@ class MMRPG_Object {
         //console.log('MMRPG_Object.playAnim() called for ', this.kind, this.token, '\nw/ anim:', anim);
         let scene = this.scene;
         let $sprite = this.sprite;
+        let $shadow = this.spriteShadow;
         let config = this.spriteConfig;
         let animKey = this.getSpriteAnim('sprite', anim);
         if (!animKey){ console.warn('MMRPG_Object.playAnim() -> animation "'+anim+'" not found in SPRITES index for ', this.token); return; }
@@ -2128,22 +2202,8 @@ class MMRPG_Object {
             this.isAnimating = true;
             };
         const startEmoting = function() {
-            let animationsIndex = spritesIndex.anims;
-            let animationToken = 'idle';
-            let xkind = this.xkind,
-                token = this.data.token,
-                alt = this.data.image_alt,
-                direction = this.direction,
-                key = 'sprite-' + direction;
-            if (typeof animationsIndex[xkind] === 'undefined') { return; }
-            if (typeof animationsIndex[xkind][token] === 'undefined') { return; }
-            if (typeof animationsIndex[xkind][token][alt] === 'undefined') { return; }
-            if (typeof animationsIndex[xkind][token][alt][key] === 'undefined') { return; }
-            let spriteAnims = animationsIndex[xkind][token][alt][key];
-            if (!spriteAnims) { return; }
-            let animKey = spriteAnims[animationToken];
-            if (!animKey) { return; }
-            $sprite.play(animKey);
+            if (!this.hasSpriteAnim('sprite', 'idle')){ return; }
+            this.playAnim('idle');
             this.isAnimating = true;
             };
         if (bounce) {
@@ -3217,12 +3277,17 @@ class MMRPG_Object {
         let SPRITES = this.SPRITES;
         let scene = this.scene;
         let $sprite = this.sprite;
+        let $shadow = this.spriteShadow;
         let $hitbox = this.spriteHitbox;
-        if ($sprite) {
+        if ($sprite){
             SPRITES.destroySpriteAndCleanup(scene, $sprite);
             this.sprite = null;
             }
-        if ($hitbox) {
+        if ($shadow){
+            SPRITES.destroySpriteAndCleanup(scene, $shadow);
+            this.spriteShadow = null;
+            }
+        if ($hitbox){
             $hitbox.destroy();
             this.spriteHitbox = null;
             }
