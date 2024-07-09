@@ -297,6 +297,7 @@ export default class DebugScene extends Phaser.Scene
             $debugObjects.ability2 = new MMRPG_Ability(this, 'super-arm', null, { x: (baseX + 40), y: (baseY + 80), z: lastZ++, depth: actionDepth, origin: [0.5, 1] });
             $debugObjects.item = new MMRPG_Item(this, 'energy-tank', null, { x: (baseX + 0), y: (baseY + 120), z: lastZ++, depth: actionDepth, origin: [0.5, 1] });
             $debugObjects.field = new MMRPG_Field(this, 'prototype-subspace', { foreground_variant: 'decayed' }, { x: 0, y: bannerY, z: baseZ, depth: fieldDepth, origin: [0, 0] });
+            //$debugObjects.field = new MMRPG_Field(this, 'submerged-armory', { }, { x: 0, y: bannerY, z: baseZ, depth: fieldDepth, origin: [0, 0] });
             $debugObjects.skill = new MMRPG_Skill(this, 'xtreme-submodule', null);
             $debugObjects.type = new MMRPG_Type(this, 'water');
             let onClickTestObject = function(){
@@ -426,11 +427,21 @@ export default class DebugScene extends Phaser.Scene
 
             // Animate the MMRPG field object in various ways for testing purposes
             const debugFieldConfig = {};
-            const startDebugFieldAnimations = function(){
+            const startDebugFieldAnimations = function($field){
                 //console.log('DebugScene.create().startDebugFieldAnimations()');
-                let $field = $debugObjects.field;
-                let config = debugFieldConfig;
                 if (!$field){ return; }
+                let config = debugFieldConfig;
+                /* // Create a field animation that loops through the background frames in sequence
+                if (!$field.hasSpriteLayerAnim('background', 'loop2')){
+                    console.log('%c' + 'Creating field background loop animations...', 'color: orange;');
+                    let frames = [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ];
+                    $field.addSpriteLayerAnimation('background', 'loop2', {
+                        frames: frames,
+                        frameRate: 1,
+                        repeat: -1
+                        });
+                    } */
+                // Start the tween that moves the background layer up and down
                 if (!config.baseX){ config.baseX = $field.x; }
                 if (!config.baseY){ config.baseY = $field.y; }
                 if (!config.baseOffsetX){ config.baseOffsetX = $field.getBackgroundOffsetX(); }
@@ -453,8 +464,13 @@ export default class DebugScene extends Phaser.Scene
                         if (config.tween){ config.tween.remove(); }
                         }
                     });
+                // Start the loop animation for the background layer
+                $field.playAnim('background', 'loop');
                 };
-            startDebugFieldAnimations();
+            $debugObjects.field.whenReady(function(){
+                let $field = $debugObjects.field;
+                startDebugFieldAnimations($field);
+                });
 
             // Create some mods of the above to see what's possible
             var $ref = scene.battleBanner;
@@ -1136,7 +1152,7 @@ export default class DebugScene extends Phaser.Scene
                     //console.log('%c' + 'Creating explodeSpriteAnims...', 'color: orange;');
                     let frames = [ 0, 1, 2, 0, 2, 1, 0, 1, 0, 0 ];
                     $explode.addSpriteAnimation('explode', {
-                        frames: [ 0, 1, 2, 0, 2, 1, 0, 1, 0, 2 ],
+                        frames: frames,
                         frameRate: 12,
                         repeat: -1
                         });
