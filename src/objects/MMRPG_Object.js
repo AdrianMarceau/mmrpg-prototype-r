@@ -101,6 +101,7 @@ class MMRPG_Object {
         spriteConfig.offsetY = spriteConfig.offsetY || 0;
         spriteConfig.interactive = spriteConfig.interactive || false;
         spriteConfig.layers = spriteConfig.layers || {};
+        spriteConfig.shadow = spriteConfig.shadow || false;
         spriteConfig.debug = spriteConfig.debug || false;
 
         // Compensate for missing size defaults using the object config
@@ -1372,6 +1373,28 @@ class MMRPG_Object {
             //console.log(this.token + ' | -> updated positions w/ spriteX:', spriteX, 'spriteY:', spriteY, 'transX:', transX, 'transY:', transY, 'and updated cache');
             }
 
+        //console.log(this.token + ' | -> attempting to update shadow from', this.cache.shadow, 'to', config.shadow);
+        let shadowSide = 'center';
+        if (config.x < MMRPG.canvas.centerX){ shadowSide = 'left'; }
+        else if (config.x > MMRPG.canvas.centerX){ shadowSide = 'right'; }
+        if (typeof this.cache.shadow === 'undefined'){ this.cache.shadow = null; }
+        if (typeof this.cache.shadowSide === 'undefined'){ this.cache.shadowSide = null; }
+        if (this.cache.shadow !== config.shadow
+            || (config.shadow && this.cache.shadowSide !== shadowSide)){
+            //console.log(this.token + ' | -> attempting to update shadow from', this.cache.shadow, 'to', config.shadow, 'w/ shadowSide:', shadowSide);
+            let fx = this.cache.shadowFX || null;
+            let offset = [0, 1];
+            if (shadowSide === 'left'){ offset[0] = 1; }
+            else if (shadowSide === 'right'){ offset[0] = -1; }
+            if (config.shadow && !fx){ fx = $sprite.preFX.addShadow(offset[0], offset[1]); }
+            else if (!config.shadow && fx){ $sprite.preFX.remove(fx); fx = null; }
+            else if (config.shadow && fx){ fx.x = offset[0]; fx.y = offset[1]; }
+            this.cache.shadow = config.shadow;
+            this.cache.shadowFX = fx;
+            this.cache.shadowSide = shadowSide;
+            //console.log(this.token + ' | -> updated shadow to ', config.shadow, 'w/ offset:', offset, ' and fx:', fx, 'and updated cache');
+            }
+
         // If this sprite is inside of a container and we're allowed to, track Z changes to that container
         let spriteContainer = this.spriteContainer || null;
         let useContainerForDepth = spriteContainer && config.useContainerForDepth ? true : false;
@@ -1496,14 +1519,15 @@ class MMRPG_Object {
 
     setShadow (kind)
     {
-        //console.log('MMRPG_Object.setTint() called w/ tint:', tint);
+        //console.log('MMRPG_Object.setShadow() called w/ kind:', kind);
         if (!this.sprite) { return; }
         let $sprite = this.sprite;
         let config = this.spriteConfig;
 
         // support custom kinds here!!!
-        // TEMP TEMP TEMP
-        $sprite.preFX.addShadow();
+        // TEMP TEMP TEMP (TODO: Add logic for different types)
+        config.shadow = kind ? true : false;
+        //$sprite.preFX.addShadow(-1, 1);
         this.refreshSprite();
 
     }
