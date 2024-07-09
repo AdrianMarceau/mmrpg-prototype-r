@@ -1309,7 +1309,7 @@ class MMRPG_Object {
         //console.log(this.token + ' | -> attempting to update tint from', this.cache.tint, 'to', config.tint);
         if (typeof this.cache.tint === 'undefined'){ this.cache.tint = null; }
         if (this.cache.tint !== config.tint){
-            if (config.tint){ $sprite.setTint(config.tint); }
+            if (config.tint){ $sprite.setTint(Graphics.returnHexColorValue(config.tint)); }
             else { $sprite.clearTint(); }
             this.cache.tint = config.tint;
             //console.log(this.token + ' | -> updated tint to', config.tint, 'and updated cache');
@@ -1487,7 +1487,6 @@ class MMRPG_Object {
         if (alpha === config.alpha){ return; }
         config.alpha = alpha;
         this.alpha = alpha;
-        $sprite.setAlpha(this.alpha);
         this.refreshSprite();
     }
 
@@ -1501,7 +1500,7 @@ class MMRPG_Object {
         let config = this.spriteConfig;
         config.tint = tint;
         this.tint = tint;
-        $sprite.setTint(Graphics.returnHexColorValue(this.tint));
+        $sprite.clearTint();
     }
 
     // Clear the tint property of the object's sprite and update
