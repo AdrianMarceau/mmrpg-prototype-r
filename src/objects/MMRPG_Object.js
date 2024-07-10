@@ -1229,6 +1229,10 @@ class MMRPG_Object {
         $sprite.on('animationupdate', function (animation, frame){
             $shadow.setFrame(frame.textureFrame);
             });
+        // If this object already has a container assigned to it, make sure we "add" this shadow sprite too
+        if (this.spriteContainer){
+            this.spriteContainer.add($shadow);
+            }
     }
 
     // Prepare this object's individual sprite layers for use, creating them if they doesn't exist yet
