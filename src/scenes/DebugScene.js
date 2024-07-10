@@ -611,8 +611,7 @@ export default class DebugScene extends Phaser.Scene
                 depth: actionDepth,
                 scale: 2,
                 origin: [0.5, 1],
-                direction: 'right',
-                shadow: true
+                direction: 'right'
                 });
             //console.log('-> $customBoss:', $customBoss);
 
@@ -625,8 +624,7 @@ export default class DebugScene extends Phaser.Scene
                 depth: actionDepth,
                 scale: 2,
                 origin: [0.5, 1],
-                direction: 'left',
-                shadow: true
+                direction: 'left'
                 });
             //console.log('-> $customGuardian:', $customGuardian);
 
@@ -639,8 +637,7 @@ export default class DebugScene extends Phaser.Scene
                 depth: actionDepth,
                 scale: 2,
                 origin: [0.5, 1],
-                direction: 'left',
-                shadow: true
+                direction: 'left'
                 });
             //console.log('-> $customRobot:', $customRobot);
 
@@ -653,8 +650,7 @@ export default class DebugScene extends Phaser.Scene
                 depth: actionDepth,
                 scale: 2,
                 origin: [0.5, 1],
-                direction: 'left',
-                shadow: true
+                direction: 'left'
                 });
             //console.log('-> $customRobot2:', $customRobot2);
 
@@ -668,8 +664,7 @@ export default class DebugScene extends Phaser.Scene
                 scale: 2,
                 origin: [0.5, 1],
                 direction: 'left',
-                hitbox: [20, 20],
-                shadow: true
+                hitbox: [20, 20]
                 });
             $customMecha.setFlag('teleports', true);
             //console.log('-> $customMecha:', $customMecha);
@@ -688,6 +683,7 @@ export default class DebugScene extends Phaser.Scene
                 $object.setValue('energyMin', energyMin);
                 $object.setValue('energyMax', energyMax);
                 $object.setCounter('energy', energyMax);
+                $object.setShadow(true);
                 $object.setOnHover(customMouseOver, customMouseOut);
                 $object.setOnClick(customClickEvent);
                 $object.startIdleAnimation();
