@@ -1216,6 +1216,7 @@ class MMRPG_Object {
     prepareSpriteShadow (spriteSheet = null)
     {
         //console.log('MMRPG_Object.prepareSpriteShadow() called for ', this.kind, this.token, '\nw/ spriteSheet:', spriteSheet, 'spriteConfig:', this.spriteConfig);
+        let _this = this;
         if (!this.sprite){ return; }
         if (this.spriteShadow){ return; }
         let SPRITES = this.SPRITES;
@@ -1224,20 +1225,66 @@ class MMRPG_Object {
         let config = this.spriteConfig;
         let sheet = spriteSheet || config.sheet;
         let [ modX, modY ] = this.getOffsetPosition(config.x, config.y);
-        let $shadow = SPRITES.add(modX, modY, sheet);
-        $shadow.subTweens = {};
-        $shadow.subTimers = {};
-        $shadow.subSprites = {};
-        this.spriteShadow = $shadow;
+        let shadowStyle = config.shadowStyle;
+        let useMesh = shadowStyle === 'perspective' ? true : false;
+
+        // Create the new shadow sprite and, if using perspective, set up the mesh for it
+        let $shadow = SPRITES.add(modX, modY, sheet, useMesh, 0);
+        if (shadowStyle === 'perspective'){ this.initSpriteShadow($shadow); }
         //console.log('-> created new sprite shadow w/ sheet:', sheet, 'x:', config.x, 'y:', config.y);
+        this.spriteShadow = $shadow;
+
+        // If this object already has a container assigned to it, make sure we "add" this shadow sprite too
+        if (this.spriteContainer){ this.spriteContainer.add($shadow); }
+
         // Make sure this shadow tracks animation updates on the parent
         $sprite.on('animationupdate', function (animation, frame){
-            $shadow.setFrame(frame.textureFrame);
+            //console.log(_this.token + ' | -> shadow animationupdate to frame ', frame.textureFrame, '\nw/ frame:', frame, '\nw/ $shadow:', _this.spriteShadow);
+            let config = _this.spriteConfig;
+            let $shadow = _this.spriteShadow;
+            let shadowStyle = config.shadowStyle;
+            let shadowTexture = $shadow.texture.key;
+            let currentFrame = $shadow.frame.name;
+            let newFrame = frame.textureFrame;
+            if (currentFrame === newFrame){ return; }
+            //console.log(_this.token + ' | -> shadow // currentFrame:', currentFrame, ' vs. newFrame:', newFrame, '\nw/ shadowTexture:', shadowTexture);
+            $shadow.setFrame(newFrame);
+            if (shadowStyle === 'perspective'){
+                //console.log(_this.token + ' | -> perspective // $shadow.setTexture(', shadowTexture, newFrame, ');');
+                $shadow.clear();
+                _this.initSpriteShadow($shadow);
+                }
             });
-        // If this object already has a container assigned to it, make sure we "add" this shadow sprite too
-        if (this.spriteContainer){
-            this.spriteContainer.add($shadow);
-            }
+
+    }
+
+    // Initialize a sprite shadow mesh with base settings so we can use it later
+    initSpriteShadow ($mesh, frame = 0)
+    {
+        //console.log(this.token + ' | -> initSpriteShadow w/ $mesh:', $mesh, 'frame:', frame);
+        if (!this.sprite){ return; }
+        let _this = this;
+        let MMRPG = this.MMRPG;
+        let scene = this.scene;
+        let $sprite = this.sprite;
+        let config = this.spriteConfig;
+        let side = $mesh.x >= MMRPG.canvas.centerX ? 'right' : 'left';
+        let rotateX = side === 'left' ? -config.shadowRotationX : config.shadowRotationX;
+        let rotateY = config.shadowRotationY;
+        let scale = config.scale * config.shadowScale;
+        Phaser.Geom.Mesh.GenerateGridVerts({
+            mesh: $mesh,
+            widthSegments: 6
+            });
+        $mesh.setScale(scale);
+        $mesh.setDepth($sprite.depth - 2);
+        $mesh.setTint(config.shadowTint);
+        $mesh.setAlpha(config.shadowAlpha);
+        $mesh.setOrtho();
+        $mesh.hideCCW = false;
+        $mesh.modelRotation.x = rotateX;
+        $mesh.modelRotation.y = rotateY;
+        $mesh.setFrame(frame);
     }
 
     // Prepare this object's individual sprite layers for use, creating them if they doesn't exist yet
@@ -1307,6 +1354,7 @@ class MMRPG_Object {
         let $sprite = this.sprite;
         let $hitbox = this.spriteHitbox;
         let config = this.spriteConfig;
+        let objectConfig = this.objectConfig;
 
         // Define a quick function that checks for any any transforms to a given property and returns the final value
         const getTransProp = (propName) => {
@@ -1445,24 +1493,55 @@ class MMRPG_Object {
             //console.log('%c' + this.token + ' | -> updating shadow!', 'color: lime;');
             //console.log(this.token + ' | -> config:', config);
             //console.log(this.token + ' | -> spriteShadow:', this.spriteShadow);
+            //console.log(this.token + ' | -> config.width:', config.width, 'vs.', '$sprite.width:', $sprite.width, 'vs.', 'objectConfig.baseSize[0]', objectConfig.baseSize[0]);
             let $shadow = this.spriteShadow;
+            let shadowSide = 'center';
+            if (config.x <= MMRPG.canvas.centerX){ shadowSide = 'left'; }
+            else if (config.x >= MMRPG.canvas.centerX){ shadowSide = 'right'; }
+            let spriteOriginX = config.origin[0];
+            let spriteOriginY = config.origin[1];
+            let spriteX = $sprite.x;
+            let spriteY = $sprite.y;
+            let shadowStyle = config.shadowStyle;
             let shadowSheet = config.sheet;
-            let shadowScale = config.scale;
-            let shadowOriginX = config.origin[0];
-            let shadowOriginY = config.origin[1];
-            let shadowAlpha = 0.3;
-            let shadowTint = 0x000000;
+            let shadowScale = config.shadowScale;
+            let shadowAlpha = config.shadowAlpha;
+            let shadowTint = config.shadowTint;
+            let shadowRotationX = config.shadowRotationX;
+            let shadowRotationY = config.shadowRotationY;
             let shadowFrame = $sprite.frame.name;
             let shadowDepth = $sprite.depth - 1;
-            let shadowX = $sprite.x;
-            let shadowY = $sprite.y;
-            let shadowShift = 2 * config.scale;
-            if (config.x < MMRPG.canvas.centerX){ shadowX -= shadowShift; }
-            else if (config.x > MMRPG.canvas.centerX){ shadowX += shadowShift; }
+            let shadowX = spriteX;
+            let shadowY = spriteY;
+            let shadowWidth = $shadow.width;
+            let shadowHeight = $shadow.height;
+            if (shadowStyle === 'drop'){
+                let dropShift = 2 * config.scale;
+                if (shadowSide === 'left'){ shadowX -= dropShift; }
+                else if (shadowSide === 'right'){ shadowX += dropShift; }
+                }
+            else if (shadowStyle === 'perspective'){
+                // Meshes don't support setOrigin() for reasons so we just have to move the shadow manually
+                if (spriteOriginX === 0){ shadowX += Math.floor(shadowWidth / 4); }
+                else if (spriteOriginX === 0.5){ shadowX -= 0; }
+                else if (spriteOriginX === 1){ shadowX -= Math.floor(shadowWidth / 4); }
+                if (spriteOriginY === 0){ shadowY += Math.floor(shadowHeight / 4); }
+                else if (spriteOriginY === 0.5){ shadowY -= 0; }
+                else if (spriteOriginY === 1){ shadowY -= Math.floor(shadowHeight / 4); }
+                // Now we can shift the model rotation left or right as needed based on canvas side
+                if (shadowSide === 'left'){ $shadow.modelRotation.x = -shadowRotationX; }
+                else if (shadowSide === 'right'){ $shadow.modelRotation.x = shadowRotationX; }
+                // Further, we should also offset the X a bit more just to drive the point home
+                if (shadowSide === 'left'){ shadowX -= Math.floor(shadowWidth / 3); shadowX -= Math.floor(shadowWidth / 3) * (config.scale - 1); }
+                else if (shadowSide === 'right'){ shadowX += Math.floor(shadowWidth / 3); shadowX += Math.floor(shadowWidth / 3) * (config.scale - 1); }
+                // And we should also pull-up the Y a slight bit more so shadows are behind sprites
+                shadowY -= Math.floor(shadowHeight / 4) * (config.scale - 1);
+                }
             if (shadowCache.sheet !== shadowSheet
                 || $shadow.texture.key !== shadowSheet){
                 //console.log(this.token + ' | -> updating shadow sheet from', shadowCache.sheet, 'to', shadowSheet);
-                $shadow.setTexture(shadowSheet);
+                if (shadowStyle === 'drop'){ $shadow.setTexture(shadowSheet); }
+                else if (shadowStyle === 'perspective'){ $shadow.setTexture(shadowSheet, shadowFrame); }
                 shadowCache.sheet = shadowSheet;
                 }
             if (shadowCache.scale !== shadowScale){
@@ -1470,12 +1549,16 @@ class MMRPG_Object {
                 $shadow.setScale(shadowScale);
                 shadowCache.scale = shadowScale;
                 }
-            if (shadowCache.originX !== shadowOriginX
-                || shadowCache.originY !== shadowOriginY){
-                //console.log(this.token + ' | -> updating shadow origin from', shadowCache.originX, shadowCache.originY, 'to', shadowOriginX, shadowOriginY);
-                $shadow.setOrigin(shadowOriginX, shadowOriginY);
-                shadowCache.originX = shadowOriginX;
-                shadowCache.originY = shadowOriginY;
+            if (shadowCache.originX !== spriteOriginX
+                || shadowCache.originY !== spriteOriginY){
+                //console.log(this.token + ' | -> updating shadow origin from', shadowCache.originX, shadowCache.originY, 'to', spriteOriginX, spriteOriginY);
+                if (shadowStyle === 'drop'){
+                    $shadow.setOrigin(spriteOriginX, spriteOriginY);
+                    } else if (shadowStyle === 'perspective'){
+                    // meshes don't support setOrigin so we do nothing here
+                    }
+                shadowCache.originX = spriteOriginX;
+                shadowCache.originY = spriteOriginY;
                 }
             if (shadowCache.alpha !== shadowAlpha){
                 //console.log(this.token + ' | -> updating shadow alpha from', shadowCache.alpha, 'to', shadowAlpha);
@@ -1488,7 +1571,8 @@ class MMRPG_Object {
                 else { $shadow.setTint(shadowTint); }
                 shadowCache.tint = shadowTint;
                 }
-            if (shadowCache.x !== shadowX || shadowCache.y !== shadowY){
+            if (shadowCache.x !== shadowX
+                || shadowCache.y !== shadowY){
                 //console.log(this.token + ' | -> updating shadow position from', shadowCache.x, shadowCache.y, 'to', shadowX, shadowY);
                 $shadow.setPosition(shadowX, shadowY);
                 shadowCache.x = shadowX;
@@ -1503,6 +1587,11 @@ class MMRPG_Object {
             if (shadowCache.frame !== shadowFrame){
                 //console.log(this.token + ' | -> updating shadow frame from', shadowCache.frame, 'to', shadowFrame);
                 $shadow.setFrame(shadowFrame);
+                if (shadowStyle === 'perspective'){
+                    // Phaser 3.80.1 has bug with meshes and setFrame() so we need to do a bit of extra work
+                    $shadow.clear();
+                    this.initSpriteShadow($shadow);
+                    }
                 shadowCache.frame = shadowFrame;
                 }
             }
@@ -1599,16 +1688,30 @@ class MMRPG_Object {
     }
 
     // Set the shadow property for this sprite and update the spriteConfig
-    setShadow (shadow)
+    setShadow (enabled, usePerspective = false)
     {
-        //console.log('MMRPG_Object.setShadow() called w/ shadow:', shadow);
+        //console.log('MMRPG_Object.setShadow() called for', this.kind, this.token, 'w/ enabled:', enabled, 'usePerspective:', usePerspective);
+        let _this = this;
         if (!this.sprite) { return; }
+        if (this.spriteIsLoading){ return this.spriteMethodsQueued.push(function(){ _this.setShadow(enabled, usePerspective); }); }
         let $sprite = this.sprite;
         let $shadow = this.spriteShadow;
         let config = this.spriteConfig;
-        config.shadow = shadow ? true : false;
-        if (shadow && !$shadow){ this.prepareSpriteShadow(); }
-        else if (!shadow && $shadow){ $shadow.destroy(); this.spriteShadow = null; }
+        let styleChanged = config.shadowStyle !== (usePerspective ? 'perspective' : 'drop');
+        config.shadow = enabled ? true : false;
+        config.shadowStyle = usePerspective ? 'perspective' : 'drop';
+        if (enabled && !$shadow){
+            this.prepareSpriteShadow();
+            } else if (!enabled && $shadow){
+            $shadow.destroy();
+            this.spriteShadow = null;
+            } else if (enabled && $shadow){
+            if (styleChanged){
+                $shadow.destroy();
+                this.spriteShadow = null;
+                this.prepareSpriteShadow();
+                }
+            }
         this.refreshSprite();
     }
 
