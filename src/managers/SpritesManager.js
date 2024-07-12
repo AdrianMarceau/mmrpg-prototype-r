@@ -120,13 +120,18 @@ export default class SpritesManager {
     }
 
     // Add a sprite to the list of currently active sprites
-    add (x, y, sheet)
+    add (x, y, sheet, useMesh = false, useMeshFrame = 0)
     {
         //console.log('SpritesManager.add() called w/ x:', x, 'y:', y, 'sheet:', sheet);
         let scene = this.scene;
-        let $sprite = scene.add.sprite(x, y, sheet);
+        let $sprite;
+        if (!useMesh){ $sprite = scene.add.sprite(x, y, sheet); }
+        else { $sprite = scene.add.mesh(x, y, sheet, useMeshFrame); }
         let spriteKey = this.activeSprites.length;
         $sprite.spriteKey = spriteKey;
+        $sprite.subTweens = {};
+        $sprite.subTimers = {};
+        $sprite.subSprites = {};
         this.activeSprites.push($sprite);
         //console.log('-> SPRITES.count() = ', this.count());
         return $sprite;
