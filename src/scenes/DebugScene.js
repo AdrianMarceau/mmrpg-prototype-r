@@ -282,6 +282,12 @@ export default class DebugScene extends Phaser.Scene
 
             // -- DEBUG SPRITE TESTING -- //
 
+            // Define a bunch of field tokens to shuffle around for testing (filter out incomplete ones)
+            let fieldTokens = Object.keys(MMRPG.Indexes.fields);
+            fieldTokens = fieldTokens.filter(token => MMRPG.Indexes.fields[token].flag_complete);
+            let randomFieldToken = fieldTokens[Math.floor(Math.random() * fieldTokens.length)];
+            //console.log('randomFieldToken =', randomFieldToken, 'from fieldTokens =', fieldTokens);
+
             // Create some primitive MMRPG objects for testing purposes
             let $battleBanner = scene.battleBanner;
             var bannerY = $battleBanner.y;
@@ -289,15 +295,15 @@ export default class DebugScene extends Phaser.Scene
             var actionDepth = $battleBanner.depths.action;
             var baseX = 50, baseY = 170, baseZ = 0, lastZ = baseZ;
             var $debugObjects = {};
-            $debugObjects.player = new MMRPG_Player(this, 'dr-light', null, { x: (baseX + 0), y: (baseY + 0), z: lastZ++, depth: actionDepth, origin: [0.5, 1], shadow: true });
-            $debugObjects.robot = new MMRPG_Robot(this, 'mega-man', null, { x: (baseX + 0), y: (baseY + 40), z: lastZ++, depth: actionDepth, origin: [0.5, 1], shadow: true });
-            $debugObjects.robot2 = new MMRPG_Robot(this, 'quick-man', null, { x: (baseX + 40), y: (baseY + 40), z: lastZ++, depth: actionDepth, origin: [0.5, 1], shadow: true });
-            $debugObjects.robot3 = new MMRPG_Robot(this, 'wood-man', null, { x: (baseX + 80), y: (baseY + 40), z: lastZ++, depth: actionDepth, origin: [0.5, 1], shadow: true });
-            $debugObjects.ability = new MMRPG_Ability(this, 'buster-shot', null, { x: (baseX + 0), y: (baseY + 80), z: lastZ++, depth: actionDepth, origin: [0.5, 1], shadow: true });
-            $debugObjects.ability2 = new MMRPG_Ability(this, 'super-arm', null, { x: (baseX + 40), y: (baseY + 80), z: lastZ++, depth: actionDepth, origin: [0.5, 1], shadow: true });
-            $debugObjects.item = new MMRPG_Item(this, 'energy-tank', null, { x: (baseX + 0), y: (baseY + 120), z: lastZ++, depth: actionDepth, origin: [0.5, 1], shadow: true });
-            $debugObjects.field = new MMRPG_Field(this, 'prototype-subspace', { foreground_variant: 'decayed' }, { x: 0, y: bannerY, z: baseZ, depth: fieldDepth, origin: [0, 0] });
-            //$debugObjects.field = new MMRPG_Field(this, 'submerged-armory', { }, { x: 0, y: bannerY, z: baseZ, depth: fieldDepth, origin: [0, 0] });
+            $debugObjects.player = new MMRPG_Player(this, 'dr-light', null, { x: (baseX + 0), y: (baseY + 10), z: lastZ++, depth: actionDepth, origin: [0.5, 1] });
+            $debugObjects.robot = new MMRPG_Robot(this, 'mega-man', null, { x: (baseX + 0), y: (baseY + 40), z: lastZ++, depth: actionDepth, origin: [0.5, 1] });
+            $debugObjects.robot2 = new MMRPG_Robot(this, 'quick-man', null, { x: (baseX + 40), y: (baseY + 40), z: lastZ++, depth: actionDepth, origin: [0.5, 1] });
+            $debugObjects.robot3 = new MMRPG_Robot(this, 'wood-man', null, { x: (baseX + 80), y: (baseY + 40), z: lastZ++, depth: actionDepth, origin: [0.5, 1] });
+            $debugObjects.ability = new MMRPG_Ability(this, 'buster-shot', null, { x: (baseX + 0), y: (baseY + 80), z: lastZ++, depth: actionDepth, origin: [0.5, 1] });
+            $debugObjects.ability2 = new MMRPG_Ability(this, 'super-arm', null, { x: (baseX + 40), y: (baseY + 80), z: lastZ++, depth: actionDepth, origin: [0.5, 1] });
+            $debugObjects.item = new MMRPG_Item(this, 'energy-tank', null, { x: (baseX + 0), y: (baseY + 120), z: lastZ++, depth: actionDepth, origin: [0.5, 1] });
+            //$debugObjects.field = new MMRPG_Field(this, 'prototype-subspace', { foreground_variant: 'decayed' }, { x: 0, y: bannerY, z: baseZ, depth: fieldDepth, origin: [0, 0] });
+            $debugObjects.field = new MMRPG_Field(this, randomFieldToken, { }, { x: 0, y: bannerY, z: baseZ, depth: fieldDepth, origin: [0, 0] });
             $debugObjects.skill = new MMRPG_Skill(this, 'xtreme-submodule', null);
             $debugObjects.type = new MMRPG_Type(this, 'water');
             let onClickTestObject = function(){
@@ -414,15 +420,17 @@ export default class DebugScene extends Phaser.Scene
                     && $object.token === 'super-arm'){
                     $object.setValue('debugMaxFrame');
                     }
-                $object.startIdleAnimation(true, true);
                 if ($object.kind === 'field'){
                     $object.setForegroundOffset(null, -34);
                     } else {
+                    $object.setShadow(true, true);
                     $object.setOnClick(onClickTestObject);
+                    $object.startIdleAnimation(true, true);
                     }
                 }
-            window.MMRPG_DebugScene_debugObjects = $debugObjects;
-            console.log('$debugObjects (small) (MMRPG_DebugScene_customObjects) =\n', $debugObjects);
+            console.log('$debugObjects (small) =\n', $debugObjects);
+            if (MMRPG.debug.debugObjects){ delete MMRPG.debug.debugObjects; }
+            MMRPG.debug.debugObjects = $debugObjects;
 
             // Animate the MMRPG field object in various ways for testing purposes
             const debugFieldConfig = {};
@@ -430,21 +438,14 @@ export default class DebugScene extends Phaser.Scene
                 //console.log('DebugScene.create().startDebugFieldAnimations()');
                 if (!$field){ return; }
                 let config = debugFieldConfig;
-                /* // Create a field animation that loops through the background frames in sequence
-                if (!$field.hasSpriteLayerAnim('background', 'loop2')){
-                    console.log('%c' + 'Creating field background loop animations...', 'color: orange;');
-                    let frames = [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ];
-                    $field.addSpriteLayerAnimation('background', 'loop2', {
-                        frames: frames,
-                        frameRate: 1,
-                        repeat: -1
-                        });
-                    } */
+                // Start the loop animation for the background layer
+                $field.playAnim('background', 'loop');
                 // Start the tween that moves the background layer up and down
                 if (!config.baseX){ config.baseX = $field.x; }
                 if (!config.baseY){ config.baseY = $field.y; }
                 if (!config.baseOffsetX){ config.baseOffsetX = $field.getBackgroundOffsetX(); }
                 if (!config.baseOffsetY){ config.baseOffsetY = $field.getBackgroundOffsetY(); }
+                /*
                 if (config.tween){ config.tween.remove(); }
                 config.tween = scene.tweens.addCounter({
                     from: 0,
@@ -463,8 +464,7 @@ export default class DebugScene extends Phaser.Scene
                         if (config.tween){ config.tween.remove(); }
                         }
                     });
-                // Start the loop animation for the background layer
-                $field.playAnim('background', 'loop');
+                */
                 };
             $debugObjects.field.whenReady(function(){
                 let $field = $debugObjects.field;
@@ -473,7 +473,7 @@ export default class DebugScene extends Phaser.Scene
 
             // Create some mods of the above to see what's possible
             var $ref = scene.battleBanner;
-            var commonX = $ref.x + ($ref.width / 2);
+            var commonX = $ref.x + ($ref.width / 2) - 50;
             var commonY = $ref.y + ($ref.height / 2) + 50; //76;
 
             // Define a custom hover effect for all the custom robot masters/bosses/mechas
@@ -657,7 +657,7 @@ export default class DebugScene extends Phaser.Scene
             let $customMecha = new MMRPG_Robot(this, 'met', {
                 //image_alt: 'alt2'
                 }, {
-                x: commonX + 110,
+                x: commonX + 130,
                 y: commonY + 2,
                 //z: depth++,
                 depth: actionDepth,
@@ -669,27 +669,28 @@ export default class DebugScene extends Phaser.Scene
             $customMecha.setFlag('teleports', true);
             //console.log('-> $customMecha:', $customMecha);
 
-            let customObjects = [];
-            customObjects.push($customBoss);
-            customObjects.push($customGuardian);
-            customObjects.push($customRobot);
-            customObjects.push($customRobot2);
-            customObjects.push($customMecha);
+            let $customObjects = [];
+            $customObjects.push($customBoss);
+            $customObjects.push($customGuardian);
+            $customObjects.push($customRobot);
+            $customObjects.push($customRobot2);
+            $customObjects.push($customMecha);
             let energyMin = 0, energyMax = 100;
-            for (let i = 0; i < customObjects.length; i++){
-                let $object = customObjects[i];
+            for (let i = 0; i < $customObjects.length; i++){
+                let $object = $customObjects[i];
                 scene.battleBanner.add($object);
                 $object.useContainerForDepth(true);
                 $object.setValue('energyMin', energyMin);
                 $object.setValue('energyMax', energyMax);
                 $object.setCounter('energy', energyMax);
-                $object.setShadow(true);
+                $object.setShadow(true, true);
                 $object.setOnHover(customMouseOver, customMouseOut);
                 $object.setOnClick(customClickEvent);
                 $object.startIdleAnimation();
                 }
-            window.MMRPG_DebugScene_customObjects = customObjects;
-            console.log('$customObjects (large) (MMRPG_DebugScene_customObjects) =\n', customObjects);
+            console.log('$customObjects (large) =\n', $customObjects);
+            if (MMRPG.debug.customObjects){ delete MMRPG.debug.customObjects; }
+            MMRPG.debug.customObjects = $customObjects;
 
             /*
             // -- DEBUG SPRITE-ORIGIN TESTING -- //
@@ -909,7 +910,7 @@ export default class DebugScene extends Phaser.Scene
         //console.log('robotSpriteToken:', robotSpriteToken, 'robotSpriteAlt:', robotSpriteAlt, 'robotIndexInfo:', robotIndexInfo, 'robotAltTokens:', robotAltTokens);
 
         // Create a temp robot object to ensure everything gets preloaded
-        let $robot = new MMRPG_Robot(scene, robotSpriteToken, { image_alt: robotSpriteAlt }, { offscreen: true, shadow: true });
+        let $robot = new MMRPG_Robot(scene, robotSpriteToken, { image_alt: robotSpriteAlt }, { offscreen: true });
         await $robot.isReady();
         //console.log('%c' + 'Robot ' + $robot.token + ' is ready for action!', 'color: green;');
         //console.log('-> $robot:', $robot);
@@ -930,6 +931,7 @@ export default class DebugScene extends Phaser.Scene
         $robot.setDepth(spriteDepth);
         $robot.setOrigin(0.5, 1);
         $robot.setScale(2.0);
+        $robot.setShadow(true, true);
         $robot.refreshSprite();
 
         // Add effects and setup the frame for the sliding sprite
@@ -1048,7 +1050,7 @@ export default class DebugScene extends Phaser.Scene
             //console.log(abilitySpriteToken, 'abilityRand:', abilityRand, 'abilitySuffix:', abilitySuffix, 'abilityElement:', abilityElement, 'abilityIndexInfo:', abilityIndexInfo);
 
             // Create a temp ability object to ensure everything gets preloaded
-            let $ability = new MMRPG_Ability(scene, abilitySpriteToken, { image_sheet: abilitySpriteSheet }, { offscreen: true, shadow: true });
+            let $ability = new MMRPG_Ability(scene, abilitySpriteToken, { image_sheet: abilitySpriteSheet }, { offscreen: true });
             //console.log('Waiting for ability ' + $ability.token + ' to be ready...', $ability);
             $ability.whenReady(function(){
                 //console.log('%c' + 'Ability ' + $ability.token + ' is ready for action!', 'color: green;');
@@ -1074,6 +1076,7 @@ export default class DebugScene extends Phaser.Scene
                 $ability.setOrigin(0.5, 1);
                 $ability.setScale(2.0);
                 $ability.setAlpha(0);
+                $ability.setShadow(true, false);
                 $ability.setFrame(shotFrame);
                 $ability.refreshSprite();
 
@@ -1138,7 +1141,7 @@ export default class DebugScene extends Phaser.Scene
             // Collect data for the explosion sprite to generate the sheets and animation
             let effectElement = (robotIndexInfo.core !== '' && robotIndexInfo.core !== 'copy' ? robotIndexInfo.core : '');
             let effectToken = effectElement ? effectElement + '-buster' : 'mega-buster';
-            let $explode = new MMRPG_Ability(scene, effectToken, null, { offscreen: true, shadow: true });
+            let $explode = new MMRPG_Ability(scene, effectToken, null, { offscreen: true });
 
             // Wait for the explosion object to be ready before we do anything to the robot
             $explode.whenReady(function(){
