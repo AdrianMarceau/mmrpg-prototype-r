@@ -328,6 +328,14 @@ export default class Banner {
             containerDepths.push($sprite.depth);
             spriteContainer.sort('depth');
             }
+        // If this is s standard Phaser mesh object treat it like a sprite
+        else if ($object instanceof Phaser.GameObjects.Mesh){
+            let $sprite = $object;
+            spriteContainer.add($sprite);
+            containerSprites.push($sprite);
+            containerDepths.push($sprite.depth);
+            spriteContainer.sort('depth');
+            }
         // If this is a custom MMRPG object w/ sprites inside
         else if ($object instanceof MMRPG_Object){
             let $sprite = $object.sprite;
