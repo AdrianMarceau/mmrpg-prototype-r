@@ -88,6 +88,9 @@ class MMRPG {
             };
         //console.log('-> MMRPG.Managers:', this.Managers);
 
+        // Create this for storing debug stuff a dev might wanna see
+        this.debug = {};
+
     }
 
     // -- MMRPG INIT & PRELOAD/CREATE/UPDATE METHODS -- //
