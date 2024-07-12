@@ -1206,9 +1206,6 @@ class MMRPG_Object {
         let [ modX, modY ] = this.getOffsetPosition(config.x, config.y);
         //let $sprite = scene.add.sprite(modX, modY, sheet);
         let $sprite = SPRITES.add(modX, modY, sheet);
-        $sprite.subTweens = {};
-        $sprite.subTimers = {};
-        $sprite.subSprites = {};
         this.sprite = $sprite;
         //console.log('-> created new sprite w/ sheet:', sheet, 'x:', config.x, 'y:', config.y);
         if (config.shadow){ this.prepareSpriteShadow(sheet); }
@@ -1299,11 +1296,6 @@ class MMRPG_Object {
         $hitbox.setDepth(hitboxConfig.depth);
         $hitbox.setOrigin(hitboxConfig.origin[0], hitboxConfig.origin[1]);
         this.spriteHitbox = $hitbox;
-
-    }
-
-    createSpriteShadow ()
-    {
 
     }
 
