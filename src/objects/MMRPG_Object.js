@@ -102,7 +102,6 @@ class MMRPG_Object {
         spriteConfig.offsetY = spriteConfig.offsetY || 0;
         spriteConfig.interactive = spriteConfig.interactive || false;
         spriteConfig.layers = spriteConfig.layers || {};
-        spriteConfig.shadow = spriteConfig.shadow || false;
         spriteConfig.debug = spriteConfig.debug || false;
 
         // Compensate for missing size defaults using the object config
@@ -136,6 +135,15 @@ class MMRPG_Object {
         spriteConfig.transforms.get = function(key, create = true){ if (this.has(key)){ return this.data[key]; } else if (create){ this.add(key, {}); return this.data[key]; } else { return null; } };
         spriteConfig.transforms.remove = function(key){ delete this.data[key]; };
         spriteConfig.transforms.clear = function(){ this.data = {}; };
+
+        // Predefine some variables to use for the shadow and it's configurations
+        spriteConfig.shadow = spriteConfig.shadow || false;
+        spriteConfig.shadowStyle = spriteConfig.shadowStyle || 'drop';
+        spriteConfig.shadowAlpha = 0.15;
+        spriteConfig.shadowTint = 0x000000;
+        spriteConfig.shadowScale = 1.5;
+        spriteConfig.shadowRotationX = 1.25;
+        spriteConfig.shadowRotationY = 0.5;
 
         // Also predefine some of the more complicated ones for later
         this.spriteContainer = null;
