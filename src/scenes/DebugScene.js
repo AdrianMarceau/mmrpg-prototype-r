@@ -414,14 +414,20 @@ export default class DebugScene extends Phaser.Scene
                 };
             for (let key in $debugObjects){
                 let $object = $debugObjects[key];
-                scene.battleBanner.add($object);
+                $battleBanner.add($object);
                 $object.useContainerForDepth(true);
                 if ($object.kind === 'ability'
                     && $object.token === 'super-arm'){
                     $object.setValue('debugMaxFrame');
                     }
                 if ($object.kind === 'field'){
+                    $object.setBackgroundOffset(null, -34);
                     $object.setForegroundOffset(null, -34);
+                    if ($object.width > $battleBanner.width){
+                        var diffX = $object.width - $battleBanner.width;
+                        var offset = Math.floor(diffX / 2) - $battleBanner.x;
+                        $object.setPositionX('-='+offset);
+                        }
                     } else {
                     $object.setShadow(true, true);
                     $object.setOnClick(onClickTestObject);
@@ -445,26 +451,45 @@ export default class DebugScene extends Phaser.Scene
                 if (!config.baseY){ config.baseY = $field.y; }
                 if (!config.baseOffsetX){ config.baseOffsetX = $field.getBackgroundOffsetX(); }
                 if (!config.baseOffsetY){ config.baseOffsetY = $field.getBackgroundOffsetY(); }
-                /*
-                if (config.tween){ config.tween.remove(); }
-                config.tween = scene.tweens.addCounter({
-                    from: 0,
-                    to: 100,
-                    ease: 'Sine.easeInOut',
-                    duration: 3000,
-                    yoyo: true,
-                    repeat: -1,
-                    delay: 600,
-                    onUpdate: function () {
-                        let value = config.tween.getValue();
-                        let backgroundOffsetY = config.baseOffsetY - Math.floor(15 * (value / 100));
-                        $field.setBackgroundOffsetY(backgroundOffsetY);
-                        },
-                    onComplete: function () {
-                        if (config.tween){ config.tween.remove(); }
-                        }
-                    });
-                */
+                if (false){
+                    // Create an scroll-to-top motion then stop
+                    if (config.tween){ config.tween.remove(); }
+                    config.tween = scene.tweens.addCounter({
+                        from: 0,
+                        to: 100,
+                        ease: 'Sine.easeInOut',
+                        duration: 1000,
+                        delay: 100,
+                        onUpdate: function () {
+                            let value = config.tween.getValue();
+                            let backgroundOffsetY = config.baseOffsetY - Math.floor(34 * (value / 100));
+                            $field.setBackgroundOffsetY(backgroundOffsetY);
+                            },
+                        onComplete: function () {
+                            if (config.tween){ config.tween.remove(); }
+                            }
+                        });
+                    } else if (false){
+                    // Create an up-and-down motion on repeat
+                    if (config.tween){ config.tween.remove(); }
+                    config.tween = scene.tweens.addCounter({
+                        from: 0,
+                        to: 100,
+                        ease: 'Sine.easeInOut',
+                        duration: 3000,
+                        yoyo: true,
+                        repeat: -1,
+                        delay: 600,
+                        onUpdate: function () {
+                            let value = config.tween.getValue();
+                            let backgroundOffsetY = config.baseOffsetY - Math.floor(15 * (value / 100));
+                            $field.setBackgroundOffsetY(backgroundOffsetY);
+                            },
+                        onComplete: function () {
+                            if (config.tween){ config.tween.remove(); }
+                            }
+                        });
+                    }
                 };
             $debugObjects.field.whenReady(function(){
                 let $field = $debugObjects.field;
