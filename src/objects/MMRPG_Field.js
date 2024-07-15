@@ -24,6 +24,7 @@ class MMRPG_Field extends MMRPG_Object {
         spriteConfig.showPreview = spriteConfig.showPreview || false;
         spriteConfig.showBackground = spriteConfig.showBackground || true;
         spriteConfig.showForeground = spriteConfig.showForeground || true;
+        spriteConfig.showGridlines = spriteConfig.showGridlines || true;
         spriteConfig.showAvatar = spriteConfig.showAvatar || false;
         spriteConfig.depth = spriteConfig.depth || 1000;
 
@@ -350,17 +351,34 @@ class MMRPG_Field extends MMRPG_Object {
         if (!this.sprite){ return; }
         if (!this.spriteLayers){ return }
         let _this = this;
+        let SPRITES = this.SPRITES;
         let scene = this.scene;
         let $sprite = this.sprite;
         let config = this.spriteConfig;
-        let layersConfig = this.spriteConfig.layers;
         let [ modX, modY ] = this.getOffsetPosition(config.x, config.y);
         let $layers = this.spriteLayers;
         let layerKeys = Object.keys($layers);
-        if (!layerKeys.includes('preview')){ $layers.preview = {kind: 'preview', sheet: config.previewSheet, visible: config.showPreview, depth: 10}; }
-        if (!layerKeys.includes('background')){ $layers.background = {kind: 'background', sheet: config.backgroundSheet, visible: config.showBackground, depth: 20}; }
-        if (!layerKeys.includes('foreground')){ $layers.foreground = {kind: 'foreground', sheet: config.foregroundSheet, visible: config.showForeground, depth: 30}; }
-        if (!layerKeys.includes('avatar')){ $layers.avatar = {kind: 'avatar', sheet: config.avatarSheet, visible: config.showAvatar, depth: 40}; }
+        if (!layerKeys.includes('preview')){ $layers.preview = {kind: 'preview', sheet: config.previewSheet, visible: config.showPreview, offset: {z: 10}}; }
+        if (!layerKeys.includes('background')){ $layers.background = {kind: 'background', sheet: config.backgroundSheet, visible: config.showBackground, offset: {z: 20}}; }
+        if (!layerKeys.includes('foreground')){ $layers.foreground = {kind: 'foreground', sheet: config.foregroundSheet, visible: config.showForeground, offset: {z: 30}}; }
+        if (!layerKeys.includes('avatar')){ $layers.avatar = {kind: 'avatar', sheet: config.avatarSheet, visible: config.showAvatar, offset: {z: 40}}; }
+        if (!layerKeys.includes('gridlines')){
+            var foresize = [this.width, this.height];
+            var gridsize = [1290, 84];
+            var diffX = gridsize[0] - foresize[0];
+            var offsetX = diffX / 2;
+            $layers.gridlines = {
+                kind: 'gridlines',
+                sheet: config.gridlineSheet,
+                visible: config.showGridlines,
+                alpha: 0.1,
+                offset: {
+                    x: -offsetX,
+                    y: 95,
+                    z: 35
+                    }
+                };
+            }
         //console.log('-> creating $layers:', $layers);
         $sprite.setVisible(true);
         layerKeys = Object.keys($layers);
@@ -368,22 +386,31 @@ class MMRPG_Field extends MMRPG_Object {
             let layer = layerKeys[i];
             let $layer = $layers[layer];
             if ($layer.sprite){ continue; }
+            //console.log('-> creating ', $layer.kind, '...');
             let layerKind = $layer.kind;
             let layerSheet = $layer.sheet;
-            if (!layersConfig[layer]){ layersConfig[layer] = {}; }
-            let layerConfig = layersConfig[layer];
-            let layerOffset = {x: 0, y: 0, z: ($layer.depth || 0)};
+            //console.log('-> ', $layer.kind, ' $layer before:', JSON.stringify($layer));
+            let layerOffset = Object.assign({}, $layer.offset) || {};
+            layerOffset.x = layerOffset.x || 0;
+            layerOffset.y = layerOffset.y || 0;
+            layerOffset.z = layerOffset.z || 0;
+            let layerAlpha = $layer.alpha || 1;
+            let layerX = modX + layerOffset.x;
+            let layerY = modY + layerOffset.y;
             let layerDepth = config.depth + config.z + layerOffset.z;
-            let $layerSprite = scene.add.sprite(modX, modY, layerSheet);
-            //console.log('-> creating ', layerKind, ' w/ depth:', layerDepth);
+            let $layerSprite = SPRITES.add(layerX, layerY, layerSheet);
+            //console.log('-> creating ', layerKind, ' w/ layerX:', layerX, 'layerY:', layerY, 'layerDepth:', layerDepth, 'layerOffset:', layerOffset, 'layerAlpha:', layerAlpha);
             $layerSprite.setVisible(false);
             $layerSprite.setDepth(layerDepth);
+            $layerSprite.setAlpha(layerAlpha);
             $layerSprite.subTweens = {};
             $layerSprite.subTimers = {};
             $layerSprite.subSprites = {};
             $layer.sprite = $layerSprite;
-            layerConfig.offset = layerOffset;
-            //console.log('-> created new ', layerKind, ' w/ sheet:', layerSheet, 'x:', config.x, 'y:', config.y);
+            $layer.offset = layerOffset;
+            $layer.alpha = layerAlpha;
+            //console.log('-> ', $layer.kind, ' $layer after:', JSON.stringify($layer));
+            //console.log('-> created new ', layerKind, ' w/ sheet:', layerSheet, 'and $layer:', $layer);
             }
         //console.log('-> done creating $layers:', $layers);
     }
@@ -407,8 +434,9 @@ class MMRPG_Field extends MMRPG_Object {
             let layerKind = $layer.kind;
             let layerSheet = $layer.sheet;
             let layerVisible = $layer.visible;
-            let layerOffset = this.getLayerOffset(layer);
+            let layerOffset = $layer.offset;
             let layerDepth = config.depth + config.z + layerOffset.z;
+            let layerAlpha = $layer.alpha * config.alpha;
             let $layerSprite = $layer.sprite;
 
             // Initialize layer cache if not already present
@@ -454,9 +482,9 @@ class MMRPG_Field extends MMRPG_Object {
 
             // Check and update alpha
             if (typeof layerCache.alpha === 'undefined') { layerCache.alpha = null; }
-            if (layerCache.alpha !== config.alpha) {
-                $layerSprite.setAlpha(config.alpha);
-                layerCache.alpha = config.alpha;
+            if (layerCache.alpha !== layerAlpha) {
+                $layerSprite.setAlpha(layerAlpha);
+                layerCache.alpha = layerAlpha;
             }
 
             // Check and update scale

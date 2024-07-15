@@ -101,7 +101,6 @@ class MMRPG_Object {
         spriteConfig.offsetX = spriteConfig.offsetX || 0;
         spriteConfig.offsetY = spriteConfig.offsetY || 0;
         spriteConfig.interactive = spriteConfig.interactive || false;
-        spriteConfig.layers = spriteConfig.layers || {};
         spriteConfig.debug = spriteConfig.debug || false;
 
         // Compensate for missing size defaults using the object config
@@ -535,6 +534,7 @@ class MMRPG_Object {
             let foregroundVariant = this.data.foreground_variant;
             let backgroundSheet = _this.getSpriteSheet('background', backgroundVariant);
             let foregroundSheet = _this.getSpriteSheet('foreground', foregroundVariant);
+            let gridlineSheet = 'misc.battle-grid'; // same for every field kind
             let previewSheet = _this.getSpriteSheet('preview', backgroundVariant);
             let avatarSheet = _this.getSpriteSheet('avatar');
             //console.log(this.token + ' | -> spriteToken:', spriteToken, '\nbackgroundSheet:', backgroundSheet, '\nforegroundSheet:', foregroundSheet, '\npreviewSheet:', previewSheet, '\navatarSheet:', avatarSheet);
@@ -542,10 +542,12 @@ class MMRPG_Object {
             this.sheet = avatarSheet;
             config.backgroundSheet = backgroundSheet;
             config.foregroundSheet = foregroundSheet;
+            config.gridlineSheet = gridlineSheet;
             config.previewSheet = previewSheet;
             config.avatarSheet = avatarSheet;
             this.backgroundSheet = backgroundSheet;
             this.foregroundSheet = foregroundSheet;
+            this.gridlineSheet = gridlineSheet;
             this.previewSheet = previewSheet;
             this.avatarSheet = avatarSheet;
 
@@ -553,6 +555,7 @@ class MMRPG_Object {
             if (scene.textures
                 && backgroundSheet && scene.textures.exists(backgroundSheet)
                 && foregroundSheet && scene.textures.exists(foregroundSheet)
+                && gridlineSheet && scene.textures.exists(gridlineSheet)
                 && previewSheet && scene.textures.exists(previewSheet)
                 && avatarSheet && scene.textures.exists(avatarSheet)
                 ) {
@@ -2217,11 +2220,33 @@ class MMRPG_Object {
 
     // -- SPRITE LAYER HANDLING -- //
 
+    // Return the config object for a given layer
+    getLayerConfig (layer)
+    {
+        //console.log('MMRPG_Field.getLayerConfig() called for ', this.kind, this.token, '\nw/ layer:', layer);
+        let layersConfig = this.spriteLayers;
+        let layerConfig = layersConfig[layer] || {};
+        return layerConfig;
+    }
+
+    // Update the properties of a given sprite layer object
+    setLayerConfig (layer, props)
+    {
+        //console.log('MMRPG_Field.setLayerConfig() called for ', this.kind, this.token, '\nw/ layer:', layer, 'props:', props);
+        let layersConfig = this.spriteLayers;
+        let layerConfig = layersConfig[layer] || {};
+        for (let key in props){
+            layerConfig[key] = props[key];
+            }
+        layersConfig[layer] = layerConfig;
+        this.refreshSprite();
+    }
+
     // Update the offset values for a given layer of this sprite
     setLayerOffset (layer, x, y, z)
     {
         //console.log('MMRPG_Field.setLayerOffset() called for ', this.kind, this.token, '\nw/ layer:', layer, 'x:', x, 'y:', y);
-        let layersConfig = this.spriteConfig.layers;
+        let layersConfig = this.spriteLayers;
         let layerConfig = layersConfig[layer] || {};
         let offset = layerConfig.offset || {x: 0, y: 0, z: 0};
         x = typeof x === 'number' || typeof x === 'string' ? Graphics.parseRelativePosition(x, offset.x) : offset.x;
@@ -2240,7 +2265,7 @@ class MMRPG_Object {
     getLayerOffset (layer)
     {
         //console.log('MMRPG_Field.getLayerOffset() called for ', this.kind, this.token, '\nw/ layer:', layer);
-        let layersConfig = this.spriteConfig.layers;
+        let layersConfig = this.spriteLayers;
         let layerConfig = layersConfig[layer] || {};
         let offset = layerConfig.offset || {x: 0, y: 0, z: 0};
         return offset;
