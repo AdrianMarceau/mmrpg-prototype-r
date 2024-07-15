@@ -264,6 +264,7 @@ export default class PreloaderScene extends Phaser.Scene
             // Queue misc image assets for building parts of the game later
             let miscImages = [
                 'sprite-grid',
+                'battle-grid',
                 ];
             miscImages.forEach((image) => {
                 this.queueMiscImage(image, 'misc_' + image + '.png');
