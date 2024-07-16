@@ -295,6 +295,8 @@ export default class DebugScene extends Phaser.Scene
             var actionDepth = $battleBanner.depths.action;
             var baseX = 50, baseY = 170, baseZ = 0, lastZ = baseZ;
             var $debugObjects = {};
+            //$debugObjects.field = new MMRPG_Field(this, 'prototype-subspace', { foreground_variant: 'decayed' }, { x: 0, y: bannerY, z: baseZ, depth: fieldDepth, origin: [0, 0] });
+            $debugObjects.field = new MMRPG_Field(this, randomFieldToken, { }, { x: 0, y: bannerY, z: baseZ, depth: fieldDepth, origin: [0, 0] });
             $debugObjects.player = new MMRPG_Player(this, 'dr-light', null, { x: (baseX + 0), y: (baseY + 10), z: lastZ++, depth: actionDepth, origin: [0.5, 1] });
             $debugObjects.robot = new MMRPG_Robot(this, 'mega-man', null, { x: (baseX + 0), y: (baseY + 40), z: lastZ++, depth: actionDepth, origin: [0.5, 1] });
             $debugObjects.robot2 = new MMRPG_Robot(this, 'quick-man', null, { x: (baseX + 40), y: (baseY + 40), z: lastZ++, depth: actionDepth, origin: [0.5, 1] });
@@ -302,10 +304,10 @@ export default class DebugScene extends Phaser.Scene
             $debugObjects.ability = new MMRPG_Ability(this, 'buster-shot', null, { x: (baseX + 0), y: (baseY + 80), z: lastZ++, depth: actionDepth, origin: [0.5, 1] });
             $debugObjects.ability2 = new MMRPG_Ability(this, 'super-arm', null, { x: (baseX + 40), y: (baseY + 80), z: lastZ++, depth: actionDepth, origin: [0.5, 1] });
             $debugObjects.item = new MMRPG_Item(this, 'energy-tank', null, { x: (baseX + 0), y: (baseY + 120), z: lastZ++, depth: actionDepth, origin: [0.5, 1] });
-            //$debugObjects.field = new MMRPG_Field(this, 'prototype-subspace', { foreground_variant: 'decayed' }, { x: 0, y: bannerY, z: baseZ, depth: fieldDepth, origin: [0, 0] });
-            $debugObjects.field = new MMRPG_Field(this, randomFieldToken, { }, { x: 0, y: bannerY, z: baseZ, depth: fieldDepth, origin: [0, 0] });
             $debugObjects.skill = new MMRPG_Skill(this, 'xtreme-submodule', null);
             $debugObjects.type = new MMRPG_Type(this, 'water');
+
+            // Define the click function for the debug objects we just created
             let onClickTestObject = function(){
                 SOUNDS.playMenuSound('link-click');
                 let $sprite = this.sprite;
@@ -412,14 +414,16 @@ export default class DebugScene extends Phaser.Scene
                     return;
                     }
                 };
+
+            // Loop through the test debug objects and apply some presets to them based on kind
+            let $debugField = $debugObjects.field;
             for (let key in $debugObjects){
                 let $object = $debugObjects[key];
                 $battleBanner.add($object);
                 $object.useContainerForDepth(true);
-                if ($object.kind === 'ability'
-                    && $object.token === 'super-arm'){
-                    $object.setValue('debugMaxFrame');
-                    }
+                // Add special logic for "Super Arm" test ability
+                if ($object.kind === 'ability' && $object.token === 'super-arm'){ $object.setValue('debugMaxFrame'); }
+                // If this is a field we should preset some field-specific things
                 if ($object.kind === 'field'){
                     $object.setBackgroundOffset(null, -34);
                     $object.setForegroundOffset(null, -34);
@@ -428,10 +432,14 @@ export default class DebugScene extends Phaser.Scene
                         var offset = Math.floor(diffX / 2) - $battleBanner.x;
                         $object.setPositionX('-='+offset);
                         }
-                    } else {
+                    }
+                // Otherwise if any other type, we should preset different things
+                else {
                     $object.setShadow(true, true);
                     $object.setOnClick(onClickTestObject);
-                    $object.startIdleAnimation(true, true);
+                    if ($object.kind === 'player' || $object.kind === 'robot'){
+                        $object.startIdleAnimation(true, true);
+                        }
                     }
                 }
             console.log('$debugObjects (small) =\n', $debugObjects);
@@ -440,6 +448,10 @@ export default class DebugScene extends Phaser.Scene
 
             // Animate the MMRPG field object in various ways for testing purposes
             const debugFieldConfig = {};
+            debugFieldConfig.animation = false;
+            //debugFieldConfig.animation = 'scroll-to-top';
+            //debugFieldConfig.animation = 'up-and-down';
+            //debugFieldConfig.animation = 'side-to-side';
             const startDebugFieldAnimations = function($field){
                 //console.log('DebugScene.create().startDebugFieldAnimations()');
                 if (!$field){ return; }
@@ -451,7 +463,7 @@ export default class DebugScene extends Phaser.Scene
                 if (!config.baseY){ config.baseY = $field.y; }
                 if (!config.baseOffsetX){ config.baseOffsetX = $field.getBackgroundOffsetX(); }
                 if (!config.baseOffsetY){ config.baseOffsetY = $field.getBackgroundOffsetY(); }
-                if (false){
+                if (debugFieldConfig.animation === 'scroll-to-top'){
                     // Create an scroll-to-top motion then stop
                     if (config.tween){ config.tween.remove(); }
                     config.tween = scene.tweens.addCounter({
@@ -469,7 +481,8 @@ export default class DebugScene extends Phaser.Scene
                             if (config.tween){ config.tween.remove(); }
                             }
                         });
-                    } else if (false){
+                    }
+                else if (debugFieldConfig.animation === 'up-and-down'){
                     // Create an up-and-down motion on repeat
                     if (config.tween){ config.tween.remove(); }
                     config.tween = scene.tweens.addCounter({
@@ -484,6 +497,29 @@ export default class DebugScene extends Phaser.Scene
                             let value = config.tween.getValue();
                             let backgroundOffsetY = config.baseOffsetY - Math.floor(15 * (value / 100));
                             $field.setBackgroundOffsetY(backgroundOffsetY);
+                            },
+                        onComplete: function () {
+                            if (config.tween){ config.tween.remove(); }
+                            }
+                        });
+                    }
+                else if (debugFieldConfig.animation === 'side-to-side'){
+                    // Create a side-to-side motion on repeat
+                    if (config.tween){ config.tween.remove(); }
+                    config.tween = scene.tweens.addCounter({
+                        from: 0,
+                        to: 100,
+                        ease: 'Sine.easeInOut',
+                        duration: 3000,
+                        yoyo: true,
+                        repeat: -1,
+                        delay: 600,
+                        onUpdate: function () {
+                            let value = config.tween.getValue();
+                            //let backgroundOffsetX = config.baseOffsetX - Math.floor(15 * (value / 100));
+                            //$field.setBackgroundOffsetX(backgroundOffsetX);
+                            let foregroundOffsetX = config.baseOffsetX - Math.floor(15 * (value / 100));
+                            $field.setForegroundOffsetX(foregroundOffsetX);
                             },
                         onComplete: function () {
                             if (config.tween){ config.tween.remove(); }
