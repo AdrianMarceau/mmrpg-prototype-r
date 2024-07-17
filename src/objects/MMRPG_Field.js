@@ -597,6 +597,44 @@ class MMRPG_Field extends MMRPG_Object {
     getAvatarOffsetY () { return this.getAvatarOffset().y; }
     getAvatarOffsetZ () { return this.getAvatarOffset().z; }
 
+    // Update the offset values for a given layer of this sprite by delegating to the super method
+    // But also track the differences in the offset values and apply to any child field objects
+    setLayerOffset (layer, x, y, z)
+    {
+        //console.log('MMRPG_Field.setLayerOffset() called for ', this.kind, this.token, '\nw/ layer:', layer, 'x:', x, 'y:', y);
+
+        // Ensure the requested layer exists and then collect a ref to it
+        let $layers = this.spriteLayers;
+        if (!$layers[layer]){ console.warn(this.token + ' | MMRPG_Field.setLayerOffset() -> layer "'+layer+'" not found in spriteLayers for ', this.token); return; }
+        let $layer = $layers[layer];
+
+        // Track the x/y/z values before and the after running the super method so we can use the offset changes
+        let startX = $layer.offset.x, startY = $layer.offset.y, startZ = $layer.offset.z;
+        //console.log(this.token + ' | -> start offset for layer:', layer, 'is [', startX, ',', startY, ',', startZ, ']');
+        super.setLayerOffset(layer, x, y, z);
+        let endX = $layer.offset.x, endY = $layer.offset.y, endZ = $layer.offset.z;
+        let diffX = endX - startX, diffY = endY - startY, diffZ = endZ - startZ;
+        //console.log(this.token + ' | -> updated offset for layer:', layer, 'to [', endX, ',', endY, ',', endZ, ']');
+        //console.log(this.token + ' | -> layer offset diffs are x:', diffX, 'y:', diffY, 'z:', diffZ);
+
+        // Check if there are any field objects scoped to this layer and update their offsets accordingly
+        let fieldObjects = this.fieldObjects;
+        let fieldObjectCount = fieldObjects.length;
+        for (let i = 0; i < fieldObjectCount; i++){
+            let fieldObject = fieldObjects[i];
+            //console.log('-> checking if fieldObject:', fieldObject.token, 'is anchored to layer:', layer);
+            if (fieldObject.layer === layer){
+                let $object = fieldObject.object;
+                //console.log('-> checking $object(', $object.kind, '/', $object.token, '/', $object.id, ') for isAnchored:', $object.isAnchored);
+                if (!$object.isAnchored){ continue; }
+                if (diffX){ $object.setPositionX(diffX > 0 ? '+='+diffX : '-='+Math.abs(diffX)); }
+                if (diffY){ $object.setPositionY(diffY > 0 ? '+='+diffY : '-='+Math.abs(diffY)); }
+                if (diffZ){ $object.setPositionZ(diffZ > 0 ? '+='+diffZ : '-='+Math.abs(diffZ)); }
+            }
+        }
+
+    }
+
     // Add another MMRPG object (that isn't a field) to this one as a child so we can update it along with this object
     addObject ($object, anchorToLayer = null)
     {
