@@ -1700,7 +1700,7 @@ class MMRPG_Object {
         //console.log('MMRPG_Object.setShadow() called for', this.kind, this.token, 'w/ enabled:', enabled, 'usePerspective:', usePerspective);
         let _this = this;
         if (!this.sprite) { return; }
-        if (this.spriteIsLoading){ return this.spriteMethodsQueued.push(function(){ _this.setShadow(enabled, usePerspective); }); }
+        if (this.spriteIsLoading){ return this.whenReady(function(){ _this.setShadow(enabled, usePerspective); }); }
         let $sprite = this.sprite;
         let $shadow = this.spriteShadow;
         let config = this.spriteConfig;
@@ -2272,7 +2272,7 @@ class MMRPG_Object {
         let layersConfig = this.spriteLayers;
         let layerConfig = layersConfig[layer] || {};
         let offset = layerConfig.offset || {x: 0, y: 0, z: 0};
-        return offset;
+        return Object.assign({}, offset);
     }
     getLayerOffsetX (layer) { return this.getLayerOffset(layer).x; }
     getLayerOffsetY (layer) { return this.getLayerOffset(layer).y; }
@@ -2285,7 +2285,7 @@ class MMRPG_Object {
     playAnim (anim)
     {
         if (!this.sprite) { return; }
-        if (this.spriteIsLoading){ return this.spriteMethodsQueued.push(function(){ _this.playAnim(anim); }); }
+        if (this.spriteIsLoading){ return this.whenReady(function(){ _this.playAnim(anim); }); }
         //console.log('MMRPG_Object.playAnim() called for ', this.kind, this.token, '\nw/ anim:', anim);
         let scene = this.scene;
         let $sprite = this.sprite;
@@ -2307,7 +2307,7 @@ class MMRPG_Object {
         let _this = this;
         if (!this.sprite) { return; }
         if (this.kind !== 'player' && this.kind !== 'robot'){ return; }
-        if (this.spriteIsLoading){ return this.spriteMethodsQueued.push(function(){ _this.startIdleAnimation(bounce, emote); }); }
+        if (this.spriteIsLoading){ return this.whenReady(function(){ _this.startIdleAnimation(bounce, emote); }); }
         let scene = this.scene;
         let $sprite = this.sprite;
         let config = this.spriteConfig;
@@ -2358,7 +2358,7 @@ class MMRPG_Object {
         //console.log('MMRPG_Object.stopIdleAnimation() called for ', this.kind, this.token);
         let _this = this;
         if (!this.sprite) { return; }
-        if (this.spriteIsLoading){ return this.spriteMethodsQueued.push(function(){ _this.stopIdleAnimation(); }); }
+        if (this.spriteIsLoading){ return this.whenReady(function(){ _this.stopIdleAnimation(); }); }
         let $sprite = this.sprite;
         let config = this.spriteConfig;
         let transforms = config.transforms;
@@ -2388,7 +2388,7 @@ class MMRPG_Object {
         if (!this.sprite) { return; }
         if (this.kind === 'player'){ return this.runSpriteForward(callback, distance, elevation, duration); }
         else if (this.kind !== 'robot'){ return; }
-        if (this.spriteIsLoading){ return this.spriteMethodsQueued.push(function(){ _this.slideToDestination(distance, duration, callback); }); }
+        if (this.spriteIsLoading){ return this.whenReady(function(){ _this.slideToDestination(distance, duration, callback); }); }
         let scene = this.scene;
         let $sprite = this.sprite;
         let config = this.spriteConfig;
@@ -2488,7 +2488,7 @@ class MMRPG_Object {
         if (!this.sprite) { return; }
         if (this.kind === 'robot'){ return this.runSpriteForward(callback, distance, elevation, duration); }
         else if (this.kind !== 'player'){ return; }
-        if (this.spriteIsLoading){ return this.spriteMethodsQueued.push(function(){ _this.runToDestination(distance, duration, callback); }); }
+        if (this.spriteIsLoading){ return this.whenReady(function(){ _this.runToDestination(distance, duration, callback); }); }
         let scene = this.scene;
         let $sprite = this.sprite;
         let config = this.spriteConfig;
@@ -2605,7 +2605,7 @@ class MMRPG_Object {
         if (!this.sprite) { return; }
         if (x && !y){ return this.moveToPositionX(x, duration, callback, moveConfig); }
         if (!x && y){ return this.moveToPositionY(y, duration, callback, moveConfig); }
-        if (this.spriteIsLoading){ return this.spriteMethodsQueued.push(function(){ _this.moveToPosition(x, y, duration, callback, moveConfig); }); }
+        if (this.spriteIsLoading){ return this.whenReady(function(){ _this.moveToPosition(x, y, duration, callback, moveConfig); }); }
         let scene = this.scene;
         let config = this.spriteConfig;
         let $sprite = this.sprite;
@@ -2683,7 +2683,7 @@ class MMRPG_Object {
         //console.log('MMRPG_Object.moveToPositionX() called for ', this.kind, this.token, '\nw/ x:', x, 'duration:', duration, 'callback:', typeof callback);
         let _this = this;
         if (!this.sprite) { return; }
-        if (this.spriteIsLoading){ return this.spriteMethodsQueued.push(function(){ _this.moveToPositionX(x, duration, callback, moveConfig); }); }
+        if (this.spriteIsLoading){ return this.whenReady(function(){ _this.moveToPositionX(x, duration, callback, moveConfig); }); }
         let scene = this.scene;
         let config = this.spriteConfig;
         let $sprite = this.sprite;
@@ -2749,7 +2749,7 @@ class MMRPG_Object {
         //console.log('MMRPG_Object.moveToPositionY() called for ', this.kind, this.token, '\nw/ y:', y, 'duration:', duration, 'callback:', typeof callback);
         let _this = this;
         if (!this.sprite) { return; }
-        if (this.spriteIsLoading){ return this.spriteMethodsQueued.push(function(){ _this.moveToPositionY(y, duration, callback, moveConfig); }); }
+        if (this.spriteIsLoading){ return this.whenReady(function(){ _this.moveToPositionY(y, duration, callback, moveConfig); }); }
         let scene = this.scene;
         let config = this.spriteConfig;
         let $sprite = this.sprite;
@@ -2815,7 +2815,7 @@ class MMRPG_Object {
         //console.log('MMRPG_Object.showDamage() called for ', this.kind, this.token, '\nw/ amount:', amount, 'callback:', typeof callback);
         let _this = this;
         if (!this.sprite) { return; }
-        if (this.spriteIsLoading){ return this.spriteMethodsQueued.push(function(){ _this.showDamage(amount, strength, callback); }); }
+        if (this.spriteIsLoading){ return this.whenReady(function(){ _this.showDamage(amount, strength, callback); }); }
         let SPRITES = this.SPRITES;
         let scene = this.scene;
         let $sprite = this.sprite;
@@ -2917,7 +2917,7 @@ class MMRPG_Object {
         //console.log('MMRPG_Object.flashSprite() called for ', this.kind, this.token, '\nw/ repeat:', repeat, 'duration:', duration);
         let _this = this;
         if (!this.sprite) { return; }
-        if (this.spriteIsLoading) { return this.spriteMethodsQueued.push(function() { _this.flashSprite(repeat, callback, duration); }); }
+        if (this.spriteIsLoading) { return this.whenReady(function() { _this.flashSprite(repeat, callback, duration); }); }
         let scene = this.scene;
         let $sprite = this.sprite;
         let config = this.spriteConfig;
@@ -2969,7 +2969,7 @@ class MMRPG_Object {
         //console.log('MMRPG_Object.shakeSprite() called for ', this.kind, this.token, '\nw/ strength:', strength, 'repeat:', repeat, 'callback:', typeof callback, 'duration:', duration);
         let _this = this;
         if (!this.sprite) { return; }
-        if (this.spriteIsLoading){ return this.spriteMethodsQueued.push(function(){ _this.shakeSprite(strength, repeat, duration, callback); }); }
+        if (this.spriteIsLoading){ return this.whenReady(function(){ _this.shakeSprite(strength, repeat, duration, callback); }); }
         let $sprite = this.sprite;
         let config = this.spriteConfig;
         let onComplete = callback ? (callback.onComplete || callback) : null;
@@ -3030,7 +3030,7 @@ class MMRPG_Object {
         //console.log('MMRPG_Object.kickbackSprite() called for ', this.kind, this.token, '\nw/ strength:', strength, 'repeat:', repeat, 'callback:', typeof callback);
         let _this = this;
         if (!this.sprite) { return; }
-        if (this.spriteIsLoading){ return this.spriteMethodsQueued.push(function(){ _this.kickbackSprite(strength, callback); }); }
+        if (this.spriteIsLoading){ return this.whenReady(function(){ _this.kickbackSprite(strength, callback); }); }
         let scene = this.scene;
         let $sprite = this.sprite;
         let config = this.spriteConfig;
@@ -3087,7 +3087,7 @@ class MMRPG_Object {
         //console.log('MMRPG_Object.fadeSprite() called for ', this.kind, this.token, '\nw/ alpha:', alpha, 'duration:', duration, 'callback:', typeof callback);
         let _this = this;
         if (!this.sprite) { return; }
-        if (this.spriteIsLoading){ return this.spriteMethodsQueued.push(function(){ _this.fadeSprite(alpha, duration, callback); }); }
+        if (this.spriteIsLoading){ return this.whenReady(function(){ _this.fadeSprite(alpha, duration, callback); }); }
         let scene = this.scene;
         let $sprite = this.sprite;
         let onComplete = callback ? (callback.onComplete || callback) : null;
@@ -3132,7 +3132,7 @@ class MMRPG_Object {
         //console.log('MMRPG_Object.stopFlashing() called for ', this.kind, this.token);
         let _this = this;
         if (!this.sprite) { return; }
-        if (this.spriteIsLoading) { return this.spriteMethodsQueued.push(function() { _this.stopFlashSprite(); }); }
+        if (this.spriteIsLoading) { return this.whenReady(function() { _this.stopFlashSprite(); }); }
         let $sprite = this.sprite;
         let config = this.spriteConfig;
         const killTweens = function() {
@@ -3153,7 +3153,7 @@ class MMRPG_Object {
         //console.log('MMRPG_Object.stopShaking() called for ', this.kind, this.token);
         let _this = this;
         if (!this.sprite) { return; }
-        if (this.spriteIsLoading){ return this.spriteMethodsQueued.push(function(){ _this.stopShakeSprite(); }); }
+        if (this.spriteIsLoading){ return this.whenReady(function(){ _this.stopShakeSprite(); }); }
         let $sprite = this.sprite;
         let config = this.spriteConfig;
         const killTweens = function(){
@@ -3174,7 +3174,7 @@ class MMRPG_Object {
         //console.log('MMRPG_Object.stopKickback() called for ', this.kind, this.token);
         let _this = this;
         if (!this.sprite) { return; }
-        if (this.spriteIsLoading){ return this.spriteMethodsQueued.push(function(){ _this.stopKickbackSprite(); }); }
+        if (this.spriteIsLoading){ return this.whenReady(function(){ _this.stopKickbackSprite(); }); }
         let $sprite = this.sprite;
         let config = this.spriteConfig;
         const killTweens = function(){
@@ -3195,7 +3195,7 @@ class MMRPG_Object {
         //console.log('MMRPG_Object.stopFadeSprite() called for ', this.kind, this.token);
         let _this = this;
         if (!this.sprite) { return; }
-        if (this.spriteIsLoading){ return this.spriteMethodsQueued.push(function(){ _this.stopFadeSprite(); }); }
+        if (this.spriteIsLoading){ return this.whenReady(function(){ _this.stopFadeSprite(); }); }
         let $sprite = this.sprite;
         const killTweens = function(){
             if ($sprite.subTweens.fadeTween){
@@ -3215,7 +3215,7 @@ class MMRPG_Object {
         let _this = this;
         if (!this.sprite) { return; }
         if (!this.isMoving){ return; }
-        if (this.spriteIsLoading){ return this.spriteMethodsQueued.push(function(){ _this.stopMoving(); }); }
+        if (this.spriteIsLoading){ return this.whenReady(function(){ _this.stopMoving(); }); }
         let $sprite = this.sprite;
         let config = this.spriteConfig;
         let transforms = config.transforms;
@@ -3247,7 +3247,7 @@ class MMRPG_Object {
         let _this = this;
         if (!this.sprite) { return; }
         if (!this.isAnimating){ return; }
-        if (this.spriteIsLoading){ return this.spriteMethodsQueued.push(function(){ _this.stopAnimation(); }); }
+        if (this.spriteIsLoading){ return this.whenReady(function(){ _this.stopAnimation(); }); }
         let $sprite = this.sprite;
         let config = this.spriteConfig;
         let transforms = config.transforms;
