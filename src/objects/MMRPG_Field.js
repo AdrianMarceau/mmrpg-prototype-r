@@ -574,6 +574,16 @@ class MMRPG_Field extends MMRPG_Object {
     getForegroundOffsetY () { return this.getForegroundOffset().y; }
     getForegroundOffsetZ () { return this.getForegroundOffset().z; }
 
+    // Update or return the offset values for the gridlines layer of this sprite
+    setGridlinesOffset (x, y, z) { return this.setLayerOffset('gridlines', x, y, z); }
+    setGridlinesOffsetX (x) { this.setGridlinesOffset(x, null, null); }
+    setGridlinesOffsetY (y) { this.setGridlinesOffset(null, y, null); }
+    setGridlinesOffsetZ (z) { this.setGridlinesOffset(null, null, z); }
+    getGridlinesOffset () { return this.getLayerOffset('gridlines'); }
+    getGridlinesOffsetX () { return this.getGridlinesOffset().x; }
+    getGridlinesOffsetY () { return this.getGridlinesOffset().y; }
+    getGridlinesOffsetZ () { return this.getGridlinesOffset().z; }
+
     // Update or return the offset values for the avatar layer of this sprite
     setAvatarOffset (x, y, z) { return this.setLayerOffset('avatar', x, y, z); }
     setAvatarOffsetX (x) { this.setAvatarOffset(x, null, null); }
