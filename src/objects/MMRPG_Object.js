@@ -28,6 +28,7 @@ class MMRPG_Object {
         //console.log('-> kind:', kind, 'xkind:', xkind);
 
         // Define the properties of the object
+        this.id = 0;
         this.token = token;
         this.kind = kind;
         this.xkind = xkind;
@@ -55,6 +56,9 @@ class MMRPG_Object {
         let customInfo = this.customInfo;
         let spriteConfig = this.spriteConfig;
         let objectConfig = this.objectConfig;
+
+        // Collect or define the ID if not provided
+        this.id = customInfo.id || MMRPG.generateID(kind, this.data);
 
         // Create some flags and a queue to help with lazy-loading
         this.spriteIsLoading = true;
@@ -2223,7 +2227,7 @@ class MMRPG_Object {
     // Return the config object for a given layer
     getLayerConfig (layer)
     {
-        //console.log('MMRPG_Field.getLayerConfig() called for ', this.kind, this.token, '\nw/ layer:', layer);
+        //console.log('MMRPG_Object.getLayerConfig() called for ', this.kind, this.token, '\nw/ layer:', layer);
         let layersConfig = this.spriteLayers;
         let layerConfig = layersConfig[layer] || {};
         return layerConfig;
@@ -2232,7 +2236,7 @@ class MMRPG_Object {
     // Update the properties of a given sprite layer object
     setLayerConfig (layer, props)
     {
-        //console.log('MMRPG_Field.setLayerConfig() called for ', this.kind, this.token, '\nw/ layer:', layer, 'props:', props);
+        //console.log('MMRPG_Object.setLayerConfig() called for ', this.kind, this.token, '\nw/ layer:', layer, 'props:', props);
         let layersConfig = this.spriteLayers;
         let layerConfig = layersConfig[layer] || {};
         for (let key in props){
@@ -2245,7 +2249,7 @@ class MMRPG_Object {
     // Update the offset values for a given layer of this sprite
     setLayerOffset (layer, x, y, z)
     {
-        //console.log('MMRPG_Field.setLayerOffset() called for ', this.kind, this.token, '\nw/ layer:', layer, 'x:', x, 'y:', y);
+        //console.log('MMRPG_Object.setLayerOffset() called for ', this.kind, this.token, '\nw/ layer:', layer, 'x:', x, 'y:', y);
         let layersConfig = this.spriteLayers;
         let layerConfig = layersConfig[layer] || {};
         let offset = layerConfig.offset || {x: 0, y: 0, z: 0};
@@ -2264,7 +2268,7 @@ class MMRPG_Object {
     // Return the offset values for a given later of this sprite
     getLayerOffset (layer)
     {
-        //console.log('MMRPG_Field.getLayerOffset() called for ', this.kind, this.token, '\nw/ layer:', layer);
+        //console.log('MMRPG_Object.getLayerOffset() called for ', this.kind, this.token, '\nw/ layer:', layer);
         let layersConfig = this.spriteLayers;
         let layerConfig = layersConfig[layer] || {};
         let offset = layerConfig.offset || {x: 0, y: 0, z: 0};
