@@ -31,7 +31,10 @@ class MMRPG_Field extends MMRPG_Object {
         // Call the parent constructor
         super(scene, 'field', token, customInfo, spriteConfig, objectConfig);
 
-        // Add field-specific properties here
+        // Define the class-specific properties unique to the field
+        this.fieldObjects = [];
+
+        // Add more field-specific properties here
         // ...
 
     }
@@ -593,6 +596,63 @@ class MMRPG_Field extends MMRPG_Object {
     getAvatarOffsetX () { return this.getAvatarOffset().x; }
     getAvatarOffsetY () { return this.getAvatarOffset().y; }
     getAvatarOffsetZ () { return this.getAvatarOffset().z; }
+
+    // Add another MMRPG object (that isn't a field) to this one as a child so we can update it along with this object
+    addObject ($object, anchorToLayer = null)
+    {
+        //console.log('MMRPG_Field.addObject() called for', this.kind, this.token, '\nw/ $object:', typeof $object, 'anchorToLayer:', anchorToLayer);
+        let allowKinds = ['player', 'robot', 'ability', 'item', 'attachment'];
+        if (!allowKinds.includes($object.kind)){ console.warn(this.token + ' | MMRPG_Field.addObject() -> cannot add a ', $object.kind, '-type child object to a field'); return; }
+        if (!this.sprite) { console.warn(this.token + ' | MMRPG_Field.addObject() -> cannot add a child object without a sprite'); return; }
+        //console.log(this.token + ' | -> adding $object(', $object.kind, '/', $object.token, '/', $object.id, ') to field(', this.token, ') as a child object');
+
+        // Collect the current list of field objects
+        let fieldObjects = this.fieldObjects;
+
+        // Prepare the object to be added as a child to this field
+        let child = {kind: $object.kind, token: $object.token, id: $object.id, object: $object, layer: anchorToLayer};
+        $object.parentField = this;
+        $object.isAnchored = anchorToLayer ? true : false;
+
+        // If this object is already in the field objects, assume we're updating it and delete existing entry
+        let existingIndex = fieldObjects.findIndex((o) => o.id === $object.id && o.kind === $object.kind && o.token === $object.token);
+        if (existingIndex >= 0){
+            //console.log(this.token + ' | -> $object(', $object.kind, '/', $object.token, '/', $object.id, ') already exists in fieldObjects, updating...');
+            fieldObjects.splice(existingIndex, 1);
+            }
+
+        // Add the object to the field objects list
+        fieldObjects.push(child);
+
+        // Update the field objects list
+        this.fieldObjects = fieldObjects;
+
+    }
+
+    // Remove an object that has been added to this as a child object so that it no longer updates with this parent field
+    removeObject ($object)
+    {
+        //console.log('MMRPG_Field.removeObject() called for', this.kind, this.token, '\nw/ $object:', typeof $object);
+        if (!this.sprite) { console.warn(this.token + ' | MMRPG_Field.removeObject() -> cannot remove a child object without a sprite'); return; }
+        //console.log(this.token + ' | -> removing $object(', $object.kind, '/', $object.token, '/', $object.id, ') from field(', this.token, ') as a child object');
+
+        // Collect the current list of field objects
+        let fieldObjects = this.fieldObjects;
+
+        // Find the object in the field objects list
+        let existingIndex = fieldObjects.findIndex((o) => o.id === $object.id && o.kind === $object.kind && o.token === $object.token);
+        if (existingIndex < 0){
+            //console.log(this.token + ' | -> $object(', $object.kind, '/', $object.token, '/', $object.id, ') does not exist in fieldObjects, skipping...');
+            return;
+            }
+
+        // Remove the object from the field objects list
+        fieldObjects.splice(existingIndex, 1);
+
+        // Update the field objects list
+        this.fieldObjects = fieldObjects;
+
+    }
 
 }
 
