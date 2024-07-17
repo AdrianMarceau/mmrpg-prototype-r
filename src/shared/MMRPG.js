@@ -68,6 +68,7 @@ class MMRPG {
         this.Managers = {};
         this.Cache = {};
         this.Data = {};
+        this.IDs = {};
         this.SaveData = {};
 
         // Initialize any hard-coded indexes that need to be created
@@ -413,6 +414,17 @@ class MMRPG {
 
 
     // -- OBJECT GENERATION & PARSING METHODS -- //
+
+    // Generate a new ID for an object
+    generateID (_kind, data = {})
+    {
+        //consolejson('MMRPG.generateID() called w/ kind:', kind, 'data:', data);
+        if (!_kind) { console.warn('MMRPG.generateID() called w/o a kind!'); return; }
+        let [ kind, xkind ] = this.parseKind(_kind);
+        if (!this.IDs[xkind]) { this.IDs[xkind] = 0; }
+        this.IDs[xkind]++;
+        return this.IDs[xkind];
+    }
 
     // Calculate an object's proportional stat values given its kind and the starting data
     generateBaseStats (kind, data)
