@@ -422,7 +422,10 @@ export default class DebugScene extends Phaser.Scene
                 $battleBanner.add($object);
                 $object.useContainerForDepth(true);
                 // Add special logic for "Super Arm" test ability
-                if ($object.kind === 'ability' && $object.token === 'super-arm'){ $object.setValue('debugMaxFrame'); }
+                if ($object.kind === 'ability'
+                    && $object.token === 'super-arm'){
+                    $object.setValue('debugMaxFrame');
+                    }
                 // If this is a field we should preset some field-specific things
                 if ($object.kind === 'field'){
                     $object.setBackgroundOffset(null, -34);
@@ -437,8 +440,15 @@ export default class DebugScene extends Phaser.Scene
                 else {
                     $object.setShadow(true, true);
                     $object.setOnClick(onClickTestObject);
-                    if ($object.kind === 'player' || $object.kind === 'robot'){
+                    if ($object.kind === 'player'
+                        || $object.kind === 'robot'){
                         $object.startIdleAnimation(true, true);
+                        }
+                    if ($object.kind === 'player'
+                        || $object.kind === 'robot'
+                        || $object.kind === 'ability'
+                        || $object.kind === 'item'){
+                        $debugField.addObject($object, 'foreground');
                         }
                     }
                 }
@@ -461,10 +471,9 @@ export default class DebugScene extends Phaser.Scene
                 // Start the tween that moves the background layer up and down
                 if (!config.baseX){ config.baseX = $field.x; }
                 if (!config.baseY){ config.baseY = $field.y; }
-                if (!config.baseOffsetX){ config.baseOffsetX = $field.getBackgroundOffsetX(); }
-                if (!config.baseOffsetY){ config.baseOffsetY = $field.getBackgroundOffsetY(); }
                 if (debugFieldConfig.animation === 'scroll-to-top'){
                     // Create an scroll-to-top motion then stop
+                    if (!config.baseOffsetY){ config.baseOffsetY = $field.getBackgroundOffsetY(); }
                     if (config.tween){ config.tween.remove(); }
                     config.tween = scene.tweens.addCounter({
                         from: 0,
@@ -484,6 +493,7 @@ export default class DebugScene extends Phaser.Scene
                     }
                 else if (debugFieldConfig.animation === 'up-and-down'){
                     // Create an up-and-down motion on repeat
+                    if (!config.baseOffsetY){ config.baseOffsetY = $field.getBackgroundOffsetY(); }
                     if (config.tween){ config.tween.remove(); }
                     config.tween = scene.tweens.addCounter({
                         from: 0,
@@ -505,6 +515,9 @@ export default class DebugScene extends Phaser.Scene
                     }
                 else if (debugFieldConfig.animation === 'side-to-side'){
                     // Create a side-to-side motion on repeat
+                    if (!config.baseBackgroundOffset){ config.baseBackgroundOffset = $field.getBackgroundOffset(); }
+                    if (!config.baseForegroundOffset){ config.baseForegroundOffset = $field.getForegroundOffset(); }
+                    if (!config.baseGridlinesOffset){ config.baseGridlinesOffset = $field.getGridlinesOffset(); }
                     if (config.tween){ config.tween.remove(); }
                     config.tween = scene.tweens.addCounter({
                         from: 0,
@@ -516,10 +529,16 @@ export default class DebugScene extends Phaser.Scene
                         delay: 600,
                         onUpdate: function () {
                             let value = config.tween.getValue();
-                            //let backgroundOffsetX = config.baseOffsetX - Math.floor(15 * (value / 100));
-                            //$field.setBackgroundOffsetX(backgroundOffsetX);
-                            let foregroundOffsetX = config.baseOffsetX - Math.floor(15 * (value / 100));
+                            let reverse = config.reverse;
+                            let backgroundShift = Math.floor(30 * (value / 100));
+                            let foregroundShift = Math.floor(60 * (value / 100));
+                            let gridlinesShift = Math.floor(60 * (value / 100));
+                            let backgroundOffsetX = config.baseBackgroundOffset.x - backgroundShift;
+                            let foregroundOffsetX = config.baseForegroundOffset.x + foregroundShift;
+                            let gridlinesOffsetX = config.baseGridlinesOffset.x + gridlinesShift;
+                            $field.setBackgroundOffsetX(backgroundOffsetX);
                             $field.setForegroundOffsetX(foregroundOffsetX);
+                            $field.setGridlinesOffsetX(gridlinesOffsetX);
                             },
                         onComplete: function () {
                             if (config.tween){ config.tween.remove(); }
@@ -613,9 +632,11 @@ export default class DebugScene extends Phaser.Scene
                         let speedMod = this.data.baseStats.dividers.speed || 1;
                         if (this.getFlag('teleports')){ duration = 0; }
                         else { duration *= speedMod; }
+                        this.isAnchored = false;
                         this.setFrame('slide');
                         this.moveToPosition(newX, newY, duration, function(){
                             this.setFrame('defend');
+                            this.isAnchored = true;
                             return customPostMoveCheck.call(this, duration);
                             });
                         }, {color: damageTextColor});
@@ -649,10 +670,12 @@ export default class DebugScene extends Phaser.Scene
                         newX = this.direction === 'left' ? (this.x - leeway) : (this.x + leeway);
                         }
                     //console.log(this.token+' | customPostMoveCheck | newX =', newX, 'newY =', newY);
+                    this.isAnchored = false;
                     this.setFrame('slide');
                     this.moveToPosition(newX, newY, ((duration || 200) / 2), function(){
                         //console.log(this.token+' | customPostMoveCheck movement complete (B)!');
                         this.setFrame('defend');
+                        this.isAnchored = true;
                         return customPostMoveCheck.call(this, duration);
                         });
                     } else {
@@ -748,6 +771,7 @@ export default class DebugScene extends Phaser.Scene
                 $object.setOnHover(customMouseOver, customMouseOut);
                 $object.setOnClick(customClickEvent);
                 $object.startIdleAnimation();
+                $debugField.addObject($object, 'foreground');
                 }
             console.log('$customObjects (large) =\n', $customObjects);
             if (MMRPG.debug.customObjects){ delete MMRPG.debug.customObjects; }
