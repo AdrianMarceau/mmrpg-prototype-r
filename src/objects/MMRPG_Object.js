@@ -2393,6 +2393,7 @@ class MMRPG_Object {
         let $sprite = this.sprite;
         let config = this.spriteConfig;
         let direction = this.direction;
+        let wasAnchored = this.isAnchored;
 
         // Stop any idle animations or movement that might be playing
         this.stopIdleAnimation();
@@ -2457,7 +2458,9 @@ class MMRPG_Object {
         this.isWorkingOn('slideSpriteForward');
         let slideMovementTimer = this.delayedCall(100, function(){
             this.setFrame('slide');
+            if (wasAnchored){ _this.isAnchored = false; }
             _this.moveToPosition(newX, newY, slideDuration, function(){
+                if (wasAnchored){ _this.isAnchored = true; }
                 _this.delayedCall(100, function(){
                     this.setFrame('defend');
                     _this.delayedCall(200, function(){
@@ -2493,6 +2496,7 @@ class MMRPG_Object {
         let $sprite = this.sprite;
         let config = this.spriteConfig;
         let direction = this.direction;
+        let wasAnchored = this.isAnchored;
 
         // Stop any idle animations or movement that might be playing
         this.stopIdleAnimation();
@@ -2576,7 +2580,9 @@ class MMRPG_Object {
         this.isWorkingOn('runSpriteForward');
         let runMovementTimer = this.delayedCall(100, function(){
             _this.playAnim('run');
+            if (wasAnchored){ _this.isAnchored = false; }
             _this.moveToPosition(newX, newY, runDuration, function(){
+                if (wasAnchored){ _this.isAnchored = true; }
                 _this.delayedCall(100, function(){
                     $sprite.stop();
                     this.setFrame('base2');
