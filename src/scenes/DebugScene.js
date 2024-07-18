@@ -818,7 +818,7 @@ export default class DebugScene extends Phaser.Scene
         // Define the base coordinates for the sprite to be added
         var offset = ((numSprites % 10) * 5);
         let spriteX = spriteSide === 'left' ? (0 - offset - 40) : (MMRPG.canvas.width + offset + 40);
-        let spriteY = this.battleBanner.y + 120 + ((numSprites % 8) * 10);
+        let spriteY = this.battleBanner.y + 100 + ((numSprites % 8) * 10);
         var spriteDepth = scene.battleBanner.depths.action;
 
         // Add this player to the battle banner and update graphics
@@ -932,7 +932,7 @@ export default class DebugScene extends Phaser.Scene
             $player.flashSprite(3, null, 60);
             $player.shakeSprite(1, 3, function(){
                 $player.setFrame('defeat');
-                $player.flashSprite(3, null, 100);
+                $player.fadeSprite(1, 0, null, 600);
                 $player.whenDone(function(){
                     //console.log($player.token + ' | -> time to destroy this player object');
                     $player.setAlpha(0.5);
