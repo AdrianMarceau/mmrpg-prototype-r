@@ -828,7 +828,7 @@ export default class DebugScene extends Phaser.Scene
     }
 
     // Define a function that generates a sprite of a player and animates it running across the screen
-    showRunningPlayer (token, alt, side = 'left')
+    async showRunningPlayer(token, alt, side = 'left')
     {
         //console.log('DebugScene.showRunningPlayer() called w/ token =', token, 'alt =', alt, 'side =', side);
 
@@ -836,110 +836,248 @@ export default class DebugScene extends Phaser.Scene
         let scene = this;
         let MMRPG = this.MMRPG;
         let SPRITES = this.SPRITES;
-        let playerSheets = SPRITES.index.sheets.players;
-        let playerAnims = SPRITES.index.anims.players;
+        let SOUNDS = this.SOUNDS;
+        let typesIndex = MMRPG.Indexes.types;
         let playersIndex = MMRPG.Indexes.players;
 
-        // Generate a list of random tokens to pull from should it be necessary
-        let randTokens = [];
-        if (!randTokens.length){ randTokens = randTokens.concat(scene.runningDoctors); }
-        let randKey = Math.floor(Math.random() * randTokens.length);
-
-        // Collect the sprite token and alt if provided, else rely on the random key
+        // Collect the sprite side and direction from the function else define defaults
         let spriteSide = side || 'left';
         let spriteDirection = spriteSide === 'left' ? 'right' : 'left';
-        let spriteToken = token || randTokens[randKey];
-        let spriteAlt = alt || 'base';
-        //console.log('spriteToken =', spriteToken, 'spriteAlt =', spriteAlt, 'spriteSide =', spriteSide, 'spriteDirection =', spriteDirection);
 
-        // If the sprite token ends with an "*_{alt}", make sure we split and pull
-        if (spriteToken.indexOf('_') !== -1){
-            let tokenParts = spriteToken.split('_');
-            spriteToken = tokenParts[0];
-            spriteAlt = tokenParts[1];
-            }
+        // Pull a list of random tokens to pull from should it be necessary
+        let randTokens = [];
+        if (!randTokens.length) { randTokens = randTokens.concat(scene.runningDoctors); }
+        let randKey = Math.floor(Math.random() * randTokens.length);
 
-        // Generate a sprite w/ running animation in progress
-        let playerInfo = playersIndex[spriteToken];
-        let playerAlts = playerInfo.image_alts ? playerInfo.image_alts.map(item => item.token) : [];
-        //console.log('playerInfo for ', spriteToken, '=', playerInfo);
-        //console.log('playerAlts for ', spriteToken, '=', playerAlts);
-
-        // Ensure this alt actually exists on the player in question
-        //console.log('pending spriteToken =', spriteToken, 'pending spriteAlt =', spriteAlt);
-        if (spriteAlt !== 'base' && playerAlts.indexOf(spriteAlt) === -1){ spriteAlt = 'base'; }
-        if (!playerSheets[spriteToken][spriteAlt]){
-            //console.log('Sprite alt not found, defaulting to base');
-            spriteAlt = 'base';
-            }
-
-        // Count the number of sliding sprites currently on the screen
+        // Count the number of running sprites already on the screen (for adjusting the animations)
         let numSprites = scene.debugAddedSprites - scene.debugRemovedSprites;
+
+        // Prepare the Player
+
+        // Collect the sprite token and alt if provided, else rely on the random key
+        let playerSpriteToken = token || randTokens[randKey];
+        let playerSpriteAlt = alt || 'base';
+        if (playerSpriteToken.indexOf('_') !== -1) {
+            let tokenParts = playerSpriteToken.split('_');
+            playerSpriteToken = tokenParts[0];
+            playerSpriteAlt = tokenParts[1];
+            }
+        let playerIndexInfo = playersIndex[playerSpriteToken];
+        let playerAltTokens = playerIndexInfo.image_alts ? playerIndexInfo.image_alts.map(item => item.token) : [];
+        if (playerSpriteAlt !== 'base' && playerAltTokens.indexOf(playerSpriteAlt) === -1) { playerSpriteAlt = 'base'; }
+
+        // Create a temp player object to ensure everything gets preloaded
+        let $player = new MMRPG_Player(scene, playerSpriteToken, { image_alt: playerSpriteAlt }, { offscreen: true });
+        await $player.isReady();
 
         // Define the base coordinates for the sprite to be added
         var offset = ((numSprites % 10) * 5);
         let spriteX = spriteSide === 'left' ? (0 - offset - 40) : (MMRPG.canvas.width + offset + 40);
-        let spriteY = this.battleBanner.y + 80 + ((numSprites % 10) * 10);
-        //console.log('spriteX =', spriteX, 'spriteY =', spriteY);
+        let spriteY = this.battleBanner.y + 120 + ((numSprites % 8) * 10);
+        var spriteDepth = scene.battleBanner.depths.action;
 
-        // Define the base variables for this player animation sequence
-        let spriteKey = 'sprite-'+spriteDirection;
-        let spriteSheet = playerSheets[spriteToken][spriteAlt][spriteKey];
-        let spriteRunAnim = playerAnims[spriteToken][spriteAlt][spriteKey]['run'];
+        // Add this player to the battle banner and update graphics
+        scene.battleBanner.add($player);
+        $player.useContainerForDepth(true);
+        $player.refreshSprite();
 
-        // Create the sprite and add it to the scene
-        let $playerSprite = scene.add.sprite(spriteX, spriteY, spriteSheet);
+        // If there's a debug field, make sure we add
+        let $debugField = this.debugField;
+        if ($debugField){ $debugField.addObject($player, 'foreground'); }
+
+        // Update the origin, scale, depth and other basic props for the sprite to real values
+        $player.setPosition(spriteX, spriteY, spriteY);
+        $player.setDepth(spriteDepth);
+        $player.setOrigin(0.5, 1);
+        $player.setScale(2.0);
+        $player.setShadow(true, true);
+        $player.refreshSprite();
+
+        // Add effects and setup the frame for the running sprite
+        $player.setFrame('base');
+        $player.setDirection(spriteDirection);
+
+        // Fallback to later code for now (remove later)
+        let $playerSprite = $player.sprite;
         scene.saveDebugSprite($playerSprite);
 
-        // Add required sub-objects to the sprite
-        $playerSprite.subTweens = {};
-        $playerSprite.subTimers = {};
-        $playerSprite.subSprites = {};
-
-        // Set the origin, scale, and depth for the sprite then add to parent container
-        $playerSprite.setOrigin(0.5, 1);
-        $playerSprite.setScale(2.0);
-        $playerSprite.setDepth(scene.battleBanner.depths.action + spriteY);
-        scene.battleBanner.add($playerSprite);
-
-        // Apply effects and setup the frame
-        $playerSprite.preFX.addShadow();
-        $playerSprite.play(spriteRunAnim);
-
-        // Animate the doctor bouncing up and down as they walk forward
-        $playerSprite.subTweens.bounceTween = scene.add.tween({
-            targets: $playerSprite,
-            y: {from: spriteY, to: spriteY - 2},
-            ease: 'Stepped',
-            delay: 300,
-            repeatDelay: 200,
-            duration: 200,
-            repeat: -1,
-            yoyo: true,
-            });
+        // Set the disabled flag to false initially and make it easy to check
+        $player.isDisabled = false;
+        const playerIsNotDisabled = function () { return !$player.isDisabled; };
 
         // Animate that sprite running across the screen then remove when done
-        let runSpeed = (((100) + playerInfo.speed) - playerInfo.defense);
+        let baseStats = playerIndexInfo.baseStats;
+        let runSpeed = (((100) + playerIndexInfo.speed) - playerIndexInfo.defense);
         let runSpeedMultiplier = (runSpeed / 100);
-        let runDistance = (MMRPG.canvas.width / 4) * runSpeedMultiplier;
-        let runDestination = spriteDirection === 'right' ? (MMRPG.canvas.width + 40) : (0 - 40);
+        let runDestination = spriteSide === 'left' ? (MMRPG.canvas.width + 40) : (0 - 40);
         let runDuration = 5000 - (1000 * runSpeedMultiplier);
-        //console.log(playerInfo.token, 'runSpeed:', runSpeed, 'runSpeedMultiplier:', runSpeedMultiplier, 'runDistance:', runDistance, 'runDestination:', runDestination, 'runDuration:', runDuration);
 
-        // Animate that sprite using the previously defined variables
-        $playerSprite.subTweens.runTween = scene.add.tween({
-            targets: $playerSprite,
-            x: runDestination,
-            ease: 'Linear',
-            duration: runDuration,
-            onComplete: function () {
-                //console.log(playerInfo.name + ' running movement complete!');
-                SPRITES.destroySpriteAndCleanup(scene, $playerSprite);
+        // Define a parent function for running a given sprite in a specified direction
+        const runSprite = function ($player, direction, onComplete) {
+            if (!$player.sprite || $player.toBeDestroyed) { return; }
+            $player.setFrame(0);
+            $player.setDirection(direction);
+            let others = Object.keys(scene.debugSprites).length;
+            let overflow = 0;
+            let delay = 1000;
+            if (others >= 10) {
+                overflow = others - 10;
+                delay -= overflow * 100;
+                if (delay < 0) { delay = 0; }
                 }
+            $player.delayedCall(delay, function () {
+                if (!$player.sprite || $player.toBeDestroyed) { return; }
+                $player.runSpriteForward(function () {
+                    $player.delayedCall(1000, function () {
+                        runSpriteSomewhere($player, onComplete);
+                        }, playerIsNotDisabled);
+                    });
+                }, playerIsNotDisabled);
+            };
+
+        // Define a function for running a given sprite to the right
+        const runSpriteRight = function ($player, onComplete) {
+            runSprite($player, 'right', onComplete);
+            };
+
+        // Define a function for running a given sprite to the left
+        const runSpriteLeft = function ($player, onComplete) {
+            runSprite($player, 'left', onComplete);
+            };
+
+        // Define a function that takes a given sprite and then randomly runs it forward or backward
+        let safeZone = 40;
+        let safeZoneMinX = MMRPG.canvas.xMin - safeZone;
+        let safeZoneMaxX = MMRPG.canvas.xMax + safeZone;
+        const runSpriteSomewhere = function ($player, onComplete) {
+            if (!$player.sprite
+                || $player.toBeDestroyed
+                || $player.x >= safeZoneMaxX
+                || $player.x <= safeZoneMinX) {
+                return onComplete($player);
+                } else if ($player.x >= (MMRPG.canvas.xMax - 20)) {
+                return runSpriteLeft($player, onComplete);
+                } else if ($player.x < (MMRPG.canvas.xMin + 20)) {
+                return runSpriteRight($player, onComplete);
+                } else {
+                let runPref = runDestination > MMRPG.canvas.centerX ? 'forward' : 'backward';
+                let randChance = Math.random() * 100;
+                let nextSpriteFunction;
+                if (runPref === 'forward') {
+                    nextSpriteFunction = randChance <= 80 ? runSpriteRight : runSpriteLeft;
+                    } else if (runPref === 'backward') {
+                    nextSpriteFunction = randChance <= 80 ? runSpriteLeft : runSpriteRight;
+                    }
+                return nextSpriteFunction($player, onComplete);
+                }
+            };
+
+        // Define a function that plays an disable animation and then destroyed the sprite when done
+        const disableSpriteAndDestroy = function($player){
+            //console.log('disableSpriteAndDestroy() w/ $player:', $player);
+            if (!$player.sprite || $player.toBeDestroyed){ return; }
+
+            // First we stop any of this sprite's tweens and timers, then play the explosion animation
+            $player.isDisabled = true;
+            $player.stopAll(true);
+            $player.setFrame('damage');
+
+            // Set the player frame to disabled and darken the sprite, then play the explosion animation
+            SOUNDS.playSoundEffect('hyper-stomp-sound');
+            $player.flashSprite(3, null, 60);
+            $player.shakeSprite(1, 3, function(){
+                $player.setFrame('defeat');
+                $player.flashSprite(3, null, 100);
+                $player.whenDone(function(){
+                    //console.log($player.token + ' | -> time to destroy this player object');
+                    $player.setAlpha(0.5);
+                    $player.destroy();
+                    });
+                }, 60);
+
+            };
+
+        // Define a function that shows a player's defeat quote in the position it was defeated
+        let playerQuoteBubbles = [];
+        let playerQuoteTweens = [];
+        const showPlayerDefeatQuote = function($player){
+            // Destroy any existing floating text bubbles
+            if (scene.floatingTextBubble){
+                //console.log('Destroying clicked scene.floatingTextBubble:', scene.floatingTextBubble);
+                scene.floatingTextBubble.destroy();
+                scene.floatingTextBubble = null;
+                }
+            // If the player has quotes to display, let's do so now
+            let quoteDisplayed = false;
+            let $floatingTextBubble = null;
+            //console.log('player destroyed:', playerIndexInfo.token, playerIndexInfo.name, playerIndexInfo);
+            if (typeof playerIndexInfo.quotes !== 'undefined'){
+                let playerCoreType = playerIndexInfo.core !== '' ? playerIndexInfo.core : '';
+                let playerTypeInfo = typesIndex[playerCoreType || 'none'];
+                let playerQuotes = playerIndexInfo.quotes;
+                //console.log(playerIndexInfo.token, 'playerCoreType:', playerCoreType, 'playerTypeInfo:', playerTypeInfo, 'playerQuotes:', playerQuotes);
+                if (typeof playerQuotes.battle_defeat
+                    && playerQuotes.battle_defeat.length){
+                    //console.log('playerQuotes.battle_defeat:', playerQuotes.battle_defeat);
+                    var text = playerQuotes.battle_defeat.toUpperCase();
+                    var color = '#f0f0f0';
+                    var shadow = '#090909'; //playerCoreType ? Graphics.returnHexColorString(playerTypeInfo.colour_dark) : '#969696';
+                    //console.log('text:', text, 'color:', color);
+                    var x = $playerSprite.x + 40, y = $playerSprite.y - 60;
+                    var width = Math.ceil(MMRPG.canvas.width / 4), height = 90;
+                    $floatingTextBubble = Strings.addFormattedText(scene, x, y, text, {
+                        width: width,
+                        height: height,
+                        color: color,
+                        shadow: shadow,
+                        depth: $playerSprite.depth + 1,
+                        padding: 10,
+                        border: false,
+                        });
+                    playerQuoteBubbles.push($floatingTextBubble);
+                    quoteDisplayed = true;
+                    }
+                }
+            // After a set amount of time, automatically destroy the floating text bubble
+            if (quoteDisplayed
+                && $floatingTextBubble){
+                let quoteDisplayTween = scene.tweens.addCounter({
+                    from: 100,
+                    to: 0,
+                    ease: 'Sine.easeOut',
+                    delay: 100,
+                    duration: 1000,
+                    onUpdate: function () {
+                        //console.log('quoteDisplayTween:', quoteDisplayTween.getValue());
+                        $floatingTextBubble.setAlpha(quoteDisplayTween.getValue() / 100);
+                        $floatingTextBubble.setPosition('-=0', '-=2');
+                        },
+                    onComplete: function () {
+                        //console.log('quoteDisplayTween complete!');
+                        $floatingTextBubble.destroy();
+                        }
+                    });
+                playerQuoteTweens.push(quoteDisplayTween);
+                }
+            };
+
+        // Preset the sprite direction to right, and then start playing the run animation
+        let startFunction;
+        if ($player.direction === 'right') { startFunction = runSpriteRight; }
+        else if ($player.direction === 'left') { startFunction = runSpriteLeft; }
+        startFunction($player, function ($player) {
+            $player.destroy();
+            });
+
+        // Make it so the sprite is clickable to show an alert
+        $player.setOnClick(function () {
+            if (!$player.sprite || $player.isDisabled) { return; }
+            showPlayerDefeatQuote($player);
+            disableSpriteAndDestroy($player);
             });
 
         // Update the scene with last-used sprite token
-        scene.lastRunningDoctor = spriteToken;
+        scene.lastRunningDoctor = playerSpriteToken;
 
     }
 
