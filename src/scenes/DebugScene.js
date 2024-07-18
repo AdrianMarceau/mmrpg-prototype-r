@@ -225,61 +225,6 @@ export default class DebugScene extends Phaser.Scene
             let $version = Strings.addPlainText(this, x, y, version, {color: '#000000', fontSize: '12px'});
             $version.x = MMRPG.canvas.width - $version.width - 20;
 
-            // Create a floating text bubble to test the text formatting syntax and display wrapping
-            var depth = 2000;
-            var width = Math.ceil(MMRPG.canvas.width / 3), height = 90;
-            var x = MMRPG.canvas.xMax - width - 20, y = 150;
-            var lorem = "[Hey]{water} there [Bomb Man]{explode}! I know [i]I'm[/i] good, but how are [b]you[/b] today? I hear you got hit by a [Flame Sword]{flame_cutter}! [b][i]Your weakness[/i][/b]!!! [b][Gravity Man]{space_electric}[/b] is the one who told me btw.";
-            let $floatingTextBubble = Strings.addFormattedText(this, x, y, lorem, {
-                width: width,
-                height: height,
-                border: true,
-                color: '#ffffff',
-                depth: depth++,
-                padding: 10,
-                });
-            scene.floatingTextBubble = $floatingTextBubble;
-            // add two robot masters talking to each other for effect
-            var origin = [0.5, 1];
-            var x = x + (width / 2), y = y + 2;
-            let $bubbleRobot1 = new MMRPG_Robot(this, 'star-man', null, { x: x - 40, y: y, z: depth++, direction: 'right', scale: 2, origin: origin });
-            let $bubbleRobot2 = new MMRPG_Robot(this, 'bomb-man', null, { x: x + 40, y: y, z: depth++, direction: 'left', scale: 2, origin: origin });
-            $bubbleRobot1.startIdleAnimation();
-            $bubbleRobot2.startIdleAnimation();
-            // automatically fade out and remove the above after a few seconds
-            let floatingTextBubbleTween;
-            scene.time.delayedCall(4000, function(){
-                floatingTextBubbleTween = this.tweens.addCounter({
-                    from: 100,
-                    to: 0,
-                    ease: 'Sine.easeOut',
-                    delay: 100,
-                    duration: 1000,
-                    onUpdate: function () {
-                        let alpha = floatingTextBubbleTween.getValue() / 100;
-                        $floatingTextBubble.setAlpha(alpha);
-                        $bubbleRobot1.setAlpha(alpha);
-                        $bubbleRobot2.setAlpha(alpha);
-                        $floatingTextBubble.setPosition(null, '-=2');
-                        $bubbleRobot1.setPosition(null, '-=1');
-                        $bubbleRobot2.setPosition(null, '-=1');
-                        },
-                    onComplete: function () {
-                        $floatingTextBubble.destroy();
-                        $bubbleRobot1.destroy();
-                        $bubbleRobot2.destroy();
-                        $bubbleRobot1 = null;
-                        $bubbleRobot2 = null;
-                        }
-                    });
-                }, [], this);
-
-            // -- DEBUG SOUND EFFECTS -- //
-
-            // Play a sound effect to make sure they're working
-            SOUNDS.playSoundEffect('9-reggae-laughs_rockboard-nes', {volume: 1.5, delay: 100});
-
-
             // -- DEBUG SPRITE TESTING -- //
 
             // Define a bunch of field tokens to shuffle around for testing (filter out incomplete ones)
@@ -2302,8 +2247,18 @@ export default class DebugScene extends Phaser.Scene
                 });
 
         cell = buttonGrid[2][1];
-            // Create a placeholder button
-            addPlaceholderButton(cell);
+            // Create buttons to add a running doctors to the scene
+            label = 'Show Floating Text Bubble';
+            color = '#bababa';
+            BUTTONS.makeSimpleButton(label.toUpperCase(), {
+                y: cell.y, x: cell.x,
+                width: cell.width, height: cell.height,
+                color: color, background: background, size: size,
+                depth: depth++
+                }, function(){
+                //console.log(this.getText().toUpperCase() + ' button clicked w/ this:', this);
+                scene.showFloatingTextBubble();
+                });
 
         cell = buttonGrid[2][2];
             // Create buttons to add a running doctors to the scene
@@ -2536,6 +2491,73 @@ export default class DebugScene extends Phaser.Scene
         if (scene.allowRunningDoctors){
             scene.showRunningPlayer('proxy', null, 'right');
             }
+
+    }
+
+    // Generate a floating text bubble with some animated robots alongside it that demonstrates our formatted text blocks
+    showFloatingTextBubble ()
+    {
+        //console.log('DebugScene.showFloatingTextBubble() called');
+
+        // Pull in other required objects and references
+        let scene = this;
+        let MMRPG = this.MMRPG;
+        let SOUNDS = this.SOUNDS;
+
+        // If there's already a floating text bubble, do nothing
+        if (scene.floatingTextBubble){ return false; }
+
+        // Create a floating text bubble to test the text formatting syntax and display wrapping
+        var depth = 2000;
+        var width = Math.ceil(MMRPG.canvas.width / 3), height = 90;
+        var x = MMRPG.canvas.xMax - width - 20, y = 150;
+        var lorem = "[Hey]{water} there [Bomb Man]{explode}! I know [i]I'm[/i] good, but how are [b]you[/b] today? I hear you got hit by a [Flame Sword]{flame_cutter}! [b][i]Your weakness[/i][/b]!!! [b][Gravity Man]{space_electric}[/b] is the one who told me btw.";
+        let $floatingTextBubble = Strings.addFormattedText(this, x, y, lorem, {
+            width: width,
+            height: height,
+            border: true,
+            color: '#ffffff',
+            depth: depth++,
+            padding: 10,
+            });
+        scene.floatingTextBubble = $floatingTextBubble;
+        // add two robot masters talking to each other for effect
+        var origin = [0.5, 1];
+        var x = x + (width / 2), y = y + 2;
+        let $bubbleRobot1 = new MMRPG_Robot(this, 'star-man', null, { x: x - 40, y: y, z: depth++, direction: 'right', scale: 2, origin: origin });
+        let $bubbleRobot2 = new MMRPG_Robot(this, 'bomb-man', null, { x: x + 40, y: y, z: depth++, direction: 'left', scale: 2, origin: origin });
+        $bubbleRobot1.startIdleAnimation();
+        $bubbleRobot2.startIdleAnimation();
+        // automatically play a sound effect to go with the above
+        SOUNDS.playSoundEffect('9-reggae-laughs_rockboard-nes', {volume: 1.5, delay: 100});
+        // automatically fade out and remove the above after a few seconds
+        let floatingTextBubbleTween;
+        scene.time.delayedCall(4000, function(){
+            floatingTextBubbleTween = this.tweens.addCounter({
+                from: 100,
+                to: 0,
+                ease: 'Sine.easeOut',
+                delay: 100,
+                duration: 1000,
+                onUpdate: function () {
+                    let alpha = floatingTextBubbleTween.getValue() / 100;
+                    $floatingTextBubble.setAlpha(alpha);
+                    $bubbleRobot1.setAlpha(alpha);
+                    $bubbleRobot2.setAlpha(alpha);
+                    $floatingTextBubble.setPosition(null, '-=2');
+                    $bubbleRobot1.setPosition(null, '-=1');
+                    $bubbleRobot2.setPosition(null, '-=1');
+                    },
+                onComplete: function () {
+                    $floatingTextBubble.destroy();
+                    $bubbleRobot1.destroy();
+                    $bubbleRobot2.destroy();
+                    $bubbleRobot1 = null;
+                    $bubbleRobot2 = null;
+                    delete scene.floatingTextBubble;
+                    }
+                });
+            }, [], this);
 
     }
 
