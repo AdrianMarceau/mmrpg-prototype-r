@@ -137,17 +137,32 @@ export default class ButtonsManager {
         $buttonGroup.add($buttonText);
 
         let buttonObject = {
+            x: buttonX,
+            y: buttonY,
+            width: buttonWidth,
+            height: buttonHeight,
             group: $buttonGroup,
             span: $buttonRect,
             text: $buttonText,
+            getText: function(){
+                return buttonText;
+                },
             setText: function(text){
                 $buttonText.setText(text);
+                },
+            getPosition: function(){
+                return {
+                    x: buttonObject.x,
+                    y: buttonObject.y
+                    };
                 },
             setPosition: function(x, y){
                 $buttonRect.x = x;
                 $buttonRect.y = y;
                 $buttonText.x = x + (buttonWidth / 2);
                 $buttonText.y = y + (buttonHeight / 2);
+                buttonObject.x = x;
+                buttonObject.y = y;
                 },
             };
 
@@ -156,7 +171,7 @@ export default class ButtonsManager {
             $buttonRect.on('pointerover', function () { $buttonText.setAlpha(1.0); });
             $buttonRect.on('pointerout', function () { $buttonText.setAlpha(0.8); });
             $buttonRect.on('pointerdown', function () {
-                buttonCallback(buttonObject);
+                buttonCallback.call(buttonObject);
                 // add a tween where the text grows briefly then shrinks back
                 if (ctx.SOUNDS){ ctx.SOUNDS.playMenuSound('icon-click-mini'); }
                 if (buttonClickTween){ buttonClickTween.stop(); }
