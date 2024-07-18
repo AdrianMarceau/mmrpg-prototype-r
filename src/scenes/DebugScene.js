@@ -417,6 +417,7 @@ export default class DebugScene extends Phaser.Scene
 
             // Loop through the test debug objects and apply some presets to them based on kind
             let $debugField = $debugObjects.field;
+            this.debugField = $debugField;
             for (let key in $debugObjects){
                 let $object = $debugObjects[key];
                 $battleBanner.add($object);
@@ -461,7 +462,7 @@ export default class DebugScene extends Phaser.Scene
             debugFieldConfig.animation = false;
             //debugFieldConfig.animation = 'scroll-to-top';
             //debugFieldConfig.animation = 'up-and-down';
-            //debugFieldConfig.animation = 'side-to-side';
+            debugFieldConfig.animation = 'side-to-side';
             const startDebugFieldAnimations = function($field){
                 //console.log('DebugScene.create().startDebugFieldAnimations()');
                 if (!$field){ return; }
@@ -1003,13 +1004,17 @@ export default class DebugScene extends Phaser.Scene
         // Define the base coordinates for the sprite to be added
         var offset = ((numSprites % 10) * 5);
         let spriteX = spriteSide === 'left' ? (0 - offset - 40) : (MMRPG.canvas.width + offset + 40);
-        let spriteY = this.battleBanner.y + 100 + ((numSprites % 10) * 10);
+        let spriteY = this.battleBanner.y + 100 + ((numSprites % 8) * 10);
         var spriteDepth = scene.battleBanner.depths.action;
 
         // Add this robot to the battle banner and update graphics
         scene.battleBanner.add($robot);
         $robot.useContainerForDepth(true);
         $robot.refreshSprite();
+
+        // If there's a debug field, make sure we add
+        let $debugField = this.debugField;
+        if ($debugField){ $debugField.addObject($robot, 'foreground'); }
 
         // Update the origin, scale, depth and other basic props for the sprite to real values
         $robot.setPosition(spriteX, spriteY, spriteY);
