@@ -2244,8 +2244,9 @@ export default class DebugScene extends Phaser.Scene
                 width: cell.width, height: cell.height,
                 color: color, background: background, size: size,
                 depth: depth++
-                }, function(button){
+                }, function(){
                 //console.log('Toggle Doctors Running button clicked');
+                let button = this;
                 if (scene.allowRunningDoctors){
                     button.text.setTint(0xff0000);
                     //button.text.setColor('#ff0000');
@@ -2268,8 +2269,9 @@ export default class DebugScene extends Phaser.Scene
                 width: cell.width, height: cell.height,
                 color: color, background: background, size: size,
                 depth: depth++
-                }, function(button){
+                }, function(){
                 //console.log('Toggle Masters Sliding button clicked');
+                let button = this;
                 if (scene.allowSlidingMasters){
                     button.text.setTint(0xff0000);
                     //button.text.setColor('#ff0000');
