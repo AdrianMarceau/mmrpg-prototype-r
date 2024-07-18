@@ -303,7 +303,7 @@ export class StringsUtility {
             let $shadowMeta = {kind: 'shadow', elem: $shadow, offset: [1, 1]};
             $shadow.setOrigin(0);
             $shadow.setDepth($text.depth - 2);
-            $shadow.setLetterSpacing(22);
+            $shadow.setLetterSpacing(20);
             $shadow.setTint(Graphics.returnHexColorValue(options.shadow));
             stringObject.elems.push($shadowMeta);
             textAreaElements.push($shadowMeta);
