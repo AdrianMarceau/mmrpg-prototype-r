@@ -625,8 +625,8 @@ class MMRPG_Field extends MMRPG_Object {
             //console.log('-> checking if fieldObject:', fieldObject.token, 'is anchored to layer:', layer);
             if (fieldObject.layer === layer){
                 let $object = fieldObject.object;
-                //console.log('-> checking $object(', $object.kind, '/', $object.token, '/', $object.id, ') for isAnchored:', $object.isAnchored);
-                if (!$object.isAnchored){ continue; }
+                //console.log('-> checking $object(', $object.kind, '/', $object.token, '/', $object.id, ') for isAnchored:', $object.isAnchored());
+                if (!$object.isAnchored()){ continue; }
                 if (diffX){ $object.setPositionX(diffX > 0 ? '+='+diffX : '-='+Math.abs(diffX)); }
                 if (diffY){ $object.setPositionY(diffY > 0 ? '+='+diffY : '-='+Math.abs(diffY)); }
                 if (diffZ){ $object.setPositionZ(diffZ > 0 ? '+='+diffZ : '-='+Math.abs(diffZ)); }
@@ -649,8 +649,10 @@ class MMRPG_Field extends MMRPG_Object {
 
         // Prepare the object to be added as a child to this field
         let child = {kind: $object.kind, token: $object.token, id: $object.id, object: $object, layer: anchorToLayer};
-        $object.parentField = this;
-        $object.isAnchored = anchorToLayer ? true : false;
+        $object.spriteAnchor = this;
+        $object.useAnchorForPosition(true);
+        $object.isAnchored(true);
+        //console.log('We just anchored this object:', $object);
 
         // If this object is already in the field objects, assume we're updating it and delete existing entry
         let existingIndex = fieldObjects.findIndex((o) => o.id === $object.id && o.kind === $object.kind && o.token === $object.token);
