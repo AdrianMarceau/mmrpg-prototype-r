@@ -105,6 +105,7 @@ class MMRPG_Object {
         spriteConfig.offsetX = spriteConfig.offsetX || 0;
         spriteConfig.offsetY = spriteConfig.offsetY || 0;
         spriteConfig.interactive = spriteConfig.interactive || false;
+        spriteConfig.anchored = spriteConfig.anchored || false;
         spriteConfig.debug = spriteConfig.debug || false;
 
         // Compensate for missing size defaults using the object config
@@ -148,9 +149,13 @@ class MMRPG_Object {
         spriteConfig.shadowRotationX = 1.25;
         spriteConfig.shadowRotationY = 0.5;
 
-        // Also predefine some of the more complicated ones for later
+        // Also predefine some container-related settings for layering and depth
         this.spriteContainer = null;
         spriteConfig.useContainerForDepth = spriteConfig.useContainerForDepth || false;
+
+        // Also predefine some anchor-related settings for positioning and scaling
+        this.spriteAnchor = null;
+        spriteConfig.useAnchorForPosition = spriteConfig.useAnchorForPosition || false;
 
         // Set this object to ready now that we're done setup
         this.ready = true;
@@ -2245,17 +2250,52 @@ class MMRPG_Object {
         this.refreshSprite();
     }
 
-    // Set the sprite config value for useContainerForDepth to the boolean value provided
+    // Set (or get) the sprite config value for useContainerForDepth to the boolean value provided
     useContainerForDepth (bool)
     {
-        //console.log('MMRPG_Object.setUseContainerForDepth() called for', this.token, 'w/ bool:', bool);
+        //console.log('MMRPG_Object.useContainerForDepth() called for', this.token, 'w/ bool:', bool);
         let _this = this;
+        let config = this.spriteConfig;
+        // if no args were provided, assume this is a GET and return the current value
+        if (typeof bool === 'undefined'){ return config.useContainerForDepth; }
+        // otherwise we assume this is a SET and update the value
         if (!this.sprite) { return; }
         if (!this.spriteContainer){ return; }
         if (this.spriteIsLoading){ return this.whenReady(function(){ _this.useContainerForDepth(bool); }); }
-        let config = this.spriteConfig;
         if (config.useContainerForDepth === bool){ return; }
         config.useContainerForDepth = bool;
+        this.refreshSprite();
+    }
+
+    // Set (or get) the sprite config value for useAnchorForPosition to the boolean value provided
+    useAnchorForPosition (bool)
+    {
+        //console.log('MMRPG_Object.useAnchorForPosition() called for', this.token, 'w/ bool:', bool);
+        if (!this.sprite) { return; }
+        let _this = this;
+        let config = this.spriteConfig;
+        // if no args were provided, assume this is a GET and return the current value
+        if (typeof bool === 'undefined'){ return config.useAnchorForPosition; }
+        // otherwise we assume this is a SET and update the value
+        if (config.useAnchorForPosition === bool){ return; }
+        config.useAnchorForPosition = bool;
+        this.refreshSprite();
+    }
+
+    // Get or set the anchored flag on this sprite and update (assumes useAnchorForPosition is true)
+    isAnchored (bool)
+    {
+        //console.log('MMRPG_Object.setAnchored() called w/ bool:', bool);
+        if (!this.sprite) { return; }
+        let _this = this;
+        let config = this.spriteConfig;
+        // if no args were provided, assume this is a GET and return the current value
+        if (typeof bool === 'undefined'){ return config.useAnchorForPosition && config.anchored; }
+        // otherwise we assume this is a SET and update the value
+        let $sprite = this.sprite;
+        let anchored = config.useAnchorForPosition && bool ? true : false;
+        if (config.anchored === anchored){ return; }
+        config.anchored = anchored;
         this.refreshSprite();
     }
 
@@ -2432,7 +2472,7 @@ class MMRPG_Object {
         let $sprite = this.sprite;
         let config = this.spriteConfig;
         let direction = this.direction;
-        let wasAnchored = this.isAnchored;
+        let useAnchorForPosition = this.useAnchorForPosition();
 
         // Stop any idle animations or movement that might be playing
         this.stopIdleAnimation();
@@ -2497,9 +2537,9 @@ class MMRPG_Object {
         this.isWorkingOn('slideSpriteForward');
         let slideMovementTimer = this.delayedCall(100, function(){
             this.setFrame('slide');
-            if (wasAnchored){ _this.isAnchored = false; }
+            if (useAnchorForPosition){ _this.isAnchored(false); }
             _this.moveToPosition(newX, newY, slideDuration, function(){
-                if (wasAnchored){ _this.isAnchored = true; }
+                if (useAnchorForPosition){ _this.isAnchored(true); }
                 _this.delayedCall(100, function(){
                     this.setFrame('defend');
                     _this.delayedCall(200, function(){
@@ -2535,7 +2575,7 @@ class MMRPG_Object {
         let $sprite = this.sprite;
         let config = this.spriteConfig;
         let direction = this.direction;
-        let wasAnchored = this.isAnchored;
+        let useAnchorForPosition = this.useAnchorForPosition();
 
         // Stop any idle animations or movement that might be playing
         this.stopIdleAnimation();
@@ -2619,9 +2659,9 @@ class MMRPG_Object {
         this.isWorkingOn('runSpriteForward');
         let runMovementTimer = this.delayedCall(100, function(){
             _this.playAnim('run');
-            if (wasAnchored){ _this.isAnchored = false; }
+            if (useAnchorForPosition){ _this.isAnchored(false); }
             _this.moveToPosition(newX, newY, runDuration, function(){
-                if (wasAnchored){ _this.isAnchored = true; }
+                if (useAnchorForPosition){ _this.isAnchored(true); }
                 _this.delayedCall(100, function(){
                     $sprite.stop();
                     this.setFrame('base2');
