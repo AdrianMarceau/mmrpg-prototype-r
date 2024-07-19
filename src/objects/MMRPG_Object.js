@@ -192,30 +192,41 @@ class MMRPG_Object {
     // Execute a given callback when the sprite is ready to be used
     whenReady (callback)
     {
-        //console.log('MMRPG_Object.whenReady() called for ', this.kind, this.token, 'w/ callback:', typeof callback);
+        //console.log('MMRPG_Object.whenReady() called for ', this.kind, this.token, 'w/ callback(', typeof callback, '):\n', callback);
         //console.log(this.token + ' | -> this.spriteIsLoading', this.spriteIsLoading);
         //console.log(this.token + ' | -> this.spriteIsPlaceholder', this.spriteIsPlaceholder);
+        //console.log(this.token + ' | -> this.spriteMethodsQueued.length (before):', this.spriteMethodsQueued.length);
         this.spriteMethodsQueued.push(callback);
+        //console.log(this.token + ' | -> this.spriteMethodsQueued.length (after):', this.spriteMethodsQueued.length);
         this.executeQueuedSpriteMethods();
     }
 
     // Execute all queued sprite methods now that the sprite is ready
     executeQueuedSpriteMethods ()
     {
+        //console.log('MMRPG_Object.executeQueuedSpriteMethods() called for ', this.kind, this.token, 'w/ ', this.spriteMethodsQueued.length, 'in the queue');
         if (!this.spriteMethodsQueued){ return; }
         if (this.spriteMethodsQueued.length === 0){ return; }
-        //console.log('MMRPG_Object.executeQueuedSpriteMethods() called for ', this.kind, this.token, 'w/ ', this.spriteMethodsQueued.length, 'in the queue');
         if (this.spriteIsLoading || this.spriteIsPlaceholder){
-            //console.log('-> sprite is not ready to execute methods yet!');
+            //console.log(this.token + ' | -> sprite is not ready to execute methods yet!');
             if (this.timers.executeQueuedSpriteMethods){ this.timers.executeQueuedSpriteMethods.destroy(); }
             this.timers.executeQueuedSpriteMethods = this.delayedCall(100, this.executeQueuedSpriteMethods);
             return;
             }
-        //console.log('-> sprite is ready to execute methods!');
+        //console.log(this.token + ' | -> sprite is ready to execute', this.spriteMethodsQueued.length, 'methods!');
         if (this.spriteMethodsQueued){
-            for (let i = 0; i < this.spriteMethodsQueued.length; i++){
+            let methodsToCall = [];
+            while (this.spriteMethodsQueued.length > 0){
                 let method = this.spriteMethodsQueued.shift();
-                method.call(this);
+                methodsToCall.push(method);
+                }
+            if (methodsToCall.length > 0){
+                //console.log(this.token + ' | -> sprite is executing', methodsToCall.length, 'queued methods!');
+                while (methodsToCall.length > 0){
+                    let method = methodsToCall.shift();
+                    //console.log(this.token + ' | -> sprite is executing queued method:\n', method);
+                    method.call(this);
+                    }
                 }
             }
     }
@@ -1659,7 +1670,9 @@ class MMRPG_Object {
     setAlpha (alpha)
     {
         //console.log('MMRPG_Object.setAlpha() called w/ alpha:', alpha);
+        let _this = this;
         if (!this.sprite) { return; }
+        if (this.spriteIsLoading){ return this.whenReady(function(){ _this.setAlpha(alpha); }); }
         let $sprite = this.sprite;
         let config = this.spriteConfig;
         if (alpha === false){ return this.clearAlpha(); }
@@ -1673,7 +1686,9 @@ class MMRPG_Object {
     setTint (tint)
     {
         //console.log('MMRPG_Object.setTint() called w/ tint:', tint);
+        let _this = this;
         if (!this.sprite) { return; }
+        if (this.spriteIsLoading){ return this.whenReady(function(){ _this.setTint(tint); }); }
         if (tint === false){ return this.clearTint(); }
         let $sprite = this.sprite;
         let config = this.spriteConfig;
@@ -1686,7 +1701,9 @@ class MMRPG_Object {
     clearTint ()
     {
         //console.log('MMRPG_Object.clearTint() called');
+        let _this = this;
         if (!this.sprite) { return; }
+        if (this.spriteIsLoading){ return this.whenReady(function(){ _this.clearTint(); }); }
         let $sprite = this.sprite;
         let config = this.spriteConfig;
         config.tint = null;
@@ -1726,7 +1743,9 @@ class MMRPG_Object {
     setPosition (x, y, z)
     {
         //console.log('MMRPG_Object.setPosition() called w/ x:', x, 'y:', y, 'z:', z);
+        let _this = this;
         if (!this.sprite) { return; }
+        if (this.spriteIsLoading){ return this.whenReady(function(){ _this.setPosition(x, y, z); }); }
         let $sprite = this.sprite;
         let $hitbox = this.spriteHitbox;
         let config = this.spriteConfig;
@@ -1940,7 +1959,9 @@ class MMRPG_Object {
     setFrame (frame)
     {
         //console.log('MMRPG_Object.setFrame() called for ', this.kind, this.token, 'w/ frame:', frame);
+        let _this = this;
         if (!this.sprite) { return; }
+        if (this.spriteIsLoading){ return this.whenReady(function(){ _this.setFrame(frame); }); }
         let $sprite = this.sprite;
         let config = this.spriteConfig;
         //console.log('-> this.spriteFrames:', this.spriteFrames);
@@ -1964,6 +1985,9 @@ class MMRPG_Object {
     resetFrame ()
     {
         //console.log('MMRPG_Object.resetFrame() called');
+        let _this = this;
+        if (!this.sprite) { return; }
+        if (this.spriteIsLoading){ return this.whenReady(function(){ _this.resetFrame(); }); }
         return this.setFrame(0);
     }
 
@@ -1971,9 +1995,9 @@ class MMRPG_Object {
     setDirection (direction, callback = null)
     {
         //console.log('MMRPG_Object.setDirection() called w/ direction:', direction);
-        if (!this.sprite) { return; }
-
         let _this = this;
+        if (!this.sprite) { return; }
+        if (this.spriteIsLoading){ return this.whenReady(function(){ _this.setDirection(direction, callback); }); }
         let scene = this.scene;
         let config = this.spriteConfig;
         let $sprite = this.sprite;
@@ -2016,7 +2040,9 @@ class MMRPG_Object {
     flipDirection (callback = null)
     {
         //console.log('MMRPG_Object.flipDirection() called');
+        let _this = this;
         if (!this.sprite) { return; }
+        if (this.spriteIsLoading){ return this.whenReady(function(){ _this.flipDirection(callback); }); }
         let $sprite = this.sprite;
         let direction = this.direction || 'right';
         direction = (direction === 'right') ? 'left' : 'right';
@@ -2034,8 +2060,9 @@ class MMRPG_Object {
     setImageAlt (alt = null, callback = null)
     {
         //console.log('MMRPG_Object.setImageAlt() called w/ token:', this.token, 'alt:', alt);
-        if (!this.sprite) { return; }
         let _this = this;
+        if (!this.sprite) { return; }
+        if (this.spriteIsLoading){ return this.whenReady(function(){ _this.setImageAlt(alt, callback); }); }
         let scene = this.scene;
         let spriteConfig = this.spriteConfig;
         let objectConfig = this.objectConfig;
@@ -2093,8 +2120,9 @@ class MMRPG_Object {
     setImageSheet (sheet = null, callback = null)
     {
         //console.log('MMRPG_Object.setImageSheet() called w/ token:', this.token, 'sheet:', sheet);
-        if (!this.sprite) { return; }
         let _this = this;
+        if (!this.sprite) { return; }
+        if (this.spriteIsLoading){ return this.whenReady(function(){ _this.setImageSheet(sheet, callback); }); }
         let scene = this.scene;
         let spriteConfig = this.spriteConfig;
         let objectConfig = this.objectConfig;
@@ -2140,7 +2168,9 @@ class MMRPG_Object {
     setScale (scale)
     {
         //console.log('MMRPG_Object.setScale() called for', this.token, 'w/ scale:', scale);
+        let _this = this;
         if (!this.sprite) { return; }
+        if (this.spriteIsLoading){ return this.whenReady(function(){ _this.setScale(scale); }); }
         let $sprite = this.sprite;
         let $hitbox = this.spriteHitbox;
         let config = this.spriteConfig;
@@ -2162,7 +2192,9 @@ class MMRPG_Object {
     setOrigin (originX, originY)
     {
         //console.log('MMRPG_Object.setOrigin() called for', this.token, 'w/ originX:', originX, 'originY:', originY);
+        let _this = this;
         if (!this.sprite) { return; }
+        if (this.spriteIsLoading){ return this.whenReady(function(){ _this.setOrigin(originX, originY); }); }
         let $sprite = this.sprite;
         let $hitbox = this.spriteHitbox;
         let config = this.spriteConfig;
@@ -2186,7 +2218,9 @@ class MMRPG_Object {
     setDepth (depth)
     {
         //console.log('MMRPG_Object.setDepth() called for', this.token, 'w/ depth:', depth);
+        let _this = this;
         if (!this.sprite) { return; }
+        if (this.spriteIsLoading){ return this.whenReady(function(){ _this.setDepth(depth); }); }
         let $sprite = this.sprite;
         let $hitbox = this.spriteHitbox;
         let config = this.spriteConfig;
@@ -2200,7 +2234,9 @@ class MMRPG_Object {
     setSpriteConfig (key, value)
     {
         //console.log('MMRPG_Object.setSpriteConfig() called for', this.token, 'w/ key:', key, 'value:', value);
+        let _this = this;
         if (!this.sprite) { return; }
+        if (this.spriteIsLoading){ return this.whenReady(function(){ _this.setSpriteConfig(key, value); }); }
         let $sprite = this.sprite;
         let $hitbox = this.spriteHitbox;
         let config = this.spriteConfig;
@@ -2213,8 +2249,10 @@ class MMRPG_Object {
     useContainerForDepth (bool)
     {
         //console.log('MMRPG_Object.setUseContainerForDepth() called for', this.token, 'w/ bool:', bool);
+        let _this = this;
         if (!this.sprite) { return; }
         if (!this.spriteContainer){ return; }
+        if (this.spriteIsLoading){ return this.whenReady(function(){ _this.useContainerForDepth(bool); }); }
         let config = this.spriteConfig;
         if (config.useContainerForDepth === bool){ return; }
         config.useContainerForDepth = bool;
@@ -2284,9 +2322,10 @@ class MMRPG_Object {
     // Play a named animation on this sprite if it exists
     playAnim (anim)
     {
+        //console.log('MMRPG_Object.playAnim() called for ', this.kind, this.token, '\nw/ anim:', anim);
+        let _this = this;
         if (!this.sprite) { return; }
         if (this.spriteIsLoading){ return this.whenReady(function(){ _this.playAnim(anim); }); }
-        //console.log('MMRPG_Object.playAnim() called for ', this.kind, this.token, '\nw/ anim:', anim);
         let scene = this.scene;
         let $sprite = this.sprite;
         let $shadow = this.spriteShadow;
@@ -2386,9 +2425,9 @@ class MMRPG_Object {
         //console.log('MMRPG_Object.slideToDestination() called for ', this.kind, this.token, '\nw/ distance:', distance, 'duration:', duration, 'callback:', typeof callback);
         let _this = this;
         if (!this.sprite) { return; }
+        if (this.spriteIsLoading){ return this.whenReady(function(){ _this.slideToDestination(distance, duration, callback); }); }
         if (this.kind === 'player'){ return this.runSpriteForward(callback, distance, elevation, duration); }
         else if (this.kind !== 'robot'){ return; }
-        if (this.spriteIsLoading){ return this.whenReady(function(){ _this.slideToDestination(distance, duration, callback); }); }
         let scene = this.scene;
         let $sprite = this.sprite;
         let config = this.spriteConfig;
@@ -2489,9 +2528,9 @@ class MMRPG_Object {
         //console.log('MMRPG_Object.runToDestination() called for ', this.kind, this.token, '\nw/ distance:', distance, 'duration:', duration, 'callback:', typeof callback);
         let _this = this;
         if (!this.sprite) { return; }
-        if (this.kind === 'robot'){ return this.runSpriteForward(callback, distance, elevation, duration); }
-        else if (this.kind !== 'player'){ return; }
         if (this.spriteIsLoading){ return this.whenReady(function(){ _this.runToDestination(distance, duration, callback); }); }
+        if (this.kind === 'robot'){ return this.slideSpriteForward(callback, distance, elevation, duration); }
+        else if (this.kind !== 'player'){ return; }
         let scene = this.scene;
         let $sprite = this.sprite;
         let config = this.spriteConfig;
@@ -2609,9 +2648,9 @@ class MMRPG_Object {
         //console.log('MMRPG_Object.moveToPosition() called for ', this.kind, this.token, '\nw/ x:', x, 'y:', y, 'duration:', duration, 'callback:', typeof callback);
         let _this = this;
         if (!this.sprite) { return; }
+        if (this.spriteIsLoading){ return this.whenReady(function(){ _this.moveToPosition(x, y, duration, callback, moveConfig); }); }
         if (x && !y){ return this.moveToPositionX(x, duration, callback, moveConfig); }
         if (!x && y){ return this.moveToPositionY(y, duration, callback, moveConfig); }
-        if (this.spriteIsLoading){ return this.whenReady(function(){ _this.moveToPosition(x, y, duration, callback, moveConfig); }); }
         let scene = this.scene;
         let config = this.spriteConfig;
         let $sprite = this.sprite;
@@ -3297,7 +3336,9 @@ class MMRPG_Object {
     setInteractive ()
     {
         //console.log('MMRPG_Object.setInteractive() called');
+        let _this = this;
         if (!this.sprite) { return; }
+        if (this.spriteIsLoading){ return this.whenReady(function(){ _this.setInteractive(); }); }
         let $sprite = this.sprite;
         let config = this.spriteConfig;
         let $hitbox = this.spriteHitbox;
@@ -3318,7 +3359,9 @@ class MMRPG_Object {
     setNotInteractive ()
     {
         //console.log('MMRPG_Object.setNotInteractive() called');
+        let _this = this;
         if (!this.sprite) { return; }
+        if (this.spriteIsLoading){ return this.whenReady(function(){ _this.setNotInteractive(); }); }
         let $sprite = this.sprite;
         let config = this.spriteConfig;
         let $hitbox = this.spriteHitbox;
@@ -3333,8 +3376,9 @@ class MMRPG_Object {
     setOnClick (callback)
     {
         //console.log('MMRPG_Object.setOnClick() called w/ callback:', callback);
-        if (!this.sprite) { return; }
         let _this = this;
+        if (!this.sprite) { return; }
+        if (this.spriteIsLoading){ return this.whenReady(function(){ _this.setOnClick(callback); }); }
         let $sprite = this.sprite;
         let $hitbox = this.spriteHitbox;
         this.setInteractive();
@@ -3348,8 +3392,9 @@ class MMRPG_Object {
     setOnHover (callback, callback2 = null)
     {
         //console.log('MMRPG_Object.setOnHover() called w/ callback:', callback, 'callback2:', callback2);
-        if (!this.sprite) { return; }
         let _this = this;
+        if (!this.sprite) { return; }
+        if (this.spriteIsLoading){ return this.whenReady(function(){ _this.setOnHover(callback, callback2); }); }
         let $sprite = this.sprite;
         let $hitbox = this.spriteHitbox;
         this.setInteractive();
@@ -3367,7 +3412,9 @@ class MMRPG_Object {
     removeOnClicks ()
     {
         //console.log('MMRPG_Object.removeOnClick() called');
+        let _this = this;
         if (!this.sprite) { return; }
+        if (this.spriteIsLoading){ return this.whenReady(function(){ _this.removeOnClicks(); }); }
         let $sprite = this.sprite;
         let $hitbox = this.spriteHitbox;
         $hitbox.removeAllListeners('pointerdown');
@@ -3377,7 +3424,9 @@ class MMRPG_Object {
     removeOnHovers ()
     {
         //console.log('MMRPG_Object.removeOnHover() called');
+        let _this = this;
         if (!this.sprite) { return; }
+        if (this.spriteIsLoading){ return this.whenReady(function(){ _this.removeOnHovers(); }); }
         let $sprite = this.sprite;
         let $hitbox = this.spriteHitbox;
         $hitbox.removeAllListeners('pointerover');
@@ -3392,8 +3441,9 @@ class MMRPG_Object {
     {
         //console.log('MMRPG_Object.stopAll() called for ', this.kind, this.token);
         let _this = this;
-        let scene = this.scene;
         if (!this.sprite) { return; }
+        if (this.spriteIsLoading){ return this.whenReady(function(){ _this.stopAll(removeInteractivity); }); }
+        let scene = this.scene;
         let SPRITES = this.SPRITES;
         let $sprite = this.sprite;
         let config = this.spriteConfig;
