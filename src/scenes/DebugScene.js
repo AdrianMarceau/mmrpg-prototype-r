@@ -293,11 +293,12 @@ export default class DebugScene extends Phaser.Scene
                                 });
                             }
                         });
-                    } else if (this.kind === 'ability'){
+                    }
+                else if (this.kind === 'ability'){
                     let distance = 100;
                     let direction = this.direction;
                     let x = (direction === 'left' ? '-=' : '+=') + distance;
-                    let frame = this.getCounter('debugFrame') || 0;
+                    let frame = this.getValue('debugFrame') || 0;
                     let maxFrame = this.getValue('debugMaxFrame') || 0;
                     if (maxFrame > 0){ this.setFrame(frame + 1); }
                     this.moveToPositionX(x, 500, function(){
@@ -315,7 +316,7 @@ export default class DebugScene extends Phaser.Scene
                                 if (nextSheet > numSheetOptions){ nextSheet = 1; }
                                 this.setImageSheet(nextSheet, function(){
                                     this.setFrame(0);
-                                    this.setCounter('debugFrame', 0);
+                                    this.setValue('debugFrame', 0);
                                     if ($sprite.subTimers.effectTimer){ $sprite.subTimers.effectTimer.remove(); }
                                     $sprite.subTimers.effectTimer = this.delayedCall(200, function(){
                                         if (flipDirection){ this.flipDirection(); }
@@ -324,7 +325,7 @@ export default class DebugScene extends Phaser.Scene
                                 } else {
                                 let nextFrame = frame + 2;
                                 this.setFrame(nextFrame);
-                                this.setCounter('debugFrame', nextFrame);
+                                this.setValue('debugFrame', nextFrame);
                                 if ($sprite.subTimers.effectTimer){ $sprite.subTimers.effectTimer.remove(); }
                                 $sprite.subTimers.effectTimer = this.delayedCall(200, function(){
                                     if (flipDirection){ this.flipDirection(); }
@@ -332,7 +333,8 @@ export default class DebugScene extends Phaser.Scene
                                 }
                             });
                         }, {easing: 'Sine.easeOut'});
-                    } else if (this.kind === 'item'){
+                    }
+                else if (this.kind === 'item'){
                     let distance = 100;
                     let direction = this.direction;
                     let x = (direction === 'left' ? '-=' : '+=') + distance;
@@ -355,7 +357,8 @@ export default class DebugScene extends Phaser.Scene
                                 });
                             });
                         });
-                    } else {
+                    }
+                else {
                     return;
                     }
                 };
@@ -367,11 +370,6 @@ export default class DebugScene extends Phaser.Scene
                 let $object = $debugObjects[key];
                 $battleBanner.add($object);
                 $object.useContainerForDepth(true);
-                // Add special logic for "Super Arm" test ability
-                if ($object.kind === 'ability'
-                    && $object.token === 'super-arm'){
-                    $object.setValue('debugMaxFrame');
-                    }
                 // If this is a field we should preset some field-specific things
                 if ($object.kind === 'field'){
                     $object.setBackgroundOffset(null, -34);
@@ -382,19 +380,24 @@ export default class DebugScene extends Phaser.Scene
                         $object.setPositionX('-='+offset);
                         }
                     }
-                // Otherwise if any other type, we should preset different things
-                else {
+                // Otherwise if this is a player or a robot, we use different presets
+                else if ($object.kind === 'player' || $object.kind === 'robot'){
                     $object.setShadow(true, true);
                     $object.setOnClick(onClickTestObject);
-                    if ($object.kind === 'player'
-                        || $object.kind === 'robot'){
-                        $object.startIdleAnimation(true, true);
-                        }
-                    if ($object.kind === 'player'
-                        || $object.kind === 'robot'
-                        || $object.kind === 'ability'
-                        || $object.kind === 'item'){
+                    $object.startIdleAnimation(true, true);
+                    $debugField.addObject($object, 'foreground');
+                    }
+                // Otherwise if this is an ability or an item, we use different presets
+                else if ($object.kind === 'ability' || $object.kind === 'item'){
+                    $object.setOnClick(onClickTestObject);
+                    if ($object.token === 'super-arm'){
+                        $object.setShadow(true, true);
+                        $object.setValue('debugFrame', 2);
+                        $object.setValue('debugMaxFrame', 10);
+                        $object.setFrame($object.getValue('debugFrame'));
                         $debugField.addObject($object, 'foreground');
+                        } else {
+                        $object.setShadow(true, false);
                         }
                     }
                 }
@@ -549,6 +552,7 @@ export default class DebugScene extends Phaser.Scene
                     SOUNDS.playSoundEffect('master-overloading-sound', {delay: 200});
                     this.showDamage(actualDamageAmount, function(){
                         // Play a sound effect to make sure they're
+                        this.isAnchored(true);
                         this.setFrame('defeat');
                         this.flashSprite(3, null, 900);
                         SOUNDS.playSoundEffect('explode-sound');
@@ -578,11 +582,11 @@ export default class DebugScene extends Phaser.Scene
                         let speedMod = this.data.baseStats.dividers.speed || 1;
                         if (this.getFlag('teleports')){ duration = 0; }
                         else { duration *= speedMod; }
-                        this.isAnchored = false;
+                        this.isAnchored(false);
                         this.setFrame('slide');
                         this.moveToPosition(newX, newY, duration, function(){
                             this.setFrame('defend');
-                            this.isAnchored = true;
+                            this.isAnchored(true);
                             return customPostMoveCheck.call(this, duration);
                             });
                         }, {color: damageTextColor});
@@ -616,12 +620,12 @@ export default class DebugScene extends Phaser.Scene
                         newX = this.direction === 'left' ? (this.x - leeway) : (this.x + leeway);
                         }
                     //console.log(this.token+' | customPostMoveCheck | newX =', newX, 'newY =', newY);
-                    this.isAnchored = false;
+                    this.isAnchored(false);
                     this.setFrame('slide');
                     this.moveToPosition(newX, newY, ((duration || 200) / 2), function(){
                         //console.log(this.token+' | customPostMoveCheck movement complete (B)!');
                         this.setFrame('defend');
-                        this.isAnchored = true;
+                        this.isAnchored(true);
                         return customPostMoveCheck.call(this, duration);
                         });
                     } else {
