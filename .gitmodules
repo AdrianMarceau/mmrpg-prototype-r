@@ -1,0 +1,3 @@
+[submodule "content/challenges"]
+	path = content/challenges
+	url = git@github.com:AdrianMarceau/mmrpg-prototype_challenges.git
