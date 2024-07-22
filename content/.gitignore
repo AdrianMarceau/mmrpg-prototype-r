@@ -1,6 +1,11 @@
 # Ignore everything in this directory
-*
-# Except these files
-!/.gitignore
-!/index.php
-!/index.sh
+/abilities
+#/challenges
+/fields
+/items
+/missions
+/players
+/robots
+/skills
+/sounds
+/types
