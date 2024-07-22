@@ -10,3 +10,6 @@
 [submodule "content/items"]
 	path = content/items
 	url = git@github.com:AdrianMarceau/mmrpg-prototype_items.git
+[submodule "content/abilities"]
+	path = content/abilities
+	url = git@github.com:AdrianMarceau/mmrpg-prototype_abilities.git
