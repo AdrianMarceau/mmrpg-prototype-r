@@ -13,3 +13,6 @@
 [submodule "content/abilities"]
 	path = content/abilities
 	url = git@github.com:AdrianMarceau/mmrpg-prototype_abilities.git
+[submodule "content/fields"]
+	path = content/fields
+	url = git@github.com:AdrianMarceau/mmrpg-prototype_fields.git
