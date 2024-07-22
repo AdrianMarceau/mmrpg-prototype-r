@@ -143,11 +143,21 @@ class MMRPG_Object {
         // Predefine some variables to use for the shadow and it's configurations
         spriteConfig.shadow = spriteConfig.shadow || false;
         spriteConfig.shadowStyle = spriteConfig.shadowStyle || 'drop';
-        spriteConfig.shadowAlpha = 0.15;
-        spriteConfig.shadowTint = 0x000000;
-        spriteConfig.shadowScale = 1.5;
-        spriteConfig.shadowRotationX = 1.25;
-        spriteConfig.shadowRotationY = 0.5;
+        spriteConfig.shadowStyles = {};
+        spriteConfig.shadowStyles['drop'] = {
+            alpha: 0.20,
+            tint: 0x000000,
+            scale: 1.0,
+            offsetX: 1,
+            offsetY: 1
+            };
+        spriteConfig.shadowStyles['perspective'] = {
+            alpha: 0.15,
+            tint: 0x000000,
+            scale: 1.4,
+            rotationX: 1.25,
+            rotationY: 0.5
+            };
 
         // Also predefine some container-related settings for layering and depth
         this.spriteContainer = null;
@@ -1254,7 +1264,7 @@ class MMRPG_Object {
         // Create the new shadow sprite and, if using perspective, set up the mesh for it
         let $shadow = SPRITES.add(modX, modY, sheet, useMesh, 0);
         if (shadowStyle === 'perspective'){ this.initSpriteShadow($shadow); }
-        //console.log('-> created new sprite shadow w/ sheet:', sheet, 'x:', config.x, 'y:', config.y);
+        //console.log('-> created new sprite shadow w/ style:', shadowStyle, 'x:', modX, 'y:', modY, 'sheet:', sheet, 'useMesh:', useMesh, '\n$shadow:', $shadow);
         this.spriteShadow = $shadow;
 
         // If this object already has a container assigned to it, make sure we "add" this shadow sprite too
@@ -1291,18 +1301,20 @@ class MMRPG_Object {
         let scene = this.scene;
         let $sprite = this.sprite;
         let config = this.spriteConfig;
+        let style = config.shadowStyle;
+        let styles = config.shadowStyles[style] || {};
         let side = $mesh.x >= MMRPG.canvas.centerX ? 'right' : 'left';
-        let rotateX = side === 'left' ? -config.shadowRotationX : config.shadowRotationX;
-        let rotateY = config.shadowRotationY;
-        let scale = config.scale * config.shadowScale;
+        let rotateX = side === 'left' ? -styles.rotationX : styles.rotationX;
+        let rotateY = styles.rotationY;
+        let scale = config.scale * styles.scale;
         Phaser.Geom.Mesh.GenerateGridVerts({
             mesh: $mesh,
             widthSegments: 6
             });
         $mesh.setScale(scale);
         $mesh.setDepth($sprite.depth - 2);
-        $mesh.setTint(config.shadowTint);
-        $mesh.setAlpha(config.shadowAlpha);
+        $mesh.setTint(styles.tint);
+        $mesh.setAlpha(styles.alpha);
         $mesh.setOrtho();
         $mesh.hideCCW = false;
         $mesh.modelRotation.x = rotateX;
@@ -1526,12 +1538,11 @@ class MMRPG_Object {
             let spriteX = $sprite.x;
             let spriteY = $sprite.y;
             let shadowStyle = config.shadowStyle;
+            let shadowStyles = config.shadowStyles[shadowStyle] || {};
             let shadowSheet = config.sheet;
-            let shadowScale = config.shadowScale;
-            let shadowAlpha = config.shadowAlpha;
-            let shadowTint = config.shadowTint;
-            let shadowRotationX = config.shadowRotationX;
-            let shadowRotationY = config.shadowRotationY;
+            let shadowScale = shadowStyles.scale * config.scale;
+            let shadowAlpha = shadowStyles.alpha * config.alpha;
+            let shadowTint = shadowStyles.tint;
             let shadowFrame = $sprite.frame.name;
             let shadowDepth = $sprite.depth - 1;
             let shadowX = spriteX;
@@ -1539,11 +1550,15 @@ class MMRPG_Object {
             let shadowWidth = $shadow.width;
             let shadowHeight = $shadow.height;
             if (shadowStyle === 'drop'){
-                let dropShift = 2 * config.scale;
-                if (shadowSide === 'left'){ shadowX -= dropShift; }
-                else if (shadowSide === 'right'){ shadowX += dropShift; }
+                let dropShiftX = shadowStyles.offsetX * config.scale;
+                let dropShiftY = shadowStyles.offsetY * config.scale;
+                if (shadowSide === 'left'){ shadowX -= dropShiftX; }
+                else if (shadowSide === 'right'){ shadowX += dropShiftX; }
+                shadowY += dropShiftY;
                 }
             else if (shadowStyle === 'perspective'){
+                let shadowRotationX = shadowStyles.rotationX;
+                let shadowRotationY = shadowStyles.rotationY;
                 // Meshes don't support setOrigin() for reasons so we just have to move the shadow manually
                 if (spriteOriginX === 0){ shadowX += Math.floor(shadowWidth / 4); }
                 else if (spriteOriginX === 0.5){ shadowX -= 0; }
