@@ -2,8 +2,8 @@
 /abilities
 #/challenges
 /fields
-/items
-/missions
+#/items
+#/missions
 /players
 /robots
 #/skills
