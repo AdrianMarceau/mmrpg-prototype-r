@@ -1,3 +1,6 @@
 [submodule "content/challenges"]
 	path = content/challenges
 	url = git@github.com:AdrianMarceau/mmrpg-prototype_challenges.git
+[submodule "content/types"]
+	path = content/types
+	url = git@github.com:AdrianMarceau/mmrpg-prototype_types.git
