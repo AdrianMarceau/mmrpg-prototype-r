@@ -1,6 +1,6 @@
 {
     "status": "success",
-    "updated": 1702968060,
+    "updated": 1721669400,
     "data": {
         "types": {
             "none": {
@@ -283,9 +283,9 @@
                     73
                 ],
                 "colour_light": [
-                    52,
-                    46,
-                    63
+                    65,
+                    61,
+                    92
                 ],
                 "flag_hidden": 0,
                 "flag_published": 1,

@@ -1,6 +1,6 @@
 {
     "status": "success",
-    "updated": 1702968060,
+    "updated": 1721669400,
     "data": {
         "mechas": {
             "mecha": {
@@ -3879,6 +3879,807 @@
                 ],
                 "abilities_compatible": []
             },
+            "colton": {
+                "token": "colton",
+                "number": "COLT-001",
+                "name": "Colton",
+                "game": "MM6",
+                "field": "",
+                "field2": "submerged-armory",
+                "support": "",
+                "class": "mecha",
+                "gender": "none",
+                "image": "colton",
+                "image_size": 80,
+                "image_editor": 3,
+                "image_editor2": 0,
+                "image_editor3": 0,
+                "image_alts": [],
+                "core": "missile",
+                "core2": "",
+                "description": "Catchpenny Cowboy Mecha",
+                "description2": "Quick on the draw, Colton's got six shots in the gun chamber for the next set of buckaroos unlucky enough to make their way to his town. Well, to be honest, the Coltons were really just made to fill out as cheap extras in Western movies - but they're real good method actors.",
+                "energy": 50,
+                "weapons": 5,
+                "attack": 80,
+                "defense": 55,
+                "speed": 15,
+                "weaknesses": [
+                    "nature",
+                    "earth",
+                    "laser"
+                ],
+                "resistances": [
+                    "swift"
+                ],
+                "affinities": [],
+                "immunities": [
+                    "shield"
+                ],
+                "skill": "overkill-submodule",
+                "skill_name": "Pistolero",
+                "skill_description": "",
+                "skill_description2": "",
+                "skill_parameters": [],
+                "quotes_custom": [],
+                "flag_hidden": 0,
+                "flag_complete": 1,
+                "flag_unlockable": 0,
+                "flag_fightable": 1,
+                "flag_exclusive": 0,
+                "flag_published": 1,
+                "flag_protected": 1,
+                "group": "MM06",
+                "order": 2,
+                "quotes": {
+                    "battle_start": "Koruton!",
+                    "battle_taunt": "Korut.. On!",
+                    "battle_victory": ".... Koruton!",
+                    "battle_defeat": "On? On?"
+                },
+                "key": 49,
+                "master_number": "COLT-001",
+                "abilities_rewards": [
+                    {
+                        "level": 0,
+                        "token": "missile-shot"
+                    },
+                    {
+                        "level": 0,
+                        "token": "missile-buster"
+                    }
+                ],
+                "abilities_compatible": []
+            },
+            "ben-k": {
+                "token": "ben-k",
+                "number": "BENK-000",
+                "name": "Ben K",
+                "game": "MM6",
+                "field": "",
+                "field2": "construction-site",
+                "support": "",
+                "class": "mecha",
+                "gender": "none",
+                "image": "ben-k",
+                "image_size": 80,
+                "image_editor": 3,
+                "image_editor2": 0,
+                "image_editor3": 0,
+                "image_alts": [],
+                "core": "cutter",
+                "core2": "",
+                "description": "Warrior Monk Mecha",
+                "description2": "Modeled after the great Japanese warrior Saito Musashibo Benkei, it's often played the role of gate guards or sentries in many Japanese dramas and plays. The Ben K travels far and wide, collecting the weapons of the greatest warriors out there to add its own personal collection.",
+                "energy": 50,
+                "weapons": 5,
+                "attack": 45,
+                "defense": 95,
+                "speed": 10,
+                "weaknesses": [
+                    "earth",
+                    "shield"
+                ],
+                "resistances": [
+                    "swift",
+                    "missile"
+                ],
+                "affinities": [],
+                "immunities": [],
+                "skill": "stat-boost-on-knockout",
+                "skill_name": "Weapon Scavenger",
+                "skill_description": "Boosts the robot's attack upon disabling a target",
+                "skill_description2": "For every enemy this mecha beats, it automatically boosts their attack stat every time.",
+                "skill_parameters": {
+                    "stat": "attack",
+                    "amount": 1
+                },
+                "quotes_custom": [],
+                "flag_hidden": 0,
+                "flag_complete": 1,
+                "flag_unlockable": 0,
+                "flag_fightable": 1,
+                "flag_exclusive": 0,
+                "flag_published": 1,
+                "flag_protected": 1,
+                "group": "MM06",
+                "order": 3,
+                "quotes": {
+                    "battle_start": ".... Ben K.",
+                    "battle_taunt": "....... Ben K.",
+                    "battle_victory": ".. Ben K.",
+                    "battle_defeat": ".... K."
+                },
+                "key": 50,
+                "master_number": "BENK-000",
+                "abilities_rewards": [
+                    {
+                        "level": 0,
+                        "token": "cutter-shot"
+                    },
+                    {
+                        "level": 0,
+                        "token": "cutter-buster"
+                    }
+                ],
+                "abilities_compatible": []
+            },
+            "gockroach-s": {
+                "token": "gockroach-s",
+                "number": "GKRC-001",
+                "name": "Gockroach S",
+                "game": "MM7",
+                "field": "",
+                "field2": "oil-wells",
+                "support": "",
+                "class": "mecha",
+                "gender": "none",
+                "image": "gockroach-s",
+                "image_size": 40,
+                "image_editor": 3,
+                "image_editor2": 0,
+                "image_editor3": 0,
+                "image_alts": [],
+                "core": "earth",
+                "core2": "",
+                "description": "Primitive Cockroach Mecha",
+                "description2": "These little insect mechas were based off of the coackroaches in Dr. Wily's prison cell, the only friends he had. He loved them so much he wanted to sell Gockroaches for people all around the world to enjoy. These mechas aren't that tough, but they like to pick up trash and scrap to make up large Gockroach nests.",
+                "energy": 40,
+                "weapons": 5,
+                "attack": 70,
+                "defense": 20,
+                "speed": 70,
+                "weaknesses": [
+                    "electric",
+                    "nature"
+                ],
+                "resistances": [
+                    "explode",
+                    "laser"
+                ],
+                "affinities": [],
+                "immunities": [],
+                "skill": "construction-submodule",
+                "skill_name": "Nest Construction",
+                "skill_description": "",
+                "skill_description2": "",
+                "skill_parameters": [],
+                "quotes_custom": [],
+                "flag_hidden": 0,
+                "flag_complete": 1,
+                "flag_unlockable": 0,
+                "flag_fightable": 1,
+                "flag_exclusive": 0,
+                "flag_published": 1,
+                "flag_protected": 1,
+                "group": "MM07",
+                "order": 0,
+                "quotes": {
+                    "battle_start": "Gokki... Gokki...",
+                    "battle_taunt": "Esu rochi!",
+                    "battle_victory": "Rochi, gokki, gokki.",
+                    "battle_defeat": "Rochi..."
+                },
+                "key": 51,
+                "master_number": "GKRC-001",
+                "abilities_rewards": [
+                    {
+                        "level": 0,
+                        "token": "earth-shot"
+                    },
+                    {
+                        "level": 0,
+                        "token": "earth-buster"
+                    }
+                ],
+                "abilities_compatible": []
+            },
+            "parabeak": {
+                "token": "parabeak",
+                "number": "PRBK-001",
+                "name": "Parabeak",
+                "game": "MM7",
+                "field": "",
+                "field2": "sky-ridge",
+                "support": "",
+                "class": "mecha",
+                "gender": "none",
+                "image": "parabeak",
+                "image_size": 40,
+                "image_editor": 3,
+                "image_editor2": 0,
+                "image_editor3": 0,
+                "image_alts": [],
+                "core": "wind",
+                "core2": "",
+                "description": "Ambushing Avian Mecha",
+                "description2": "From the ranks of Wily's army, this bird-like mecha enjoys traveling in attack formation flocks to chase off intruders in its territory. They're brave enough in a clique, but when alone, it's too socially anxious to do anything.",
+                "energy": 20,
+                "weapons": 5,
+                "attack": 20,
+                "defense": 20,
+                "speed": 140,
+                "weaknesses": [
+                    "freeze",
+                    "missile"
+                ],
+                "resistances": [
+                    "space"
+                ],
+                "affinities": [],
+                "immunities": [
+                    "cutter"
+                ],
+                "skill": "stat-boost-on-cores-nearby",
+                "skill_name": "Fearsome Flock",
+                "skill_description": "The mecha's stats is boosted when it feels confident with its friends.",
+                "skill_description2": "All of these Mecha's stats are boosted when other Wind-core robots are there to help it out.",
+                "skill_parameters": {
+                    "cores": "wind",
+                    "stat": "all",
+                    "amount": 1
+                },
+                "quotes_custom": [],
+                "flag_hidden": 0,
+                "flag_complete": 1,
+                "flag_unlockable": 0,
+                "flag_fightable": 1,
+                "flag_exclusive": 0,
+                "flag_published": 1,
+                "flag_protected": 1,
+                "group": "MM07",
+                "order": 1,
+                "quotes": {
+                    "battle_start": "Tsura, Tsuranattori!",
+                    "battle_taunt": "Tsuranattori!",
+                    "battle_victory": "Tori, tori, tori, tori!",
+                    "battle_defeat": "Tsuranaru.."
+                },
+                "key": 52,
+                "master_number": "PRBK-001",
+                "abilities_rewards": [
+                    {
+                        "level": 0,
+                        "token": "wind-shot"
+                    },
+                    {
+                        "level": 0,
+                        "token": "wind-buster"
+                    }
+                ],
+                "abilities_compatible": []
+            },
+            "coiln": {
+                "token": "coiln",
+                "number": "COIL-001",
+                "name": "Coil'n",
+                "game": "MM7",
+                "field": "",
+                "field2": "rocky-plateau",
+                "support": "",
+                "class": "mecha",
+                "gender": "none",
+                "image": "coiln",
+                "image_size": 80,
+                "image_editor": 3,
+                "image_editor2": 0,
+                "image_editor3": 0,
+                "image_alts": [],
+                "core": "impact",
+                "core2": "",
+                "description": "Hopping Spring Mecha",
+                "description2": "This mecha follows in the example of its hero Spring Man, and lives only to bounce around rooms in pure freedom. Hitting anyone is purely accidental. The Coil'n is terrified of children, which is a shame because kids love them.",
+                "energy": 50,
+                "weapons": 5,
+                "attack": 20,
+                "defense": 75,
+                "speed": 55,
+                "weaknesses": [
+                    "cutter",
+                    "shield"
+                ],
+                "resistances": [
+                    "time"
+                ],
+                "affinities": [],
+                "immunities": [
+                    "freeze"
+                ],
+                "skill": "disentangle-submodule",
+                "skill_name": "Spring Cleaning",
+                "skill_description": "",
+                "skill_description2": "",
+                "skill_parameters": [],
+                "quotes_custom": [],
+                "flag_hidden": 0,
+                "flag_complete": 1,
+                "flag_unlockable": 0,
+                "flag_fightable": 1,
+                "flag_exclusive": 0,
+                "flag_published": 1,
+                "flag_protected": 1,
+                "group": "MM07",
+                "order": 2,
+                "quotes": {
+                    "battle_start": "Koiiiiiirun!",
+                    "battle_taunt": "Koirunkoirunkoirun!",
+                    "battle_victory": "Koirun, run, koi!",
+                    "battle_defeat": "KOIIIIIIIIIIIIIIIIIIIII?!"
+                },
+                "key": 53,
+                "master_number": "COIL-001",
+                "abilities_rewards": [
+                    {
+                        "level": 0,
+                        "token": "impact-shot"
+                    },
+                    {
+                        "level": 0,
+                        "token": "impact-buster"
+                    }
+                ],
+                "abilities_compatible": []
+            },
+            "eggalodon": {
+                "token": "eggalodon",
+                "number": "EGDN-001",
+                "name": "Eggalodon",
+                "game": "MM7",
+                "field": "",
+                "field2": "serpent-column",
+                "support": "",
+                "class": "mecha",
+                "gender": "none",
+                "image": "eggalodon",
+                "image_size": 40,
+                "image_editor": 3,
+                "image_editor2": 0,
+                "image_editor3": 0,
+                "image_alts": [],
+                "core": "nature",
+                "core2": "",
+                "description": "Hatching Parasaur Mecha",
+                "description2": "This little newborn mecha hangs out in its shell, all snug and comfy before the battle begins. Once an enemy appears, it finally cracks out to start its biting and chasing! They're quite feisty, so don't feel bad about punting the little guys.",
+                "energy": 85,
+                "weapons": 5,
+                "attack": 15,
+                "defense": 80,
+                "speed": 20,
+                "weaknesses": [
+                    "flame",
+                    "freeze"
+                ],
+                "resistances": [
+                    "time"
+                ],
+                "affinities": [],
+                "immunities": [
+                    "crystal"
+                ],
+                "skill": "persist-submodule",
+                "skill_name": "Sturdy Shell",
+                "skill_description": "",
+                "skill_description2": "",
+                "skill_parameters": [],
+                "quotes_custom": [],
+                "flag_hidden": 0,
+                "flag_complete": 1,
+                "flag_unlockable": 0,
+                "flag_fightable": 1,
+                "flag_exclusive": 0,
+                "flag_published": 1,
+                "flag_protected": 1,
+                "group": "MM07",
+                "order": 3,
+                "quotes": {
+                    "battle_start": "TAMA! TAMA!",
+                    "battle_taunt": "Tamago!",
+                    "battle_victory": "Godon! Gooodon!",
+                    "battle_defeat": "...ta..."
+                },
+                "key": 54,
+                "master_number": "EGDN-001",
+                "abilities_rewards": [
+                    {
+                        "level": 0,
+                        "token": "nature-shot"
+                    },
+                    {
+                        "level": 0,
+                        "token": "nature-buster"
+                    }
+                ],
+                "abilities_compatible": []
+            },
+            "cline": {
+                "token": "cline",
+                "number": "KLNE-001",
+                "name": "Cline",
+                "game": "MM8",
+                "field": "",
+                "field2": "sky-ridge",
+                "support": "",
+                "class": "mecha",
+                "gender": "none",
+                "image": "cline",
+                "image_size": 80,
+                "image_editor": 3,
+                "image_editor2": 0,
+                "image_editor3": 0,
+                "image_alts": [],
+                "core": "wind",
+                "core2": "",
+                "description": "Segmented Dragon Mecha",
+                "description2": "The Cline is modeled after the dragons of Chinese mythology, set for fearsome battle in high altitudes above. Its tail segments are for intimidation, and in actuality, destroying these will only allow the Cline to travel even faster.",
+                "energy": 40,
+                "weapons": 5,
+                "attack": 70,
+                "defense": 30,
+                "speed": 60,
+                "weaknesses": [
+                    "freeze",
+                    "space"
+                ],
+                "resistances": [
+                    "laser"
+                ],
+                "affinities": [],
+                "immunities": [
+                    "missile"
+                ],
+                "skill": "stat-boost-at-end-of-turn",
+                "skill_name": "Shuttle Detachment",
+                "skill_description": "Drastically boosts the robot's attack when in danger",
+                "skill_description2": "The mecha's speed stat is increased to its maximum whenever it's in critical condition.",
+                "skill_parameters": {
+                    "stat": "speed",
+                    "amount": 5,
+                    "condition": "energy <= 30%",
+                    "repeat": false
+                },
+                "quotes_custom": [],
+                "flag_hidden": 0,
+                "flag_complete": 1,
+                "flag_unlockable": 0,
+                "flag_fightable": 1,
+                "flag_exclusive": 0,
+                "flag_published": 1,
+                "flag_protected": 1,
+                "group": "MM08",
+                "order": 0,
+                "quotes": {
+                    "battle_start": "Grrrrrr..... KURAIN!",
+                    "battle_taunt": "Kuuuurainnn...",
+                    "battle_victory": "Rainnnnnnnn, kuuu, kuuuu.",
+                    "battle_defeat": "Kuuuuuu, rrrrr..."
+                },
+                "key": 55,
+                "master_number": "KLNE-001",
+                "abilities_rewards": [
+                    {
+                        "level": 0,
+                        "token": "wind-shot"
+                    },
+                    {
+                        "level": 0,
+                        "token": "wind-buster"
+                    }
+                ],
+                "abilities_compatible": []
+            },
+            "goriblue": {
+                "token": "goriblue",
+                "number": "GRIB-000",
+                "name": "Goriblue",
+                "game": "MM8",
+                "field": "",
+                "field2": "pipe-station",
+                "support": "",
+                "class": "mecha",
+                "gender": "none",
+                "image": "goriblue",
+                "image_size": 80,
+                "image_editor": 3,
+                "image_editor2": 0,
+                "image_editor3": 0,
+                "image_alts": [],
+                "core": "explode",
+                "core2": "",
+                "description": "Hefty Gorilla Mecha",
+                "description2": "Produced as a part of a series, the Gori-Threes were powerful gorilla-like mechas that specialized in throwing all sorts of different objects, from bombs, boulders, spikes, and yoga balls. Being so proud of his genius, Dr. Wily even developed a giant Gori-Three that was compatible with weaponized Evil Energy to guard his volcanic Wily Tower. This time, he knew with complete, utter 100% certainty Mega Man would be destroyed - unfortunately, he just forgot to account for any super robo-cops from outer space.",
+                "energy": 50,
+                "weapons": 5,
+                "attack": 55,
+                "defense": 85,
+                "speed": 10,
+                "weaknesses": [
+                    "impact",
+                    "freeze",
+                    "shield"
+                ],
+                "resistances": [
+                    "explode",
+                    "cutter",
+                    "crystal"
+                ],
+                "affinities": [],
+                "immunities": [],
+                "skill": "impact-subcore",
+                "skill_name": "Keen Kong",
+                "skill_description": "",
+                "skill_description2": "",
+                "skill_parameters": [],
+                "quotes_custom": [],
+                "flag_hidden": 0,
+                "flag_complete": 1,
+                "flag_unlockable": 0,
+                "flag_fightable": 1,
+                "flag_exclusive": 0,
+                "flag_published": 1,
+                "flag_protected": 1,
+                "group": "MM08",
+                "order": 1,
+                "quotes": {
+                    "battle_start": "GO!",
+                    "battle_taunt": "GORI!",
+                    "battle_victory": "BU, BU, RU!",
+                    "battle_defeat": "SU.. RI.."
+                },
+                "key": 56,
+                "master_number": "GRIB-000",
+                "abilities_rewards": [
+                    {
+                        "level": 0,
+                        "token": "explode-shot"
+                    },
+                    {
+                        "level": 0,
+                        "token": "explode-buster"
+                    }
+                ],
+                "abilities_compatible": []
+            },
+            "plasma-plus": {
+                "token": "plasma-plus",
+                "number": "PLPL-001",
+                "name": "Plasma Plus",
+                "game": "RnF",
+                "field": "",
+                "field2": "power-plant",
+                "support": "",
+                "class": "mecha",
+                "gender": "none",
+                "image": "plasma-plus",
+                "image_size": 40,
+                "image_editor": 3,
+                "image_editor2": 0,
+                "image_editor3": 0,
+                "image_alts": [],
+                "core": "electric",
+                "core2": "",
+                "description": "Galvanic Twin Mecha",
+                "description2": "This mecha, or rather mechas, work in tandem to flow and converge an electrical pulse in between the both of them to both manage power production and to block off restricted areas or access-ways. If one is destroyed, the electrical current is completely lost, so it actually has to spend its energy rebuilding its twin.",
+                "energy": 50,
+                "weapons": 5,
+                "attack": 90,
+                "defense": 35,
+                "speed": 25,
+                "weaknesses": [
+                    "earth",
+                    "missile",
+                    "freeze"
+                ],
+                "resistances": [
+                    "crystal",
+                    "shadow"
+                ],
+                "affinities": [
+                    "electric"
+                ],
+                "immunities": [],
+                "skill": "wellspring-submodule",
+                "skill_name": "Circuit Synergy",
+                "skill_description": "Reduces the cost of its team's Electric-type abilities to only one unit",
+                "skill_description2": "The mecha's combined electrical current reduces the cost of its team's Electric-type abilities to only one unit.",
+                "skill_parameters": {
+                    "type": "electric"
+                },
+                "quotes_custom": [],
+                "flag_hidden": 0,
+                "flag_complete": 1,
+                "flag_unlockable": 0,
+                "flag_fightable": 1,
+                "flag_exclusive": 0,
+                "flag_published": 1,
+                "flag_protected": 1,
+                "group": "MM08",
+                "order": 2,
+                "quotes": {
+                    "battle_start": "Purazuma! Purasu!",
+                    "battle_taunt": "Purasu.. Purazuma!",
+                    "battle_victory": "Purasumainasu! Purazu!",
+                    "battle_defeat": "Rasu..? Razuma...."
+                },
+                "key": 57,
+                "master_number": "PLPL-001",
+                "abilities_rewards": [
+                    {
+                        "level": 0,
+                        "token": "electric-shot"
+                    },
+                    {
+                        "level": 0,
+                        "token": "electric-buster"
+                    }
+                ],
+                "abilities_compatible": []
+            },
+            "oni-robo": {
+                "token": "oni-robo",
+                "number": "ONIR-001",
+                "name": "Oni Robo",
+                "game": "RnF",
+                "field": "",
+                "field2": "robosaur-boneyard",
+                "support": "",
+                "class": "mecha",
+                "gender": "none",
+                "image": "oni-robo",
+                "image_size": 80,
+                "image_editor": 0,
+                "image_editor2": 0,
+                "image_editor3": 0,
+                "image_alts": [],
+                "core": "shadow",
+                "core2": "",
+                "description": "Mischievous Imp Mecha",
+                "description2": "Also known as the devious Typhoon Goro mecha, the Oni Robo revels in getting together in gangs to harass and bother innocent people. Knowledgable enough to work wind-powered machinery, the Oni Robo once had a bright future ahead of it, but it seems it settled for becoming a delinquent.",
+                "energy": 40,
+                "weapons": 5,
+                "attack": 85,
+                "defense": 50,
+                "speed": 25,
+                "weaknesses": [
+                    "freeze",
+                    "explode"
+                ],
+                "resistances": [
+                    "laser"
+                ],
+                "affinities": [
+                    "wind"
+                ],
+                "immunities": [],
+                "skill": "stat-boost-on-cores-nearby",
+                "skill_name": "Ogre Gang",
+                "skill_description": "The robot's attack stat is boosted when other shadow-core robots are nearby",
+                "skill_description2": "The robot's attack stat is fired up and ready for violence when others of its core-type are nearby.",
+                "skill_parameters": {
+                    "cores": "shadow",
+                    "stat": "attack",
+                    "amount": 2
+                },
+                "quotes_custom": [],
+                "flag_hidden": 0,
+                "flag_complete": 1,
+                "flag_unlockable": 0,
+                "flag_fightable": 1,
+                "flag_exclusive": 0,
+                "flag_published": 1,
+                "flag_protected": 1,
+                "group": "MM08",
+                "order": 3,
+                "quotes": {
+                    "battle_start": "Oniiiiiiiii! Heeheehee!",
+                    "battle_taunt": "ONI!",
+                    "battle_victory": "Oni, oni, oni, oni!",
+                    "battle_defeat": "Oni!!"
+                },
+                "key": 58,
+                "master_number": "ONIR-001",
+                "abilities_rewards": [
+                    {
+                        "level": 0,
+                        "token": "shadow-shot"
+                    },
+                    {
+                        "level": 0,
+                        "token": "shadow-buster"
+                    }
+                ],
+                "abilities_compatible": []
+            },
+            "romper": {
+                "token": "romper",
+                "number": "RMPR-001",
+                "name": "Romper",
+                "game": "MM8",
+                "field": "",
+                "field2": "septic-system",
+                "support": "",
+                "class": "mecha",
+                "gender": "none",
+                "image": "romper",
+                "image_size": 40,
+                "image_editor": 3,
+                "image_editor2": 0,
+                "image_editor3": 0,
+                "image_alts": [],
+                "core": "shadow",
+                "core2": "",
+                "description": "Toy Solider Mecha",
+                "description2": "The Rompers believe there is strength in numbers - this is because they're only about a foot tall. They can often be found in circuses and carnivals picking up work. Some Rompers who attack people have a tendency of stealing their zenny. This is because of a gambling addiction.",
+                "energy": 25,
+                "weapons": 5,
+                "attack": 130,
+                "defense": 20,
+                "speed": 25,
+                "weaknesses": [
+                    "wind",
+                    "swift",
+                    "crystal"
+                ],
+                "resistances": [
+                    "shield",
+                    "earth"
+                ],
+                "affinities": [],
+                "immunities": [],
+                "skill": "siphon-submodule",
+                "skill_name": "Tight Squeeze",
+                "skill_description": "",
+                "skill_description2": "",
+                "skill_parameters": [],
+                "quotes_custom": [],
+                "flag_hidden": 0,
+                "flag_complete": 1,
+                "flag_unlockable": 0,
+                "flag_fightable": 1,
+                "flag_exclusive": 0,
+                "flag_published": 1,
+                "flag_protected": 1,
+                "group": "MM08",
+                "order": 4,
+                "quotes": {
+                    "battle_start": "Ron-ron-ron-ron-ron!",
+                    "battle_taunt": "Ron - pazu, ron, pazu - ron!",
+                    "battle_victory": "Ron - pazu, ronpazu, pazu, ron - pazu, ronpazu!",
+                    "battle_defeat": "kikyuuuuun...."
+                },
+                "key": 59,
+                "master_number": "RMPR-001",
+                "abilities_rewards": [
+                    {
+                        "level": 0,
+                        "token": "shadow-shot"
+                    },
+                    {
+                        "level": 0,
+                        "token": "shadow-buster"
+                    }
+                ],
+                "abilities_compatible": []
+            },
             "octone": {
                 "token": "octone",
                 "number": "OCTN-000",
@@ -3938,7 +4739,7 @@
                     "battle_victory": "Oku-ton.",
                     "battle_defeat": "Ok...uton.."
                 },
-                "key": 49,
+                "key": 60,
                 "master_number": "OCTN-000",
                 "abilities_rewards": [
                     {
@@ -4062,7 +4863,7 @@
                     "battle_victory": "Yaaaaaaaa!",
                     "battle_defeat": "Dai-ya..."
                 },
-                "key": 50,
+                "key": 61,
                 "master_number": "DMND-001",
                 "abilities_rewards": [
                     {
@@ -4095,7 +4896,7 @@
                 "core": "nature",
                 "core2": "",
                 "description": "Flower Clock Mecha",
-                "description2": "A dancer with a name called Danger - that's Petal Anne, the happy, dancing little flower mecha. A popular theory within the agricultural scientific community these days is that sound stimulates plant growth - and so, designed by Dr. Pedro Astil, the petite Petal Anne spends all day singing and dancing for all its flower friends. Dr. Wily had its rhythmic motors lined to a spike-arm when he repurposed it, but without that - feel free to just dance with it!",
+                "description2": "A dancer with a hint of danger - that's Petal Anne, the happy, dancing little flower mecha. A popular theory within the agricultural scientific community these days is that sound stimulates plant growth - and so, designed by Dr. Pedro Astil, the petite Petal Anne spends all day singing and dancing for all its flower friends. Dr. Wily had its rhythmic motors lined to a spike-arm when he repurposed it, but without that - feel free to just dance with it!",
                 "energy": 70,
                 "weapons": 5,
                 "attack": 80,
@@ -4135,7 +4936,7 @@
                     "battle_victory": "Hana, bira, hana, hana!~",
                     "battle_defeat": "Bi bi bi bi - haaaan."
                 },
-                "key": 51,
+                "key": 62,
                 "master_number": "PTAN-000",
                 "abilities_rewards": [
                     {
@@ -4145,6 +4946,78 @@
                     {
                         "level": 0,
                         "token": "nature-buster"
+                    }
+                ],
+                "abilities_compatible": []
+            },
+            "popo-heli": {
+                "token": "popo-heli",
+                "number": "POHL-001",
+                "name": "Popo Heli",
+                "game": "MM9",
+                "field": "",
+                "field2": "steel-mill",
+                "support": "",
+                "class": "mecha",
+                "gender": "none",
+                "image": "popo-heli",
+                "image_size": 40,
+                "image_editor": 3,
+                "image_editor2": 0,
+                "image_editor3": 0,
+                "image_alts": [],
+                "core": "flame",
+                "core2": "",
+                "description": "Flying Flamethrower Mecha",
+                "description2": "Popo Heli Mechas are pretty nimble enemies, swooping in to ambush a target before lighting them aflame with a miniature mobile flamethrower. They carry welding face-shields to protect them from their own output, but beyond that they're pretty frail all things considered.",
+                "energy": 10,
+                "weapons": 5,
+                "attack": 60,
+                "defense": 50,
+                "speed": 80,
+                "weaknesses": [
+                    "water",
+                    "laser",
+                    "shield"
+                ],
+                "resistances": [
+                    "explode",
+                    "swift",
+                    "crystal"
+                ],
+                "affinities": [],
+                "immunities": [],
+                "skill": "sanitation-submodule",
+                "skill_name": "Flamethrower Removal",
+                "skill_description": "",
+                "skill_description2": "",
+                "skill_parameters": [],
+                "quotes_custom": [],
+                "flag_hidden": 0,
+                "flag_complete": 1,
+                "flag_unlockable": 0,
+                "flag_fightable": 1,
+                "flag_exclusive": 0,
+                "flag_published": 1,
+                "flag_protected": 1,
+                "group": "MM09",
+                "order": 3,
+                "quotes": {
+                    "battle_start": "Heri heri!",
+                    "battle_taunt": "Bobo, bobo, bobo!",
+                    "battle_victory": "He-he-he-heri!",
+                    "battle_defeat": "Bobobobobobobo...."
+                },
+                "key": 63,
+                "master_number": "POHL-001",
+                "abilities_rewards": [
+                    {
+                        "level": 0,
+                        "token": "flame-shot"
+                    },
+                    {
+                        "level": 0,
+                        "token": "flame-buster"
                     }
                 ],
                 "abilities_compatible": []
@@ -4201,14 +5074,14 @@
                 "flag_published": 1,
                 "flag_protected": 1,
                 "group": "MM09",
-                "order": 3,
+                "order": 4,
                 "quotes": {
                     "battle_start": "Adamuski.",
                     "battle_taunt": "Adamuski. Adamuski.",
                     "battle_victory": "Adamuski. Adamuski. Adamuski.",
                     "battle_defeat": "Ad....."
                 },
-                "key": 52,
+                "key": 64,
                 "master_number": "ADAM-001",
                 "abilities_rewards": [
                     {
@@ -4218,6 +5091,358 @@
                     {
                         "level": 0,
                         "token": "space-buster"
+                    }
+                ],
+                "abilities_compatible": []
+            },
+            "merserker": {
+                "token": "merserker",
+                "number": "MRSK-001",
+                "name": "Merserker",
+                "game": "MM10",
+                "field": "",
+                "field2": "abandoned-warehouse",
+                "support": "",
+                "class": "mecha",
+                "gender": "none",
+                "image": "merserker",
+                "image_size": 40,
+                "image_editor": 3,
+                "image_editor2": 0,
+                "image_editor3": 0,
+                "image_alts": [],
+                "core": "cutter",
+                "core2": "",
+                "description": "Masakari Axe Mecha",
+                "description2": "Merserker was designed as part of an interactive and new-age attraction for a castle tour, though things admittedly went a little poorly when all the Merserker mechas caught Roboenza. They're historically accurate in virtually every single way, if you believe ancient axes had supercharged rocket propulsion.",
+                "energy": 30,
+                "weapons": 5,
+                "attack": 60,
+                "defense": 30,
+                "speed": 80,
+                "weaknesses": [
+                    "flame",
+                    "shield"
+                ],
+                "resistances": [
+                    "missile",
+                    "swift"
+                ],
+                "affinities": [],
+                "immunities": [],
+                "skill": "guard-submodule",
+                "skill_name": "Ancient Edge",
+                "skill_description": "",
+                "skill_description2": "",
+                "skill_parameters": [],
+                "quotes_custom": [],
+                "flag_hidden": 0,
+                "flag_complete": 1,
+                "flag_unlockable": 0,
+                "flag_fightable": 1,
+                "flag_exclusive": 0,
+                "flag_published": 1,
+                "flag_protected": 1,
+                "group": "MM10",
+                "order": 0,
+                "quotes": {
+                    "battle_start": "Ma, ma, sa.",
+                    "battle_taunt": "MA-SA-KA!",
+                    "battle_victory": "Ma sa, ma.",
+                    "battle_defeat": "Kaaaaaa..."
+                },
+                "key": 65,
+                "master_number": "MRSK-001",
+                "abilities_rewards": [
+                    {
+                        "level": 0,
+                        "token": "cutter-shot"
+                    },
+                    {
+                        "level": 0,
+                        "token": "cutter-buster"
+                    }
+                ],
+                "abilities_compatible": []
+            },
+            "frosty-throwman": {
+                "token": "frosty-throwman",
+                "number": "FRTM-001",
+                "name": "Frosty Throwman",
+                "game": "MM10",
+                "field": "",
+                "field2": "arctic-jungle",
+                "support": "",
+                "class": "mecha",
+                "gender": "none",
+                "image": "frosty-throwman",
+                "image_size": 40,
+                "image_editor": 3,
+                "image_editor2": 0,
+                "image_editor3": 0,
+                "image_alts": [],
+                "core": "freeze",
+                "core2": "",
+                "description": "Snowball Making Mecha",
+                "description2": "The 'head' on this mecha is only just a snowball - the Frosty Throwman is actually the body compartment underneath, which generates stored snow up on top. It then sets an explosive into the snowball it throws to surprise opponents. It's great at snowball fights, but longs for the day it can make a snow angel.",
+                "energy": 50,
+                "weapons": 5,
+                "attack": 100,
+                "defense": 40,
+                "speed": 10,
+                "weaknesses": [
+                    "flame",
+                    "impact"
+                ],
+                "resistances": [
+                    "crystal",
+                    "explode"
+                ],
+                "affinities": [],
+                "immunities": [],
+                "skill": "target-submodule",
+                "skill_name": "Hail Mary Throw",
+                "skill_description": "",
+                "skill_description2": "",
+                "skill_parameters": [],
+                "quotes_custom": [],
+                "flag_hidden": 0,
+                "flag_complete": 1,
+                "flag_unlockable": 0,
+                "flag_fightable": 1,
+                "flag_exclusive": 0,
+                "flag_published": 1,
+                "flag_protected": 1,
+                "group": "MM10",
+                "order": 1,
+                "quotes": {
+                    "battle_start": "Kaona... Geeno....",
+                    "battle_taunt": "Kaona!  Kaona!",
+                    "battle_victory": "K, Geeno, Geeno.",
+                    "battle_defeat": "......"
+                },
+                "key": 66,
+                "master_number": "FRTM-001",
+                "abilities_rewards": [
+                    {
+                        "level": 0,
+                        "token": "freeze-shot"
+                    },
+                    {
+                        "level": 0,
+                        "token": "freeze-buster"
+                    }
+                ],
+                "abilities_compatible": []
+            },
+            "pointan": {
+                "token": "pointan",
+                "number": "POIT-001",
+                "name": "Pointan",
+                "game": "MM10",
+                "field": "",
+                "field2": "electrical-tower",
+                "support": "",
+                "class": "mecha",
+                "gender": "none",
+                "image": "pointan",
+                "image_size": 40,
+                "image_editor": 3,
+                "image_editor2": 0,
+                "image_editor3": 0,
+                "image_alts": [],
+                "core": "laser",
+                "core2": "",
+                "description": "Digital Cursor Mecha",
+                "description2": "Compiled from wireless and wired junk data, Pointan is a mouse cursor enemy that roams and hides out in the vast digital network. They often disguise themselves and hide out in people's PCs, so trust no cursor - not even your own.",
+                "energy": 50,
+                "weapons": 5,
+                "attack": 20,
+                "defense": 70,
+                "speed": 60,
+                "weaknesses": [
+                    "cutter",
+                    "flame"
+                ],
+                "resistances": [
+                    "electric",
+                    "time"
+                ],
+                "affinities": [],
+                "immunities": [],
+                "skill": "electric-subcore",
+                "skill_name": "Wired Connection",
+                "skill_description": "",
+                "skill_description2": "",
+                "skill_parameters": [],
+                "quotes_custom": [],
+                "flag_hidden": 0,
+                "flag_complete": 1,
+                "flag_unlockable": 0,
+                "flag_fightable": 1,
+                "flag_exclusive": 0,
+                "flag_published": 1,
+                "flag_protected": 1,
+                "group": "MM10",
+                "order": 2,
+                "quotes": {
+                    "battle_start": "... Pointan?",
+                    "battle_taunt": "Tan.",
+                    "battle_victory": "Pointannn.",
+                    "battle_defeat": "......"
+                },
+                "key": 67,
+                "master_number": "POIT-001",
+                "abilities_rewards": [
+                    {
+                        "level": 0,
+                        "token": "laser-shot"
+                    },
+                    {
+                        "level": 0,
+                        "token": "laser-buster"
+                    }
+                ],
+                "abilities_compatible": []
+            },
+            "pitchan": {
+                "token": "pitchan",
+                "number": "PTCN-001",
+                "name": "Pitchan",
+                "game": "MM10",
+                "field": "",
+                "field2": "rocky-plateau",
+                "support": "",
+                "class": "mecha",
+                "gender": "none",
+                "image": "pitchan",
+                "image_size": 40,
+                "image_editor": 3,
+                "image_editor2": 0,
+                "image_editor3": 0,
+                "image_alts": [],
+                "core": "impact",
+                "core2": "",
+                "description": "Automated Pitcher Mecha",
+                "description2": "Capable of high-rate fastballs and curveballs, Pitchan provides excellent batting training for beginning and advanced Baseball players alike. Strangely enough, its programming has a weird tendency to miscalculate and hurt players batting for rival teams.",
+                "energy": 80,
+                "weapons": 5,
+                "attack": 40,
+                "defense": 70,
+                "speed": 10,
+                "weaknesses": [
+                    "cutter",
+                    "wind"
+                ],
+                "resistances": [
+                    "swift",
+                    "missile"
+                ],
+                "affinities": [],
+                "immunities": [],
+                "skill": "copycat-submodule",
+                "skill_name": "Adaptable Fastball",
+                "skill_description": "",
+                "skill_description2": "",
+                "skill_parameters": [],
+                "quotes_custom": [],
+                "flag_hidden": 0,
+                "flag_complete": 1,
+                "flag_unlockable": 0,
+                "flag_fightable": 1,
+                "flag_exclusive": 0,
+                "flag_published": 1,
+                "flag_protected": 1,
+                "group": "MM10",
+                "order": 3,
+                "quotes": {
+                    "battle_start": "Pic, pic, chan.",
+                    "battle_taunt": "Meka, pic, pic, chan.",
+                    "battle_victory": "Picchan, picchan, chan.",
+                    "battle_defeat": "Chan..?"
+                },
+                "key": 68,
+                "master_number": "PTCN-001",
+                "abilities_rewards": [
+                    {
+                        "level": 0,
+                        "token": "impact-shot"
+                    },
+                    {
+                        "level": 0,
+                        "token": "impact-buster"
+                    }
+                ],
+                "abilities_compatible": []
+            },
+            "sola-rei": {
+                "token": "sola-rei",
+                "number": "SOLA-001",
+                "name": "Sola Rei",
+                "game": "MM10",
+                "field": "",
+                "field2": "egyptian-excavation",
+                "support": "",
+                "class": "mecha",
+                "gender": "none",
+                "image": "sola-rei",
+                "image_size": 40,
+                "image_editor": 3,
+                "image_editor2": 0,
+                "image_editor3": 0,
+                "image_alts": [],
+                "core": "flame",
+                "core2": "",
+                "description": "Solar Flower Mecha",
+                "description2": "Ingeniously, the mecha modeled after a sunflower, Sola Rei, contains the ability to slowly gather and charge solar energy into a highly potent beam of energy! Theoretically, given enough advancements in solar harvesting, if the Sola Rei was able to efficiently utilize 100% of the sun's energy, its beam could melt through planets.",
+                "energy": 70,
+                "weapons": 5,
+                "attack": 50,
+                "defense": 70,
+                "speed": 10,
+                "weaknesses": [
+                    "space",
+                    "time",
+                    "swift"
+                ],
+                "resistances": [
+                    "shadow"
+                ],
+                "affinities": [
+                    "nature"
+                ],
+                "immunities": [],
+                "skill": "nature-subcore",
+                "skill_name": "Sun Flower",
+                "skill_description": "",
+                "skill_description2": "",
+                "skill_parameters": [],
+                "quotes_custom": [],
+                "flag_hidden": 0,
+                "flag_complete": 1,
+                "flag_unlockable": 0,
+                "flag_fightable": 1,
+                "flag_exclusive": 0,
+                "flag_published": 1,
+                "flag_protected": 1,
+                "group": "MM10",
+                "order": 4,
+                "quotes": {
+                    "battle_start": "S\u014dra. S\u014dra. S\u014dra.",
+                    "battle_taunt": "S\u014dra! S\u014dra! S\u014dra!",
+                    "battle_victory": "S\u014dra 0. S\u014dra 0.",
+                    "battle_defeat": "0.. 0.. 0... 0..."
+                },
+                "key": 69,
+                "master_number": "SOLA-001",
+                "abilities_rewards": [
+                    {
+                        "level": 0,
+                        "token": "flame-shot"
+                    },
+                    {
+                        "level": 0,
+                        "token": "flame-buster"
                     }
                 ],
                 "abilities_compatible": []
@@ -4283,7 +5508,7 @@
                     "battle_victory": "Ea suton! Ea suton!",
                     "battle_defeat": "Bomu do Ringu...."
                 },
-                "key": 53,
+                "key": 70,
                 "master_number": "ARST-001",
                 "abilities_rewards": [
                     {
@@ -4293,6 +5518,78 @@
                     {
                         "level": 0,
                         "token": "earth-buster"
+                    }
+                ],
+                "abilities_compatible": []
+            },
+            "shimobey": {
+                "token": "shimobey",
+                "number": "SHMY-000",
+                "name": "Shimobey",
+                "game": "MM11",
+                "field": "",
+                "field2": "septic-system",
+                "support": "",
+                "class": "mecha",
+                "gender": "none",
+                "image": "shimobey",
+                "image_size": 40,
+                "image_editor": 3,
+                "image_editor2": 0,
+                "image_editor3": 0,
+                "image_alts": [],
+                "core": "shadow",
+                "core2": "",
+                "description": "Diminutive Mook Mecha",
+                "description2": "An actor robot used in hero shows as the evil foot soldier. Dreaming of someday playing the hero, it always tries to look its best as the heroes beat it up.",
+                "energy": 30,
+                "weapons": 5,
+                "attack": 90,
+                "defense": 20,
+                "speed": 60,
+                "weaknesses": [
+                    "flame",
+                    "explode"
+                ],
+                "resistances": [
+                    "shadow",
+                    "electric"
+                ],
+                "affinities": [],
+                "immunities": [
+                    "shield"
+                ],
+                "skill": "break-submodule",
+                "skill_name": "Struggling Actor",
+                "skill_description": "",
+                "skill_description2": "",
+                "skill_parameters": [],
+                "quotes_custom": [],
+                "flag_hidden": 0,
+                "flag_complete": 1,
+                "flag_unlockable": 0,
+                "flag_fightable": 1,
+                "flag_exclusive": 0,
+                "flag_published": 1,
+                "flag_protected": 1,
+                "group": "MM11",
+                "order": 1,
+                "quotes": {
+                    "battle_start": "Shi! Mobe!",
+                    "battle_taunt": "Shimobe, shimobe!",
+                    "battle_victory": "Mobe, shi, shi, mobe!",
+                    "battle_defeat": "Shi! Shi!"
+                },
+                "key": 71,
+                "master_number": "SHMY-000",
+                "abilities_rewards": [
+                    {
+                        "level": 0,
+                        "token": "shadow-shot"
+                    },
+                    {
+                        "level": 0,
+                        "token": "shadow-buster"
                     }
                 ],
                 "abilities_compatible": []
@@ -4351,14 +5648,14 @@
                 "flag_published": 1,
                 "flag_protected": 1,
                 "group": "MM11",
-                "order": 1,
+                "order": 2,
                 "quotes": {
                     "battle_start": "Supoitton.",
                     "battle_taunt": "Poitton!",
                     "battle_victory": "Supoitton...",
                     "battle_defeat": "Poitton...."
                 },
-                "key": 54,
+                "key": 72,
                 "master_number": "PITO-000",
                 "abilities_rewards": [
                     {
@@ -4372,45 +5669,43 @@
                 ],
                 "abilities_compatible": []
             },
-            "shimobey": {
-                "token": "shimobey",
-                "number": "SHMY-000",
-                "name": "Shimobey",
+            "arc-weldy": {
+                "token": "arc-weldy",
+                "number": "ARWD-001",
+                "name": "Arc Weldy",
                 "game": "MM11",
                 "field": "",
-                "field2": "septic-system",
+                "field2": "steel-mill",
                 "support": "",
                 "class": "mecha",
                 "gender": "none",
-                "image": "shimobey",
+                "image": "arc-weldy",
                 "image_size": 40,
                 "image_editor": 3,
                 "image_editor2": 0,
                 "image_editor3": 0,
                 "image_alts": [],
-                "core": "shadow",
+                "core": "cutter",
                 "core2": "",
-                "description": "Diminutive Mook Mecha",
-                "description2": "An actor robot used in hero shows as the evil foot soldier. Dreaming of someday playing the hero, it always tries to look its best as the heroes beat it up.",
-                "energy": 30,
+                "description": "Contemplative Welding Mecha",
+                "description2": "Due to a slightly cheaper CPU, Arc Weldy doesn't really care about defeating Mega Man, it just wants to weld all day. It's a nice enough little robot, but you can't help but wonder about that sad look in its eyes...",
+                "energy": 60,
                 "weapons": 5,
-                "attack": 90,
-                "defense": 20,
-                "speed": 60,
+                "attack": 60,
+                "defense": 60,
+                "speed": 20,
                 "weaknesses": [
                     "flame",
-                    "explode"
+                    "water"
                 ],
                 "resistances": [
-                    "shadow",
-                    "electric"
+                    "electric",
+                    "cutter"
                 ],
                 "affinities": [],
-                "immunities": [
-                    "shield"
-                ],
-                "skill": "break-submodule",
-                "skill_name": "Struggling Actor",
+                "immunities": [],
+                "skill": "flame-subcore",
+                "skill_name": "Forge Welding",
                 "skill_description": "",
                 "skill_description2": "",
                 "skill_parameters": [],
@@ -4423,23 +5718,23 @@
                 "flag_published": 1,
                 "flag_protected": 1,
                 "group": "MM11",
-                "order": 2,
+                "order": 3,
                 "quotes": {
-                    "battle_start": "Shi! Mobe!",
-                    "battle_taunt": "Shimobe, shimobe!",
-                    "battle_victory": "Mobe, shi, shi, mobe!",
-                    "battle_defeat": "Shi! Shi!"
+                    "battle_start": "Aku...",
+                    "battle_taunt": "Handa...",
+                    "battle_victory": "Aku.",
+                    "battle_defeat": "Handa..?"
                 },
-                "key": 55,
-                "master_number": "SHMY-000",
+                "key": 73,
+                "master_number": "ARWD-001",
                 "abilities_rewards": [
                     {
                         "level": 0,
-                        "token": "shadow-shot"
+                        "token": "cutter-shot"
                     },
                     {
                         "level": 0,
-                        "token": "shadow-buster"
+                        "token": "cutter-buster"
                     }
                 ],
                 "abilities_compatible": []
@@ -4462,8 +5757,8 @@
                 "image_alts": [],
                 "core": "space",
                 "core2": "",
-                "description": "Temporary Text Mecha",
-                "description2": "The Tamp are a remarkably heavy mecha given that were created to help with the transport of oversized space equipment, but their teleportation capabilities make their weight a non-issue all things considered.  When Dr. Wily reprogrammed them, he gave the Tamp orders to crush any Mega Man than encounter by warping above his head and then crashing down.  Oddly enough, despite being mass-produced only one Tamp has actually been spotted in wild.",
+                "description": "Teleporting Transport Mecha",
+                "description2": "The Tamps are a remarkably heavy mecha given that they were created to help with the transport of oversized space equipment, but luckily their teleportation capabilities make their weight a non-issue.  When Dr. Wily reprogrammed them, he gave the Tamp orders to crush any Mega Man they encounter by warping above his head, and then crushing him into itty-bitty Blue Bomber pieces.  Oddly enough, despite being mass-produced, only one Tamp has actually been spotted in the wild.",
                 "energy": 50,
                 "weapons": 5,
                 "attack": 55,
@@ -4503,12 +5798,84 @@
                     "battle_victory": "Ta-ta-ta-taaaan!",
                     "battle_defeat": "Pu-pu-pu..."
                 },
-                "key": 56,
+                "key": 74,
                 "master_number": "TAMP-001",
                 "abilities_rewards": [
                     {
                         "level": 0,
                         "token": "tamp-stamp"
+                    }
+                ],
+                "abilities_compatible": []
+            },
+            "covercannon": {
+                "token": "covercannon",
+                "number": "CVCN-001",
+                "name": "Covercannon",
+                "game": "MMV",
+                "field": "",
+                "field2": "submerged-armory",
+                "support": "",
+                "class": "mecha",
+                "gender": "none",
+                "image": "covercannon",
+                "image_size": 40,
+                "image_editor": 3,
+                "image_editor2": 0,
+                "image_editor3": 0,
+                "image_alts": [],
+                "core": "missile",
+                "core2": "",
+                "description": "Mobile Cannon Mecha",
+                "description2": "These Covercannons were present during the initial stages of the infamous Stardroid invasion of Earth. They hide firing artillery from afar, then jump out to surprise enemies coming in hot. They seem a lot like Mets - maybe they're cousins?",
+                "energy": 40,
+                "weapons": 5,
+                "attack": 60,
+                "defense": 80,
+                "speed": 20,
+                "weaknesses": [
+                    "nature",
+                    "time",
+                    "earth"
+                ],
+                "resistances": [
+                    "shield"
+                ],
+                "affinities": [],
+                "immunities": [
+                    "missile"
+                ],
+                "skill": "defense-assist-submodule",
+                "skill_name": "Helmet Head",
+                "skill_description": "",
+                "skill_description2": "",
+                "skill_parameters": [],
+                "quotes_custom": [],
+                "flag_hidden": 0,
+                "flag_complete": 1,
+                "flag_unlockable": 0,
+                "flag_fightable": 1,
+                "flag_exclusive": 0,
+                "flag_published": 1,
+                "flag_protected": 1,
+                "group": "MMV",
+                "order": 1,
+                "quotes": {
+                    "battle_start": "Fukuhon!",
+                    "battle_taunt": "Fukufukufuku!",
+                    "battle_victory": "Ho ho ho!",
+                    "battle_defeat": "Fuku...."
+                },
+                "key": 75,
+                "master_number": "CVCN-001",
+                "abilities_rewards": [
+                    {
+                        "level": 0,
+                        "token": "missile-shot"
+                    },
+                    {
+                        "level": 0,
+                        "token": "missile-buster"
                     }
                 ],
                 "abilities_compatible": []
@@ -4564,14 +5931,14 @@
                 "flag_published": 1,
                 "flag_protected": 1,
                 "group": "MMV",
-                "order": 1,
+                "order": 2,
                 "quotes": {
                     "battle_start": "Biribari! Biribari!",
                     "battle_taunt": "Biribari!",
                     "battle_victory": "Bari bari bari!",
                     "battle_defeat": "Biribiribiribiri... !"
                 },
-                "key": 57,
+                "key": 76,
                 "master_number": "BRBR-001",
                 "abilities_rewards": [
                     {
@@ -4581,6 +5948,80 @@
                     {
                         "level": 0,
                         "token": "electric-buster"
+                    }
+                ],
+                "abilities_compatible": []
+            },
+            "fooley": {
+                "token": "fooley",
+                "number": "FLCL-001",
+                "name": "Fooley",
+                "game": "MMV",
+                "field": "",
+                "field2": "clock-citadel",
+                "support": "",
+                "class": "mecha",
+                "gender": "none",
+                "image": "fooley",
+                "image_size": 40,
+                "image_editor": 3,
+                "image_editor2": 0,
+                "image_editor3": 0,
+                "image_alts": [],
+                "core": "time",
+                "core2": "",
+                "description": "Temporal Pendulum Mecha",
+                "description2": "Fooley's a powerful mecha that belongs to the Stardroids' army. It looks unassuming, but with the power of its pendulum building up as it goes back and forth, it unleashes a mighty temporal field that completely slows down time not unlike Time Man's ability.",
+                "energy": 40,
+                "weapons": 5,
+                "attack": 60,
+                "defense": 70,
+                "speed": 30,
+                "weaknesses": [
+                    "time",
+                    "laser",
+                    "shadow"
+                ],
+                "resistances": [
+                    "space",
+                    "explode"
+                ],
+                "affinities": [],
+                "immunities": [],
+                "skill": "field-boost-at-end-of-turn",
+                "skill_name": "Time Skimmer",
+                "skill_description": "Boosts the Time-type field multiplier every turn",
+                "skill_description2": "As its pendulum swings, the robot boosts the Time-type field multiplier at the end of each turn.",
+                "skill_parameters": {
+                    "type": "time",
+                    "amount": 0.2
+                },
+                "quotes_custom": [],
+                "flag_hidden": 0,
+                "flag_complete": 1,
+                "flag_unlockable": 0,
+                "flag_fightable": 1,
+                "flag_exclusive": 0,
+                "flag_published": 1,
+                "flag_protected": 1,
+                "group": "MMV",
+                "order": 3,
+                "quotes": {
+                    "battle_start": "Furi?",
+                    "battle_taunt": "Fuuuuuuuri!",
+                    "battle_victory": "Furi? Kuri?",
+                    "battle_defeat": "Fufufufuri!"
+                },
+                "key": 77,
+                "master_number": "FLCL-001",
+                "abilities_rewards": [
+                    {
+                        "level": 0,
+                        "token": "time-shot"
+                    },
+                    {
+                        "level": 0,
+                        "token": "time-buster"
                     }
                 ],
                 "abilities_compatible": []
@@ -4654,7 +6095,7 @@
                     "battle_victory": "Bura! Bura! Burabura!",
                     "battle_defeat": "Bu\u2026 ra!"
                 },
-                "key": 58,
+                "key": 78,
                 "master_number": "BEAK-001",
                 "abilities_rewards": [
                     {
@@ -4724,7 +6165,7 @@
                     "battle_victory": "Shirudo! Shirudo! Atakkattaka...",
                     "battle_defeat": "Shirudo...?"
                 },
-                "key": 59,
+                "key": 79,
                 "master_number": "SHLD-001",
                 "abilities_rewards": [
                     {
@@ -4735,6 +6176,291 @@
                 "abilities_compatible": [
                     "shield-attack"
                 ]
+            },
+            "adhering-suzy": {
+                "token": "adhering-suzy",
+                "number": "SUZY-001",
+                "name": "Adhering Suzy",
+                "game": "MM1",
+                "field": "",
+                "field2": "wily-castle",
+                "support": "",
+                "class": "mecha",
+                "gender": "none",
+                "image": "adhering-suzy",
+                "image_size": 40,
+                "image_editor": 3,
+                "image_editor2": 0,
+                "image_editor3": 0,
+                "image_alts": [],
+                "core": "impact",
+                "core2": "",
+                "description": "Octopus Battery Mecha",
+                "description2": "This barrier mecha was designed to monitor and watch over dangerous locations. Though small, they're able to cover a lot of ground by moving surface to surface. As always, the weakness for enemies like this is their eye.",
+                "energy": 50,
+                "weapons": 5,
+                "attack": 20,
+                "defense": 70,
+                "speed": 60,
+                "weaknesses": [
+                    "cutter",
+                    "missile",
+                    "electric"
+                ],
+                "resistances": [
+                    "water",
+                    "explode"
+                ],
+                "affinities": [],
+                "immunities": [],
+                "skill": "bulwark-submodule",
+                "skill_name": "Selfless Barricade",
+                "skill_description": "",
+                "skill_description2": "",
+                "skill_parameters": [],
+                "quotes_custom": [],
+                "flag_hidden": 0,
+                "flag_complete": 1,
+                "flag_unlockable": 0,
+                "flag_fightable": 1,
+                "flag_exclusive": 0,
+                "flag_published": 1,
+                "flag_protected": 1,
+                "group": "MM00D",
+                "order": 0,
+                "quotes": {
+                    "battle_start": "Suji.",
+                    "battle_taunt": "Suuuuuuuu-ji.",
+                    "battle_victory": "Suji.",
+                    "battle_defeat": "......"
+                },
+                "key": 80,
+                "master_number": "SUZY-001",
+                "abilities_rewards": [
+                    {
+                        "level": 0,
+                        "token": "impact-shot"
+                    },
+                    {
+                        "level": 0,
+                        "token": "impact-buster"
+                    }
+                ],
+                "abilities_compatible": []
+            },
+            "foot-holder": {
+                "token": "foot-holder",
+                "number": "FTHD-000",
+                "name": "Foot Holder",
+                "game": "MM1",
+                "field": "",
+                "field2": "arctic-jungle",
+                "support": "",
+                "class": "mecha",
+                "gender": "none",
+                "image": "foot-holder",
+                "image_size": 40,
+                "image_editor": 3,
+                "image_editor2": 0,
+                "image_editor3": 0,
+                "image_alts": [],
+                "core": "wind",
+                "core2": "",
+                "description": "Transportation Platform Mecha",
+                "description2": "When Dr. Wily began his first go at world domination, he cherished the ingeniously-designed Foot Holders for their usefulness in transporting heavy cargo across vast distances and chasms. They were, in fact, so good at their jobs that they accidentally helped carry Mega Man across all of Wily's meticulously designed traps and lairs. They are now on Dr. Wily's list of officially-banned mechas.",
+                "energy": 70,
+                "weapons": 5,
+                "attack": 25,
+                "defense": 70,
+                "speed": 35,
+                "weaknesses": [
+                    "time",
+                    "shadow",
+                    "missile"
+                ],
+                "resistances": [
+                    "explode",
+                    "freeze",
+                    "electric"
+                ],
+                "affinities": [],
+                "immunities": [],
+                "skill": "transport-submodule",
+                "skill_name": "Elevator Action",
+                "skill_description": "",
+                "skill_description2": "",
+                "skill_parameters": [],
+                "quotes_custom": [],
+                "flag_hidden": 0,
+                "flag_complete": 1,
+                "flag_unlockable": 0,
+                "flag_fightable": 1,
+                "flag_exclusive": 0,
+                "flag_published": 1,
+                "flag_protected": 1,
+                "group": "MM00D",
+                "order": 1,
+                "quotes": {
+                    "battle_start": "Futto-futto-futto-futto-futto.....",
+                    "battle_taunt": "Futto-futto-horuda!",
+                    "battle_victory": "Futto-futto-futto-futto-futto-futto-futto....",
+                    "battle_defeat": "Horuda-ruda-ruda-ruda..."
+                },
+                "key": 81,
+                "master_number": "FTHD-000",
+                "abilities_rewards": [
+                    {
+                        "level": 0,
+                        "token": "wind-shot"
+                    },
+                    {
+                        "level": 0,
+                        "token": "wind-buster"
+                    }
+                ],
+                "abilities_compatible": []
+            },
+            "peterchy": {
+                "token": "peterchy",
+                "number": "PRCY-001",
+                "name": "Peterchy",
+                "game": "MM3",
+                "field": "",
+                "field2": "spinning-greenhouse",
+                "support": "",
+                "class": "mecha",
+                "gender": "none",
+                "image": "peterchy",
+                "image_size": 40,
+                "image_editor": 3,
+                "image_editor2": 0,
+                "image_editor3": 0,
+                "image_alts": [],
+                "core": "swift",
+                "core2": "",
+                "description": "Orbital Reconnaissance Mecha",
+                "description2": "The Peterchy mechas served as useful reconnaissance tools for Dr. Wily to stay updated on Mega Man's progress. They're not really good for much else besides spying on people, though.",
+                "energy": 50,
+                "weapons": 5,
+                "attack": 40,
+                "defense": 85,
+                "speed": 25,
+                "weaknesses": [
+                    "swift",
+                    "time"
+                ],
+                "resistances": [
+                    "explode",
+                    "missile"
+                ],
+                "affinities": [],
+                "immunities": [],
+                "skill": "defense-assist-submodule",
+                "skill_name": "Watchful Eye",
+                "skill_description": "",
+                "skill_description2": "",
+                "skill_parameters": [],
+                "quotes_custom": [],
+                "flag_hidden": 0,
+                "flag_complete": 1,
+                "flag_unlockable": 0,
+                "flag_fightable": 1,
+                "flag_exclusive": 0,
+                "flag_published": 1,
+                "flag_protected": 1,
+                "group": "MM00D",
+                "order": 2,
+                "quotes": {
+                    "battle_start": "Pet...",
+                    "battle_taunt": "Pet.. pet...",
+                    "battle_victory": "Pet... petaki...",
+                    "battle_defeat": "PETA! TAKI!"
+                },
+                "key": 82,
+                "master_number": "PRCY-001",
+                "abilities_rewards": [
+                    {
+                        "level": 0,
+                        "token": "swift-shot"
+                    },
+                    {
+                        "level": 0,
+                        "token": "swift-buster"
+                    }
+                ],
+                "abilities_compatible": []
+            },
+            "upndown": {
+                "token": "upndown",
+                "number": "UPDW-001",
+                "name": "Up'n'Down",
+                "game": "MM4",
+                "field": "",
+                "field2": "rusty-scrapheap",
+                "support": "",
+                "class": "mecha",
+                "gender": "none",
+                "image": "upndown",
+                "image_size": 40,
+                "image_editor": 23,
+                "image_editor2": 0,
+                "image_editor3": 0,
+                "image_alts": [],
+                "core": "wind",
+                "core2": "",
+                "description": "Aerial Sprinkler Mecha",
+                "description2": "These little mechabit Mechas were developed by Cossack Robot Laboratories as irrigation sprinklers, watering agricultural areas through the use of their industrial vents. Usually, they attack by jumping up from bottomless pits, but seeing as the Prototype doesn't really have much of those, they're pretty harmless.",
+                "energy": 25,
+                "weapons": 5,
+                "attack": 65,
+                "defense": 25,
+                "speed": 85,
+                "weaknesses": [
+                    "time",
+                    "shadow",
+                    "nature"
+                ],
+                "resistances": [
+                    "laser",
+                    "explode",
+                    "crystal"
+                ],
+                "affinities": [],
+                "immunities": [],
+                "skill": "water-subcore",
+                "skill_name": "Irrigation Sprinkler",
+                "skill_description": "",
+                "skill_description2": "",
+                "skill_parameters": [],
+                "quotes_custom": [],
+                "flag_hidden": 0,
+                "flag_complete": 1,
+                "flag_unlockable": 0,
+                "flag_fightable": 1,
+                "flag_exclusive": 0,
+                "flag_published": 1,
+                "flag_protected": 1,
+                "group": "MM00D",
+                "order": 3,
+                "quotes": {
+                    "battle_start": "Appu, appu!",
+                    "battle_taunt": "Daun, daun!",
+                    "battle_victory": "Appu, daun, appu, daun!",
+                    "battle_defeat": "Daun.. daun.. daun...!"
+                },
+                "key": 83,
+                "master_number": "UPDW-001",
+                "abilities_rewards": [
+                    {
+                        "level": 0,
+                        "token": "wind-shot"
+                    },
+                    {
+                        "level": 0,
+                        "token": "wind-buster"
+                    }
+                ],
+                "abilities_compatible": []
             },
             "big-eye": {
                 "token": "big-eye",
@@ -4788,7 +6514,7 @@
                 "flag_exclusive": 0,
                 "flag_published": 1,
                 "flag_protected": 1,
-                "group": "MM00D",
+                "group": "MM000E",
                 "order": 0,
                 "quotes": {
                     "battle_start": "Biggu... Ai....",
@@ -4796,7 +6522,7 @@
                     "battle_victory": "Biggu. Ai.",
                     "battle_defeat": "....."
                 },
-                "key": 60,
+                "key": 84,
                 "master_number": "BGEY-01",
                 "abilities_rewards": [
                     {
@@ -4861,7 +6587,7 @@
                 "flag_exclusive": 0,
                 "flag_published": 1,
                 "flag_protected": 1,
-                "group": "MM00D",
+                "group": "MM000E",
                 "order": 1,
                 "quotes": {
                     "battle_start": "PAWA MASSURA!",
@@ -4869,7 +6595,7 @@
                     "battle_victory": "MASSURAAAAAA!!",
                     "battle_defeat": "Pawa.."
                 },
-                "key": 61,
+                "key": 85,
                 "master_number": "PWMC-000",
                 "abilities_rewards": [
                     {
@@ -4903,11 +6629,11 @@
                 "core2": "",
                 "description": "Multifaceted Battle Block",
                 "description2": "Weapon Archivists hail from the aptly-named Weapons Archive, a facility built by Dr. Wily and integrated into one of his legendary castles during the crescendo of the Wily Wars.  Put simply, the Weapons Archive is a room with all the Special Weapon data from all the Robot Masters that the doctor had encountered up until that point in history.  The Weapon Archivists, acting as multifaceted battle blocks and protectors of the facility, would fly toward any intruders and attack them with the weapon of one Robot Master.  In their original configuration, the Weapon Archivists fought in teams of three and remained within the room itself, but here in Prototype they appear to have multiplied and spread to locations far beyond their origin domain.  Fortunately, whenever a Weapon Archivist takes on the powers of a robot master it also takes on their weaknesses, allowing would-be victims to fight back and maybe even knock some cores out of them.",
-                "energy": 50,
+                "energy": 70,
                 "weapons": 5,
-                "attack": 50,
-                "defense": 50,
-                "speed": 50,
+                "attack": 20,
+                "defense": 80,
+                "speed": 30,
                 "weaknesses": [
                     "shield",
                     "laser"
@@ -4930,7 +6656,7 @@
                 "flag_exclusive": 0,
                 "flag_published": 1,
                 "flag_protected": 1,
-                "group": "MM00D",
+                "group": "MM000E",
                 "order": 2,
                 "quotes": {
                     "battle_start": "\u00b7\u00b7 \u2212\u00b7 \u2212 \u00b7\u2212\u00b7 \u00b7\u00b7\u2212 \u2212\u00b7\u00b7 \u00b7 \u00b7\u2212\u00b7  \u2212\u00b7\u00b7 \u00b7 \u2212 \u00b7 \u2212\u00b7\u2212\u00b7 \u2212 \u00b7 \u2212\u00b7\u00b7",
@@ -4938,7 +6664,7 @@
                     "battle_victory": "\u00b7\u2212 \u00b7\u2212\u00b7\u00b7 \u00b7\u2212\u00b7\u00b7  \u00b7\u00b7\u00b7\u00b7 \u00b7\u2212 \u00b7\u00b7 \u00b7\u2212\u00b7\u00b7  \u00b7\u2212\u00b7\u00b7 \u2212\u2212\u2212 \u00b7\u2212\u00b7 \u2212\u00b7\u00b7  \u00b7\u2212\u2212 \u00b7\u00b7 \u00b7\u2212\u00b7\u00b7 \u2212\u00b7\u2212\u2212",
                     "battle_defeat": "\u00b7\u00b7\u00b7 \u2212\u00b7\u2212\u2212 \u00b7\u00b7\u00b7 \u2212 \u00b7 \u2212\u2212  \u00b7\u00b7\u2212\u00b7 \u00b7\u2212 \u00b7\u00b7 \u00b7\u2212\u00b7\u00b7 \u00b7\u00b7\u2212 \u00b7\u2212\u00b7 \u00b7"
                 },
-                "key": 62,
+                "key": 86,
                 "master_number": "SWA-176",
                 "abilities_rewards": [
                     {
@@ -4972,10 +6698,10 @@
                 "core2": "",
                 "description": "Happy Healing Mecha",
                 "description2": "These Heal-Bots were developed and meant to act as little helpful hackers around the Prototype, maintaining and upkeeping the servers of the Prototype. Unfortunately, due to the recent disturbances, they've become scattered and lost all throughout the digital world, and without their support, bugs have begun to form and pop up across the Prototype. They're very cheery creatures, though awfully familiar, right?",
-                "energy": 75,
+                "energy": 80,
                 "weapons": 5,
-                "attack": 35,
-                "defense": 30,
+                "attack": 20,
+                "defense": 40,
                 "speed": 60,
                 "weaknesses": [
                     "laser",
@@ -5007,7 +6733,7 @@
                     "battle_victory": ".....",
                     "battle_defeat": "...."
                 },
-                "key": 63,
+                "key": 87,
                 "master_number": "HLBT-001",
                 "abilities_rewards": [],
                 "abilities_compatible": []
@@ -5032,11 +6758,11 @@
                 "core2": "",
                 "description": "Really Scary Mecha",
                 "description2": "These poor Heal-Bots seem to have been corrupted - so, most likely, Dr. Wily's handiwork. The Heel-Bots appear to feature all the same capabilities of their sibling Heal-Bots, though curiously their healing matrixes have been completely destabilized and fried. They're nowhere near as innocent, either; they can be seen loitering, leaving shopping carts in the  parking lot, and not using their turn signals when turning. In other words, absolute evil.",
-                "energy": 50,
+                "energy": 60,
                 "weapons": 5,
-                "attack": 50,
-                "defense": 50,
-                "speed": 50,
+                "attack": 40,
+                "defense": 20,
+                "speed": 80,
                 "weaknesses": [
                     "shield",
                     "crystal"
@@ -5069,7 +6795,7 @@
                     "battle_victory": "...",
                     "battle_defeat": "..."
                 },
-                "key": 64,
+                "key": 88,
                 "master_number": "HLBT-00B",
                 "abilities_rewards": [],
                 "abilities_compatible": []
@@ -5131,11 +6857,11 @@
                 "core2": "",
                 "description": "Enslaved Energy Sentry",
                 "description2": "It is unclear as to whether these floating sentries are a modification of the original Heal-Bot design, an upgrade to the hijacked Heel-Bot line, or something new entirely.  What is known is that the Trille-Bot possess an incredible amount of alien energy brimming within their cores.  Trille-Bot rarely attack their target directly, instead opting to support their master from the bench with healing, stat boosts, and other assistive measures.  Despite lacking a visible mouth, these support mecha still manage to convey a tale of sadness through their eyes.",
-                "energy": 100,
+                "energy": 90,
                 "weapons": 10,
-                "attack": 40,
-                "defense": 40,
-                "speed": 40,
+                "attack": 30,
+                "defense": 30,
+                "speed": 50,
                 "weaknesses": [
                     "flame",
                     "freeze"
@@ -5170,7 +6896,7 @@
                     "battle_victory": "--.- ..- . .-.. ... --- ..- .-.. .- --. . -- . -. -",
                     "battle_defeat": "--.- ..- . .-.. -.. . ... .- ... - .-. ."
                 },
-                "key": 65,
+                "key": 89,
                 "master_number": "TLBT-00X",
                 "abilities_rewards": [
                     {
@@ -5230,7 +6956,7 @@
                     "battle_victory": 1101111,
                     "battle_defeat": 1101110
                 },
-                "key": 66,
+                "key": 90,
                 "master_number": "RPG-000",
                 "abilities_rewards": [
                     {
@@ -5313,7 +7039,7 @@
                     "battle_victory": "aWOOOOOO! Arf arf!",
                     "battle_defeat": "Ooooooo..."
                 },
-                "key": 67,
+                "key": 91,
                 "master_number": "RPG-000",
                 "abilities_rewards": [],
                 "abilities_compatible": []
@@ -5368,7 +7094,7 @@
                     "battle_victory": "",
                     "battle_defeat": ""
                 },
-                "key": 68,
+                "key": 92,
                 "master_number": "RPG-000",
                 "abilities_rewards": [
                     {
@@ -5433,7 +7159,7 @@
                     "battle_victory": "Mrrrrrrr...",
                     "battle_defeat": "Mrrraooow!"
                 },
-                "key": 69,
+                "key": 93,
                 "master_number": "RPG-000",
                 "abilities_rewards": [],
                 "abilities_compatible": []
@@ -5488,7 +7214,7 @@
                     "battle_victory": "tweet",
                     "battle_defeat": "I used to be on Twitter"
                 },
-                "key": 70,
+                "key": 94,
                 "master_number": "RPG-000",
                 "abilities_rewards": [],
                 "abilities_compatible": []
@@ -5543,12 +7269,12 @@
                     "battle_victory": "HAHA!",
                     "battle_defeat": "HAHA!"
                 },
-                "key": 71,
+                "key": 95,
                 "master_number": "RPG-000",
                 "abilities_rewards": [],
                 "abilities_compatible": []
             }
         },
-        "total": 72
+        "total": 96
     }
 }

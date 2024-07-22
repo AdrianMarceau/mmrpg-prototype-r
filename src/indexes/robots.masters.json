@@ -1,6 +1,6 @@
 {
     "status": "success",
-    "updated": 1702968060,
+    "updated": 1721669400,
     "data": {
         "robots": {
             "robot": {
@@ -187,7 +187,7 @@
                 "image_size": 40,
                 "image_editor": 10,
                 "image_editor2": 22,
-                "image_editor3": "",
+                "image_editor3": 0,
                 "image_alts": [],
                 "core": "copy",
                 "core2": "",
@@ -898,6 +898,12 @@
                         "name": "Cut Man (Darkness Alt)",
                         "summons": 900,
                         "colour": "empty"
+                    },
+                    {
+                        "token": "alt10",
+                        "name": "Cut Man (Prototype Alt)",
+                        "summons": 1000,
+                        "colour": "laser"
                     }
                 ],
                 "core": "cutter",
@@ -938,8 +944,8 @@
                 "order": 0,
                 "quotes": {
                     "battle_start": "May the sharpest mind win!",
-                    "battle_taunt": "I'm no ordinary ol' robot... I'm a cut above the rest!",
-                    "battle_victory": "What can I say? Old {this_robot}'s still cutting-edge, HAH!",
+                    "battle_taunt": "I ain't your ordinary Robot Master... I'm a cut above the rest!",
+                    "battle_victory": "What can I say? Ol' {this_robot}'s still cutting-edge, HAH!",
                     "battle_defeat": "W-well, I guess I wasn't sharp enough!... heheh, not funny?"
                 },
                 "key": 7,
@@ -1004,6 +1010,12 @@
                         "name": "Guts Man (Darkness Alt)",
                         "summons": 900,
                         "colour": "empty"
+                    },
+                    {
+                        "token": "alt10",
+                        "name": "Guts Man (Prototype Alt)",
+                        "summons": 1000,
+                        "colour": "electric"
                     }
                 ],
                 "core": "impact",
@@ -1111,6 +1123,12 @@
                         "name": "Ice Man (Darkness Alt)",
                         "summons": 900,
                         "colour": "empty"
+                    },
+                    {
+                        "token": "alt10",
+                        "name": "Ice Man (Prototype Alt)",
+                        "summons": 1000,
+                        "colour": "freeze"
                     }
                 ],
                 "core": "freeze",
@@ -1213,6 +1231,12 @@
                         "name": "Bomb Man (Darkness Alt)",
                         "summons": 900,
                         "colour": "empty"
+                    },
+                    {
+                        "token": "alt10",
+                        "name": "Bomb Man (Prototype Alt)",
+                        "summons": 1000,
+                        "colour": "explode"
                     }
                 ],
                 "core": "explode",
@@ -1252,7 +1276,7 @@
                 "order": 3,
                 "quotes": {
                     "battle_start": "Yo, {target_robot}! Let's have a little fun with my explosives!",
-                    "battle_taunt": "Watch it! Bomb's aren't toys, y'know!",
+                    "battle_taunt": "Watch it! Bombs aren't toys, y'know!",
                     "battle_victory": "C'mon dude, the party ain't over yet!.... uhh, dude?",
                     "battle_defeat": "No way! You're supposed to blow up, not me!"
                 },
@@ -1312,6 +1336,12 @@
                         "name": "Fire Man (Darkness Alt)",
                         "summons": 900,
                         "colour": "empty"
+                    },
+                    {
+                        "token": "alt10",
+                        "name": "Fire Man (Prototype Alt)",
+                        "summons": 1000,
+                        "colour": "flame"
                     }
                 ],
                 "core": "flame",
@@ -1413,6 +1443,12 @@
                         "name": "Elec Man (Darkness Alt)",
                         "summons": 900,
                         "colour": "empty"
+                    },
+                    {
+                        "token": "alt10",
+                        "name": "Elec Man (Prototype Alt)",
+                        "summons": 1000,
+                        "colour": "electric"
                     }
                 ],
                 "core": "electric",
@@ -1513,6 +1549,12 @@
                         "name": "Time Man (Darkness Alt)",
                         "summons": 900,
                         "colour": "empty"
+                    },
+                    {
+                        "token": "alt10",
+                        "name": "Time Man (Prototype Alt)",
+                        "summons": 1000,
+                        "colour": "time"
                     }
                 ],
                 "core": "time",
@@ -1624,6 +1666,12 @@
                         "name": "Oil Man (Darkness Alt)",
                         "summons": 900,
                         "colour": "empty"
+                    },
+                    {
+                        "token": "alt10",
+                        "name": "Oil Man (Prototype Alt)",
+                        "summons": 1000,
+                        "colour": "space"
                     }
                 ],
                 "core": "earth",
@@ -1724,6 +1772,12 @@
                         "name": "Metal Man (Darkness Alt)",
                         "summons": 900,
                         "colour": "empty"
+                    },
+                    {
+                        "token": "alt10",
+                        "name": "Metal Man (Prototype Alt)",
+                        "summons": 1000,
+                        "colour": "flame"
                     }
                 ],
                 "core": "cutter",
@@ -1823,6 +1877,12 @@
                         "name": "Air Man (Darkness Alt)",
                         "summons": 900,
                         "colour": "empty"
+                    },
+                    {
+                        "token": "alt10",
+                        "name": "Air Man (Prototype Alt)",
+                        "summons": 1000,
+                        "colour": "water"
                     }
                 ],
                 "core": "wind",
@@ -1919,6 +1979,12 @@
                         "name": "Bubble Man (Darkness Alt)",
                         "summons": 900,
                         "colour": "empty"
+                    },
+                    {
+                        "token": "alt10",
+                        "name": "Bubble Man (Prototype Alt)",
+                        "summons": 1000,
+                        "colour": "nature"
                     }
                 ],
                 "core": "water",
@@ -2031,6 +2097,12 @@
                         "name": "Quick Man (Darkness Alt)",
                         "summons": 900,
                         "colour": "empty"
+                    },
+                    {
+                        "token": "alt10",
+                        "name": "Quick Man (Prototype Alt)",
+                        "summons": 1000,
+                        "colour": "laser"
                     }
                 ],
                 "core": "swift",
@@ -2132,6 +2204,12 @@
                         "name": "Crash Man (Darkness Alt)",
                         "summons": 900,
                         "colour": "empty"
+                    },
+                    {
+                        "token": "alt10",
+                        "name": "Crash Man (Prototype Alt)",
+                        "summons": 1000,
+                        "colour": "explode"
                     }
                 ],
                 "core": "explode",
@@ -2228,6 +2306,12 @@
                         "name": "Flash Man (Darkness Alt)",
                         "summons": 900,
                         "colour": "empty"
+                    },
+                    {
+                        "token": "alt10",
+                        "name": "Flash Man (Prototype Alt)",
+                        "summons": 1000,
+                        "colour": "water"
                     }
                 ],
                 "core": "time",
@@ -2330,6 +2414,12 @@
                         "name": "Heat Man (Darkness Alt)",
                         "summons": 900,
                         "colour": "empty"
+                    },
+                    {
+                        "token": "alt10",
+                        "name": "Heat Man (Prototype Alt)",
+                        "summons": 1000,
+                        "colour": "flame"
                     }
                 ],
                 "core": "flame",
@@ -2428,6 +2518,12 @@
                         "name": "Wood Man (Darkness Alt)",
                         "summons": 900,
                         "colour": "empty"
+                    },
+                    {
+                        "token": "alt10",
+                        "name": "Wood Man (Prototype Alt)",
+                        "summons": 1000,
+                        "colour": "earth"
                     }
                 ],
                 "core": "nature",
@@ -2529,6 +2625,12 @@
                         "name": "Needle Man (Darkness Alt)",
                         "summons": 900,
                         "colour": "empty"
+                    },
+                    {
+                        "token": "alt10",
+                        "name": "Needle Man (Prototype Alt)",
+                        "summons": 1000,
+                        "colour": "water"
                     }
                 ],
                 "core": "cutter",
@@ -2599,7 +2701,7 @@
                 "image": "magnet-man",
                 "image_size": 40,
                 "image_editor": 3,
-                "image_editor2": 0,
+                "image_editor2": 6,
                 "image_editor3": 0,
                 "image_alts": [
                     {
@@ -2625,6 +2727,12 @@
                         "name": "Magnet Man (Darkness Alt)",
                         "summons": 900,
                         "colour": "empty"
+                    },
+                    {
+                        "token": "alt10",
+                        "name": "Magnet Man (Prototype Alt)",
+                        "summons": 1000,
+                        "colour": "flame"
                     }
                 ],
                 "core": "missile",
@@ -2884,7 +2992,7 @@
                 "image": "top-man",
                 "image_size": 40,
                 "image_editor": 15,
-                "image_editor2": 0,
+                "image_editor2": 6,
                 "image_editor3": 0,
                 "image_alts": [
                     {
@@ -2910,6 +3018,12 @@
                         "name": "Top Man (Darkness Alt)",
                         "summons": 900,
                         "colour": "empty"
+                    },
+                    {
+                        "token": "alt10",
+                        "name": "Top Man (Prototype Alt)",
+                        "summons": 1000,
+                        "colour": "swift"
                     }
                 ],
                 "core": "swift",
@@ -2978,7 +3092,7 @@
                 "image": "snake-man",
                 "image_size": 40,
                 "image_editor": 6,
-                "image_editor2": 3,
+                "image_editor2": 0,
                 "image_editor3": 0,
                 "image_alts": [
                     {
@@ -3080,7 +3194,7 @@
                 "image": "spark-man",
                 "image_size": 80,
                 "image_editor": 3,
-                "image_editor2": 0,
+                "image_editor2": 6,
                 "image_editor3": 0,
                 "image_alts": [
                     {
@@ -3106,6 +3220,12 @@
                         "name": "Spark Man (Darkness Alt)",
                         "summons": 900,
                         "colour": "empty"
+                    },
+                    {
+                        "token": "alt10",
+                        "name": "Spark Man (Prototype Alt)",
+                        "summons": 1000,
+                        "colour": "swift"
                     }
                 ],
                 "core": "electric",
@@ -3178,7 +3298,7 @@
                 "image": "shadow-man",
                 "image_size": 40,
                 "image_editor": 3,
-                "image_editor2": 0,
+                "image_editor2": 6,
                 "image_editor3": 0,
                 "image_alts": [
                     {
@@ -3216,6 +3336,12 @@
                         "name": "Shadow Man (Darkness Alt)",
                         "summons": 900,
                         "colour": "empty"
+                    },
+                    {
+                        "token": "alt10",
+                        "name": "Shadow Man (Prototype Alt)",
+                        "summons": 1000,
+                        "colour": "water"
                     }
                 ],
                 "core": "shadow",
@@ -3286,7 +3412,7 @@
                 "image": "bright-man",
                 "image_size": 40,
                 "image_editor": 15,
-                "image_editor2": 0,
+                "image_editor2": 8,
                 "image_editor3": 0,
                 "image_alts": [
                     {
@@ -3312,6 +3438,12 @@
                         "name": "Bright Man (Darkness Alt)",
                         "summons": 900,
                         "colour": "empty"
+                    },
+                    {
+                        "token": "alt10",
+                        "name": "Bright Man (Prototype Alt)",
+                        "summons": 1000,
+                        "colour": "swift"
                     }
                 ],
                 "core": "time",
@@ -3418,6 +3550,12 @@
                         "name": "Toad Man (Darkness Alt)",
                         "summons": 900,
                         "colour": "empty"
+                    },
+                    {
+                        "token": "alt10",
+                        "name": "Toad Man (Prototype Alt)",
+                        "summons": 1000,
+                        "colour": "nature"
                     }
                 ],
                 "core": "water",
@@ -3514,6 +3652,12 @@
                         "name": "Drill Man (Darkness Alt)",
                         "summons": 900,
                         "colour": "empty"
+                    },
+                    {
+                        "token": "alt10",
+                        "name": "Drill Man (Prototype Alt)",
+                        "summons": 1000,
+                        "colour": "swift"
                     }
                 ],
                 "core": "earth",
@@ -3618,6 +3762,12 @@
                         "name": "Pharaoh Man (Darkness Alt)",
                         "summons": 900,
                         "colour": "empty"
+                    },
+                    {
+                        "token": "alt10",
+                        "name": "Pharaoh Man (Prototype Alt)",
+                        "summons": 1000,
+                        "colour": "electric"
                     }
                 ],
                 "core": "flame",
@@ -3715,6 +3865,12 @@
                         "name": "Ring Man (Darkness Alt)",
                         "summons": 900,
                         "colour": "empty"
+                    },
+                    {
+                        "token": "alt10",
+                        "name": "Ring Man (Prototype Alt)",
+                        "summons": 1000,
+                        "colour": "flame"
                     }
                 ],
                 "core": "space",
@@ -3807,6 +3963,12 @@
                         "name": "Dust Man (Darkness Alt)",
                         "summons": 900,
                         "colour": "empty"
+                    },
+                    {
+                        "token": "alt10",
+                        "name": "Dust Man (Prototype Alt)",
+                        "summons": 1000,
+                        "colour": "water"
                     }
                 ],
                 "core": "wind",
@@ -3907,6 +4069,12 @@
                         "name": "Dive Man (Darkness Alt)",
                         "summons": 900,
                         "colour": "empty"
+                    },
+                    {
+                        "token": "alt10",
+                        "name": "Dive Man (Prototype Alt)",
+                        "summons": 1000,
+                        "colour": "water"
                     }
                 ],
                 "core": "missile",
@@ -4410,6 +4578,12 @@
                         "name": "Gyro Man (Darkness Alt)",
                         "summons": 900,
                         "colour": "empty"
+                    },
+                    {
+                        "token": "alt10",
+                        "name": "Gyro Man (Prototype Alt)",
+                        "summons": 1000,
+                        "colour": "nature"
                     }
                 ],
                 "core": "wind",
@@ -4477,7 +4651,7 @@
                 "image": "star-man",
                 "image_size": 80,
                 "image_editor": 15,
-                "image_editor2": 0,
+                "image_editor2": 8,
                 "image_editor3": 0,
                 "image_alts": [
                     {
@@ -4509,6 +4683,12 @@
                         "name": "Star Man (Darkness Alt)",
                         "summons": 900,
                         "colour": "empty"
+                    },
+                    {
+                        "token": "alt10",
+                        "name": "Star Man (Prototype Alt)",
+                        "summons": 1000,
+                        "colour": "electric"
                     }
                 ],
                 "core": "space",
@@ -5362,7 +5542,7 @@
                 "game": "MM6",
                 "field": "",
                 "field2": "mineral-quarry",
-                "support": "beetle-borg",
+                "support": "colton",
                 "class": "master",
                 "gender": "male",
                 "image": "tomahawk-man",
@@ -5400,6 +5580,12 @@
                         "name": "Tomahawk Man (Darkness Alt)",
                         "summons": 900,
                         "colour": "empty"
+                    },
+                    {
+                        "token": "alt10",
+                        "name": "Tomahawk Man (Prototype Alt)",
+                        "summons": 1000,
+                        "colour": "water"
                     }
                 ],
                 "core": "earth",
@@ -5557,7 +5743,7 @@
                 "game": "MM6",
                 "field": "",
                 "field2": "construction-site",
-                "support": "picket-man",
+                "support": "ben-k",
                 "class": "master",
                 "gender": "male",
                 "image": "yamato-man",
@@ -5844,9 +6030,9 @@
                 "group": "MM07",
                 "order": 1,
                 "quotes": {
-                    "battle_start": "People see junk as just waste... But I see it as a new beginning!",
-                    "battle_taunt": "If you're looking for trash, try looking in a mirror sometime! Ghaahaa!",
-                    "battle_victory": "...You're not using those parts anymore, right? Could I take them?",
+                    "battle_start": "{target_robot}... Your parts will be useful!",
+                    "battle_taunt": "Gaze upon my form, perfection incarnate - and I'm eco-friendly, too!",
+                    "battle_victory": "Rest in peace, {target_robot}, and in pieces!",
                     "battle_defeat": "Well, recycling's not too bad either. I guess."
                 },
                 "key": 56,
@@ -5960,7 +6146,7 @@
                 "game": "MM7",
                 "field": "sky-ridge",
                 "field2": "",
-                "support": "fan-fiend",
+                "support": "parabeak",
                 "class": "master",
                 "gender": "male",
                 "image": "cloud-man",
@@ -6082,6 +6268,12 @@
                         "name": "Spring Man (Darkness Alt)",
                         "summons": 900,
                         "colour": "empty"
+                    },
+                    {
+                        "token": "alt10",
+                        "name": "Spring Man (Prototype Alt)",
+                        "summons": 1000,
+                        "colour": "cutter"
                     }
                 ],
                 "core": "impact",
@@ -6144,14 +6336,14 @@
                 "game": "MM7",
                 "field": "",
                 "field2": "preserved-forest",
-                "support": "petit-snakey",
+                "support": "eggalodon",
                 "class": "master",
                 "gender": "male",
                 "image": "slash-man",
                 "image_size": 80,
                 "image_editor": 3,
                 "image_editor2": 16,
-                "image_editor3": "",
+                "image_editor3": 0,
                 "image_alts": [
                     {
                         "token": "alt",
@@ -6286,6 +6478,12 @@
                         "name": "Shade Man (Darkness Alt)",
                         "summons": 900,
                         "colour": "empty"
+                    },
+                    {
+                        "token": "alt10",
+                        "name": "Shade Man (Prototype Alt)",
+                        "summons": 1000,
+                        "colour": "time"
                     }
                 ],
                 "core": "shadow",
@@ -6323,7 +6521,7 @@
                 "group": "MM07",
                 "order": 6,
                 "quotes": {
-                    "battle_start": "My my, time for a well-deserved feast!",
+                    "battle_start": "The black wind howls.. tonight, we children of the night shall feast!",
                     "battle_taunt": "Ah, but what is a robot? Just a miserable pile of bolts and oil!",
                     "battle_victory": "One! One dead {target_robot}! Hahaha!",
                     "battle_defeat": "My thirst hasn't been quenched tonight.."
@@ -6384,6 +6582,12 @@
                         "name": "Turbo Man (Darkness Alt)",
                         "summons": 900,
                         "colour": "empty"
+                    },
+                    {
+                        "token": "alt10",
+                        "name": "Turbo Man (Prototype Alt)",
+                        "summons": 1000,
+                        "colour": "water"
                     }
                 ],
                 "core": "swift",
@@ -6453,7 +6657,7 @@
                 "image_size": 80,
                 "image_editor": 3,
                 "image_editor2": 15,
-                "image_editor3": "",
+                "image_editor3": 0,
                 "image_alts": [
                     {
                         "token": "alt",
@@ -6478,6 +6682,12 @@
                         "name": "Tengu Man (Darkness Alt)",
                         "summons": 900,
                         "colour": "empty"
+                    },
+                    {
+                        "token": "alt10",
+                        "name": "Tengu Man (Prototype Alt)",
+                        "summons": 1000,
+                        "colour": "flame"
                     }
                 ],
                 "core": "wind",
@@ -6749,7 +6959,7 @@
                 "game": "MM8",
                 "field": "",
                 "field2": "lighting-control",
-                "support": "skullmet",
+                "support": "oni-robo",
                 "class": "master",
                 "gender": "male",
                 "image": "clown-man",
@@ -7240,14 +7450,14 @@
                 "game": "RnF",
                 "field": "",
                 "field2": "power-plant",
-                "support": "bulb-blaster",
+                "support": "plasma-plus",
                 "class": "master",
                 "gender": "male",
                 "image": "dynamo-man",
                 "image_size": 80,
                 "image_editor": 3,
                 "image_editor2": 0,
-                "image_editor3": "",
+                "image_editor3": 0,
                 "image_alts": [
                     {
                         "token": "alt",
@@ -7748,7 +7958,7 @@
                 "game": "RnF",
                 "field": "",
                 "field2": "septic-system",
-                "support": "pierrobot",
+                "support": "romper",
                 "class": "master",
                 "gender": "male",
                 "image": "magic-man",
@@ -8061,6 +8271,12 @@
                         "name": "Splash Woman (Darkness Alt)",
                         "summons": 900,
                         "colour": "empty"
+                    },
+                    {
+                        "token": "alt10",
+                        "name": "Splash Woman (Prototype Alt)",
+                        "summons": 1000,
+                        "colour": "water"
                     }
                 ],
                 "core": "water",
@@ -8416,7 +8632,7 @@
                 "image_size": 80,
                 "image_editor": 5,
                 "image_editor2": 6,
-                "image_editor3": "",
+                "image_editor3": 0,
                 "image_alts": [
                     {
                         "token": "alt",
@@ -8463,11 +8679,14 @@
                 "immunities": [
                     "flame"
                 ],
-                "skill": "",
-                "skill_name": "",
-                "skill_description": "",
-                "skill_description2": "",
-                "skill_parameters": [],
+                "skill": "field-boost-at-battle-start",
+                "skill_name": "Volcanic Activity",
+                "skill_description": "Decreases the Water-type field multiplier on battle start",
+                "skill_description2": "As their volcanic powers begin to erupt, the robot decreases the Water-type field multiplier upon entering battle!",
+                "skill_parameters": {
+                    "type": "water",
+                    "amount": -0.5
+                },
                 "quotes_custom": [],
                 "flag_hidden": 0,
                 "flag_complete": 1,
@@ -8894,7 +9113,7 @@
                 "game": "MM10",
                 "field": "",
                 "field2": "arctic-jungle",
-                "support": "peng",
+                "support": "frosty-throwman",
                 "class": "master",
                 "gender": "male",
                 "image": "chill-man",
@@ -8988,7 +9207,7 @@
                 "game": "MM10",
                 "field": "",
                 "field2": "power-plant",
-                "support": "elec-n",
+                "support": "pointan",
                 "class": "master",
                 "gender": "male",
                 "image": "sheep-man",
@@ -9274,7 +9493,7 @@
                 "game": "MM10",
                 "field": "",
                 "field2": "spinning-greenhouse",
-                "support": "tackle-fire",
+                "support": "sola-rei",
                 "class": "master",
                 "gender": "male",
                 "image": "solar-man",
@@ -9916,8 +10135,8 @@
                 ],
                 "affinities": [],
                 "immunities": [],
-                "skill": "",
-                "skill_name": "",
+                "skill": "disentangle-submodule",
+                "skill_name": "Fire Safety",
                 "skill_description": "",
                 "skill_description2": "",
                 "skill_parameters": [],
@@ -10009,8 +10228,8 @@
                 ],
                 "affinities": [],
                 "immunities": [],
-                "skill": "",
-                "skill_name": "",
+                "skill": "sanitation-submodule",
+                "skill_name": "Constructive Clean-up",
                 "skill_description": "",
                 "skill_description2": "",
                 "skill_parameters": [],

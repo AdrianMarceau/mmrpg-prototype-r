@@ -1,6 +1,6 @@
 {
     "status": "success",
-    "updated": 1702968060,
+    "updated": 1721669400,
     "data": {
         "players": {
             "player": {
@@ -319,7 +319,7 @@
                 "image_size": 40,
                 "image_editor": 3,
                 "image_editor2": 1,
-                "image_editor3": "",
+                "image_editor3": 0,
                 "image_alts": [
                     {
                         "token": "alt",
@@ -499,7 +499,25 @@
                         "token": "alt30",
                         "name": "Proxy (Network Phantom \/\/ Ivan Chillski)",
                         "summons": 3000,
-                        "colour": "none"
+                        "colour": "freeze"
+                    },
+                    {
+                        "token": "alt31",
+                        "name": "Proxy (Divergent Echo \/\/ Yuuta & Akane Kobayashi)",
+                        "summons": 3100,
+                        "colour": "experience"
+                    },
+                    {
+                        "token": "alt32",
+                        "name": "Proxy (Network Phantom \/\/ Masa) ",
+                        "summons": 3200,
+                        "colour": "water"
+                    },
+                    {
+                        "token": "alt33",
+                        "name": "Proxy (Network Phantom \/\/ Miyu Kuroi) ",
+                        "summons": 3300,
+                        "colour": "shadow"
                     }
                 ],
                 "type": "energy",
@@ -561,8 +579,8 @@
                 "image": "kalinka",
                 "image_size": 40,
                 "image_editor": 10,
-                "image_editor2": 3,
-                "image_editor3": "",
+                "image_editor2": 0,
+                "image_editor3": 0,
                 "image_alts": [],
                 "type": "weapons",
                 "type2": "",
