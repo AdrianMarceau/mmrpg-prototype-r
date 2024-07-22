@@ -19,3 +19,6 @@
 [submodule "content/players"]
 	path = content/players
 	url = git@github.com:AdrianMarceau/mmrpg-prototype_players.git
+[submodule "content/robots"]
+	path = content/robots
+	url = git@github.com:AdrianMarceau/mmrpg-prototype_robots.git
