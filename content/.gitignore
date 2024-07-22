@@ -6,6 +6,6 @@
 /missions
 /players
 /robots
-/skills
-/sounds
+#/skills
 #/types
+/sounds

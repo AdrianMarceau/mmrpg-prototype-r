@@ -4,3 +4,6 @@
 [submodule "content/types"]
 	path = content/types
 	url = git@github.com:AdrianMarceau/mmrpg-prototype_types.git
+[submodule "content/skills"]
+	path = content/skills
+	url = git@github.com:AdrianMarceau/mmrpg-prototype_skills.git
