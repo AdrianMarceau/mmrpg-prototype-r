@@ -16,3 +16,6 @@
 [submodule "content/fields"]
 	path = content/fields
 	url = git@github.com:AdrianMarceau/mmrpg-prototype_fields.git
+[submodule "content/players"]
+	path = content/players
+	url = git@github.com:AdrianMarceau/mmrpg-prototype_players.git
