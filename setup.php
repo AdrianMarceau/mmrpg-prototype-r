@@ -170,8 +170,18 @@ echo('<pre>$content_indexes_dir = '.print_r(hide_root_dir($content_indexes_dir),
             // If the data is not empty, we should parse the values
             if (!empty($data_parsed)){
                 // RE-ORDER BASE KEYS
-                $data_template = array('token' => '', 'name' => '', 'class' => '');
+                $data_template = array('id' => 0, 'token' => '', 'name' => '', 'class' => '', 'kind' => '', 'game' => '');
                 $data_parsed = array_merge($data_template, $data_parsed);
+                if ($content_xkind !== 'challenges'){ unset($data_parsed['id']); }
+                if ($content_xkind !== 'challenges' && $content_xkind !== 'items'){ unset($data_parsed['kind']); }
+                if ($content_xkind === 'challenges'){ unset($data_parsed['token'], $data_parsed['game']); }
+                // FIX CLASS/SUBCLASS/KIND: There wasn't a lot of consistency before so let's fix it
+                if ($content_xkind === 'challenges' && empty($data_parsed['class'])){
+                    $data_parsed['class'] = $content_kind;
+                } elseif ($content_xkind !== 'challenges' && isset($data_parsed['subclass'])){
+                    if (isset($data_parsed['kind']) && !empty($data_parsed['subclass'])){ $data_parsed['kind'] = $data_parsed['subclass']; }
+                    unset($data_parsed['subclass']);
+                }
                 // FIX NONE/NEUTRAL: This is annoying I know but we need to manually fix the "none" name
                 if ($content_xkind === 'types'
                     && $primary_key_value === 'none'){
@@ -224,6 +234,33 @@ echo('<pre>$content_indexes_dir = '.print_r(hide_root_dir($content_indexes_dir),
                         }
                     }
                     $data_parsed['stats'] = $stats;
+                } elseif ($content_xkind === 'abilities'){
+                    $stats = array();
+                    $stats['speed'] = array();
+                    $stats['speed']['value'] = !empty($data_parsed['speed']) ? $data_parsed['speed'] : 0;
+                    $stats['speed']['real'] = !empty($data_parsed['speed2']) ? $data_parsed['speed2'] : 0;
+                    unset($data_parsed['speed'], $data_parsed['speed2']);
+                    $stats['accuracy'] = array();
+                    $stats['accuracy']['value'] = !empty($data_parsed['accuracy']) ? $data_parsed['accuracy'] : 0;
+                    unset($data_parsed['accuracy']);
+                    $stat_types = array('energy', 'damage', 'damage2', 'recovery', 'recovery2');
+                    foreach ($stat_types AS $stat_type){
+                        $stats[$stat_type] = array();
+                        $stats[$stat_type]['value'] = !empty($data_parsed[$stat_type]) ? $data_parsed[$stat_type] : 0;
+                        $stats[$stat_type]['percent'] = !empty($data_parsed[$stat_type.'_percent']) ? $data_parsed[$stat_type.'_percent'] : 0;
+                        unset($data_parsed[$stat_type], $data_parsed[$stat_type.'_percent']);
+                    }
+                    $data_parsed['stats'] = $stats;
+                } elseif ($content_xkind === 'items'){
+                    $stats = array();
+                    $stat_types = array('damage', 'damage2', 'recovery', 'recovery2');
+                    foreach ($stat_types AS $stat_type){
+                        $stats[$stat_type] = array();
+                        $stats[$stat_type]['value'] = !empty($data_parsed[$stat_type]) ? $data_parsed[$stat_type] : 0;
+                        $stats[$stat_type]['percent'] = !empty($data_parsed[$stat_type.'_percent']) ? $data_parsed[$stat_type.'_percent'] : 0;
+                        unset($data_parsed[$stat_type], $data_parsed[$stat_type.'_percent']);
+                    }
+                    $data_parsed['stats'] = $stats;
                 }
                 // HAS FLAVOR: If this is an object type with flavor text, make sure we format it correctly
                 if ($content_xkind !== 'types'){
@@ -242,7 +279,7 @@ echo('<pre>$content_indexes_dir = '.print_r(hide_root_dir($content_indexes_dir),
                         unset($data_parsed['description'], $data_parsed['description2'], $data_parsed['name_full']);
                     } elseif ($content_xkind === 'robots'){
                         $flavor['model'] = !empty($data_parsed['number']) ? $data_parsed['number'] : '';
-                        $flavor['class'] = !empty($data_parsed['description']) ? $data_parsed['description'] : '';
+                        $flavor['title'] = !empty($data_parsed['description']) ? $data_parsed['description'] : '';
                         $flavor['description'] = !empty($data_parsed['description2']) ? $data_parsed['description2'] : '';
                         unset($data_parsed['description'], $data_parsed['description2'], $data_parsed['number']);
                     } elseif ($content_xkind === 'abilities'
@@ -361,6 +398,17 @@ echo('<pre>$content_indexes_dir = '.print_r(hide_root_dir($content_indexes_dir),
                     $colors['light'] = !empty($data_parsed['color_light']) ? $data_parsed['color_light'] : (!empty($data_parsed['colour_light']) ? $data_parsed['colour_light'] : '');
                     unset($data_parsed['color_dark'], $data_parsed['color_light'], $data_parsed['colour_dark'], $data_parsed['colour_light']);
                     $data_parsed['colors'] = $colors;
+                }
+                // HAS SHOP: If this is an object type with shop details, let's recombine all its details into one array
+                if ($content_xkind === 'abilities'
+                    || $content_xkind === 'items'){
+                    $shop = array();
+                    $shop['price'] = !empty($data_parsed['price']) ? $data_parsed['price'] : 0;
+                    $shop['value'] = !empty($data_parsed['value']) ? $data_parsed['value'] : 0;
+                    $shop['tab'] = !empty($data_parsed['shop_tab']) ? $data_parsed['shop_tab'] : '';
+                    $shop['level'] = !empty($data_parsed['shop_level']) ? $data_parsed['shop_level'] : 0;
+                    unset($data_parsed['price'], $data_parsed['value'], $data_parsed['shop_tab'], $data_parsed['shop_level']);
+                    $data_parsed['shop'] = $shop;
                 }
                 // FLAGS: Resort parsed data so all flag_* are at the end of the data
                 if (true){
