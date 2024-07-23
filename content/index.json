@@ -85,18 +85,6 @@
             "ssh": "git@github.com:AdrianMarceau/mmrpg-prototype_fields.git"
         }
     },
-    "stars": {
-        "kind": "star",
-        "xkind": "stars",
-        "object_class": false,
-        "primary_key": "id",
-        "content_path": "stars/",
-        "github_repo": {
-            "name": "mmrpg-prototype_stars",
-            "http": "https://github.com/AdrianMarceau/mmrpg-prototype_stars.git",
-            "ssh": "git@github.com:AdrianMarceau/mmrpg-prototype_stars.git"
-        }
-    },
     "challenges": {
         "kind": "challenge",
         "xkind": "challenges",
