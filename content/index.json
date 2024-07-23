@@ -1,110 +1,112 @@
 {
-  "types": {
-    "token": "type",
-    "xtoken": "types",
-    "object_class": "rpg_type",
-    "primary_key": "token",
-    "content_path": "types/",
-    "github_repo": {
-      "name": "mmrpg-prototype_types",
-      "http": "https://github.com/AdrianMarceau/mmrpg-prototype_types.git",
-      "ssh": "git@github.com:AdrianMarceau/mmrpg-prototype_types.git"
+    "types": {
+        "kind": "type",
+        "xkind": "types",
+        "object_class": "rpg_type",
+        "primary_key": "token",
+        "content_path": "types/",
+        "github_repo": {
+            "name": "mmrpg-prototype_types",
+            "http": "https://github.com/AdrianMarceau/mmrpg-prototype_types.git",
+            "ssh": "git@github.com:AdrianMarceau/mmrpg-prototype_types.git"
+        }
+    },
+    "players": {
+        "kind": "player",
+        "xkind": "players",
+        "object_class": "rpg_player",
+        "primary_key": "token",
+        "content_path": "players/",
+        "github_repo": {
+            "name": "mmrpg-prototype_players",
+            "http": "https://github.com/AdrianMarceau/mmrpg-prototype_players.git",
+            "ssh": "git@github.com:AdrianMarceau/mmrpg-prototype_players.git"
+        }
+    },
+    "robots": {
+        "kind": "robot",
+        "xkind": "robots",
+        "object_class": "rpg_robot",
+        "object_subclasses": ["master", "mecha", "boss"],
+        "primary_key": "token",
+        "content_path": "robots/",
+        "github_repo": {
+            "name": "mmrpg-prototype_robots",
+            "http": "https://github.com/AdrianMarceau/mmrpg-prototype_robots.git",
+            "ssh": "git@github.com:AdrianMarceau/mmrpg-prototype_robots.git"
+        }
+    },
+    "abilities": {
+        "kind": "ability",
+        "xkind": "abilities",
+        "object_class": "rpg_ability",
+        "object_subclasses": ["master", "mecha", "boss"],
+        "primary_key": "token",
+        "content_path": "abilities/",
+        "github_repo": {
+            "name": "mmrpg-prototype_abilities",
+            "http": "https://github.com/AdrianMarceau/mmrpg-prototype_abilities.git",
+            "ssh": "git@github.com:AdrianMarceau/mmrpg-prototype_abilities.git"
+        }
+    },
+    "items": {
+        "kind": "item",
+        "xkind": "items",
+        "object_class": "rpg_item",
+        "primary_key": "token",
+        "content_path": "items/",
+        "github_repo": {
+            "name": "mmrpg-prototype_items",
+            "http": "https://github.com/AdrianMarceau/mmrpg-prototype_items.git",
+            "ssh": "git@github.com:AdrianMarceau/mmrpg-prototype_items.git"
+        }
+    },
+    "skills": {
+        "kind": "skill",
+        "xkind": "skills",
+        "object_class": "rpg_skill",
+        "primary_key": "token",
+        "content_path": "skills/",
+        "github_repo": {
+            "name": "mmrpg-prototype_skills",
+            "http": "https://github.com/AdrianMarceau/mmrpg-prototype_skills.git",
+            "ssh": "git@github.com:AdrianMarceau/mmrpg-prototype_skills.git"
+        }
+    },
+    "fields": {
+        "kind": "field",
+        "xkind": "fields",
+        "object_class": "rpg_fields",
+        "primary_key": "token",
+        "content_path": "fields/",
+        "github_repo": {
+            "name": "mmrpg-prototype_fields",
+            "http": "https://github.com/AdrianMarceau/mmrpg-prototype_fields.git",
+            "ssh": "git@github.com:AdrianMarceau/mmrpg-prototype_fields.git"
+        }
+    },
+    "stars": {
+        "kind": "star",
+        "xkind": "stars",
+        "object_class": false,
+        "primary_key": "id",
+        "content_path": "stars/",
+        "github_repo": {
+            "name": "mmrpg-prototype_stars",
+            "http": "https://github.com/AdrianMarceau/mmrpg-prototype_stars.git",
+            "ssh": "git@github.com:AdrianMarceau/mmrpg-prototype_stars.git"
+        }
+    },
+    "challenges": {
+        "kind": "challenge",
+        "xkind": "challenges",
+        "object_class": false,
+        "primary_key": "id",
+        "content_path": "challenges/",
+        "github_repo": {
+            "name": "mmrpg-prototype_challenges",
+            "http": "https://github.com/AdrianMarceau/mmrpg-prototype_challenges.git",
+            "ssh": "git@github.com:AdrianMarceau/mmrpg-prototype_challenges.git"
+        }
     }
-  },
-  "players": {
-    "token": "player",
-    "xtoken": "players",
-    "object_class": "rpg_player",
-    "primary_key": "token",
-    "content_path": "players/",
-    "github_repo": {
-      "name": "mmrpg-prototype_players",
-      "http": "https://github.com/AdrianMarceau/mmrpg-prototype_players.git",
-      "ssh": "git@github.com:AdrianMarceau/mmrpg-prototype_players.git"
-    }
-  },
-  "robots": {
-    "token": "robot",
-    "xtoken": "robots",
-    "object_class": "rpg_robot",
-    "primary_key": "token",
-    "content_path": "robots/",
-    "github_repo": {
-      "name": "mmrpg-prototype_robots",
-      "http": "https://github.com/AdrianMarceau/mmrpg-prototype_robots.git",
-      "ssh": "git@github.com:AdrianMarceau/mmrpg-prototype_robots.git"
-    }
-  },
-  "abilities": {
-    "token": "ability",
-    "xtoken": "abilities",
-    "object_class": "rpg_ability",
-    "primary_key": "token",
-    "content_path": "abilities/",
-    "github_repo": {
-      "name": "mmrpg-prototype_abilities",
-      "http": "https://github.com/AdrianMarceau/mmrpg-prototype_abilities.git",
-      "ssh": "git@github.com:AdrianMarceau/mmrpg-prototype_abilities.git"
-    }
-  },
-  "items": {
-    "token": "item",
-    "xtoken": "items",
-    "object_class": "rpg_item",
-    "primary_key": "token",
-    "content_path": "items/",
-    "github_repo": {
-      "name": "mmrpg-prototype_items",
-      "http": "https://github.com/AdrianMarceau/mmrpg-prototype_items.git",
-      "ssh": "git@github.com:AdrianMarceau/mmrpg-prototype_items.git"
-    }
-  },
-  "skills": {
-    "token": "skill",
-    "xtoken": "skills",
-    "object_class": "rpg_skill",
-    "primary_key": "token",
-    "content_path": "skills/",
-    "github_repo": {
-      "name": "mmrpg-prototype_skills",
-      "http": "https://github.com/AdrianMarceau/mmrpg-prototype_skills.git",
-      "ssh": "git@github.com:AdrianMarceau/mmrpg-prototype_skills.git"
-    }
-  },
-  "fields": {
-    "token": "field",
-    "xtoken": "fields",
-    "object_class": "rpg_fields",
-    "primary_key": "token",
-    "content_path": "fields/",
-    "github_repo": {
-      "name": "mmrpg-prototype_fields",
-      "http": "https://github.com/AdrianMarceau/mmrpg-prototype_fields.git",
-      "ssh": "git@github.com:AdrianMarceau/mmrpg-prototype_fields.git"
-    }
-  },
-  "stars": {
-    "token": "star",
-    "xtoken": "stars",
-    "object_class": false,
-    "primary_key": "id",
-    "content_path": "stars/",
-    "github_repo": {
-      "name": "mmrpg-prototype_stars",
-      "http": "https://github.com/AdrianMarceau/mmrpg-prototype_stars.git",
-      "ssh": "git@github.com:AdrianMarceau/mmrpg-prototype_stars.git"
-    }
-  },
-  "challenges": {
-    "token": "challenge",
-    "xtoken": "challenges",
-    "object_class": false,
-    "primary_key": "id",
-    "content_path": "challenges/",
-    "github_repo": {
-      "name": "mmrpg-prototype_challenges",
-      "http": "https://github.com/AdrianMarceau/mmrpg-prototype_challenges.git",
-      "ssh": "git@github.com:AdrianMarceau/mmrpg-prototype_challenges.git"
-    }
-  }
 }
