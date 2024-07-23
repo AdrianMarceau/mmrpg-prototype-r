@@ -2,7 +2,7 @@
     "status": "success",
     "updated": 1721669400,
     "data": {
-        "bosses": {
+        "robots": {
             "boss": {
                 "token": "boss",
                 "number": "BOSS",

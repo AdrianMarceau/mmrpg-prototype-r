@@ -2,7 +2,7 @@
     "status": "success",
     "updated": 1721669400,
     "data": {
-        "mechas": {
+        "robots": {
             "mecha": {
                 "token": "mecha",
                 "number": "MECHA",
