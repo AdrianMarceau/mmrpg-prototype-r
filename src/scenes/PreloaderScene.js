@@ -107,10 +107,12 @@ export default class PreloaderScene extends Phaser.Scene
             // Queue the indexes for object types we know
             this.queueIndex('types', 'types.json');
             this.queueIndex('players', 'players.json');
-            this.queueIndex('robots', 'robots.masters.json', 'robots');
-            this.queueIndex('robots', 'robots.mechas.json', 'mechas');
-            this.queueIndex('robots', 'robots.bosses.json', 'bosses');
-            this.queueIndex('abilities', 'abilities.json');
+            this.queueIndex('robots', 'robots.master.json');
+            this.queueIndex('robots', 'robots.mecha.json');
+            this.queueIndex('robots', 'robots.boss.json');
+            this.queueIndex('abilities', 'abilities.master.json');
+            this.queueIndex('abilities', 'abilities.mecha.json');
+            this.queueIndex('abilities', 'abilities.boss.json');
             this.queueIndex('items', 'items.json');
             this.queueIndex('skills', 'skills.json');
             this.queueIndex('fields', 'fields.json');
