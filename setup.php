@@ -236,6 +236,8 @@ echo('<pre>$content_indexes_dir = '.print_r(hide_root_dir($content_indexes_dir),
                     $data_parsed['stats'] = $stats;
                 } elseif ($content_xkind === 'abilities'){
                     $stats = array();
+                    $stats['target'] = !empty($data_parsed['target']) ? $data_parsed['target'] : 0;
+                    unset($data_parsed['target']);
                     $stats['speed'] = array();
                     $stats['speed']['value'] = !empty($data_parsed['speed']) ? $data_parsed['speed'] : 0;
                     $stats['speed']['real'] = !empty($data_parsed['speed2']) ? $data_parsed['speed2'] : 0;
@@ -253,6 +255,8 @@ echo('<pre>$content_indexes_dir = '.print_r(hide_root_dir($content_indexes_dir),
                     $data_parsed['stats'] = $stats;
                 } elseif ($content_xkind === 'items'){
                     $stats = array();
+                    $stats['target'] = !empty($data_parsed['target']) ? $data_parsed['target'] : 0;
+                    unset($data_parsed['target']);
                     $stat_types = array('damage', 'damage2', 'recovery', 'recovery2');
                     foreach ($stat_types AS $stat_type){
                         $stats[$stat_type] = array();
@@ -260,6 +264,11 @@ echo('<pre>$content_indexes_dir = '.print_r(hide_root_dir($content_indexes_dir),
                         $stats[$stat_type]['percent'] = !empty($data_parsed[$stat_type.'_percent']) ? $data_parsed[$stat_type.'_percent'] : 0;
                         unset($data_parsed[$stat_type], $data_parsed[$stat_type.'_percent']);
                     }
+                    $data_parsed['stats'] = $stats;
+                } elseif ($content_xkind === 'fields'){
+                    $stats = array();
+                    $stats['multipliers'] = !empty($data_parsed['multipliers']) ? $data_parsed['multipliers'] : array();
+                    unset($data_parsed['multipliers']);
                     $data_parsed['stats'] = $stats;
                 }
                 // HAS FLAVOR: If this is an object type with flavor text, make sure we format it correctly
@@ -319,6 +328,11 @@ echo('<pre>$content_indexes_dir = '.print_r(hide_root_dir($content_indexes_dir),
                         unset($data_parsed['quotes'], $data_parsed['quotes_custom']);
                         $flavor['quotes'] = $quotes;
                     }
+                    // HAS MUSIC: If this is an object type with music, make sure we format it correctly
+                    if ($content_xkind === 'fields'){
+                        $flavor['music'] = !empty($data_parsed['music']) ? $data_parsed['music'] : '';
+                        unset($data_parsed['music'], $data_parsed['music_link']);
+                    }
                     unset($data_parsed['flavor']);
                     $data_parsed['flavor'] = $flavor;
                 }
@@ -371,12 +385,27 @@ echo('<pre>$content_indexes_dir = '.print_r(hide_root_dir($content_indexes_dir),
                     $robots['compatible'] = !empty($data_parsed['robots_compatible']) ? $data_parsed['robots_compatible'] : array();
                     unset($data_parsed['robots'], $data_parsed['robots_rewards'], $data_parsed['robots_compatible'], $data_parsed['robot_hero'], $data_parsed['robot_support']);
                     $data_parsed['robots'] = $robots;
-                    } elseif ($content_xkind === 'robots'){
+                } elseif ($content_xkind === 'robots'){
                     $robots = array();
                     $robots['support'] = !empty($data_parsed['support']) ? $data_parsed['support'] : '';
                     unset($data_parsed['support']);
                     $data_parsed['robots'] = $robots;
-                    }
+                } elseif ($content_xkind === 'abilities'){
+                    $robots = array();
+                    $robots['master'] = !empty($data_parsed['master']) ? $data_parsed['master'] : '';
+                    unset($data_parsed['master']);
+                    $data_parsed['robots'] = $robots;
+                } elseif ($content_xkind === 'fields'){
+                    $robots = array();
+                    $robots['masters'] = !empty($data_parsed['masters']) ? $data_parsed['masters'] : array();
+                    $robots['mechas'] = !empty($data_parsed['mechas']) ? $data_parsed['mechas'] : array();
+                    if (!empty($data_parsed['master'])){ $robots['masters'][] = $data_parsed['master']; }
+                    if (!empty($data_parsed['master2'])){ $robots['masters'][] = $data_parsed['master2']; }
+                    if (!empty($data_parsed['mecha'])){ $robots['mechas'][] = $data_parsed['mecha']; }
+                    if (!empty($data_parsed['mecha2'])){ $robots['mechas'][] = $data_parsed['mecha2']; }
+                    unset($data_parsed['masters'], $data_parsed['mechas'], $data_parsed['master'], $data_parsed['master2'], $data_parsed['mecha'], $data_parsed['mecha2']);
+                    $data_parsed['robots'] = $robots;
+                }
                 // HAS FIELDS: If this is an object type with fields, let's recombine all its details into one array
                 if ($content_xkind === 'players'
                     || $content_xkind === 'robots'){
@@ -390,6 +419,37 @@ echo('<pre>$content_indexes_dir = '.print_r(hide_root_dir($content_indexes_dir),
                         }
                     unset($data_parsed['field'], $data_parsed['field2'], $data_parsed['field_home'], $data_parsed['field_intro']);
                     $data_parsed['fields'] = $fields;
+                }
+                // HAS BACKGROUND/FOREGROUND: If this is an object type with background details, let's recombine all its details into one array
+                if ($content_xkind === 'fields'){
+                    $background = array();
+                    $background['image'] = !empty($data_parsed['background']) ? $data_parsed['background'] : $content_kind;
+                    $background['attachments'] = !empty($data_parsed['background_attachments']) ? array_values($data_parsed['background_attachments']) : array();
+                    $foreground = array();
+                    $foreground['image'] = !empty($data_parsed['foreground']) ? $data_parsed['foreground'] : '';
+                    $foreground['attachments'] = !empty($data_parsed['foreground_attachments']) ? array_values($data_parsed['foreground_attachments']) : array();
+                    $get_clean_attachments = function($old_attachments){
+                        $new_attachments = array();
+                        foreach ($old_attachments AS $key => $old){
+                            $new = array();
+                            $cls = $new['class'] = !empty($old['class']) ? $old['class'] : '';
+                            $new['token'] = !empty($old[$cls.'_token']) ? $old[$cls.'_token'] : '';
+                            $new['size'] = !empty($old['size']) ? $old['size'] : 40;
+                            $new['frame'] = !empty($old[$cls.'_frame']) && is_array($old[$cls.'_frame']) ? $old[$cls.'_frame'][0] : 0;
+                            $new['direction'] = !empty($old[$cls.'_direction']) ? $old[$cls.'_direction'] : 'left';
+                            $new['offset'] = array();
+                            $new['offset']['x'] = !empty($old['offset_x']) ? $old['offset_x'] : 0;
+                            $new['offset']['y'] = !empty($old['offset_y']) ? $old['offset_y'] : 0;
+                            $new_attachments[] = $new;
+                        }
+                        return $new_attachments;
+                        };
+                    if (!empty($background['attachments'])){ $background['attachments'] = $get_clean_attachments($background['attachments']); }
+                    if (!empty($foreground['attachments'])){ $foreground['attachments'] = $get_clean_attachments($foreground['attachments']); }
+                    unset($data_parsed['background'], $data_parsed['background_frame'], $data_parsed['background_attachments']);
+                    unset($data_parsed['foreground'], $data_parsed['foreground_frame'], $data_parsed['foreground_attachments']);
+                    $data_parsed['background'] = $background;
+                    $data_parsed['foreground'] = $foreground;
                 }
                 // HAS COLORS/COLOURS: If this is an object type with colors, let's recombine all its details into one array
                 if ($content_xkind === 'types'){
@@ -464,7 +524,8 @@ echo('<pre>$content_indexes_dir = '.print_r(hide_root_dir($content_indexes_dir),
             'visible' => $visible_total,
             );
         //echo('<pre>$content_index_json = '.print_r($content_index_json, true).'</pre>');
-        $content_index_json = json_encode($content_index_json, JSON_PRETTY_PRINT);
+        //$content_index_json = json_encode($content_index_json, JSON_UNESCAPED_SLASHES | JSON_NUMERIC_CHECK);
+        $content_index_json = json_encode($content_index_json, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_NUMERIC_CHECK);
         if (file_exists($content_index_file)){
             if ($overwrite){ unlink($content_index_file); }
             else { return false; }
