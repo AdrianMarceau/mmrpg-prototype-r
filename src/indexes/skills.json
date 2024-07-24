@@ -1,1013 +1,1491 @@
 {
     "status": "success",
-    "updated": 1721669400,
+    "updated": 1721795128,
     "data": {
         "skills": {
-            "custom-skill": {
-                "token": "custom-skill",
-                "name": "Custom Skill",
-                "class": "skill",
-                "description": "This is not a real skill.  It exists to be overwritten.",
-                "description2": "The robot has a skill so specific it cannot be applied to other robots.  This custom skill placeholder thus needs to be overwritten with custom text.",
-                "parameters": [],
-                "flag_hidden": 0,
-                "flag_complete": 1,
-                "flag_published": 1,
-                "flag_protected": 1,
-                "group": null,
-                "order": null
+            "skill": {
+                "token": "skill",
+                "name": "Skill",
+                "class": "system",
+                "game": "",
+                "flavor": {
+                    "description": {
+                        "short": "",
+                        "full": ""
+                    }
+                },
+                "flags": {
+                    "hidden": 1,
+                    "complete": 0,
+                    "published": 0
+                },
+                "group": "System",
+                "order": -1,
+                "number": 0
             },
             "guard-submodule": {
                 "token": "guard-submodule",
                 "name": "Guard Submodule",
                 "class": "skill",
-                "description": "Protects the robot from all stat changes",
-                "description2": "Protects the robot's stats in battle making any attempts at changing them have no effect.",
-                "parameters": [],
-                "flag_hidden": 0,
-                "flag_complete": 1,
-                "flag_published": 1,
-                "flag_protected": 1,
+                "game": "",
+                "flavor": {
+                    "description": {
+                        "short": "Protects the robot from all stat changes",
+                        "full": "Protects the robot's stats in battle making any attempts at changing them have no effect."
+                    }
+                },
+                "flags": {
+                    "hidden": 0,
+                    "complete": 1,
+                    "published": 1
+                },
                 "group": "Stat-Effect Submodules",
-                "order": 0
+                "order": 0,
+                "number": 1
             },
             "xtreme-submodule": {
                 "token": "xtreme-submodule",
                 "name": "Xtreme Submodule",
                 "class": "skill",
-                "description": "Intensifies all stat changes on the robot",
-                "description2": "Deregulates the robot's stats in battle making any stat changes to it have an extreme effect.",
-                "parameters": [],
-                "flag_hidden": 0,
-                "flag_complete": 1,
-                "flag_published": 1,
-                "flag_protected": 1,
+                "game": "",
+                "flavor": {
+                    "description": {
+                        "short": "Intensifies all stat changes on the robot",
+                        "full": "Deregulates the robot's stats in battle making any stat changes to it have an extreme effect."
+                    }
+                },
+                "flags": {
+                    "hidden": 0,
+                    "complete": 1,
+                    "published": 1
+                },
                 "group": "Stat-Effect Submodules",
-                "order": 1
+                "order": 1,
+                "number": 2
             },
             "reverse-submodule": {
                 "token": "reverse-submodule",
                 "name": "Reverse Submodule",
                 "class": "skill",
-                "description": "Reverses all stat changes on the robot",
-                "description2": "Regulates the robot's stats in battle and makes any stat changes inflicted on them have an opposite effect.",
-                "parameters": [],
-                "flag_hidden": 0,
-                "flag_complete": 1,
-                "flag_published": 1,
-                "flag_protected": 1,
+                "game": "",
+                "flavor": {
+                    "description": {
+                        "short": "Reverses all stat changes on the robot",
+                        "full": "Regulates the robot's stats in battle and makes any stat changes inflicted on them have an opposite effect."
+                    }
+                },
+                "flags": {
+                    "hidden": 0,
+                    "complete": 1,
+                    "published": 1
+                },
                 "group": "Stat-Effect Submodules",
-                "order": 2
+                "order": 2,
+                "number": 3
             },
             "checkvalve-submodule": {
                 "token": "checkvalve-submodule",
                 "name": "Checkvalve Submodule",
                 "class": "skill",
-                "description": "[dynamic] Protects the robot from stat reduction",
-                "description2": "Protects the robot's favourite stat in battle making any attempts to reduce it have no effect.",
+                "game": "",
                 "parameters": {
                     "stat": "all"
                 },
-                "flag_hidden": 0,
-                "flag_complete": 1,
-                "flag_published": 1,
-                "flag_protected": 1,
+                "flavor": {
+                    "description": {
+                        "short": "[dynamic] Protects the robot from stat reduction",
+                        "full": "Protects the robot's favourite stat in battle making any attempts to reduce it have no effect."
+                    }
+                },
+                "flags": {
+                    "hidden": 0,
+                    "complete": 1,
+                    "published": 1
+                },
                 "group": "Stat-Effect Submodules",
-                "order": 3
+                "order": 3,
+                "number": 4
             },
             "copycat-submodule": {
                 "token": "copycat-submodule",
                 "name": "Copycat Submodule",
                 "class": "skill",
-                "description": "The robot copies the target's positive stat changes",
-                "description2": "The robot automatically copies positive stat changes on the opponent at the end of each turn.",
+                "game": "",
                 "parameters": [],
-                "flag_hidden": 0,
-                "flag_complete": 1,
-                "flag_published": 1,
-                "flag_protected": 1,
+                "flavor": {
+                    "description": {
+                        "short": "The robot copies the target's positive stat changes",
+                        "full": "The robot automatically copies positive stat changes on the opponent at the end of each turn."
+                    }
+                },
+                "flags": {
+                    "hidden": 0,
+                    "complete": 1,
+                    "published": 1
+                },
                 "group": "Stat-Effect Submodules",
-                "order": 4
+                "order": 4,
+                "number": 5
             },
             "boost-submodule": {
                 "token": "boost-submodule",
                 "name": "Boost Submodule",
                 "class": "skill",
-                "description": "Increases the robot's stat boost powers",
-                "description2": "Increases the effectiveness of stat boosts granted by the robot's abilities to twice their usual power.",
-                "parameters": [],
-                "flag_hidden": 0,
-                "flag_complete": 1,
-                "flag_published": 1,
-                "flag_protected": 1,
+                "game": "",
+                "flavor": {
+                    "description": {
+                        "short": "Increases the robot's stat boost powers",
+                        "full": "Increases the effectiveness of stat boosts granted by the robot's abilities to twice their usual power."
+                    }
+                },
+                "flags": {
+                    "hidden": 0,
+                    "complete": 1,
+                    "published": 1
+                },
                 "group": "Proficiency Submodules",
-                "order": 0
+                "order": 5,
+                "number": 6
             },
             "break-submodule": {
                 "token": "break-submodule",
                 "name": "Break Submodule",
                 "class": "skill",
-                "description": "Increases the robot's stat break powers",
-                "description2": "Increases the effectiveness of stat breaks inflicted by the robot's abilities to twice their usual power.",
-                "parameters": [],
-                "flag_hidden": 0,
-                "flag_complete": 1,
-                "flag_published": 1,
-                "flag_protected": 1,
+                "game": "",
+                "flavor": {
+                    "description": {
+                        "short": "Increases the robot's stat break powers",
+                        "full": "Increases the effectiveness of stat breaks inflicted by the robot's abilities to twice their usual power."
+                    }
+                },
+                "flags": {
+                    "hidden": 0,
+                    "complete": 1,
+                    "published": 1
+                },
                 "group": "Proficiency Submodules",
-                "order": 1
+                "order": 6,
+                "number": 7
             },
             "tenacity-submodule": {
                 "token": "tenacity-submodule",
                 "name": "Tenacity Submodule",
                 "class": "skill",
-                "description": "[dynamic] The robot can inflict elemental damage without resistance",
-                "description2": "The robot is able to inflict elemental damage on targets without regard to resistances or negative multipliers.  Required parameters must be set on the robot to use this skill (see the \"Functions\" tab for details) and the short\/long description must be customized.",
+                "game": "",
                 "parameters": {
                     "type": "none"
                 },
-                "flag_hidden": 0,
-                "flag_complete": 1,
-                "flag_published": 1,
-                "flag_protected": 1,
+                "flavor": {
+                    "description": {
+                        "short": "[dynamic] The robot can inflict elemental damage without resistance",
+                        "full": "The robot is able to inflict elemental damage on targets without regard to resistances or negative multipliers.  Required parameters must be set on the robot to use this skill (see the \"Functions\" tab for details) and the short/long description must be customized."
+                    }
+                },
+                "flags": {
+                    "hidden": 0,
+                    "complete": 1,
+                    "published": 1
+                },
                 "group": "Proficiency Submodules",
-                "order": 2
+                "order": 7,
+                "number": 8
             },
             "overkill-submodule": {
                 "token": "overkill-submodule",
                 "name": "Overkill Submodule",
                 "class": "skill",
-                "description": "Deals extra damage when the target has a weakness",
-                "description2": "The robot puts effort into doing more damage when it knows the target has a weakness to one of its moves.",
+                "game": "",
                 "parameters": [],
-                "flag_hidden": 0,
-                "flag_complete": 1,
-                "flag_published": 1,
-                "flag_protected": 1,
+                "flavor": {
+                    "description": {
+                        "short": "Deals extra damage when the target has a weakness",
+                        "full": "The robot puts effort into doing more damage when it knows the target has a weakness to one of its moves."
+                    }
+                },
+                "flags": {
+                    "hidden": 0,
+                    "complete": 1,
+                    "published": 1
+                },
                 "group": "Proficiency Submodules",
-                "order": 3
+                "order": 8,
+                "number": 9
             },
             "siphon-submodule": {
                 "token": "siphon-submodule",
                 "name": "Siphon Submodule",
                 "class": "skill",
-                "description": "Steals weapon energy from the target when dealing damage",
-                "description2": "The robot steals a bit of weapon energy from the target whenever they successfully deal damage using an ability.",
+                "game": "",
                 "parameters": [],
-                "flag_hidden": 0,
-                "flag_complete": 1,
-                "flag_published": 1,
-                "flag_protected": 1,
+                "flavor": {
+                    "description": {
+                        "short": "Steals weapon energy from the target when dealing damage",
+                        "full": "The robot steals a bit of weapon energy from the target whenever they successfully deal damage using an ability."
+                    }
+                },
+                "flags": {
+                    "hidden": 0,
+                    "complete": 1,
+                    "published": 1
+                },
                 "group": "Proficiency Submodules",
-                "order": 4
+                "order": 9,
+                "number": 10
             },
             "target-submodule": {
                 "token": "target-submodule",
                 "name": "Target Submodule",
                 "class": "skill",
-                "description": "Improves the robot's targeting capabilities",
-                "description2": "Improves the robot's targeting capabilities allowing them to reach even benched robots with most abilities.",
-                "parameters": [],
-                "flag_hidden": 0,
-                "flag_complete": 1,
-                "flag_published": 1,
-                "flag_protected": 1,
+                "game": "",
+                "flavor": {
+                    "description": {
+                        "short": "Improves the robot's targeting capabilities",
+                        "full": "Improves the robot's targeting capabilities allowing them to reach even benched robots with most abilities."
+                    }
+                },
+                "flags": {
+                    "hidden": 0,
+                    "complete": 1,
+                    "published": 1
+                },
                 "group": "Mechanical Submodules",
-                "order": 0
+                "order": 10,
+                "number": 11
             },
             "charge-submodule": {
                 "token": "charge-submodule",
                 "name": "Charge Submodule",
                 "class": "skill",
-                "description": "Improves the robot's charging capabilities",
-                "description2": "Improves the robot's charging capabilities allowing them to skip the charging phase of some abilities.",
-                "parameters": [],
-                "flag_hidden": 0,
-                "flag_complete": 1,
-                "flag_published": 1,
-                "flag_protected": 1,
+                "game": "",
+                "flavor": {
+                    "description": {
+                        "short": "Improves the robot's charging capabilities",
+                        "full": "Improves the robot's charging capabilities allowing them to skip the charging phase of some abilities."
+                    }
+                },
+                "flags": {
+                    "hidden": 0,
+                    "complete": 1,
+                    "published": 1
+                },
                 "group": "Mechanical Submodules",
-                "order": 1
+                "order": 11,
+                "number": 12
             },
             "persist-submodule": {
                 "token": "persist-submodule",
                 "name": "Persist Submodule",
                 "class": "skill",
-                "description": "Survives one-hit knockouts with a sliver of energy remaining",
-                "description2": "If the robot has full energy and is hit with an ability that should knock it out, it will instead endure with a sliver of health remaining.",
+                "game": "",
                 "parameters": [],
-                "flag_hidden": 0,
-                "flag_complete": 1,
-                "flag_published": 1,
-                "flag_protected": 1,
+                "flavor": {
+                    "description": {
+                        "short": "Survives one-hit knockouts with a sliver of energy remaining",
+                        "full": "If the robot has full energy and is hit with an ability that should knock it out, it will instead endure with a sliver of health remaining."
+                    }
+                },
+                "flags": {
+                    "hidden": 0,
+                    "complete": 1,
+                    "published": 1
+                },
                 "group": "Mechanical Submodules",
-                "order": 2
+                "order": 12,
+                "number": 13
             },
             "spreader-submodule": {
                 "token": "spreader-submodule",
                 "name": "Spreader Submodule",
                 "class": "skill",
-                "description": "Generates multiple field hazards at a time",
-                "description2": "Allows the robot to generate multiple field hazards at once when using abilities.",
+                "game": "",
                 "parameters": [],
-                "flag_hidden": 0,
-                "flag_complete": 1,
-                "flag_published": 1,
-                "flag_protected": 1,
+                "flavor": {
+                    "description": {
+                        "short": "Generates multiple field hazards at a time",
+                        "full": "Allows the robot to generate multiple field hazards at once when using abilities."
+                    }
+                },
+                "flags": {
+                    "hidden": 0,
+                    "complete": 1,
+                    "published": 1
+                },
                 "group": "Field-Object Skills",
-                "order": 0
+                "order": 13,
+                "number": 14
             },
             "construction-submodule": {
                 "token": "construction-submodule",
                 "name": "Construction Submodule",
                 "class": "skill",
-                "description": "Protects itself with Super Blocks at the end of each turn",
-                "description2": "The robot places a Super Block at its current position at the end of any turn it is not already protected by one.",
+                "game": "",
                 "parameters": [],
-                "flag_hidden": 0,
-                "flag_complete": 1,
-                "flag_published": 1,
-                "flag_protected": 1,
+                "flavor": {
+                    "description": {
+                        "short": "Protects itself with Super Blocks at the end of each turn",
+                        "full": "The robot places a Super Block at its current position at the end of any turn it is not already protected by one."
+                    }
+                },
+                "flags": {
+                    "hidden": 0,
+                    "complete": 1,
+                    "published": 1
+                },
                 "group": "Field-Object Skills",
-                "order": 1
+                "order": 14,
+                "number": 15
             },
             "bulwark-submodule": {
                 "token": "bulwark-submodule",
                 "name": "Bulwark Submodule",
                 "class": "skill",
-                "description": "The robot protects benched allies from being targeted",
-                "description2": "The robot's defensive prowess protects benched allies from being targeted by the opponent's abilities.",
+                "game": "",
                 "parameters": [],
-                "flag_hidden": 0,
-                "flag_complete": 1,
-                "flag_published": 1,
-                "flag_protected": 1,
+                "flavor": {
+                    "description": {
+                        "short": "The robot protects benched allies from being targeted",
+                        "full": "The robot's defensive prowess protects benched allies from being targeted by the opponent's abilities."
+                    }
+                },
+                "flags": {
+                    "hidden": 0,
+                    "complete": 1,
+                    "published": 1
+                },
                 "group": "Field-Effect Skills",
-                "order": 0
+                "order": 15,
+                "number": 16
             },
             "saboteur-submodule": {
                 "token": "saboteur-submodule",
                 "name": "Saboteur Submodule",
                 "class": "skill",
-                "description": "Prevents the use of recovery moves on the field",
-                "description2": "The robot nullifies the effects of all life and weapon energy recovery moves so long as it remains on the field.",
+                "game": "",
                 "parameters": [],
-                "flag_hidden": 0,
-                "flag_complete": 1,
-                "flag_published": 1,
-                "flag_protected": 1,
+                "flavor": {
+                    "description": {
+                        "short": "Prevents the use of recovery moves on the field",
+                        "full": "The robot nullifies the effects of all life and weapon energy recovery moves so long as it remains on the field."
+                    }
+                },
+                "flags": {
+                    "hidden": 0,
+                    "complete": 1,
+                    "published": 1
+                },
                 "group": "Field-Effect Skills",
-                "order": 1
+                "order": 16,
+                "number": 17
             },
             "metronome-submodule": {
                 "token": "metronome-submodule",
                 "name": "Metronome Submodule",
                 "class": "skill",
-                "description": "Prevents the use of priority moves on the field",
-                "description2": "The robot's adept timekeeping skills prevent priority moves from working as long as they're still on the field.",
+                "game": "",
                 "parameters": [],
-                "flag_hidden": 0,
-                "flag_complete": 1,
-                "flag_published": 1,
-                "flag_protected": 1,
+                "flavor": {
+                    "description": {
+                        "short": "Prevents the use of priority moves on the field",
+                        "full": "The robot's adept timekeeping skills prevent priority moves from working as long as they're still on the field."
+                    }
+                },
+                "flags": {
+                    "hidden": 0,
+                    "complete": 1,
+                    "published": 1
+                },
                 "group": "Field-Effect Skills",
-                "order": 2
+                "order": 17,
+                "number": 18
             },
             "hyperscan-submodule": {
                 "token": "hyperscan-submodule",
                 "name": "Hyperscan Submodule",
                 "class": "skill",
-                "description": "Reveals the target's abilities when scanning",
-                "description2": "Improves the robot's scanning capabilities allowing them to see even the target's abilities when scanning.",
+                "game": "",
                 "parameters": [],
-                "flag_hidden": 0,
-                "flag_complete": 1,
-                "flag_published": 1,
-                "flag_protected": 1,
+                "flavor": {
+                    "description": {
+                        "short": "Reveals the target's abilities when scanning",
+                        "full": "Improves the robot's scanning capabilities allowing them to see even the target's abilities when scanning."
+                    }
+                },
+                "flags": {
+                    "hidden": 0,
+                    "complete": 1,
+                    "published": 1
+                },
                 "group": "Field-Effect Skills",
-                "order": 3
+                "order": 18,
+                "number": 19
             },
             "nightmare-submodule": {
                 "token": "nightmare-submodule",
                 "name": "Nightmare Submodule",
                 "class": "skill",
-                "description": "Afflicts the active target with a weakness when face-to-face",
-                "description2": "The robot afflicts the active target with a weakness to its own core type when standing face-to-face.",
+                "game": "",
                 "parameters": [],
-                "flag_hidden": 0,
-                "flag_complete": 1,
-                "flag_published": 1,
-                "flag_protected": 1,
+                "flavor": {
+                    "description": {
+                        "short": "Afflicts the active target with a weakness when face-to-face",
+                        "full": "The robot afflicts the active target with a weakness to its own core type when standing face-to-face."
+                    }
+                },
+                "flags": {
+                    "hidden": 0,
+                    "complete": 1,
+                    "published": 1
+                },
                 "group": "Field-Effect Skills",
-                "order": 4
+                "order": 19,
+                "number": 20
             },
             "transport-submodule": {
                 "token": "transport-submodule",
                 "name": "Transport Submodule",
                 "class": "skill",
-                "description": "Allows other robots to switch freely when this one's on the bench",
-                "description2": "The robot allows teammates to switch freely to and from active position but only when this robot is on the bench.",
+                "game": "",
                 "parameters": [],
-                "flag_hidden": 0,
-                "flag_complete": 1,
-                "flag_published": 1,
-                "flag_protected": 1,
+                "flavor": {
+                    "description": {
+                        "short": "Allows other robots to switch freely when this one's on the bench",
+                        "full": "The robot allows teammates to switch freely to and from active position but only when this robot is on the bench."
+                    }
+                },
+                "flags": {
+                    "hidden": 0,
+                    "complete": 1,
+                    "published": 1
+                },
                 "group": "Field-Effect Skills",
-                "order": 5
+                "order": 20,
+                "number": 21
             },
             "wellspring-submodule": {
                 "token": "wellspring-submodule",
                 "name": "Wellspring Submodule",
                 "class": "skill",
-                "description": "Reduces the cost of abilities matching the user's core to only one unit",
-                "description2": "The robot's wellspring of elemental energy reduces the cost of abilities matching their own core type for everyone on the team.",
+                "game": "",
                 "parameters": {
                     "type": "auto"
                 },
-                "flag_hidden": 0,
-                "flag_complete": 1,
-                "flag_published": 1,
-                "flag_protected": 1,
+                "flavor": {
+                    "description": {
+                        "short": "Reduces the cost of abilities matching the user's core to only one unit",
+                        "full": "The robot's wellspring of elemental energy reduces the cost of abilities matching their own core type for everyone on the team."
+                    }
+                },
+                "flags": {
+                    "hidden": 0,
+                    "complete": 1,
+                    "published": 1
+                },
                 "group": "Field-Effect Skills",
-                "order": 6
+                "order": 21,
+                "number": 22
             },
             "anti-attack-submodule": {
                 "token": "anti-attack-submodule",
                 "name": "Anti-Attack Submodule",
                 "class": "skill",
-                "description": "The robot nullifies attack stat changes at the end of each turn",
-                "description2": "The robot uses its expert skills to nullify any attack stat changes on other robots at the end of each turn.",
+                "game": "",
                 "parameters": [],
-                "flag_hidden": 0,
-                "flag_complete": 1,
-                "flag_published": 1,
-                "flag_protected": 1,
+                "flavor": {
+                    "description": {
+                        "short": "The robot nullifies attack stat changes at the end of each turn",
+                        "full": "The robot uses its expert skills to nullify any attack stat changes on other robots at the end of each turn."
+                    }
+                },
+                "flags": {
+                    "hidden": 0,
+                    "complete": 1,
+                    "published": 1
+                },
                 "group": "Anti-Stat Skills",
-                "order": 0
+                "order": 22,
+                "number": 23
             },
             "anti-defense-submodule": {
                 "token": "anti-defense-submodule",
                 "name": "Anti-Defense Submodule",
                 "class": "skill",
-                "description": "The robot nullifies defense stat changes at the end of each turn",
-                "description2": "The robot uses its expert skills to nullify any defense stat changes on other robots at the end of each turn.",
+                "game": "",
                 "parameters": [],
-                "flag_hidden": 0,
-                "flag_complete": 1,
-                "flag_published": 1,
-                "flag_protected": 1,
+                "flavor": {
+                    "description": {
+                        "short": "The robot nullifies defense stat changes at the end of each turn",
+                        "full": "The robot uses its expert skills to nullify any defense stat changes on other robots at the end of each turn."
+                    }
+                },
+                "flags": {
+                    "hidden": 0,
+                    "complete": 1,
+                    "published": 1
+                },
                 "group": "Anti-Stat Skills",
-                "order": 1
+                "order": 23,
+                "number": 24
             },
             "anti-speed-submodule": {
                 "token": "anti-speed-submodule",
                 "name": "Anti-Speed Submodule",
                 "class": "skill",
-                "description": "The robot nullifies speed stat changes at the end of each turn",
-                "description2": "The robot uses its expert skills to nullify any speed stat changes on other robots at the end of each turn.",
+                "game": "",
                 "parameters": [],
-                "flag_hidden": 0,
-                "flag_complete": 1,
-                "flag_published": 1,
-                "flag_protected": 1,
+                "flavor": {
+                    "description": {
+                        "short": "The robot nullifies speed stat changes at the end of each turn",
+                        "full": "The robot uses its expert skills to nullify any speed stat changes on other robots at the end of each turn."
+                    }
+                },
+                "flags": {
+                    "hidden": 0,
+                    "complete": 1,
+                    "published": 1
+                },
                 "group": "Anti-Stat Skills",
-                "order": 2
+                "order": 24,
+                "number": 25
             },
             "anti-guard-submodule": {
                 "token": "anti-guard-submodule",
                 "name": "Anti-Guard Submodule",
                 "class": "skill",
-                "description": "The robot disables opposing core shield at the start of each turn",
-                "description2": "The robot disarms and removes opposing core shields at the start of each turn and delays their regeneration.",
+                "game": "",
                 "parameters": {
                     "objects": "auto"
                 },
-                "flag_hidden": 0,
-                "flag_complete": 1,
-                "flag_published": 1,
-                "flag_protected": 1,
+                "flavor": {
+                    "description": {
+                        "short": "The robot disables opposing core shield at the start of each turn",
+                        "full": "The robot disarms and removes opposing core shields at the start of each turn and delays their regeneration."
+                    }
+                },
+                "flags": {
+                    "hidden": 0,
+                    "complete": 1,
+                    "published": 1
+                },
                 "group": "Anti-Hazard Skills",
-                "order": 0
+                "order": 25,
+                "number": 26
             },
             "disentangle-submodule": {
                 "token": "disentangle-submodule",
                 "name": "Disentangle Submodule",
                 "class": "skill",
-                "description": "The robot frees itself of field hazards at the end of each turn",
-                "description2": "The robot uses its skills to remove any negative field hazards affecting it at the end of each turn.",
+                "game": "",
                 "parameters": [],
-                "flag_hidden": 0,
-                "flag_complete": 1,
-                "flag_published": 1,
-                "flag_protected": 1,
+                "flavor": {
+                    "description": {
+                        "short": "The robot frees itself of field hazards at the end of each turn",
+                        "full": "The robot uses its skills to remove any negative field hazards affecting it at the end of each turn."
+                    }
+                },
+                "flags": {
+                    "hidden": 0,
+                    "complete": 1,
+                    "published": 1
+                },
                 "group": "Anti-Hazard Skills",
-                "order": 1
+                "order": 26,
+                "number": 27
             },
             "disarmament-submodule": {
                 "token": "disarmament-submodule",
                 "name": "Disarmament Submodule",
                 "class": "skill",
-                "description": "The robot disables hazardous explosives at the end of the turn",
-                "description2": "The robot employs expert knowledge of munitions to disarm any nearby explosives at the end of each turn.",
+                "game": "",
                 "parameters": [],
-                "flag_hidden": 0,
-                "flag_complete": 1,
-                "flag_published": 1,
-                "flag_protected": 1,
+                "flavor": {
+                    "description": {
+                        "short": "The robot disables hazardous explosives at the end of the turn",
+                        "full": "The robot employs expert knowledge of munitions to disarm any nearby explosives at the end of each turn."
+                    }
+                },
+                "flags": {
+                    "hidden": 0,
+                    "complete": 1,
+                    "published": 1
+                },
                 "group": "Anti-Hazard Skills",
-                "order": 2
+                "order": 27,
+                "number": 28
             },
             "sanitation-submodule": {
                 "token": "sanitation-submodule",
                 "name": "Sanitation Submodule",
                 "class": "skill",
-                "description": "The robot neutralizes hazardous material at the end of the turn",
-                "description2": "The robot employs expert sanitization techniques to clean up any hazardous materials at the end of each turn.",
+                "game": "",
                 "parameters": [],
-                "flag_hidden": 0,
-                "flag_complete": 1,
-                "flag_published": 1,
-                "flag_protected": 1,
+                "flavor": {
+                    "description": {
+                        "short": "The robot neutralizes hazardous material at the end of the turn",
+                        "full": "The robot employs expert sanitization techniques to clean up any hazardous materials at the end of each turn."
+                    }
+                },
+                "flags": {
+                    "hidden": 0,
+                    "complete": 1,
+                    "published": 1
+                },
                 "group": "Anti-Hazard Skills",
-                "order": 3
+                "order": 28,
+                "number": 29
             },
             "attack-assist-submodule": {
                 "token": "attack-assist-submodule",
                 "name": "Attack-Assist Submodule",
                 "class": "skill",
-                "description": "Boosts attack from the bench at the end of each turn",
-                "description2": "This robot boosts the active robot's attack stat at the end of each turn so long as it remains on the bench.",
+                "game": "",
                 "parameters": [],
-                "flag_hidden": 0,
-                "flag_complete": 1,
-                "flag_published": 1,
-                "flag_protected": 1,
+                "flavor": {
+                    "description": {
+                        "short": "Boosts attack from the bench at the end of each turn",
+                        "full": "This robot boosts the active robot's attack stat at the end of each turn so long as it remains on the bench."
+                    }
+                },
+                "flags": {
+                    "hidden": 0,
+                    "complete": 1,
+                    "published": 1
+                },
                 "group": "Stat-Assist Skills",
-                "order": 0
+                "order": 29,
+                "number": 30
             },
             "defense-assist-submodule": {
                 "token": "defense-assist-submodule",
                 "name": "Defense-Assist Submodule",
                 "class": "skill",
-                "description": "Boosts defense from the bench at the end of each turn",
-                "description2": "This robot boosts the active robot's defense stat at the end of each turn so long as it remains on the bench.",
+                "game": "",
                 "parameters": [],
-                "flag_hidden": 0,
-                "flag_complete": 1,
-                "flag_published": 1,
-                "flag_protected": 1,
+                "flavor": {
+                    "description": {
+                        "short": "Boosts defense from the bench at the end of each turn",
+                        "full": "This robot boosts the active robot's defense stat at the end of each turn so long as it remains on the bench."
+                    }
+                },
+                "flags": {
+                    "hidden": 0,
+                    "complete": 1,
+                    "published": 1
+                },
                 "group": "Stat-Assist Skills",
-                "order": 1
+                "order": 30,
+                "number": 31
             },
             "speed-assist-submodule": {
                 "token": "speed-assist-submodule",
                 "name": "Speed-Assist Submodule",
                 "class": "skill",
-                "description": "Boosts speed from the bench at the end of each turn",
-                "description2": "This robot boosts the active robot's speed stat at the end of each turn so long as it remains on the bench.",
+                "game": "",
                 "parameters": [],
-                "flag_hidden": 0,
-                "flag_complete": 1,
-                "flag_published": 1,
-                "flag_protected": 1,
+                "flavor": {
+                    "description": {
+                        "short": "Boosts speed from the bench at the end of each turn",
+                        "full": "This robot boosts the active robot's speed stat at the end of each turn so long as it remains on the bench."
+                    }
+                },
+                "flags": {
+                    "hidden": 0,
+                    "complete": 1,
+                    "published": 1
+                },
                 "group": "Stat-Assist Skills",
-                "order": 2
+                "order": 31,
+                "number": 32
             },
             "medic-submodule": {
                 "token": "medic-submodule",
                 "name": "Medic Submodule",
                 "class": "skill",
-                "description": "Heals allies from the bench at the end of each turn",
-                "description2": "The robot restores lost health to wounded robots at the end of each turn so long as it remains on the bench.",
+                "game": "",
                 "parameters": [],
-                "flag_hidden": 0,
-                "flag_complete": 1,
-                "flag_published": 1,
-                "flag_protected": 1,
+                "flavor": {
+                    "description": {
+                        "short": "Heals allies from the bench at the end of each turn",
+                        "full": "The robot restores lost health to wounded robots at the end of each turn so long as it remains on the bench."
+                    }
+                },
+                "flags": {
+                    "hidden": 0,
+                    "complete": 1,
+                    "published": 1
+                },
                 "group": "Auto-Recovery Skills",
-                "order": 0
+                "order": 32,
+                "number": 33
             },
             "armorer-submodule": {
                 "token": "armorer-submodule",
                 "name": "Armorer Submodule",
                 "class": "skill",
-                "description": "Restores depleted weapons from the bench at the end of each turn",
-                "description2": "The robot fully restores depleted weapon energies at the end of each turn so long as it remains on the bench.",
+                "game": "",
                 "parameters": [],
-                "flag_hidden": 0,
-                "flag_complete": 1,
-                "flag_published": 1,
-                "flag_protected": 1,
+                "flavor": {
+                    "description": {
+                        "short": "Restores depleted weapons from the bench at the end of each turn",
+                        "full": "The robot fully restores depleted weapon energies at the end of each turn so long as it remains on the bench."
+                    }
+                },
+                "flags": {
+                    "hidden": 0,
+                    "complete": 1,
+                    "published": 1
+                },
                 "group": "Auto-Recovery Skills",
-                "order": 1
+                "order": 33,
+                "number": 34
             },
             "recycler-submodule": {
                 "token": "recycler-submodule",
                 "name": "Recycler Submodule",
                 "class": "skill",
-                "description": "Allows the use of consumable items multiple times",
-                "description2": "The robot is able to recycle previously consumed items into new forms for itself and allies before each turn.",
+                "game": "",
                 "parameters": [],
-                "flag_hidden": 0,
-                "flag_complete": 1,
-                "flag_published": 1,
-                "flag_protected": 1,
+                "flavor": {
+                    "description": {
+                        "short": "Allows the use of consumable items multiple times",
+                        "full": "The robot is able to recycle previously consumed items into new forms for itself and allies before each turn."
+                    }
+                },
+                "flags": {
+                    "hidden": 0,
+                    "complete": 1,
+                    "published": 1
+                },
                 "group": "Auto-Recovery Skills",
-                "order": 2
+                "order": 34,
+                "number": 35
             },
             "inventory-submodule": {
                 "token": "inventory-submodule",
                 "name": "Inventory Submodule",
                 "class": "skill",
-                "description": "[dynamic] Gives one ally a consumable item at end-of-turn phase",
-                "description2": "The robot gives an ally-in-need a consumable item at the end of the turn.  The exact item depends on required parameters that must be set on the robot to use this skill (see the \"Functions\" tab for details) and the short\/long description must be customized.",
+                "game": "",
                 "parameters": {
                     "all": true
                 },
-                "flag_hidden": 0,
-                "flag_complete": 1,
-                "flag_published": 1,
-                "flag_protected": 1,
+                "flavor": {
+                    "description": {
+                        "short": "[dynamic] Gives one ally a consumable item at end-of-turn phase",
+                        "full": "The robot gives an ally-in-need a consumable item at the end of the turn.  The exact item depends on required parameters that must be set on the robot to use this skill (see the \"Functions\" tab for details) and the short/long description must be customized."
+                    }
+                },
+                "flags": {
+                    "hidden": 0,
+                    "complete": 1,
+                    "published": 1
+                },
                 "group": "Auto-Recovery Skills",
-                "order": 3
+                "order": 35,
+                "number": 36
             },
             "drowsing-submodule": {
                 "token": "drowsing-submodule",
                 "name": "Drowsing Submodule",
                 "class": "skill",
-                "description": "Slows down to rest and recover lost health at the end of each turn",
-                "description2": "The robot takes a break in the middle of battle to recover lost health but loses some speed in doing so.",
+                "game": "",
                 "parameters": {
                     "stat": "none"
                 },
-                "flag_hidden": 0,
-                "flag_complete": 1,
-                "flag_published": 1,
-                "flag_protected": 1,
+                "flavor": {
+                    "description": {
+                        "short": "Slows down to rest and recover lost health at the end of each turn",
+                        "full": "The robot takes a break in the middle of battle to recover lost health but loses some speed in doing so."
+                    }
+                },
+                "flags": {
+                    "hidden": 0,
+                    "complete": 1,
+                    "published": 1
+                },
                 "group": "Auto-Recovery Skills",
-                "order": 4
+                "order": 36,
+                "number": 37
             },
             "stat-boost-at-battle-start": {
                 "token": "stat-boost-at-battle-start",
                 "name": "Stat Boost at Battle-Start",
                 "class": "skill",
-                "description": "[dynamic] Boosts a stat at battle-start phase",
-                "description2": "The robot's stat is automatically boosted at the start of battle, possibly when certain conditions are met.  Required parameters must be set on the robot to use this skill (see the \"Functions\" tab for details) and the short\/long description must be customized.",
+                "game": "",
                 "parameters": {
                     "stat": "none",
                     "amount": 0
                 },
-                "flag_hidden": 0,
-                "flag_complete": 1,
-                "flag_published": 1,
-                "flag_protected": 1,
+                "flavor": {
+                    "description": {
+                        "short": "[dynamic] Boosts a stat at battle-start phase",
+                        "full": "The robot's stat is automatically boosted at the start of battle, possibly when certain conditions are met.  Required parameters must be set on the robot to use this skill (see the \"Functions\" tab for details) and the short/long description must be customized."
+                    }
+                },
+                "flags": {
+                    "hidden": 0,
+                    "complete": 1,
+                    "published": 1
+                },
                 "group": "Stat Boost Skills",
-                "order": 0
+                "order": 38,
+                "number": 39
             },
             "stat-boost-at-end-of-turn": {
                 "token": "stat-boost-at-end-of-turn",
                 "name": "Stat Boost at End-of-Turn",
                 "class": "skill",
-                "description": "[dynamic] Boosts a stat at end-of-turn phase",
-                "description2": "The robot's stat is automatically boosted at the end of the turn, possibly when certain conditions are met, and possibly only once.  Required parameters must be set on the robot to use this skill (see the \"Functions\" tab for details) and the short\/long description must be customized.",
+                "game": "",
                 "parameters": {
                     "stat": "none",
                     "amount": 0
                 },
-                "flag_hidden": 0,
-                "flag_complete": 1,
-                "flag_published": 1,
-                "flag_protected": 1,
+                "flavor": {
+                    "description": {
+                        "short": "[dynamic] Boosts a stat at end-of-turn phase",
+                        "full": "The robot's stat is automatically boosted at the end of the turn, possibly when certain conditions are met, and possibly only once.  Required parameters must be set on the robot to use this skill (see the \"Functions\" tab for details) and the short/long description must be customized."
+                    }
+                },
+                "flags": {
+                    "hidden": 0,
+                    "complete": 1,
+                    "published": 1
+                },
                 "group": "Stat Boost Skills",
-                "order": 1
+                "order": 39,
+                "number": 40
             },
             "stat-boost-on-knockout": {
                 "token": "stat-boost-on-knockout",
                 "name": "Stat Boost on Knockout",
                 "class": "skill",
-                "description": "[dynamic] Boosts a stat when disabling a target",
-                "description2": "The robot's stat is automatically boosted after a successfull knockout, possibly when certain conditions are met, and possibly only once.  Required parameters must be set on the robot to use this skill (see the \"Functions\" tab for details) and the short\/long description must be customized.",
+                "game": "",
                 "parameters": {
                     "stat": "none",
                     "amount": 0
                 },
-                "flag_hidden": 0,
-                "flag_complete": 1,
-                "flag_published": 1,
-                "flag_protected": 1,
+                "flavor": {
+                    "description": {
+                        "short": "[dynamic] Boosts a stat when disabling a target",
+                        "full": "The robot's stat is automatically boosted after a successfull knockout, possibly when certain conditions are met, and possibly only once.  Required parameters must be set on the robot to use this skill (see the \"Functions\" tab for details) and the short/long description must be customized."
+                    }
+                },
+                "flags": {
+                    "hidden": 0,
+                    "complete": 1,
+                    "published": 1
+                },
                 "group": "Stat Boost Skills",
-                "order": 2
+                "order": 40,
+                "number": 41
             },
             "stat-boost-on-robots-nearby": {
                 "token": "stat-boost-on-robots-nearby",
                 "name": "Stat Boost on Robots Nearby",
                 "class": "skill",
-                "description": "[dynamic] The robot's stat is boosted when certain robots are nearby",
-                "description2": "The robot's preferred stat is boosted by the presence of specific robots on the field. Required parameters must be set on the robot to use this skill (see the \"Functions\" tab for details) and the short\/long description must be customized.",
+                "game": "",
                 "parameters": {
                     "robots": "none",
                     "stat": "none",
                     "amount": 0,
                     "position": "either"
                 },
-                "flag_hidden": 0,
-                "flag_complete": 1,
-                "flag_published": 1,
-                "flag_protected": 1,
+                "flavor": {
+                    "description": {
+                        "short": "[dynamic] The robot's stat is boosted when certain robots are nearby",
+                        "full": "The robot's preferred stat is boosted by the presence of specific robots on the field. Required parameters must be set on the robot to use this skill (see the \"Functions\" tab for details) and the short/long description must be customized."
+                    }
+                },
+                "flags": {
+                    "hidden": 0,
+                    "complete": 1,
+                    "published": 1
+                },
                 "group": "Stat Boost Skills",
-                "order": 3
+                "order": 41,
+                "number": 42
             },
             "stat-boost-on-cores-nearby": {
                 "token": "stat-boost-on-cores-nearby",
                 "name": "Stat Boost on Cores Nearby",
                 "class": "skill",
-                "description": "[dynamic] The robot's stat is boosted when core type is nearby",
-                "description2": "The robot's preferred stat is boosted by the presence of other robots on the field with a specific core types. Required parameters must be set on the robot to use this skill (see the \"Functions\" tab for details) and the short\/long description must be customized.",
+                "game": "",
                 "parameters": {
                     "cores": "none",
                     "stat": "none",
                     "amount": 0
                 },
-                "flag_hidden": 0,
-                "flag_complete": 1,
-                "flag_published": 1,
-                "flag_protected": 1,
+                "flavor": {
+                    "description": {
+                        "short": "[dynamic] The robot's stat is boosted when core type is nearby",
+                        "full": "The robot's preferred stat is boosted by the presence of other robots on the field with a specific core types. Required parameters must be set on the robot to use this skill (see the \"Functions\" tab for details) and the short/long description must be customized."
+                    }
+                },
+                "flags": {
+                    "hidden": 0,
+                    "complete": 1,
+                    "published": 1
+                },
                 "group": "Stat Boost Skills",
-                "order": 4
+                "order": 42,
+                "number": 43
             },
             "field-boost-at-battle-start": {
                 "token": "field-boost-at-battle-start",
                 "name": "Field Boost at Battle-Start",
                 "class": "skill",
-                "description": "[dynamic] Boosts a field multiplier at battle-start phase",
-                "description2": "The robot automatically boosts a field multiplier at the start of battle, possibly when certain conditions are met.  Required parameters must be set on the robot to use this skill (see the \"Functions\" tab for details) and the short\/long description must be customized.",
+                "game": "",
                 "parameters": {
                     "type": "none",
                     "amount": 0
                 },
-                "flag_hidden": 0,
-                "flag_complete": 1,
-                "flag_published": 1,
-                "flag_protected": 1,
+                "flavor": {
+                    "description": {
+                        "short": "[dynamic] Boosts a field multiplier at battle-start phase",
+                        "full": "The robot automatically boosts a field multiplier at the start of battle, possibly when certain conditions are met.  Required parameters must be set on the robot to use this skill (see the \"Functions\" tab for details) and the short/long description must be customized."
+                    }
+                },
+                "flags": {
+                    "hidden": 0,
+                    "complete": 1,
+                    "published": 1
+                },
                 "group": "Field Boost Skills",
-                "order": 0
+                "order": 43,
+                "number": 44
             },
             "field-boost-at-end-of-turn": {
                 "token": "field-boost-at-end-of-turn",
                 "name": "Field Boost at End-of-Turn",
                 "class": "skill",
-                "description": "[dynamic] Boosts a field multiplier at end-of-turn phase",
-                "description2": "The robot automatically boosts a field multiplier at the end of the turn, possibly when certain conditions are met, and possibly only once. Required parameters must be set on the robot to use this skill (see the \"Functions\" tab for details) and the short\/long description must be customized.",
+                "game": "",
                 "parameters": {
                     "type": "none",
                     "amount": 0
                 },
-                "flag_hidden": 0,
-                "flag_complete": 1,
-                "flag_published": 1,
-                "flag_protected": 1,
+                "flavor": {
+                    "description": {
+                        "short": "[dynamic] Boosts a field multiplier at end-of-turn phase",
+                        "full": "The robot automatically boosts a field multiplier at the end of the turn, possibly when certain conditions are met, and possibly only once. Required parameters must be set on the robot to use this skill (see the \"Functions\" tab for details) and the short/long description must be customized."
+                    }
+                },
+                "flags": {
+                    "hidden": 0,
+                    "complete": 1,
+                    "published": 1
+                },
                 "group": "Field Boost Skills",
-                "order": 1
+                "order": 44,
+                "number": 45
             },
             "find-item-at-end-of-turn": {
                 "token": "find-item-at-end-of-turn",
                 "name": "Find Item at End-of-Turn",
                 "class": "skill",
-                "description": "[dynamic] Randomly finds items at end-of-turn phase",
-                "description2": "The robot may randomly find an item at the end of the turn given provided parameters.  Found items are automatically added to the player's inventory.  Does not trigger in challenges, endless mode, or player battles.",
+                "game": "",
                 "parameters": {
                     "all": true
                 },
-                "flag_hidden": 0,
-                "flag_complete": 1,
-                "flag_published": 1,
-                "flag_protected": 1,
+                "flavor": {
+                    "description": {
+                        "short": "[dynamic] Randomly finds items at end-of-turn phase",
+                        "full": "The robot may randomly find an item at the end of the turn given provided parameters.  Found items are automatically added to the player's inventory.  Does not trigger in challenges, endless mode, or player battles."
+                    }
+                },
+                "flags": {
+                    "hidden": 0,
+                    "complete": 1,
+                    "published": 1
+                },
                 "group": "Farming Skills",
-                "order": 0
+                "order": 45,
+                "number": 46
             },
             "weapon-subsaver": {
                 "token": "weapon-subsaver",
                 "name": "Weapon Subsaver",
                 "class": "skill",
-                "description": "Reduces weapon energy used by abilities",
-                "description2": "Reduces the weapon energy consumed by the robot when using elemental abilities by up to half.",
-                "parameters": [],
-                "flag_hidden": 0,
-                "flag_complete": 1,
-                "flag_published": 1,
-                "flag_protected": 1,
+                "game": "",
+                "flavor": {
+                    "description": {
+                        "short": "Reduces weapon energy used by abilities",
+                        "full": "Reduces the weapon energy consumed by the robot when using elemental abilities by up to half."
+                    }
+                },
+                "flags": {
+                    "hidden": 0,
+                    "complete": 1,
+                    "published": 1
+                },
                 "group": "Weapon Mod Skills",
-                "order": 0
+                "order": 46,
+                "number": 47
             },
             "weapon-subcharger": {
                 "token": "weapon-subcharger",
                 "name": "Weapon Subcharger",
                 "class": "skill",
-                "description": "Restores extra weapon energy at the end of each turn",
-                "description2": "The robot restores depleted weapon energy by up to half at the end of each turn in battle.",
+                "game": "",
                 "parameters": [],
-                "flag_hidden": 0,
-                "flag_complete": 1,
-                "flag_published": 1,
-                "flag_protected": 1,
+                "flavor": {
+                    "description": {
+                        "short": "Restores extra weapon energy at the end of each turn",
+                        "full": "The robot restores depleted weapon energy by up to half at the end of each turn in battle."
+                    }
+                },
+                "flags": {
+                    "hidden": 0,
+                    "complete": 1,
+                    "published": 1
+                },
                 "group": "Weapon Mod Skills",
-                "order": 1
+                "order": 47,
+                "number": 48
             },
             "weapon-memory": {
                 "token": "weapon-memory",
                 "name": "Weapon Memory",
                 "class": "skill",
-                "description": "Adapts weaknesses to match upcoming abilities",
-                "description2": "The robot adapts its weaknesses before using an ability to match those of the ability's original owner.",
+                "game": "",
                 "parameters": [],
-                "flag_hidden": 0,
-                "flag_complete": 1,
-                "flag_published": 1,
-                "flag_protected": 1,
+                "flavor": {
+                    "description": {
+                        "short": "Adapts weaknesses to match upcoming abilities",
+                        "full": "The robot adapts its weaknesses before using an ability to match those of the ability's original owner."
+                    }
+                },
+                "flags": {
+                    "hidden": 0,
+                    "complete": 1,
+                    "published": 1
+                },
                 "group": "Weapon Mod Skills",
-                "order": 2
+                "order": 48,
+                "number": 49
             },
             "neutral-subshield": {
                 "token": "neutral-subshield",
                 "name": "Neutral Subshield",
                 "class": "skill",
-                "description": "Protects the robot from Neutral type damage",
-                "description2": "The robot's armour completely protects it from Neutral type attack damage.",
+                "game": "",
                 "parameters": [],
-                "flag_hidden": 0,
-                "flag_complete": 1,
-                "flag_published": 1,
-                "flag_protected": 1,
+                "flavor": {
+                    "description": {
+                        "short": "Protects the robot from Neutral type damage",
+                        "full": "The robot's armour completely protects it from Neutral type attack damage."
+                    }
+                },
+                "flags": {
+                    "hidden": 0,
+                    "complete": 1,
+                    "published": 1
+                },
                 "group": "Elemental Subshields",
-                "order": 0
+                "order": 49,
+                "number": 50
             },
             "elemental-subshield": {
                 "token": "elemental-subshield",
                 "name": "Elemental Subshield",
                 "class": "skill",
-                "description": "Protects the robot from elemental damage",
-                "description2": "The robot's armour completely protects it from elemental attack damage.",
+                "game": "",
                 "parameters": [],
-                "flag_hidden": 0,
-                "flag_complete": 1,
-                "flag_published": 1,
-                "flag_protected": 1,
+                "flavor": {
+                    "description": {
+                        "short": "Protects the robot from elemental damage",
+                        "full": "The robot's armour completely protects it from elemental attack damage."
+                    }
+                },
+                "flags": {
+                    "hidden": 0,
+                    "complete": 1,
+                    "published": 1
+                },
                 "group": "Elemental Subshields",
-                "order": 1
+                "order": 50,
+                "number": 51
             },
             "cutter-subcore": {
                 "token": "cutter-subcore",
                 "name": "Cutter Subcore",
                 "class": "skill",
-                "description": "Allows native use of Cutter-type abilities",
-                "description2": "Allows the robot to equip and use Cutter-type abilities as if they were a Cutter-core.",
-                "parameters": [],
-                "flag_hidden": 0,
-                "flag_complete": 1,
-                "flag_published": 1,
-                "flag_protected": 1,
+                "game": "",
+                "flavor": {
+                    "description": {
+                        "short": "Allows native use of Cutter-type abilities",
+                        "full": "Allows the robot to equip and use Cutter-type abilities as if they were a Cutter-core."
+                    }
+                },
+                "flags": {
+                    "hidden": 0,
+                    "complete": 1,
+                    "published": 1
+                },
                 "group": "Elemental Subcores",
-                "order": 0
+                "order": 51,
+                "number": 52
             },
             "impact-subcore": {
                 "token": "impact-subcore",
                 "name": "Impact Subcore",
                 "class": "skill",
-                "description": "Allows native use of Impact-type abilities",
-                "description2": "Allows the robot to equip and use Impact-type abilities as if they were an Impact-core.",
-                "parameters": [],
-                "flag_hidden": 0,
-                "flag_complete": 1,
-                "flag_published": 1,
-                "flag_protected": 1,
+                "game": "",
+                "flavor": {
+                    "description": {
+                        "short": "Allows native use of Impact-type abilities",
+                        "full": "Allows the robot to equip and use Impact-type abilities as if they were an Impact-core."
+                    }
+                },
+                "flags": {
+                    "hidden": 0,
+                    "complete": 1,
+                    "published": 1
+                },
                 "group": "Elemental Subcores",
-                "order": 1
+                "order": 52,
+                "number": 53
             },
             "freeze-subcore": {
                 "token": "freeze-subcore",
                 "name": "Freeze Subcore",
                 "class": "skill",
-                "description": "Allows native use of Freeze-type abilities",
-                "description2": "Allows the robot to equip and use Freeze-type abilities as if they were a Freeze-core.",
-                "parameters": [],
-                "flag_hidden": 0,
-                "flag_complete": 1,
-                "flag_published": 1,
-                "flag_protected": 1,
+                "game": "",
+                "flavor": {
+                    "description": {
+                        "short": "Allows native use of Freeze-type abilities",
+                        "full": "Allows the robot to equip and use Freeze-type abilities as if they were a Freeze-core."
+                    }
+                },
+                "flags": {
+                    "hidden": 0,
+                    "complete": 1,
+                    "published": 1
+                },
                 "group": "Elemental Subcores",
-                "order": 2
+                "order": 53,
+                "number": 54
             },
             "explode-subcore": {
                 "token": "explode-subcore",
                 "name": "Explode Subcore",
                 "class": "skill",
-                "description": "Allows native use of Explode-type abilities",
-                "description2": "Allows the robot to equip and use Explode-type abilities as if they were an Explode-core.",
-                "parameters": [],
-                "flag_hidden": 0,
-                "flag_complete": 1,
-                "flag_published": 1,
-                "flag_protected": 1,
+                "game": "",
+                "flavor": {
+                    "description": {
+                        "short": "Allows native use of Explode-type abilities",
+                        "full": "Allows the robot to equip and use Explode-type abilities as if they were an Explode-core."
+                    }
+                },
+                "flags": {
+                    "hidden": 0,
+                    "complete": 1,
+                    "published": 1
+                },
                 "group": "Elemental Subcores",
-                "order": 3
+                "order": 54,
+                "number": 55
             },
             "flame-subcore": {
                 "token": "flame-subcore",
                 "name": "Flame Subcore",
                 "class": "skill",
-                "description": "Allows native use of Flame-type abilities",
-                "description2": "Allows the robot to equip and use Flame-type abilities as if they were a Flame-core.",
-                "parameters": [],
-                "flag_hidden": 0,
-                "flag_complete": 1,
-                "flag_published": 1,
-                "flag_protected": 1,
+                "game": "",
+                "flavor": {
+                    "description": {
+                        "short": "Allows native use of Flame-type abilities",
+                        "full": "Allows the robot to equip and use Flame-type abilities as if they were a Flame-core."
+                    }
+                },
+                "flags": {
+                    "hidden": 0,
+                    "complete": 1,
+                    "published": 1
+                },
                 "group": "Elemental Subcores",
-                "order": 4
+                "order": 55,
+                "number": 56
             },
             "electric-subcore": {
                 "token": "electric-subcore",
                 "name": "Electric Subcore",
                 "class": "skill",
-                "description": "Allows native use of Electric-type abilities",
-                "description2": "Allows the robot to equip and use Electric-type abilities as if they were an Electric-core.",
-                "parameters": [],
-                "flag_hidden": 0,
-                "flag_complete": 1,
-                "flag_published": 1,
-                "flag_protected": 1,
+                "game": "",
+                "flavor": {
+                    "description": {
+                        "short": "Allows native use of Electric-type abilities",
+                        "full": "Allows the robot to equip and use Electric-type abilities as if they were an Electric-core."
+                    }
+                },
+                "flags": {
+                    "hidden": 0,
+                    "complete": 1,
+                    "published": 1
+                },
                 "group": "Elemental Subcores",
-                "order": 5
+                "order": 56,
+                "number": 57
             },
             "time-subcore": {
                 "token": "time-subcore",
                 "name": "Time Subcore",
                 "class": "skill",
-                "description": "Allows native use of Time-type abilities",
-                "description2": "Allows the robot to equip and use Time-type abilities as if they were a Time-core.",
-                "parameters": [],
-                "flag_hidden": 0,
-                "flag_complete": 1,
-                "flag_published": 1,
-                "flag_protected": 1,
+                "game": "",
+                "flavor": {
+                    "description": {
+                        "short": "Allows native use of Time-type abilities",
+                        "full": "Allows the robot to equip and use Time-type abilities as if they were a Time-core."
+                    }
+                },
+                "flags": {
+                    "hidden": 0,
+                    "complete": 1,
+                    "published": 1
+                },
                 "group": "Elemental Subcores",
-                "order": 6
+                "order": 57,
+                "number": 58
             },
             "earth-subcore": {
                 "token": "earth-subcore",
                 "name": "Earth Subcore",
                 "class": "skill",
-                "description": "Allows native use of Earth-type abilities",
-                "description2": "Allows the robot to equip and use Earth-type abilities as if they were an Earth-core.",
-                "parameters": [],
-                "flag_hidden": 0,
-                "flag_complete": 1,
-                "flag_published": 1,
-                "flag_protected": 1,
+                "game": "",
+                "flavor": {
+                    "description": {
+                        "short": "Allows native use of Earth-type abilities",
+                        "full": "Allows the robot to equip and use Earth-type abilities as if they were an Earth-core."
+                    }
+                },
+                "flags": {
+                    "hidden": 0,
+                    "complete": 1,
+                    "published": 1
+                },
                 "group": "Elemental Subcores",
-                "order": 7
+                "order": 58,
+                "number": 59
             },
             "wind-subcore": {
                 "token": "wind-subcore",
                 "name": "Wind Subcore",
                 "class": "skill",
-                "description": "Allows native use of Wind-type abilities",
-                "description2": "Allows the robot to equip and use Wind-type abilities as if they were a Wind-core.",
-                "parameters": [],
-                "flag_hidden": 0,
-                "flag_complete": 1,
-                "flag_published": 1,
-                "flag_protected": 1,
+                "game": "",
+                "flavor": {
+                    "description": {
+                        "short": "Allows native use of Wind-type abilities",
+                        "full": "Allows the robot to equip and use Wind-type abilities as if they were a Wind-core."
+                    }
+                },
+                "flags": {
+                    "hidden": 0,
+                    "complete": 1,
+                    "published": 1
+                },
                 "group": "Elemental Subcores",
-                "order": 8
+                "order": 59,
+                "number": 60
             },
             "water-subcore": {
                 "token": "water-subcore",
                 "name": "Water Subcore",
                 "class": "skill",
-                "description": "Allows native use of Water-type abilities",
-                "description2": "Allows the robot to equip and use Water-type abilities as if they were a Water-core.",
-                "parameters": [],
-                "flag_hidden": 0,
-                "flag_complete": 1,
-                "flag_published": 1,
-                "flag_protected": 1,
+                "game": "",
+                "flavor": {
+                    "description": {
+                        "short": "Allows native use of Water-type abilities",
+                        "full": "Allows the robot to equip and use Water-type abilities as if they were a Water-core."
+                    }
+                },
+                "flags": {
+                    "hidden": 0,
+                    "complete": 1,
+                    "published": 1
+                },
                 "group": "Elemental Subcores",
-                "order": 9
+                "order": 60,
+                "number": 61
             },
             "swift-subcore": {
                 "token": "swift-subcore",
                 "name": "Swift Subcore",
                 "class": "skill",
-                "description": "Allows native use of Swift-type abilities",
-                "description2": "Allows the robot to equip and use Swift-type abilities as if they were a Swift-core.",
-                "parameters": [],
-                "flag_hidden": 0,
-                "flag_complete": 1,
-                "flag_published": 1,
-                "flag_protected": 1,
+                "game": "",
+                "flavor": {
+                    "description": {
+                        "short": "Allows native use of Swift-type abilities",
+                        "full": "Allows the robot to equip and use Swift-type abilities as if they were a Swift-core."
+                    }
+                },
+                "flags": {
+                    "hidden": 0,
+                    "complete": 1,
+                    "published": 1
+                },
                 "group": "Elemental Subcores",
-                "order": 10
+                "order": 61,
+                "number": 62
             },
             "nature-subcore": {
                 "token": "nature-subcore",
                 "name": "Nature Subcore",
                 "class": "skill",
-                "description": "Allows native use of Nature-type abilities",
-                "description2": "Allows the robot to equip and use Nature-type abilities as if they were a Nature-core.",
-                "parameters": [],
-                "flag_hidden": 0,
-                "flag_complete": 1,
-                "flag_published": 1,
-                "flag_protected": 1,
+                "game": "",
+                "flavor": {
+                    "description": {
+                        "short": "Allows native use of Nature-type abilities",
+                        "full": "Allows the robot to equip and use Nature-type abilities as if they were a Nature-core."
+                    }
+                },
+                "flags": {
+                    "hidden": 0,
+                    "complete": 1,
+                    "published": 1
+                },
                 "group": "Elemental Subcores",
-                "order": 11
+                "order": 62,
+                "number": 63
             },
             "missile-subcore": {
                 "token": "missile-subcore",
                 "name": "Missile Subcore",
                 "class": "skill",
-                "description": "Allows native use of Missile-type abilities",
-                "description2": "Allows the robot to equip and use Missile-type abilities as if they were a Missile-core.",
-                "parameters": [],
-                "flag_hidden": 0,
-                "flag_complete": 1,
-                "flag_published": 1,
-                "flag_protected": 1,
+                "game": "",
+                "flavor": {
+                    "description": {
+                        "short": "Allows native use of Missile-type abilities",
+                        "full": "Allows the robot to equip and use Missile-type abilities as if they were a Missile-core."
+                    }
+                },
+                "flags": {
+                    "hidden": 0,
+                    "complete": 1,
+                    "published": 1
+                },
                 "group": "Elemental Subcores",
-                "order": 12
+                "order": 63,
+                "number": 64
             },
             "crystal-subcore": {
                 "token": "crystal-subcore",
                 "name": "Crystal Subcore",
                 "class": "skill",
-                "description": "Allows native use of Crystal-type abilities",
-                "description2": "Allows the robot to equip and use Crystal-type abilities as if they were a Crystal-core.",
-                "parameters": [],
-                "flag_hidden": 0,
-                "flag_complete": 1,
-                "flag_published": 1,
-                "flag_protected": 1,
+                "game": "",
+                "flavor": {
+                    "description": {
+                        "short": "Allows native use of Crystal-type abilities",
+                        "full": "Allows the robot to equip and use Crystal-type abilities as if they were a Crystal-core."
+                    }
+                },
+                "flags": {
+                    "hidden": 0,
+                    "complete": 1,
+                    "published": 1
+                },
                 "group": "Elemental Subcores",
-                "order": 13
+                "order": 64,
+                "number": 65
             },
             "shadow-subcore": {
                 "token": "shadow-subcore",
                 "name": "Shadow Subcore",
                 "class": "skill",
-                "description": "Allows native use of Shadow-type abilities",
-                "description2": "Allows the robot to equip and use Shadow-type abilities as if they were a Shadow-core.",
-                "parameters": [],
-                "flag_hidden": 0,
-                "flag_complete": 1,
-                "flag_published": 1,
-                "flag_protected": 1,
+                "game": "",
+                "flavor": {
+                    "description": {
+                        "short": "Allows native use of Shadow-type abilities",
+                        "full": "Allows the robot to equip and use Shadow-type abilities as if they were a Shadow-core."
+                    }
+                },
+                "flags": {
+                    "hidden": 0,
+                    "complete": 1,
+                    "published": 1
+                },
                 "group": "Elemental Subcores",
-                "order": 14
+                "order": 65,
+                "number": 66
             },
             "space-subcore": {
                 "token": "space-subcore",
                 "name": "Space Subcore",
                 "class": "skill",
-                "description": "Allows native use of Space-type abilities",
-                "description2": "Allows the robot to equip and use Space-type abilities as if they were a Space-core.",
-                "parameters": [],
-                "flag_hidden": 0,
-                "flag_complete": 1,
-                "flag_published": 1,
-                "flag_protected": 1,
+                "game": "",
+                "flavor": {
+                    "description": {
+                        "short": "Allows native use of Space-type abilities",
+                        "full": "Allows the robot to equip and use Space-type abilities as if they were a Space-core."
+                    }
+                },
+                "flags": {
+                    "hidden": 0,
+                    "complete": 1,
+                    "published": 1
+                },
                 "group": "Elemental Subcores",
-                "order": 15
+                "order": 66,
+                "number": 67
             },
             "shield-subcore": {
                 "token": "shield-subcore",
                 "name": "Shield Subcore",
                 "class": "skill",
-                "description": "Allows native use of Shield-type abilities",
-                "description2": "Allows the robot to equip and use Shield-type abilities as if they were a Shield-core.",
-                "parameters": [],
-                "flag_hidden": 0,
-                "flag_complete": 1,
-                "flag_published": 1,
-                "flag_protected": 1,
+                "game": "",
+                "flavor": {
+                    "description": {
+                        "short": "Allows native use of Shield-type abilities",
+                        "full": "Allows the robot to equip and use Shield-type abilities as if they were a Shield-core."
+                    }
+                },
+                "flags": {
+                    "hidden": 0,
+                    "complete": 1,
+                    "published": 1
+                },
                 "group": "Elemental Subcores",
-                "order": 16
+                "order": 67,
+                "number": 68
             },
             "laser-subcore": {
                 "token": "laser-subcore",
                 "name": "Laser Subcore",
                 "class": "skill",
-                "description": "Allows native use of Laser-type abilities",
-                "description2": "Allows the robot to equip and use Laser-type abilities as if they were a Laser-core.",
-                "parameters": [],
-                "flag_hidden": 0,
-                "flag_complete": 1,
-                "flag_published": 1,
-                "flag_protected": 1,
+                "game": "",
+                "flavor": {
+                    "description": {
+                        "short": "Allows native use of Laser-type abilities",
+                        "full": "Allows the robot to equip and use Laser-type abilities as if they were a Laser-core."
+                    }
+                },
+                "flags": {
+                    "hidden": 0,
+                    "complete": 1,
+                    "published": 1
+                },
                 "group": "Elemental Subcores",
-                "order": 17
+                "order": 68,
+                "number": 69
+            },
+            "custom-skill": {
+                "token": "custom-skill",
+                "name": "Custom Skill",
+                "class": "skill",
+                "game": "",
+                "parameters": [],
+                "flavor": {
+                    "description": {
+                        "short": "This is not a real skill.  It exists to be overwritten.",
+                        "full": "The robot has a skill so specific it cannot be applied to other robots.  This custom skill placeholder thus needs to be overwritten with custom text."
+                    }
+                },
+                "flags": {
+                    "hidden": 0,
+                    "complete": 1,
+                    "published": 1
+                },
+                "group": "Unsorted",
+                "order": 69,
+                "number": 70
             }
         },
-        "total": 69
+        "total": 70,
+        "visible": 70
     }
 }

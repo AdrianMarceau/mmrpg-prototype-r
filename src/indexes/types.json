@@ -1,603 +1,860 @@
 {
     "status": "success",
-    "updated": 1721669400,
+    "updated": 1721795128,
     "data": {
         "types": {
+            "type": {
+                "token": "type",
+                "name": "Type",
+                "class": "system",
+                "game": "",
+                "colors": {
+                    "dark": [
+                        111,
+                        111,
+                        111
+                    ],
+                    "light": [
+                        90,
+                        90,
+                        90
+                    ]
+                },
+                "flags": {
+                    "hidden": 0,
+                    "published": 1
+                },
+                "group": "System",
+                "order": -1,
+                "number": 0
+            },
             "none": {
                 "token": "none",
                 "name": "Neutral",
                 "class": "special",
-                "colour_dark": [
-                    111,
-                    111,
-                    111
-                ],
-                "colour_light": [
-                    90,
-                    90,
-                    90
-                ],
-                "flag_hidden": 0,
-                "flag_published": 1,
-                "order": 1
+                "game": "",
+                "colors": {
+                    "dark": [
+                        111,
+                        111,
+                        111
+                    ],
+                    "light": [
+                        90,
+                        90,
+                        90
+                    ]
+                },
+                "flags": {
+                    "hidden": 0,
+                    "published": 1
+                },
+                "group": "Types/Special",
+                "order": 1,
+                "number": 2
             },
             "cutter": {
                 "token": "cutter",
                 "name": "Cutter",
                 "class": "normal",
-                "colour_dark": [
-                    109,
-                    109,
-                    109
-                ],
-                "colour_light": [
-                    118,
-                    120,
-                    126
-                ],
-                "flag_hidden": 0,
-                "flag_published": 1,
-                "order": 2
+                "game": "",
+                "colors": {
+                    "dark": [
+                        109,
+                        109,
+                        109
+                    ],
+                    "light": [
+                        118,
+                        120,
+                        126
+                    ]
+                },
+                "flags": {
+                    "hidden": 0,
+                    "published": 1
+                },
+                "group": "Types/Normal",
+                "order": 2,
+                "number": 3
             },
             "impact": {
                 "token": "impact",
                 "name": "Impact",
                 "class": "normal",
-                "colour_dark": [
-                    117,
-                    112,
-                    64
-                ],
-                "colour_light": [
-                    97,
-                    93,
-                    54
-                ],
-                "flag_hidden": 0,
-                "flag_published": 1,
-                "order": 3
+                "game": "",
+                "colors": {
+                    "dark": [
+                        117,
+                        112,
+                        64
+                    ],
+                    "light": [
+                        97,
+                        93,
+                        54
+                    ]
+                },
+                "flags": {
+                    "hidden": 0,
+                    "published": 1
+                },
+                "group": "Types/Normal",
+                "order": 3,
+                "number": 4
             },
             "freeze": {
                 "token": "freeze",
                 "name": "Freeze",
                 "class": "normal",
-                "colour_dark": [
-                    83,
-                    184,
-                    184
-                ],
-                "colour_light": [
-                    51,
-                    148,
-                    148
-                ],
-                "flag_hidden": 0,
-                "flag_published": 1,
-                "order": 4
+                "game": "",
+                "colors": {
+                    "dark": [
+                        83,
+                        184,
+                        184
+                    ],
+                    "light": [
+                        51,
+                        148,
+                        148
+                    ]
+                },
+                "flags": {
+                    "hidden": 0,
+                    "published": 1
+                },
+                "group": "Types/Normal",
+                "order": 4,
+                "number": 5
             },
             "explode": {
                 "token": "explode",
                 "name": "Explode",
                 "class": "normal",
-                "colour_dark": [
-                    197,
-                    128,
-                    24
-                ],
-                "colour_light": [
-                    172,
-                    111,
-                    20
-                ],
-                "flag_hidden": 0,
-                "flag_published": 1,
-                "order": 5
+                "game": "",
+                "colors": {
+                    "dark": [
+                        197,
+                        128,
+                        24
+                    ],
+                    "light": [
+                        172,
+                        111,
+                        20
+                    ]
+                },
+                "flags": {
+                    "hidden": 0,
+                    "published": 1
+                },
+                "group": "Types/Normal",
+                "order": 5,
+                "number": 6
             },
             "flame": {
                 "token": "flame",
                 "name": "Flame",
                 "class": "normal",
-                "colour_dark": [
-                    192,
-                    57,
-                    38
-                ],
-                "colour_light": [
-                    172,
-                    45,
-                    27
-                ],
-                "flag_hidden": 0,
-                "flag_published": 1,
-                "order": 6
+                "game": "",
+                "colors": {
+                    "dark": [
+                        192,
+                        57,
+                        38
+                    ],
+                    "light": [
+                        172,
+                        45,
+                        27
+                    ]
+                },
+                "flags": {
+                    "hidden": 0,
+                    "published": 1
+                },
+                "group": "Types/Normal",
+                "order": 6,
+                "number": 7
             },
             "electric": {
                 "token": "electric",
                 "name": "Electric",
                 "class": "normal",
-                "colour_dark": [
-                    167,
-                    161,
-                    42
-                ],
-                "colour_light": [
-                    136,
-                    137,
-                    23
-                ],
-                "flag_hidden": 0,
-                "flag_published": 1,
-                "order": 7
+                "game": "",
+                "colors": {
+                    "dark": [
+                        167,
+                        161,
+                        42
+                    ],
+                    "light": [
+                        136,
+                        137,
+                        23
+                    ]
+                },
+                "flags": {
+                    "hidden": 0,
+                    "published": 1
+                },
+                "group": "Types/Normal",
+                "order": 7,
+                "number": 8
             },
             "time": {
                 "token": "time",
                 "name": "Time",
                 "class": "normal",
-                "colour_dark": [
-                    106,
-                    77,
-                    119
-                ],
-                "colour_light": [
-                    91,
-                    66,
-                    102
-                ],
-                "flag_hidden": 0,
-                "flag_published": 1,
-                "order": 8
+                "game": "",
+                "colors": {
+                    "dark": [
+                        106,
+                        77,
+                        119
+                    ],
+                    "light": [
+                        91,
+                        66,
+                        102
+                    ]
+                },
+                "flags": {
+                    "hidden": 0,
+                    "published": 1
+                },
+                "group": "Types/Normal",
+                "order": 8,
+                "number": 9
             },
             "earth": {
                 "token": "earth",
                 "name": "Earth",
                 "class": "normal",
-                "colour_dark": [
-                    104,
-                    83,
-                    54
-                ],
-                "colour_light": [
-                    87,
-                    68,
-                    41
-                ],
-                "flag_hidden": 0,
-                "flag_published": 1,
-                "order": 9
+                "game": "",
+                "colors": {
+                    "dark": [
+                        104,
+                        83,
+                        54
+                    ],
+                    "light": [
+                        87,
+                        68,
+                        41
+                    ]
+                },
+                "flags": {
+                    "hidden": 0,
+                    "published": 1
+                },
+                "group": "Types/Normal",
+                "order": 9,
+                "number": 10
             },
             "wind": {
                 "token": "wind",
                 "name": "Wind",
                 "class": "normal",
-                "colour_dark": [
-                    101,
-                    121,
-                    61
-                ],
-                "colour_light": [
-                    82,
-                    97,
-                    50
-                ],
-                "flag_hidden": 0,
-                "flag_published": 1,
-                "order": 10
+                "game": "",
+                "colors": {
+                    "dark": [
+                        101,
+                        121,
+                        61
+                    ],
+                    "light": [
+                        82,
+                        97,
+                        50
+                    ]
+                },
+                "flags": {
+                    "hidden": 0,
+                    "published": 1
+                },
+                "group": "Types/Normal",
+                "order": 10,
+                "number": 11
             },
             "water": {
                 "token": "water",
                 "name": "Water",
                 "class": "normal",
-                "colour_dark": [
-                    61,
-                    124,
-                    190
-                ],
-                "colour_light": [
-                    43,
-                    101,
-                    163
-                ],
-                "flag_hidden": 0,
-                "flag_published": 1,
-                "order": 11
+                "game": "",
+                "colors": {
+                    "dark": [
+                        61,
+                        124,
+                        190
+                    ],
+                    "light": [
+                        43,
+                        101,
+                        163
+                    ]
+                },
+                "flags": {
+                    "hidden": 0,
+                    "published": 1
+                },
+                "group": "Types/Normal",
+                "order": 11,
+                "number": 12
             },
             "swift": {
                 "token": "swift",
                 "name": "Swift",
                 "class": "normal",
-                "colour_dark": [
-                    197,
-                    102,
-                    73
-                ],
-                "colour_light": [
-                    187,
-                    88,
-                    58
-                ],
-                "flag_hidden": 0,
-                "flag_published": 1,
-                "order": 12
+                "game": "",
+                "colors": {
+                    "dark": [
+                        197,
+                        102,
+                        73
+                    ],
+                    "light": [
+                        187,
+                        88,
+                        58
+                    ]
+                },
+                "flags": {
+                    "hidden": 0,
+                    "published": 1
+                },
+                "group": "Types/Normal",
+                "order": 12,
+                "number": 13
             },
             "nature": {
                 "token": "nature",
                 "name": "Nature",
                 "class": "normal",
-                "colour_dark": [
-                    37,
-                    155,
-                    51
-                ],
-                "colour_light": [
-                    28,
-                    122,
-                    39
-                ],
-                "flag_hidden": 0,
-                "flag_published": 1,
-                "order": 13
+                "game": "",
+                "colors": {
+                    "dark": [
+                        37,
+                        155,
+                        51
+                    ],
+                    "light": [
+                        28,
+                        122,
+                        39
+                    ]
+                },
+                "flags": {
+                    "hidden": 0,
+                    "published": 1
+                },
+                "group": "Types/Normal",
+                "order": 13,
+                "number": 14
             },
             "missile": {
                 "token": "missile",
                 "name": "Missile",
                 "class": "normal",
-                "colour_dark": [
-                    182,
-                    161,
-                    76
-                ],
-                "colour_light": [
-                    150,
-                    132,
-                    60
-                ],
-                "flag_hidden": 0,
-                "flag_published": 1,
-                "order": 14
+                "game": "",
+                "colors": {
+                    "dark": [
+                        182,
+                        161,
+                        76
+                    ],
+                    "light": [
+                        150,
+                        132,
+                        60
+                    ]
+                },
+                "flags": {
+                    "hidden": 0,
+                    "published": 1
+                },
+                "group": "Types/Normal",
+                "order": 14,
+                "number": 15
             },
             "crystal": {
                 "token": "crystal",
                 "name": "Crystal",
                 "class": "normal",
-                "colour_dark": [
-                    189,
-                    110,
-                    169
-                ],
-                "colour_light": [
-                    179,
-                    95,
-                    158
-                ],
-                "flag_hidden": 0,
-                "flag_published": 1,
-                "order": 15
+                "game": "",
+                "colors": {
+                    "dark": [
+                        189,
+                        110,
+                        169
+                    ],
+                    "light": [
+                        179,
+                        95,
+                        158
+                    ]
+                },
+                "flags": {
+                    "hidden": 0,
+                    "published": 1
+                },
+                "group": "Types/Normal",
+                "order": 15,
+                "number": 16
             },
             "shadow": {
                 "token": "shadow",
                 "name": "Shadow",
                 "class": "normal",
-                "colour_dark": [
-                    63,
-                    57,
-                    73
-                ],
-                "colour_light": [
-                    65,
-                    61,
-                    92
-                ],
-                "flag_hidden": 0,
-                "flag_published": 1,
-                "order": 16
+                "game": "",
+                "colors": {
+                    "dark": [
+                        63,
+                        57,
+                        73
+                    ],
+                    "light": [
+                        52,
+                        46,
+                        63
+                    ]
+                },
+                "flags": {
+                    "hidden": 0,
+                    "published": 1
+                },
+                "group": "Types/Normal",
+                "order": 16,
+                "number": 17
             },
             "space": {
                 "token": "space",
                 "name": "Space",
                 "class": "normal",
-                "colour_dark": [
-                    61,
-                    65,
-                    102
-                ],
-                "colour_light": [
-                    54,
-                    57,
-                    90
-                ],
-                "flag_hidden": 0,
-                "flag_published": 1,
-                "order": 17
+                "game": "",
+                "colors": {
+                    "dark": [
+                        61,
+                        65,
+                        102
+                    ],
+                    "light": [
+                        54,
+                        57,
+                        90
+                    ]
+                },
+                "flags": {
+                    "hidden": 0,
+                    "published": 1
+                },
+                "group": "Types/Normal",
+                "order": 17,
+                "number": 18
             },
             "shield": {
                 "token": "shield",
                 "name": "Shield",
                 "class": "normal",
-                "colour_dark": [
-                    102,
-                    146,
-                    120
-                ],
-                "colour_light": [
-                    95,
-                    136,
-                    112
-                ],
-                "flag_hidden": 0,
-                "flag_published": 1,
-                "order": 18
+                "game": "",
+                "colors": {
+                    "dark": [
+                        102,
+                        146,
+                        120
+                    ],
+                    "light": [
+                        95,
+                        136,
+                        112
+                    ]
+                },
+                "flags": {
+                    "hidden": 0,
+                    "published": 1
+                },
+                "group": "Types/Normal",
+                "order": 18,
+                "number": 19
             },
             "laser": {
                 "token": "laser",
                 "name": "Laser",
                 "class": "normal",
-                "colour_dark": [
-                    172,
-                    76,
-                    95
-                ],
-                "colour_light": [
-                    148,
-                    51,
-                    70
-                ],
-                "flag_hidden": 0,
-                "flag_published": 1,
-                "order": 19
+                "game": "",
+                "colors": {
+                    "dark": [
+                        172,
+                        76,
+                        95
+                    ],
+                    "light": [
+                        148,
+                        51,
+                        70
+                    ]
+                },
+                "flags": {
+                    "hidden": 0,
+                    "published": 1
+                },
+                "group": "Types/Normal",
+                "order": 19,
+                "number": 20
             },
             "copy": {
                 "token": "copy",
                 "name": "Copy",
                 "class": "normal",
-                "colour_dark": [
-                    147,
-                    137,
-                    177
-                ],
-                "colour_light": [
-                    135,
-                    124,
-                    167
-                ],
-                "flag_hidden": 0,
-                "flag_published": 1,
-                "order": 20
+                "game": "",
+                "colors": {
+                    "dark": [
+                        147,
+                        137,
+                        177
+                    ],
+                    "light": [
+                        135,
+                        124,
+                        167
+                    ]
+                },
+                "flags": {
+                    "hidden": 0,
+                    "published": 1
+                },
+                "group": "Types/Normal",
+                "order": 20,
+                "number": 21
             },
             "energy": {
                 "token": "energy",
                 "name": "Energy",
                 "class": "special",
-                "colour_dark": [
-                    68,
-                    105,
-                    59
-                ],
-                "colour_light": [
-                    89,
-                    138,
-                    78
-                ],
-                "flag_hidden": 1,
-                "flag_published": 1,
-                "order": 21
+                "game": "",
+                "colors": {
+                    "dark": [
+                        68,
+                        105,
+                        59
+                    ],
+                    "light": [
+                        89,
+                        138,
+                        78
+                    ]
+                },
+                "flags": {
+                    "hidden": 1,
+                    "published": 1
+                },
+                "group": "Types/Special",
+                "order": 21,
+                "number": 22
             },
             "weapons": {
                 "token": "weapons",
                 "name": "Weapons",
                 "class": "special",
-                "colour_dark": [
-                    61,
-                    124,
-                    190
-                ],
-                "colour_light": [
-                    43,
-                    101,
-                    163
-                ],
-                "flag_hidden": 1,
-                "flag_published": 1,
-                "order": 22
+                "game": "",
+                "colors": {
+                    "dark": [
+                        61,
+                        124,
+                        190
+                    ],
+                    "light": [
+                        43,
+                        101,
+                        163
+                    ]
+                },
+                "flags": {
+                    "hidden": 1,
+                    "published": 1
+                },
+                "group": "Types/Special",
+                "order": 22,
+                "number": 23
             },
             "attack": {
                 "token": "attack",
                 "name": "Attack",
                 "class": "special",
-                "colour_dark": [
-                    107,
-                    63,
-                    63
-                ],
-                "colour_light": [
-                    139,
-                    80,
-                    80
-                ],
-                "flag_hidden": 1,
-                "flag_published": 1,
-                "order": 23
+                "game": "",
+                "colors": {
+                    "dark": [
+                        107,
+                        63,
+                        63
+                    ],
+                    "light": [
+                        139,
+                        80,
+                        80
+                    ]
+                },
+                "flags": {
+                    "hidden": 1,
+                    "published": 1
+                },
+                "group": "Types/Special",
+                "order": 23,
+                "number": 24
             },
             "defense": {
                 "token": "defense",
                 "name": "Defense",
                 "class": "special",
-                "colour_dark": [
-                    62,
-                    76,
-                    105
-                ],
-                "colour_light": [
-                    80,
-                    99,
-                    138
-                ],
-                "flag_hidden": 1,
-                "flag_published": 1,
-                "order": 24
+                "game": "",
+                "colors": {
+                    "dark": [
+                        62,
+                        76,
+                        105
+                    ],
+                    "light": [
+                        80,
+                        99,
+                        138
+                    ]
+                },
+                "flags": {
+                    "hidden": 1,
+                    "published": 1
+                },
+                "group": "Types/Special",
+                "order": 24,
+                "number": 25
             },
             "speed": {
                 "token": "speed",
                 "name": "Speed",
                 "class": "special",
-                "colour_dark": [
-                    105,
-                    87,
-                    117
-                ],
-                "colour_light": [
-                    139,
-                    115,
-                    155
-                ],
-                "flag_hidden": 1,
-                "flag_published": 1,
-                "order": 25
+                "game": "",
+                "colors": {
+                    "dark": [
+                        105,
+                        87,
+                        117
+                    ],
+                    "light": [
+                        139,
+                        115,
+                        155
+                    ]
+                },
+                "flags": {
+                    "hidden": 1,
+                    "published": 1
+                },
+                "group": "Types/Special",
+                "order": 25,
+                "number": 26
             },
             "empty": {
                 "token": "empty",
                 "name": "Empty",
                 "class": "special",
-                "colour_dark": [
-                    22,
-                    22,
-                    22
-                ],
-                "colour_light": [
-                    32,
-                    32,
-                    32
-                ],
-                "flag_hidden": 1,
-                "flag_published": 1,
-                "order": 26
+                "game": "",
+                "colors": {
+                    "dark": [
+                        22,
+                        22,
+                        22
+                    ],
+                    "light": [
+                        32,
+                        32,
+                        32
+                    ]
+                },
+                "flags": {
+                    "hidden": 1,
+                    "published": 1
+                },
+                "group": "Types/Special",
+                "order": 26,
+                "number": 27
             },
             "light": {
                 "token": "light",
                 "name": "Light",
                 "class": "special",
-                "colour_dark": [
-                    62,
-                    76,
-                    105
-                ],
-                "colour_light": [
-                    80,
-                    99,
-                    138
-                ],
-                "flag_hidden": 1,
-                "flag_published": 1,
-                "order": 27
-            },
-            "cossack": {
-                "token": "cossack",
-                "name": "Cossack",
-                "class": "special",
-                "colour_dark": [
-                    105,
-                    87,
-                    117
-                ],
-                "colour_light": [
-                    139,
-                    115,
-                    155
-                ],
-                "flag_hidden": 1,
-                "flag_published": 1,
-                "order": 28
+                "game": "",
+                "colors": {
+                    "dark": [
+                        62,
+                        76,
+                        105
+                    ],
+                    "light": [
+                        80,
+                        99,
+                        138
+                    ]
+                },
+                "flags": {
+                    "hidden": 1,
+                    "published": 1
+                },
+                "group": "Types/Special",
+                "order": 27,
+                "number": 28
             },
             "wily": {
                 "token": "wily",
                 "name": "Wily",
                 "class": "special",
-                "colour_dark": [
-                    107,
-                    63,
-                    63
-                ],
-                "colour_light": [
-                    139,
-                    80,
-                    80
-                ],
-                "flag_hidden": 1,
-                "flag_published": 1,
-                "order": 28
+                "game": "",
+                "colors": {
+                    "dark": [
+                        107,
+                        63,
+                        63
+                    ],
+                    "light": [
+                        139,
+                        80,
+                        80
+                    ]
+                },
+                "flags": {
+                    "hidden": 1,
+                    "published": 1
+                },
+                "group": "Types/Special",
+                "order": 28,
+                "number": 29
+            },
+            "cossack": {
+                "token": "cossack",
+                "name": "Cossack",
+                "class": "special",
+                "game": "",
+                "colors": {
+                    "dark": [
+                        105,
+                        87,
+                        117
+                    ],
+                    "light": [
+                        139,
+                        115,
+                        155
+                    ]
+                },
+                "flags": {
+                    "hidden": 1,
+                    "published": 1
+                },
+                "group": "Types/Special",
+                "order": 28,
+                "number": 29
             },
             "damage": {
                 "token": "damage",
                 "name": "Damage",
                 "class": "special",
-                "colour_dark": [
-                    107,
-                    63,
-                    63
-                ],
-                "colour_light": [
-                    139,
-                    80,
-                    80
-                ],
-                "flag_hidden": 1,
-                "flag_published": 1,
-                "order": 30
+                "game": "",
+                "colors": {
+                    "dark": [
+                        107,
+                        63,
+                        63
+                    ],
+                    "light": [
+                        139,
+                        80,
+                        80
+                    ]
+                },
+                "flags": {
+                    "hidden": 1,
+                    "published": 1
+                },
+                "group": "Types/Special",
+                "order": 30,
+                "number": 31
             },
             "recovery": {
                 "token": "recovery",
                 "name": "Recovery",
                 "class": "special",
-                "colour_dark": [
-                    68,
-                    105,
-                    59
-                ],
-                "colour_light": [
-                    89,
-                    138,
-                    78
-                ],
-                "flag_hidden": 1,
-                "flag_published": 1,
-                "order": 31
+                "game": "",
+                "colors": {
+                    "dark": [
+                        68,
+                        105,
+                        59
+                    ],
+                    "light": [
+                        89,
+                        138,
+                        78
+                    ]
+                },
+                "flags": {
+                    "hidden": 1,
+                    "published": 1
+                },
+                "group": "Types/Special",
+                "order": 31,
+                "number": 32
             },
             "level": {
                 "token": "level",
                 "name": "Level",
                 "class": "special",
-                "colour_dark": [
-                    167,
-                    161,
-                    42
-                ],
-                "colour_light": [
-                    136,
-                    137,
-                    23
-                ],
-                "flag_hidden": 1,
-                "flag_published": 1,
-                "order": 32
+                "game": "",
+                "colors": {
+                    "dark": [
+                        167,
+                        161,
+                        42
+                    ],
+                    "light": [
+                        136,
+                        137,
+                        23
+                    ]
+                },
+                "flags": {
+                    "hidden": 1,
+                    "published": 1
+                },
+                "group": "Types/Special",
+                "order": 32,
+                "number": 33
             },
             "experience": {
                 "token": "experience",
                 "name": "Experience",
                 "class": "special",
-                "colour_dark": [
-                    109,
-                    109,
-                    109
-                ],
-                "colour_light": [
-                    118,
-                    120,
-                    126
-                ],
-                "flag_hidden": 1,
-                "flag_published": 1,
-                "order": 33
+                "game": "",
+                "colors": {
+                    "dark": [
+                        109,
+                        109,
+                        109
+                    ],
+                    "light": [
+                        118,
+                        120,
+                        126
+                    ]
+                },
+                "flags": {
+                    "hidden": 1,
+                    "published": 1
+                },
+                "group": "Types/Special",
+                "order": 33,
+                "number": 34
             }
         },
-        "total": 33
+        "total": 34,
+        "visible": 34
     }
 }

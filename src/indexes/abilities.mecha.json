@@ -1,10 +1,3538 @@
 {
     "status": "success",
-    "updated": 1721669400,
+    "updated": 1721795128,
     "data": {
         "abilities": {
-
+            "ability": {
+                "token": "ability",
+                "name": "Ability",
+                "class": "system",
+                "game": "MMRPG",
+                "types": [],
+                "colors": [],
+                "stats": {
+                    "target": "auto",
+                    "speed": {
+                        "value": 1,
+                        "real": 1
+                    },
+                    "accuracy": {
+                        "value": 100
+                    },
+                    "energy": {
+                        "value": 1,
+                        "percent": 0
+                    },
+                    "damage": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "damage2": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery2": {
+                        "value": 0,
+                        "percent": 0
+                    }
+                },
+                "flavor": {
+                    "description": {
+                        "short": "",
+                        "full": "The default ability object."
+                    }
+                },
+                "image": {
+                    "token": "ability",
+                    "size": 40,
+                    "editors": [],
+                    "sheets": 1
+                },
+                "robots": {
+                    "master": ""
+                },
+                "shop": {
+                    "price": 0,
+                    "value": 0,
+                    "tab": "",
+                    "level": 0
+                },
+                "flags": {
+                    "hidden": 1,
+                    "complete": 1,
+                    "published": 1,
+                    "unlockable": 0
+                },
+                "group": "System",
+                "order": -1,
+                "number": 0
+            },
+            "met-shot": {
+                "token": "met-shot",
+                "name": "Met Shot",
+                "class": "mecha",
+                "game": "MM1",
+                "types": [],
+                "colors": [],
+                "stats": {
+                    "target": "auto",
+                    "speed": {
+                        "value": 1,
+                        "real": 1
+                    },
+                    "accuracy": {
+                        "value": 100
+                    },
+                    "energy": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "damage": {
+                        "value": 14,
+                        "percent": 0
+                    },
+                    "damage2": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery2": {
+                        "value": 0,
+                        "percent": 0
+                    }
+                },
+                "flavor": {
+                    "description": {
+                        "short": "",
+                        "full": "The user fires an small plasma shot at the target to inflict damage."
+                    }
+                },
+                "image": {
+                    "token": "met-shot",
+                    "size": 40,
+                    "editors": [
+                        "adrianmarceau"
+                    ],
+                    "sheets": 1
+                },
+                "robots": {
+                    "master": "met"
+                },
+                "shop": {
+                    "price": 0,
+                    "value": 0,
+                    "tab": "",
+                    "level": 0
+                },
+                "flags": {
+                    "hidden": 1,
+                    "complete": 1,
+                    "published": 1,
+                    "unlockable": 0
+                },
+                "group": "Hidden",
+                "order": 0,
+                "number": 1
+            },
+            "beak-shot": {
+                "token": "beak-shot",
+                "name": "Beak Shot",
+                "class": "mecha",
+                "game": "MMRPGP",
+                "types": [
+                    "laser"
+                ],
+                "colors": [
+                    "laser"
+                ],
+                "stats": {
+                    "target": "select_target",
+                    "speed": {
+                        "value": 1,
+                        "real": 1
+                    },
+                    "accuracy": {
+                        "value": 96
+                    },
+                    "energy": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "damage": {
+                        "value": 16,
+                        "percent": 0
+                    },
+                    "damage2": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery2": {
+                        "value": 0,
+                        "percent": 0
+                    }
+                },
+                "flavor": {
+                    "description": {
+                        "short": "",
+                        "full": "The user fires an small orb of laser-like energy at any target to inflict damage."
+                    }
+                },
+                "image": {
+                    "token": "beak-shot",
+                    "size": 40,
+                    "editors": [
+                        "adrianmarceau"
+                    ],
+                    "sheets": 1
+                },
+                "robots": {
+                    "master": "beak"
+                },
+                "shop": {
+                    "price": 0,
+                    "value": 0,
+                    "tab": "",
+                    "level": 0
+                },
+                "flags": {
+                    "hidden": 1,
+                    "complete": 1,
+                    "published": 1,
+                    "unlockable": 0
+                },
+                "group": "Hidden",
+                "order": 1,
+                "number": 2
+            },
+            "bombomb-boom": {
+                "token": "bombomb-boom",
+                "name": "Bombomb Boom",
+                "class": "mecha",
+                "game": "MM1",
+                "types": [
+                    "explode"
+                ],
+                "colors": [
+                    "explode"
+                ],
+                "stats": {
+                    "target": "auto",
+                    "speed": {
+                        "value": 1,
+                        "real": 1
+                    },
+                    "accuracy": {
+                        "value": 92
+                    },
+                    "energy": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "damage": {
+                        "value": 30,
+                        "percent": 0
+                    },
+                    "damage2": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery2": {
+                        "value": 0,
+                        "percent": 0
+                    }
+                },
+                "flavor": {
+                    "description": {
+                        "short": "",
+                        "full": "The user rushes across the field until it crashes into the target and explodes to inflict massive damage, destroying itself in the process."
+                    }
+                },
+                "image": {
+                    "token": "bombomb-boom",
+                    "size": 40,
+                    "editors": [
+                        "adrianmarceau"
+                    ],
+                    "sheets": 1
+                },
+                "robots": {
+                    "master": "bombomb"
+                },
+                "shop": {
+                    "price": 0,
+                    "value": 0,
+                    "tab": "",
+                    "level": 0
+                },
+                "flags": {
+                    "hidden": 1,
+                    "complete": 1,
+                    "published": 1,
+                    "unlockable": 0
+                },
+                "group": "Hidden",
+                "order": 2,
+                "number": 3
+            },
+            "beetle-ball": {
+                "token": "beetle-ball",
+                "name": "Beetle Ball",
+                "class": "mecha",
+                "game": "MM1",
+                "types": [
+                    "earth"
+                ],
+                "colors": [
+                    "earth"
+                ],
+                "stats": {
+                    "target": "select_target",
+                    "speed": {
+                        "value": 1,
+                        "real": 1
+                    },
+                    "accuracy": {
+                        "value": 96
+                    },
+                    "energy": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "damage": {
+                        "value": 14,
+                        "percent": 0
+                    },
+                    "damage2": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery2": {
+                        "value": 0,
+                        "percent": 0
+                    }
+                },
+                "flavor": {
+                    "description": {
+                        "short": "",
+                        "full": "The user throws a tightly packed ball of earth at the target to inflict damage."
+                    }
+                },
+                "image": {
+                    "token": "beetle-ball",
+                    "size": 40,
+                    "editors": [
+                        "adrianmarceau"
+                    ],
+                    "sheets": 1
+                },
+                "robots": {
+                    "master": "beetle-borg"
+                },
+                "shop": {
+                    "price": 0,
+                    "value": 0,
+                    "tab": "",
+                    "level": 0
+                },
+                "flags": {
+                    "hidden": 1,
+                    "complete": 1,
+                    "published": 1,
+                    "unlockable": 0
+                },
+                "group": "Hidden",
+                "order": 3,
+                "number": 4
+            },
+            "fire-tackle": {
+                "token": "fire-tackle",
+                "name": "Fire Tackle",
+                "class": "mecha",
+                "game": "MM1",
+                "types": [
+                    "flame"
+                ],
+                "colors": [
+                    "flame"
+                ],
+                "stats": {
+                    "target": "auto",
+                    "speed": {
+                        "value": 1,
+                        "real": 1
+                    },
+                    "accuracy": {
+                        "value": 96
+                    },
+                    "energy": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "damage": {
+                        "value": 20,
+                        "percent": 0
+                    },
+                    "damage2": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery2": {
+                        "value": 0,
+                        "percent": 0
+                    }
+                },
+                "flavor": {
+                    "description": {
+                        "short": "",
+                        "full": "The user jumps at the target and tackles it to inflict damage."
+                    }
+                },
+                "image": {
+                    "token": "fire-tackle",
+                    "size": 40,
+                    "editors": [
+                        "adrianmarceau"
+                    ],
+                    "sheets": 1
+                },
+                "robots": {
+                    "master": "tackle-fire"
+                },
+                "shop": {
+                    "price": 0,
+                    "value": 0,
+                    "tab": "",
+                    "level": 0
+                },
+                "flags": {
+                    "hidden": 1,
+                    "complete": 1,
+                    "published": 1,
+                    "unlockable": 0
+                },
+                "group": "Hidden",
+                "order": 4,
+                "number": 5
+            },
+            "flea-jump": {
+                "token": "flea-jump",
+                "name": "Flea Jump",
+                "class": "mecha",
+                "game": "MM1",
+                "types": [
+                    "impact"
+                ],
+                "colors": [
+                    "impact"
+                ],
+                "stats": {
+                    "target": "auto",
+                    "speed": {
+                        "value": 2,
+                        "real": 2
+                    },
+                    "accuracy": {
+                        "value": 98
+                    },
+                    "energy": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "damage": {
+                        "value": 18,
+                        "percent": 0
+                    },
+                    "damage2": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery2": {
+                        "value": 0,
+                        "percent": 0
+                    }
+                },
+                "flavor": {
+                    "description": {
+                        "short": "",
+                        "full": "The user swiftly jumps up high and then lands on the target to inflict damage."
+                    }
+                },
+                "image": {
+                    "token": "flea-jump",
+                    "size": 40,
+                    "editors": [
+                        "adrianmarceau"
+                    ],
+                    "sheets": 1
+                },
+                "robots": {
+                    "master": "flea"
+                },
+                "shop": {
+                    "price": 0,
+                    "value": 0,
+                    "tab": "",
+                    "level": 0
+                },
+                "flags": {
+                    "hidden": 1,
+                    "complete": 1,
+                    "published": 1,
+                    "unlockable": 0
+                },
+                "group": "Hidden",
+                "order": 5,
+                "number": 6
+            },
+            "flutter-pulse": {
+                "token": "flutter-pulse",
+                "name": "Flutter Pulse",
+                "class": "mecha",
+                "game": "MM1",
+                "types": [
+                    "time"
+                ],
+                "colors": [
+                    "time"
+                ],
+                "stats": {
+                    "target": "auto",
+                    "speed": {
+                        "value": 1,
+                        "real": 1
+                    },
+                    "accuracy": {
+                        "value": 92
+                    },
+                    "energy": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "damage": {
+                        "value": 20,
+                        "percent": 0
+                    },
+                    "damage2": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery2": {
+                        "value": 0,
+                        "percent": 0
+                    }
+                },
+                "flavor": {
+                    "description": {
+                        "short": "",
+                        "full": "The user flaps its wings to create a pulse of tachyon particals that seek out the target to inflict damage."
+                    }
+                },
+                "image": {
+                    "token": "flutter-pulse",
+                    "size": 40,
+                    "editors": [
+                        "adrianmarceau"
+                    ],
+                    "sheets": 1
+                },
+                "robots": {
+                    "master": "flutter-fly"
+                },
+                "shop": {
+                    "price": 0,
+                    "value": 0,
+                    "tab": "",
+                    "level": 0
+                },
+                "flags": {
+                    "hidden": 1,
+                    "complete": 1,
+                    "published": 1,
+                    "unlockable": 0
+                },
+                "group": "Hidden",
+                "order": 6,
+                "number": 7
+            },
+            "picket-throw": {
+                "token": "picket-throw",
+                "name": "Picket Throw",
+                "class": "mecha",
+                "game": "MM1",
+                "types": [
+                    "cutter"
+                ],
+                "colors": [
+                    "cutter"
+                ],
+                "stats": {
+                    "target": "auto",
+                    "speed": {
+                        "value": 1,
+                        "real": 1
+                    },
+                    "accuracy": {
+                        "value": 100
+                    },
+                    "energy": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "damage": {
+                        "value": 16,
+                        "percent": 0
+                    },
+                    "damage2": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery2": {
+                        "value": 0,
+                        "percent": 0
+                    }
+                },
+                "flavor": {
+                    "description": {
+                        "short": "",
+                        "full": "The user throws a decently sized pickaxe at the target to inflict damage."
+                    }
+                },
+                "image": {
+                    "token": "picket-throw",
+                    "size": 40,
+                    "editors": [
+                        "adrianmarceau"
+                    ],
+                    "sheets": 1
+                },
+                "robots": {
+                    "master": "picket-man"
+                },
+                "shop": {
+                    "price": 0,
+                    "value": 0,
+                    "tab": "",
+                    "level": 0
+                },
+                "flags": {
+                    "hidden": 1,
+                    "complete": 1,
+                    "published": 1,
+                    "unlockable": 0
+                },
+                "group": "Hidden",
+                "order": 7,
+                "number": 8
+            },
+            "peng-slide": {
+                "token": "peng-slide",
+                "name": "Peng Slide",
+                "class": "mecha",
+                "game": "MM1",
+                "types": [
+                    "freeze"
+                ],
+                "colors": [
+                    "freeze"
+                ],
+                "stats": {
+                    "target": "auto",
+                    "speed": {
+                        "value": 1,
+                        "real": 1
+                    },
+                    "accuracy": {
+                        "value": 90
+                    },
+                    "energy": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "damage": {
+                        "value": 18,
+                        "percent": 0
+                    },
+                    "damage2": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery2": {
+                        "value": 0,
+                        "percent": 0
+                    }
+                },
+                "flavor": {
+                    "description": {
+                        "short": "",
+                        "full": "The user slides across the ground until it crashes into the target to inflict damage."
+                    }
+                },
+                "image": {
+                    "token": "peng-slide",
+                    "size": 40,
+                    "editors": [
+                        "adrianmarceau"
+                    ],
+                    "sheets": 1
+                },
+                "robots": {
+                    "master": "peng"
+                },
+                "shop": {
+                    "price": 0,
+                    "value": 0,
+                    "tab": "",
+                    "level": 0
+                },
+                "flags": {
+                    "hidden": 1,
+                    "complete": 1,
+                    "published": 1,
+                    "unlockable": 0
+                },
+                "group": "Hidden",
+                "order": 8,
+                "number": 9
+            },
+            "spine-slide": {
+                "token": "spine-slide",
+                "name": "Spine Slide",
+                "class": "mecha",
+                "game": "MM1",
+                "types": [
+                    "electric"
+                ],
+                "colors": [
+                    "electric"
+                ],
+                "stats": {
+                    "target": "auto",
+                    "speed": {
+                        "value": 1,
+                        "real": 1
+                    },
+                    "accuracy": {
+                        "value": 100
+                    },
+                    "energy": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "damage": {
+                        "value": 12,
+                        "percent": 0
+                    },
+                    "damage2": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery2": {
+                        "value": 0,
+                        "percent": 0
+                    }
+                },
+                "flavor": {
+                    "description": {
+                        "short": "",
+                        "full": "The user slides across the ground until it crashes into the target to inflict damage."
+                    }
+                },
+                "image": {
+                    "token": "spine-slide",
+                    "size": 40,
+                    "editors": [
+                        "adrianmarceau"
+                    ],
+                    "sheets": 1
+                },
+                "robots": {
+                    "master": "spine"
+                },
+                "shop": {
+                    "price": 0,
+                    "value": 0,
+                    "tab": "",
+                    "level": 0
+                },
+                "flags": {
+                    "hidden": 1,
+                    "complete": 1,
+                    "published": 1,
+                    "unlockable": 0
+                },
+                "group": "Hidden",
+                "order": 9,
+                "number": 10
+            },
+            "batton-drain": {
+                "token": "batton-drain",
+                "name": "Batton Drain",
+                "class": "mecha",
+                "game": "MM2",
+                "types": [
+                    "nature"
+                ],
+                "colors": [
+                    "nature"
+                ],
+                "stats": {
+                    "target": "auto",
+                    "speed": {
+                        "value": 1,
+                        "real": 1
+                    },
+                    "accuracy": {
+                        "value": 100
+                    },
+                    "energy": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "damage": {
+                        "value": 10,
+                        "percent": 1
+                    },
+                    "damage2": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery2": {
+                        "value": 0,
+                        "percent": 0
+                    }
+                },
+                "flavor": {
+                    "description": {
+                        "short": "",
+                        "full": "The user drains life energy from the target to restore its own, inflicting {DAMAGE}% damage in the process."
+                    }
+                },
+                "image": {
+                    "token": "batton-drain",
+                    "size": 40,
+                    "editors": [
+                        "adrianmarceau"
+                    ],
+                    "sheets": 1
+                },
+                "robots": {
+                    "master": "batton"
+                },
+                "shop": {
+                    "price": 0,
+                    "value": 0,
+                    "tab": "",
+                    "level": 0
+                },
+                "flags": {
+                    "hidden": 1,
+                    "complete": 1,
+                    "published": 1,
+                    "unlockable": 0
+                },
+                "group": "Hidden",
+                "order": 10,
+                "number": 11
+            },
+            "cannon-shot": {
+                "token": "cannon-shot",
+                "name": "Cannon Shot",
+                "class": "mecha",
+                "game": "MMRPGP",
+                "types": [
+                    "time"
+                ],
+                "colors": [
+                    "time"
+                ],
+                "stats": {
+                    "target": "auto",
+                    "speed": {
+                        "value": 1,
+                        "real": 1
+                    },
+                    "accuracy": {
+                        "value": 98
+                    },
+                    "energy": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "damage": {
+                        "value": 16,
+                        "percent": 0
+                    },
+                    "damage2": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery2": {
+                        "value": 0,
+                        "percent": 0
+                    }
+                },
+                "flavor": {
+                    "description": {
+                        "short": "",
+                        "full": "The user fires an tachyon-based bullet of energy at any target to inflict damage."
+                    }
+                },
+                "image": {
+                    "token": "cannon-shot",
+                    "size": 40,
+                    "editors": [
+                        "adrianmarceau"
+                    ],
+                    "sheets": 1
+                },
+                "robots": {
+                    "master": "crazy-cannon"
+                },
+                "shop": {
+                    "price": 0,
+                    "value": 0,
+                    "tab": "",
+                    "level": 0
+                },
+                "flags": {
+                    "hidden": 1,
+                    "complete": 1,
+                    "published": 1,
+                    "unlockable": 0
+                },
+                "group": "Hidden",
+                "order": 11,
+                "number": 12
+            },
+            "power-fan": {
+                "token": "power-fan",
+                "name": "Power Fan",
+                "class": "mecha",
+                "game": "MM2",
+                "types": [
+                    "wind"
+                ],
+                "colors": [
+                    "wind"
+                ],
+                "stats": {
+                    "target": "auto",
+                    "speed": {
+                        "value": 1,
+                        "real": 1
+                    },
+                    "accuracy": {
+                        "value": 98
+                    },
+                    "energy": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "damage": {
+                        "value": 16,
+                        "percent": 0
+                    },
+                    "damage2": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery2": {
+                        "value": 0,
+                        "percent": 0
+                    }
+                },
+                "flavor": {
+                    "description": {
+                        "short": "",
+                        "full": "The user blasts the target with a powerful gust of air using its fan to inflict damage."
+                    }
+                },
+                "image": {
+                    "token": "power-fan",
+                    "size": 40,
+                    "editors": [
+                        "adrianmarceau"
+                    ],
+                    "sheets": 1
+                },
+                "robots": {
+                    "master": "fan-fiend"
+                },
+                "shop": {
+                    "price": 0,
+                    "value": 0,
+                    "tab": "",
+                    "level": 0
+                },
+                "flags": {
+                    "hidden": 1,
+                    "complete": 1,
+                    "published": 1,
+                    "unlockable": 0
+                },
+                "group": "Hidden",
+                "order": 12,
+                "number": 13
+            },
+            "bullet-tackle": {
+                "token": "bullet-tackle",
+                "name": "Bullet Tackle",
+                "class": "mecha",
+                "game": "MM2",
+                "types": [
+                    "explode"
+                ],
+                "colors": [
+                    "explode"
+                ],
+                "stats": {
+                    "target": "auto",
+                    "speed": {
+                        "value": 1,
+                        "real": 1
+                    },
+                    "accuracy": {
+                        "value": 96
+                    },
+                    "energy": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "damage": {
+                        "value": 20,
+                        "percent": 0
+                    },
+                    "damage2": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery2": {
+                        "value": 0,
+                        "percent": 0
+                    }
+                },
+                "flavor": {
+                    "description": {
+                        "short": "",
+                        "full": "The user dashes across the field until it crashes into the target and explodes to inflict massive damage, damaging itself in the process."
+                    }
+                },
+                "image": {
+                    "token": "bullet-tackle",
+                    "size": 40,
+                    "editors": [
+                        "adrianmarceau"
+                    ],
+                    "sheets": 1
+                },
+                "robots": {
+                    "master": "killer-bullet"
+                },
+                "shop": {
+                    "price": 0,
+                    "value": 0,
+                    "tab": "",
+                    "level": 0
+                },
+                "flags": {
+                    "hidden": 1,
+                    "complete": 1,
+                    "published": 1,
+                    "unlockable": 0
+                },
+                "group": "Hidden",
+                "order": 13,
+                "number": 14
+            },
+            "pierro-gear": {
+                "token": "pierro-gear",
+                "name": "Pierro Gear",
+                "class": "mecha",
+                "game": "MM2",
+                "types": [
+                    "cutter"
+                ],
+                "colors": [
+                    "cutter"
+                ],
+                "stats": {
+                    "target": "auto",
+                    "speed": {
+                        "value": 1,
+                        "real": 1
+                    },
+                    "accuracy": {
+                        "value": 90
+                    },
+                    "energy": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "damage": {
+                        "value": 20,
+                        "percent": 0
+                    },
+                    "damage2": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery2": {
+                        "value": 0,
+                        "percent": 0
+                    }
+                },
+                "flavor": {
+                    "description": {
+                        "short": "",
+                        "full": "The user throws a massive gear at the target to inflict damage."
+                    }
+                },
+                "image": {
+                    "token": "pierro-gear",
+                    "size": 40,
+                    "editors": [
+                        "adrianmarceau"
+                    ],
+                    "sheets": 1
+                },
+                "robots": {
+                    "master": "pierrobot"
+                },
+                "shop": {
+                    "price": 0,
+                    "value": 0,
+                    "tab": "",
+                    "level": 0
+                },
+                "flags": {
+                    "hidden": 1,
+                    "complete": 1,
+                    "published": 1,
+                    "unlockable": 0
+                },
+                "group": "Hidden",
+                "order": 14,
+                "number": 15
+            },
+            "snapper-soaker": {
+                "token": "snapper-soaker",
+                "name": "Snapper Soaker",
+                "class": "mecha",
+                "game": "MM2",
+                "types": [
+                    "water"
+                ],
+                "colors": [
+                    "water"
+                ],
+                "stats": {
+                    "target": "select_target",
+                    "speed": {
+                        "value": 1,
+                        "real": 1
+                    },
+                    "accuracy": {
+                        "value": 95
+                    },
+                    "energy": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "damage": {
+                        "value": 15,
+                        "percent": 0
+                    },
+                    "damage2": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery2": {
+                        "value": 0,
+                        "percent": 0
+                    }
+                },
+                "flavor": {
+                    "description": {
+                        "short": "",
+                        "full": "The user shoots a large blob of water at the target to inflict damage."
+                    }
+                },
+                "image": {
+                    "token": "snapper-soaker",
+                    "size": 40,
+                    "editors": [
+                        "adrianmarceau"
+                    ],
+                    "sheets": 1
+                },
+                "robots": {
+                    "master": "snapper"
+                },
+                "shop": {
+                    "price": 0,
+                    "value": 0,
+                    "tab": "",
+                    "level": 0
+                },
+                "flags": {
+                    "hidden": 1,
+                    "complete": 1,
+                    "published": 1,
+                    "unlockable": 0
+                },
+                "group": "Hidden",
+                "order": 15,
+                "number": 16
+            },
+            "spring-headbutt": {
+                "token": "spring-headbutt",
+                "name": "Spring Headbutt",
+                "class": "mecha",
+                "game": "MM2",
+                "types": [
+                    "swift"
+                ],
+                "colors": [
+                    "swift"
+                ],
+                "stats": {
+                    "target": "auto",
+                    "speed": {
+                        "value": 3,
+                        "real": 3
+                    },
+                    "accuracy": {
+                        "value": 98
+                    },
+                    "energy": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "damage": {
+                        "value": 14,
+                        "percent": 0
+                    },
+                    "damage2": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery2": {
+                        "value": 0,
+                        "percent": 0
+                    }
+                },
+                "flavor": {
+                    "description": {
+                        "short": "",
+                        "full": "The user slides across the ground toward the target and then springs suddenly inflict damage."
+                    }
+                },
+                "image": {
+                    "token": "spring-headbutt",
+                    "size": 40,
+                    "editors": [
+                        "adrianmarceau"
+                    ],
+                    "sheets": 1
+                },
+                "robots": {
+                    "master": "spring-head"
+                },
+                "shop": {
+                    "price": 0,
+                    "value": 0,
+                    "tab": "",
+                    "level": 0
+                },
+                "flags": {
+                    "hidden": 1,
+                    "complete": 1,
+                    "published": 1,
+                    "unlockable": 0
+                },
+                "group": "Hidden",
+                "order": 16,
+                "number": 17
+            },
+            "telly-burner": {
+                "token": "telly-burner",
+                "name": "Telly Burner",
+                "class": "mecha",
+                "game": "MM2",
+                "types": [
+                    "flame"
+                ],
+                "colors": [
+                    "flame"
+                ],
+                "stats": {
+                    "target": "auto",
+                    "speed": {
+                        "value": 1,
+                        "real": 1
+                    },
+                    "accuracy": {
+                        "value": 100
+                    },
+                    "energy": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "damage": {
+                        "value": 14,
+                        "percent": 0
+                    },
+                    "damage2": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery2": {
+                        "value": 0,
+                        "percent": 0
+                    }
+                },
+                "flavor": {
+                    "description": {
+                        "short": "",
+                        "full": "The user summons a large flare that appears by the target and burns them to inflict damage."
+                    }
+                },
+                "image": {
+                    "token": "telly-burner",
+                    "size": 40,
+                    "editors": [
+                        "adrianmarceau"
+                    ],
+                    "sheets": 1
+                },
+                "robots": {
+                    "master": "telly"
+                },
+                "shop": {
+                    "price": 0,
+                    "value": 0,
+                    "tab": "",
+                    "level": 0
+                },
+                "flags": {
+                    "hidden": 1,
+                    "complete": 1,
+                    "published": 1,
+                    "unlockable": 0
+                },
+                "group": "Hidden",
+                "order": 17,
+                "number": 18
+            },
+            "elec-spark": {
+                "token": "elec-spark",
+                "name": "Elec Spark",
+                "class": "mecha",
+                "game": "MM3",
+                "types": [
+                    "electric"
+                ],
+                "colors": [
+                    "electric"
+                ],
+                "stats": {
+                    "target": "auto",
+                    "speed": {
+                        "value": 1,
+                        "real": 1
+                    },
+                    "accuracy": {
+                        "value": 80
+                    },
+                    "energy": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "damage": {
+                        "value": 8,
+                        "percent": 0
+                    },
+                    "damage2": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery2": {
+                        "value": 0,
+                        "percent": 0
+                    }
+                },
+                "flavor": {
+                    "description": {
+                        "short": "",
+                        "full": "The user looses an array of sparks to inflict damage on the target, occasionally hitting benched robots in the process."
+                    }
+                },
+                "image": {
+                    "token": "elec-spark",
+                    "size": 40,
+                    "editors": [
+                        "adrianmarceau"
+                    ],
+                    "sheets": 1
+                },
+                "robots": {
+                    "master": "elec-n"
+                },
+                "shop": {
+                    "price": 0,
+                    "value": 0,
+                    "tab": "",
+                    "level": 0
+                },
+                "flags": {
+                    "hidden": 1,
+                    "complete": 1,
+                    "published": 1,
+                    "unlockable": 0
+                },
+                "group": "Hidden",
+                "order": 18,
+                "number": 19
+            },
+            "magfly-missile": {
+                "token": "magfly-missile",
+                "name": "Magfly Missile",
+                "class": "mecha",
+                "game": "MM3",
+                "types": [
+                    "missile"
+                ],
+                "colors": [
+                    "missile"
+                ],
+                "stats": {
+                    "target": "select_target",
+                    "speed": {
+                        "value": 1,
+                        "real": 1
+                    },
+                    "accuracy": {
+                        "value": 90
+                    },
+                    "energy": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "damage": {
+                        "value": 10,
+                        "percent": 1
+                    },
+                    "damage2": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery2": {
+                        "value": 0,
+                        "percent": 0
+                    }
+                },
+                "flavor": {
+                    "description": {
+                        "short": "",
+                        "full": "The user generates a strong magnetic force that pulls it toward a target to drain {DAMAGE}% of their weapon energy!"
+                    }
+                },
+                "image": {
+                    "token": "magfly-missile",
+                    "size": 40,
+                    "editors": [
+                        "adrianmarceau"
+                    ],
+                    "sheets": 1
+                },
+                "robots": {
+                    "master": "mag-fly"
+                },
+                "shop": {
+                    "price": 0,
+                    "value": 0,
+                    "tab": "",
+                    "level": 0
+                },
+                "flags": {
+                    "hidden": 1,
+                    "complete": 1,
+                    "published": 1,
+                    "unlockable": 0
+                },
+                "group": "Hidden",
+                "order": 19,
+                "number": 20
+            },
+            "monkey-punch": {
+                "token": "monkey-punch",
+                "name": "Monkey Punch",
+                "class": "mecha",
+                "game": "MM3",
+                "types": [
+                    "impact"
+                ],
+                "colors": [
+                    "impact"
+                ],
+                "stats": {
+                    "target": "auto",
+                    "speed": {
+                        "value": 1,
+                        "real": 1
+                    },
+                    "accuracy": {
+                        "value": 90
+                    },
+                    "energy": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "damage": {
+                        "value": 24,
+                        "percent": 0
+                    },
+                    "damage2": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery2": {
+                        "value": 0,
+                        "percent": 0
+                    }
+                },
+                "flavor": {
+                    "description": {
+                        "short": "",
+                        "full": "The user leaps toward target and punches them with a powerful fist to inflict damage."
+                    }
+                },
+                "image": {
+                    "token": "monkey-punch",
+                    "size": 40,
+                    "editors": [
+                        "adrianmarceau"
+                    ],
+                    "sheets": 1
+                },
+                "robots": {
+                    "master": "monking-r"
+                },
+                "shop": {
+                    "price": 0,
+                    "value": 0,
+                    "tab": "",
+                    "level": 0
+                },
+                "flags": {
+                    "hidden": 1,
+                    "complete": 1,
+                    "published": 1,
+                    "unlockable": 0
+                },
+                "group": "Hidden",
+                "order": 20,
+                "number": 21
+            },
+            "pins-needles": {
+                "token": "pins-needles",
+                "name": "Pins 'n Needles",
+                "class": "mecha",
+                "game": "MM3",
+                "types": [
+                    "cutter"
+                ],
+                "colors": [
+                    "cutter"
+                ],
+                "stats": {
+                    "target": "auto",
+                    "speed": {
+                        "value": 1,
+                        "real": 1
+                    },
+                    "accuracy": {
+                        "value": 90
+                    },
+                    "energy": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "damage": {
+                        "value": 10,
+                        "percent": 0
+                    },
+                    "damage2": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery2": {
+                        "value": 0,
+                        "percent": 0
+                    }
+                },
+                "flavor": {
+                    "description": {
+                        "short": "",
+                        "full": "The user fires a volley of needles into the air that rains down on random targets to inflict damage."
+                    }
+                },
+                "image": {
+                    "token": "pins-needles",
+                    "size": 40,
+                    "editors": [
+                        "adrianmarceau"
+                    ],
+                    "sheets": 1
+                },
+                "robots": {
+                    "master": "needle-ned"
+                },
+                "shop": {
+                    "price": 0,
+                    "value": 0,
+                    "tab": "",
+                    "level": 0
+                },
+                "flags": {
+                    "hidden": 1,
+                    "complete": 1,
+                    "published": 1,
+                    "unlockable": 0
+                },
+                "group": "Hidden",
+                "order": 21,
+                "number": 22
+            },
+            "nitron-fire": {
+                "token": "nitron-fire",
+                "name": "Nitron Fire",
+                "class": "mecha",
+                "game": "MM3",
+                "types": [
+                    "flame"
+                ],
+                "colors": [
+                    "flame"
+                ],
+                "stats": {
+                    "target": "auto",
+                    "speed": {
+                        "value": 1,
+                        "real": 1
+                    },
+                    "accuracy": {
+                        "value": 96
+                    },
+                    "energy": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "damage": {
+                        "value": 13,
+                        "percent": 0
+                    },
+                    "damage2": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery2": {
+                        "value": 0,
+                        "percent": 0
+                    }
+                },
+                "flavor": {
+                    "description": {
+                        "short": "",
+                        "full": "The user sends a flaming geyser toward the target to inflict damage."
+                    }
+                },
+                "image": {
+                    "token": "nitron-fire",
+                    "size": 40,
+                    "editors": [
+                        "adrianmarceau"
+                    ],
+                    "sheets": 1
+                },
+                "robots": {
+                    "master": "nitron-r"
+                },
+                "shop": {
+                    "price": 0,
+                    "value": 0,
+                    "tab": "",
+                    "level": 0
+                },
+                "flags": {
+                    "hidden": 1,
+                    "complete": 1,
+                    "published": 1,
+                    "unlockable": 0
+                },
+                "group": "Hidden",
+                "order": 22,
+                "number": 23
+            },
+            "nitron-ice": {
+                "token": "nitron-ice",
+                "name": "Nitron Ice",
+                "class": "mecha",
+                "game": "MM3",
+                "types": [
+                    "freeze"
+                ],
+                "colors": [
+                    "freeze"
+                ],
+                "stats": {
+                    "target": "auto",
+                    "speed": {
+                        "value": 1,
+                        "real": 1
+                    },
+                    "accuracy": {
+                        "value": 98
+                    },
+                    "energy": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "damage": {
+                        "value": 12,
+                        "percent": 0
+                    },
+                    "damage2": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery2": {
+                        "value": 0,
+                        "percent": 0
+                    }
+                },
+                "flavor": {
+                    "description": {
+                        "short": "",
+                        "full": "The user sends a frozen pillar toward the target to inflict damage."
+                    }
+                },
+                "image": {
+                    "token": "nitron-ice",
+                    "size": 40,
+                    "editors": [
+                        "adrianmarceau"
+                    ],
+                    "sheets": 1
+                },
+                "robots": {
+                    "master": "nitron-b"
+                },
+                "shop": {
+                    "price": 0,
+                    "value": 0,
+                    "tab": "",
+                    "level": 0
+                },
+                "flags": {
+                    "hidden": 1,
+                    "complete": 1,
+                    "published": 1,
+                    "unlockable": 0
+                },
+                "group": "Hidden",
+                "order": 23,
+                "number": 24
+            },
+            "nitron-bolt": {
+                "token": "nitron-bolt",
+                "name": "Nitron Bolt",
+                "class": "mecha",
+                "game": "MM3",
+                "types": [
+                    "electric"
+                ],
+                "colors": [
+                    "electric"
+                ],
+                "stats": {
+                    "target": "auto",
+                    "speed": {
+                        "value": 1,
+                        "real": 1
+                    },
+                    "accuracy": {
+                        "value": 100
+                    },
+                    "energy": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "damage": {
+                        "value": 11,
+                        "percent": 0
+                    },
+                    "damage2": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery2": {
+                        "value": 0,
+                        "percent": 0
+                    }
+                },
+                "flavor": {
+                    "description": {
+                        "short": "",
+                        "full": "The user sends an electric spark toward the target to inflict damage."
+                    }
+                },
+                "image": {
+                    "token": "nitron-bolt",
+                    "size": 40,
+                    "editors": [
+                        "adrianmarceau"
+                    ],
+                    "sheets": 1
+                },
+                "robots": {
+                    "master": "nitron-y"
+                },
+                "shop": {
+                    "price": 0,
+                    "value": 0,
+                    "tab": "",
+                    "level": 0
+                },
+                "flags": {
+                    "hidden": 1,
+                    "complete": 1,
+                    "published": 1,
+                    "unlockable": 0
+                },
+                "group": "Hidden",
+                "order": 24,
+                "number": 25
+            },
+            "snake-shot": {
+                "token": "snake-shot",
+                "name": "Snake Shot",
+                "class": "mecha",
+                "game": "MMRPGP",
+                "types": [
+                    "nature"
+                ],
+                "colors": [
+                    "nature"
+                ],
+                "stats": {
+                    "target": "auto",
+                    "speed": {
+                        "value": 1,
+                        "real": 1
+                    },
+                    "accuracy": {
+                        "value": 90
+                    },
+                    "energy": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "damage": {
+                        "value": 6,
+                        "percent": 0
+                    },
+                    "damage2": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery2": {
+                        "value": 0,
+                        "percent": 0
+                    }
+                },
+                "flavor": {
+                    "description": {
+                        "short": "",
+                        "full": "The user fires a barrage of sepentine bullets at the target to inflict damage."
+                    }
+                },
+                "image": {
+                    "token": "snake-shot",
+                    "size": 40,
+                    "editors": [
+                        "adrianmarceau"
+                    ],
+                    "sheets": 1
+                },
+                "robots": {
+                    "master": "petit-snakey"
+                },
+                "shop": {
+                    "price": 0,
+                    "value": 0,
+                    "tab": "",
+                    "level": 0
+                },
+                "flags": {
+                    "hidden": 1,
+                    "complete": 1,
+                    "published": 1,
+                    "unlockable": 0
+                },
+                "group": "Hidden",
+                "order": 25,
+                "number": 26
+            },
+            "leap-frog": {
+                "token": "leap-frog",
+                "name": "Leap Frog",
+                "class": "mecha",
+                "game": "MM3",
+                "types": [
+                    "impact"
+                ],
+                "colors": [
+                    "impact"
+                ],
+                "stats": {
+                    "target": "select",
+                    "speed": {
+                        "value": 1,
+                        "real": 1
+                    },
+                    "accuracy": {
+                        "value": 96
+                    },
+                    "energy": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "damage": {
+                        "value": 18,
+                        "percent": 0
+                    },
+                    "damage2": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery2": {
+                        "value": 0,
+                        "percent": 0
+                    }
+                },
+                "flavor": {
+                    "description": {
+                        "short": "",
+                        "full": "The user jumps up high and then lands on a target to inflict damage."
+                    }
+                },
+                "image": {
+                    "token": "leap-frog",
+                    "size": 40,
+                    "editors": [
+                        "adrianmarceau"
+                    ],
+                    "sheets": 1
+                },
+                "robots": {
+                    "master": "ribbitron"
+                },
+                "shop": {
+                    "price": 0,
+                    "value": 0,
+                    "tab": "",
+                    "level": 0
+                },
+                "flags": {
+                    "hidden": 1,
+                    "complete": 1,
+                    "published": 1,
+                    "unlockable": 0
+                },
+                "group": "Hidden",
+                "order": 26,
+                "number": 27
+            },
+            "power-spin": {
+                "token": "power-spin",
+                "name": "Power Spin",
+                "class": "mecha",
+                "game": "MM3",
+                "types": [
+                    "swift"
+                ],
+                "colors": [
+                    "swift"
+                ],
+                "stats": {
+                    "target": "auto",
+                    "speed": {
+                        "value": 1,
+                        "real": 1
+                    },
+                    "accuracy": {
+                        "value": 92
+                    },
+                    "energy": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "damage": {
+                        "value": 18,
+                        "percent": 0
+                    },
+                    "damage2": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery2": {
+                        "value": 0,
+                        "percent": 0
+                    }
+                },
+                "flavor": {
+                    "description": {
+                        "short": "",
+                        "full": "The user generates a powerful top from it's belly and sends it toward the target to inflict damage."
+                    }
+                },
+                "image": {
+                    "token": "power-spin",
+                    "size": 40,
+                    "editors": [
+                        "adrianmarceau"
+                    ],
+                    "sheets": 1
+                },
+                "robots": {
+                    "master": "spin-fiend"
+                },
+                "shop": {
+                    "price": 0,
+                    "value": 0,
+                    "tab": "",
+                    "level": 0
+                },
+                "flags": {
+                    "hidden": 1,
+                    "complete": 1,
+                    "published": 1,
+                    "unlockable": 0
+                },
+                "group": "Hidden",
+                "order": 27,
+                "number": 28
+            },
+            "flash-bulb": {
+                "token": "flash-bulb",
+                "name": "Flash Bulb",
+                "class": "mecha",
+                "game": "MM4",
+                "types": [
+                    "electric"
+                ],
+                "colors": [
+                    "electric"
+                ],
+                "stats": {
+                    "target": "auto",
+                    "speed": {
+                        "value": 1,
+                        "real": 1
+                    },
+                    "accuracy": {
+                        "value": 100
+                    },
+                    "energy": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "damage": {
+                        "value": 10,
+                        "percent": 0
+                    },
+                    "damage2": {
+                        "value": 2,
+                        "percent": 1
+                    },
+                    "recovery": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery2": {
+                        "value": 0,
+                        "percent": 0
+                    }
+                },
+                "flavor": {
+                    "description": {
+                        "short": "",
+                        "full": "The user generates an intense burst of light that damages the target and lowers their attack by one stage!"
+                    }
+                },
+                "image": {
+                    "token": "flash-bulb",
+                    "size": 40,
+                    "editors": [
+                        "adrianmarceau"
+                    ],
+                    "sheets": 1
+                },
+                "robots": {
+                    "master": "bulb-blaster"
+                },
+                "shop": {
+                    "price": 0,
+                    "value": 0,
+                    "tab": "",
+                    "level": 0
+                },
+                "flags": {
+                    "hidden": 1,
+                    "complete": 1,
+                    "published": 1,
+                    "unlockable": 0
+                },
+                "group": "Hidden",
+                "order": 28,
+                "number": 29
+            },
+            "fishtot-tackle": {
+                "token": "fishtot-tackle",
+                "name": "Fishtot Tackle",
+                "class": "mecha",
+                "game": "MM4",
+                "types": [
+                    "water"
+                ],
+                "colors": [
+                    "water"
+                ],
+                "stats": {
+                    "target": "auto",
+                    "speed": {
+                        "value": 1,
+                        "real": 1
+                    },
+                    "accuracy": {
+                        "value": 94
+                    },
+                    "energy": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "damage": {
+                        "value": 16,
+                        "percent": 0
+                    },
+                    "damage2": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery2": {
+                        "value": 0,
+                        "percent": 0
+                    }
+                },
+                "flavor": {
+                    "description": {
+                        "short": "",
+                        "full": "The user swims across the field at full speed to crash into the target and inflict damage."
+                    }
+                },
+                "image": {
+                    "token": "fishtot-tackle",
+                    "size": 40,
+                    "editors": [
+                        "adrianmarceau"
+                    ],
+                    "sheets": 1
+                },
+                "robots": {
+                    "master": "robo-fishtot"
+                },
+                "shop": {
+                    "price": 0,
+                    "value": 0,
+                    "tab": "",
+                    "level": 0
+                },
+                "flags": {
+                    "hidden": 1,
+                    "complete": 1,
+                    "published": 1,
+                    "unlockable": 0
+                },
+                "group": "Hidden",
+                "order": 29,
+                "number": 30
+            },
+            "blade-spinner": {
+                "token": "blade-spinner",
+                "name": "Blade Spinner",
+                "class": "mecha",
+                "game": "MM4",
+                "types": [
+                    "wind"
+                ],
+                "colors": [
+                    "wind"
+                ],
+                "stats": {
+                    "target": "auto",
+                    "speed": {
+                        "value": 1,
+                        "real": 1
+                    },
+                    "accuracy": {
+                        "value": 96
+                    },
+                    "energy": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "damage": {
+                        "value": 16,
+                        "percent": 0
+                    },
+                    "damage2": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery2": {
+                        "value": 0,
+                        "percent": 0
+                    }
+                },
+                "flavor": {
+                    "description": {
+                        "short": "",
+                        "full": "The user shoots its propeller at the target to generate a whirlwind that inflicts damage."
+                    }
+                },
+                "image": {
+                    "token": "blade-spinner",
+                    "size": 40,
+                    "editors": [
+                        "adrianmarceau"
+                    ],
+                    "sheets": 1
+                },
+                "robots": {
+                    "master": "lady-blader"
+                },
+                "shop": {
+                    "price": 0,
+                    "value": 0,
+                    "tab": "",
+                    "level": 0
+                },
+                "flags": {
+                    "hidden": 1,
+                    "complete": 1,
+                    "published": 1,
+                    "unlockable": 0
+                },
+                "group": "Hidden",
+                "order": 30,
+                "number": 31
+            },
+            "manta-seeker": {
+                "token": "manta-seeker",
+                "name": "Manta Seeker",
+                "class": "mecha",
+                "game": "MM4",
+                "types": [
+                    "missile"
+                ],
+                "colors": [
+                    "missile"
+                ],
+                "stats": {
+                    "target": "select_target",
+                    "speed": {
+                        "value": 1,
+                        "real": 1
+                    },
+                    "accuracy": {
+                        "value": 94
+                    },
+                    "energy": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "damage": {
+                        "value": 16,
+                        "percent": 0
+                    },
+                    "damage2": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery2": {
+                        "value": 0,
+                        "percent": 0
+                    }
+                },
+                "flavor": {
+                    "description": {
+                        "short": "",
+                        "full": "The user glides across the field and crashes into any target to inflict damage."
+                    }
+                },
+                "image": {
+                    "token": "manta-seeker",
+                    "size": 40,
+                    "editors": [
+                        "adrianmarceau"
+                    ],
+                    "sheets": 1
+                },
+                "robots": {
+                    "master": "manta-missile"
+                },
+                "shop": {
+                    "price": 0,
+                    "value": 0,
+                    "tab": "",
+                    "level": 0
+                },
+                "flags": {
+                    "hidden": 1,
+                    "complete": 1,
+                    "published": 1,
+                    "unlockable": 0
+                },
+                "group": "Hidden",
+                "order": 31,
+                "number": 32
+            },
+            "mole-rush": {
+                "token": "mole-rush",
+                "name": "Mole Rush",
+                "class": "mecha",
+                "game": "MM4",
+                "types": [
+                    "earth"
+                ],
+                "colors": [
+                    "earth"
+                ],
+                "stats": {
+                    "target": "auto",
+                    "speed": {
+                        "value": 1,
+                        "real": 1
+                    },
+                    "accuracy": {
+                        "value": 99
+                    },
+                    "energy": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "damage": {
+                        "value": 15,
+                        "percent": 0
+                    },
+                    "damage2": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery2": {
+                        "value": 0,
+                        "percent": 0
+                    }
+                },
+                "flavor": {
+                    "description": {
+                        "short": "",
+                        "full": "The users dash across the field at full speed and crashes into the target to inflict damage."
+                    }
+                },
+                "image": {
+                    "token": "mole-rush",
+                    "size": 40,
+                    "editors": [
+                        "adrianmarceau"
+                    ],
+                    "sheets": 1
+                },
+                "robots": {
+                    "master": "drill-mole"
+                },
+                "shop": {
+                    "price": 0,
+                    "value": 0,
+                    "tab": "",
+                    "level": 0
+                },
+                "flags": {
+                    "hidden": 1,
+                    "complete": 1,
+                    "published": 1,
+                    "unlockable": 0
+                },
+                "group": "Hidden",
+                "order": 32,
+                "number": 33
+            },
+            "pyre-flame": {
+                "token": "pyre-flame",
+                "name": "Pyre Flame",
+                "class": "mecha",
+                "game": "MM4",
+                "types": [
+                    "flame"
+                ],
+                "colors": [
+                    "flame"
+                ],
+                "stats": {
+                    "target": "auto",
+                    "speed": {
+                        "value": 1,
+                        "real": 1
+                    },
+                    "accuracy": {
+                        "value": 98
+                    },
+                    "energy": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "damage": {
+                        "value": 16,
+                        "percent": 0
+                    },
+                    "damage2": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery2": {
+                        "value": 0,
+                        "percent": 0
+                    }
+                },
+                "flavor": {
+                    "description": {
+                        "short": "",
+                        "full": "The user generates a large flame and blows it at the target to inflict damage."
+                    }
+                },
+                "image": {
+                    "token": "pyre-flame",
+                    "size": 40,
+                    "editors": [
+                        "adrianmarceau"
+                    ],
+                    "sheets": 1
+                },
+                "robots": {
+                    "master": "pyre-fly"
+                },
+                "shop": {
+                    "price": 0,
+                    "value": 0,
+                    "tab": "",
+                    "level": 0
+                },
+                "flags": {
+                    "hidden": 1,
+                    "complete": 1,
+                    "published": 1,
+                    "unlockable": 0
+                },
+                "group": "Hidden",
+                "order": 33,
+                "number": 34
+            },
+            "ring-tackle": {
+                "token": "ring-tackle",
+                "name": "Ring Tackle",
+                "class": "mecha",
+                "game": "MM4",
+                "types": [
+                    "space"
+                ],
+                "colors": [
+                    "space"
+                ],
+                "stats": {
+                    "target": "auto",
+                    "speed": {
+                        "value": 1,
+                        "real": 1
+                    },
+                    "accuracy": {
+                        "value": 96
+                    },
+                    "energy": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "damage": {
+                        "value": 16,
+                        "percent": 0
+                    },
+                    "damage2": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery2": {
+                        "value": 0,
+                        "percent": 0
+                    }
+                },
+                "flavor": {
+                    "description": {
+                        "short": "",
+                        "full": "The user propels itself across the ground until it crashes into the target to inflict damage."
+                    }
+                },
+                "image": {
+                    "token": "ring-tackle",
+                    "size": 40,
+                    "editors": [
+                        "adrianmarceau"
+                    ],
+                    "sheets": 1
+                },
+                "robots": {
+                    "master": "ring-ring"
+                },
+                "shop": {
+                    "price": 0,
+                    "value": 0,
+                    "tab": "",
+                    "level": 0
+                },
+                "flags": {
+                    "hidden": 1,
+                    "complete": 1,
+                    "published": 1,
+                    "unlockable": 0
+                },
+                "group": "Hidden",
+                "order": 34,
+                "number": 35
+            },
+            "rodent-rush": {
+                "token": "rodent-rush",
+                "name": "Rodent Rush",
+                "class": "mecha",
+                "game": "MM5",
+                "types": [
+                    "swift"
+                ],
+                "colors": [
+                    "swift"
+                ],
+                "stats": {
+                    "target": "select_target",
+                    "speed": {
+                        "value": 1,
+                        "real": 1
+                    },
+                    "accuracy": {
+                        "value": 100
+                    },
+                    "energy": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "damage": {
+                        "value": 15,
+                        "percent": 0
+                    },
+                    "damage2": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery2": {
+                        "value": 0,
+                        "percent": 0
+                    }
+                },
+                "flavor": {
+                    "description": {
+                        "short": "",
+                        "full": "The user slides and scurries around the ground directly towards the target to inflict damage."
+                    }
+                },
+                "image": {
+                    "token": "rodent-rush",
+                    "size": 40,
+                    "editors": [
+                        "milansaponja"
+                    ],
+                    "sheets": 1
+                },
+                "robots": {
+                    "master": "mouslider"
+                },
+                "shop": {
+                    "price": 0,
+                    "value": 0,
+                    "tab": "",
+                    "level": 0
+                },
+                "flags": {
+                    "hidden": 1,
+                    "complete": 1,
+                    "published": 1,
+                    "unlockable": 0
+                },
+                "group": "Hidden",
+                "order": 35,
+                "number": 36
+            },
+            "skull-shot": {
+                "token": "skull-shot",
+                "name": "Skull Shot",
+                "class": "mecha",
+                "game": "MMRPGP",
+                "types": [
+                    "shadow"
+                ],
+                "colors": [
+                    "shadow"
+                ],
+                "stats": {
+                    "target": "auto",
+                    "speed": {
+                        "value": 1,
+                        "real": 1
+                    },
+                    "accuracy": {
+                        "value": 94
+                    },
+                    "energy": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "damage": {
+                        "value": 17,
+                        "percent": 0
+                    },
+                    "damage2": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery2": {
+                        "value": 0,
+                        "percent": 0
+                    }
+                },
+                "flavor": {
+                    "description": {
+                        "short": "",
+                        "full": "The user fires a tiny skull-shaped bomb at the target that explodes to inflict damage."
+                    }
+                },
+                "image": {
+                    "token": "skull-shot",
+                    "size": 40,
+                    "editors": [
+                        "adrianmarceau"
+                    ],
+                    "sheets": 1
+                },
+                "robots": {
+                    "master": "skullmet"
+                },
+                "shop": {
+                    "price": 0,
+                    "value": 0,
+                    "tab": "",
+                    "level": 0
+                },
+                "flags": {
+                    "hidden": 1,
+                    "complete": 1,
+                    "published": 1,
+                    "unlockable": 0
+                },
+                "group": "Hidden",
+                "order": 36,
+                "number": 37
+            },
+            "shield-attack": {
+                "token": "shield-attack",
+                "name": "Shield Attack",
+                "class": "mecha",
+                "game": "MM4",
+                "types": [
+                    "shield"
+                ],
+                "colors": [
+                    "shield"
+                ],
+                "stats": {
+                    "target": "auto",
+                    "speed": {
+                        "value": 1,
+                        "real": 1
+                    },
+                    "accuracy": {
+                        "value": 100
+                    },
+                    "energy": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "damage": {
+                        "value": 15,
+                        "percent": 0
+                    },
+                    "damage2": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery2": {
+                        "value": 0,
+                        "percent": 0
+                    }
+                },
+                "flavor": {
+                    "description": {
+                        "short": "",
+                        "full": "The user propels itself across the field until it crashes into the target to inflict damage.  Damage caused by this ability is calculated via the user's defense stat rather of their attack stat."
+                    }
+                },
+                "image": {
+                    "token": "shield-attack",
+                    "size": 40,
+                    "editors": [],
+                    "sheets": 1
+                },
+                "robots": {
+                    "master": "shield-attacker"
+                },
+                "shop": {
+                    "price": 0,
+                    "value": 0,
+                    "tab": "",
+                    "level": 0
+                },
+                "flags": {
+                    "hidden": 1,
+                    "complete": 1,
+                    "published": 1,
+                    "unlockable": 0
+                },
+                "group": "Hidden",
+                "order": 37,
+                "number": 38
+            },
+            "big-bang": {
+                "token": "big-bang",
+                "name": "Big Bang",
+                "class": "mecha",
+                "game": "MMRPGP",
+                "types": [
+                    "space"
+                ],
+                "colors": [
+                    "space"
+                ],
+                "stats": {
+                    "target": "auto",
+                    "speed": {
+                        "value": 1,
+                        "real": 1
+                    },
+                    "accuracy": {
+                        "value": 94
+                    },
+                    "energy": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "damage": {
+                        "value": 25,
+                        "percent": 0
+                    },
+                    "damage2": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery2": {
+                        "value": 0,
+                        "percent": 0
+                    }
+                },
+                "flavor": {
+                    "description": {
+                        "short": "",
+                        "full": ""
+                    }
+                },
+                "image": {
+                    "token": "big-bang",
+                    "size": 40,
+                    "editors": [
+                        "milansaponja"
+                    ],
+                    "sheets": 1
+                },
+                "robots": {
+                    "master": "novamite"
+                },
+                "shop": {
+                    "price": 0,
+                    "value": 0,
+                    "tab": "",
+                    "level": 0
+                },
+                "flags": {
+                    "hidden": 1,
+                    "complete": 1,
+                    "published": 1,
+                    "unlockable": 0
+                },
+                "group": "Unsorted",
+                "order": 38,
+                "number": 39
+            },
+            "bone-cannon": {
+                "token": "bone-cannon",
+                "name": "Bone Cannon",
+                "class": "mecha",
+                "game": "MMRPG",
+                "types": [
+                    "shadow"
+                ],
+                "colors": [
+                    "shadow"
+                ],
+                "stats": {
+                    "target": "auto",
+                    "speed": {
+                        "value": 0,
+                        "real": 0
+                    },
+                    "accuracy": {
+                        "value": 100
+                    },
+                    "energy": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "damage": {
+                        "value": 15,
+                        "percent": 0
+                    },
+                    "damage2": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery2": {
+                        "value": 0,
+                        "percent": 0
+                    }
+                },
+                "flavor": {
+                    "description": {
+                        "short": "",
+                        "full": "The user fires a large bone-like canon at the target to deal damage and lower their defense by one stage."
+                    }
+                },
+                "image": {
+                    "token": "mecha",
+                    "size": 40,
+                    "editors": [],
+                    "sheets": 0
+                },
+                "robots": {
+                    "master": "skeleton-joe"
+                },
+                "shop": {
+                    "price": 0,
+                    "value": 0,
+                    "tab": "",
+                    "level": 0
+                },
+                "flags": {
+                    "hidden": 1,
+                    "complete": 1,
+                    "published": 1,
+                    "unlockable": 0
+                },
+                "group": "Unsorted",
+                "order": 39,
+                "number": 40
+            },
+            "crystal-frag": {
+                "token": "crystal-frag",
+                "name": "Crystal Frag",
+                "class": "mecha",
+                "game": "MMRPG",
+                "types": [
+                    "crystal"
+                ],
+                "colors": [
+                    "crystal"
+                ],
+                "stats": {
+                    "target": "auto",
+                    "speed": {
+                        "value": -1,
+                        "real": -1
+                    },
+                    "accuracy": {
+                        "value": 100
+                    },
+                    "energy": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "damage": {
+                        "value": 30,
+                        "percent": 0
+                    },
+                    "damage2": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery2": {
+                        "value": 100,
+                        "percent": 0
+                    }
+                },
+                "flavor": {
+                    "description": {
+                        "short": "",
+                        "full": "The user generates a crystal fragment that it uses as both a weapon and a shield.  When this ability is first used, a fragment is generated that blocks all attacks.  When the ability is used again, the fragment is thrown at the target for damage."
+                    }
+                },
+                "image": {
+                    "token": "crystal-frag",
+                    "size": 40,
+                    "editors": [
+                        "adrianmarceau"
+                    ],
+                    "sheets": 1
+                },
+                "robots": {
+                    "master": ""
+                },
+                "shop": {
+                    "price": 0,
+                    "value": 0,
+                    "tab": "",
+                    "level": 0
+                },
+                "flags": {
+                    "hidden": 1,
+                    "complete": 1,
+                    "published": 1,
+                    "unlockable": 0
+                },
+                "group": "Unsorted",
+                "order": 40,
+                "number": 41
+            },
+            "jump-shot": {
+                "token": "jump-shot",
+                "name": "Jump Shot",
+                "class": "mecha",
+                "game": "MM5",
+                "types": [
+                    "impact"
+                ],
+                "colors": [
+                    "impact"
+                ],
+                "stats": {
+                    "target": "auto",
+                    "speed": {
+                        "value": 1,
+                        "real": 1
+                    },
+                    "accuracy": {
+                        "value": 94
+                    },
+                    "energy": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "damage": {
+                        "value": 17,
+                        "percent": 0
+                    },
+                    "damage2": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery2": {
+                        "value": 0,
+                        "percent": 0
+                    }
+                },
+                "flavor": {
+                    "description": {
+                        "short": "",
+                        "full": ""
+                    }
+                },
+                "image": {
+                    "token": "jump-shot",
+                    "size": 40,
+                    "editors": [
+                        "milansaponja"
+                    ],
+                    "sheets": 1
+                },
+                "robots": {
+                    "master": "pukapunter"
+                },
+                "shop": {
+                    "price": 0,
+                    "value": 0,
+                    "tab": "",
+                    "level": 0
+                },
+                "flags": {
+                    "hidden": 1,
+                    "complete": 1,
+                    "published": 1,
+                    "unlockable": 0
+                },
+                "group": "Unsorted",
+                "order": 41,
+                "number": 42
+            },
+            "nose-dive": {
+                "token": "nose-dive",
+                "name": "Nose Dive",
+                "class": "mecha",
+                "game": "MMRPG",
+                "types": [
+                    "cutter"
+                ],
+                "colors": [
+                    "cutter"
+                ],
+                "stats": {
+                    "target": "auto",
+                    "speed": {
+                        "value": 1,
+                        "real": 1
+                    },
+                    "accuracy": {
+                        "value": 96
+                    },
+                    "energy": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "damage": {
+                        "value": 16,
+                        "percent": 0
+                    },
+                    "damage2": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery2": {
+                        "value": 0,
+                        "percent": 0
+                    }
+                },
+                "flavor": {
+                    "description": {
+                        "short": "",
+                        "full": ""
+                    }
+                },
+                "image": {
+                    "token": "nose-dive",
+                    "size": 40,
+                    "editors": [],
+                    "sheets": 1
+                },
+                "robots": {
+                    "master": "krushdiver"
+                },
+                "shop": {
+                    "price": 0,
+                    "value": 0,
+                    "tab": "",
+                    "level": 0
+                },
+                "flags": {
+                    "hidden": 1,
+                    "complete": 1,
+                    "published": 1,
+                    "unlockable": 0
+                },
+                "group": "Unsorted",
+                "order": 42,
+                "number": 43
+            },
+            "quantum-gravity": {
+                "token": "quantum-gravity",
+                "name": "Quantum Gravity",
+                "class": "mecha",
+                "game": "MM5",
+                "types": [
+                    "electric"
+                ],
+                "colors": [
+                    "electric"
+                ],
+                "stats": {
+                    "target": "auto",
+                    "speed": {
+                        "value": 1,
+                        "real": 1
+                    },
+                    "accuracy": {
+                        "value": 100
+                    },
+                    "energy": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "damage": {
+                        "value": 14,
+                        "percent": 0
+                    },
+                    "damage2": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery2": {
+                        "value": 0,
+                        "percent": 0
+                    }
+                },
+                "flavor": {
+                    "description": {
+                        "short": "",
+                        "full": ""
+                    }
+                },
+                "image": {
+                    "token": "quantum-gravity",
+                    "size": 40,
+                    "editors": [
+                        "adrianmarceau"
+                    ],
+                    "sheets": 1
+                },
+                "robots": {
+                    "master": "flipping-suzy"
+                },
+                "shop": {
+                    "price": 0,
+                    "value": 0,
+                    "tab": "",
+                    "level": 0
+                },
+                "flags": {
+                    "hidden": 1,
+                    "complete": 1,
+                    "published": 1,
+                    "unlockable": 0
+                },
+                "group": "Unsorted",
+                "order": 43,
+                "number": 44
+            },
+            "snipe-shot": {
+                "token": "snipe-shot",
+                "name": "Snipe Shot",
+                "class": "mecha",
+                "game": "MMRPG",
+                "types": [],
+                "colors": [],
+                "stats": {
+                    "target": "select_target",
+                    "speed": {
+                        "value": 0,
+                        "real": 0
+                    },
+                    "accuracy": {
+                        "value": 100
+                    },
+                    "energy": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "damage": {
+                        "value": 15,
+                        "percent": 0
+                    },
+                    "damage2": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery2": {
+                        "value": 0,
+                        "percent": 0
+                    }
+                },
+                "flavor": {
+                    "description": {
+                        "short": "",
+                        "full": "The user scopes out their target's weak point and fires a sniper shot with perfect precision.  This attack's damage is not affected by the target's position and always results in a critical hit."
+                    }
+                },
+                "image": {
+                    "token": "snipe-shot",
+                    "size": 40,
+                    "editors": [
+                        "adrianmarceau"
+                    ],
+                    "sheets": 1
+                },
+                "robots": {
+                    "master": "sniper-joe"
+                },
+                "shop": {
+                    "price": 0,
+                    "value": 0,
+                    "tab": "",
+                    "level": 0
+                },
+                "flags": {
+                    "hidden": 1,
+                    "complete": 1,
+                    "published": 1,
+                    "unlockable": 0
+                },
+                "group": "Unsorted",
+                "order": 44,
+                "number": 45
+            },
+            "tamp-stamp": {
+                "token": "tamp-stamp",
+                "name": "Tamp Stamp",
+                "class": "mecha",
+                "game": "MMRPG",
+                "types": [
+                    "impact"
+                ],
+                "colors": [
+                    "impact"
+                ],
+                "stats": {
+                    "target": "select_target",
+                    "speed": {
+                        "value": 0,
+                        "real": 0
+                    },
+                    "accuracy": {
+                        "value": 100
+                    },
+                    "energy": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "damage": {
+                        "value": 15,
+                        "percent": 0
+                    },
+                    "damage2": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery2": {
+                        "value": 0,
+                        "percent": 0
+                    }
+                },
+                "flavor": {
+                    "description": {
+                        "short": "",
+                        "full": "The user teleports upwards into the sky and then comes slamming down onto the target for damage!"
+                    }
+                },
+                "image": {
+                    "token": "tamp-stamp",
+                    "size": 40,
+                    "editors": [],
+                    "sheets": 1
+                },
+                "robots": {
+                    "master": "tamp"
+                },
+                "shop": {
+                    "price": 0,
+                    "value": 0,
+                    "tab": "",
+                    "level": 0
+                },
+                "flags": {
+                    "hidden": 0,
+                    "complete": 1,
+                    "published": 1,
+                    "unlockable": 0
+                },
+                "group": "Unsorted",
+                "order": 45,
+                "number": 46
+            },
+            "wave-wipeout": {
+                "token": "wave-wipeout",
+                "name": "Wave Wipeout",
+                "class": "mecha",
+                "game": "MMRPG",
+                "types": [
+                    "water"
+                ],
+                "colors": [
+                    "water"
+                ],
+                "stats": {
+                    "target": "auto",
+                    "speed": {
+                        "value": 0,
+                        "real": 0
+                    },
+                    "accuracy": {
+                        "value": 100
+                    },
+                    "energy": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "damage": {
+                        "value": 10,
+                        "percent": 0
+                    },
+                    "damage2": {
+                        "value": 2,
+                        "percent": 1
+                    },
+                    "recovery": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery2": {
+                        "value": 0,
+                        "percent": 0
+                    }
+                },
+                "flavor": {
+                    "description": {
+                        "short": "",
+                        "full": ""
+                    }
+                },
+                "image": {
+                    "token": "wave-wipeout",
+                    "size": 40,
+                    "editors": [],
+                    "sheets": 1
+                },
+                "robots": {
+                    "master": ""
+                },
+                "shop": {
+                    "price": 0,
+                    "value": 0,
+                    "tab": "",
+                    "level": 0
+                },
+                "flags": {
+                    "hidden": 1,
+                    "complete": 1,
+                    "published": 1,
+                    "unlockable": 0
+                },
+                "group": "Unsorted",
+                "order": 46,
+                "number": 47
+            }
         },
-        "total": 0
+        "total": 48,
+        "visible": 10
     }
 }

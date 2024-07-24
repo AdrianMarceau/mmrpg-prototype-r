@@ -1,10 +1,648 @@
 {
     "status": "success",
-    "updated": 1721669400,
+    "updated": 1721795128,
     "data": {
         "abilities": {
-
+            "ability": {
+                "token": "ability",
+                "name": "Ability",
+                "class": "system",
+                "game": "MMRPG",
+                "types": [],
+                "colors": [],
+                "stats": {
+                    "target": "auto",
+                    "speed": {
+                        "value": 1,
+                        "real": 1
+                    },
+                    "accuracy": {
+                        "value": 100
+                    },
+                    "energy": {
+                        "value": 1,
+                        "percent": 0
+                    },
+                    "damage": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "damage2": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery2": {
+                        "value": 0,
+                        "percent": 0
+                    }
+                },
+                "flavor": {
+                    "description": {
+                        "short": "",
+                        "full": "The default ability object."
+                    }
+                },
+                "image": {
+                    "token": "ability",
+                    "size": 40,
+                    "editors": [],
+                    "sheets": 1
+                },
+                "robots": {
+                    "master": ""
+                },
+                "shop": {
+                    "price": 0,
+                    "value": 0,
+                    "tab": "",
+                    "level": 0
+                },
+                "flags": {
+                    "hidden": 1,
+                    "complete": 1,
+                    "published": 1,
+                    "unlockable": 0
+                },
+                "group": "System",
+                "order": -1,
+                "number": 0
+            },
+            "star-support": {
+                "token": "star-support",
+                "name": "Star Support",
+                "class": "boss",
+                "game": "MMRPG",
+                "types": [],
+                "colors": [],
+                "stats": {
+                    "target": "auto",
+                    "speed": {
+                        "value": 3,
+                        "real": 3
+                    },
+                    "accuracy": {
+                        "value": 100
+                    },
+                    "energy": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "damage": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "damage2": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery2": {
+                        "value": 0,
+                        "percent": 0
+                    }
+                },
+                "flavor": {
+                    "description": {
+                        "short": "",
+                        "full": "The user wishes upon a nearby star with all their might, seeking support and hoping their call will be answered."
+                    }
+                },
+                "image": {
+                    "token": "star-support",
+                    "size": 40,
+                    "editors": [],
+                    "sheets": 1
+                },
+                "robots": {
+                    "master": ""
+                },
+                "shop": {
+                    "price": 0,
+                    "value": 0,
+                    "tab": "",
+                    "level": 0
+                },
+                "flags": {
+                    "hidden": 1,
+                    "complete": 1,
+                    "published": 1,
+                    "unlockable": 0
+                },
+                "group": "",
+                "order": false,
+                "number": 1
+            },
+            "trill-aura": {
+                "token": "trill-aura",
+                "name": "Trill Aura",
+                "class": "boss",
+                "game": "MMRPGP",
+                "types": [
+                    "space"
+                ],
+                "colors": [
+                    "space"
+                ],
+                "stats": {
+                    "target": "auto",
+                    "speed": {
+                        "value": 1,
+                        "real": 1
+                    },
+                    "accuracy": {
+                        "value": 100
+                    },
+                    "energy": {
+                        "value": 8,
+                        "percent": 0
+                    },
+                    "damage": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "damage2": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery2": {
+                        "value": 0,
+                        "percent": 0
+                    }
+                },
+                "flavor": {
+                    "description": {
+                        "short": "",
+                        "full": "The user surrounds itself in an aura that grants a temporarily immunity to all elemental damage for three turns!"
+                    }
+                },
+                "image": {
+                    "token": "ability",
+                    "size": 40,
+                    "editors": [],
+                    "sheets": 1
+                },
+                "robots": {
+                    "master": "trill"
+                },
+                "shop": {
+                    "price": 0,
+                    "value": 0,
+                    "tab": "",
+                    "level": 0
+                },
+                "flags": {
+                    "hidden": 1,
+                    "complete": 0,
+                    "published": 1,
+                    "unlockable": 0
+                },
+                "group": "Hidden",
+                "order": 0,
+                "number": 1
+            },
+            "master-support": {
+                "token": "master-support",
+                "name": "Master Support",
+                "class": "boss",
+                "game": "MMRPG",
+                "types": [],
+                "colors": [],
+                "stats": {
+                    "target": "auto",
+                    "speed": {
+                        "value": 6,
+                        "real": 6
+                    },
+                    "accuracy": {
+                        "value": 100
+                    },
+                    "energy": {
+                        "value": 10,
+                        "percent": 0
+                    },
+                    "damage": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "damage2": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery2": {
+                        "value": 0,
+                        "percent": 0
+                    }
+                },
+                "flavor": {
+                    "description": {
+                        "short": "",
+                        "full": "The user summons a familiar robot master to their side of the field, allowing it to fight as part of the user's own team for the rest of the battle! However, the weapon energy cost for this ability increases after each use and it works differently for Neutral and Copy Core robots."
+                    }
+                },
+                "image": {
+                    "token": "master-support",
+                    "size": 40,
+                    "editors": [
+                        "adrianmarceau"
+                    ],
+                    "sheets": 0
+                },
+                "robots": {
+                    "master": "slur"
+                },
+                "shop": {
+                    "price": 0,
+                    "value": 0,
+                    "tab": "",
+                    "level": 0
+                },
+                "flags": {
+                    "hidden": 0,
+                    "complete": 0,
+                    "published": 0,
+                    "unlockable": 0
+                },
+                "group": "",
+                "order": false,
+                "number": 1
+            },
+            "trill-slasher": {
+                "token": "trill-slasher",
+                "name": "Trill Slasher",
+                "class": "boss",
+                "game": "MMRPGP",
+                "types": [
+                    "space"
+                ],
+                "colors": [
+                    "space"
+                ],
+                "stats": {
+                    "target": "auto",
+                    "speed": {
+                        "value": 1,
+                        "real": 1
+                    },
+                    "accuracy": {
+                        "value": 93
+                    },
+                    "energy": {
+                        "value": 16,
+                        "percent": 0
+                    },
+                    "damage": {
+                        "value": 33,
+                        "percent": 0
+                    },
+                    "damage2": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery2": {
+                        "value": 0,
+                        "percent": 0
+                    }
+                },
+                "flavor": {
+                    "description": {
+                        "short": "",
+                        "full": "The user slashers at the target from across the field, creating a large cosmic blade that deals massive damage!"
+                    }
+                },
+                "image": {
+                    "token": "ability",
+                    "size": 40,
+                    "editors": [],
+                    "sheets": 1
+                },
+                "robots": {
+                    "master": "trill"
+                },
+                "shop": {
+                    "price": 0,
+                    "value": 0,
+                    "tab": "",
+                    "level": 0
+                },
+                "flags": {
+                    "hidden": 1,
+                    "complete": 0,
+                    "published": 1,
+                    "unlockable": 0
+                },
+                "group": "Hidden",
+                "order": 1,
+                "number": 2
+            },
+            "trill-terranova": {
+                "token": "trill-terranova",
+                "name": "Trill Terranova",
+                "class": "boss",
+                "game": "MMRPGP",
+                "types": [
+                    "space"
+                ],
+                "colors": [
+                    "space"
+                ],
+                "stats": {
+                    "target": "auto",
+                    "speed": {
+                        "value": 1,
+                        "real": 1
+                    },
+                    "accuracy": {
+                        "value": 100
+                    },
+                    "energy": {
+                        "value": 32,
+                        "percent": 0
+                    },
+                    "damage": {
+                        "value": 66,
+                        "percent": 0
+                    },
+                    "damage2": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery2": {
+                        "value": 0,
+                        "percent": 0
+                    }
+                },
+                "flavor": {
+                    "description": {
+                        "short": "",
+                        "full": "The user focuses their energy to summon a large, star-powered explosion that covers the field and damages all non-space core robots!"
+                    }
+                },
+                "image": {
+                    "token": "boss",
+                    "size": 40,
+                    "editors": [],
+                    "sheets": 1
+                },
+                "robots": {
+                    "master": "trill"
+                },
+                "shop": {
+                    "price": 0,
+                    "value": 0,
+                    "tab": "",
+                    "level": 0
+                },
+                "flags": {
+                    "hidden": 1,
+                    "complete": 0,
+                    "published": 1,
+                    "unlockable": 0
+                },
+                "group": "Hidden",
+                "order": 2,
+                "number": 3
+            },
+            "slur-aura": {
+                "token": "slur-aura",
+                "name": "Slur Aura",
+                "class": "boss",
+                "game": "MMRPGP",
+                "types": [
+                    "space"
+                ],
+                "colors": [
+                    "space"
+                ],
+                "stats": {
+                    "target": "auto",
+                    "speed": {
+                        "value": 1,
+                        "real": 1
+                    },
+                    "accuracy": {
+                        "value": 100
+                    },
+                    "energy": {
+                        "value": 16,
+                        "percent": 0
+                    },
+                    "damage": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "damage2": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery2": {
+                        "value": 0,
+                        "percent": 0
+                    }
+                },
+                "flavor": {
+                    "description": {
+                        "short": "",
+                        "full": "The user surrounds itself in an aura that grants a temporarily affinity to all elemental damage for three turns!"
+                    }
+                },
+                "image": {
+                    "token": "ability",
+                    "size": 40,
+                    "editors": [],
+                    "sheets": 1
+                },
+                "robots": {
+                    "master": "slur"
+                },
+                "shop": {
+                    "price": 0,
+                    "value": 0,
+                    "tab": "",
+                    "level": 0
+                },
+                "flags": {
+                    "hidden": 1,
+                    "complete": 0,
+                    "published": 1,
+                    "unlockable": 0
+                },
+                "group": "Hidden",
+                "order": 3,
+                "number": 4
+            },
+            "slur-twister": {
+                "token": "slur-twister",
+                "name": "Slur Twister",
+                "class": "boss",
+                "game": "MMRPGP",
+                "types": [
+                    "space"
+                ],
+                "colors": [
+                    "space"
+                ],
+                "stats": {
+                    "target": "auto",
+                    "speed": {
+                        "value": 1,
+                        "real": 1
+                    },
+                    "accuracy": {
+                        "value": 96
+                    },
+                    "energy": {
+                        "value": 32,
+                        "percent": 0
+                    },
+                    "damage": {
+                        "value": 66,
+                        "percent": 0
+                    },
+                    "damage2": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery2": {
+                        "value": 0,
+                        "percent": 0
+                    }
+                },
+                "flavor": {
+                    "description": {
+                        "short": "",
+                        "full": "The user slides at the target from across the field, creating a large cosmic vortex that deals massive damage!"
+                    }
+                },
+                "image": {
+                    "token": "ability",
+                    "size": 40,
+                    "editors": [],
+                    "sheets": 1
+                },
+                "robots": {
+                    "master": "slur"
+                },
+                "shop": {
+                    "price": 0,
+                    "value": 0,
+                    "tab": "",
+                    "level": 0
+                },
+                "flags": {
+                    "hidden": 1,
+                    "complete": 0,
+                    "published": 1,
+                    "unlockable": 0
+                },
+                "group": "Hidden",
+                "order": 4,
+                "number": 5
+            },
+            "slur-supernova": {
+                "token": "slur-supernova",
+                "name": "Slur Supernova",
+                "class": "boss",
+                "game": "MMRPGP",
+                "types": [
+                    "space"
+                ],
+                "colors": [
+                    "space"
+                ],
+                "stats": {
+                    "target": "auto",
+                    "speed": {
+                        "value": 1,
+                        "real": 1
+                    },
+                    "accuracy": {
+                        "value": 100
+                    },
+                    "energy": {
+                        "value": 64,
+                        "percent": 0
+                    },
+                    "damage": {
+                        "value": 99,
+                        "percent": 0
+                    },
+                    "damage2": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery": {
+                        "value": 0,
+                        "percent": 0
+                    },
+                    "recovery2": {
+                        "value": 0,
+                        "percent": 0
+                    }
+                },
+                "flavor": {
+                    "description": {
+                        "short": "",
+                        "full": "The user focuses their energy to summon a massive, star-powered explosion that covers the field and damages all non-space core robots!"
+                    }
+                },
+                "image": {
+                    "token": "ability",
+                    "size": 40,
+                    "editors": [],
+                    "sheets": 1
+                },
+                "robots": {
+                    "master": "slur"
+                },
+                "shop": {
+                    "price": 0,
+                    "value": 0,
+                    "tab": "",
+                    "level": 0
+                },
+                "flags": {
+                    "hidden": 1,
+                    "complete": 0,
+                    "published": 1,
+                    "unlockable": 0
+                },
+                "group": "Hidden",
+                "order": 5,
+                "number": 6
+            }
         },
-        "total": 0
+        "total": 9,
+        "visible": 3
     }
 }

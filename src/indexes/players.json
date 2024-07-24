@@ -1,636 +1,710 @@
 {
     "status": "success",
-    "updated": 1721669400,
+    "updated": 1721795128,
     "data": {
         "players": {
             "player": {
                 "token": "player",
-                "number": "",
                 "name": "Player",
-                "name_full": "",
-                "game": "MMRPG",
                 "class": "system",
-                "gender": "",
-                "image": "player",
-                "image_size": 40,
-                "image_editor": 0,
-                "image_editor2": 0,
-                "image_editor3": "",
-                "image_alts": [],
-                "type": "",
-                "type2": "",
-                "description": "The default player object.",
-                "description2": "",
-                "energy": 0,
-                "weapons": 0,
-                "attack": 0,
-                "defense": 0,
-                "speed": 0,
-                "robot_hero": "",
-                "robot_support": "",
-                "field_intro": "",
-                "field_home": "",
-                "quotes_custom": [],
-                "flag_hidden": 1,
-                "flag_complete": 0,
-                "flag_published": 1,
-                "flag_protected": 1,
-                "group": null,
-                "order": null,
-                "rewards": {
-                    "robots": [
+                "game": "MMRPG",
+                "types": [],
+                "colors": [],
+                "stats": {
+                    "energy": 0,
+                    "weapons": 0,
+                    "attack": 0,
+                    "defense": 0,
+                    "speed": 0
+                },
+                "flavor": {
+                    "gender": "",
+                    "title": "The default player object.",
+                    "fullname": "",
+                    "description": "",
+                    "quotes": {
+                        "battle_start": "",
+                        "battle_taunt": "",
+                        "battle_victory": "",
+                        "battle_defeat": ""
+                    }
+                },
+                "image": {
+                    "token": "player",
+                    "size": 40,
+                    "editors": [],
+                    "alts": []
+                },
+                "abilities": {
+                    "rewards": [],
+                    "compatible": []
+                },
+                "robots": {
+                    "hero": "",
+                    "support": "",
+                    "rewards": [
                         {
                             "points": 0,
                             "token": "robot"
                         }
                     ],
-                    "abilities": []
+                    "compatible": []
                 },
-                "abilities": [],
-                "robots_unlockable": [],
-                "quotes": {
-                    "battle_start": "",
-                    "battle_taunt": "",
-                    "battle_victory": "",
-                    "battle_defeat": ""
+                "fields": {
+                    "home": "",
+                    "intro": ""
                 },
-                "key": -1
+                "flags": {
+                    "hidden": 1,
+                    "complete": 0,
+                    "published": 1
+                },
+                "group": "System",
+                "order": -1,
+                "number": 0
             },
             "dr-light": {
                 "token": "dr-light",
-                "number": 1,
                 "name": "Dr. Light",
-                "name_full": "Dr. Thomas X. Light",
-                "game": "MM1",
                 "class": "player",
-                "gender": "male",
-                "image": "dr-light",
-                "image_size": 40,
-                "image_editor": 10,
-                "image_editor2": 0,
-                "image_editor3": 0,
-                "image_alts": [
-                    {
-                        "token": "alt",
-                        "name": "Dr. Light (Santa Alt)",
-                        "summons": 100,
-                        "colour": "flame"
-                    },
-                    {
-                        "token": "alt2",
-                        "name": "Dr. Light (Martial Artist Alt)",
-                        "summons": 200,
-                        "colour": "cutter"
-                    }
+                "game": "MM1",
+                "types": [
+                    "defense"
                 ],
-                "type": "defense",
-                "type2": "",
-                "description": "",
-                "description2": "Rightfully known as the father of modern robotics, Dr. Thomas Light is renowned the world over not only for his work in revolutionizing independent robotic thought, but also for creating everyone\u2019s favorite blue hero, Mega Man! Starting from humble beginnings, Thomas Light attended the Robot Institute of Technology, where he advocated giving machines a sense of self-judgement and decision-making, to give them a \u201csoul\u201d... a belief he was ridiculed by most for, save for his colleague, Albert Wily. However, both of them being promising inventors, this naturally led to competition\u2026 And competition eventually led to envy and contempt, causing the two to split ways. Light went on to earn his doctorate to massive acclaim, and after a failed military prototype, went on to succeed in his lifelong dream by creating his two cherished children, Rock and Roll. He then constructed his series of industrial-use \u2018Robot Masters\u2019, but disaster promptly struck; Dr. Wily had commandeered his Robot Masters, and promised before the whole world that he\u2019d be the one to make his mark in history. Dr. Light had given up all hope, when to his surprise and anguish, Rock had asked to be weaponized to fight off Dr. Wily\u2019s conquest, a war he continually fights to this day. In terms of his character, Dr. Light may be one of the kindest souls out there, seeking out the good in every individual, living or otherwise. However, if there is a regret that throbs at him terribly, it\u2019s that he never rightfully made amends to his once-esteemed friend, Albert\u2026 But one cannot dwell in the past, lest they lose sight of the future. In that regard, Dr. Light is always looking onward to further shorten the gap between humans and robots; for his next development, he\u2019s planning on making the next big step with his cognitive robot database, the Prototype.",
-                "energy": 0,
-                "weapons": 0,
-                "attack": 0,
-                "defense": 25,
-                "speed": 0,
-                "robot_hero": "mega-man",
-                "robot_support": "roll",
-                "field_intro": "gentle-countryside",
-                "field_home": "light-laboratory",
-                "quotes_custom": [],
-                "flag_hidden": 0,
-                "flag_complete": 1,
-                "flag_published": 1,
-                "flag_protected": 1,
-                "group": "MMRPG",
-                "order": 0,
-                "rewards": {
-                    "robots": [
+                "colors": [
+                    "defense"
+                ],
+                "stats": {
+                    "energy": 0,
+                    "weapons": 0,
+                    "attack": 0,
+                    "defense": 25,
+                    "speed": 0
+                },
+                "flavor": {
+                    "gender": "male",
+                    "title": "",
+                    "fullname": "Dr. Thomas X. Light",
+                    "description": "Rightfully known as the father of modern robotics, Dr. Thomas Light is renowned the world over not only for his work in revolutionizing independent robotic thought, but also for creating everyone\u2019s favorite blue hero, Mega Man! Starting from humble beginnings, Thomas Light attended the Robot Institute of Technology, where he advocated giving machines a sense of self-judgement and decision-making, to give them a \u201csoul\u201d... a belief he was ridiculed by most for, save for his colleague, Albert Wily. However, both of them being promising inventors, this naturally led to competition\u2026 And competition eventually led to envy and contempt, causing the two to split ways. Light went on to earn his doctorate to massive acclaim, and after a failed military prototype, went on to succeed in his lifelong dream by creating his two cherished children, Rock and Roll. He then constructed his series of industrial-use \u2018Robot Masters\u2019, but disaster promptly struck; Dr. Wily had commandeered his Robot Masters, and promised before the whole world that he\u2019d be the one to make his mark in history. Dr. Light had given up all hope, when to his surprise and anguish, Rock had asked to be weaponized to fight off Dr. Wily\u2019s conquest, a war he continually fights to this day. In terms of his character, Dr. Light may be one of the kindest souls out there, seeking out the good in every individual, living or otherwise. However, if there is a regret that throbs at him terribly, it\u2019s that he never rightfully made amends to his once-esteemed friend, Albert\u2026 But one cannot dwell in the past, lest they lose sight of the future. In that regard, Dr. Light is always looking onward to further shorten the gap between humans and robots; for his next development, he\u2019s planning on making the next big step with his cognitive robot database, the Prototype.",
+                    "quotes": {
+                        "battle_start": "I stand with you, my robots! Together we cannot lose!",
+                        "battle_taunt": "Please surrender before anyone else gets hurt!",
+                        "battle_victory": "Ho ho ho! I couldn't have won without my wonderful robots!",
+                        "battle_defeat": "I'm so sorry everyone... I have failed you."
+                    }
+                },
+                "image": {
+                    "token": "dr-light",
+                    "size": 40,
+                    "editors": [
+                        "rhythmbca"
+                    ],
+                    "alts": [
+                        {
+                            "token": "alt",
+                            "name": "Dr. Light (Santa Alt)",
+                            "summons": 100,
+                            "colour": "flame"
+                        },
+                        {
+                            "token": "alt2",
+                            "name": "Dr. Light (Martial Artist Alt)",
+                            "summons": 200,
+                            "colour": "cutter"
+                        }
+                    ]
+                },
+                "abilities": {
+                    "rewards": [
+                        {
+                            "points": 0,
+                            "token": "buster-shot"
+                        }
+                    ],
+                    "compatible": []
+                },
+                "robots": {
+                    "hero": "mega-man",
+                    "support": "roll",
+                    "rewards": [
                         {
                             "points": 0,
                             "token": "mega-man",
                             "level": 1
                         }
                     ],
-                    "abilities": [
+                    "compatible": [
+                        "mega-man",
+                        "roll",
+                        "cut-man",
+                        "guts-man",
+                        "ice-man",
+                        "bomb-man",
+                        "fire-man",
+                        "elec-man",
+                        "time-man",
+                        "oil-man"
+                    ]
+                },
+                "fields": {
+                    "home": "light-laboratory",
+                    "intro": "gentle-countryside"
+                },
+                "flags": {
+                    "hidden": 0,
+                    "complete": 1,
+                    "published": 1
+                },
+                "group": "MMRPG",
+                "order": 0,
+                "number": 1
+            },
+            "dr-wily": {
+                "token": "dr-wily",
+                "name": "Dr. Wily",
+                "class": "player",
+                "game": "MM1",
+                "types": [
+                    "attack"
+                ],
+                "colors": [
+                    "attack"
+                ],
+                "stats": {
+                    "energy": 0,
+                    "weapons": 0,
+                    "attack": 25,
+                    "defense": 0,
+                    "speed": 0
+                },
+                "flavor": {
+                    "gender": "male",
+                    "title": "",
+                    "fullname": "Dr. Albert W. Wily",
+                    "description": "If Dr. Light gave the world of robotics hope, then Dr. Wily is the one who struck fear into the heart of every man and robot. As a young man, things never came easy for Albert W. Wily, but his due diligence earned him a scholarship at the Robot Institute of Technology. It was there that he met Dr. Light, and as they bonded over their hopes of pushing robotics forward, they became close acquaintances. Albert had always naturally assumed he was the smarter of the two, but as his compatriot Light was constantly met with praise and awards, he only grew more and more embittered each time he ended up being second fiddle. Finally, this came to a breaking point when his \u2018Double Gear\u2019 system was publicly humiliated and rejected in favor of Light\u2019s work yet again; Wily had had enough! And so, Dr. Wily bided his time and prepared a mecha army from ill-gotten funds, eventually stealing Light\u2019s Robot Masters to cause havoc and forever stain his nemesis\u2019s name! However, when his victory seemed all but certain, one of the lab assistant robots he deemed worthless foiled his plans and became his eternal foe: Mega Man! Wily struck back, again and again, resorting to crueler and crueler methods like theft, viruses, manipulation, identity theft, frame-ups -- even using exterrestrial life and energy multiple times! And each time has led to failure, thanks to the heroism of Dr. Light\u2019s golden child. But Dr. Wily is nothing if not steadfast and stubborn, and he\u2019s hellbent on proving his superiority to his intellectual rival Dr. Light, no matter the cost. Of course, when the Robot Masters, Bass, his Wily Castles, and his Wily Machines all fail, he\u2019s never hesitant on pulling out the crocodile tears and begging for mercy. Now, no one\u2019s heard from the mad doctor in a while\u2026 but it wouldn\u2019t be far-fetched to believe he\u2019s keeping an uneasy eye on Dr. Light\u2019s latest developments.",
+                    "quotes": {
+                        "battle_start": "With my robots by my side, I'll take over this world!",
+                        "battle_taunt": "Your world is mine! Are you ready to be eliminated?",
+                        "battle_victory": "Feeling sorry for yourself? Mwhahaha!",
+                        "battle_defeat": "F-Forgive me! I only wanted to test your abilities!"
+                    }
+                },
+                "image": {
+                    "token": "dr-wily",
+                    "size": 40,
+                    "editors": [
+                        "rhythmbca"
+                    ],
+                    "alts": [
+                        {
+                            "token": "alt",
+                            "name": "Dr. Wily (Holiday Alt)",
+                            "summons": 100,
+                            "colour": "nature"
+                        },
+                        {
+                            "token": "alt2",
+                            "name": "Dr. Wily (Mr. X Alt)",
+                            "summons": 200,
+                            "colour": "none"
+                        }
+                    ]
+                },
+                "abilities": {
+                    "rewards": [
                         {
                             "points": 0,
                             "token": "buster-shot"
                         }
-                    ]
+                    ],
+                    "compatible": []
                 },
-                "abilities": [],
-                "robots_unlockable": [
-                    "mega-man",
-                    "roll",
-                    "cut-man",
-                    "guts-man",
-                    "ice-man",
-                    "bomb-man",
-                    "fire-man",
-                    "elec-man",
-                    "time-man",
-                    "oil-man"
-                ],
-                "quotes": {
-                    "battle_start": "I stand with you, my robots! Together we cannot lose!",
-                    "battle_taunt": "Please surrender before anyone else gets hurt!",
-                    "battle_victory": "Ho ho ho! I couldn't have won without my wonderful robots!",
-                    "battle_defeat": "I'm so sorry everyone... I have failed you."
-                },
-                "key": 1
-            },
-            "dr-wily": {
-                "token": "dr-wily",
-                "number": 2,
-                "name": "Dr. Wily",
-                "name_full": "Dr. Albert W. Wily",
-                "game": "MM1",
-                "class": "player",
-                "gender": "male",
-                "image": "dr-wily",
-                "image_size": 40,
-                "image_editor": 10,
-                "image_editor2": 0,
-                "image_editor3": 0,
-                "image_alts": [
-                    {
-                        "token": "alt",
-                        "name": "Dr. Wily (Holiday Alt)",
-                        "summons": 100,
-                        "colour": "nature"
-                    },
-                    {
-                        "token": "alt2",
-                        "name": "Dr. Wily (Mr. X Alt)",
-                        "summons": 200,
-                        "colour": "none"
-                    }
-                ],
-                "type": "attack",
-                "type2": "",
-                "description": "",
-                "description2": "If Dr. Light gave the world of robotics hope, then Dr. Wily is the one who struck fear into the heart of every man and robot. As a young man, things never came easy for Albert W. Wily, but his due diligence earned him a scholarship at the Robot Institute of Technology. It was there that he met Dr. Light, and as they bonded over their hopes of pushing robotics forward, they became close acquaintances. Albert had always naturally assumed he was the smarter of the two, but as his compatriot Light was constantly met with praise and awards, he only grew more and more embittered each time he ended up being second fiddle. Finally, this came to a breaking point when his \u2018Double Gear\u2019 system was publicly humiliated and rejected in favor of Light\u2019s work yet again; Wily had had enough! And so, Dr. Wily bided his time and prepared a mecha army from ill-gotten funds, eventually stealing Light\u2019s Robot Masters to cause havoc and forever stain his nemesis\u2019s name! However, when his victory seemed all but certain, one of the lab assistant robots he deemed worthless foiled his plans and became his eternal foe: Mega Man! Wily struck back, again and again, resorting to crueler and crueler methods like theft, viruses, manipulation, identity theft, frame-ups -- even using exterrestrial life and energy multiple times! And each time has led to failure, thanks to the heroism of Dr. Light\u2019s golden child. But Dr. Wily is nothing if not steadfast and stubborn, and he\u2019s hellbent on proving his superiority to his intellectual rival Dr. Light, no matter the cost. Of course, when the Robot Masters, Bass, his Wily Castles, and his Wily Machines all fail, he\u2019s never hesitant on pulling out the crocodile tears and begging for mercy. Now, no one\u2019s heard from the mad doctor in a while\u2026 but it wouldn\u2019t be far-fetched to believe he\u2019s keeping an uneasy eye on Dr. Light\u2019s latest developments.",
-                "energy": 0,
-                "weapons": 0,
-                "attack": 25,
-                "defense": 0,
-                "speed": 0,
-                "robot_hero": "bass",
-                "robot_support": "disco",
-                "field_intro": "maniacal-hideaway",
-                "field_home": "wily-castle",
-                "quotes_custom": [],
-                "flag_hidden": 0,
-                "flag_complete": 1,
-                "flag_published": 1,
-                "flag_protected": 1,
-                "group": "MMRPG",
-                "order": 1,
-                "rewards": {
-                    "robots": [
+                "robots": {
+                    "hero": "bass",
+                    "support": "disco",
+                    "rewards": [
                         {
                             "points": 0,
                             "token": "bass",
                             "level": 11
                         }
                     ],
-                    "abilities": [
+                    "compatible": [
+                        "bass",
+                        "disco",
+                        "mega-man",
+                        "roll",
+                        "cut-man",
+                        "guts-man",
+                        "ice-man",
+                        "bomb-man",
+                        "fire-man",
+                        "elec-man",
+                        "time-man",
+                        "oil-man"
+                    ]
+                },
+                "fields": {
+                    "home": "wily-castle",
+                    "intro": "maniacal-hideaway"
+                },
+                "flags": {
+                    "hidden": 0,
+                    "complete": 1,
+                    "published": 1
+                },
+                "group": "MMRPG",
+                "order": 1,
+                "number": 2
+            },
+            "dr-cossack": {
+                "token": "dr-cossack",
+                "name": "Dr. Cossack",
+                "class": "player",
+                "game": "MM4",
+                "types": [
+                    "speed"
+                ],
+                "colors": [
+                    "speed"
+                ],
+                "stats": {
+                    "energy": 0,
+                    "weapons": 0,
+                    "attack": 0,
+                    "defense": 0,
+                    "speed": 25
+                },
+                "flavor": {
+                    "gender": "male",
+                    "title": "",
+                    "fullname": "Dr. Mikhail S. Cossack",
+                    "description": "Many may remember Dr. Mikhail Cossack as a sinister warmonger in the past, but to those who truly know him, he\u2019s an efficient roboticist and a dedicated father. As a young man, he was a student of the Ural Technical University who had traveled to America in order to develop his thesis, which is where he first made the acquaintance of Dr. Light. After attaining his doctorate in robotics, he rapidly garnered a reputation in his homeland and gained funding to create his own personal series of quite practical Robot Masters\u2026 he had so much of a reputation, in fact, that he unfortunately caught the eye of the heinous Dr. Wily. See, Wily knew that Dr. Cossack cherished his daughter Kalinka above anything else, so he took the young girl hostage in a vicious gambit to manipulate Dr. Cossack into destroying Mega Man! And while Kalinka was saved and Wily\u2019s plans were once again foiled by Mega Man, much of the goodwill lent to Cossack by the public was absolutely demolished regardless. He attempted to atone by developing Beat as a present to the Light family, as well as eventually returning to his passion by creating new robots like Tundra Man and establishing the Stravinsky Science Academy. And if Wily was right about anything, Cossack cherishes his family more than anything. He spends his days happily with his daughter nowadays, and they continue to pay their debt to the Light family by granting Proto Man a home to stay at whenever he wishes. Of course, Dr. Cossack hasn\u2019t just spent his days lazing about; he\u2019s seeking to restore public faith in him by assisting Dr. Light with the advancement of his latest project\u2026",
+                    "quotes": {
+                        "battle_start": "Let's end this quickly - I have many other things to do.",
+                        "battle_taunt": "Please do not waste my time - I've important business elsewhere\u2026",
+                        "battle_victory": "I had no doubt I would win. It was just a matter of timing.",
+                        "battle_defeat": "There must be some mistake\u2026 Did I miscalculate?"
+                    }
+                },
+                "image": {
+                    "token": "dr-cossack",
+                    "size": 40,
+                    "editors": [
+                        "rhythmbca"
+                    ],
+                    "alts": [
+                        {
+                            "token": "alt",
+                            "name": "Dr. Cossack (Ded Moroz Alt)",
+                            "summons": 100,
+                            "colour": "water"
+                        },
+                        {
+                            "token": "alt2",
+                            "name": "Dr. Cossack (Crowbar Alt) ",
+                            "summons": 200,
+                            "colour": "none"
+                        }
+                    ]
+                },
+                "abilities": {
+                    "rewards": [
                         {
                             "points": 0,
                             "token": "buster-shot"
                         }
-                    ]
+                    ],
+                    "compatible": []
                 },
-                "abilities": [],
-                "robots_unlockable": [
-                    "bass",
-                    "disco",
-                    "mega-man",
-                    "roll",
-                    "cut-man",
-                    "guts-man",
-                    "ice-man",
-                    "bomb-man",
-                    "fire-man",
-                    "elec-man",
-                    "time-man",
-                    "oil-man"
-                ],
-                "quotes": {
-                    "battle_start": "With my robots by my side, I'll take over this world!",
-                    "battle_taunt": "Your world is mine! Are you ready to be eliminated?",
-                    "battle_victory": "Feeling sorry for yourself? Mwhahaha!",
-                    "battle_defeat": "F-Forgive me! I only wanted to test your abilities!"
-                },
-                "key": 2
-            },
-            "dr-cossack": {
-                "token": "dr-cossack",
-                "number": 3,
-                "name": "Dr. Cossack",
-                "name_full": "Dr. Mikhail S. Cossack",
-                "game": "MM4",
-                "class": "player",
-                "gender": "male",
-                "image": "dr-cossack",
-                "image_size": 40,
-                "image_editor": 10,
-                "image_editor2": 0,
-                "image_editor3": 0,
-                "image_alts": [
-                    {
-                        "token": "alt",
-                        "name": "Dr. Cossack (Ded Moroz Alt)",
-                        "summons": 100,
-                        "colour": "water"
-                    },
-                    {
-                        "token": "alt2",
-                        "name": "Dr. Cossack (Crowbar Alt) ",
-                        "summons": 200,
-                        "colour": "none"
-                    }
-                ],
-                "type": "speed",
-                "type2": "",
-                "description": "",
-                "description2": "Many may remember Dr. Mikhail Cossack as a sinister warmonger in the past, but to those who truly know him, he\u2019s an efficient roboticist and a dedicated father. As a young man, he was a student of the Ural Technical University who had traveled to America in order to develop his thesis, which is where he first made the acquaintance of Dr. Light. After attaining his doctorate in robotics, he rapidly garnered a reputation in his homeland and gained funding to create his own personal series of quite practical Robot Masters\u2026 he had so much of a reputation, in fact, that he unfortunately caught the eye of the heinous Dr. Wily. See, Wily knew that Dr. Cossack cherished his daughter Kalinka above anything else, so he took the young girl hostage in a vicious gambit to manipulate Dr. Cossack into destroying Mega Man! And while Kalinka was saved and Wily\u2019s plans were once again foiled by Mega Man, much of the goodwill lent to Cossack by the public was absolutely demolished regardless. He attempted to atone by developing Beat as a present to the Light family, as well as eventually returning to his passion by creating new robots like Tundra Man and establishing the Stravinsky Science Academy. And if Wily was right about anything, Cossack cherishes his family more than anything. He spends his days happily with his daughter nowadays, and they continue to pay their debt to the Light family by granting Proto Man a home to stay at whenever he wishes. Of course, Dr. Cossack hasn\u2019t just spent his days lazing about; he\u2019s seeking to restore public faith in him by assisting Dr. Light with the advancement of his latest project\u2026",
-                "energy": 0,
-                "weapons": 0,
-                "attack": 0,
-                "defense": 0,
-                "speed": 25,
-                "robot_hero": "proto-man",
-                "robot_support": "rhythm",
-                "field_intro": "wintry-forefront",
-                "field_home": "cossack-citadel",
-                "quotes_custom": [],
-                "flag_hidden": 0,
-                "flag_complete": 1,
-                "flag_published": 1,
-                "flag_protected": 1,
-                "group": "MMRPG",
-                "order": 2,
-                "rewards": {
-                    "robots": [
+                "robots": {
+                    "hero": "proto-man",
+                    "support": "rhythm",
+                    "rewards": [
                         {
                             "points": 0,
                             "token": "proto-man",
                             "level": 21
                         }
                     ],
-                    "abilities": [
+                    "compatible": [
+                        "proto-man",
+                        "rhythm",
+                        "bright-man",
+                        "toad-man",
+                        "drill-man",
+                        "pharaoh-man",
+                        "ring-man",
+                        "dust-man",
+                        "dive-man",
+                        "skull-man"
+                    ]
+                },
+                "fields": {
+                    "home": "cossack-citadel",
+                    "intro": "wintry-forefront"
+                },
+                "flags": {
+                    "hidden": 0,
+                    "complete": 1,
+                    "published": 1
+                },
+                "group": "MMRPG",
+                "order": 2,
+                "number": 3
+            },
+            "proxy": {
+                "token": "proxy",
+                "name": "Proxy",
+                "class": "player",
+                "game": "MMRPG",
+                "types": [
+                    "energy"
+                ],
+                "colors": [
+                    "energy"
+                ],
+                "stats": {
+                    "energy": 25,
+                    "weapons": 0,
+                    "attack": 0,
+                    "defense": 0,
+                    "speed": 0
+                },
+                "flavor": {
+                    "gender": "none",
+                    "title": "",
+                    "fullname": "Proxy",
+                    "description": "",
+                    "quotes": {
+                        "battle_start": "",
+                        "battle_taunt": "",
+                        "battle_victory": "",
+                        "battle_defeat": ""
+                    }
+                },
+                "image": {
+                    "token": "proxy",
+                    "size": 40,
+                    "editors": [
+                        "milansaponja",
+                        "adrianmarceau"
+                    ],
+                    "alts": [
+                        {
+                            "token": "alt",
+                            "name": "Proxy (Unmasked)",
+                            "summons": 100,
+                            "colour": "experience"
+                        },
+                        {
+                            "token": "alt2",
+                            "name": "Proxy (Holo Proxy // Slur)",
+                            "summons": 200,
+                            "colour": "energy"
+                        },
+                        {
+                            "token": "alt3",
+                            "name": "Proxy (Holo Proxy // Dr. Light)",
+                            "summons": 300,
+                            "colour": "defense"
+                        },
+                        {
+                            "token": "alt4",
+                            "name": "Proxy (Holo Proxy // Dr. Wily)",
+                            "summons": 400,
+                            "colour": "attack"
+                        },
+                        {
+                            "token": "alt5",
+                            "name": "Proxy (Holo Proxy // Dr. Cossack)",
+                            "summons": 500,
+                            "colour": "speed"
+                        },
+                        {
+                            "token": "alt6",
+                            "name": "Proxy (Network Phantom // Tamako Shiraizumi)",
+                            "summons": 600,
+                            "colour": "cutter"
+                        },
+                        {
+                            "token": "alt7",
+                            "name": "Proxy (Network Phantom // Dex Oyama)",
+                            "summons": 700,
+                            "colour": "impact"
+                        },
+                        {
+                            "token": "alt8",
+                            "name": "Proxy (Network Phantom // Mr. Famous)",
+                            "summons": 800,
+                            "colour": "time"
+                        },
+                        {
+                            "token": "alt9",
+                            "name": "Proxy (Network Phantom // Mayl Sakurai)",
+                            "summons": 900,
+                            "colour": "laser"
+                        },
+                        {
+                            "token": "alt10",
+                            "name": "Proxy (Network Phantom // Dr. Regal)",
+                            "summons": 1000,
+                            "colour": "space"
+                        },
+                        {
+                            "token": "alt11",
+                            "name": "Proxy (Network Phantom // Count Zap) ",
+                            "summons": 1100,
+                            "colour": "electric"
+                        },
+                        {
+                            "token": "alt12",
+                            "name": "Proxy (Network Phantom // Captain Blackbeard)",
+                            "summons": 1200,
+                            "colour": "missile"
+                        },
+                        {
+                            "token": "alt13",
+                            "name": "Proxy (Network Phantom // Ribbita Midorikawa)",
+                            "summons": 1300,
+                            "colour": "water"
+                        },
+                        {
+                            "token": "alt14",
+                            "name": "Proxy (Network Phantom // Dusk Miyabi) ",
+                            "summons": 1400,
+                            "colour": "shadow"
+                        },
+                        {
+                            "token": "alt15",
+                            "name": "Proxy (Network Phantom // Sal Saroma)",
+                            "summons": 1500,
+                            "colour": "nature"
+                        },
+                        {
+                            "token": "alt16",
+                            "name": "Proxy (Network Phantom // Speedy Dave)",
+                            "summons": 1600,
+                            "colour": "swift"
+                        },
+                        {
+                            "token": "alt17",
+                            "name": "Proxy (Network Phantom // Arashi Kazefuki)",
+                            "summons": 1700,
+                            "colour": "wind"
+                        },
+                        {
+                            "token": "alt18",
+                            "name": "Proxy (Network Phantom // Noboru Sunayama)",
+                            "summons": 1800,
+                            "colour": "earth"
+                        },
+                        {
+                            "token": "alt19",
+                            "name": "Proxy (Network Phantom // Rei Saiko)",
+                            "summons": 1900,
+                            "colour": "time"
+                        },
+                        {
+                            "token": "alt20",
+                            "name": "Proxy (Network Phantom // Mr. Match)",
+                            "summons": 2000,
+                            "colour": "flame"
+                        },
+                        {
+                            "token": "alt21",
+                            "name": "Proxy (Network Phantom // Ms. Madd)",
+                            "summons": 2100,
+                            "colour": "explode"
+                        },
+                        {
+                            "token": "alt22",
+                            "name": "Proxy (Divergent Echo // Newscaster)",
+                            "summons": 2200,
+                            "colour": "water"
+                        },
+                        {
+                            "token": "alt23",
+                            "name": "Proxy (Divergent Echo // Pedro Astil)",
+                            "summons": 2300,
+                            "colour": "electric"
+                        },
+                        {
+                            "token": "alt24",
+                            "name": "Proxy (Divergent Echo // Gilbert D. Stern)",
+                            "summons": 2400,
+                            "colour": "nature"
+                        },
+                        {
+                            "token": "alt25",
+                            "name": "Proxy (Divergent Echo // Roslyn Krantz)",
+                            "summons": 2500,
+                            "colour": "laser"
+                        },
+                        {
+                            "token": "alt26",
+                            "name": "Proxy (Divergent Echo // Princesa)",
+                            "summons": 2600,
+                            "colour": "crystal"
+                        },
+                        {
+                            "token": "alt27",
+                            "name": "Proxy (Divergent Echo // Lawyer)",
+                            "summons": 2700,
+                            "colour": "water"
+                        },
+                        {
+                            "token": "alt28",
+                            "name": "Proxy (Divergent Echo // Madame Y)",
+                            "summons": 2800,
+                            "colour": "laser"
+                        },
+                        {
+                            "token": "alt29",
+                            "name": "Proxy (Divergent Echo // Leonard Dorado)",
+                            "summons": 2900,
+                            "colour": "electric"
+                        },
+                        {
+                            "token": "alt30",
+                            "name": "Proxy (Network Phantom // Ivan Chillski)",
+                            "summons": 3000,
+                            "colour": "freeze"
+                        },
+                        {
+                            "token": "alt31",
+                            "name": "Proxy (Divergent Echo // Yuuta & Akane Kobayashi)",
+                            "summons": 3100,
+                            "colour": "experience"
+                        },
+                        {
+                            "token": "alt32",
+                            "name": "Proxy (Network Phantom // Masa) ",
+                            "summons": 3200,
+                            "colour": "water"
+                        },
+                        {
+                            "token": "alt33",
+                            "name": "Proxy (Network Phantom // Miyu Kuroi) ",
+                            "summons": 3300,
+                            "colour": "shadow"
+                        }
+                    ]
+                },
+                "abilities": {
+                    "rewards": [
                         {
                             "points": 0,
                             "token": "buster-shot"
                         }
-                    ]
+                    ],
+                    "compatible": []
                 },
-                "abilities": [],
-                "robots_unlockable": [
-                    "proto-man",
-                    "rhythm",
-                    "bright-man",
-                    "toad-man",
-                    "drill-man",
-                    "pharaoh-man",
-                    "ring-man",
-                    "dust-man",
-                    "dive-man",
-                    "skull-man"
-                ],
-                "quotes": {
-                    "battle_start": "Let's end this quickly - I have many other things to do.",
-                    "battle_taunt": "Please do not waste my time - I've important business elsewhere\u2026",
-                    "battle_victory": "I had no doubt I would win. It was just a matter of timing.",
-                    "battle_defeat": "There must be some mistake\u2026 Did I miscalculate?"
-                },
-                "key": 3
-            },
-            "proxy": {
-                "token": "proxy",
-                "number": 4,
-                "name": "Proxy",
-                "name_full": "Proxy",
-                "game": "MMRPG",
-                "class": "player",
-                "gender": "none",
-                "image": "proxy",
-                "image_size": 40,
-                "image_editor": 3,
-                "image_editor2": 1,
-                "image_editor3": 0,
-                "image_alts": [
-                    {
-                        "token": "alt",
-                        "name": "Proxy (Unmasked)",
-                        "summons": 100,
-                        "colour": "experience"
-                    },
-                    {
-                        "token": "alt2",
-                        "name": "Proxy (Holo Proxy \/\/ Slur)",
-                        "summons": 200,
-                        "colour": "energy"
-                    },
-                    {
-                        "token": "alt3",
-                        "name": "Proxy (Holo Proxy \/\/ Dr. Light)",
-                        "summons": 300,
-                        "colour": "defense"
-                    },
-                    {
-                        "token": "alt4",
-                        "name": "Proxy (Holo Proxy \/\/ Dr. Wily)",
-                        "summons": 400,
-                        "colour": "attack"
-                    },
-                    {
-                        "token": "alt5",
-                        "name": "Proxy (Holo Proxy \/\/ Dr. Cossack)",
-                        "summons": 500,
-                        "colour": "speed"
-                    },
-                    {
-                        "token": "alt6",
-                        "name": "Proxy (Network Phantom \/\/ Tamako Shiraizumi)",
-                        "summons": 600,
-                        "colour": "cutter"
-                    },
-                    {
-                        "token": "alt7",
-                        "name": "Proxy (Network Phantom \/\/ Dex Oyama)",
-                        "summons": 700,
-                        "colour": "impact"
-                    },
-                    {
-                        "token": "alt8",
-                        "name": "Proxy (Network Phantom \/\/ Mr. Famous)",
-                        "summons": 800,
-                        "colour": "time"
-                    },
-                    {
-                        "token": "alt9",
-                        "name": "Proxy (Network Phantom \/\/ Mayl Sakurai)",
-                        "summons": 900,
-                        "colour": "laser"
-                    },
-                    {
-                        "token": "alt10",
-                        "name": "Proxy (Network Phantom \/\/ Dr. Regal)",
-                        "summons": 1000,
-                        "colour": "space"
-                    },
-                    {
-                        "token": "alt11",
-                        "name": "Proxy (Network Phantom \/\/ Count Zap) ",
-                        "summons": 1100,
-                        "colour": "electric"
-                    },
-                    {
-                        "token": "alt12",
-                        "name": "Proxy (Network Phantom \/\/ Captain Blackbeard)",
-                        "summons": 1200,
-                        "colour": "missile"
-                    },
-                    {
-                        "token": "alt13",
-                        "name": "Proxy (Network Phantom \/\/ Ribbita Midorikawa)",
-                        "summons": 1300,
-                        "colour": "water"
-                    },
-                    {
-                        "token": "alt14",
-                        "name": "Proxy (Network Phantom \/\/ Dusk Miyabi) ",
-                        "summons": 1400,
-                        "colour": "shadow"
-                    },
-                    {
-                        "token": "alt15",
-                        "name": "Proxy (Network Phantom \/\/ Sal Saroma)",
-                        "summons": 1500,
-                        "colour": "nature"
-                    },
-                    {
-                        "token": "alt16",
-                        "name": "Proxy (Network Phantom \/\/ Speedy Dave)",
-                        "summons": 1600,
-                        "colour": "swift"
-                    },
-                    {
-                        "token": "alt17",
-                        "name": "Proxy (Network Phantom \/\/ Arashi Kazefuki)",
-                        "summons": 1700,
-                        "colour": "wind"
-                    },
-                    {
-                        "token": "alt18",
-                        "name": "Proxy (Network Phantom \/\/ Noboru Sunayama)",
-                        "summons": 1800,
-                        "colour": "earth"
-                    },
-                    {
-                        "token": "alt19",
-                        "name": "Proxy (Network Phantom \/\/ Rei Saiko)",
-                        "summons": 1900,
-                        "colour": "time"
-                    },
-                    {
-                        "token": "alt20",
-                        "name": "Proxy (Network Phantom \/\/ Mr. Match)",
-                        "summons": 2000,
-                        "colour": "flame"
-                    },
-                    {
-                        "token": "alt21",
-                        "name": "Proxy (Network Phantom \/\/ Ms. Madd)",
-                        "summons": 2100,
-                        "colour": "explode"
-                    },
-                    {
-                        "token": "alt22",
-                        "name": "Proxy (Divergent Echo \/\/ Newscaster)",
-                        "summons": 2200,
-                        "colour": "water"
-                    },
-                    {
-                        "token": "alt23",
-                        "name": "Proxy (Divergent Echo \/\/ Pedro Astil)",
-                        "summons": 2300,
-                        "colour": "electric"
-                    },
-                    {
-                        "token": "alt24",
-                        "name": "Proxy (Divergent Echo \/\/ Gilbert D. Stern)",
-                        "summons": 2400,
-                        "colour": "nature"
-                    },
-                    {
-                        "token": "alt25",
-                        "name": "Proxy (Divergent Echo \/\/ Roslyn Krantz)",
-                        "summons": 2500,
-                        "colour": "laser"
-                    },
-                    {
-                        "token": "alt26",
-                        "name": "Proxy (Divergent Echo \/\/ Princesa)",
-                        "summons": 2600,
-                        "colour": "crystal"
-                    },
-                    {
-                        "token": "alt27",
-                        "name": "Proxy (Divergent Echo \/\/ Lawyer)",
-                        "summons": 2700,
-                        "colour": "water"
-                    },
-                    {
-                        "token": "alt28",
-                        "name": "Proxy (Divergent Echo \/\/ Madame Y)",
-                        "summons": 2800,
-                        "colour": "laser"
-                    },
-                    {
-                        "token": "alt29",
-                        "name": "Proxy (Divergent Echo \/\/ Leonard Dorado)",
-                        "summons": 2900,
-                        "colour": "electric"
-                    },
-                    {
-                        "token": "alt30",
-                        "name": "Proxy (Network Phantom \/\/ Ivan Chillski)",
-                        "summons": 3000,
-                        "colour": "freeze"
-                    },
-                    {
-                        "token": "alt31",
-                        "name": "Proxy (Divergent Echo \/\/ Yuuta & Akane Kobayashi)",
-                        "summons": 3100,
-                        "colour": "experience"
-                    },
-                    {
-                        "token": "alt32",
-                        "name": "Proxy (Network Phantom \/\/ Masa) ",
-                        "summons": 3200,
-                        "colour": "water"
-                    },
-                    {
-                        "token": "alt33",
-                        "name": "Proxy (Network Phantom \/\/ Miyu Kuroi) ",
-                        "summons": 3300,
-                        "colour": "shadow"
-                    }
-                ],
-                "type": "energy",
-                "type2": "",
-                "description": "",
-                "description2": "",
-                "energy": 25,
-                "weapons": 0,
-                "attack": 0,
-                "defense": 0,
-                "speed": 0,
-                "robot_hero": "rock",
-                "robot_support": "rock",
-                "field_intro": "prototype-complete",
-                "field_home": "prototype-complete",
-                "quotes_custom": [],
-                "flag_hidden": 1,
-                "flag_complete": 1,
-                "flag_published": 1,
-                "flag_protected": 1,
-                "group": "MMRPG\/Hidden",
-                "order": 0,
-                "rewards": {
-                    "robots": [
+                "robots": {
+                    "hero": "rock",
+                    "support": "rock",
+                    "rewards": [
                         {
                             "points": 0,
                             "token": "rock",
                             "level": 31
                         }
                     ],
-                    "abilities": [
+                    "compatible": [
+                        "rock",
+                        "rock"
+                    ]
+                },
+                "fields": {
+                    "home": "prototype-complete",
+                    "intro": "prototype-complete"
+                },
+                "flags": {
+                    "hidden": 1,
+                    "complete": 1,
+                    "published": 1
+                },
+                "group": "MMRPG/Hidden",
+                "order": 3,
+                "number": 4
+            },
+            "kalinka": {
+                "token": "kalinka",
+                "name": "Kalinka",
+                "class": "player",
+                "game": "MMRPG",
+                "types": [
+                    "weapons"
+                ],
+                "colors": [
+                    "weapons"
+                ],
+                "stats": {
+                    "energy": 0,
+                    "weapons": 25,
+                    "attack": 0,
+                    "defense": 0,
+                    "speed": 0
+                },
+                "flavor": {
+                    "gender": "female",
+                    "title": "",
+                    "fullname": "Kalinka Cossack",
+                    "description": "",
+                    "quotes": {
+                        "battle_start": "",
+                        "battle_taunt": "",
+                        "battle_victory": "",
+                        "battle_defeat": ""
+                    }
+                },
+                "image": {
+                    "token": "kalinka",
+                    "size": 40,
+                    "editors": [
+                        "rhythmbca"
+                    ],
+                    "alts": []
+                },
+                "abilities": {
+                    "rewards": [
                         {
                             "points": 0,
                             "token": "buster-shot"
                         }
-                    ]
+                    ],
+                    "compatible": []
                 },
-                "abilities": [],
-                "robots_unlockable": [
-                    "rock",
-                    "rock"
-                ],
-                "quotes": {
-                    "battle_start": "",
-                    "battle_taunt": "",
-                    "battle_victory": "",
-                    "battle_defeat": ""
-                },
-                "key": 4
-            },
-            "kalinka": {
-                "token": "kalinka",
-                "number": 5,
-                "name": "Kalinka",
-                "name_full": "Kalinka Cossack",
-                "game": "MMRPG",
-                "class": "player",
-                "gender": "female",
-                "image": "kalinka",
-                "image_size": 40,
-                "image_editor": 10,
-                "image_editor2": 0,
-                "image_editor3": 0,
-                "image_alts": [],
-                "type": "weapons",
-                "type2": "",
-                "description": "",
-                "description2": "",
-                "energy": 0,
-                "weapons": 25,
-                "attack": 0,
-                "defense": 0,
-                "speed": 0,
-                "robot_hero": "rock",
-                "robot_support": "rock",
-                "field_intro": "prototype-complete",
-                "field_home": "prototype-complete",
-                "quotes_custom": [],
-                "flag_hidden": 1,
-                "flag_complete": 1,
-                "flag_published": 1,
-                "flag_protected": 1,
-                "group": "MMRPG\/Pseudo",
-                "order": 0,
-                "rewards": {
-                    "robots": [
+                "robots": {
+                    "hero": "rock",
+                    "support": "rock",
+                    "rewards": [
                         {
                             "points": 0,
                             "token": "rock",
                             "level": 41
                         }
                     ],
-                    "abilities": [
-                        {
-                            "points": 0,
-                            "token": "buster-shot"
-                        }
+                    "compatible": [
+                        "rock",
+                        "rock"
                     ]
                 },
-                "abilities": [],
-                "robots_unlockable": [
-                    "rock",
-                    "rock"
-                ],
-                "quotes": {
-                    "battle_start": "",
-                    "battle_taunt": "",
-                    "battle_victory": "",
-                    "battle_defeat": ""
+                "fields": {
+                    "home": "prototype-complete",
+                    "intro": "prototype-complete"
                 },
-                "key": 5
+                "flags": {
+                    "hidden": 1,
+                    "complete": 1,
+                    "published": 1
+                },
+                "group": "MMRPG/Pseudo",
+                "order": 4,
+                "number": 5
             }
         },
-        "total": 6
+        "total": 6,
+        "visible": 6
     }
 }
