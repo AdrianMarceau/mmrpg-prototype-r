@@ -1,6 +1,6 @@
 {
     "status": "success",
-    "updated": 1721795128,
+    "updated": 1721796246,
     "data": {
         "robots": {
             "robot": {
@@ -222,8 +222,8 @@
                         {
                             "token": "alt",
                             "name": "Sniper Joe (No Shield)",
-                            "colour": "none",
-                            "summons": 0
+                            "summons": 0,
+                            "color": "none"
                         }
                     ]
                 },
@@ -407,8 +407,8 @@
                         {
                             "token": "alt",
                             "name": "Crystal Joe (No Shard)",
-                            "colour": "none",
-                            "summons": 0
+                            "summons": 0,
+                            "color": "none"
                         }
                     ]
                 },
@@ -3964,13 +3964,13 @@
                             "token": "alt",
                             "name": "Flipping Suzy (2nd Gen)",
                             "summons": 100,
-                            "colour": "none"
+                            "color": "none"
                         },
                         {
                             "token": "alt2",
                             "name": "Flipping Suzy (3rd Gen)",
                             "summons": 200,
-                            "colour": "none"
+                            "color": "none"
                         }
                     ]
                 },
@@ -4253,13 +4253,13 @@
                             "token": "alt",
                             "name": "Krushdiver (2nd Gen)",
                             "summons": 100,
-                            "colour": "none"
+                            "color": "none"
                         },
                         {
                             "token": "alt2",
                             "name": "Krushdiver (3rd Gen)",
                             "summons": 200,
-                            "colour": "none"
+                            "color": "none"
                         }
                     ]
                 },
@@ -4356,13 +4356,13 @@
                             "token": "alt",
                             "name": "Novamite (2nd Gen)",
                             "summons": 100,
-                            "colour": "none"
+                            "color": "none"
                         },
                         {
                             "token": "alt2",
                             "name": "Novamite (3rd Gen)",
                             "summons": 200,
-                            "colour": "none"
+                            "color": "none"
                         }
                     ]
                 },
@@ -4458,13 +4458,13 @@
                             "token": "alt",
                             "name": "Mouslider (2nd Gen)",
                             "summons": 100,
-                            "colour": "none"
+                            "color": "none"
                         },
                         {
                             "token": "alt2",
                             "name": "Mouslider (3rd Gen)",
                             "summons": 200,
-                            "colour": "none"
+                            "color": "none"
                         }
                     ]
                 },
@@ -4651,13 +4651,13 @@
                             "token": "alt",
                             "name": "Pukapunter (2nd Gen)",
                             "summons": 100,
-                            "colour": "none"
+                            "color": "none"
                         },
                         {
                             "token": "alt2",
                             "name": "Pukapunter (3rd Gen)",
                             "summons": 200,
-                            "colour": "none"
+                            "color": "none"
                         }
                     ]
                 },
@@ -6053,55 +6053,55 @@
                             "token": "alt",
                             "name": "Diaymon (Aquamarine Alt)",
                             "summons": 100,
-                            "colour": "freeze"
+                            "color": "freeze"
                         },
                         {
                             "token": "alt2",
                             "name": "Diaymon (Tourmaline Alt)",
                             "summons": 200,
-                            "colour": "laser"
+                            "color": "laser"
                         },
                         {
                             "token": "alt3",
                             "name": "Diaymon (Emerald Alt)",
                             "summons": 300,
-                            "colour": "nature"
+                            "color": "nature"
                         },
                         {
                             "token": "alt4",
                             "name": "Diaymon (Citrine Alt)",
                             "summons": 400,
-                            "colour": "electric"
+                            "color": "electric"
                         },
                         {
                             "token": "alt5",
                             "name": "Diaymon (Garnet Alt)",
                             "summons": 500,
-                            "colour": "flame"
+                            "color": "flame"
                         },
                         {
                             "token": "alt6",
                             "name": "Diaymon (Sapphire Alt)",
                             "summons": 600,
-                            "colour": "water"
+                            "color": "water"
                         },
                         {
                             "token": "alt7",
                             "name": "Diaymon (Amethyst Alt)",
                             "summons": 700,
-                            "colour": "time"
+                            "color": "time"
                         },
                         {
                             "token": "alt8",
                             "name": "Diaymon (Diamond Alt)",
                             "summons": 800,
-                            "colour": "shield"
+                            "color": "shield"
                         },
                         {
                             "token": "alt9",
                             "name": "Diaymon (Bloodstone Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         }
                     ]
                 },
@@ -8682,37 +8682,37 @@
                             "token": "alt",
                             "name": "Trille-Bot (Attack Alt)",
                             "summons": 100,
-                            "colour": "attack"
+                            "color": "attack"
                         },
                         {
                             "token": "alt2",
                             "name": "Trille-Bot (Defense Alt)",
                             "summons": 200,
-                            "colour": "defense"
+                            "color": "defense"
                         },
                         {
                             "token": "alt3",
                             "name": "Trille-Bot (Speed Alt)",
                             "summons": 300,
-                            "colour": "speed"
+                            "color": "speed"
                         },
                         {
                             "token": "alt4",
                             "name": "Trille-Bot (Emboldened Alt)",
                             "summons": 400,
-                            "colour": "wind"
+                            "color": "wind"
                         },
                         {
                             "token": "alt5",
                             "name": "Trille-Bot (Final Weapon Alt)",
                             "summons": 500,
-                            "colour": "nature"
+                            "color": "nature"
                         },
                         {
                             "token": "alt6",
                             "name": "Trille-Bot (Crestfallen Alt)",
                             "summons": 600,
-                            "colour": "explode"
+                            "color": "explode"
                         }
                     ]
                 },

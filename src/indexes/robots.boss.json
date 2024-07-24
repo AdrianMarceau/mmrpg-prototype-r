@@ -1,6 +1,6 @@
 {
     "status": "success",
-    "updated": 1721795128,
+    "updated": 1721796247,
     "data": {
         "robots": {
             "robot": {
@@ -418,7 +418,7 @@
                             "token": "alt",
                             "name": "Ballade (Second Form)",
                             "summons": 100,
-                            "colour": "none"
+                            "color": "none"
                         }
                     ]
                 },
@@ -605,7 +605,7 @@
                             "token": "alt",
                             "name": "King (Pawn Alt)",
                             "summons": 100,
-                            "colour": "speed"
+                            "color": "speed"
                         }
                     ]
                 },
@@ -1120,7 +1120,7 @@
                             "token": "alt9",
                             "name": "Ra Thor (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         }
                     ]
                 },
@@ -2010,19 +2010,19 @@
                             "token": "alt",
                             "name": "Trill (Attack Style)",
                             "summons": 100,
-                            "colour": "attack"
+                            "color": "attack"
                         },
                         {
                             "token": "alt2",
                             "name": "Trill (Defense Style)",
                             "summons": 200,
-                            "colour": "defense"
+                            "color": "defense"
                         },
                         {
                             "token": "alt3",
                             "name": "Trill (Speed Style)",
                             "summons": 300,
-                            "colour": "speed"
+                            "color": "speed"
                         }
                     ]
                 },
@@ -2144,19 +2144,19 @@
                             "token": "alt",
                             "name": "Slur (Emboldened Alt)",
                             "summons": 300,
-                            "colour": "wind"
+                            "color": "wind"
                         },
                         {
                             "token": "alt2",
                             "name": "Slur (Final Weapon Alt)",
                             "summons": 600,
-                            "colour": "nature"
+                            "color": "nature"
                         },
                         {
                             "token": "alt3",
                             "name": "Slur (Crestfallen Alt)",
                             "summons": 900,
-                            "colour": "explode"
+                            "color": "explode"
                         }
                     ]
                 },

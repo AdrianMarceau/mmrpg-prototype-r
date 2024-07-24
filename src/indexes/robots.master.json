@@ -1,6 +1,6 @@
 {
     "status": "success",
-    "updated": 1721795128,
+    "updated": 1721796246,
     "data": {
         "robots": {
             "robot": {
@@ -518,55 +518,55 @@
                             "token": "alt",
                             "name": "Roll (Mega Alt)",
                             "summons": 50,
-                            "colour": "water"
+                            "color": "water"
                         },
                         {
                             "token": "alt2",
                             "name": "Button Dress Roll",
                             "summons": 100,
-                            "colour": "flame"
+                            "color": "flame"
                         },
                         {
                             "token": "alt3",
                             "name": "Button Dress Roll (Mega Alt)",
                             "summons": 150,
-                            "colour": "water"
+                            "color": "water"
                         },
                         {
                             "token": "alt4",
                             "name": "Heart Suit Roll",
                             "summons": 200,
-                            "colour": "flame"
+                            "color": "flame"
                         },
                         {
                             "token": "alt5",
                             "name": "Heart Suit Roll (Mega Alt)",
                             "summons": 250,
-                            "colour": "water"
+                            "color": "water"
                         },
                         {
                             "token": "alt6",
                             "name": "Hooded Dress Roll",
                             "summons": 300,
-                            "colour": "flame"
+                            "color": "flame"
                         },
                         {
                             "token": "alt7",
                             "name": "Hooded Dress Roll (Mega Alt)",
                             "summons": 350,
-                            "colour": "water"
+                            "color": "water"
                         },
                         {
                             "token": "alt8",
                             "name": "Dream Armor Roll",
                             "summons": 800,
-                            "colour": "laser"
+                            "color": "laser"
                         },
                         {
                             "token": "alt9",
                             "name": "Roll (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         }
                     ]
                 },
@@ -705,31 +705,31 @@
                             "token": "alt",
                             "name": "Disco (Bass Alt)",
                             "summons": 50,
-                            "colour": "explode"
+                            "color": "explode"
                         },
                         {
                             "token": "alt2",
                             "name": "Pretty Dress Disco",
                             "summons": 100,
-                            "colour": "time"
+                            "color": "time"
                         },
                         {
                             "token": "alt3",
                             "name": "Pretty Dress Disco (Bass Alt)",
                             "summons": 150,
-                            "colour": "explode"
+                            "color": "explode"
                         },
                         {
                             "token": "alt4",
                             "name": "Power Suit Disco",
                             "summons": 200,
-                            "colour": "time"
+                            "color": "time"
                         },
                         {
                             "token": "alt5",
                             "name": "Power Suit Disco (Bass Alt)",
                             "summons": 250,
-                            "colour": "explode"
+                            "color": "explode"
                         }
                     ]
                 },
@@ -868,31 +868,31 @@
                             "token": "alt",
                             "name": "Rhythm (Blues Alt)",
                             "summons": 50,
-                            "colour": "flame"
+                            "color": "flame"
                         },
                         {
                             "token": "alt2",
                             "name": "Cute Dress Rhythm",
                             "summons": 100,
-                            "colour": "nature"
+                            "color": "nature"
                         },
                         {
                             "token": "alt3",
                             "name": "Cute Dress Rhythm (Blues Alt)",
                             "summons": 150,
-                            "colour": "flame"
+                            "color": "flame"
                         },
                         {
                             "token": "alt4",
                             "name": "Mobile Suit Rhythm",
                             "summons": 200,
-                            "colour": "nature"
+                            "color": "nature"
                         },
                         {
                             "token": "alt5",
                             "name": "Mobile Suit Rhythm (Blues Alt)",
                             "summons": 250,
-                            "colour": "flame"
+                            "color": "flame"
                         }
                     ]
                 },
@@ -1035,37 +1035,37 @@
                             "token": "alt",
                             "name": "Cut Man (Blue Alt)",
                             "summons": 100,
-                            "colour": "water"
+                            "color": "water"
                         },
                         {
                             "token": "alt2",
                             "name": "Cut Man (Yellow Alt)",
                             "summons": 200,
-                            "colour": "electric"
+                            "color": "electric"
                         },
                         {
                             "token": "alt3",
                             "name": "Cut Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "cutter"
+                            "color": "cutter"
                         },
                         {
                             "token": "alt4",
                             "name": "Cut Man (Classic Alt)",
                             "summons": 400,
-                            "colour": "flame"
+                            "color": "flame"
                         },
                         {
                             "token": "alt9",
                             "name": "Cut Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         },
                         {
                             "token": "alt10",
                             "name": "Cut Man (Prototype Alt)",
                             "summons": 1000,
-                            "colour": "laser"
+                            "color": "laser"
                         }
                     ]
                 },
@@ -1168,37 +1168,37 @@
                             "token": "alt",
                             "name": "Guts Man (Blue Alt)",
                             "summons": 100,
-                            "colour": "water"
+                            "color": "water"
                         },
                         {
                             "token": "alt2",
                             "name": "Guts Man (Green Alt)",
                             "summons": 200,
-                            "colour": "nature"
+                            "color": "nature"
                         },
                         {
                             "token": "alt3",
                             "name": "Guts Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "missile"
+                            "color": "missile"
                         },
                         {
                             "token": "alt4",
                             "name": "Guts Man (Wood Guts Alt)",
                             "summons": 400,
-                            "colour": "nature"
+                            "color": "nature"
                         },
                         {
                             "token": "alt9",
                             "name": "Guts Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         },
                         {
                             "token": "alt10",
                             "name": "Guts Man (Prototype Alt)",
                             "summons": 1000,
-                            "colour": "electric"
+                            "color": "electric"
                         }
                     ]
                 },
@@ -1300,37 +1300,37 @@
                             "token": "alt",
                             "name": "Ice Man (Pink Alt)",
                             "summons": 100,
-                            "colour": "laser"
+                            "color": "laser"
                         },
                         {
                             "token": "alt2",
                             "name": "Ice Man (Mint Alt)",
                             "summons": 200,
-                            "colour": "energy"
+                            "color": "energy"
                         },
                         {
                             "token": "alt3",
                             "name": "Ice Man (Legacy Alt)",
                             "summons": 300,
-                            "colour": "freeze"
+                            "color": "freeze"
                         },
                         {
                             "token": "alt4",
                             "name": "Ice Man (Dubious Alt)",
                             "summons": 400,
-                            "colour": "type"
+                            "color": "type"
                         },
                         {
                             "token": "alt9",
                             "name": "Ice Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         },
                         {
                             "token": "alt10",
                             "name": "Ice Man (Prototype Alt)",
                             "summons": 1000,
-                            "colour": "freeze"
+                            "color": "freeze"
                         }
                     ]
                 },
@@ -1433,31 +1433,31 @@
                             "token": "alt",
                             "name": "Bomb Man (Blue Alt)",
                             "summons": 100,
-                            "colour": "water"
+                            "color": "water"
                         },
                         {
                             "token": "alt2",
                             "name": "Bomb Man (Purple Alt)",
                             "summons": 200,
-                            "colour": "time"
+                            "color": "time"
                         },
                         {
                             "token": "alt3",
                             "name": "Bomb Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "nature"
+                            "color": "nature"
                         },
                         {
                             "token": "alt9",
                             "name": "Bomb Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         },
                         {
                             "token": "alt10",
                             "name": "Bomb Man (Prototype Alt)",
                             "summons": 1000,
-                            "colour": "explode"
+                            "color": "explode"
                         }
                     ]
                 },
@@ -1559,31 +1559,31 @@
                             "token": "alt",
                             "name": "Fire Man (Blue Alt)",
                             "summons": 100,
-                            "colour": "water"
+                            "color": "water"
                         },
                         {
                             "token": "alt2",
                             "name": "Fire Man (Yellow Alt)",
                             "summons": 200,
-                            "colour": "electric"
+                            "color": "electric"
                         },
                         {
                             "token": "alt3",
                             "name": "Fire Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "swift"
+                            "color": "swift"
                         },
                         {
                             "token": "alt9",
                             "name": "Fire Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         },
                         {
                             "token": "alt10",
                             "name": "Fire Man (Prototype Alt)",
                             "summons": 1000,
-                            "colour": "flame"
+                            "color": "flame"
                         }
                     ]
                 },
@@ -1687,31 +1687,31 @@
                             "token": "alt",
                             "name": "Elec Man (Green Alt)",
                             "summons": 100,
-                            "colour": "nature"
+                            "color": "nature"
                         },
                         {
                             "token": "alt2",
                             "name": "Elec Man (Blue Alt)",
                             "summons": 200,
-                            "colour": "water"
+                            "color": "water"
                         },
                         {
                             "token": "alt3",
                             "name": "Elec Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "cutter"
+                            "color": "cutter"
                         },
                         {
                             "token": "alt9",
                             "name": "Elec Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         },
                         {
                             "token": "alt10",
                             "name": "Elec Man (Prototype Alt)",
                             "summons": 1000,
-                            "colour": "electric"
+                            "color": "electric"
                         }
                     ]
                 },
@@ -1814,31 +1814,31 @@
                             "token": "alt",
                             "name": "Time Man (Green Alt)",
                             "summons": 100,
-                            "colour": "nature"
+                            "color": "nature"
                         },
                         {
                             "token": "alt2",
                             "name": "Time Man (Orange Alt)",
                             "summons": 200,
-                            "colour": "explode"
+                            "color": "explode"
                         },
                         {
                             "token": "alt3",
                             "name": "Time Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "crystal"
+                            "color": "crystal"
                         },
                         {
                             "token": "alt9",
                             "name": "Time Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         },
                         {
                             "token": "alt10",
                             "name": "Time Man (Prototype Alt)",
                             "summons": 1000,
-                            "colour": "time"
+                            "color": "time"
                         }
                     ]
                 },
@@ -1940,43 +1940,43 @@
                             "token": "alt",
                             "name": "Oil Man (Masked Alt)",
                             "summons": 100,
-                            "colour": "shadow"
+                            "color": "shadow"
                         },
                         {
                             "token": "alt2",
                             "name": "Oil Man (Light Alt)",
                             "summons": 200,
-                            "colour": "freeze"
+                            "color": "freeze"
                         },
                         {
                             "token": "alt3",
                             "name": "Oil Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "impact"
+                            "color": "impact"
                         },
                         {
                             "token": "alt4",
                             "name": "Oil Man (DOS Alt)",
                             "summons": 400,
-                            "colour": "flame"
+                            "color": "flame"
                         },
                         {
                             "token": "alt5",
                             "name": "Oil Man (Flynn Alt)",
                             "summons": 500,
-                            "colour": "light"
+                            "color": "light"
                         },
                         {
                             "token": "alt9",
                             "name": "Oil Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         },
                         {
                             "token": "alt10",
                             "name": "Oil Man (Prototype Alt)",
                             "summons": 1000,
-                            "colour": "space"
+                            "color": "space"
                         }
                     ]
                 },
@@ -2079,31 +2079,31 @@
                             "token": "alt",
                             "name": "Metal Man (Blue Alt)",
                             "summons": 100,
-                            "colour": "water"
+                            "color": "water"
                         },
                         {
                             "token": "alt2",
                             "name": "Metal Man (Green Alt)",
                             "summons": 200,
-                            "colour": "nature"
+                            "color": "nature"
                         },
                         {
                             "token": "alt3",
                             "name": "Metal Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "missile"
+                            "color": "missile"
                         },
                         {
                             "token": "alt9",
                             "name": "Metal Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         },
                         {
                             "token": "alt10",
                             "name": "Metal Man (Prototype Alt)",
                             "summons": 1000,
-                            "colour": "flame"
+                            "color": "flame"
                         }
                     ]
                 },
@@ -2204,31 +2204,31 @@
                             "token": "alt",
                             "name": "Air Man (Firestorm Alt)",
                             "summons": 100,
-                            "colour": "flame"
+                            "color": "flame"
                         },
                         {
                             "token": "alt2",
                             "name": "Air Man (Eco Alt)",
                             "summons": 200,
-                            "colour": "nature"
+                            "color": "nature"
                         },
                         {
                             "token": "alt3",
                             "name": "Air Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "weapons"
+                            "color": "weapons"
                         },
                         {
                             "token": "alt9",
                             "name": "Air Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         },
                         {
                             "token": "alt10",
                             "name": "Air Man (Prototype Alt)",
                             "summons": 1000,
-                            "colour": "water"
+                            "color": "water"
                         }
                     ]
                 },
@@ -2327,31 +2327,31 @@
                             "token": "alt",
                             "name": "Bubble Man (Blue Alt)",
                             "summons": 100,
-                            "colour": "water"
+                            "color": "water"
                         },
                         {
                             "token": "alt2",
                             "name": "Bubble Man (Red Alt)",
                             "summons": 200,
-                            "colour": "flame"
+                            "color": "flame"
                         },
                         {
                             "token": "alt3",
                             "name": "Bubble Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "cutter"
+                            "color": "cutter"
                         },
                         {
                             "token": "alt9",
                             "name": "Bubble Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         },
                         {
                             "token": "alt10",
                             "name": "Bubble Man (Prototype Alt)",
                             "summons": 1000,
-                            "colour": "nature"
+                            "color": "nature"
                         }
                     ]
                 },
@@ -2453,43 +2453,43 @@
                             "token": "alt",
                             "name": "Quick Man (Blue Blur Alt)",
                             "summons": 100,
-                            "colour": "water"
+                            "color": "water"
                         },
                         {
                             "token": "alt2",
                             "name": "Quick Man (Emerald Speedster Alt)",
                             "summons": 200,
-                            "colour": "nature"
+                            "color": "nature"
                         },
                         {
                             "token": "alt3",
                             "name": "Quick Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "crystal"
+                            "color": "crystal"
                         },
                         {
                             "token": "alt4",
                             "name": "Quick Man (Classic Alt)",
                             "summons": 400,
-                            "colour": "laser"
+                            "color": "laser"
                         },
                         {
                             "token": "alt5",
                             "name": "Quick Man (Reverse-Quick Alt)",
                             "summons": 500,
-                            "colour": "electric"
+                            "color": "electric"
                         },
                         {
                             "token": "alt9",
                             "name": "Quick Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         },
                         {
                             "token": "alt10",
                             "name": "Quick Man (Prototype Alt)",
                             "summons": 1000,
-                            "colour": "laser"
+                            "color": "laser"
                         }
                     ]
                 },
@@ -2591,31 +2591,31 @@
                             "token": "alt",
                             "name": "Crash Man (Green Alt)",
                             "summons": 100,
-                            "colour": "nature"
+                            "color": "nature"
                         },
                         {
                             "token": "alt2",
                             "name": "Crash Man (Purple Alt)",
                             "summons": 200,
-                            "colour": "time"
+                            "color": "time"
                         },
                         {
                             "token": "alt3",
                             "name": "Crash Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "swift"
+                            "color": "swift"
                         },
                         {
                             "token": "alt9",
                             "name": "Crash Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         },
                         {
                             "token": "alt10",
                             "name": "Crash Man (Prototype Alt)",
                             "summons": 1000,
-                            "colour": "explode"
+                            "color": "explode"
                         }
                     ]
                 },
@@ -2714,31 +2714,31 @@
                             "token": "alt",
                             "name": "Flash Man (Red Alt)",
                             "summons": 100,
-                            "colour": "flame"
+                            "color": "flame"
                         },
                         {
                             "token": "alt2",
                             "name": "Flash Man (Green Alt)",
                             "summons": 200,
-                            "colour": "nature"
+                            "color": "nature"
                         },
                         {
                             "token": "alt3",
                             "name": "Flash Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "time"
+                            "color": "time"
                         },
                         {
                             "token": "alt9",
                             "name": "Flash Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         },
                         {
                             "token": "alt10",
                             "name": "Flash Man (Prototype Alt)",
                             "summons": 1000,
-                            "colour": "water"
+                            "color": "water"
                         }
                     ]
                 },
@@ -2838,37 +2838,37 @@
                             "token": "alt",
                             "name": "Heat Man (Blue Alt)",
                             "summons": 100,
-                            "colour": "water"
+                            "color": "water"
                         },
                         {
                             "token": "alt2",
                             "name": "Heat Man (Green Alt)",
                             "summons": 200,
-                            "colour": "nature"
+                            "color": "nature"
                         },
                         {
                             "token": "alt3",
                             "name": "Heat Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "flame"
+                            "color": "flame"
                         },
                         {
                             "token": "alt4",
                             "name": "Heat Man (Zippo Alt)",
                             "summons": 400,
-                            "colour": "none"
+                            "color": "none"
                         },
                         {
                             "token": "alt9",
                             "name": "Heat Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         },
                         {
                             "token": "alt10",
                             "name": "Heat Man (Prototype Alt)",
                             "summons": 1000,
-                            "colour": "flame"
+                            "color": "flame"
                         }
                     ]
                 },
@@ -2967,31 +2967,31 @@
                             "token": "alt",
                             "name": "Wood Man (Autumn Alt)",
                             "summons": 100,
-                            "colour": "attack"
+                            "color": "attack"
                         },
                         {
                             "token": "alt2",
                             "name": "Wood Man (Winter Alt)",
                             "summons": 200,
-                            "colour": "none"
+                            "color": "none"
                         },
                         {
                             "token": "alt3",
                             "name": "Wood Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "nature"
+                            "color": "nature"
                         },
                         {
                             "token": "alt9",
                             "name": "Wood Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         },
                         {
                             "token": "alt10",
                             "name": "Wood Man (Prototype Alt)",
                             "summons": 1000,
-                            "colour": "earth"
+                            "color": "earth"
                         }
                     ]
                 },
@@ -3091,37 +3091,37 @@
                             "token": "alt",
                             "name": "Needle Man (Magenta Alt)",
                             "summons": 100,
-                            "colour": "laser"
+                            "color": "laser"
                         },
                         {
                             "token": "alt2",
                             "name": "Needle Man (Evergreen Alt)",
                             "summons": 200,
-                            "colour": "nature"
+                            "color": "nature"
                         },
                         {
                             "token": "alt3",
                             "name": "Needle Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "explode"
+                            "color": "explode"
                         },
                         {
                             "token": "alt4",
                             "name": "Needle Man (Classic Alt)",
                             "summons": 400,
-                            "colour": "light"
+                            "color": "light"
                         },
                         {
                             "token": "alt9",
                             "name": "Needle Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         },
                         {
                             "token": "alt10",
                             "name": "Needle Man (Prototype Alt)",
                             "summons": 1000,
-                            "colour": "water"
+                            "color": "water"
                         }
                     ]
                 },
@@ -3217,31 +3217,31 @@
                             "token": "alt",
                             "name": "Magnet Man (Blue Alt)",
                             "summons": 100,
-                            "colour": "water"
+                            "color": "water"
                         },
                         {
                             "token": "alt2",
                             "name": "Magnet Man (Gold Alt)",
                             "summons": 200,
-                            "colour": "electric"
+                            "color": "electric"
                         },
                         {
                             "token": "alt3",
                             "name": "Magnet Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "flame"
+                            "color": "flame"
                         },
                         {
                             "token": "alt9",
                             "name": "Magnet Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         },
                         {
                             "token": "alt10",
                             "name": "Magnet Man (Prototype Alt)",
                             "summons": 1000,
-                            "colour": "flame"
+                            "color": "flame"
                         }
                     ]
                 },
@@ -3337,25 +3337,25 @@
                             "token": "alt",
                             "name": "Gemini Man (Kunzite Alt)",
                             "summons": 100,
-                            "colour": "laser"
+                            "color": "laser"
                         },
                         {
                             "token": "alt2",
                             "name": "Gemini Man (Emerald Alt)",
                             "summons": 200,
-                            "colour": "energy"
+                            "color": "energy"
                         },
                         {
                             "token": "alt3",
                             "name": "Gemini Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "freeze"
+                            "color": "freeze"
                         },
                         {
                             "token": "alt9",
                             "name": "Gemini Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         }
                     ]
                 },
@@ -3456,25 +3456,25 @@
                             "token": "alt",
                             "name": "Hard Man (Golden Alt)",
                             "summons": 100,
-                            "colour": "electric"
+                            "color": "electric"
                         },
                         {
                             "token": "alt2",
                             "name": "Hard Man (Diamond Alt)",
                             "summons": 200,
-                            "colour": "shield"
+                            "color": "shield"
                         },
                         {
                             "token": "alt3",
                             "name": "Hard Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "water"
+                            "color": "water"
                         },
                         {
                             "token": "alt9",
                             "name": "Hard Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         }
                     ]
                 },
@@ -3572,31 +3572,31 @@
                             "token": "alt",
                             "name": "Top Man (Purple Alt)",
                             "summons": 100,
-                            "colour": "time"
+                            "color": "time"
                         },
                         {
                             "token": "alt2",
                             "name": "Top Man (Green Alt)",
                             "summons": 200,
-                            "colour": "nature"
+                            "color": "nature"
                         },
                         {
                             "token": "alt3",
                             "name": "Top Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "cutter"
+                            "color": "cutter"
                         },
                         {
                             "token": "alt9",
                             "name": "Top Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         },
                         {
                             "token": "alt10",
                             "name": "Top Man (Prototype Alt)",
                             "summons": 1000,
-                            "colour": "swift"
+                            "color": "swift"
                         }
                     ]
                 },
@@ -3692,25 +3692,25 @@
                             "token": "alt",
                             "name": "Snake Man (Amber Alt)",
                             "summons": 100,
-                            "colour": "electric"
+                            "color": "electric"
                         },
                         {
                             "token": "alt2",
                             "name": "Snake Man (Crimson Alt)",
                             "summons": 200,
-                            "colour": "flame"
+                            "color": "flame"
                         },
                         {
                             "token": "alt3",
                             "name": "Snake Man (Legacy Alt)",
                             "summons": 300,
-                            "colour": "nature"
+                            "color": "nature"
                         },
                         {
                             "token": "alt9",
                             "name": "Snake Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         }
                     ]
                 },
@@ -3814,31 +3814,31 @@
                             "token": "alt",
                             "name": "Spark Man (Blue Alt)",
                             "summons": 100,
-                            "colour": "water"
+                            "color": "water"
                         },
                         {
                             "token": "alt2",
                             "name": "Spark Man (Yellow Alt)",
                             "summons": 200,
-                            "colour": "electric"
+                            "color": "electric"
                         },
                         {
                             "token": "alt3",
                             "name": "Spark Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "swift"
+                            "color": "swift"
                         },
                         {
                             "token": "alt9",
                             "name": "Spark Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         },
                         {
                             "token": "alt10",
                             "name": "Spark Man (Prototype Alt)",
                             "summons": 1000,
-                            "colour": "swift"
+                            "color": "swift"
                         }
                     ]
                 },
@@ -3939,43 +3939,43 @@
                             "token": "alt",
                             "name": "Shadow Man (Orange Alt)",
                             "summons": 100,
-                            "colour": "explode"
+                            "color": "explode"
                         },
                         {
                             "token": "alt2",
                             "name": "Shadow Man (Purple Alt)",
                             "summons": 200,
-                            "colour": "time"
+                            "color": "time"
                         },
                         {
                             "token": "alt3",
                             "name": "Shadow Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "crystal"
+                            "color": "crystal"
                         },
                         {
                             "token": "alt4",
                             "name": "Shadow Man (Electric Shadow Alt)",
                             "summons": 400,
-                            "colour": "electric"
+                            "color": "electric"
                         },
                         {
                             "token": "alt5",
                             "name": "Shadow Man (EWN-003 Alt)",
                             "summons": 500,
-                            "colour": "flame"
+                            "color": "flame"
                         },
                         {
                             "token": "alt9",
                             "name": "Shadow Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         },
                         {
                             "token": "alt10",
                             "name": "Shadow Man (Prototype Alt)",
                             "summons": 1000,
-                            "colour": "water"
+                            "color": "water"
                         }
                     ]
                 },
@@ -4075,31 +4075,31 @@
                             "token": "alt",
                             "name": "Bright Man (Green Alt)",
                             "summons": 100,
-                            "colour": "nature"
+                            "color": "nature"
                         },
                         {
                             "token": "alt2",
                             "name": "Bright Man (Flash Man Alt)",
                             "summons": 200,
-                            "colour": "water"
+                            "color": "water"
                         },
                         {
                             "token": "alt3",
                             "name": "Bright Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "time"
+                            "color": "time"
                         },
                         {
                             "token": "alt9",
                             "name": "Bright Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         },
                         {
                             "token": "alt10",
                             "name": "Bright Man (Prototype Alt)",
                             "summons": 1000,
-                            "colour": "swift"
+                            "color": "swift"
                         }
                     ]
                 },
@@ -4196,43 +4196,43 @@
                             "token": "alt",
                             "name": "Toad Man (Watermelon Alt)",
                             "summons": 100,
-                            "colour": "laser"
+                            "color": "laser"
                         },
                         {
                             "token": "alt2",
                             "name": "Toad Man (Blueberry Alt)",
                             "summons": 200,
-                            "colour": "water"
+                            "color": "water"
                         },
                         {
                             "token": "alt3",
                             "name": "Toad Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "level"
+                            "color": "level"
                         },
                         {
                             "token": "alt4",
                             "name": "Toad Man (Fire-Belly Alt)",
                             "summons": 400,
-                            "colour": "flame"
+                            "color": "flame"
                         },
                         {
                             "token": "alt5",
                             "name": "Toad Man (Concept Alt)",
                             "summons": 500,
-                            "colour": "energy"
+                            "color": "energy"
                         },
                         {
                             "token": "alt9",
                             "name": "Toad Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         },
                         {
                             "token": "alt10",
                             "name": "Toad Man (Prototype Alt)",
                             "summons": 1000,
-                            "colour": "nature"
+                            "color": "nature"
                         }
                     ]
                 },
@@ -4332,31 +4332,31 @@
                             "token": "alt",
                             "name": "Drill Man (Green Alt)",
                             "summons": 100,
-                            "colour": "nature"
+                            "color": "nature"
                         },
                         {
                             "token": "alt2",
                             "name": "Drill Man (Blue Alt)",
                             "summons": 200,
-                            "colour": "water"
+                            "color": "water"
                         },
                         {
                             "token": "alt3",
                             "name": "Drill Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "cutter"
+                            "color": "cutter"
                         },
                         {
                             "token": "alt9",
                             "name": "Drill Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         },
                         {
                             "token": "alt10",
                             "name": "Drill Man (Prototype Alt)",
                             "summons": 1000,
-                            "colour": "swift"
+                            "color": "swift"
                         }
                     ]
                 },
@@ -4456,37 +4456,37 @@
                             "token": "alt",
                             "name": "Pharaoh Man (Cursed Alt)",
                             "summons": 100,
-                            "colour": "attack"
+                            "color": "attack"
                         },
                         {
                             "token": "alt2",
                             "name": "Pharaoh Man (Blessed Alt)",
                             "summons": 200,
-                            "colour": "electric"
+                            "color": "electric"
                         },
                         {
                             "token": "alt3",
                             "name": "Pharaoh Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "missile"
+                            "color": "missile"
                         },
                         {
                             "token": "alt4",
                             "name": "Pharaoh Man (Ruby Spears Alt)",
                             "summons": 400,
-                            "colour": "nature"
+                            "color": "nature"
                         },
                         {
                             "token": "alt9",
                             "name": "Pharaoh Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         },
                         {
                             "token": "alt10",
                             "name": "Pharaoh Man (Prototype Alt)",
                             "summons": 1000,
-                            "colour": "electric"
+                            "color": "electric"
                         }
                     ]
                 },
@@ -4584,31 +4584,31 @@
                             "token": "alt",
                             "name": "Ring Man (Blue Alt)",
                             "summons": 100,
-                            "colour": "water"
+                            "color": "water"
                         },
                         {
                             "token": "alt2",
                             "name": "Ring Man (Green Alt)",
                             "summons": 200,
-                            "colour": "nature"
+                            "color": "nature"
                         },
                         {
                             "token": "alt3",
                             "name": "Ring Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "impact"
+                            "color": "impact"
                         },
                         {
                             "token": "alt9",
                             "name": "Ring Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         },
                         {
                             "token": "alt10",
                             "name": "Ring Man (Prototype Alt)",
                             "summons": 1000,
-                            "colour": "flame"
+                            "color": "flame"
                         }
                     ]
                 },
@@ -4704,31 +4704,31 @@
                             "token": "alt",
                             "name": "Dust Man (Purple Alt)",
                             "summons": 100,
-                            "colour": "time"
+                            "color": "time"
                         },
                         {
                             "token": "alt2",
                             "name": "Dust Man (Green Alt)",
                             "summons": 200,
-                            "colour": "nature"
+                            "color": "nature"
                         },
                         {
                             "token": "alt3",
                             "name": "Dust Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "cutter"
+                            "color": "cutter"
                         },
                         {
                             "token": "alt9",
                             "name": "Dust Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         },
                         {
                             "token": "alt10",
                             "name": "Dust Man (Prototype Alt)",
                             "summons": 1000,
-                            "colour": "water"
+                            "color": "water"
                         }
                     ]
                 },
@@ -4831,31 +4831,31 @@
                             "token": "alt",
                             "name": "Dive Man (Crimson Alt)",
                             "summons": 100,
-                            "colour": "flame"
+                            "color": "flame"
                         },
                         {
                             "token": "alt2",
                             "name": "Dive Man (Platinum Alt)",
                             "summons": 200,
-                            "colour": "cutter"
+                            "color": "cutter"
                         },
                         {
                             "token": "alt3",
                             "name": "Dive Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "time"
+                            "color": "time"
                         },
                         {
                             "token": "alt9",
                             "name": "Dive Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         },
                         {
                             "token": "alt10",
                             "name": "Dive Man (Prototype Alt)",
                             "summons": 1000,
-                            "colour": "water"
+                            "color": "water"
                         }
                     ]
                 },
@@ -4955,25 +4955,25 @@
                             "token": "alt",
                             "name": "Skull Man (Golden Alt)",
                             "summons": 100,
-                            "colour": "electric"
+                            "color": "electric"
                         },
                         {
                             "token": "alt2",
                             "name": "Skull Man (Red Alt)",
                             "summons": 200,
-                            "colour": "swift"
+                            "color": "swift"
                         },
                         {
                             "token": "alt3",
                             "name": "Skull Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "freeze"
+                            "color": "freeze"
                         },
                         {
                             "token": "alt9",
                             "name": "Skull Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         }
                     ]
                 },
@@ -5076,31 +5076,31 @@
                             "token": "alt",
                             "name": "Gravity Man (Blue Alt)",
                             "summons": 100,
-                            "colour": "water"
+                            "color": "water"
                         },
                         {
                             "token": "alt2",
                             "name": "Gravity Man (Green Alt)",
                             "summons": 200,
-                            "colour": "nature"
+                            "color": "nature"
                         },
                         {
                             "token": "alt3",
                             "name": "Gravity Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "time"
+                            "color": "time"
                         },
                         {
                             "token": "alt9",
                             "name": "Gravity Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         },
                         {
                             "token": "alt10",
                             "name": "Gravity Man (Asteroid Alt)",
                             "summons": 1000,
-                            "colour": "none"
+                            "color": "none"
                         }
                     ]
                 },
@@ -5197,31 +5197,31 @@
                             "token": "alt",
                             "name": "Wave Man (Green Alt)",
                             "summons": 100,
-                            "colour": "nature"
+                            "color": "nature"
                         },
                         {
                             "token": "alt2",
                             "name": "Wave Man (Purple Alt)",
                             "summons": 200,
-                            "colour": "time"
+                            "color": "time"
                         },
                         {
                             "token": "alt3",
                             "name": "Wave Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "water"
+                            "color": "water"
                         },
                         {
                             "token": "alt4",
                             "name": "Wave Man (DOS Alt)",
                             "summons": 400,
-                            "colour": "defense"
+                            "color": "defense"
                         },
                         {
                             "token": "alt9",
                             "name": "Wave Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         }
                     ]
                 },
@@ -5317,31 +5317,31 @@
                             "token": "alt",
                             "name": "Stone Man (Mossy Alt)",
                             "summons": 100,
-                            "colour": "nature"
+                            "color": "nature"
                         },
                         {
                             "token": "alt2",
                             "name": "Stone Man (Frozen Alt)",
                             "summons": 200,
-                            "colour": "freeze"
+                            "color": "freeze"
                         },
                         {
                             "token": "alt3",
                             "name": "Stone Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "earth"
+                            "color": "earth"
                         },
                         {
                             "token": "alt9",
                             "name": "Stone Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         },
                         {
                             "token": "alt10",
                             "name": "Stone Man (Asteroid Alt)",
                             "summons": 1000,
-                            "colour": "none"
+                            "color": "none"
                         }
                     ]
                 },
@@ -5437,37 +5437,37 @@
                             "token": "alt",
                             "name": "Gyro Man (Red Alt)",
                             "summons": 100,
-                            "colour": "flame"
+                            "color": "flame"
                         },
                         {
                             "token": "alt2",
                             "name": "Gyro Man (Blue Alt)",
                             "summons": 200,
-                            "colour": "water"
+                            "color": "water"
                         },
                         {
                             "token": "alt3",
                             "name": "Gyro Man (Legacy Alt)",
                             "summons": 300,
-                            "colour": "energy"
+                            "color": "energy"
                         },
                         {
                             "token": "alt4",
                             "name": "Gyro Man (Network Alt)",
                             "summons": 400,
-                            "colour": "electric"
+                            "color": "electric"
                         },
                         {
                             "token": "alt9",
                             "name": "Gyro Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         },
                         {
                             "token": "alt10",
                             "name": "Gyro Man (Prototype Alt)",
                             "summons": 1000,
-                            "colour": "nature"
+                            "color": "nature"
                         }
                     ]
                 },
@@ -5563,37 +5563,37 @@
                             "token": "alt",
                             "name": "Star Man (Burning Alt)",
                             "summons": 100,
-                            "colour": "flame"
+                            "color": "flame"
                         },
                         {
                             "token": "alt2",
                             "name": "Star Man (Glowing Alt)",
                             "summons": 200,
-                            "colour": "freeze"
+                            "color": "freeze"
                         },
                         {
                             "token": "alt3",
                             "name": "Star Man (Legacy Alt)",
                             "summons": 300,
-                            "colour": "explode"
+                            "color": "explode"
                         },
                         {
                             "token": "alt4",
                             "name": "Star Man (Game Gear Alt)",
                             "summons": 400,
-                            "colour": "nature"
+                            "color": "nature"
                         },
                         {
                             "token": "alt9",
                             "name": "Star Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         },
                         {
                             "token": "alt10",
                             "name": "Star Man (Prototype Alt)",
                             "summons": 1000,
-                            "colour": "electric"
+                            "color": "electric"
                         }
                     ]
                 },
@@ -5689,25 +5689,25 @@
                             "token": "alt",
                             "name": "Charge Man (Blue Alt)",
                             "summons": 100,
-                            "colour": "space"
+                            "color": "space"
                         },
                         {
                             "token": "alt2",
                             "name": "Charge Man (Green Alt)",
                             "summons": 200,
-                            "colour": "nature"
+                            "color": "nature"
                         },
                         {
                             "token": "alt3",
                             "name": "Charge Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "swift"
+                            "color": "swift"
                         },
                         {
                             "token": "alt9",
                             "name": "Charge Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         }
                     ]
                 },
@@ -5802,31 +5802,31 @@
                             "token": "alt",
                             "name": "Napalm Man (Orange Alt)",
                             "summons": 100,
-                            "colour": "explode"
+                            "color": "explode"
                         },
                         {
                             "token": "alt2",
                             "name": "Napalm Man (Green Alt)",
                             "summons": 200,
-                            "colour": "nature"
+                            "color": "nature"
                         },
                         {
                             "token": "alt3",
                             "name": "Napalm Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "water"
+                            "color": "water"
                         },
                         {
                             "token": "alt9",
                             "name": "Napalm Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         },
                         {
                             "token": "alt10",
                             "name": "Napalm Man (Asteroid Alt)",
                             "summons": 1000,
-                            "colour": "none"
+                            "color": "none"
                         }
                     ]
                 },
@@ -5924,25 +5924,25 @@
                             "token": "alt",
                             "name": "Crystal Man (Rhodonite Alt)",
                             "summons": 100,
-                            "colour": "crystal"
+                            "color": "crystal"
                         },
                         {
                             "token": "alt2",
                             "name": "Crystal Man (Amethyst Alt)",
                             "summons": 200,
-                            "colour": "time"
+                            "color": "time"
                         },
                         {
                             "token": "alt3",
                             "name": "Crystal Man (Legacy Alt)",
                             "summons": 300,
-                            "colour": "nature"
+                            "color": "nature"
                         },
                         {
                             "token": "alt9",
                             "name": "Crystal Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         }
                     ]
                 },
@@ -6043,25 +6043,25 @@
                             "token": "alt",
                             "name": "Blizzard Man (Spring Alt)",
                             "summons": 100,
-                            "colour": "laser"
+                            "color": "laser"
                         },
                         {
                             "token": "alt2",
                             "name": "Blizzard Man (Summer Alt)",
                             "summons": 200,
-                            "colour": "electric"
+                            "color": "electric"
                         },
                         {
                             "token": "alt3",
                             "name": "Blizzard Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "freeze"
+                            "color": "freeze"
                         },
                         {
                             "token": "alt9",
                             "name": "Blizzard Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         }
                     ]
                 },
@@ -6161,25 +6161,25 @@
                             "token": "alt",
                             "name": "Centaur Man (Cypriot Alt)",
                             "summons": 100,
-                            "colour": "explode"
+                            "color": "explode"
                         },
                         {
                             "token": "alt2",
                             "name": "Centaur Man (Lamian Alt)",
                             "summons": 200,
-                            "colour": "water"
+                            "color": "water"
                         },
                         {
                             "token": "alt3",
                             "name": "Centaur Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "level"
+                            "color": "level"
                         },
                         {
                             "token": "alt9",
                             "name": "Centaur Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         }
                     ]
                 },
@@ -6281,25 +6281,25 @@
                             "token": "alt",
                             "name": "Flame Man (Green Alt)",
                             "summons": 100,
-                            "colour": "nature"
+                            "color": "nature"
                         },
                         {
                             "token": "alt2",
                             "name": "Flame Man (Blue Alt)",
                             "summons": 200,
-                            "colour": "water"
+                            "color": "water"
                         },
                         {
                             "token": "alt3",
                             "name": "Flame Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "swift"
+                            "color": "swift"
                         },
                         {
                             "token": "alt9",
                             "name": "Flame Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         }
                     ]
                 },
@@ -6395,37 +6395,37 @@
                             "token": "alt",
                             "name": "Knight Man (Templar Alt)",
                             "summons": 100,
-                            "colour": "flame"
+                            "color": "flame"
                         },
                         {
                             "token": "alt2",
                             "name": "Knight Man (Royal Guard Alt)",
                             "summons": 200,
-                            "colour": "time"
+                            "color": "time"
                         },
                         {
                             "token": "alt3",
                             "name": "Knight Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "water"
+                            "color": "water"
                         },
                         {
                             "token": "alt4",
                             "name": "Knight Man (Bronze Armor Alt)",
                             "summons": 400,
-                            "colour": "nature"
+                            "color": "nature"
                         },
                         {
                             "token": "alt5",
                             "name": "Knight Man (Golden Armor Alt)",
                             "summons": 500,
-                            "colour": "missile"
+                            "color": "missile"
                         },
                         {
                             "token": "alt9",
                             "name": "Knight Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         }
                     ]
                 },
@@ -6523,31 +6523,31 @@
                             "token": "alt",
                             "name": "Plant Man (Aroma Alt)",
                             "summons": 100,
-                            "colour": "weapons"
+                            "color": "weapons"
                         },
                         {
                             "token": "alt2",
                             "name": "Plant Man (Swamp Alt)",
                             "summons": 200,
-                            "colour": "wind"
+                            "color": "wind"
                         },
                         {
                             "token": "alt3",
                             "name": "Plant Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "crystal"
+                            "color": "crystal"
                         },
                         {
                             "token": "alt9",
                             "name": "Plant Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         },
                         {
                             "token": "alt10",
                             "name": "Plant Man (Asteroid Alt)",
                             "summons": 1000,
-                            "colour": "none"
+                            "color": "none"
                         }
                     ]
                 },
@@ -6644,37 +6644,37 @@
                             "token": "alt",
                             "name": "Tomahawk Man (Earthen Alt)",
                             "summons": 100,
-                            "colour": "earth"
+                            "color": "earth"
                         },
                         {
                             "token": "alt2",
                             "name": "Tomahawk Man (Hide Alt)",
                             "summons": 200,
-                            "colour": "missile"
+                            "color": "missile"
                         },
                         {
                             "token": "alt3",
                             "name": "Tomahawk Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "swift"
+                            "color": "swift"
                         },
                         {
                             "token": "alt4",
                             "name": "Tomahawk Man (Network Alt)",
                             "summons": 400,
-                            "colour": "freeze"
+                            "color": "freeze"
                         },
                         {
                             "token": "alt9",
                             "name": "Tomahawk Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         },
                         {
                             "token": "alt10",
                             "name": "Tomahawk Man (Prototype Alt)",
                             "summons": 1000,
-                            "colour": "water"
+                            "color": "water"
                         }
                     ]
                 },
@@ -6771,25 +6771,25 @@
                             "token": "alt",
                             "name": "Wind Man (Green Alt)",
                             "summons": 100,
-                            "colour": "nature"
+                            "color": "nature"
                         },
                         {
                             "token": "alt2",
                             "name": "Wind Man (Purple Alt)",
                             "summons": 200,
-                            "colour": "time"
+                            "color": "time"
                         },
                         {
                             "token": "alt3",
                             "name": "Wind Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "cutter"
+                            "color": "cutter"
                         },
                         {
                             "token": "alt9",
                             "name": "Wind Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         }
                     ]
                 },
@@ -6885,43 +6885,43 @@
                             "token": "alt",
                             "name": "Yamato Man (Mikan Alt)",
                             "summons": 100,
-                            "colour": "explode"
+                            "color": "explode"
                         },
                         {
                             "token": "alt2",
                             "name": "Yamato Man (Midori Alt)",
                             "summons": 200,
-                            "colour": "nature"
+                            "color": "nature"
                         },
                         {
                             "token": "alt3",
                             "name": "Yamato Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "crystal"
+                            "color": "crystal"
                         },
                         {
                             "token": "alt4",
                             "name": "Yamato Man (Hinomaru Alt)",
                             "summons": 400,
-                            "colour": "type"
+                            "color": "type"
                         },
                         {
                             "token": "alt5",
                             "name": "Yamato Man (Network Alt)",
                             "summons": 500,
-                            "colour": "light"
+                            "color": "light"
                         },
                         {
                             "token": "alt9",
                             "name": "Yamato Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         },
                         {
                             "token": "alt10",
                             "name": "Yamato Man (Asteroid Alt)",
                             "summons": 1000,
-                            "colour": "none"
+                            "color": "none"
                         }
                     ]
                 },
@@ -7020,25 +7020,25 @@
                             "token": "alt",
                             "name": "Freeze Man (Permafrost Alt)",
                             "summons": 100,
-                            "colour": "energy"
+                            "color": "energy"
                         },
                         {
                             "token": "alt2",
                             "name": "Freeze Man (Sherbet Alt)",
                             "summons": 200,
-                            "colour": "swift"
+                            "color": "swift"
                         },
                         {
                             "token": "alt3",
                             "name": "Freeze Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "defense"
+                            "color": "defense"
                         },
                         {
                             "token": "alt9",
                             "name": "Freeze Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         }
                     ]
                 },
@@ -7136,25 +7136,25 @@
                             "token": "alt",
                             "name": "Junk Man (Rusty Alt)",
                             "summons": 100,
-                            "colour": "missile"
+                            "color": "missile"
                         },
                         {
                             "token": "alt2",
                             "name": "Junk Man (Mossy Alt)",
                             "summons": 200,
-                            "colour": "nature"
+                            "color": "nature"
                         },
                         {
                             "token": "alt3",
                             "name": "Junk Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "light"
+                            "color": "light"
                         },
                         {
                             "token": "alt9",
                             "name": "Junk Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         }
                     ]
                 },
@@ -7255,25 +7255,25 @@
                             "token": "alt",
                             "name": "Burst Man (Algae Alt)",
                             "summons": 100,
-                            "colour": "nature"
+                            "color": "nature"
                         },
                         {
                             "token": "alt2",
                             "name": "Burst Man (C.Puncher Alt)",
                             "summons": 200,
-                            "colour": "flame"
+                            "color": "flame"
                         },
                         {
                             "token": "alt3",
                             "name": "Burst Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "explode"
+                            "color": "explode"
                         },
                         {
                             "token": "alt9",
                             "name": "Burst Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         }
                     ]
                 },
@@ -7369,25 +7369,25 @@
                             "token": "alt",
                             "name": "Cloud Man (Cirrus Alt)",
                             "summons": 100,
-                            "colour": "crystal"
+                            "color": "crystal"
                         },
                         {
                             "token": "alt2",
                             "name": "Cloud Man (Supercell Alt)",
                             "summons": 200,
-                            "colour": "recovery"
+                            "color": "recovery"
                         },
                         {
                             "token": "alt3",
                             "name": "Cloud Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "water"
+                            "color": "water"
                         },
                         {
                             "token": "alt9",
                             "name": "Cloud Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         }
                     ]
                 },
@@ -7483,31 +7483,31 @@
                             "token": "alt",
                             "name": "Spring Man (Sprang Alt)",
                             "summons": 100,
-                            "colour": "nature"
+                            "color": "nature"
                         },
                         {
                             "token": "alt2",
                             "name": "Spring Man (Sprung Alt)",
                             "summons": 200,
-                            "colour": "water"
+                            "color": "water"
                         },
                         {
                             "token": "alt3",
                             "name": "Spring Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "time"
+                            "color": "time"
                         },
                         {
                             "token": "alt9",
                             "name": "Spring Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         },
                         {
                             "token": "alt10",
                             "name": "Spring Man (Prototype Alt)",
                             "summons": 1000,
-                            "colour": "cutter"
+                            "color": "cutter"
                         }
                     ]
                 },
@@ -7603,43 +7603,43 @@
                             "token": "alt",
                             "name": "Slash Man (Fiery Alt)",
                             "summons": 100,
-                            "colour": "flame"
+                            "color": "flame"
                         },
                         {
                             "token": "alt2",
                             "name": "Slash Man (Royal Alt)",
                             "summons": 200,
-                            "colour": "time"
+                            "color": "time"
                         },
                         {
                             "token": "alt3",
                             "name": "Slash Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "energy"
+                            "color": "energy"
                         },
                         {
                             "token": "alt4",
                             "name": "Slash Man (Enraged Alt)",
                             "summons": 400,
-                            "colour": "crystal"
+                            "color": "crystal"
                         },
                         {
                             "token": "alt5",
                             "name": "Slash Man (Progenitor Alt)",
                             "summons": 500,
-                            "colour": "cossack"
+                            "color": "cossack"
                         },
                         {
                             "token": "alt9",
                             "name": "Slash Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         },
                         {
                             "token": "alt10",
                             "name": "Slash Man (Asteroid Alt)",
                             "summons": 1000,
-                            "colour": "none"
+                            "color": "none"
                         }
                     ]
                 },
@@ -7736,31 +7736,31 @@
                             "token": "alt",
                             "name": "Shade Man (Nocturne Alt)",
                             "summons": 100,
-                            "colour": "shadow"
+                            "color": "shadow"
                         },
                         {
                             "token": "alt2",
                             "name": "Shade Man (Midnight Alt)",
                             "summons": 200,
-                            "colour": "defense"
+                            "color": "defense"
                         },
                         {
                             "token": "alt3",
                             "name": "Shade Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "cossack"
+                            "color": "cossack"
                         },
                         {
                             "token": "alt9",
                             "name": "Shade Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         },
                         {
                             "token": "alt10",
                             "name": "Shade Man (Prototype Alt)",
                             "summons": 1000,
-                            "colour": "time"
+                            "color": "time"
                         }
                     ]
                 },
@@ -7863,31 +7863,31 @@
                             "token": "alt",
                             "name": "Turbo Man (Petty Alt)",
                             "summons": 100,
-                            "colour": "water"
+                            "color": "water"
                         },
                         {
                             "token": "alt2",
                             "name": "Turbo Man (BRG Alt)",
                             "summons": 200,
-                            "colour": "nature"
+                            "color": "nature"
                         },
                         {
                             "token": "alt3",
                             "name": "Turbo Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "flame"
+                            "color": "flame"
                         },
                         {
                             "token": "alt9",
                             "name": "Turbo Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         },
                         {
                             "token": "alt10",
                             "name": "Turbo Man (Prototype Alt)",
                             "summons": 1000,
-                            "colour": "water"
+                            "color": "water"
                         }
                     ]
                 },
@@ -7986,31 +7986,31 @@
                             "token": "alt",
                             "name": "Tengu Man (Gale Alt)",
                             "summons": 100,
-                            "colour": "nature"
+                            "color": "nature"
                         },
                         {
                             "token": "alt2",
                             "name": "Tengu Man (Sandstorm Alt)",
                             "summons": 200,
-                            "colour": "swift"
+                            "color": "swift"
                         },
                         {
                             "token": "alt3",
                             "name": "Tengu Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "time"
+                            "color": "time"
                         },
                         {
                             "token": "alt9",
                             "name": "Tengu Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         },
                         {
                             "token": "alt10",
                             "name": "Tengu Man (Prototype Alt)",
                             "summons": 1000,
-                            "colour": "flame"
+                            "color": "flame"
                         }
                     ]
                 },
@@ -8112,37 +8112,37 @@
                             "token": "alt",
                             "name": "Astro Man (Bubblegum Alt)",
                             "summons": 100,
-                            "colour": "crystal"
+                            "color": "crystal"
                         },
                         {
                             "token": "alt2",
                             "name": "Astro Man (Golden Alt)",
                             "summons": 200,
-                            "colour": "electric"
+                            "color": "electric"
                         },
                         {
                             "token": "alt3",
                             "name": "Astro Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "nature"
+                            "color": "nature"
                         },
                         {
                             "token": "alt4",
                             "name": "Astro Man (Weapon Alt 2)",
                             "summons": 400,
-                            "colour": "copy"
+                            "color": "copy"
                         },
                         {
                             "token": "alt5",
                             "name": "Astro Man (Copy Vision Alt)",
                             "summons": 500,
-                            "colour": "recovery"
+                            "color": "recovery"
                         },
                         {
                             "token": "alt9",
                             "name": "Astro Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         }
                     ]
                 },
@@ -8238,31 +8238,31 @@
                             "token": "alt",
                             "name": "Sword Man (Cutlass Alt)",
                             "summons": 100,
-                            "colour": "weapons"
+                            "color": "weapons"
                         },
                         {
                             "token": "alt2",
                             "name": "Sword Man (Kusanagi Alt)",
                             "summons": 200,
-                            "colour": "recovery"
+                            "color": "recovery"
                         },
                         {
                             "token": "alt3",
                             "name": "Sword Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "flame"
+                            "color": "flame"
                         },
                         {
                             "token": "alt9",
                             "name": "Sword Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         },
                         {
                             "token": "alt10",
                             "name": "Sword Man (Asteroid Alt)",
                             "summons": 1000,
-                            "colour": "none"
+                            "color": "none"
                         }
                     ]
                 },
@@ -8359,25 +8359,25 @@
                             "token": "alt",
                             "name": "Clown Man (Bozo Alt)",
                             "summons": 100,
-                            "colour": "flame"
+                            "color": "flame"
                         },
                         {
                             "token": "alt2",
                             "name": "Clown Man (Sewer Alt)",
                             "summons": 200,
-                            "colour": "nature"
+                            "color": "nature"
                         },
                         {
                             "token": "alt3",
                             "name": "Clown Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "swift"
+                            "color": "swift"
                         },
                         {
                             "token": "alt9",
                             "name": "Clown Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         }
                     ]
                 },
@@ -8474,37 +8474,37 @@
                             "token": "alt",
                             "name": "Search Man (Woodland Alt)",
                             "summons": 100,
-                            "colour": "recovery"
+                            "color": "recovery"
                         },
                         {
                             "token": "alt2",
                             "name": "Search Man (Desert Alt)",
                             "summons": 200,
-                            "colour": "level"
+                            "color": "level"
                         },
                         {
                             "token": "alt3",
                             "name": "Search Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "impact"
+                            "color": "impact"
                         },
                         {
                             "token": "alt4",
                             "name": "Search Man (Urban Alt)",
                             "summons": 400,
-                            "colour": "weapons"
+                            "color": "weapons"
                         },
                         {
                             "token": "alt5",
                             "name": "Search Man (Arctic Alt)",
                             "summons": 500,
-                            "colour": "type"
+                            "color": "type"
                         },
                         {
                             "token": "alt9",
                             "name": "Search Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         }
                     ]
                 },
@@ -8602,25 +8602,25 @@
                             "token": "alt",
                             "name": "Frost Man (Berry Alt)",
                             "summons": 100,
-                            "colour": "crystal"
+                            "color": "crystal"
                         },
                         {
                             "token": "alt2",
                             "name": "Frost Man (Citrus Alt)",
                             "summons": 200,
-                            "colour": "energy"
+                            "color": "energy"
                         },
                         {
                             "token": "alt3",
                             "name": "Frost Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "weapons"
+                            "color": "weapons"
                         },
                         {
                             "token": "alt9",
                             "name": "Frost Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         }
                     ]
                 },
@@ -8716,25 +8716,25 @@
                             "token": "alt",
                             "name": "Grenade Man (Pineapple Alt)",
                             "summons": 100,
-                            "colour": "energy"
+                            "color": "energy"
                         },
                         {
                             "token": "alt2",
                             "name": "Grenade Man (Pomegranate Alt)",
                             "summons": 200,
-                            "colour": "wily"
+                            "color": "wily"
                         },
                         {
                             "token": "alt3",
                             "name": "Grenade Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "light"
+                            "color": "light"
                         },
                         {
                             "token": "alt9",
                             "name": "Grenade Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         }
                     ]
                 },
@@ -8834,31 +8834,31 @@
                             "token": "alt",
                             "name": "Aqua Man (Tepid Alt)",
                             "summons": 100,
-                            "colour": "swift"
+                            "color": "swift"
                         },
                         {
                             "token": "alt2",
                             "name": "Aqua Man (Toxic Alt)",
                             "summons": 200,
-                            "colour": "energy"
+                            "color": "energy"
                         },
                         {
                             "token": "alt3",
                             "name": "Aqua Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "time"
+                            "color": "time"
                         },
                         {
                             "token": "alt4",
                             "name": "Aqua Man (Dubious Alt)",
                             "summons": 400,
-                            "colour": "explode"
+                            "color": "explode"
                         },
                         {
                             "token": "alt9",
                             "name": "Aqua Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         }
                     ]
                 },
@@ -8955,25 +8955,25 @@
                             "token": "alt",
                             "name": "Dynamo Man (Electric-B Alt)",
                             "summons": 100,
-                            "colour": "defense"
+                            "color": "defense"
                         },
                         {
                             "token": "alt2",
                             "name": "Dynamo Man (Purple-L Alt)",
                             "summons": 200,
-                            "colour": "speed"
+                            "color": "speed"
                         },
                         {
                             "token": "alt3",
                             "name": "Dynamo Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "cutter"
+                            "color": "cutter"
                         },
                         {
                             "token": "alt9",
                             "name": "Dynamo Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         }
                     ]
                 },
@@ -9068,37 +9068,37 @@
                             "token": "alt",
                             "name": "Cold Man (Cola Alt)",
                             "summons": 100,
-                            "colour": "swift"
+                            "color": "swift"
                         },
                         {
                             "token": "alt2",
                             "name": "Cold Man (Grape Alt)",
                             "summons": 200,
-                            "colour": "time"
+                            "color": "time"
                         },
                         {
                             "token": "alt3",
                             "name": "Cold Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "freeze"
+                            "color": "freeze"
                         },
                         {
                             "token": "alt4",
                             "name": "Cold Man (Weapon Alt 2)",
                             "summons": 400,
-                            "colour": "shield"
+                            "color": "shield"
                         },
                         {
                             "token": "alt9",
                             "name": "Cold Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         },
                         {
                             "token": "alt10",
                             "name": "Cold Man (Asteroid Alt)",
                             "summons": 1000,
-                            "colour": "none"
+                            "color": "none"
                         }
                     ]
                 },
@@ -9199,31 +9199,31 @@
                             "token": "alt",
                             "name": "Ground Man (Demolition Alt)",
                             "summons": 100,
-                            "colour": "explode"
+                            "color": "explode"
                         },
                         {
                             "token": "alt2",
                             "name": "Ground Man (Buildron Alt)",
                             "summons": 200,
-                            "colour": "energy"
+                            "color": "energy"
                         },
                         {
                             "token": "alt3",
                             "name": "Ground Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "swift"
+                            "color": "swift"
                         },
                         {
                             "token": "alt4",
                             "name": "Ground Man (Weapon Alt 2)",
                             "summons": 400,
-                            "colour": "laser"
+                            "color": "laser"
                         },
                         {
                             "token": "alt9",
                             "name": "Ground Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         }
                     ]
                 },
@@ -9325,25 +9325,25 @@
                             "token": "alt",
                             "name": "Pirate Man (Commodore Alt)",
                             "summons": 100,
-                            "colour": "water"
+                            "color": "water"
                         },
                         {
                             "token": "alt2",
                             "name": "Pirate Man (Buccaneer Alt)",
                             "summons": 200,
-                            "colour": "swift"
+                            "color": "swift"
                         },
                         {
                             "token": "alt3",
                             "name": "Pirate Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "crystal"
+                            "color": "crystal"
                         },
                         {
                             "token": "alt9",
                             "name": "Pirate Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         }
                     ]
                 },
@@ -9440,31 +9440,31 @@
                             "token": "alt",
                             "name": "Burner Man (Pink Flame Alt)",
                             "summons": 100,
-                            "colour": "crystal"
+                            "color": "crystal"
                         },
                         {
                             "token": "alt2",
                             "name": "Burner Man (Blue Flame Alt)",
                             "summons": 200,
-                            "colour": "weapons"
+                            "color": "weapons"
                         },
                         {
                             "token": "alt3",
                             "name": "Burner Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "flame"
+                            "color": "flame"
                         },
                         {
                             "token": "alt4",
                             "name": "Burner Man (Weapon Alt 2)",
                             "summons": 400,
-                            "colour": "recovery"
+                            "color": "recovery"
                         },
                         {
                             "token": "alt9",
                             "name": "Burner Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         }
                     ]
                 },
@@ -9564,25 +9564,25 @@
                             "token": "alt",
                             "name": "Magic Man (Reverse Alt)",
                             "summons": 100,
-                            "colour": "flame"
+                            "color": "flame"
                         },
                         {
                             "token": "alt2",
                             "name": "Magic Man (Vegas Alt)",
                             "summons": 200,
-                            "colour": "freeze"
+                            "color": "freeze"
                         },
                         {
                             "token": "alt3",
                             "name": "Magic Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "time"
+                            "color": "time"
                         },
                         {
                             "token": "alt9",
                             "name": "Magic Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         }
                     ]
                 },
@@ -9679,25 +9679,25 @@
                             "token": "alt",
                             "name": "Concrete Man (Conduit Alt)",
                             "summons": 100,
-                            "colour": "flame"
+                            "color": "flame"
                         },
                         {
                             "token": "alt2",
                             "name": "Concrete Man (Cobalt Alt)",
                             "summons": 200,
-                            "colour": "water"
+                            "color": "water"
                         },
                         {
                             "token": "alt3",
                             "name": "Concrete Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "cutter"
+                            "color": "cutter"
                         },
                         {
                             "token": "alt9",
                             "name": "Concrete Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         }
                     ]
                 },
@@ -9792,25 +9792,25 @@
                             "token": "alt",
                             "name": "Tornado Man (Water Spout Alt)",
                             "summons": 100,
-                            "colour": "water"
+                            "color": "water"
                         },
                         {
                             "token": "alt2",
                             "name": "Tornado Man (Dust Devil Alt)",
                             "summons": 200,
-                            "colour": "explode"
+                            "color": "explode"
                         },
                         {
                             "token": "alt3",
                             "name": "Tornado Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "none"
+                            "color": "none"
                         },
                         {
                             "token": "alt9",
                             "name": "Tornado Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         }
                     ]
                 },
@@ -9909,31 +9909,31 @@
                             "token": "alt",
                             "name": "Splash Woman (Coral Alt)",
                             "summons": 100,
-                            "colour": "crystal"
+                            "color": "crystal"
                         },
                         {
                             "token": "alt2",
                             "name": "Splash Woman (Seafoam Alt)",
                             "summons": 200,
-                            "colour": "energy"
+                            "color": "energy"
                         },
                         {
                             "token": "alt3",
                             "name": "Splash Woman (Weapon Alt)",
                             "summons": 300,
-                            "colour": "weapons"
+                            "color": "weapons"
                         },
                         {
                             "token": "alt9",
                             "name": "Splash Woman (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         },
                         {
                             "token": "alt10",
                             "name": "Splash Woman (Prototype Alt)",
                             "summons": 1000,
-                            "colour": "water"
+                            "color": "water"
                         }
                     ]
                 },
@@ -10030,25 +10030,25 @@
                             "token": "alt",
                             "name": "Plug Man (Garden Alt)",
                             "summons": 100,
-                            "colour": "recovery"
+                            "color": "recovery"
                         },
                         {
                             "token": "alt2",
                             "name": "Plug Man (Construction Alt)",
                             "summons": 200,
-                            "colour": "swift"
+                            "color": "swift"
                         },
                         {
                             "token": "alt3",
                             "name": "Plug Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "crystal"
+                            "color": "crystal"
                         },
                         {
                             "token": "alt9",
                             "name": "Plug Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         }
                     ]
                 },
@@ -10145,25 +10145,25 @@
                             "token": "alt",
                             "name": "Jewel Man (Emerald Alt)",
                             "summons": 100,
-                            "colour": "nature"
+                            "color": "nature"
                         },
                         {
                             "token": "alt2",
                             "name": "Jewel Man (Sapphire Alt)",
                             "summons": 200,
-                            "colour": "water"
+                            "color": "water"
                         },
                         {
                             "token": "alt3",
                             "name": "Jewel Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "freeze"
+                            "color": "freeze"
                         },
                         {
                             "token": "alt9",
                             "name": "Jewel Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         }
                     ]
                 },
@@ -10264,25 +10264,25 @@
                             "token": "alt",
                             "name": "Hornet Man (Indigo Alt)",
                             "summons": 100,
-                            "colour": "space"
+                            "color": "space"
                         },
                         {
                             "token": "alt2",
                             "name": "Hornet Man (Emerald Alt)",
                             "summons": 200,
-                            "colour": "nature"
+                            "color": "nature"
                         },
                         {
                             "token": "alt3",
                             "name": "Hornet Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "explode"
+                            "color": "explode"
                         },
                         {
                             "token": "alt9",
                             "name": "Hornet Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         }
                     ]
                 },
@@ -10380,25 +10380,25 @@
                             "token": "alt",
                             "name": "Magma Man (Kilauea Alt)",
                             "summons": 100,
-                            "colour": "nature"
+                            "color": "nature"
                         },
                         {
                             "token": "alt2",
                             "name": "Magma Man (Ijen Alt)",
                             "summons": 200,
-                            "colour": "water"
+                            "color": "water"
                         },
                         {
                             "token": "alt3",
                             "name": "Magma Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "flame"
+                            "color": "flame"
                         },
                         {
                             "token": "alt9",
                             "name": "Magma Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         }
                     ]
                 },
@@ -10495,25 +10495,25 @@
                             "token": "alt",
                             "name": "Galaxy Man (Gold Alt)",
                             "summons": 100,
-                            "colour": "electric"
+                            "color": "electric"
                         },
                         {
                             "token": "alt2",
                             "name": "Galaxy Man (Bronze Alt)",
                             "summons": 200,
-                            "colour": "nature"
+                            "color": "nature"
                         },
                         {
                             "token": "alt3",
                             "name": "Galaxy Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "time"
+                            "color": "time"
                         },
                         {
                             "token": "alt9",
                             "name": "Galaxy Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         }
                     ]
                 },
@@ -10610,37 +10610,37 @@
                             "token": "alt",
                             "name": "Blade Man (Tempered Alt)",
                             "summons": 100,
-                            "colour": "flame"
+                            "color": "flame"
                         },
                         {
                             "token": "alt2",
                             "name": "Blade Man (Kusanagi Alt)",
                             "summons": 200,
-                            "colour": "nature"
+                            "color": "nature"
                         },
                         {
                             "token": "alt3",
                             "name": "Blade Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "wily"
+                            "color": "wily"
                         },
                         {
                             "token": "alt4",
                             "name": "Blade Man (DOS Alt)",
                             "summons": 400,
-                            "colour": "crystal"
+                            "color": "crystal"
                         },
                         {
                             "token": "alt5",
                             "name": "Blade Man (One True Blade Alt)",
                             "summons": 500,
-                            "colour": "missile"
+                            "color": "missile"
                         },
                         {
                             "token": "alt9",
                             "name": "Blade Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         }
                     ]
                 },
@@ -10740,25 +10740,25 @@
                             "token": "alt",
                             "name": "Pump Man (Scalding Alt)",
                             "summons": 100,
-                            "colour": "flame"
+                            "color": "flame"
                         },
                         {
                             "token": "alt2",
                             "name": "Pump Man (Sewer Alt)",
                             "summons": 200,
-                            "colour": "nature"
+                            "color": "nature"
                         },
                         {
                             "token": "alt3",
                             "name": "Pump Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "water"
+                            "color": "water"
                         },
                         {
                             "token": "alt9",
                             "name": "Pump Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         }
                     ]
                 },
@@ -10854,25 +10854,25 @@
                             "token": "alt",
                             "name": "Commando Man (Desert Alt)",
                             "summons": 100,
-                            "colour": "missile"
+                            "color": "missile"
                         },
                         {
                             "token": "alt2",
                             "name": "Commando Man (Urban Alt)",
                             "summons": 200,
-                            "colour": "light"
+                            "color": "light"
                         },
                         {
                             "token": "alt3",
                             "name": "Commando Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "wily"
+                            "color": "wily"
                         },
                         {
                             "token": "alt9",
                             "name": "Commando Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         }
                     ]
                 },
@@ -10967,25 +10967,25 @@
                             "token": "alt",
                             "name": "Chill Man (Grape Alt)",
                             "summons": 100,
-                            "colour": "time"
+                            "color": "time"
                         },
                         {
                             "token": "alt2",
                             "name": "Chill Man (Lemon Alt)",
                             "summons": 200,
-                            "colour": "missile"
+                            "color": "missile"
                         },
                         {
                             "token": "alt3",
                             "name": "Chill Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "shield"
+                            "color": "shield"
                         },
                         {
                             "token": "alt9",
                             "name": "Chill Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         }
                     ]
                 },
@@ -11083,25 +11083,25 @@
                             "token": "alt",
                             "name": "Sheep Man (Berry Alt)",
                             "summons": 100,
-                            "colour": "defense"
+                            "color": "defense"
                         },
                         {
                             "token": "alt2",
                             "name": "Sheep Man (Grape Alt)",
                             "summons": 200,
-                            "colour": "speed"
+                            "color": "speed"
                         },
                         {
                             "token": "alt3",
                             "name": "Sheep Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "none"
+                            "color": "none"
                         },
                         {
                             "token": "alt9",
                             "name": "Sheep Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         }
                     ]
                 },
@@ -11197,25 +11197,25 @@
                             "token": "alt",
                             "name": "Strike Man (Tennis Alt)",
                             "summons": 100,
-                            "colour": "level"
+                            "color": "level"
                         },
                         {
                             "token": "alt2",
                             "name": "Strike Man (Basketball Alt)",
                             "summons": 200,
-                            "colour": "swift"
+                            "color": "swift"
                         },
                         {
                             "token": "alt3",
                             "name": "Strike Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "cossack"
+                            "color": "cossack"
                         },
                         {
                             "token": "alt9",
                             "name": "Strike Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         }
                     ]
                 },
@@ -11311,25 +11311,25 @@
                             "token": "alt",
                             "name": "Nitro Man (Azure Alt)",
                             "summons": 100,
-                            "colour": "light"
+                            "color": "light"
                         },
                         {
                             "token": "alt2",
                             "name": "Nitro Man (Violet Alt)",
                             "summons": 200,
-                            "colour": "time"
+                            "color": "time"
                         },
                         {
                             "token": "alt3",
                             "name": "Nitro Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "cutter"
+                            "color": "cutter"
                         },
                         {
                             "token": "alt9",
                             "name": "Nitro Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         }
                     ]
                 },
@@ -11427,25 +11427,25 @@
                             "token": "alt",
                             "name": "Solar Man (Red-G Alt)",
                             "summons": 100,
-                            "colour": "flame"
+                            "color": "flame"
                         },
                         {
                             "token": "alt2",
                             "name": "Solar Man (Blue-D Alt)",
                             "summons": 200,
-                            "colour": "water"
+                            "color": "water"
                         },
                         {
                             "token": "alt3",
                             "name": "Solar Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "flame"
+                            "color": "flame"
                         },
                         {
                             "token": "alt9",
                             "name": "Solar Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         }
                     ]
                 },
@@ -11543,25 +11543,25 @@
                             "token": "alt",
                             "name": "Block Man (Sandstone Alt)",
                             "summons": 100,
-                            "colour": "swift"
+                            "color": "swift"
                         },
                         {
                             "token": "alt2",
                             "name": "Block Man (Rhodonite Alt)",
                             "summons": 200,
-                            "colour": "crystal"
+                            "color": "crystal"
                         },
                         {
                             "token": "alt3",
                             "name": "Block Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "freeze"
+                            "color": "freeze"
                         },
                         {
                             "token": "alt9",
                             "name": "Block Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         }
                     ]
                 },
@@ -11657,25 +11657,25 @@
                             "token": "alt",
                             "name": "Fuse Man (Magenta Alt)",
                             "summons": 100,
-                            "colour": "crystal"
+                            "color": "crystal"
                         },
                         {
                             "token": "alt2",
                             "name": "Fuse Man (Emerald Alt)",
                             "summons": 200,
-                            "colour": "nature"
+                            "color": "nature"
                         },
                         {
                             "token": "alt3",
                             "name": "Fuse Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "none"
+                            "color": "none"
                         },
                         {
                             "token": "alt9",
                             "name": "Fuse Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         }
                     ]
                 },
@@ -11772,31 +11772,31 @@
                             "token": "alt",
                             "name": "Blast Man (Demolition Alt)",
                             "summons": 100,
-                            "colour": "explode"
+                            "color": "explode"
                         },
                         {
                             "token": "alt2",
                             "name": "Blast Man (Arsenal Alt)",
                             "summons": 200,
-                            "colour": "time"
+                            "color": "time"
                         },
                         {
                             "token": "alt3",
                             "name": "Blast Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "flame"
+                            "color": "flame"
                         },
                         {
                             "token": "alt4",
                             "name": "Blast Man (Network Alt)",
                             "summons": 400,
-                            "colour": "missile"
+                            "color": "missile"
                         },
                         {
                             "token": "alt9",
                             "name": "Blast Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         }
                     ]
                 },
@@ -11893,25 +11893,25 @@
                             "token": "alt",
                             "name": "Acid Man (Jello Alt)",
                             "summons": 100,
-                            "colour": "laser"
+                            "color": "laser"
                         },
                         {
                             "token": "alt2",
                             "name": "Acid Man (Slime Alt)",
                             "summons": 200,
-                            "colour": "water"
+                            "color": "water"
                         },
                         {
                             "token": "alt3",
                             "name": "Acid Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "time"
+                            "color": "time"
                         },
                         {
                             "token": "alt9",
                             "name": "Acid Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         }
                     ]
                 },
@@ -12012,25 +12012,25 @@
                             "token": "alt",
                             "name": "Tundra Man (Glacial Alt)",
                             "summons": 100,
-                            "colour": "weapons"
+                            "color": "weapons"
                         },
                         {
                             "token": "alt2",
                             "name": "Tundra Man (Pink Ice Alt)",
                             "summons": 200,
-                            "colour": "crystal"
+                            "color": "crystal"
                         },
                         {
                             "token": "alt3",
                             "name": "Tundra Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "freeze"
+                            "color": "freeze"
                         },
                         {
                             "token": "alt9",
                             "name": "Tundra Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         }
                     ]
                 },
@@ -12131,31 +12131,31 @@
                             "token": "alt",
                             "name": "Torch Man (Judo Alt)",
                             "summons": 100,
-                            "colour": "water"
+                            "color": "water"
                         },
                         {
                             "token": "alt2",
                             "name": "Torch Man (Aikido Alt)",
                             "summons": 200,
-                            "colour": "nature"
+                            "color": "nature"
                         },
                         {
                             "token": "alt3",
                             "name": "Torch Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "cutter"
+                            "color": "cutter"
                         },
                         {
                             "token": "alt4",
                             "name": "Torch Man (DOS Alt)",
                             "summons": 400,
-                            "colour": "flame"
+                            "color": "flame"
                         },
                         {
                             "token": "alt9",
                             "name": "Torch Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         }
                     ]
                 },
@@ -12252,25 +12252,25 @@
                             "token": "alt",
                             "name": "Impact Man (Blue Collar Alt)",
                             "summons": 100,
-                            "colour": "water"
+                            "color": "water"
                         },
                         {
                             "token": "alt2",
                             "name": "Impact Man (Devastator Alt)",
                             "summons": 200,
-                            "colour": "energy"
+                            "color": "energy"
                         },
                         {
                             "token": "alt3",
                             "name": "Impact Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "explode"
+                            "color": "explode"
                         },
                         {
                             "token": "alt9",
                             "name": "Impact Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         }
                     ]
                 },
@@ -12367,25 +12367,25 @@
                             "token": "alt",
                             "name": "Bounce Man (Citrus Alt)",
                             "summons": 100,
-                            "colour": "explode"
+                            "color": "explode"
                         },
                         {
                             "token": "alt2",
                             "name": "Bounce Man (Mountain Dew Alt)",
                             "summons": 200,
-                            "colour": "recovery"
+                            "color": "recovery"
                         },
                         {
                             "token": "alt3",
                             "name": "Bounce Man (Weapon Alt)",
                             "summons": 300,
-                            "colour": "water"
+                            "color": "water"
                         },
                         {
                             "token": "alt9",
                             "name": "Bounce Man (Darkness Alt)",
                             "summons": 900,
-                            "colour": "empty"
+                            "color": "empty"
                         }
                     ]
                 },
@@ -12609,7 +12609,7 @@
                             "token": "alt",
                             "name": "Fake Man (European Style Alt)",
                             "summons": 100,
-                            "colour": "water"
+                            "color": "water"
                         }
                     ]
                 },

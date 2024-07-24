@@ -1,6 +1,6 @@
 {
     "status": "success",
-    "updated": 1721795128,
+    "updated": 1721796246,
     "data": {
         "players": {
             "player": {
@@ -104,13 +104,13 @@
                             "token": "alt",
                             "name": "Dr. Light (Santa Alt)",
                             "summons": 100,
-                            "colour": "flame"
+                            "color": "flame"
                         },
                         {
                             "token": "alt2",
                             "name": "Dr. Light (Martial Artist Alt)",
                             "summons": 200,
-                            "colour": "cutter"
+                            "color": "cutter"
                         }
                     ]
                 },
@@ -200,13 +200,13 @@
                             "token": "alt",
                             "name": "Dr. Wily (Holiday Alt)",
                             "summons": 100,
-                            "colour": "nature"
+                            "color": "nature"
                         },
                         {
                             "token": "alt2",
                             "name": "Dr. Wily (Mr. X Alt)",
                             "summons": 200,
-                            "colour": "none"
+                            "color": "none"
                         }
                     ]
                 },
@@ -298,13 +298,13 @@
                             "token": "alt",
                             "name": "Dr. Cossack (Ded Moroz Alt)",
                             "summons": 100,
-                            "colour": "water"
+                            "color": "water"
                         },
                         {
                             "token": "alt2",
                             "name": "Dr. Cossack (Crowbar Alt) ",
                             "summons": 200,
-                            "colour": "none"
+                            "color": "none"
                         }
                     ]
                 },
@@ -395,199 +395,199 @@
                             "token": "alt",
                             "name": "Proxy (Unmasked)",
                             "summons": 100,
-                            "colour": "experience"
+                            "color": "experience"
                         },
                         {
                             "token": "alt2",
                             "name": "Proxy (Holo Proxy // Slur)",
                             "summons": 200,
-                            "colour": "energy"
+                            "color": "energy"
                         },
                         {
                             "token": "alt3",
                             "name": "Proxy (Holo Proxy // Dr. Light)",
                             "summons": 300,
-                            "colour": "defense"
+                            "color": "defense"
                         },
                         {
                             "token": "alt4",
                             "name": "Proxy (Holo Proxy // Dr. Wily)",
                             "summons": 400,
-                            "colour": "attack"
+                            "color": "attack"
                         },
                         {
                             "token": "alt5",
                             "name": "Proxy (Holo Proxy // Dr. Cossack)",
                             "summons": 500,
-                            "colour": "speed"
+                            "color": "speed"
                         },
                         {
                             "token": "alt6",
                             "name": "Proxy (Network Phantom // Tamako Shiraizumi)",
                             "summons": 600,
-                            "colour": "cutter"
+                            "color": "cutter"
                         },
                         {
                             "token": "alt7",
                             "name": "Proxy (Network Phantom // Dex Oyama)",
                             "summons": 700,
-                            "colour": "impact"
+                            "color": "impact"
                         },
                         {
                             "token": "alt8",
                             "name": "Proxy (Network Phantom // Mr. Famous)",
                             "summons": 800,
-                            "colour": "time"
+                            "color": "time"
                         },
                         {
                             "token": "alt9",
                             "name": "Proxy (Network Phantom // Mayl Sakurai)",
                             "summons": 900,
-                            "colour": "laser"
+                            "color": "laser"
                         },
                         {
                             "token": "alt10",
                             "name": "Proxy (Network Phantom // Dr. Regal)",
                             "summons": 1000,
-                            "colour": "space"
+                            "color": "space"
                         },
                         {
                             "token": "alt11",
                             "name": "Proxy (Network Phantom // Count Zap) ",
                             "summons": 1100,
-                            "colour": "electric"
+                            "color": "electric"
                         },
                         {
                             "token": "alt12",
                             "name": "Proxy (Network Phantom // Captain Blackbeard)",
                             "summons": 1200,
-                            "colour": "missile"
+                            "color": "missile"
                         },
                         {
                             "token": "alt13",
                             "name": "Proxy (Network Phantom // Ribbita Midorikawa)",
                             "summons": 1300,
-                            "colour": "water"
+                            "color": "water"
                         },
                         {
                             "token": "alt14",
                             "name": "Proxy (Network Phantom // Dusk Miyabi) ",
                             "summons": 1400,
-                            "colour": "shadow"
+                            "color": "shadow"
                         },
                         {
                             "token": "alt15",
                             "name": "Proxy (Network Phantom // Sal Saroma)",
                             "summons": 1500,
-                            "colour": "nature"
+                            "color": "nature"
                         },
                         {
                             "token": "alt16",
                             "name": "Proxy (Network Phantom // Speedy Dave)",
                             "summons": 1600,
-                            "colour": "swift"
+                            "color": "swift"
                         },
                         {
                             "token": "alt17",
                             "name": "Proxy (Network Phantom // Arashi Kazefuki)",
                             "summons": 1700,
-                            "colour": "wind"
+                            "color": "wind"
                         },
                         {
                             "token": "alt18",
                             "name": "Proxy (Network Phantom // Noboru Sunayama)",
                             "summons": 1800,
-                            "colour": "earth"
+                            "color": "earth"
                         },
                         {
                             "token": "alt19",
                             "name": "Proxy (Network Phantom // Rei Saiko)",
                             "summons": 1900,
-                            "colour": "time"
+                            "color": "time"
                         },
                         {
                             "token": "alt20",
                             "name": "Proxy (Network Phantom // Mr. Match)",
                             "summons": 2000,
-                            "colour": "flame"
+                            "color": "flame"
                         },
                         {
                             "token": "alt21",
                             "name": "Proxy (Network Phantom // Ms. Madd)",
                             "summons": 2100,
-                            "colour": "explode"
+                            "color": "explode"
                         },
                         {
                             "token": "alt22",
                             "name": "Proxy (Divergent Echo // Newscaster)",
                             "summons": 2200,
-                            "colour": "water"
+                            "color": "water"
                         },
                         {
                             "token": "alt23",
                             "name": "Proxy (Divergent Echo // Pedro Astil)",
                             "summons": 2300,
-                            "colour": "electric"
+                            "color": "electric"
                         },
                         {
                             "token": "alt24",
                             "name": "Proxy (Divergent Echo // Gilbert D. Stern)",
                             "summons": 2400,
-                            "colour": "nature"
+                            "color": "nature"
                         },
                         {
                             "token": "alt25",
                             "name": "Proxy (Divergent Echo // Roslyn Krantz)",
                             "summons": 2500,
-                            "colour": "laser"
+                            "color": "laser"
                         },
                         {
                             "token": "alt26",
                             "name": "Proxy (Divergent Echo // Princesa)",
                             "summons": 2600,
-                            "colour": "crystal"
+                            "color": "crystal"
                         },
                         {
                             "token": "alt27",
                             "name": "Proxy (Divergent Echo // Lawyer)",
                             "summons": 2700,
-                            "colour": "water"
+                            "color": "water"
                         },
                         {
                             "token": "alt28",
                             "name": "Proxy (Divergent Echo // Madame Y)",
                             "summons": 2800,
-                            "colour": "laser"
+                            "color": "laser"
                         },
                         {
                             "token": "alt29",
                             "name": "Proxy (Divergent Echo // Leonard Dorado)",
                             "summons": 2900,
-                            "colour": "electric"
+                            "color": "electric"
                         },
                         {
                             "token": "alt30",
                             "name": "Proxy (Network Phantom // Ivan Chillski)",
                             "summons": 3000,
-                            "colour": "freeze"
+                            "color": "freeze"
                         },
                         {
                             "token": "alt31",
                             "name": "Proxy (Divergent Echo // Yuuta & Akane Kobayashi)",
                             "summons": 3100,
-                            "colour": "experience"
+                            "color": "experience"
                         },
                         {
                             "token": "alt32",
                             "name": "Proxy (Network Phantom // Masa) ",
                             "summons": 3200,
-                            "colour": "water"
+                            "color": "water"
                         },
                         {
                             "token": "alt33",
                             "name": "Proxy (Network Phantom // Miyu Kuroi) ",
                             "summons": 3300,
-                            "colour": "shadow"
+                            "color": "shadow"
                         }
                     ]
                 },
