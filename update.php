@@ -1,7 +1,7 @@
  <?php
 // ------------------------------------------------------------- //
-// MMRPG-PROTOTYPE-R: setup.php
-// Setup script for the entire game that compiles individual meta
+// MMRPG-PROTOTYPE-R: update.php
+// Update script for the entire game that compiles individual meta
 // files into large indexes for easier caching and parsing. This
 // script can also be re-run whenever content indexes need to be
 // manually refreshed to include new updates or content.
@@ -590,7 +590,7 @@ echo('<pre>$content_indexes_dir = '.print_r(hide_root_dir($content_indexes_dir),
     echo "<!DOCTYPE html>".PHP_EOL;
     echo "<html>".PHP_EOL;
     echo "<head>".PHP_EOL;
-    echo "<title>{$mmrpg_meta['title']} Setup Script</title>".PHP_EOL;
+    echo "<title>{$mmrpg_meta['title']} Update Script</title>".PHP_EOL;
     echo "<style type=\"text/css\"> ".
         "html { font-size: 16px; line-height: 1.6; } ".
         "body { font-size: 100%; line-height: inherit; } ".
@@ -604,9 +604,9 @@ echo('<pre>$content_indexes_dir = '.print_r(hide_root_dir($content_indexes_dir),
     echo "</head>".PHP_EOL;
     echo "<body>".PHP_EOL;
 
-    // Print out the overall title for this setup script
+    // Print out the overall title for this update script
     $pretext = empty($content_indexes_compiled) ? 'Building' : 'Rebuilding';
-    echo "<h1>{$mmrpg_meta['title']} Setup Script</h1>".PHP_EOL;
+    echo "<h1>{$mmrpg_meta['title']} Update Script</h1>".PHP_EOL;
     echo "<p>{$pretext} content indexes...</p>".PHP_EOL;
     echo "<div style=\"border: 1px dotted #dedede; padding: 10px;\">".PHP_EOL;
 
