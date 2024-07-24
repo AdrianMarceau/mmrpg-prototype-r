@@ -351,6 +351,14 @@ echo('<pre>$content_indexes_dir = '.print_r(hide_root_dir($content_indexes_dir),
                     if (!empty($data_parsed['image_editor3'])){ $image['editors'][] = $data_parsed['image_editor3']; }
                     if ($content_xkind === 'players' || $content_xkind === 'robots'){ $image['alts'] = !empty($data_parsed['image_alts']) ? $data_parsed['image_alts'] : array(); }
                     elseif ($content_xkind === 'abilities' || $content_xkind === 'items'){ $image['sheets'] = !empty($data_parsed['image_sheets']) ? $data_parsed['image_sheets'] : 0; }
+                    if (!empty($image['alts'])){
+                        foreach ($image['alts'] AS $key => $alt){
+                            if (!isset($alt['colour'])){ continue; }
+                            $alt['color'] = $alt['colour'];
+                            unset($alt['colour']);
+                            $image['alts'][$key] = $alt;
+                        }
+                    }
                     unset($data_parsed['image'], $data_parsed['image_size'], $data_parsed['image_editor'], $data_parsed['image_editor2'], $data_parsed['image_editor3'], $data_parsed['image_alts'], $data_parsed['image_sheets']);
                     $data_parsed['image'] = $image;
                 }
