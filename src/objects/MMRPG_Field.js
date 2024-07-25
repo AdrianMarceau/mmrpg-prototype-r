@@ -42,12 +42,13 @@ class MMRPG_Field extends MMRPG_Object {
     // Function to get the base key
     getBaseSpriteKey (xkind, spriteToken, spriteKind, spriteVariant)
     {
-        //console.log('MMRPG_Field.getBaseSpriteKey() called w/ xkind:', xkind, 'token:', token, 'spriteVariant:', spriteVariant, 'spriteKind:', spriteKind);
+        //console.log('MMRPG_Field.getBaseSpriteKey() called w/ xkind:', xkind, 'spriteToken:', spriteToken, 'spriteKind:', spriteKind, 'spriteVariant:', spriteVariant);
         let objectConfig = this.objectConfig;
         xkind = xkind || this.xkind;
+        let dataImage = this.data.image || {};
         spriteKind = spriteKind || 'preview';
-        spriteToken = spriteToken || this.data[spriteKind] || this.data.image || this.token;
-        spriteVariant = spriteVariant || this.data[spriteKind+'_variant'] || 'base';
+        spriteToken = spriteToken || this.data[spriteKind].token || dataImage.token || this.token;
+        spriteVariant = spriteVariant || this.data[spriteKind].variant || 'base';
         if (this.spriteIsPlaceholder){ spriteToken = this.kind; spriteVariant = 'base'; }
         //console.log(this.token + ' | -> spriteIsPlaceholder:', this.spriteIsPlaceholder, '-> spriteToken:', spriteToken, 'spriteVariant:', spriteVariant);
         let baseKey = 'sprites.' + xkind + '.' + spriteToken + '.' + spriteKind + '.' + spriteVariant;
@@ -68,9 +69,10 @@ class MMRPG_Field extends MMRPG_Object {
         //console.log('-> SPRITES:', SPRITES, 'spriteSheets:', spriteSheets, 'objectConfig:', objectConfig);
 
         // Compensate for missing fields with obvious values
+        let dataImage = this.data.image || {};
         spriteKind = spriteKind || 'preview';
-        spriteToken = spriteToken || this.data[spriteKind] || this.data.image || this.token;
-        spriteVariant = spriteVariant || this.data[spriteKind+'_variant'] || 'base';
+        spriteToken = spriteToken || this.data[spriteKind].token || dataImage.token || this.token;
+        spriteVariant = spriteVariant || this.data[spriteKind].variant || 'base';
         //console.log('-> spriteKind:', spriteKind, 'spriteToken:', spriteToken, 'spriteVariant:', spriteVariant);
 
         // Check if the sprite sheet exists in the index
@@ -104,9 +106,10 @@ class MMRPG_Field extends MMRPG_Object {
         //console.log('-> SPRITES:', SPRITES, 'spriteAnims:', spriteAnims, 'objectConfig:', objectConfig);
 
         // Compensate for missing fields with obvious values
+        let dataImage = this.data.image || {};
         spriteKind = spriteKind || 'preview';
-        spriteToken = spriteToken || this.data[spriteKind] || this.data.image || this.token;
-        spriteVariant = spriteVariant || this.data[spriteKind+'_variant'] || 'base';
+        spriteToken = spriteToken || this.data[spriteKind].token || dataImage.token || this.token;
+        spriteVariant = spriteVariant || this.data[spriteKind].variant || 'base';
         //console.log('-> spriteKind:', spriteKind, 'spriteToken:', spriteToken, 'spriteVariant:', spriteVariant);
 
         // Check if the sprite animation exists in the index
@@ -136,10 +139,11 @@ class MMRPG_Field extends MMRPG_Object {
         let spritesIndex = SPRITES.index;
         let animationsIndex = spritesIndex.anims;
         let objectConfig = this.objectConfig;
+        let dataImage = this.data.image || {};
         animName = animName || 'loop';
         spriteKind = spriteKind || 'preview';
-        spriteToken = spriteToken || this.data[spriteKind] || this.data.image || this.token;
-        spriteVariant = spriteVariant || this.data[spriteKind+'_variant'] || 'base';
+        spriteToken = spriteToken || this.data[spriteKind].token || dataImage.token || this.token;
+        spriteVariant = spriteVariant || this.data[spriteKind].variant || 'base';
         //console.log(this.token + ' | -> looking for animName:', animName, 'spriteKind:', spriteKind, 'spriteToken:', spriteToken, 'spriteVariant:', spriteVariant, 'in animationsIndex:', animationsIndex);
         if (!animationsIndex[xkind]) return false;
         if (!animationsIndex[xkind][spriteToken]) return false;
@@ -182,10 +186,6 @@ class MMRPG_Field extends MMRPG_Object {
         //console.log('indexInfo for ', kind, token, '=', indexInfo);
 
         // Predefine some base paths and keys
-        //let altSheet = objectConfig.currentAltSheet || objectConfig.baseAltSheet;
-        //let altIsBase = objectConfig.currentAltSheetIsBase ? true : false;
-        //let backgroundSheet = this.data.background_variant || 'base';
-        //let foregroundSheet = this.data.foreground_variant || 'base';
         let contentPath = MMRPG.paths.content;
         let pathToken = token === kind ? ('.' + kind) : token;
         let baseKey = 'sprites.' + xkind + '.' + token;
@@ -208,26 +208,26 @@ class MMRPG_Field extends MMRPG_Object {
             if (spriteKind === 'background' || spriteKind === 'foreground'){
 
                 // Backgrounds and foregrounds can be mixed-and-matches so we need alternate base key and path
-                let spriteToken = this.data[spriteKind] || token;
+                let spriteToken = this.data[spriteKind].token || token;
                 let altPathToken = token === kind ? ('.' + kind) : spriteToken;
                 let altBaseKey = 'sprites.' + xkind + '.' + spriteToken;
                 let altBasePath = contentPath + xkind + '/' + altPathToken + '/sprites/';
                 //console.log(this.token + ' | -> spriteKind:', spriteKind, 'spriteToken:', spriteToken, 'altPathToken:', altPathToken, 'altBaseKey:', altBaseKey, 'altBasePath:', altBasePath);
 
                 // Define and register the key for this sprite sheet using kind, image, key, and path
-                let spriteVariant = this.data[spriteKind+'_variant'] || 'base';
+                let spriteVariant = this.data[spriteKind].variant || 'base';
                 let sheetKey = altBaseKey + '.' + spriteKind + '.' + spriteVariant;
                 let sheetToken = spriteKind;
                 spritesIndex.prepForKeys(spritesIndex.sheets, xkind, spriteToken, sheetToken);
                 spritesIndex.sheets[xkind][spriteToken][sheetToken][spriteVariant] = sheetKey;
-                //console.log('queued [ '+sheetKey+' ] to spritesIndex.sheets['+xkind+']['+spriteToken+']['+sheetToken+']['+spriteVariant+']');
+                //console.log(this.token + ' | -> queued [ '+sheetKey+' ] to spritesIndex.sheets['+xkind+']['+spriteToken+']['+sheetToken+']['+spriteVariant+']');
 
                 // Define the relative image path for this sprite sheet
                 let image = 'battle-field_' + spriteKind + '_base' + (spriteVariant !== 'base' ? ('_' + spriteVariant) : '') + '.png';
                 let imagePath = altBasePath + image;
                 spritesIndex.prepForKeys(spritesIndex.paths, xkind, spriteToken, sheetToken);
                 spritesIndex.paths[xkind][spriteToken][sheetToken][spriteVariant] = imagePath;
-                //console.log('queued [ '+imagePath+' ] to spritesIndex.paths['+xkind+']['+spriteToken+']['+sheetToken+']['+spriteVariant+']');
+                //console.log(this.token + ' | -> queued [ '+imagePath+' ] to spritesIndex.paths['+xkind+']['+spriteToken+']['+sheetToken+']['+spriteVariant+']');
 
                 // Queue loading the sprite sheet into the game
                 let pendingSheet = {
@@ -245,7 +245,7 @@ class MMRPG_Field extends MMRPG_Object {
             else if (spriteKind === 'preview'){
 
                 // Define and register the key for this sprite sheet using kind, image, key, and path
-                let spriteVariant = this.data[spriteKind+'_variant'] || 'base';
+                let spriteVariant = this.data[spriteKind].variant || 'base';
                 let sheetKey = baseKey + '.' + spriteKind;
                 let sheetToken = spriteKind;
                 spritesIndex.prepForKeys(spritesIndex.sheets, xkind, token, sheetToken);
@@ -275,7 +275,7 @@ class MMRPG_Field extends MMRPG_Object {
             else if (spriteKind === 'avatar'){
 
                 // Define and register the key for this sprite sheet using kind, image, key, and path
-                let spriteVariant = this.data[spriteKind+'_variant'] || 'base';
+                let spriteVariant = this.data[spriteKind].variant || 'base';
                 let sheetKey = baseKey + '.' + spriteKind;
                 let sheetToken = spriteKind;
                 spritesIndex.prepForKeys(spritesIndex.sheets, xkind, token, sheetToken);
@@ -322,9 +322,12 @@ class MMRPG_Field extends MMRPG_Object {
         let spriteAnims = spritesIndex.anims;
         let kind = this.kind;
         let xkind = this.xkind;
-        let spriteToken = config.token || this.data[spriteKind] || this.data.image || this.token;
+        let dataImage = this.data.image || {};
+        let spriteToken = config.token || this.data[spriteKind].token || dataImage.token || this.token;
         let spriteKind = config.spriteKind || 'preview';
-        let spriteVariant = config.spriteVariant || this.data[spriteKind+'_variant'] || 'base';
+        let spriteVariant = config.spriteVariant || this.data[spriteKind].variant || 'base';
+        //console.log(this.token + ' | -> about to call getBaseSpriteKey w/ spriteToken:', spriteToken, 'spriteKind:', spriteKind, 'spriteVariant:', spriteVariant);
+        //console.log(this.token + ' | -> spriteKind:', spriteKind, 'config.spriteVariant:', config.spriteVariant, 'this.data[spriteKind]:', this.data[spriteKind], 'spriteVariant:', spriteVariant);
         let sheetKey = this.getBaseSpriteKey(null, null, spriteKind, spriteVariant);
         let animKey = sheetKey + '.' + name;
         //console.log(this.token + ' | -> spriteToken:', spriteToken, 'spriteKind:', spriteKind, 'spriteVariant:', spriteVariant, 'sheetKey:', sheetKey, 'animKey:', animKey);
