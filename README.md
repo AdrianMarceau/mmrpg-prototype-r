@@ -27,17 +27,12 @@ MMRPG Prototype R is being re-developed using modern HTML5, ES6+, and [Phaser 3]
 
 ## Getting Started
 
-At the moment, this game cannot be cloned to any useful effect without some extra efforts.  The `content/` directory's assets are `gitignore`'d because they would bloat the size of the repo to unreasonable levels at the early stage and would be largely duplicated content of what's already stored elsewhere on GitHub.  If you are curious however and don't mind getting your hands dirty, these are the repositories that need to be cloned into your `content/` directory:
+At the moment, this game prototype cannot be cloned to any useful effect without some extra efforts.  The `content/sounds` directory has its assets `gitignore`'d because they would bloat the size of the repo to unreasonable levels and as a result the game will not compile.  I will provide a solution to this eventually.  
 
--  [mmrpg-prototype_types](https://github.com/AdrianMarceau/mmrpg-prototype_types) must be cloned to `content/types/`
--  [mmrpg-prototype_robots](https://github.com/AdrianMarceau/mmrpg-prototype_robots) must be cloned to `content/robots/`
--  [mmrpg-prototype_players](https://github.com/AdrianMarceau/mmrpg-prototype_players) must be cloned to `content/players/`
--  [mmrpg-prototype_items](https://github.com/AdrianMarceau/mmrpg-prototype_items) must be cloned to `content/items/`
--  [mmrpg-prototype_abilities](https://github.com/AdrianMarceau/mmrpg-prototype_abilities) must be cloned to `content/abilities/`
--  [mmrpg-prototype_skills](https://github.com/AdrianMarceau/mmrpg-prototype_skills) must be cloned to `content/skills/`
--  [mmrpg-prototype_fields](https://github.com/AdrianMarceau/mmrpg-prototype_fields) must be cloned to `content/fields/`
+The other `content/` directories (`content/robots`, `content/abilities`, etc.) are included as submodules and should be fine as-is, however please note the JSON-format indexes found in `src/indexes/` are cached/compiled versions of the aforementioned repos at the time of building.  They should generally be in-sync with what's live, but I will work out a more reliable system for this in the future.  If you need to make updates to these for whatever reason, you can source your data from the [MMRPG Prototype API v2](https://prototype.mmrpg-world.net/api/v2/). 
 
-The JSON-format content indexes found in `src/indexes/` are cached versions of the above repos at the time of commit.  They should generally be in-sync with what's above, but I will work out a more reliable system for this in the future.  If you need to make any updates to these for whatever reason, you can do so manually or use the [MMRPG Prototype API v2](https://prototype.mmrpg-world.net/api/v2/) to source your data. 
+That being said, for as long as MMRPG-R is a WIP, you can view a live demo here: 
+-  [https://dev.mmrpg-world.net/prototype2k24/game](https://dev.mmrpg-world.net/prototype2k24/game/).  
 
 ## Questions, Comments, Feedback
 
