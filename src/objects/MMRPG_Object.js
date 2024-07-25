@@ -92,8 +92,9 @@ class MMRPG_Object {
         this.spriteHitbox = null;
 
         // Predefine spriteConfig properties to avoid errors
-        spriteConfig.width = spriteConfig.width || this.data.image_width || this.data.image_size || 0;
-        spriteConfig.height = spriteConfig.height || this.data.image_height || this.data.image_size || 0;
+        let dataImage = this.data.image || {};
+        spriteConfig.width = spriteConfig.width || dataImage.width || dataImage.size || 0;
+        spriteConfig.height = spriteConfig.height || dataImage.height || dataImage.size || 0;
         spriteConfig.direction = spriteConfig.direction || 'right';
         spriteConfig.frame = spriteConfig.frame || 0;
         spriteConfig.sheet = spriteConfig.sheet || 'sprites.default';
@@ -306,6 +307,7 @@ class MMRPG_Object {
         //console.log('-> spriteConfig:', spriteConfig, 'objectConfig:', objectConfig);
 
         // Determine whether or not this object is a "character" and thus requires special care
+        let hasImage = (this.kind !== 'skill' && this.kind !== 'type');
         let isCharacter = (this.kind === 'player' || this.kind === 'robot');
         let isField = (this.kind === 'field');
 
@@ -323,9 +325,10 @@ class MMRPG_Object {
                 }
             // Otherwise, make sure we assign so that fields aren't lost
             else {
-                this.data[key] = Object.assign({}, value);
+                if (!this.data[key]) { this.data[key] = {}; }
+                MMRPG.deepMerge(this.data[key], value);
                 }
-        }
+            }
 
         // Make sure we create data entries for non-indexed variables as-needed
         this.data.flags = this.data.flags || [];
@@ -333,12 +336,13 @@ class MMRPG_Object {
         this.data.values = this.data.values || {};
 
         // Now we can collect or define key objectConfig properties that we need for later
+        let dataImage = this.data.image || {};
         objectConfig.iconPrefix = objectConfig.iconPrefix || 'icon';
         objectConfig.baseSize = objectConfig.baseSize || [40, 40];
         objectConfig.baseAlt = objectConfig.baseAlt || 'base';
         objectConfig.baseSheet = objectConfig.baseSheet || 1;
-        objectConfig.baseAltSheet = isCharacter || isField ? objectConfig.baseAlt : objectConfig.baseSheet;
-        objectConfig.currentAltSheet = (isCharacter || isField ? this.data.image_alt : this.data.image_sheet) || objectConfig.baseAltSheet;
+        objectConfig.baseAltSheet = (isCharacter || isField ? objectConfig.baseAlt : objectConfig.baseSheet);
+        objectConfig.currentAltSheet = (isCharacter || isField ? dataImage.alt : dataImage.sheet) || objectConfig.baseAltSheet;
         objectConfig.currentAltSheetIsBase = objectConfig.currentAltSheet === 'base' || objectConfig.currentAltSheet === '1' || objectConfig.currentAltSheet === 1;
         //console.log(this.token + ' | -> objectConfig.currentAltSheet:', objectConfig.currentAltSheet, 'objectConfig.currentAltSheetIsBase:', objectConfig.currentAltSheetIsBase);
 
@@ -348,29 +352,29 @@ class MMRPG_Object {
 
             // Add default values for image direction and size
             let [ baseWidth, baseHeight ] = objectConfig.baseSize;
-            this.data.image_size = this.data.image_size || Math.max(baseWidth, baseHeight);
-            this.data.image_width = this.data.image_width || baseWidth || this.data.image_size;
-            this.data.image_height = this.data.image_height || baseHeight || this.data.image_size;
+            this.data.image.size = this.data.image.size || Math.max(baseWidth, baseHeight);
+            this.data.image.width = this.data.image.width || baseWidth || this.data.image.size;
+            this.data.image.height = this.data.image.height || baseHeight || this.data.image.size;
 
             // If this is a robot or player, add default values for the alt
             if (this.kind === 'robot' || this.kind === 'player') {
-                this.data.image_alt = this.data.image_alt || objectConfig.baseAlt;
+                this.data.image.alt = this.data.image.alt || objectConfig.baseAlt;
                 }
             // If this is an ability or item, add default values for the sheet instead
             else if (this.kind === 'ability' || this.kind === 'item') {
-                this.data.image_sheet = this.data.image_sheet || objectConfig.baseSheet;
+                this.data.image.sheet = this.data.image.sheet || objectConfig.baseSheet;
                 }
 
             } else if (this.kind === 'field') {
 
             // Add the default value for the field image size
             let [ baseWidth, baseHeight ] = objectConfig.baseSize;
-            this.data.image_width = this.data.image_width || baseWidth;
-            this.data.image_height = this.data.image_height || baseHeight;
+            this.data.image.width = this.data.image.width || baseWidth;
+            this.data.image.height = this.data.image.height || baseHeight;
 
             // Add default values for background and foreground variants
-            this.data.background_variant = this.data.background_variant || '';
-            this.data.foreground_variant = this.data.foreground_variant || '';
+            this.data.background.variant = this.data.background.variant || '';
+            this.data.foreground.variant = this.data.foreground.variant || '';
 
             } else {
 
@@ -386,22 +390,22 @@ class MMRPG_Object {
     setFlag (flag, value = true)
     {
         //console.log('MMRPG_Object.setFlag() called w/ flag:', flag, 'value:', value);
-        this.data.flags.push(flag);
-        this.data.flags = this.data.flags.filter((v, i, a) => a.indexOf(v) === i);
+        this.data.flags[flag] = value ? 1 : 0;
     }
 
     // Get a flag from the data object for this object
     getFlag (flag)
     {
         //console.log('MMRPG_Object.getFlag() called w/ flag:', flag);
-        return this.data.flags.indexOf(flag) !== -1;
+        return this.data.flags[flag] || 0;
     }
 
     // Unset a flag in the data object for this object
     unsetFlag (flag)
     {
         //console.log('MMRPG_Object.unsetFlag() called w/ flag:', flag);
-        this.data.flags = this.data.flags.filter((v) => v !== flag);
+        this.data.flags[flag] = 0;
+        delete this.data.flags[flag];
     }
 
     // Set a counter in the data object for this object
@@ -560,8 +564,8 @@ class MMRPG_Object {
 
             // Pull in the sprite token and direction then use it to update the current sheet
             let spriteToken = this.data.token;
-            let backgroundVariant = this.data.background_variant;
-            let foregroundVariant = this.data.foreground_variant;
+            let backgroundVariant = this.data.background.variant;
+            let foregroundVariant = this.data.foreground.variant;
             let backgroundSheet = _this.getSpriteSheet('background', backgroundVariant);
             let foregroundSheet = _this.getSpriteSheet('foreground', foregroundVariant);
             let gridlineSheet = 'misc.battle-grid'; // same for every field kind
@@ -609,6 +613,8 @@ class MMRPG_Object {
                 this.createObjectSprite(tempSheet);
                 this.loadSpriteTexture(() => {
                     //console.log('%c' + '-> sprite texture '+this.sheet+' loaded (via fieldKinds)!', 'color: #00FF00');
+                    //console.log('%c' + '-> backgroundSheet '+backgroundSheet+' '+(scene.textures.exists(backgroundSheet) ? 'IS' : 'is NOT')+' loaded', 'color: orange;');
+                    //console.log('%c' + '-> foregroundSheet '+foregroundSheet+' '+(scene.textures.exists(foregroundSheet) ? 'IS' : 'is NOT')+' loaded', 'color: orange;');
                     _this.spriteIsLoading = false;
                     _this.spriteIsPlaceholder = false;
                     _this.createObjectSprite();
@@ -676,7 +682,7 @@ class MMRPG_Object {
         let contentPath = MMRPG.paths.content;
         let basePath = contentPath + xkind + '/' + pathToken + '/sprites' + (!altIsBase ? '_'+altSheet : '') + '/';
         let baseKey = 'sprites.' + xkind + '.' + token + '.' + altSheet;
-        let spriteSize = indexInfo.image_size || objectConfig.baseSize[0];
+        let spriteSize = indexInfo.image.size || objectConfig.baseSize[0];
         let spriteSizeX = spriteSize+'x'+spriteSize;
         let spriteDirections = ['left', 'right'];
         spritesIndex.prepForKeys(spritesIndex.sizes, xkind);
@@ -791,7 +797,7 @@ class MMRPG_Object {
             }
 
         // Predefine some base paths and keys
-        let spriteSize = indexInfo.image_size || objectConfig.baseSize[0];
+        let spriteSize = indexInfo.image.size || objectConfig.baseSize[0];
         let spriteDirections = ['left', 'right'];
         spritesIndex.prepForKeys(spritesIndex.sizes, xkind);
         spritesIndex.sizes[xkind][token] = spriteSize;
@@ -831,8 +837,9 @@ class MMRPG_Object {
     {
         //console.log('MMRPG_Object.getBaseSpriteKey() called w/ xkind:', xkind, 'token:', token, 'altSheet:', altSheet, 'spriteKind:', spriteKind);
         let objectConfig = this.objectConfig;
+        let dataImage = this.data.image || {};
         xkind = xkind || this.xkind;
-        token = token || this.data.image || this.token;
+        token = token || dataImage.token || this.token;
         altSheet = altSheet || objectConfig.currentAltSheet || objectConfig.baseAltSheet;
         if (this.spriteIsPlaceholder){ token = this.kind; altSheet = objectConfig.baseAltSheet; }
         //console.log(this.token + ' | -> spriteIsPlaceholder:', this.spriteIsPlaceholder, '-> token:', token, 'altSheet:', altSheet);
@@ -1113,8 +1120,9 @@ class MMRPG_Object {
         //console.log('-> SPRITES:', SPRITES, 'sheetsIndex:', sheetsIndex, 'objectConfig:', objectConfig);
 
         // Compensate for missing fields with obvious values
+        let dataImage = this.data.image || {};
         spriteKind = spriteKind || 'sprite';
-        spriteToken = spriteToken || this.data.image || this.token;
+        spriteToken = spriteToken || dataImage.token || this.token;
         if (!sheetsIndex[xkind]){ console.warn(this.token + ' | -> sheetsIndex['+xkind+'] does not exist'); return; }
         if (!sheetsIndex[xkind][spriteToken]){ console.warn(this.token + ' | -> sheetsIndex['+xkind+']['+spriteToken+'] does not exist'); return; }
         spriteDirection = spriteDirection || this.direction;
@@ -1155,8 +1163,9 @@ class MMRPG_Object {
         //console.log('-> SPRITES:', SPRITES, 'spritePaths:', spritePaths, 'objectConfig:', objectConfig);
 
         // Compensate for missing fields with obvious values
+        let dataImage = this.data.image || {};
         spriteKind = spriteKind || 'sprite';
-        spriteToken = spriteToken || this.data.image || this.token;
+        spriteToken = spriteToken || dataImage.token || this.token;
         spriteDirection = spriteDirection || this.direction;
         spriteAltOrSheet = spriteAltOrSheet || objectConfig.currentAltSheet || objectConfig.baseAltSheet;
         //console.log('Using getSpritePath() w/ spriteKind:', spriteKind, 'spriteToken:', spriteToken, 'spriteDirection:', spriteDirection, 'spriteAltOrSheet:', spriteAltOrSheet)
@@ -1170,7 +1179,7 @@ class MMRPG_Object {
             && typeof spritePaths[spriteToken][spriteAltOrSheet][spriteKey] !== 'undefined'){
             spritePath = spritePaths[spriteToken][spriteAltOrSheet][spriteKey];
             } else {
-            let size = this.data.image_size || objectConfig.baseSize[0];
+            let size = dataImage.size || objectConfig.baseSize[0];
             let xSize = size+'x'+size;
             spritePath = 'content/' + xkind + '/' + this.kind + '/' + spriteKind + '_' + spriteDirection +  '_' + xSize + '.png';
             }
@@ -1196,9 +1205,10 @@ class MMRPG_Object {
         //console.log('-> SPRITES:', SPRITES, 'animationsIndex:', animationsIndex, 'objectConfig:', objectConfig);
 
         // Compensate for missing fields with obvious values
+        let dataImage = this.data.image || {};
         animName = animName || 'idle';
         spriteKind = spriteKind || 'sprite';
-        spriteToken = spriteToken || this.data.image || this.token;
+        spriteToken = spriteToken || dataImage.token || this.token;
         if (!animationsIndex[xkind]){ console.warn(this.token + ' | -> animationsIndex['+xkind+'] does not exist'); return; }
         if (!animationsIndex[xkind][spriteToken]){ console.warn(this.token + ' | -> animationsIndex['+xkind+']['+spriteToken+'] does not exist'); return; }
         spriteDirection = spriteDirection || this.direction;
@@ -2073,7 +2083,7 @@ class MMRPG_Object {
     getImageAlt ()
     {
         //console.log('MMRPG_Object.getImageAlt() called w/ token:', this.token);
-        return this.data.image_alt;
+        return this.data.image.alt;
     }
 
     // Change the image alt (string) for this object and then refresh the graphics when we're done updating variables
@@ -2087,7 +2097,7 @@ class MMRPG_Object {
         let spriteConfig = this.spriteConfig;
         let objectConfig = this.objectConfig;
         let imageAlt = typeof alt === 'string' && alt.length > 0 ? alt : objectConfig.baseAltSheet;
-        this.data.image_alt = imageAlt;
+        this.data.image.alt = imageAlt;
         objectConfig.currentAltSheet = imageAlt;
         objectConfig.currentAltSheetIsBase = objectConfig.currentAltSheet === objectConfig.baseAltSheet;
         this.preloadSpriteSheets();
@@ -2133,7 +2143,7 @@ class MMRPG_Object {
     getImageSheet ()
     {
         //console.log('MMRPG_Object.getImageSheet() called w/ token:', this.token);
-        return this.data.image_sheet;
+        return this.data.image.sheet;
     }
 
     // Change the image sheet (numeric) for this object and then refresh the graphics when we're done updating variables
@@ -2147,7 +2157,7 @@ class MMRPG_Object {
         let spriteConfig = this.spriteConfig;
         let objectConfig = this.objectConfig;
         let imageSheet = typeof sheet === 'number' && sheet > 0 ? sheet : objectConfig.baseAltSheet;
-        this.data.image_sheet = imageSheet;
+        this.data.image.sheet = imageSheet;
         objectConfig.currentAltSheet = imageSheet;
         objectConfig.currentAltSheetIsBase = objectConfig.currentAltSheet === objectConfig.baseAltSheet;
         this.preloadSpriteSheets();
