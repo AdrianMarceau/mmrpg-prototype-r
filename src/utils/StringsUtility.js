@@ -364,14 +364,14 @@ export class StringsUtility {
                     if (panelTypes.length >= 2) {
                         let typeInfo1 = typesIndex[panelTypes[0]];
                         let typeInfo2 = typesIndex[panelTypes[1]];
-                        typePanelConfig.border = Graphics.returnHexColorString(typeInfo1.colour_dark);
-                        typePanelConfig.background = Graphics.returnHexColorString(typeInfo1.colour_light);
-                        typePanelConfig.background2 = Graphics.returnHexColorString(typeInfo2.colour_dark);
+                        typePanelConfig.border = Graphics.returnHexColorString(typeInfo1.colors.dark);
+                        typePanelConfig.background = Graphics.returnHexColorString(typeInfo1.colors.light);
+                        typePanelConfig.background2 = Graphics.returnHexColorString(typeInfo2.colors.dark);
                         } else if (panelTypes.length === 1){
                         let typeInfo = typesIndex[panelTypes[0]];
-                        typePanelConfig.border = Graphics.returnHexColorString(typeInfo.colour_dark);
-                        typePanelConfig.background = Graphics.returnHexColorString(typeInfo.colour_light);
-                        typePanelConfig.background2 = Graphics.returnHexColorString(typeInfo.colour_dark);
+                        typePanelConfig.border = Graphics.returnHexColorString(typeInfo.colors.dark);
+                        typePanelConfig.background = Graphics.returnHexColorString(typeInfo.colors.light);
+                        typePanelConfig.background2 = Graphics.returnHexColorString(typeInfo.colors.dark);
                         }
 
                     // If this panel was bigger than the text, we need to update the size of the string object
