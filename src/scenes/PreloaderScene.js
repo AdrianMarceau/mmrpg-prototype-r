@@ -144,11 +144,11 @@ export default class PreloaderScene extends Phaser.Scene
             playerTokens.forEach((token) => {
                 var info = playersIndex[token];
                 //console.log('token = ', token, 'info = ', info);
-                if (!info.flag_complete){ return; }
+                if (!info.flags.complete){ return; }
                 //console.log('Preload player ', token);
                 SPRITES.loadSprite(ctx, 'player', token, 'base');
                 let alts = [];
-                if (info.image_alts){ alts = alts.concat(info.image_alts); }
+                if (info.image.alts){ alts = alts.concat(info.image.alts); }
                 if (alts.length){
                     let altKeys = Object.keys(alts);
                     altKeys.forEach((key) => {
@@ -168,20 +168,20 @@ export default class PreloaderScene extends Phaser.Scene
                 var info = robotsIndex[token];
                 //console.log('token = ', token, 'info = ', info);
                 if (info.class !== 'master'){ return; }
-                if (!info.flag_complete){ return; }
+                if (!info.flags.complete){ return; }
                 //console.log('Preload robot ', token);
                 SPRITES.loadSprite(ctx, 'robot', token, 'base');
                 let alts = [];
-                if (info.image_alts){ alts = alts.concat(info.image_alts); }
-                if (info.core === 'copy'){
+                if (info.image.alts){ alts = alts.concat(info.image.alts); }
+                if (info.types[0] === 'copy'){
                     copySafeTypeTokens.forEach((typeToken) => {
                         let typeInfo = MMRPG.Indexes.types[typeToken];
-                        alts.push({token: typeInfo.token, name: typeInfo.name + ' Core', colour: typeToken, summons: 0});
+                        alts.push({token: typeInfo.token, name: typeInfo.name + ' Core', color: typeToken, summons: 0});
                         });
-                    alts.push({token: 'alt9', name: 'Empty Core', colour: 'empty', summons: 0});
+                    alts.push({token: 'alt9', name: 'Empty Core', color: 'empty', summons: 0});
                     //console.log('Preload w/ copy alts ', alts);
                     }
-                info.image_alts = alts; // MOVE THIS LATER (to the appropriate index loader class maybe?)
+                info.image.alts = alts; // MOVE THIS LATER (to the appropriate index loader class maybe?)
                 if (alts.length){
                     //console.log('Preload alts ', alts);
                     let altKeys = Object.keys(alts);
@@ -201,7 +201,7 @@ export default class PreloaderScene extends Phaser.Scene
             abilityTokens.forEach((token) => {
                 var info = abilitiesIndex[token];
                 //console.log('token = ', token, 'info = ', info);
-                if (!info.flag_complete){ return; }
+                if (!info.flags.complete){ return; }
                 //console.log('Preload ability ', token);
                 if (info.image_sheets > 0){
                     for (let sheet = 1; sheet <= info.image_sheets; sheet++){
@@ -219,7 +219,7 @@ export default class PreloaderScene extends Phaser.Scene
             itemTokens.forEach((token) => {
                 var info = itemsIndex[token];
                 //console.log('token = ', token, 'info = ', info);
-                if (!info.flag_complete){ return; }
+                if (!info.flags.complete){ return; }
                 //console.log('Preload item ', token);
                 if (info.image_sheets > 0){
                     for (let sheet = 1; sheet <= info.image_sheets; sheet++){
@@ -429,19 +429,19 @@ export default class PreloaderScene extends Phaser.Scene
                     //console.log('Robot name:', robotInfo.name, 'baseStats:', baseStats);
 
                     // If this is a copy core and they don't their alts, generate them
-                    if (robotInfo.core === 'copy'){
-                        let imageAlts = robotInfo.image_alts || [];
-                        let altTokens = robotInfo.image_alts.map((alt) => alt.token);
-                        //imageAlts.push({token: 'none', name: 'None', summons: 0, colour: 'none'});
+                    if (robotInfo.types[0] === 'copy'){
+                        let imageAlts = robotInfo.image.alts || [];
+                        let altTokens = imageAlts.map((alt) => alt.token);
+                        //imageAlts.push({token: 'none', name: 'None', summons: 0, color: 'none'});
                         for (let i = 0; i < typesTokens.length; i++){
                             let typeToken = typesTokens[i];
                             let typeInfo = typesIndex[typeToken];
                             if (typeToken === 'copy'){ continue; }
                             if (typeInfo.class !== 'normal'){ continue; }
                             if (altTokens.includes(typeToken)){ continue; }
-                            imageAlts.push({token: typeToken, name: typeInfo.name + ' Core', colour: typeToken, summons: 0});
+                            imageAlts.push({token: typeToken, name: typeInfo.name + ' Core', color: typeToken, summons: 0});
                             }
-                        robotInfo.image_alts = imageAlts;
+                        robotInfo.image.alts = imageAlts;
                         //console.log('Copy-core robot name:', robotInfo.name, 'imageAlts:', imageAlts);
                         }
 
