@@ -123,10 +123,10 @@ export default class DebugScene extends Phaser.Scene
         this.masterTokensByCoreType = {};
         for (let robotToken in robotsIndex){
             let robotData = robotsIndex[robotToken];
-            let robotCore = robotData.core || 'none';
+            let robotCore = robotData.types[0] || 'none';
             if (robotData.class === 'system'){ continue; }
             if (robotData.class !== 'master'){ continue; }
-            if (!robotData.flag_complete){ continue; }
+            if (!robotData.flags.complete){ continue; }
             if (!this.masterTokensByCoreType[robotCore]){ this.masterTokensByCoreType[robotCore] = []; }
             this.masterTokensByCoreType[robotCore].push(robotToken);
             }
@@ -143,7 +143,7 @@ export default class DebugScene extends Phaser.Scene
             let robotToken = preloadMasters[i];
             let robotData = robotsIndex[robotToken];
             //console.log('robotToken =', robotToken, 'robotData =', robotData);
-            if (robotData.core !== 'copy'){ continue; }
+            if (robotData.types[0] !== 'copy'){ continue; }
             for (let typeToken in typesIndex){
                 if (this.copySafeTypeTokens.indexOf(typeToken) < 0){ continue; }
                 var altToken = robotToken + '_' + typeToken;
@@ -229,7 +229,7 @@ export default class DebugScene extends Phaser.Scene
 
             // Define a bunch of field tokens to shuffle around for testing (filter out incomplete ones)
             let fieldTokens = Object.keys(MMRPG.Indexes.fields);
-            fieldTokens = fieldTokens.filter(token => MMRPG.Indexes.fields[token].flag_complete);
+            fieldTokens = fieldTokens.filter(token => MMRPG.Indexes.fields[token].flags.complete);
             let randomFieldToken = fieldTokens[Math.floor(Math.random() * fieldTokens.length)];
             //console.log('randomFieldToken =', randomFieldToken, 'from fieldTokens =', fieldTokens);
 
@@ -240,7 +240,7 @@ export default class DebugScene extends Phaser.Scene
             var actionDepth = $battleBanner.depths.action;
             var baseX = 50, baseY = 170, baseZ = 0, lastZ = baseZ;
             var $debugObjects = {};
-            //$debugObjects.field = new MMRPG_Field(this, 'prototype-subspace', { foreground_variant: 'decayed' }, { x: 0, y: bannerY, z: baseZ, depth: fieldDepth, origin: [0, 0] });
+            //$debugObjects.field = new MMRPG_Field(this, 'prototype-subspace', { foreground: { variant: 'decayed' } }, { x: 0, y: bannerY, z: baseZ, depth: fieldDepth, origin: [0, 0] });
             $debugObjects.field = new MMRPG_Field(this, randomFieldToken, { }, { x: 0, y: bannerY, z: baseZ, depth: fieldDepth, origin: [0, 0] });
             $debugObjects.player = new MMRPG_Player(this, 'dr-light', null, { x: (baseX + 0), y: (baseY + 10), z: lastZ++, depth: actionDepth, origin: [0.5, 1] });
             $debugObjects.robot = new MMRPG_Robot(this, 'mega-man', null, { x: (baseX + 0), y: (baseY + 40), z: lastZ++, depth: actionDepth, origin: [0.5, 1] });
@@ -275,7 +275,7 @@ export default class DebugScene extends Phaser.Scene
                             if ($sprite.subTimers.effectTimer){ $sprite.subTimers.effectTimer.remove(); }
                             $sprite.subTimers.effectTimer = this.delayedCall(250, function(){
                                 let currentAlt = this.getImageAlt();
-                                let altOptions = this.data.image_alts || [];
+                                let altOptions = this.data.image.alts || [];
                                 let altOptionsTokens = altOptions.map(item => item.token);
                                 altOptionsTokens.unshift(this.objectConfig.baseAltSheet);
                                 let nextAltKey = altOptionsTokens.indexOf(currentAlt) + 1;
@@ -311,7 +311,7 @@ export default class DebugScene extends Phaser.Scene
                         $sprite.subTimers.effectTimer = this.delayedCall(200, function(){
                             if ((frame + 2) >= maxFrame){
                                 let currentSheet = this.getImageSheet();
-                                let numSheetOptions = this.data.image_sheets || 1;
+                                let numSheetOptions = this.data.image.sheets || 1;
                                 let nextSheet = currentSheet + 1;
                                 if (nextSheet > numSheetOptions){ nextSheet = 1; }
                                 this.setImageSheet(nextSheet, function(){
@@ -345,7 +345,7 @@ export default class DebugScene extends Phaser.Scene
                         if ($sprite.subTimers.effectTimer){ $sprite.subTimers.effectTimer.remove(); }
                         $sprite.subTimers.effectTimer = this.delayedCall(200, function(){
                             let currentSheet = this.getImageSheet();
-                            let numSheetOptions = this.data.image_sheets || 1;
+                            let numSheetOptions = this.data.image.sheets || 1;
                             let nextSheet = currentSheet + 1;
                             if (nextSheet > numSheetOptions){ nextSheet = 1; }
                             this.shakeSprite();
@@ -637,7 +637,7 @@ export default class DebugScene extends Phaser.Scene
                 };
 
             let $customBoss = new MMRPG_Robot(this, 'slur', {
-                image_alt: 'alt2'
+                image: {alt: 'alt2'}
                 }, {
                 x: commonX - 80,
                 y: commonY,
@@ -663,7 +663,7 @@ export default class DebugScene extends Phaser.Scene
             //console.log('-> $customGuardian:', $customGuardian);
 
             let $customRobot = new MMRPG_Robot(this, 'proto-man', {
-                image_alt: 'water'
+                image: {alt: 'water'}
                 }, {
                 x: commonX + 60,
                 y: commonY,
@@ -676,7 +676,7 @@ export default class DebugScene extends Phaser.Scene
             //console.log('-> $customRobot:', $customRobot);
 
             let $customRobot2 = new MMRPG_Robot(this, 'quick-man', {
-                image_alt: 'alt'
+                image: {alt: 'alt'}
                 }, {
                 x: commonX + 90,
                 y: commonY - 1,
@@ -689,7 +689,7 @@ export default class DebugScene extends Phaser.Scene
             //console.log('-> $customRobot2:', $customRobot2);
 
             let $customMecha = new MMRPG_Robot(this, 'met', {
-                //image_alt: 'alt2'
+                //image: {alt: 'alt2'}
                 }, {
                 x: commonX + 130,
                 y: commonY + 2,
@@ -812,11 +812,11 @@ export default class DebugScene extends Phaser.Scene
             playerSpriteAlt = tokenParts[1];
             }
         let playerIndexInfo = playersIndex[playerSpriteToken];
-        let playerAltTokens = playerIndexInfo.image_alts ? playerIndexInfo.image_alts.map(item => item.token) : [];
+        let playerAltTokens = playerIndexInfo.image.alts ? playerIndexInfo.image.alts.map(item => item.token) : [];
         if (playerSpriteAlt !== 'base' && playerAltTokens.indexOf(playerSpriteAlt) === -1) { playerSpriteAlt = 'base'; }
 
         // Create a temp player object to ensure everything gets preloaded
-        let $player = new MMRPG_Player(scene, playerSpriteToken, { image_alt: playerSpriteAlt }, { offscreen: true });
+        let $player = new MMRPG_Player(scene, playerSpriteToken, { image: {alt: playerSpriteAlt} }, { offscreen: true });
         await $player.isReady();
 
         // Define the base coordinates for the sprite to be added
@@ -961,7 +961,7 @@ export default class DebugScene extends Phaser.Scene
             let $floatingTextBubble = null;
             //console.log('player destroyed:', playerIndexInfo.token, playerIndexInfo.name, playerIndexInfo);
             if (typeof playerIndexInfo.quotes !== 'undefined'){
-                let playerCoreType = playerIndexInfo.core !== '' ? playerIndexInfo.core : '';
+                let playerCoreType = playerIndexInfo.types.length ? playerIndexInfo.types[0] : '';
                 let playerTypeInfo = typesIndex[playerCoreType || 'none'];
                 let playerQuotes = playerIndexInfo.quotes;
                 //console.log(playerIndexInfo.token, 'playerCoreType:', playerCoreType, 'playerTypeInfo:', playerTypeInfo, 'playerQuotes:', playerQuotes);
@@ -970,7 +970,7 @@ export default class DebugScene extends Phaser.Scene
                     //console.log('playerQuotes.battle_defeat:', playerQuotes.battle_defeat);
                     var text = playerQuotes.battle_defeat.toUpperCase();
                     var color = '#f0f0f0';
-                    var shadow = '#090909'; //playerCoreType ? Graphics.returnHexColorString(playerTypeInfo.colour_dark) : '#969696';
+                    var shadow = '#090909'; //playerCoreType ? Graphics.returnHexColorString(playerTypeInfo.colors.dark) : '#969696';
                     //console.log('text:', text, 'color:', color);
                     var x = $playerSprite.x + 40, y = $playerSprite.y - 60;
                     var width = Math.ceil(MMRPG.canvas.width / 4), height = 90;
@@ -1078,12 +1078,12 @@ export default class DebugScene extends Phaser.Scene
             robotSpriteAlt = tokenParts[1];
             }
         let robotIndexInfo = robotsIndex[robotSpriteToken];
-        let robotAltTokens = robotIndexInfo.image_alts ? robotIndexInfo.image_alts.map(item => item.token) : [];
+        let robotAltTokens = robotIndexInfo.image.alts ? robotIndexInfo.image.alts.map(item => item.token) : [];
         if (robotSpriteAlt !== 'base' && robotAltTokens.indexOf(robotSpriteAlt) === -1){ robotSpriteAlt = 'base'; }
         //console.log('robotSpriteToken:', robotSpriteToken, 'robotSpriteAlt:', robotSpriteAlt, 'robotIndexInfo:', robotIndexInfo, 'robotAltTokens:', robotAltTokens);
 
         // Create a temp robot object to ensure everything gets preloaded
-        let $robot = new MMRPG_Robot(scene, robotSpriteToken, { image_alt: robotSpriteAlt }, { offscreen: true });
+        let $robot = new MMRPG_Robot(scene, robotSpriteToken, { image: {alt: robotSpriteAlt} }, { offscreen: true });
         await $robot.isReady();
         //console.log('%c' + 'Robot ' + $robot.token + ' is ready for action!', 'color: green;');
         //console.log('-> $robot:', $robot);
@@ -1220,14 +1220,14 @@ export default class DebugScene extends Phaser.Scene
             // Define the ability-specific details for potential animation sequence
             let abilityRand = Math.floor(Math.random() * 100);
             let abilitySuffix = abilityRand % 3 === 0 ? 'buster' : 'shot';
-            let abilityElement = robotIndexInfo.core !== '' && robotIndexInfo.core !== 'copy' ? robotIndexInfo.core : '';
+            let abilityElement = robotIndexInfo.types.length && robotIndexInfo.types[0] !== 'copy' ? robotIndexInfo.types[0] : '';
             let abilitySpriteToken = abilityElement ? (abilityElement + '-' + abilitySuffix) : ('buster-shot');
             let abilitySpriteSheet = 1;
             //let abilityIndexInfo = abilitiesIndex[abilitySpriteToken];
             //console.log(abilitySpriteToken, 'abilityRand:', abilityRand, 'abilitySuffix:', abilitySuffix, 'abilityElement:', abilityElement, 'abilityIndexInfo:', abilityIndexInfo);
 
             // Create a temp ability object to ensure everything gets preloaded
-            let $ability = new MMRPG_Ability(scene, abilitySpriteToken, { image_sheet: abilitySpriteSheet }, { offscreen: true });
+            let $ability = new MMRPG_Ability(scene, abilitySpriteToken, { image: {sheet: abilitySpriteSheet} }, { offscreen: true });
             //console.log('Waiting for ability ' + $ability.token + ' to be ready...', $ability);
             $ability.whenReady(function(){
                 //console.log('%c' + 'Ability ' + $ability.token + ' is ready for action!', 'color: green;');
@@ -1316,7 +1316,7 @@ export default class DebugScene extends Phaser.Scene
             $robot.setFrame('damage');
 
             // Collect data for the explosion sprite to generate the sheets and animation
-            let effectElement = (robotIndexInfo.core !== '' && robotIndexInfo.core !== 'copy' ? robotIndexInfo.core : '');
+            let effectElement = (robotIndexInfo.types.length && robotIndexInfo.types[0] !== 'copy' ? robotIndexInfo.types[0] : '');
             let effectToken = effectElement ? effectElement + '-buster' : 'mega-buster';
             let $explode = new MMRPG_Ability(scene, effectToken, null, { offscreen: true });
 
@@ -1408,7 +1408,7 @@ export default class DebugScene extends Phaser.Scene
             let $floatingTextBubble = null;
             //console.log('robot destroyed:', robotIndexInfo.token, robotIndexInfo.name, robotIndexInfo);
             if (typeof robotIndexInfo.quotes !== 'undefined'){
-                let robotCoreType = robotIndexInfo.core !== '' ? robotIndexInfo.core : '';
+                let robotCoreType = robotIndexInfo.types.length ? robotIndexInfo.types[0] : '';
                 let robotTypeInfo = typesIndex[robotCoreType || 'none'];
                 let robotQuotes = robotIndexInfo.quotes;
                 //console.log(robotIndexInfo.token, 'robotCoreType:', robotCoreType, 'robotTypeInfo:', robotTypeInfo, 'robotQuotes:', robotQuotes);
@@ -1417,7 +1417,7 @@ export default class DebugScene extends Phaser.Scene
                     //console.log('robotQuotes.battle_defeat:', robotQuotes.battle_defeat);
                     var text = robotQuotes.battle_defeat.toUpperCase();
                     var color = '#f0f0f0';
-                    var shadow = '#090909'; //robotCoreType ? Graphics.returnHexColorString(robotTypeInfo.colour_dark) : '#969696';
+                    var shadow = '#090909'; //robotCoreType ? Graphics.returnHexColorString(robotTypeInfo.colors.dark) : '#969696';
                     //console.log('text:', text, 'color:', color);
                     var x = $robotSprite.x + 40, y = $robotSprite.y - 60;
                     var width = Math.ceil(MMRPG.canvas.width / 4), height = 90;
@@ -1462,7 +1462,7 @@ export default class DebugScene extends Phaser.Scene
         //console.log('%c' + 'Robot ' + $robot.token + ' will slide now...', 'color: orange;');
         if ($robot.direction === 'right'){ startFunction = slideSpriteRight; }
         else if ($robot.direction === 'left'){ startFunction = slideSpriteLeft; }
-        //console.log('Starting some animation w/ $robot token:', $robot.token, 'and alt:', $robot.data.image_alt);
+        //console.log('Starting some animation w/ $robot token:', $robot.token, 'and alt:', $robot.data.image.alt);
         startFunction($robot, function($robot){
             //console.log('%c' + 'All animations for ' + $robot.token + ' complete!', 'color: green;');
             $robot.destroy();
@@ -1635,7 +1635,7 @@ export default class DebugScene extends Phaser.Scene
         var depth = 200;
         var type = 'empty';
         var x = 14, y = ref.y + ref.height + 5
-        var color = typesIndex[type].colour_light;
+        var color = typesIndex[type].colors.light;
         var xcolor = Phaser.Display.Color.GetColor(color[0], color[1], color[2]);
         let $battleBanner = new BattleBanner(this, x, y, {
             height: 213,
@@ -1715,7 +1715,7 @@ export default class DebugScene extends Phaser.Scene
         var ref = this.battleBanner;
         var width = ref.width, height = 80;
         var x = ref.x, y = ref.y + ref.height + 5;
-        var color = typesIndex['empty'].colour_light;
+        var color = typesIndex['empty'].colors.light;
         var xcolor = Phaser.Display.Color.GetColor(color[0], color[1], color[2]);
         let $bouncePanel = Graphics.addTypePanel(this, {
             x: x,
@@ -1748,7 +1748,7 @@ export default class DebugScene extends Phaser.Scene
         var y = bouncePanelBounds.y + 20;
         var types = ['attack', 'defense', 'speed'];
         var type = types[0];
-        var color = typesIndex[type].colour_light;
+        var color = typesIndex[type].colors.light;
         var xcolor = Phaser.Display.Color.GetColor(color[0], color[1], color[2]);
         let $bounceBannerAlpha = new Banner(this, x, y, {
             width: width,
@@ -1770,7 +1770,7 @@ export default class DebugScene extends Phaser.Scene
         var y = bouncePanelBounds.y2 - height - 20;
         var types = Object.values(safeTypeTokens);
         var type = types[0];
-        var color = typesIndex[type].colour_light;
+        var color = typesIndex[type].colors.light;
         var xcolor = Phaser.Display.Color.GetColor(color[0], color[1], color[2]);
         let $bounceBannerBeta = new Banner(this, x, y, {
             width: width,
@@ -1867,8 +1867,8 @@ export default class DebugScene extends Phaser.Scene
                 }
             // pick a new type for next time
             type = $alphaBanner.types[Math.floor(Math.random() * $alphaBanner.types.length)];
-            var color = typesIndex[type]['colour_light'];
-            var color2 = typesIndex[type]['colour_dark'];
+            var color = typesIndex[type].colors.light;
+            var color2 = typesIndex[type].colors.dark;
             $alphaBanner.setColor(color, color2);
             $alphaBanner.type = type;
             //console.log('new $alphaBanner type:', type, 'color:', color, 'color2:', color2);
@@ -1920,8 +1920,8 @@ export default class DebugScene extends Phaser.Scene
                 }
             // pick a new type for next time
             type = $betaBanner.types[Math.floor(Math.random() * $betaBanner.types.length)];
-            var color = typesIndex[type]['colour_light'];
-            var color2 = typesIndex[type]['colour_dark'];
+            var color = typesIndex[type].colors.light;
+            var color2 = typesIndex[type].colors.dark;
             $betaBanner.setColor(color, color2);
             $betaBanner.type = type;
             //console.log('new $betaBanner type:', type, 'color:', color, 'color2:', color2);
@@ -1974,8 +1974,8 @@ export default class DebugScene extends Phaser.Scene
                 var type = 'copy';
                 var typeInfo = types[type];
                 //console.log('type =', type, types[type]);
-                var color = types[type]['colour_light'];
-                var color2 = types[type]['colour_dark'];
+                var color = types[type].colors.light;
+                var color2 = types[type].colors.dark;
                 mainBanner.direction = 'left';
                 mainBanner.type = type;
                 mainBanner.setColor(color, color2);
@@ -2000,8 +2000,8 @@ export default class DebugScene extends Phaser.Scene
                 var type = 'none';
                 var typeInfo = types[type];
                 //console.log('type =', type, types[type]);
-                var color = types[type]['colour_light'];
-                var color2 = types[type]['colour_dark'];
+                var color = types[type].colors.light;
+                var color2 = types[type].colors.dark;
                 mainBanner.direction = 'right';
                 mainBanner.type = type;
                 mainBanner.setColor(color, color2);
@@ -2049,8 +2049,8 @@ export default class DebugScene extends Phaser.Scene
             //console.log('Changing direction');
             var type = safeTypes[Math.floor(Math.random() * safeTypes.length)]; //'water';
             //console.log('type =', type, types[type]);
-            var color = types[type]['colour_light'];
-            var color2 = types[type]['colour_dark'];
+            var color = types[type].colors.light;
+            var color2 = types[type].colors.dark;
             testBanner.setColor(color, color2);
             if (scene.allowSlidingMasters){
                 this.showSlidingRobot(null, type, 'right');
@@ -2402,8 +2402,8 @@ export default class DebugScene extends Phaser.Scene
                 width: typeButtonWidth,
                 height: typeButtonHeight,
                 size: 8, color: '#ffffff',
-                border: Graphics.returnHexColorString(typeData.colour_dark),
-                background: Graphics.returnHexColorString(typeData.colour_light),
+                border: Graphics.returnHexColorString(typeData.colors.dark),
+                background: Graphics.returnHexColorString(typeData.colors.light),
                 depth: typeButtonDepth
                 }, function(){
                 //console.log('Huh? Type button clicked:', typeToken);
