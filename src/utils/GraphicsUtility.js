@@ -535,7 +535,7 @@ export class GraphicsUtility {
             console.log('Results: Passed:', passed, 'Failed:', failed);
         }
 
-        // Test all the colour-related functions in this class
+        // Test all the color-related functions in this class
         let testHexString = '#ff0000', testHexValue = 0xff0000;
         let testRgbString = 'rgb(255, 0, 0)', testRgbArray = [255, 0, 0];
         let testHslString = 'hsl(0, 100%, 50%)', testHslArray = [0, 100, 50];
