@@ -838,6 +838,27 @@ class MMRPG {
 
     }
 
+
+    // -- MISC UTILITY METHODS -- //
+
+    // Merge an object into another object with recursion for nested objects
+    deepMerge (target, source)
+    {
+        //console.log('MMRPG.deepMerge() called w/ target:', target, 'source:', source);
+        for (let key in source) {
+            if (source.hasOwnProperty(key)) {
+                if (typeof source[key] === 'object' && !Array.isArray(source[key]) && source[key] !== null) {
+                    if (!target[key]) {
+                        target[key] = {};
+                    }
+                    deepMerge(target[key], source[key]);
+                } else {
+                    target[key] = source[key];
+                }
+            }
+        }
+    }
+
 }
 
 // Ensure only one instance of MMRPG exists
