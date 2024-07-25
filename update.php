@@ -430,11 +430,15 @@ echo('<pre>$content_indexes_dir = '.print_r(hide_root_dir($content_indexes_dir),
                 }
                 // HAS BACKGROUND/FOREGROUND: If this is an object type with background details, let's recombine all its details into one array
                 if ($content_xkind === 'fields'){
+                    $preview = array();
+                    $preview['token'] = !empty($data_parsed['image']['token']) ? $data_parsed['image']['token'] : 'field';
+                    $avatar = array();
+                    $avatar['token'] = !empty($data_parsed['image']['token']) ? $data_parsed['image']['token'] : 'field';
                     $background = array();
-                    $background['image'] = !empty($data_parsed['background']) ? $data_parsed['background'] : $content_kind;
+                    $background['token'] = !empty($data_parsed['background']) ? $data_parsed['background'] : $content_kind;
                     $background['attachments'] = !empty($data_parsed['background_attachments']) ? array_values($data_parsed['background_attachments']) : array();
                     $foreground = array();
-                    $foreground['image'] = !empty($data_parsed['foreground']) ? $data_parsed['foreground'] : '';
+                    $foreground['token'] = !empty($data_parsed['foreground']) ? $data_parsed['foreground'] : '';
                     $foreground['attachments'] = !empty($data_parsed['foreground_attachments']) ? array_values($data_parsed['foreground_attachments']) : array();
                     $get_clean_attachments = function($old_attachments){
                         $new_attachments = array();
@@ -456,6 +460,8 @@ echo('<pre>$content_indexes_dir = '.print_r(hide_root_dir($content_indexes_dir),
                     if (!empty($foreground['attachments'])){ $foreground['attachments'] = $get_clean_attachments($foreground['attachments']); }
                     unset($data_parsed['background'], $data_parsed['background_frame'], $data_parsed['background_attachments']);
                     unset($data_parsed['foreground'], $data_parsed['foreground_frame'], $data_parsed['foreground_attachments']);
+                    $data_parsed['preview'] = $preview;
+                    $data_parsed['avatar'] = $avatar;
                     $data_parsed['background'] = $background;
                     $data_parsed['foreground'] = $foreground;
                 }
