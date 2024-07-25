@@ -434,6 +434,7 @@ class MMRPG {
         // Predefine the counters and objects we'll be using for the stats
         let total = 0;
         let average = 0;
+        let stats = data.stats || {};
         let values = {};
         let ratios = {};
         let multipliers = {};
@@ -450,26 +451,26 @@ class MMRPG {
             values.defense = 100;
             values.speed = 100;
 
-            if (data.energy > 0){
-                let val = data.energy;
+            if (stats.energy > 0){
+                let val = stats.energy;
                 let modVal = Math.ceil(val / 3);
                 values.energy += val;
                 values.attack -= modVal;
                 values.defense -= modVal;
                 values.speed -= modVal;
                 }
-            if (data.attack > 0){
-                let val = data.attack;
+            if (stats.attack > 0){
+                let val = stats.attack;
                 values.attack += val;
                 values.defense -= val;
                 }
-            if (data.defense > 0){
-                let val = data.defense;
+            if (stats.defense > 0){
+                let val = stats.defense;
                 values.defense += val;
                 values.speed -= val;
                 }
-            if (data.speed > 0){
-                let val = data.speed;
+            if (stats.speed > 0){
+                let val = stats.speed;
                 values.speed += val;
                 values.attack -= val;
                 }
@@ -479,10 +480,10 @@ class MMRPG {
         else {
 
             // Pull any existing stat values from the data object
-            values.energy = data.energy || 100;
-            values.attack = data.attack || 100;
-            values.defense = data.defense || 100;
-            values.speed = data.speed || 100;
+            values.energy = stats.energy || 100;
+            values.attack = stats.attack || 100;
+            values.defense = stats.defense || 100;
+            values.speed = stats.speed || 100;
 
             }
 
