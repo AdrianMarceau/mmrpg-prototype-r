@@ -89,17 +89,23 @@ echo('<pre>$content_indexes_dir = '.print_r(hide_root_dir($content_indexes_dir),
 // ------------------------------------------------------------ //
 
     // Define a function to generate an index array for a specific content type
-    function mmrpg_generate_content_index($content_dir, $content_meta, $content_subclass = null){
+    function mmrpg_generate_content_index($content_dir, $content_meta, $content_subclass = null, &$content_modified = -1){
         echo('<pre>mmrpg_generate_content_index($content_dir: '.hide_root_dir($content_dir).', $content_meta: '.gettype($content_meta).', $content_subclass: '.($content_subclass ? $content_subclass : 'false').')</pre>');
         //echo('<pre>w/ $content_meta = '.print_r($content_meta, true).'</pre>');
         // Pull the kind and xkind from the content meta
         $content_kind = $content_meta['kind'];
         $content_xkind = $content_meta['xkind'];
+        $content_modified = -1;
         // Collect the groups if they exist and then generate the overall token order
         $groups_filename = '_groups/';
         $groups_filename .= (!empty($content_subclass) ? $content_subclass : $content_kind).'/';
         $groups_filename .= 'data.json';
-        $content_groups = file_exists($content_dir.$groups_filename) ? json_decode(file_get_contents($content_dir.$groups_filename), true) : array();
+        $content_groups = array();
+        if (file_exists($content_dir.$groups_filename)){
+            $content_groups = json_decode(file_get_contents($content_dir.$groups_filename), true);
+            if ($content_modified < filemtime($content_dir.$groups_filename)){ $content_modified = filemtime($content_dir.$groups_filename); }
+        }
+        if (!empty($content_groups)){  }
         $content_tokens = array();
         $content_groups_by_token = array();
         if (!empty($content_groups)){
@@ -140,6 +146,7 @@ echo('<pre>$content_indexes_dir = '.print_r(hide_root_dir($content_indexes_dir),
             // Load the data file and parse it
             $data_raw = file_get_contents($data_file);
             $data_parsed = json_decode($data_raw, true);
+            if ($content_modified < filemtime($data_file)){ $content_modified = filemtime($data_file); }
             //echo('<pre>$data_file = '.print_r(hide_root_dir($data_file), true).'</pre>');
             //echo('<pre>$data_parsed = '.print_r($data_parsed, true).'</pre>');
             // Check if the data file is valid and contains an ID
@@ -524,12 +531,12 @@ echo('<pre>$content_indexes_dir = '.print_r(hide_root_dir($content_indexes_dir),
     }
 
     // Define a function that saves indexed content to a JSON file at the specified path
-    function mmrpg_save_content_index($content_index, $content_key, $content_index_file, $overwrite = false){
+    function mmrpg_save_content_index($content_index, $content_key, $content_index_file, $overwrite = false, $modified = 0){
         echo('<pre>mmrpg_save_content_index($content_index: '.gettype($content_index).', $content_key: '.$content_key.', $content_index_file: '.hide_root_dir($content_index_file).', $overwrite: '.($overwrite ? 'true' : 'false').')</pre>');
         //echo('<pre>w/ $content_index = '.print_r($content_index, true).'</pre>');
         $content_index_json = array();
         $content_index_json['status'] = 'success';
-        $content_index_json['updated'] = time();
+        $content_index_json['updated'] = !empty($modified) ? $modified : time();
         $real_total = count($content_index);
         $visible_total = count(array_filter($content_index, function($a){ return empty($a['flag_hidden']) && strtolower($a['group']) !== 'hidden'; }));
         $content_index_json['data'] = array(
@@ -561,22 +568,22 @@ echo('<pre>$content_indexes_dir = '.print_r(hide_root_dir($content_indexes_dir),
                 if (empty($subclasses)){
                     $filename = $xkind.'.json';
                     $this_content_dir = $content_base_dir.$xkind.'/';
-                    $this_content_index = mmrpg_generate_content_index($this_content_dir, $content_meta, false);
+                    $this_content_index = mmrpg_generate_content_index($this_content_dir, $content_meta, false, $modified);
                     if (!empty($this_content_index)){ echo('<pre style="color: green;">Successfully parsed '.count($this_content_index).' '.$xkind.' from '.hide_root_dir($content_indexes_dir.$filename).'</pre>'); }
                     else { echo('<pre style="color: red;">Failed to parse '.$xkind.' from '.hide_root_dir($content_indexes_dir.$filename).'</pre>'); }
                     //echo('<pre>$this_content_index('.$content_xkind.') = '.print_r($this_content_index, true).'</pre>');
-                    $saved = mmrpg_save_content_index($this_content_index, $xkind, $content_indexes_dir.$filename, true);
+                    $saved = mmrpg_save_content_index($this_content_index, $xkind, $content_indexes_dir.$filename, true, $modified);
                     if ($saved){ echo('<pre style="color: green;">Successfully saved '.$xkind.' content index to '.$content_indexes_dir.$filename.'</pre>'); }
                     else { echo('<pre style="color: red;">Failed to save '.$xkind.' content index to '.$content_indexes_dir.$filename.'</pre>'); }
                 } else {
                     foreach ($subclasses AS $subclass){
                         $filename = $xkind.'.'.$subclass.'.json';
                         $this_content_dir = $content_base_dir.$xkind.'/';
-                        $this_content_index = mmrpg_generate_content_index($this_content_dir, $content_meta, $subclass);
+                        $this_content_index = mmrpg_generate_content_index($this_content_dir, $content_meta, $subclass, $modified);
                         if (!empty($this_content_index)){ echo('<pre style="color: green;">Successfully parsed '.count($this_content_index).' '.$subclass.' '.$xkind.' from '.hide_root_dir($content_indexes_dir.$filename).'</pre>'); }
                         else { echo('<pre style="color: red;">Failed to parse '.$subclass.' '.$xkind.' from '.hide_root_dir($content_indexes_dir.$filename).'</pre>'); }
                         //echo('<pre>$this_content_index('.$content_xkind.'/'.$subclass.') = '.print_r($this_content_index, true).'</pre>');
-                        $saved = mmrpg_save_content_index($this_content_index, $xkind, $content_indexes_dir.$filename, true);
+                        $saved = mmrpg_save_content_index($this_content_index, $xkind, $content_indexes_dir.$filename, true, $modified);
                         if ($saved){ echo('<pre style="color: green;">Successfully saved '.$subclass.' '.$xkind.' content index to '.$content_indexes_dir.$filename.'</pre>'); }
                         else { echo('<pre style="color: red;">Failed to save '.$subclass.' '.$xkind.' content index to '.$content_indexes_dir.$filename.'</pre>'); }
                     }
