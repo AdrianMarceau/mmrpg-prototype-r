@@ -1,6 +1,6 @@
 {
     "status": "success",
-    "updated": 1721796247,
+    "updated": 1721832823,
     "data": {
         "fields": {
             "field": {
@@ -28,12 +28,18 @@
                     "masters": [],
                     "mechas": []
                 },
+                "preview": {
+                    "token": "field"
+                },
+                "avatar": {
+                    "token": "field"
+                },
                 "background": {
-                    "image": "field",
+                    "token": "field",
                     "attachments": []
                 },
                 "foreground": {
-                    "image": "field",
+                    "token": "field",
                     "attachments": []
                 },
                 "flags": {
@@ -74,12 +80,18 @@
                         "met"
                     ]
                 },
+                "preview": {
+                    "token": "gentle-countryside"
+                },
+                "avatar": {
+                    "token": "gentle-countryside"
+                },
                 "background": {
-                    "image": "gentle-countryside",
+                    "token": "gentle-countryside",
                     "attachments": []
                 },
                 "foreground": {
-                    "image": "gentle-countryside",
+                    "token": "gentle-countryside",
                     "attachments": [
                         {
                             "class": "object",
@@ -165,12 +177,18 @@
                         "met"
                     ]
                 },
+                "preview": {
+                    "token": "maniacal-hideaway"
+                },
+                "avatar": {
+                    "token": "maniacal-hideaway"
+                },
                 "background": {
-                    "image": "maniacal-hideaway",
+                    "token": "maniacal-hideaway",
                     "attachments": []
                 },
                 "foreground": {
-                    "image": "maniacal-hideaway",
+                    "token": "maniacal-hideaway",
                     "attachments": []
                 },
                 "flags": {
@@ -211,12 +229,18 @@
                         "met"
                     ]
                 },
+                "preview": {
+                    "token": "wintry-forefront"
+                },
+                "avatar": {
+                    "token": "wintry-forefront"
+                },
                 "background": {
-                    "image": "wintry-forefront",
+                    "token": "wintry-forefront",
                     "attachments": []
                 },
                 "foreground": {
-                    "image": "wintry-forefront",
+                    "token": "wintry-forefront",
                     "attachments": []
                 },
                 "flags": {
@@ -264,8 +288,14 @@
                         "met"
                     ]
                 },
+                "preview": {
+                    "token": "light-laboratory"
+                },
+                "avatar": {
+                    "token": "light-laboratory"
+                },
                 "background": {
-                    "image": "light-laboratory",
+                    "token": "light-laboratory",
                     "attachments": [
                         {
                             "class": "robot",
@@ -314,7 +344,7 @@
                     ]
                 },
                 "foreground": {
-                    "image": "light-laboratory",
+                    "token": "light-laboratory",
                     "attachments": [
                         {
                             "class": "robot",
@@ -385,8 +415,14 @@
                         "met"
                     ]
                 },
+                "preview": {
+                    "token": "wily-castle"
+                },
+                "avatar": {
+                    "token": "wily-castle"
+                },
                 "background": {
-                    "image": "wily-castle",
+                    "token": "wily-castle",
                     "attachments": [
                         {
                             "class": "robot",
@@ -435,7 +471,7 @@
                     ]
                 },
                 "foreground": {
-                    "image": "wily-castle",
+                    "token": "wily-castle",
                     "attachments": [
                         {
                             "class": "robot",
@@ -507,8 +543,14 @@
                         "met"
                     ]
                 },
+                "preview": {
+                    "token": "cossack-citadel"
+                },
+                "avatar": {
+                    "token": "cossack-citadel"
+                },
                 "background": {
-                    "image": "cossack-citadel",
+                    "token": "cossack-citadel",
                     "attachments": [
                         {
                             "class": "robot",
@@ -568,7 +610,7 @@
                     ]
                 },
                 "foreground": {
-                    "image": "cossack-citadel",
+                    "token": "cossack-citadel",
                     "attachments": [
                         {
                             "class": "robot",
@@ -630,12 +672,18 @@
                     "masters": [],
                     "mechas": []
                 },
+                "preview": {
+                    "token": "prototype-subspace"
+                },
+                "avatar": {
+                    "token": "prototype-subspace"
+                },
                 "background": {
-                    "image": "prototype-subspace",
+                    "token": "prototype-subspace",
                     "attachments": []
                 },
                 "foreground": {
-                    "image": "prototype-subspace",
+                    "token": "prototype-subspace",
                     "attachments": []
                 },
                 "flags": {
@@ -684,8 +732,14 @@
                         "flea"
                     ]
                 },
+                "preview": {
+                    "token": "abandoned-warehouse"
+                },
+                "avatar": {
+                    "token": "abandoned-warehouse"
+                },
                 "background": {
-                    "image": "abandoned-warehouse",
+                    "token": "abandoned-warehouse",
                     "attachments": [
                         {
                             "class": "robot",
@@ -734,7 +788,7 @@
                     ]
                 },
                 "foreground": {
-                    "image": "abandoned-warehouse",
+                    "token": "abandoned-warehouse",
                     "attachments": [
                         {
                             "class": "robot",
@@ -806,8 +860,14 @@
                         "picket-man"
                     ]
                 },
+                "preview": {
+                    "token": "mountain-mines"
+                },
+                "avatar": {
+                    "token": "mountain-mines"
+                },
                 "background": {
-                    "image": "mountain-mines",
+                    "token": "mountain-mines",
                     "attachments": [
                         {
                             "class": "robot",
@@ -845,7 +905,7 @@
                     ]
                 },
                 "foreground": {
-                    "image": "mountain-mines",
+                    "token": "mountain-mines",
                     "attachments": [
                         {
                             "class": "robot",
@@ -917,8 +977,14 @@
                         "peng"
                     ]
                 },
+                "preview": {
+                    "token": "arctic-jungle"
+                },
+                "avatar": {
+                    "token": "arctic-jungle"
+                },
                 "background": {
-                    "image": "arctic-jungle",
+                    "token": "arctic-jungle",
                     "attachments": [
                         {
                             "class": "robot",
@@ -945,7 +1011,7 @@
                     ]
                 },
                 "foreground": {
-                    "image": "arctic-jungle",
+                    "token": "arctic-jungle",
                     "attachments": [
                         {
                             "class": "robot",
@@ -1017,8 +1083,14 @@
                         "bombomb"
                     ]
                 },
+                "preview": {
+                    "token": "orb-city"
+                },
+                "avatar": {
+                    "token": "orb-city"
+                },
                 "background": {
-                    "image": "orb-city",
+                    "token": "orb-city",
                     "attachments": [
                         {
                             "class": "robot",
@@ -1067,7 +1139,7 @@
                     ]
                 },
                 "foreground": {
-                    "image": "orb-city",
+                    "token": "orb-city",
                     "attachments": [
                         {
                             "class": "robot",
@@ -1139,8 +1211,14 @@
                         "tackle-fire"
                     ]
                 },
+                "preview": {
+                    "token": "steel-mill"
+                },
+                "avatar": {
+                    "token": "steel-mill"
+                },
                 "background": {
-                    "image": "steel-mill",
+                    "token": "steel-mill",
                     "attachments": [
                         {
                             "class": "robot",
@@ -1178,7 +1256,7 @@
                     ]
                 },
                 "foreground": {
-                    "image": "steel-mill",
+                    "token": "steel-mill",
                     "attachments": [
                         {
                             "class": "robot",
@@ -1250,8 +1328,14 @@
                         "spine"
                     ]
                 },
+                "preview": {
+                    "token": "electrical-tower"
+                },
+                "avatar": {
+                    "token": "electrical-tower"
+                },
                 "background": {
-                    "image": "electrical-tower",
+                    "token": "electrical-tower",
                     "attachments": [
                         {
                             "class": "robot",
@@ -1289,7 +1373,7 @@
                     ]
                 },
                 "foreground": {
-                    "image": "electrical-tower",
+                    "token": "electrical-tower",
                     "attachments": [
                         {
                             "class": "robot",
@@ -1361,8 +1445,14 @@
                         "flutter-fly"
                     ]
                 },
+                "preview": {
+                    "token": "clock-citadel"
+                },
+                "avatar": {
+                    "token": "clock-citadel"
+                },
                 "background": {
-                    "image": "clock-citadel",
+                    "token": "clock-citadel",
                     "attachments": [
                         {
                             "class": "robot",
@@ -1422,7 +1512,7 @@
                     ]
                 },
                 "foreground": {
-                    "image": "clock-citadel",
+                    "token": "clock-citadel",
                     "attachments": [
                         {
                             "class": "robot",
@@ -1494,8 +1584,14 @@
                         "beetle-borg"
                     ]
                 },
+                "preview": {
+                    "token": "oil-wells"
+                },
+                "avatar": {
+                    "token": "oil-wells"
+                },
                 "background": {
-                    "image": "oil-wells",
+                    "token": "oil-wells",
                     "attachments": [
                         {
                             "class": "robot",
@@ -1544,7 +1640,7 @@
                     ]
                 },
                 "foreground": {
-                    "image": "oil-wells",
+                    "token": "oil-wells",
                     "attachments": [
                         {
                             "class": "robot",
@@ -1616,8 +1712,14 @@
                         "pierrobot"
                     ]
                 },
+                "preview": {
+                    "token": "industrial-facility"
+                },
+                "avatar": {
+                    "token": "industrial-facility"
+                },
                 "background": {
-                    "image": "industrial-facility",
+                    "token": "industrial-facility",
                     "attachments": [
                         {
                             "class": "robot",
@@ -1677,7 +1779,7 @@
                     ]
                 },
                 "foreground": {
-                    "image": "industrial-facility",
+                    "token": "industrial-facility",
                     "attachments": [
                         {
                             "class": "robot",
@@ -1749,8 +1851,14 @@
                         "fan-fiend"
                     ]
                 },
+                "preview": {
+                    "token": "sky-ridge"
+                },
+                "avatar": {
+                    "token": "sky-ridge"
+                },
                 "background": {
-                    "image": "sky-ridge",
+                    "token": "sky-ridge",
                     "attachments": [
                         {
                             "class": "robot",
@@ -1810,7 +1918,7 @@
                     ]
                 },
                 "foreground": {
-                    "image": "sky-ridge",
+                    "token": "sky-ridge",
                     "attachments": [
                         {
                             "class": "robot",
@@ -1882,8 +1990,14 @@
                         "snapper"
                     ]
                 },
+                "preview": {
+                    "token": "waterfall-institute"
+                },
+                "avatar": {
+                    "token": "waterfall-institute"
+                },
                 "background": {
-                    "image": "waterfall-institute",
+                    "token": "waterfall-institute",
                     "attachments": [
                         {
                             "class": "robot",
@@ -1954,7 +2068,7 @@
                     ]
                 },
                 "foreground": {
-                    "image": "waterfall-institute",
+                    "token": "waterfall-institute",
                     "attachments": [
                         {
                             "class": "robot",
@@ -2026,8 +2140,14 @@
                         "spring-head"
                     ]
                 },
+                "preview": {
+                    "token": "underground-laboratory"
+                },
+                "avatar": {
+                    "token": "underground-laboratory"
+                },
                 "background": {
-                    "image": "underground-laboratory",
+                    "token": "underground-laboratory",
                     "attachments": [
                         {
                             "class": "robot",
@@ -2076,7 +2196,7 @@
                     ]
                 },
                 "foreground": {
-                    "image": "underground-laboratory",
+                    "token": "underground-laboratory",
                     "attachments": [
                         {
                             "class": "robot",
@@ -2148,8 +2268,14 @@
                         "killer-bullet"
                     ]
                 },
+                "preview": {
+                    "token": "pipe-station"
+                },
+                "avatar": {
+                    "token": "pipe-station"
+                },
                 "background": {
-                    "image": "pipe-station",
+                    "token": "pipe-station",
                     "attachments": [
                         {
                             "class": "robot",
@@ -2209,7 +2335,7 @@
                     ]
                 },
                 "foreground": {
-                    "image": "pipe-station",
+                    "token": "pipe-station",
                     "attachments": [
                         {
                             "class": "robot",
@@ -2281,8 +2407,14 @@
                         "crazy-cannon"
                     ]
                 },
+                "preview": {
+                    "token": "photon-collider"
+                },
+                "avatar": {
+                    "token": "photon-collider"
+                },
                 "background": {
-                    "image": "photon-collider",
+                    "token": "photon-collider",
                     "attachments": [
                         {
                             "class": "robot",
@@ -2331,7 +2463,7 @@
                     ]
                 },
                 "foreground": {
-                    "image": "photon-collider",
+                    "token": "photon-collider",
                     "attachments": [
                         {
                             "class": "robot",
@@ -2403,8 +2535,14 @@
                         "telly"
                     ]
                 },
+                "preview": {
+                    "token": "atomic-furnace"
+                },
+                "avatar": {
+                    "token": "atomic-furnace"
+                },
                 "background": {
-                    "image": "atomic-furnace",
+                    "token": "atomic-furnace",
                     "attachments": [
                         {
                             "class": "robot",
@@ -2475,7 +2613,7 @@
                     ]
                 },
                 "foreground": {
-                    "image": "atomic-furnace",
+                    "token": "atomic-furnace",
                     "attachments": [
                         {
                             "class": "robot",
@@ -2547,8 +2685,14 @@
                         "batton"
                     ]
                 },
+                "preview": {
+                    "token": "preserved-forest"
+                },
+                "avatar": {
+                    "token": "preserved-forest"
+                },
                 "background": {
-                    "image": "preserved-forest",
+                    "token": "preserved-forest",
                     "attachments": [
                         {
                             "class": "robot",
@@ -2630,7 +2774,7 @@
                     ]
                 },
                 "foreground": {
-                    "image": "preserved-forest",
+                    "token": "preserved-forest",
                     "attachments": [
                         {
                             "class": "robot",
@@ -2702,8 +2846,14 @@
                         "needle-ned"
                     ]
                 },
+                "preview": {
+                    "token": "construction-site"
+                },
+                "avatar": {
+                    "token": "construction-site"
+                },
                 "background": {
-                    "image": "construction-site",
+                    "token": "construction-site",
                     "attachments": [
                         {
                             "class": "robot",
@@ -2763,7 +2913,7 @@
                     ]
                 },
                 "foreground": {
-                    "image": "construction-site",
+                    "token": "construction-site",
                     "attachments": [
                         {
                             "class": "robot",
@@ -2835,8 +2985,14 @@
                         "mag-fly"
                     ]
                 },
+                "preview": {
+                    "token": "magnetic-generator"
+                },
+                "avatar": {
+                    "token": "magnetic-generator"
+                },
                 "background": {
-                    "image": "magnetic-generator",
+                    "token": "magnetic-generator",
                     "attachments": [
                         {
                             "class": "robot",
@@ -2896,7 +3052,7 @@
                     ]
                 },
                 "foreground": {
-                    "image": "magnetic-generator",
+                    "token": "magnetic-generator",
                     "attachments": [
                         {
                             "class": "robot",
@@ -2970,8 +3126,14 @@
                         "nitron-y"
                     ]
                 },
+                "preview": {
+                    "token": "reflection-chamber"
+                },
+                "avatar": {
+                    "token": "reflection-chamber"
+                },
                 "background": {
-                    "image": "reflection-chamber",
+                    "token": "reflection-chamber",
                     "attachments": [
                         {
                             "class": "robot",
@@ -3031,7 +3193,7 @@
                     ]
                 },
                 "foreground": {
-                    "image": "reflection-chamber",
+                    "token": "reflection-chamber",
                     "attachments": [
                         {
                             "class": "robot",
@@ -3103,8 +3265,14 @@
                         "monking-r"
                     ]
                 },
+                "preview": {
+                    "token": "rocky-plateau"
+                },
+                "avatar": {
+                    "token": "rocky-plateau"
+                },
                 "background": {
-                    "image": "rocky-plateau",
+                    "token": "rocky-plateau",
                     "attachments": [
                         {
                             "class": "robot",
@@ -3164,7 +3332,7 @@
                     ]
                 },
                 "foreground": {
-                    "image": "rocky-plateau",
+                    "token": "rocky-plateau",
                     "attachments": [
                         {
                             "class": "robot",
@@ -3236,8 +3404,14 @@
                         "spin-fiend"
                     ]
                 },
+                "preview": {
+                    "token": "spinning-greenhouse"
+                },
+                "avatar": {
+                    "token": "spinning-greenhouse"
+                },
                 "background": {
-                    "image": "spinning-greenhouse",
+                    "token": "spinning-greenhouse",
                     "attachments": [
                         {
                             "class": "robot",
@@ -3286,7 +3460,7 @@
                     ]
                 },
                 "foreground": {
-                    "image": "spinning-greenhouse",
+                    "token": "spinning-greenhouse",
                     "attachments": [
                         {
                             "class": "robot",
@@ -3358,8 +3532,14 @@
                         "petit-snakey"
                     ]
                 },
+                "preview": {
+                    "token": "serpent-column"
+                },
+                "avatar": {
+                    "token": "serpent-column"
+                },
                 "background": {
-                    "image": "serpent-column",
+                    "token": "serpent-column",
                     "attachments": [
                         {
                             "class": "robot",
@@ -3419,7 +3599,7 @@
                     ]
                 },
                 "foreground": {
-                    "image": "serpent-column",
+                    "token": "serpent-column",
                     "attachments": [
                         {
                             "class": "robot",
@@ -3491,8 +3671,14 @@
                         "elec-n"
                     ]
                 },
+                "preview": {
+                    "token": "power-plant"
+                },
+                "avatar": {
+                    "token": "power-plant"
+                },
                 "background": {
-                    "image": "power-plant",
+                    "token": "power-plant",
                     "attachments": [
                         {
                             "class": "robot",
@@ -3552,7 +3738,7 @@
                     ]
                 },
                 "foreground": {
-                    "image": "power-plant",
+                    "token": "power-plant",
                     "attachments": [
                         {
                             "class": "robot",
@@ -3624,8 +3810,14 @@
                         "ribbitron"
                     ]
                 },
+                "preview": {
+                    "token": "septic-system"
+                },
+                "avatar": {
+                    "token": "septic-system"
+                },
                 "background": {
-                    "image": "septic-system",
+                    "token": "septic-system",
                     "attachments": [
                         {
                             "class": "robot",
@@ -3696,7 +3888,7 @@
                     ]
                 },
                 "foreground": {
-                    "image": "septic-system",
+                    "token": "septic-system",
                     "attachments": [
                         {
                             "class": "robot",
@@ -3768,8 +3960,14 @@
                         "bulb-blaster"
                     ]
                 },
+                "preview": {
+                    "token": "lighting-control"
+                },
+                "avatar": {
+                    "token": "lighting-control"
+                },
                 "background": {
-                    "image": "lighting-control",
+                    "token": "lighting-control",
                     "attachments": [
                         {
                             "class": "robot",
@@ -3851,7 +4049,7 @@
                     ]
                 },
                 "foreground": {
-                    "image": "lighting-control",
+                    "token": "lighting-control",
                     "attachments": [
                         {
                             "class": "robot",
@@ -3923,8 +4121,14 @@
                         "robo-fishtot"
                     ]
                 },
+                "preview": {
+                    "token": "rainy-sewers"
+                },
+                "avatar": {
+                    "token": "rainy-sewers"
+                },
                 "background": {
-                    "image": "rainy-sewers",
+                    "token": "rainy-sewers",
                     "attachments": [
                         {
                             "class": "robot",
@@ -3995,7 +4199,7 @@
                     ]
                 },
                 "foreground": {
-                    "image": "rainy-sewers",
+                    "token": "rainy-sewers",
                     "attachments": [
                         {
                             "class": "robot",
@@ -4067,8 +4271,14 @@
                         "drill-mole"
                     ]
                 },
+                "preview": {
+                    "token": "mineral-quarry"
+                },
+                "avatar": {
+                    "token": "mineral-quarry"
+                },
                 "background": {
-                    "image": "mineral-quarry",
+                    "token": "mineral-quarry",
                     "attachments": [
                         {
                             "class": "robot",
@@ -4128,7 +4338,7 @@
                     ]
                 },
                 "foreground": {
-                    "image": "mineral-quarry",
+                    "token": "mineral-quarry",
                     "attachments": [
                         {
                             "class": "robot",
@@ -4200,8 +4410,14 @@
                         "pyre-fly"
                     ]
                 },
+                "preview": {
+                    "token": "egyptian-excavation"
+                },
+                "avatar": {
+                    "token": "egyptian-excavation"
+                },
                 "background": {
-                    "image": "egyptian-excavation",
+                    "token": "egyptian-excavation",
                     "attachments": [
                         {
                             "class": "robot",
@@ -4283,7 +4499,7 @@
                     ]
                 },
                 "foreground": {
-                    "image": "egyptian-excavation",
+                    "token": "egyptian-excavation",
                     "attachments": [
                         {
                             "class": "robot",
@@ -4355,8 +4571,14 @@
                         "ring-ring"
                     ]
                 },
+                "preview": {
+                    "token": "space-simulator"
+                },
+                "avatar": {
+                    "token": "space-simulator"
+                },
                 "background": {
-                    "image": "space-simulator",
+                    "token": "space-simulator",
                     "attachments": [
                         {
                             "class": "robot",
@@ -4427,7 +4649,7 @@
                     ]
                 },
                 "foreground": {
-                    "image": "space-simulator",
+                    "token": "space-simulator",
                     "attachments": [
                         {
                             "class": "robot",
@@ -4499,8 +4721,14 @@
                         "lady-blader"
                     ]
                 },
+                "preview": {
+                    "token": "rusty-scrapheap"
+                },
+                "avatar": {
+                    "token": "rusty-scrapheap"
+                },
                 "background": {
-                    "image": "rusty-scrapheap",
+                    "token": "rusty-scrapheap",
                     "attachments": [
                         {
                             "class": "robot",
@@ -4571,7 +4799,7 @@
                     ]
                 },
                 "foreground": {
-                    "image": "rusty-scrapheap",
+                    "token": "rusty-scrapheap",
                     "attachments": [
                         {
                             "class": "robot",
@@ -4643,8 +4871,14 @@
                         "manta-missile"
                     ]
                 },
+                "preview": {
+                    "token": "submerged-armory"
+                },
+                "avatar": {
+                    "token": "submerged-armory"
+                },
                 "background": {
-                    "image": "submerged-armory",
+                    "token": "submerged-armory",
                     "attachments": [
                         {
                             "class": "robot",
@@ -4715,7 +4949,7 @@
                     ]
                 },
                 "foreground": {
-                    "image": "submerged-armory",
+                    "token": "submerged-armory",
                     "attachments": [
                         {
                             "class": "robot",
@@ -4787,8 +5021,14 @@
                         "skullmet"
                     ]
                 },
+                "preview": {
+                    "token": "robosaur-boneyard"
+                },
+                "avatar": {
+                    "token": "robosaur-boneyard"
+                },
                 "background": {
-                    "image": "robosaur-boneyard",
+                    "token": "robosaur-boneyard",
                     "attachments": [
                         {
                             "class": "robot",
@@ -4859,7 +5099,7 @@
                     ]
                 },
                 "foreground": {
-                    "image": "robosaur-boneyard",
+                    "token": "robosaur-boneyard",
                     "attachments": [
                         {
                             "class": "robot",
@@ -4929,12 +5169,18 @@
                     ],
                     "mechas": []
                 },
+                "preview": {
+                    "token": "crystal-catacombs"
+                },
+                "avatar": {
+                    "token": "crystal-catacombs"
+                },
                 "background": {
-                    "image": "crystal-catacombs",
+                    "token": "crystal-catacombs",
                     "attachments": []
                 },
                 "foreground": {
-                    "image": "crystal-catacombs",
+                    "token": "crystal-catacombs",
                     "attachments": []
                 },
                 "flags": {
@@ -4981,12 +5227,18 @@
                     ],
                     "mechas": []
                 },
+                "preview": {
+                    "token": "gemstone-cavern"
+                },
+                "avatar": {
+                    "token": "gemstone-cavern"
+                },
                 "background": {
-                    "image": "gemstone-cavern",
+                    "token": "gemstone-cavern",
                     "attachments": []
                 },
                 "foreground": {
-                    "image": "gemstone-cavern",
+                    "token": "gemstone-cavern",
                     "attachments": []
                 },
                 "flags": {
@@ -5031,8 +5283,14 @@
                         "crystal-joe"
                     ]
                 },
+                "preview": {
+                    "token": "robot-museum"
+                },
+                "avatar": {
+                    "token": "robot-museum"
+                },
                 "background": {
-                    "image": "robot-museum",
+                    "token": "robot-museum",
                     "attachments": [
                         {
                             "class": "robot",
@@ -5092,7 +5350,7 @@
                     ]
                 },
                 "foreground": {
-                    "image": "robot-museum",
+                    "token": "robot-museum",
                     "attachments": []
                 },
                 "flags": {
@@ -5137,8 +5395,14 @@
                         "picket-man"
                     ]
                 },
+                "preview": {
+                    "token": "hunter-compound"
+                },
+                "avatar": {
+                    "token": "hunter-compound"
+                },
                 "background": {
-                    "image": "hunter-compound",
+                    "token": "hunter-compound",
                     "attachments": [
                         {
                             "class": "robot",
@@ -5176,7 +5440,7 @@
                     ]
                 },
                 "foreground": {
-                    "image": "hunter-compound",
+                    "token": "hunter-compound",
                     "attachments": []
                 },
                 "flags": {
@@ -5220,8 +5484,14 @@
                         "flea"
                     ]
                 },
+                "preview": {
+                    "token": "royal-palace"
+                },
+                "avatar": {
+                    "token": "royal-palace"
+                },
                 "background": {
-                    "image": "royal-palace",
+                    "token": "royal-palace",
                     "attachments": [
                         {
                             "class": "robot",
@@ -5270,7 +5540,7 @@
                     ]
                 },
                 "foreground": {
-                    "image": "royal-palace",
+                    "token": "royal-palace",
                     "attachments": []
                 },
                 "flags": {
@@ -5311,8 +5581,14 @@
                         "beak"
                     ]
                 },
+                "preview": {
+                    "token": "genesis-tower"
+                },
+                "avatar": {
+                    "token": "genesis-tower"
+                },
                 "background": {
-                    "image": "genesis-tower",
+                    "token": "genesis-tower",
                     "attachments": [
                         {
                             "class": "robot",
@@ -5361,7 +5637,7 @@
                     ]
                 },
                 "foreground": {
-                    "image": "genesis-tower",
+                    "token": "genesis-tower",
                     "attachments": []
                 },
                 "flags": {
@@ -5403,8 +5679,14 @@
                         "beak"
                     ]
                 },
+                "preview": {
+                    "token": "final-destination"
+                },
+                "avatar": {
+                    "token": "final-destination"
+                },
                 "background": {
-                    "image": "final-destination",
+                    "token": "final-destination",
                     "attachments": [
                         {
                             "class": "robot",
@@ -5464,7 +5746,7 @@
                     ]
                 },
                 "foreground": {
-                    "image": "final-destination",
+                    "token": "final-destination",
                     "attachments": [
                         {
                             "class": "robot",
@@ -5529,8 +5811,14 @@
                         "beak"
                     ]
                 },
+                "preview": {
+                    "token": "final-destination-2"
+                },
+                "avatar": {
+                    "token": "final-destination-2"
+                },
                 "background": {
-                    "image": "final-destination-2",
+                    "token": "final-destination-2",
                     "attachments": [
                         {
                             "class": "robot",
@@ -5590,7 +5878,7 @@
                     ]
                 },
                 "foreground": {
-                    "image": "final-destination-2",
+                    "token": "final-destination-2",
                     "attachments": [
                         {
                             "class": "robot",
@@ -5656,8 +5944,14 @@
                         "beak"
                     ]
                 },
+                "preview": {
+                    "token": "final-destination-3"
+                },
+                "avatar": {
+                    "token": "final-destination-3"
+                },
                 "background": {
-                    "image": "final-destination-3",
+                    "token": "final-destination-3",
                     "attachments": [
                         {
                             "class": "robot",
@@ -5717,7 +6011,7 @@
                     ]
                 },
                 "foreground": {
-                    "image": "final-destination-3",
+                    "token": "final-destination-3",
                     "attachments": [
                         {
                             "class": "robot",
@@ -5779,12 +6073,18 @@
                     "masters": [],
                     "mechas": []
                 },
+                "preview": {
+                    "token": "prototype-complete"
+                },
+                "avatar": {
+                    "token": "prototype-complete"
+                },
                 "background": {
-                    "image": "prototype-complete",
+                    "token": "prototype-complete",
                     "attachments": []
                 },
                 "foreground": {
-                    "image": "prototype-complete",
+                    "token": "prototype-complete",
                     "attachments": []
                 },
                 "flags": {
@@ -5825,12 +6125,18 @@
                         "met"
                     ]
                 },
+                "preview": {
+                    "token": "intro-field"
+                },
+                "avatar": {
+                    "token": "intro-field"
+                },
                 "background": {
-                    "image": "intro-field",
+                    "token": "intro-field",
                     "attachments": []
                 },
                 "foreground": {
-                    "image": "intro-field",
+                    "token": "intro-field",
                     "attachments": []
                 },
                 "flags": {
