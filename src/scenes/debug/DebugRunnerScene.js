@@ -111,7 +111,7 @@ export default class DebugRunnerScene extends Phaser.Scene
             let robotCore = robotData.core || 'none';
             if (robotData.class === 'system'){ continue; }
             if (robotData.class !== 'master'){ continue; }
-            if (!robotData.flag_complete){ continue; }
+            if (!robotData.flags.complete){ continue; }
             if (!this.masterTokensByCoreType[robotCore]){ this.masterTokensByCoreType[robotCore] = []; }
             this.masterTokensByCoreType[robotCore].push(robotToken);
             }
@@ -126,7 +126,7 @@ export default class DebugRunnerScene extends Phaser.Scene
         for (let robotToken in robotsIndex){
             let robotData = robotsIndex[robotToken];
             if (robotData.class === 'system'){ continue; }
-            if (!robotData.flag_complete){ continue; }
+            if (!robotData.flags.complete){ continue; }
             preloadSprites.robots.push(robotToken);
             }
 
@@ -396,7 +396,7 @@ export default class DebugRunnerScene extends Phaser.Scene
 
         // Generate a sprite w/ running animation in progress
         let playerInfo = playersIndex[spriteToken];
-        let playerAlts = playerInfo.image_alts ? playerInfo.image_alts.map(item => item.token) : [];
+        let playerAlts = playerInfo.image.alts ? playerInfo.image.alts.map(item => item.token) : [];
         //console.log('playerInfo for ', spriteToken, '=', playerInfo);
         //console.log('playerAlts for ', spriteToken, '=', playerAlts);
 
@@ -529,7 +529,7 @@ export default class DebugRunnerScene extends Phaser.Scene
 
         // Pull the robot data for the token we're using
         let robotInfo = robotsIndex[spriteToken];
-        let robotAlts = robotInfo.image_alts ? robotInfo.image_alts.map(item => item.token) : [];
+        let robotAlts = robotInfo.image.alts ? robotInfo.image.alts.map(item => item.token) : [];
         //console.log('robotInfo for ', spriteToken, '=', robotInfo);
         //console.log('robotAlts for ', spriteToken, '=', robotAlts);
 
@@ -988,7 +988,7 @@ export default class DebugRunnerScene extends Phaser.Scene
                     //console.log('robotQuotes.battle_defeat:', robotQuotes.battle_defeat);
                     var text = robotQuotes.battle_defeat.toUpperCase();
                     var color = '#f0f0f0';
-                    var shadow = '#090909'; //robotCoreType ? Graphics.returnHexColorString(robotTypeInfo.colour_dark) : '#969696';
+                    var shadow = '#090909'; //robotCoreType ? Graphics.returnHexColorString(robotTypeInfo.colors.dark) : '#969696';
                     //console.log('text:', text, 'color:', color);
                     var x = $robotSprite.x + 40, y = $robotSprite.y - 60;
                     var width = Math.ceil(MMRPG.canvas.width / 4), height = 90;
@@ -1099,7 +1099,7 @@ export default class DebugRunnerScene extends Phaser.Scene
             explodeSpriteAndDestroy($robotSprite);
             queueSpriteCleanup();
             var emptyType = 'empty';
-            var emptyColor = typesIndex[emptyType].colour_light;
+            var emptyColor = typesIndex[emptyType].colors.light;
             var emptyColorX = Phaser.Display.Color.GetColor(emptyColor[0], emptyColor[1], emptyColor[2]);
             if ($robotSprite.team){
                 console.log('Destroyed sprite:', spriteToken, 'on team:', $robotSprite.team);
@@ -1392,7 +1392,7 @@ export default class DebugRunnerScene extends Phaser.Scene
         var depth = 200;
         var type = 'empty';
         var x = 14, y = 150;
-        var color = typesIndex[type].colour_light;
+        var color = typesIndex[type].colors.light;
         var xcolor = Phaser.Display.Color.GetColor(color[0], color[1], color[2]);
         let battleBanner = new BattleBanner(this, x, y, {
             height: 200,
@@ -1439,7 +1439,7 @@ export default class DebugRunnerScene extends Phaser.Scene
         var ref = this.battleBanner;
         var width = ref.width, height = 80;
         var x = ref.x, y = ref.y + ref.height + 5;
-        var color = typesIndex['empty'].colour_light;
+        var color = typesIndex['empty'].colors.light;
         var xcolor = Phaser.Display.Color.GetColor(color[0], color[1], color[2]);
         let $bouncePanel = Graphics.addTypePanel(this, {
             x: x,
@@ -1472,7 +1472,7 @@ export default class DebugRunnerScene extends Phaser.Scene
         var y = bouncePanelBounds.y + 20;
         var types = ['attack', 'defense', 'speed'];
         var type = types[0];
-        var color = typesIndex[type].colour_light;
+        var color = typesIndex[type].colors.light;
         var xcolor = Phaser.Display.Color.GetColor(color[0], color[1], color[2]);
         let $bounceBannerAlpha = new Banner(this, x, y, {
             width: width,
@@ -1493,7 +1493,7 @@ export default class DebugRunnerScene extends Phaser.Scene
         var y = bouncePanelBounds.y2 - height - 20;
         var types = Object.values(safeTypeTokens).filter(function(type){ return (type !== 'none' && type !== 'copy'); });
         var type = types[0];
-        var color = typesIndex[type].colour_light;
+        var color = typesIndex[type].colors.light;
         var xcolor = Phaser.Display.Color.GetColor(color[0], color[1], color[2]);
         let $bounceBannerBeta = new Banner(this, x, y, {
             width: width,
@@ -1570,8 +1570,8 @@ export default class DebugRunnerScene extends Phaser.Scene
             var types = $alphaBanner.types;
             var type = types[Math.floor(Math.random() * types.length)];
             //console.log('new type =', type);
-            var color = typesIndex[type]['colour_light'];
-            var color2 = typesIndex[type]['colour_dark'];
+            var color = typesIndex[type].colors.light;
+            var color2 = typesIndex[type].colors.dark;
             $alphaBanner.setColor(color, color2);
             if (ctx.allowRunningDoctors){
                 //console.log('Show a running doctor of stat type:', type);
@@ -1628,8 +1628,8 @@ export default class DebugRunnerScene extends Phaser.Scene
             var types = $betaBanner.types;
             var type = types[Math.floor(Math.random() * types.length)];
             //console.log('new type =', type);
-            var color = typesIndex[type]['colour_light'];
-            var color2 = typesIndex[type]['colour_dark'];
+            var color = typesIndex[type].colors.light;
+            var color2 = typesIndex[type].colors.dark;
             $betaBanner.setColor(color, color2);
             if (ctx.allowSlidingMasters){
                 //console.log('Show a sliding master of type:', type);
@@ -1753,8 +1753,8 @@ export default class DebugRunnerScene extends Phaser.Scene
                 width: typeButtonWidth,
                 height: typeButtonHeight,
                 size: 8, color: '#ffffff',
-                border: Graphics.returnHexColorString(typeData.colour_dark),
-                background: Graphics.returnHexColorString(typeData.colour_light),
+                border: Graphics.returnHexColorString(typeData.colors.dark),
+                background: Graphics.returnHexColorString(typeData.colors.light),
                 depth: typeButtonDepth
                 }, function(){
                 //console.log('Huh? Type button clicked:', typeToken);
