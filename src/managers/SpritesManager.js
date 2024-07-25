@@ -203,21 +203,21 @@ export default class SpritesManager {
         let customInfo = {};
         if (kind === 'player' || kind === 'robot'){
             let altString = typeof altSheet === 'string' && altSheet.length > 0 && altSheet !== 'base' ? altSheet : null;
-            if (altString){ customInfo.image_alt = altString; }
+            if (altString){ customInfo.image.alt = altString; }
             }
         else if (kind === 'ability' || kind === 'item'){
             let sheetNumber = typeof altSheet === 'number' && altSheet > 0 ? altSheet : null;
-            if (sheetNumber){ customInfo.image_sheet = sheetNumber; }
+            if (sheetNumber){ customInfo.image.sheet = sheetNumber; }
             }
         else if (kind === 'field'){
             let backgroundVariant = typeof altSheet === 'string' && altSheet.length > 0 && altSheet !== 'base' ? altSheet : null;
             let foregroundVariant = typeof altSheet2 === 'string' && altSheet2.length > 0 && altSheet2 !== 'base' ? altSheet2 : null;
-            if (backgroundVariant){ customInfo.background_variant = backgroundVariant; }
-            if (foregroundVariant){ customInfo.foreground_variant = foregroundVariant; }
+            if (backgroundVariant){ customInfo.background.variant = backgroundVariant; }
+            if (foregroundVariant){ customInfo.foreground.variant = foregroundVariant; }
             }
         else {
-            if (typeof altSheet === 'string' && altSheet.length > 0 && altSheet !== 'base'){ customInfo.image_alt = altSheet; }
-            else if (typeof altSheet === 'number' && altSheet > 0){ customInfo.image_sheet = altSheet; }
+            if (typeof altSheet === 'string' && altSheet.length > 0 && altSheet !== 'base'){ customInfo.image.alt = altSheet; }
+            else if (typeof altSheet === 'number' && altSheet > 0){ customInfo.image.sheet = altSheet; }
             }
         if (kind === 'player'){ $mmrpgObject = new MMRPG_Player(scene, token, customInfo, null); }
         else if (kind === 'robot'){ $mmrpgObject = new MMRPG_Robot(scene, token, customInfo, null); }
