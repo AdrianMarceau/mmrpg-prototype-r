@@ -267,6 +267,7 @@ export default class PreloaderScene extends Phaser.Scene
             let miscImages = [
                 'sprite-grid',
                 'battle-grid',
+                'battle-grid_debug',
                 ];
             miscImages.forEach((image) => {
                 this.queueMiscImage(image, 'misc_' + image + '.png');
