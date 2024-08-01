@@ -697,6 +697,76 @@ class MMRPG_Field extends MMRPG_Object {
 
     }
 
+    // Get an x/y position on the battle grid given a column and row number (0,0 cell is at center of image)
+    static getGridOffsetByPosition (col, row)
+    {
+        //console.log('MMRPG_Field.getGridOffsetByPosition() called \nw/ col:', col, 'row:', row);
+
+        // Constants
+        const baseGridWidth = 1290; // original image width
+        const baseGridHeight = 1004; // original image height
+        const gridWidth = 1290; // image width after perspective
+        const gridHeight = 84; // image height after perspective
+        const numRows = 7; // number of rows top-to-bottom (back-to-front)
+        const numCols = 4; // number of columns per side (overlap in center)
+        //const rowHeights = [ 19, 16, 13, 10, 9, 8, 6 ]; // the height of each cell from bottom to top
+        //const colWidths = [ 132, 117, 106, 98, 91, 85, 79 ]; // the width of each cell from bottom to top
+        const rowHeights = [ 6, 8, 9, 10, 13, 16, 19 ]; // the height of each cell from top to bottom
+        const colWidths = [ 79, 85, 91, 98, 106, 117, 132 ]; // the width of each cell from top to bottom
+        const side = col === 0 ? 'center' : (col < 0 ? 'left' : 'right');
+        //console.log('-> side:', side);
+
+        // Calculate center of the grid
+        const centerX = gridWidth / 2;
+        const centerY = gridHeight / 2;
+
+        // Collect the real grid positions in case we need them
+
+        // Start at the top and calculate how far down we are on the Y axis
+        let offsetY = 0;
+        let realRow = row + Math.floor(numRows / 2);
+        let rowHeight = 0;
+        //console.log('-> row:', (row > 0 ? '+' : '')+row, '(realRow:', realRow, ')');
+        for (let i = 0; i < realRow; i++){
+            rowHeight = rowHeights[i];
+            offsetY += rowHeight;
+            //console.log('inc-y-offset by '+rowHeight);
+            }
+        let nextRowHeight = typeof rowHeights[realRow] !== 'undefined' ? rowHeights[realRow] : Math.ceil(rowHeight * 1.3);
+        let halfNextRowHeight = nextRowHeight / 2;
+        offsetY += halfNextRowHeight;
+        //console.log('inc-y-offset by '+halfNextRowHeight);
+        //console.log('-> row/offsetY:', offsetY);
+
+        // Given the real row, calculate how far back we are on the X axis
+        let offsetX = centerX;
+        if (col !== 0){
+            let absCol = Math.abs(col);
+            let colWidth = colWidths[realRow];
+            //console.log('-> col:', (col > 0 ? '+' : '')+col, '(absCol:', absCol, ')');
+            for (let j = 0; j < absCol; j++){
+                if (side === 'left'){
+                    offsetX -= colWidth;
+                    //console.log('dec-x-offset by '+colWidth);
+                    }
+                else if (side === 'right'){
+                    offsetX += colWidth;
+                    //console.log('inc-x-offset by '+colWidth);
+                    }
+                }
+            }
+        //console.log('-> col/offsetX:', offsetX);
+
+        // Always account for the 2px border at the top
+        offsetY += 2;
+
+        // Return the calculated grid offset
+        let returnOffset = { x: offsetX, y: offsetY };
+        //console.log('-> calculated grid offset:', returnOffset);
+        return returnOffset;
+
+    }
+
 }
 
 export default MMRPG_Field;
