@@ -568,7 +568,7 @@ class MMRPG_Object {
             let foregroundVariant = this.data.foreground.variant;
             let backgroundSheet = _this.getSpriteSheet('background', backgroundVariant);
             let foregroundSheet = _this.getSpriteSheet('foreground', foregroundVariant);
-            let gridlineSheet = 'misc.battle-grid'; // same for every field kind
+            let gridlinesSheet = 'misc.battle-grid' + (config.debug ? '_debug' : ''); // same for every field kind
             let previewSheet = _this.getSpriteSheet('preview', backgroundVariant);
             let avatarSheet = _this.getSpriteSheet('avatar');
             //console.log(this.token + ' | -> spriteToken:', spriteToken, '\nbackgroundSheet:', backgroundSheet, '\nforegroundSheet:', foregroundSheet, '\npreviewSheet:', previewSheet, '\navatarSheet:', avatarSheet);
@@ -576,12 +576,12 @@ class MMRPG_Object {
             this.sheet = avatarSheet;
             config.backgroundSheet = backgroundSheet;
             config.foregroundSheet = foregroundSheet;
-            config.gridlineSheet = gridlineSheet;
+            config.gridlinesSheet = gridlinesSheet;
             config.previewSheet = previewSheet;
             config.avatarSheet = avatarSheet;
             this.backgroundSheet = backgroundSheet;
             this.foregroundSheet = foregroundSheet;
-            this.gridlineSheet = gridlineSheet;
+            this.gridlinesSheet = gridlinesSheet;
             this.previewSheet = previewSheet;
             this.avatarSheet = avatarSheet;
 
@@ -589,7 +589,7 @@ class MMRPG_Object {
             if (scene.textures
                 && backgroundSheet && scene.textures.exists(backgroundSheet)
                 && foregroundSheet && scene.textures.exists(foregroundSheet)
-                && gridlineSheet && scene.textures.exists(gridlineSheet)
+                && gridlinesSheet && scene.textures.exists(gridlinesSheet)
                 && previewSheet && scene.textures.exists(previewSheet)
                 && avatarSheet && scene.textures.exists(avatarSheet)
                 ) {
