@@ -235,20 +235,21 @@ export default class DebugScene extends Phaser.Scene
 
             // Create some primitive MMRPG objects for testing purposes
             let $battleBanner = scene.battleBanner;
-            var bannerY = $battleBanner.y;
+            var [ bannerX, bannerY ] = [ $battleBanner.x, $battleBanner.y ];
+            var [ bannerWidth, bannerHeight ] = [ $battleBanner.width, $battleBanner.height ];
             var fieldDepth = $battleBanner.depths.field;
             var actionDepth = $battleBanner.depths.action;
             var baseX = 50, baseY = 170, baseZ = 0, lastZ = baseZ;
             var $debugObjects = {};
             //$debugObjects.field = new MMRPG_Field(this, 'prototype-subspace', { foreground: { variant: 'decayed' } }, { x: 0, y: bannerY, z: baseZ, depth: fieldDepth, origin: [0, 0] });
-            $debugObjects.field = new MMRPG_Field(this, randomFieldToken, { }, { x: 0, y: bannerY, z: baseZ, depth: fieldDepth, origin: [0, 0] });
-            $debugObjects.player = new MMRPG_Player(this, 'dr-light', null, { x: (baseX + 0), y: (baseY + 10), z: lastZ++, depth: actionDepth, origin: [0.5, 1] });
-            $debugObjects.robot = new MMRPG_Robot(this, 'mega-man', null, { x: (baseX + 0), y: (baseY + 40), z: lastZ++, depth: actionDepth, origin: [0.5, 1] });
-            $debugObjects.robot2 = new MMRPG_Robot(this, 'quick-man', null, { x: (baseX + 40), y: (baseY + 40), z: lastZ++, depth: actionDepth, origin: [0.5, 1] });
-            $debugObjects.robot3 = new MMRPG_Robot(this, 'wood-man', null, { x: (baseX + 80), y: (baseY + 40), z: lastZ++, depth: actionDepth, origin: [0.5, 1] });
-            $debugObjects.ability = new MMRPG_Ability(this, 'buster-shot', null, { x: (baseX + 0), y: (baseY + 80), z: lastZ++, depth: actionDepth, origin: [0.5, 1] });
+            $debugObjects.field = new MMRPG_Field(this, randomFieldToken, { }, { x: bannerX, y: bannerY, width: bannerWidth, height: bannerHeight, z: baseZ, depth: fieldDepth, origin: [0, 0] });
+            $debugObjects.player = new MMRPG_Player(this, 'dr-light', null, { x: (baseX + 0), y: (baseY + 12), z: lastZ++, depth: actionDepth, origin: [0.5, 1] });
+            $debugObjects.robot = new MMRPG_Robot(this, 'mega-man', null, { x: (baseX + 0), y: (baseY + 36), z: lastZ++, depth: actionDepth, origin: [0.5, 1] });
+            $debugObjects.robot2 = new MMRPG_Robot(this, 'quick-man', null, { x: (baseX + 40), y: (baseY + 36), z: lastZ++, depth: actionDepth, origin: [0.5, 1] });
+            $debugObjects.robot3 = new MMRPG_Robot(this, 'wood-man', null, { x: (baseX + 80), y: (baseY + 36), z: lastZ++, depth: actionDepth, origin: [0.5, 1] });
+            $debugObjects.ability = new MMRPG_Ability(this, 'buster-shot', null, { x: (baseX + 0), y: (baseY + 62), z: lastZ++, depth: actionDepth, origin: [0.5, 1] });
             $debugObjects.ability2 = new MMRPG_Ability(this, 'super-arm', null, { x: (baseX + 40), y: (baseY + 80), z: lastZ++, depth: actionDepth, origin: [0.5, 1] });
-            $debugObjects.item = new MMRPG_Item(this, 'energy-tank', null, { x: (baseX + 0), y: (baseY + 120), z: lastZ++, depth: actionDepth, origin: [0.5, 1] });
+            $debugObjects.item = new MMRPG_Item(this, 'energy-tank', null, { x: (baseX + 80), y: (baseY + 80), z: lastZ++, depth: actionDepth, origin: [0.5, 1] });
             $debugObjects.skill = new MMRPG_Skill(this, 'xtreme-submodule', null);
             $debugObjects.type = new MMRPG_Type(this, 'water');
 
@@ -372,13 +373,8 @@ export default class DebugScene extends Phaser.Scene
                 $object.useContainerForDepth(true);
                 // If this is a field we should preset some field-specific things
                 if ($object.kind === 'field'){
-                    $object.setBackgroundOffset(null, -34);
-                    $object.setForegroundOffset(null, -34);
-                    if ($object.width > $battleBanner.width){
-                        var diffX = $object.width - $battleBanner.width;
-                        var offset = Math.floor(diffX / 2) - $battleBanner.x;
-                        $object.setPositionX('-='+offset);
-                        }
+                    $object.setForegroundOffset(null, '-=14');
+                    $object.setGridlinesOffset(null, '-=14');
                     }
                 // Otherwise if this is a player or a robot, we use different presets
                 else if ($object.kind === 'player' || $object.kind === 'robot'){
@@ -396,7 +392,12 @@ export default class DebugScene extends Phaser.Scene
                         $object.setValue('debugMaxFrame', 10);
                         $object.setFrame($object.getValue('debugFrame'));
                         $debugField.addObject($object, 'foreground');
-                        } else {
+                        }
+                    else if ($object.token === 'energy-tank'){
+                        $object.setShadow(true, true);
+                        $debugField.addObject($object, 'foreground');
+                        }
+                    else {
                         $object.setShadow(true, false);
                         }
                     }
@@ -411,9 +412,10 @@ export default class DebugScene extends Phaser.Scene
             //debugFieldConfig.animation = 'scroll-to-top';
             //debugFieldConfig.animation = 'up-and-down';
             debugFieldConfig.animation = 'side-to-side';
-            const startDebugFieldAnimations = function($field){
+            const startDebugFieldAnimations = function(){
                 //console.log('DebugScene.create().startDebugFieldAnimations()');
-                if (!$field){ return; }
+                if (!scene.debugField){ return; }
+                let $field = scene.debugField;
                 let config = debugFieldConfig;
                 // Start the loop animation for the background layer
                 $field.playAnim('background', 'loop');
@@ -464,46 +466,65 @@ export default class DebugScene extends Phaser.Scene
                     }
                 else if (debugFieldConfig.animation === 'side-to-side'){
                     // Create a side-to-side motion on repeat
+                    //console.log('%c' + 'side-to-side animation', 'color: cyan;');
                     if (!config.baseBackgroundOffset){ config.baseBackgroundOffset = $field.getBackgroundOffset(); }
                     if (!config.baseForegroundOffset){ config.baseForegroundOffset = $field.getForegroundOffset(); }
                     if (!config.baseGridlinesOffset){ config.baseGridlinesOffset = $field.getGridlinesOffset(); }
+                    if (typeof config.reverse === 'undefined'){ config.reverse = false; }
                     if (config.tween){ config.tween.remove(); }
+                    let maxBackShiftX = config.baseBackgroundOffset.x < 0 ? Math.floor(Math.abs(config.baseBackgroundOffset.x) * 0.4) : 0;
+                    let maxForeShiftX = config.baseForegroundOffset.x < 0 ? Math.floor(Math.abs(config.baseForegroundOffset.x) * 0.6) : 0;
+                    //console.log('maxBackShiftX =', maxBackShiftX, 'maxForeShiftX =', maxForeShiftX);
                     config.tween = scene.tweens.addCounter({
                         from: 0,
                         to: 100,
                         ease: 'Sine.easeInOut',
-                        duration: 3000,
+                        duration: 6000,
                         yoyo: true,
                         repeat: -1,
-                        delay: 600,
+                        repeatDelay: 1200,
+                        delay: 1200,
                         onUpdate: function () {
-                            let value = config.tween.getValue();
                             let reverse = config.reverse;
-                            let backgroundShift = Math.floor(30 * (value / 100));
-                            let foregroundShift = Math.floor(60 * (value / 100));
-                            let gridlinesShift = Math.floor(60 * (value / 100));
-                            let backgroundOffsetX = config.baseBackgroundOffset.x - backgroundShift;
-                            let foregroundOffsetX = config.baseForegroundOffset.x + foregroundShift;
-                            let gridlinesOffsetX = config.baseGridlinesOffset.x + gridlinesShift;
+                            let value = config.tween.getValue();
+                            let backShiftX = Math.floor(maxBackShiftX * (value / 100));
+                            let foreShiftX = Math.floor(maxForeShiftX * (value / 100));
+                            let backgroundOffsetX = config.baseBackgroundOffset.x + (reverse ? -backShiftX : backShiftX);
+                            let foregroundOffsetX = config.baseForegroundOffset.x + (reverse ? -foreShiftX : foreShiftX);
+                            let gridlinesOffsetX = config.baseGridlinesOffset.x + (reverse ? -foreShiftX : foreShiftX);
+                            //console.log('backShiftX =', backShiftX, 'foreShiftX =', foreShiftX);
+                            //console.log('backgroundOffsetX =', backgroundOffsetX, 'foregroundOffsetX =', foregroundOffsetX, 'gridlinesOffsetX =', gridlinesOffsetX);
                             $field.setBackgroundOffsetX(backgroundOffsetX);
                             $field.setForegroundOffsetX(foregroundOffsetX);
                             $field.setGridlinesOffsetX(gridlinesOffsetX);
                             },
                         onComplete: function () {
                             if (config.tween){ config.tween.remove(); }
-                            }
+                            },
+                        onRepeat: function () {
+                            config.reverse = !config.reverse;
+                            },
                         });
                     }
                 };
             $debugObjects.field.whenReady(function(){
                 let $field = $debugObjects.field;
-                startDebugFieldAnimations($field);
+                startDebugFieldAnimations();
+                //$field.spriteLayers.background.sprite.preFX.addBlur(2, 1, 1, 0.3);
                 });
 
             // Create some mods of the above to see what's possible
             var $ref = scene.battleBanner;
-            var commonX = $ref.x + ($ref.width / 2) - 50;
-            var commonY = $ref.y + ($ref.height / 2) + 50; //76;
+            var commonX = $ref.x + ($ref.width / 2) - 0;
+            var commonY = $ref.y + ($ref.height / 2) + 0;
+            var gridPosition = { x: $ref.x, y: $ref.y };
+            if ($debugObjects.field){
+                let $field = $debugObjects.field;
+                if ($field.spriteLayers['gridlines']){
+                    let $gridlines = $field.spriteLayers['gridlines'];
+                    gridPosition = { x: $gridlines.sprite.x, y: $gridlines.sprite.y };
+                    }
+                }
 
             // Define a custom hover effect for all the custom robot masters/bosses/mechas
             let customMouseOver = function(){
@@ -636,12 +657,12 @@ export default class DebugScene extends Phaser.Scene
                     }
                 };
 
+            var offset = MMRPG_Field.getGridOffsetByPosition(-1, 0);
             let $customBoss = new MMRPG_Robot(this, 'slur', {
                 image: {alt: 'alt2'}
                 }, {
-                x: commonX - 80,
-                y: commonY,
-                //z: depth++,
+                x: gridPosition.x + offset.x,
+                y: gridPosition.y + offset.y,
                 depth: actionDepth,
                 scale: 2,
                 origin: [0.5, 1],
@@ -649,12 +670,12 @@ export default class DebugScene extends Phaser.Scene
                 });
             //console.log('-> $customBoss:', $customBoss);
 
+            var offset = MMRPG_Field.getGridOffsetByPosition(1, 0);
             let $customGuardian = new MMRPG_Robot(this, 'duo', {
                 // ...
                 }, {
-                x: commonX + 40,
-                y: commonY - 2,
-                //z: depth++,
+                x: gridPosition.x + offset.x,
+                y: gridPosition.y + offset.y,
                 depth: actionDepth,
                 scale: 2,
                 origin: [0.5, 1],
@@ -662,12 +683,12 @@ export default class DebugScene extends Phaser.Scene
                 });
             //console.log('-> $customGuardian:', $customGuardian);
 
+            var offset = MMRPG_Field.getGridOffsetByPosition(2, -1);
             let $customRobot = new MMRPG_Robot(this, 'proto-man', {
                 image: {alt: 'water'}
                 }, {
-                x: commonX + 60,
-                y: commonY,
-                //z: depth++,
+                x: gridPosition.x + offset.x,
+                y: gridPosition.y + offset.y,
                 depth: actionDepth,
                 scale: 2,
                 origin: [0.5, 1],
@@ -675,12 +696,12 @@ export default class DebugScene extends Phaser.Scene
                 });
             //console.log('-> $customRobot:', $customRobot);
 
+            var offset = MMRPG_Field.getGridOffsetByPosition(2, 0);
             let $customRobot2 = new MMRPG_Robot(this, 'quick-man', {
                 image: {alt: 'alt'}
                 }, {
-                x: commonX + 90,
-                y: commonY - 1,
-                //z: depth++,
+                x: gridPosition.x + offset.x,
+                y: gridPosition.y + offset.y,
                 depth: actionDepth,
                 scale: 2,
                 origin: [0.5, 1],
@@ -688,12 +709,12 @@ export default class DebugScene extends Phaser.Scene
                 });
             //console.log('-> $customRobot2:', $customRobot2);
 
+            var offset = MMRPG_Field.getGridOffsetByPosition(2, 1);
             let $customMecha = new MMRPG_Robot(this, 'met', {
                 //image: {alt: 'alt2'}
                 }, {
-                x: commonX + 130,
-                y: commonY + 2,
-                //z: depth++,
+                x: gridPosition.x + offset.x,
+                y: gridPosition.y + offset.y,
                 depth: actionDepth,
                 scale: 2,
                 origin: [0.5, 1],
@@ -822,7 +843,7 @@ export default class DebugScene extends Phaser.Scene
         // Define the base coordinates for the sprite to be added
         var offset = ((numSprites % 10) * 5);
         let spriteX = spriteSide === 'left' ? (0 - offset - 40) : (MMRPG.canvas.width + offset + 40);
-        let spriteY = this.battleBanner.y + 100 + ((numSprites % 8) * 10);
+        let spriteY = this.battleBanner.y + 106 + ((numSprites % 8) * 10);
         var spriteDepth = scene.battleBanner.depths.action;
 
         // Add this player to the battle banner and update graphics
@@ -1091,7 +1112,7 @@ export default class DebugScene extends Phaser.Scene
         // Define the base coordinates for the sprite to be added
         var offset = ((numSprites % 10) * 5);
         let spriteX = spriteSide === 'left' ? (0 - offset - 40) : (MMRPG.canvas.width + offset + 40);
-        let spriteY = this.battleBanner.y + 100 + ((numSprites % 8) * 10);
+        let spriteY = this.battleBanner.y + 106 + ((numSprites % 8) * 10);
         var spriteDepth = scene.battleBanner.depths.action;
 
         // Add this robot to the battle banner and update graphics
