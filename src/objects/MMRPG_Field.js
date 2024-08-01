@@ -631,50 +631,50 @@ class MMRPG_Field extends MMRPG_Object {
 
     // Update or return the offset values for the preview layer of this sprite
     setPreviewOffset (x, y, z) { return this.setLayerOffset('preview', x, y, z); }
+    getPreviewOffset () { let offset = this.getLayerOffset('preview'); return { x: offset.x, y: offset.y, z: offset.z }; }
     setPreviewOffsetX (x) { this.setPreviewOffset(x, null, null); }
     setPreviewOffsetY (y) { this.setPreviewOffset(null, y, null); }
     setPreviewOffsetZ (z) { this.setPreviewOffset(null, null, z); }
-    getPreviewOffset () { return this.getLayerOffset('preview'); }
     getPreviewOffsetX () { return this.getPreviewOffset().x; }
     getPreviewOffsetY () { return this.getPreviewOffset().y; }
     getPreviewOffsetZ () { return this.getPreviewOffset().z; }
 
     // Update or return the offset values for the background layer of this sprite
     setBackgroundOffset (x, y, z) { return this.setLayerOffset('background', x, y, z); }
+    getBackgroundOffset () { let offset = this.getLayerOffset('background'); return { x: offset.x, y: offset.y, z: offset.z }; }
     setBackgroundOffsetX (x) { this.setBackgroundOffset(x, null, null); }
     setBackgroundOffsetY (y) { this.setBackgroundOffset(null, y, null); }
     setBackgroundOffsetZ (z) { this.setBackgroundOffset(null, null, z); }
-    getBackgroundOffset () { return this.getLayerOffset('background'); }
     getBackgroundOffsetX () { return this.getBackgroundOffset().x; }
     getBackgroundOffsetY () { return this.getBackgroundOffset().y; }
     getBackgroundOffsetZ () { return this.getBackgroundOffset().z; }
 
     // Update or return the offset values for the foreground layer of this sprite
     setForegroundOffset (x, y, z) { return this.setLayerOffset('foreground', x, y, z); }
+    getForegroundOffset () { let offset = this.getLayerOffset('foreground'); return { x: offset.x, y: offset.y, z: offset.z }; }
     setForegroundOffsetX (x) { this.setForegroundOffset(x, null, null); }
     setForegroundOffsetY (y) { this.setForegroundOffset(null, y, null); }
     setForegroundOffsetZ (z) { this.setForegroundOffset(null, null, z); }
-    getForegroundOffset () { return this.getLayerOffset('foreground'); }
     getForegroundOffsetX () { return this.getForegroundOffset().x; }
     getForegroundOffsetY () { return this.getForegroundOffset().y; }
     getForegroundOffsetZ () { return this.getForegroundOffset().z; }
 
     // Update or return the offset values for the gridlines layer of this sprite
     setGridlinesOffset (x, y, z) { return this.setLayerOffset('gridlines', x, y, z); }
+    getGridlinesOffset () { let offset = this.getLayerOffset('gridlines'); return { x: offset.x, y: offset.y, z: offset.z }; }
     setGridlinesOffsetX (x) { this.setGridlinesOffset(x, null, null); }
     setGridlinesOffsetY (y) { this.setGridlinesOffset(null, y, null); }
     setGridlinesOffsetZ (z) { this.setGridlinesOffset(null, null, z); }
-    getGridlinesOffset () { return this.getLayerOffset('gridlines'); }
     getGridlinesOffsetX () { return this.getGridlinesOffset().x; }
     getGridlinesOffsetY () { return this.getGridlinesOffset().y; }
     getGridlinesOffsetZ () { return this.getGridlinesOffset().z; }
 
     // Update or return the offset values for the avatar layer of this sprite
     setAvatarOffset (x, y, z) { return this.setLayerOffset('avatar', x, y, z); }
+    getAvatarOffset () { let offset = this.getLayerOffset('avatar'); return { x: offset.x, y: offset.y, z: offset.z }; }
     setAvatarOffsetX (x) { this.setAvatarOffset(x, null, null); }
     setAvatarOffsetY (y) { this.setAvatarOffset(null, y, null); }
     setAvatarOffsetZ (z) { this.setAvatarOffset(null, null, z); }
-    getAvatarOffset () { return this.getLayerOffset('avatar'); }
     getAvatarOffsetX () { return this.getAvatarOffset().x; }
     getAvatarOffsetY () { return this.getAvatarOffset().y; }
     getAvatarOffsetZ () { return this.getAvatarOffset().z; }
@@ -698,6 +698,8 @@ class MMRPG_Field extends MMRPG_Object {
         let diffX = endX - startX, diffY = endY - startY, diffZ = endZ - startZ;
         //console.log(this.token + ' | -> updated offset for layer:', layer, 'to [', endX, ',', endY, ',', endZ, ']');
         //console.log(this.token + ' | -> layer offset diffs are x:', diffX, 'y:', diffY, 'z:', diffZ);
+        //console.log(this.token + ' | -> parent x/y:', this.x, this.y);
+        //console.log(this.token + ' | -> layer position x/y:', $layer.sprite.x, $layer.sprite.y, 'bounds:', $layer.sprite.getBounds());
 
         // Check if there are any field objects scoped to this layer and update their offsets accordingly
         let fieldObjects = this.fieldObjects;
