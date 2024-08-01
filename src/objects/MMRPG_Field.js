@@ -405,30 +405,65 @@ class MMRPG_Field extends MMRPG_Object {
         let scene = this.scene;
         let $sprite = this.sprite;
         let config = this.spriteConfig;
+        let objectConfig = this.objectConfig;
+        let [ parentWidth, parentHeight ] = [ this.width, this.height ];
+        let [ baseWidth, baseHeight ] = objectConfig.baseSize;
         let [ modX, modY ] = this.getOffsetPosition(config.x, config.y);
         let $layers = this.spriteLayers;
         let layerKeys = Object.keys($layers);
-        if (!layerKeys.includes('preview')){ $layers.preview = {kind: 'preview', sheet: config.previewSheet, visible: config.showPreview, offset: {z: 10}}; }
-        if (!layerKeys.includes('background')){ $layers.background = {kind: 'background', sheet: config.backgroundSheet, visible: config.showBackground, offset: {z: 20}}; }
-        if (!layerKeys.includes('foreground')){ $layers.foreground = {kind: 'foreground', sheet: config.foregroundSheet, visible: config.showForeground, offset: {z: 30}}; }
-        if (!layerKeys.includes('avatar')){ $layers.avatar = {kind: 'avatar', sheet: config.avatarSheet, visible: config.showAvatar, offset: {z: 40}}; }
-        if (!layerKeys.includes('gridlines')){
-            var foresize = [this.width, this.height];
-            var gridsize = [1290, 84];
-            var diffX = gridsize[0] - foresize[0];
-            var offsetX = diffX / 2;
-            $layers.gridlines = {
-                kind: 'gridlines',
-                sheet: config.gridlineSheet,
-                visible: config.showGridlines,
-                alpha: 0.1,
-                offset: {
-                    x: -offsetX,
-                    y: 95,
-                    z: 35
+        let layerMeta = this.getSpriteLayersMeta();
+        let layerMetaKeys = Object.keys(layerMeta);
+        // Loop through defined sprite layers in the meta and create if not exists
+        for (let i = 0; i < layerMetaKeys.length; i++){
+            // Collect the meta key and info for this sprite layer
+            let metaKey = layerMetaKeys[i];
+            let metaInfo = layerMeta[metaKey];
+            //console.log(this.token + ' | ' + metaKey + ' | Creating new layer w/ key = "' + metaKey + '"');
+            // If the layer already exists, skip it
+            if (layerKeys.includes(metaKey)){
+                //console.log(this.token + ' | ' + metaKey + ' | -> '+metaKey+' layer already exists, skipping...');
+                continue;
+                } else {
+                //console.log(this.token + ' | ' + metaKey + ' | Creating new layer w/ key = "' + metaKey + '"');
+                }
+            // Collect the sheet, visibility, etc. if defined in the meta or config
+            let layerSheet = metaInfo.sheet || config[metaKey+'Sheet'] || null;
+            let layerVisible = metaInfo.visible || config[ 'show' + metaKey[0].toUpperCase() + metaKey.slice(1) ] || false;
+            let layerSize = metaInfo.size || [baseWidth, baseHeight];
+            // Define a base offset and then collect overrides if necessary
+            let layerOffset = { x: 0, y: 0, z: 10 + (i * 10) };
+            // If there were any predefined offsets, merge them in
+            if (metaInfo.offset){
+                let definedOffsets = Object.keys(metaInfo.offset);
+                //console.log(this.token + ' | ' + metaKey + ' | -> definedOffsets:', definedOffsets, 'metaInfo.offset:', metaInfo.offset);
+                // Assign whatever raw values were provided in the meta
+                layerOffset = Object.assign({}, layerOffset, metaInfo.offset);
+                // If the parent and layer width are not the same, adjust
+                if (parentWidth !== layerSize[0]){
+                    //console.log(this.token + ' | ' + metaKey + ' | -> parent vs layer width are different (', parentWidth, 'vs.', layerSize[0], ')!');
+                    let layerOffsetX = Math.round((parentWidth - layerSize[0]) / 2);
+                    if (!definedOffsets.includes('x')){ layerOffset.x = layerOffsetX; }
+                    else { layerOffset.x = metaInfo.offset.x + layerOffsetX; }
+                    //console.log(this.token + ' | ' + metaKey + ' | -> calculated layerOffsetX:', layerOffsetX, 'and adjusted layerOffset.x to:', layerOffset.x);
                     }
-                };
-            }
+                // If the parent and layer height are not the same, adjust
+                if (parentHeight !== layerSize[1]){
+                    //console.log(this.token + ' | ' + metaKey + ' | -> parent vs layer height are different (', parentHeight, 'vs.', layerSize[1], ')!');
+                    let layerOffsetY = Math.round((parentHeight - layerSize[1]) / 2);
+                    if (!definedOffsets.includes('y')){ layerOffset.y = layerOffsetY; }
+                    else { layerOffset.y = metaInfo.offset.y + layerOffsetY; }
+                    //console.log(this.token + ' | ' + metaKey + ' | -> calculated layerOffsetY:', layerOffsetY, 'and adjusted layerOffset.y to:', layerOffset.y);
+                    }
+                }
+            //console.log(this.token + ' | ' + metaKey + ' | -> creating the new layer', '\n& w/ metaKey:', metaKey, '\n& w/ metaInfo:', metaInfo, '\n& w/ layerSheet:', layerSheet, '\n& w/ layerVisible:', layerVisible, '\n& w/ layerSize:', layerSize, '\n& w/ layerOffset:', layerOffset);
+            // Create the new layer data given what we've collected above
+            let $layer = { kind: metaKey, sheet: layerSheet, visible: layerVisible, offset: layerOffset };
+            // If an alpha was defined in the meta, add it to the layer
+            if (metaInfo.alpha){ $layer.alpha = metaInfo.alpha; }
+            // Now that we've created the new layer data, add it to the sprite layers
+            $layers[metaKey] = $layer;
+            //console.log(this.token + ' | ' + metaKey + ' | -> created new layer:', metaKey, $layer);
+        }
         //console.log('-> creating $layers:', $layers);
         $sprite.setVisible(true);
         layerKeys = Object.keys($layers);
