@@ -157,7 +157,9 @@ class MMRPG_Object {
             tint: 0x000000,
             scale: 1.4,
             rotationX: 1.25,
-            rotationY: 0.5
+            rotationY: 0.5,
+            offsetX: 0,
+            offsetY: 1
             };
 
         // Also predefine some container-related settings for layering and depth
@@ -1567,6 +1569,11 @@ class MMRPG_Object {
                 shadowY += dropShiftY;
                 }
             else if (shadowStyle === 'perspective'){
+                let shadowShiftX = shadowStyles.offsetX * config.scale;
+                let shadowShiftY = shadowStyles.offsetY * config.scale;
+                if (shadowSide === 'left'){ shadowX -= shadowShiftX; }
+                else if (shadowSide === 'right'){ shadowX += shadowShiftX; }
+                shadowY += shadowShiftY;
                 let shadowRotationX = shadowStyles.rotationX;
                 let shadowRotationY = shadowStyles.rotationY;
                 // Meshes don't support setOrigin() for reasons so we just have to move the shadow manually
