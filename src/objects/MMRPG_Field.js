@@ -39,6 +39,50 @@ class MMRPG_Field extends MMRPG_Object {
 
     }
 
+    // Return defined image sizes for the various field layers
+    getSpriteLayersMeta ()
+    {
+        if (!this.spriteLayersMeta){ this.spriteLayersMeta = {}; }
+        let spriteLayersMeta = this.spriteLayersMeta;
+        // Define the preview layer meta data
+        if (!spriteLayersMeta['preview']){
+            spriteLayersMeta['preview'] = {
+                size: [1124, 248],
+                offset: { z: 10 }
+                };
+            }
+        // Define the background layer meta data
+        if (!spriteLayersMeta['background']){
+            spriteLayersMeta['background'] = {
+                size: [1124, 248],
+                offset: { z: 20 }
+                };
+            }
+        // Define the foreground layer meta data
+        if (!spriteLayersMeta['foreground']){
+            spriteLayersMeta['foreground'] = {
+                size: [1124, 248],
+                offset: { z: 30 }
+                };
+            }
+        // Define the gridlines layer meta data
+        if (!spriteLayersMeta['gridlines']){
+            spriteLayersMeta['gridlines'] = {
+                size: [1290, 84],
+                offset: { y: 47, z: 35 }, //y: 95,
+                alpha: 0.1
+                };
+            }
+        // Define the avatar layer meta data
+        if (!spriteLayersMeta['avatar']){
+            spriteLayersMeta['avatar'] = {
+                size: [100, 100],
+                offset: { z: 40 }
+                };
+            }
+        return spriteLayersMeta;
+    }
+
     // Function to get the base key
     getBaseSpriteKey (xkind, spriteToken, spriteKind, spriteVariant)
     {
