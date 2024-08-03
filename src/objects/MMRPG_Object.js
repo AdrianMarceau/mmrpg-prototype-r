@@ -29,6 +29,7 @@ class MMRPG_Object {
 
         // Define the properties of the object
         this.id = 0;
+        this.xid = 'x0';
         this.token = token;
         this.kind = kind;
         this.xkind = xkind;
@@ -59,6 +60,13 @@ class MMRPG_Object {
 
         // Collect or define the ID if not provided
         this.id = customInfo.id || MMRPG.generateID(kind, this.data);
+        this.xid = kind[0] + this.id;
+        //console.log('%c' + 'MMRPG_Object -> creating new ' + kind + ' / ' + token + ' w/ id: ' + this.id + ' & xid: ' + this.xid, 'color: yellow;');
+        //console.log(token + ' -> this.indexInfo:', JSON.stringify(this.indexInfo, null, 4));
+        //console.log(token + ' -> this.customInfo:', JSON.stringify(this.customInfo, null, 4));
+        //console.log(token + ' -> this.spriteConfig:', JSON.stringify(this.spriteConfig, null, 4));
+        //console.log(token + ' -> this.objectConfig:', JSON.stringify(this.objectConfig, null, 4));
+        //console.log(token + ' -> this.data:', JSON.stringify(this.data, null, 4));
 
         // Create some flags and a queue to help with lazy-loading
         this.spriteIsLoading = true;
@@ -313,8 +321,8 @@ class MMRPG_Object {
         let isCharacter = (this.kind === 'player' || this.kind === 'robot');
         let isField = (this.kind === 'field');
 
-        // Start the data as a clone of the index info
-        this.data = Object.assign({}, indexInfo);
+        // Start the data as a clone of the index info (so we don't modify the original index)
+        this.data = JSON.parse(JSON.stringify(indexInfo));
 
         // Next, collect custom keys and loop through them, assigning values
         let customKeys = Object.keys(customInfo);
