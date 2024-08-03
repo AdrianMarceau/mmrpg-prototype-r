@@ -852,7 +852,7 @@ class MMRPG {
                     if (!target[key]) {
                         target[key] = {};
                     }
-                    deepMerge(target[key], source[key]);
+                    this.deepMerge(target[key], source[key]);
                 } else {
                     target[key] = source[key];
                 }
