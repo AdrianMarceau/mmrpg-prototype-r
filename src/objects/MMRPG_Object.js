@@ -870,7 +870,7 @@ class MMRPG_Object {
         let spritesIndex = this.SPRITES.index;
         let spriteAnims = spritesIndex.anims;
         let xkind = this.xkind;
-        let token = config.token || this.data.image || this.token;
+        let token = config.token || this.data.image.token || this.token;
         let direction = config.direction || this.direction;
         let altSheet = config.altSheet || objectConfig.currentAltSheet || objectConfig.baseAltSheet;
         //console.log(this.token + ' | -> token:', token, 'altSheet:', altSheet, '(via config.altSheet:', config.altSheet, '|| objectConfig.currentAltSheet:', objectConfig.currentAltSheet, '|| objectConfig.baseAltSheet:', objectConfig.baseAltSheet+')');
@@ -901,7 +901,7 @@ class MMRPG_Object {
     addPlayerAnimations (config, pendingAnims = [])
     {
         //console.log('MMRPG_Object.addPlayerAnimations() called w/ config:', config);
-        let token = config.token || this.data.image || this.token;
+        let token = config.token || this.data.image.token || this.token;
         let direction = config.direction || this.direction;
         let indexInfo = this.indexInfo;
         let baseStats = indexInfo.baseStats || {};
@@ -930,7 +930,7 @@ class MMRPG_Object {
     addRobotAnimations (config, pendingAnims = [])
     {
         //console.log('MMRPG_Object.addRobotAnimations() called w/ config:', config);
-        let token = config.token || this.data.image || this.token;
+        let token = config.token || this.data.image.token || this.token;
         let direction = config.direction || this.direction;
         let indexInfo = this.indexInfo;
         let baseStats = indexInfo.baseStats || {};
@@ -968,7 +968,7 @@ class MMRPG_Object {
     addAbilityAnimations (config, pendingAnims = [])
     {
         //console.log('MMRPG_Object.addAbilityAnimations() called w/ config:', config);
-        let token = config.token || this.data.image || this.token;
+        let token = config.token || this.data.image.token || this.token;
         let direction = config.direction || this.direction;
         let indexInfo = this.indexInfo;
 
@@ -987,7 +987,7 @@ class MMRPG_Object {
     {
         //console.log('MMRPG_Object.addFieldAnimations() called w/ config:', config);
         let scene = this.scene;
-        let token = config.token || this.data.image || this.token;
+        let token = config.token || this.data.image.token || this.token;
         let sheet = config.sheet || this.avatarSheet;
         let direction = config.direction || this.direction;
         let indexInfo = this.indexInfo;
@@ -1012,22 +1012,24 @@ class MMRPG_Object {
     // Function to create pending animations provided a list of their configs
     createPendingAnimations (pendingAnims)
     {
-        //console.log('MMRPG_Object.createPendingAnimations() called for ', this.kind, this.token, 'w/ pendingAnims:', pendingAnims);
+        //console.log('MMRPG_Object.createPendingAnimations() called for ', this.kind, this.token, 'w/ pendingAnims:', JSON.stringify(pendingAnims));
         let scene = this.scene;
         while (pendingAnims.length) {
 
             // Pull the next animation in sequence, but skip if it already exists
             let anim = pendingAnims.shift();
             if (scene.anims.get(anim.key)){ console.warn(this.token + ' | anim.key: ' + anim.key + ' already exists'); continue; }
-            //console.log('%c' + this.token + ' | creating new animation for ' + anim.key + ' -> ' + JSON.stringify(anim), 'color: green;');
+            //console.log('%c' + this.token + ' | creating new animation for ' + anim.key, 'color: lime;');
+            //console.log(this.token + ' | ' + anim.key + ' -> data = -> ' + JSON.stringify(anim));
 
             // Parse any frame numbers into frame objects for the animation
             if (anim.frames
                 && anim.frames.length > 0
                 && typeof anim.frames[0] === 'number'){
-                //console.log(this.token + ' | -> anim.frames(before):', anim.frames);
+                //console.log(this.token + ' | -> ' + anim.key + ' -> revising frame structure...');
+                //console.log(this.token + ' | -> ' + anim.key + ' -> anim.frames(before):', anim.frames);
                 anim.frames = scene.anims.generateFrameNumbers(anim.sheet, { frames: anim.frames });
-                //console.log(this.token + ' | -> anim.frames(after):', anim.frames);
+                //console.log(this.token + ' | -> ' + anim.key + ' -> anim.frames(after):', anim.frames);
                 }
 
             // Create the new animation in the scene
