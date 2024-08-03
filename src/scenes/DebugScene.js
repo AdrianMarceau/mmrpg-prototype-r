@@ -411,7 +411,8 @@ export default class DebugScene extends Phaser.Scene
             debugFieldConfig.animation = false;
             //debugFieldConfig.animation = 'scroll-to-top';
             //debugFieldConfig.animation = 'up-and-down';
-            debugFieldConfig.animation = 'side-to-side';
+            //debugFieldConfig.animation = 'side-to-side';
+            debugFieldConfig.animation = 'user-driven';
             const startDebugFieldAnimations = function(){
                 //console.log('DebugScene.create().startDebugFieldAnimations()');
                 if (!scene.debugField){ return; }
@@ -472,8 +473,8 @@ export default class DebugScene extends Phaser.Scene
                     if (!config.baseGridlinesOffset){ config.baseGridlinesOffset = $field.getGridlinesOffset(); }
                     if (typeof config.reverse === 'undefined'){ config.reverse = false; }
                     if (config.tween){ config.tween.remove(); }
-                    let maxBackShiftX = config.baseBackgroundOffset.x < 0 ? Math.floor(Math.abs(config.baseBackgroundOffset.x) * 0.4) : 0;
-                    let maxForeShiftX = config.baseForegroundOffset.x < 0 ? Math.floor(Math.abs(config.baseForegroundOffset.x) * 0.6) : 0;
+                    let maxBackShiftX = config.baseBackgroundOffset.x < 0 ? Math.floor(Math.abs(config.baseBackgroundOffset.x) * 0.2) : 0;
+                    let maxForeShiftX = config.baseForegroundOffset.x < 0 ? Math.floor(Math.abs(config.baseForegroundOffset.x) * 0.4) : 0;
                     //console.log('maxBackShiftX =', maxBackShiftX, 'maxForeShiftX =', maxForeShiftX);
                     config.tween = scene.tweens.addCounter({
                         from: 0,
@@ -506,12 +507,100 @@ export default class DebugScene extends Phaser.Scene
                             },
                         });
                     }
+                else if (debugFieldConfig.animation === 'user-driven'){
+                    // No tween, use user input instead
+                    if (typeof config.hasPointer === 'undefined'){ config.hasPointer = false; }
+                    if (typeof config.scrollAmount === 'undefined') { config.scrollAmount = 0; }
+                    scene.input.on('pointermove', function(pointer){
+                        // Check if the pointer is within the field bounds
+                        if (pointer.x >= $field.x && pointer.x <= $field.x + $field.width &&
+                            pointer.y >= $field.y && pointer.y <= $field.y + $field.height) {
+                            let fieldWidth = $field.width;
+                            let amount = 1 - ((pointer.x - $field.x) / fieldWidth) * 2; // Inverts and scales pointer.x to a value between -1 and 1
+                            if (amount === config.scrollAmount){ return; }
+                            let diff = Math.abs(config.scrollAmount - amount);
+                            if (diff > 0.1){ amount = config.scrollAmount + (amount > config.scrollAmount ? 0.1 : -0.1); }
+                            config.hasPointer = true;
+                            config.scrollAmount = amount;
+                            scrollFieldOfView(amount);
+                            } else {
+                            if (config.hasPointer){ resetFieldView(); }
+                            config.hasPointer = false;
+                            config.scrollAmount = 0;
+                            }
+                        });
+                    }
                 };
             $debugObjects.field.whenReady(function(){
                 let $field = $debugObjects.field;
                 startDebugFieldAnimations();
                 //$field.spriteLayers.background.sprite.preFX.addBlur(2, 1, 1, 0.3);
                 });
+            const scrollFieldOfView = function(amount) {
+                //console.log('scrollFieldOfView() called with amount =', amount);
+                if (!scene.debugField) { return; }
+                let $field = scene.debugField;
+                let config = debugFieldConfig;
+                if (config.tween){ config.tween.remove(); }
+                if (!config.baseBackgroundOffset) { config.baseBackgroundOffset = $field.getBackgroundOffset(); }
+                if (!config.baseForegroundOffset) { config.baseForegroundOffset = $field.getForegroundOffset(); }
+                if (!config.baseGridlinesOffset) { config.baseGridlinesOffset = $field.getGridlinesOffset(); }
+                let maxBackShiftX = config.baseBackgroundOffset.x < 0 ? Math.floor(Math.abs(config.baseBackgroundOffset.x) * 0.2) : 0;
+                let maxForeShiftX = config.baseForegroundOffset.x < 0 ? Math.floor(Math.abs(config.baseForegroundOffset.x) * 0.4) : 0;
+                let backShiftX = Math.floor(maxBackShiftX * amount);
+                let foreShiftX = Math.floor(maxForeShiftX * amount);
+                let newBackgroundOffsetX = config.baseBackgroundOffset.x + backShiftX;
+                let newForegroundOffsetX = config.baseForegroundOffset.x + foreShiftX;
+                let newGridlinesOffsetX = config.baseGridlinesOffset.x + foreShiftX;
+                $field.setBackgroundOffsetX(newBackgroundOffsetX);
+                $field.setForegroundOffsetX(newForegroundOffsetX);
+                $field.setGridlinesOffsetX(newGridlinesOffsetX);
+                };
+            const resetFieldView = function() {
+                //console.log('resetFieldView() called');
+                if (!scene.debugField) { return; }
+                let $field = scene.debugField;
+                let config = debugFieldConfig;
+                if (config.tween){ config.tween.remove(); }
+                if (!config.baseBackgroundOffset || !config.baseForegroundOffset || !config.baseGridlinesOffset) { return; }
+                let baseBackgroundOffsetX = config.baseBackgroundOffset.x;
+                let baseForegroundOffsetX = config.baseForegroundOffset.x;
+                let baseGridlinesOffsetX = config.baseGridlinesOffset.x;
+                config.tween = scene.tweens.addCounter({
+                    from: 0,
+                    to: 100,
+                    ease: 'Linear',
+                    duration: 500,
+                    delay: 100,
+                    onUpdate: function () {
+                        let value = config.tween.getValue();
+                        let backgroundOffsetX = $field.getBackgroundOffsetX();
+                        let foregroundOffsetX = $field.getForegroundOffsetX();
+                        let gridlinesOffsetX = $field.getGridlinesOffsetX();
+                        if (backgroundOffsetX !== baseBackgroundOffsetX){
+                            let diff = baseBackgroundOffsetX - backgroundOffsetX;
+                            backgroundOffsetX += Math.floor(diff * (value / 100));
+                            $field.setBackgroundOffsetX(backgroundOffsetX);
+                            }
+                        if (foregroundOffsetX !== baseForegroundOffsetX){
+                            let diff = baseForegroundOffsetX - foregroundOffsetX;
+                            foregroundOffsetX += Math.floor(diff * (value / 100));
+                            $field.setForegroundOffsetX(foregroundOffsetX);
+                            }
+                        if (gridlinesOffsetX !== baseGridlinesOffsetX){
+                            let diff = baseGridlinesOffsetX - gridlinesOffsetX;
+                            gridlinesOffsetX += Math.floor(diff * (value / 100));
+                            $field.setGridlinesOffsetX(gridlinesOffsetX);
+                            }
+                        },
+                    onComplete: function () {
+                        if (config.tween){ config.tween.remove(); }
+                        $field.setBackgroundOffsetX(baseBackgroundOffsetX);
+                        $field.setForegroundOffsetX(baseForegroundOffsetX);
+                        $field.setGridlinesOffsetX(baseGridlinesOffsetX);
+                        },
+                    });
+                };
 
             // Create some mods of the above to see what's possible
             var $ref = scene.battleBanner;
